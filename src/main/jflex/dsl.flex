@@ -40,18 +40,25 @@ import java_cup.runtime.*;
 */
 
 WhiteSpace = \p{Whitespace}
-Number = \p{Digit}+
+Number = \p{Digit}
+Note = [A-G|a-g]
+//Note = ^[A-G|a-g][#|b]?[1-7]?$|^[A|B|a|b][#|b]?0$|^[C|c][#|b]8$
    
 %%
 
-/* Rules */
+/* Rules
+   YYINTIAL means that they are only matched at the beginning e.g "help play" would only
+   match help because play is not at the beginning.
+*/
 
 <YYINITIAL> {
     "help"             { return symbol(DslSymbol.COMMAND_HELP); }
     "play"             { return symbol(DslSymbol.COMMAND_PLAY); }
     "find"             { return symbol(DslSymbol.COMMAND_FIND); }
+    "note"             { return symbol(DslSymbol.COMMAND_NOTE); }
    
     {Number}           { return symbol(DslSymbol.NUMBER, new Integer(yytext())); }
+    {Note}             { return symbol(DslSymbol.NOTE, new String(yytext())); }
 
     {WhiteSpace}       { /* Ignore whitespace */ }
 }
