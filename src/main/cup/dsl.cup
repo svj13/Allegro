@@ -1,0 +1,40 @@
+package seng302;
+
+import java_cup.runtime.*;
+import seng302.command.*;
+import java.util.ArrayList;
+import java.util.List;
+
+/*
+    The following block lets you inject code into the parser class
+
+    See: http://www2.cs.tum.edu/projects/cup/docs.php#parser
+*/
+
+parser code {:
+    public void report_error(String message, Object info) {
+
+    }
+
+    public void syntax_error(Symbol cur_token) {
+
+    }
+:};
+
+/* Terminal tokens returns by the lexer */
+terminal COMMAND_HELP, COMMAND_PLAY, COMMAND_FIND;
+terminal Integer NUMBER;
+terminal String     STRING, ATOM;
+
+/* Non terminals */
+non terminal Command command;
+non terminal List<Integer> arg_list;
+
+command ::= COMMAND_HELP          {: RESULT = new Help(); :}
+          | COMMAND_PLAY NUMBER:n {: RESULT = new Play(n); :}
+          | COMMAND_FIND arg_list:args {: RESULT = new Find(args); :}
+;
+
+arg_list ::= arg_list:list NUMBER:n {: list.add(n); RESULT = list; :}
+          | NUMBER:n {: RESULT = new ArrayList<Integer>(); RESULT.add(n); :}
+;

@@ -14,6 +14,11 @@
       <version>4.12</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>com.github.vbmacher</groupId>
+      <artifactId>java-cup-runtime</artifactId>
+      <version>11b</version>
+    </dependency>
   </dependencies>
   <build> 
     <plugins>
@@ -41,6 +46,35 @@
             </execution>
         </executions>
       </plugin>
+        <plugin>
+        <groupId>com.github.vbmacher</groupId>
+        <artifactId>cup-maven-plugin</artifactId>
+        <version>1.0.1</version>
+        <executions>
+            <execution>
+                <goals>
+                    <goal>generate</goal>
+                </goals>
+            </execution>
+        </executions>
+        <configuration>
+            <cupDefinition>src/main/cup/dsl.cup</cupDefinition>
+            <className>DslParser</className>
+            <symbolsName>DslSymbol</symbolsName>
+        </configuration>
+        </plugin>
+        <plugin>
+            <groupId>de.jflex</groupId>
+            <artifactId>jflex-maven-plugin</artifactId>
+            <version>1.6.1</version>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>generate</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
     </plugins>
   </build>
   <reporting>
