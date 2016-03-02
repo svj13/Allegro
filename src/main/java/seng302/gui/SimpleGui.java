@@ -28,8 +28,10 @@ public class SimpleGui {
         mainFrame.setJMenuBar(menuBar);
 
         // Creates the area for displaying all previous commands
-        JTextArea outputPane = new JTextArea();
-        outputPane.setEditable(false);
+        JTextArea outputText = new JTextArea();
+        outputText.setLineWrap(true);
+        outputText.setEditable(false);
+        JScrollPane outputPane = new JScrollPane(outputText);
         mainFrame.add(outputPane);
     }
 
