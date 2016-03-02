@@ -22,7 +22,7 @@ parser code {:
 :};
 
 /* Terminal tokens returns by the lexer */
-terminal COMMAND_HELP, COMMAND_PLAY, COMMAND_FIND, COMMAND_NOTE;
+terminal COMMAND_HELP, COMMAND_PLAY, COMMAND_FIND, COMMAND_NOTE, COMMAND_VERSION;
 terminal Integer NUMBER;
 terminal String     STRING, ATOM, NOTE;
 
@@ -34,6 +34,7 @@ command ::= COMMAND_HELP          {: RESULT = new Help(); :}
           | COMMAND_PLAY NUMBER:n {: RESULT = new Play(n); :}
           | COMMAND_FIND arg_list:args {: RESULT = new Find(args); :}
           | COMMAND_NOTE NUMBER:n {: RESULT = new Note(n); :}
+          | COMMAND_VERSION       {: RESULT = new Version(); :}
 ;
 
 arg_list ::= arg_list:list NUMBER:n {: list.add(n); RESULT = list; :}

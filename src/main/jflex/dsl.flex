@@ -56,6 +56,7 @@ Note = [A-G|a-g]
     "play"             { return symbol(DslSymbol.COMMAND_PLAY); }
     "find"             { return symbol(DslSymbol.COMMAND_FIND); }
     "note"             { return symbol(DslSymbol.COMMAND_NOTE); }
+    "version"          { return symbol(DslSymbol.COMMAND_VERSION); }
    
     {Number}           { return symbol(DslSymbol.NUMBER, new Integer(yytext())); }
     {Note}             { return symbol(DslSymbol.NOTE, new String(yytext())); }
