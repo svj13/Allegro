@@ -13,6 +13,16 @@ public class Note {
 
     }
 
+    public String getNote()
+    {
+        return this.note;
+    }
+
+    public Integer getMidi()
+    {
+        return this.midi;
+    }
+
 //    public  getSemitoneHigher(){
 //
 //    }
