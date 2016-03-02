@@ -1,9 +1,12 @@
 package seng302;
 
-public class App 
+import seng302.gui.SimpleGui;
+
+public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Welcome to SENG302" );
+        SimpleGui simpleGui = new SimpleGui();
+        simpleGui.display();
     }
 }
