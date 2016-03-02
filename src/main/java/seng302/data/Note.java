@@ -1,4 +1,4 @@
-package seng302.objects;
+package seng302.data;
 
 /**
  * Created by jat157 on 2/03/16.
