@@ -34,8 +34,12 @@ public class SimpleGui {
         // Creates and sets the menu bar
         final JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
-        JMenuItem quit = new JMenuItem("Quit");
+        JMenuItem openTranscript = new JMenuItem("Open Transcript"); //open transcript file option
+        JMenuItem saveTranscript = new JMenuItem("Save Transcript"); //save transcript file option
+        JMenuItem quit = new JMenuItem("Quit"); //quit file option
         quit.addActionListener(new exitApp());
+        fileMenu.add(openTranscript);
+        fileMenu.add(saveTranscript);
         fileMenu.add(quit);
         menuBar.add(fileMenu);
         mainFrame.setJMenuBar(menuBar);
