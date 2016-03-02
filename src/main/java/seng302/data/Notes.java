@@ -4,6 +4,9 @@ import java.util.*;
 
 /**
  * Created by team5 on 2/03/16.
+ *
+ * An object which contains data for Midi/Note values.
+ *
  */
 public class Notes {
     private HashMap<String,Note> notes;
@@ -26,36 +29,45 @@ public class Notes {
     /**
      * Returns the note name of the note a semitone higher than the input
      * No error handling yet implemented
-     * @param initial_note_name
+     * @param initial_note_name note string e.g G#0
+     * @return One semitone up from the provided note string.
      */
-    public void semitone_up(String initial_note_name)
+    public String semitone_up(String initial_note_name)
     {
         Integer initial_midi = notes.get(initial_note_name).getMidi();
         if(initial_midi < 127)
         {
-            System.out.println(notes.get(Integer.toString(initial_midi+1)).getNote());
+
+            //ystem.out.println(notes.get(Integer.toString(initial_midi+1)).getNote());
+            return notes.get(Integer.toString(initial_midi+1)).getNote();
         }
         else
         {
+
             System.out.println("There is no higher semitone");
+            return  "N/A";
         }
     }
+
 
     /**
      * Returns the note name of the note a semitone lower than the input
      * No error handling yet implemented
-     * @param initial_note_name
+     * @param initial_note_name note string e.g G#0
+     * @return One semitone down from the provided note string.
      */
-    public void semitone_down(String initial_note_name)
+    public String semitone_down(String initial_note_name)
     {
         Integer initial_midi = notes.get(initial_note_name).getMidi();
         if(initial_midi > 0)
         {
             System.out.println(notes.get(Integer.toString(initial_midi-1)).getNote());
+            return notes.get(Integer.toString(initial_midi-1)).getNote();
         }
         else
         {
             System.out.println("There is no lower semitone");
+            return "N/A";
         }
     }
 

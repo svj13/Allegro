@@ -58,7 +58,8 @@ Note = [A-G|a-g]#?[-1]?[0-9]
     "note"             { return symbol(DslSymbol.COMMAND_NOTE); }
     "midi"             { return symbol(DslSymbol.COMMAND_MIDI); }
     "version"          { return symbol(DslSymbol.COMMAND_VERSION); }
-   
+    "semitone up"       { return symbol(DslSymbol.COMMAND_SEMITONE_UP);}
+    "semitone down"    {return symbol(DslSymbol.COMMAND_SEMITONE_DOWN);}
     {Number}           { return symbol(DslSymbol.NUMBER, new Integer(yytext())); }
     {Note}             { return symbol(DslSymbol.NOTE, new String(yytext())); }
 
