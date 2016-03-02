@@ -14,10 +14,16 @@
       <version>4.12</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>com.github.vbmacher</groupId>
+      <artifactId>java-cup-runtime</artifactId>
+      <version>11b</version>
+    </dependency>
   </dependencies>
   <build> 
     <plugins>
       <plugin>
+
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
         <version>2.4.3</version>
@@ -25,7 +31,7 @@
           <transformers>
             <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
               <manifestEntries>
-                <Main-Class>seng302.App</Main-Class>
+                <Main-Class>seng302.DslExecutor</Main-Class>
                 <X-Compile-Source-JDK>${maven.compile.source}</X-Compile-Source-JDK>
                 <X-Compile-Target-JDK>${maven.compile.target}</X-Compile-Target-JDK>
               </manifestEntries>
@@ -41,6 +47,35 @@
             </execution>
         </executions>
       </plugin>
+        <plugin>
+        <groupId>com.github.vbmacher</groupId>
+        <artifactId>cup-maven-plugin</artifactId>
+        <version>1.0.1</version>
+        <executions>
+            <execution>
+                <goals>
+                    <goal>generate</goal>
+                </goals>
+            </execution>
+        </executions>
+        <configuration>
+            <cupDefinition>src/main/cup/dsl.cup</cupDefinition>
+            <className>DslParser</className>
+            <symbolsName>DslSymbol</symbolsName>
+        </configuration>
+        </plugin>
+        <plugin>
+            <groupId>de.jflex</groupId>
+            <artifactId>jflex-maven-plugin</artifactId>
+            <version>1.6.1</version>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>generate</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
     </plugins>
   </build>
   <reporting>
