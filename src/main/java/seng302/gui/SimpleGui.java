@@ -16,8 +16,23 @@ public class SimpleGui {
         mainFrame = new JFrame("Allegro");
         mainFrame.setSize(400,400);
         mainFrame.setLayout(new GridLayout(3, 1));
+
+        // Creates and sets the menu bar
+        final JMenuBar menuBar = new JMenuBar();
+        JMenu fileMenu = new JMenu("File");
+        JMenuItem quit = new JMenuItem("Quit");
+        quit.addActionListener(new exitApp());
+        fileMenu.add(quit);
+        menuBar.add(fileMenu);
+        mainFrame.setJMenuBar(menuBar);
     }
 
+    static class exitApp implements ActionListener {
+        public void actionPerformed(ActionEvent e)
+        {
+            System.exit(0);
+        }
+    }
 
     public void display(){
         mainFrame.setVisible(true);
