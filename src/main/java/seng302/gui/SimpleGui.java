@@ -1,5 +1,9 @@
 package seng302.gui;
 
+import seng302.App;
+import seng302.DslExecutor;
+import seng302.Environment;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,7 +12,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class SimpleGui {
+    DslExecutor executor = new DslExecutor(new Environment());
     private JFrame mainFrame;
+
 
     public SimpleGui() {
         prepareGui();
@@ -19,18 +25,11 @@ public class SimpleGui {
         mainFrame.setSize(400, 400);
         mainFrame.setLayout(new GridLayout(3, 2));
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setLayout(null);
         JPanel buttonFrame = new JPanel(); //adding a panel for the "Go" button
-        buttonFrame.setLayout(null);
         buttonFrame.setPreferredSize(new Dimension(40, 40));
         mainFrame.add(buttonFrame);
         //buttonFrame.setSize(40,40);
         //buttonFrame.setLayout(new Gridlayout(1,1));
-
-
-
-
-
 
         // Creates and sets the menu bar
         final JMenuBar menuBar = new JMenuBar();
@@ -51,7 +50,9 @@ public class SimpleGui {
         go.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //This is where we call the method to read from text field.
-                System.out.println("go");
+                String text = tField.getText();
+                tField.setText("");
+                executor.executeCommand(text);
             }
         });
         buttonFrame.add(go);
