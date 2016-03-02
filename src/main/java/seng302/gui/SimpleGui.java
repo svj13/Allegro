@@ -12,7 +12,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class SimpleGui {
-    DslExecutor executor = new DslExecutor(new Environment());
+    //DslExecutor executor = new DslExecutor(new Environment());
     private JFrame mainFrame;
 
 
@@ -45,9 +45,10 @@ public class SimpleGui {
         mainFrame.setJMenuBar(menuBar);
 
         // Creates the area for displaying all previous commands
-        JTextArea outputText = new JTextArea();
+        final JTextArea outputText = new JTextArea();
         outputText.setLineWrap(true);
         outputText.setEditable(false);
+        final DslExecutor executor = new DslExecutor(new Environment(outputText));
         JScrollPane outputPane = new JScrollPane(outputText);
         mainFrame.add(outputPane);
         final JTextField tField = new JTextField();
@@ -58,6 +59,7 @@ public class SimpleGui {
                 //This is where we call the method to read from text field.
                 String text = tField.getText();
                 tField.setText("");
+                outputText.append("Command: " + text + "\n");
                 executor.executeCommand(text);
             }
         });
