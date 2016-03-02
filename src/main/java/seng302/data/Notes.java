@@ -59,5 +59,13 @@ public class Notes {
         }
     }
 
+    public String getNote(int midi){
+        return notes.get(Integer.toString(midi)).getNote();
+    }
+
+    public int getMidi(String note){
+        return notes.get(note).getMidi();
+    }
+
 
 }

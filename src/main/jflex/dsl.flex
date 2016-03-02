@@ -41,7 +41,7 @@ import java_cup.runtime.*;
 
 WhiteSpace = \p{Whitespace}
 Number = \p{Digit}+
-Note = [A-G|a-g]
+Note = [A-G|a-g]#?[-1]?[0-9]
 //Note = ^[A-G|a-g][#|b]?[1-7]?$|^[A|B|a|b][#|b]?0$|^[C|c][#|b]8$
    
 %%
@@ -56,6 +56,7 @@ Note = [A-G|a-g]
     "play"             { return symbol(DslSymbol.COMMAND_PLAY); }
     "find"             { return symbol(DslSymbol.COMMAND_FIND); }
     "note"             { return symbol(DslSymbol.COMMAND_NOTE); }
+    "midi"             { return symbol(DslSymbol.COMMAND_MIDI); }
     "version"          { return symbol(DslSymbol.COMMAND_VERSION); }
    
     {Number}           { return symbol(DslSymbol.NUMBER, new Integer(yytext())); }
