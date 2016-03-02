@@ -15,7 +15,6 @@ public class Note {
 
     public String getNote()
     {
-        System.out.println("Reached here");
         return this.note;
     }
 
