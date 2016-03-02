@@ -23,9 +23,40 @@ public class Notes {
         }
     }
 
+    /**
+     * Returns the note name of the note a semitone higher than the input
+     * No error handling yet implemented
+     * @param initial_note_name
+     */
     public void semitone_up(String initial_note_name)
     {
+        Integer initial_midi = notes.get(initial_note_name).getMidi();
+        if(initial_midi < 127)
+        {
+            System.out.println(notes.get(Integer.toString(initial_midi+1)).getNote());
+        }
+        else
+        {
+            System.out.println("There is no higher semitone");
+        }
+    }
 
+    /**
+     * Returns the note name of the note a semitone lower than the input
+     * No error handling yet implemented
+     * @param initial_note_name
+     */
+    public void semitone_down(String initial_note_name)
+    {
+        Integer initial_midi = notes.get(initial_note_name).getMidi();
+        if(initial_midi > 0)
+        {
+            System.out.println(notes.get(Integer.toString(initial_midi-1)).getNote());
+        }
+        else
+        {
+            System.out.println("There is no lower semitone");
+        }
     }
 
 
