@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class SimpleGui {
     private JFrame mainFrame;
@@ -14,9 +16,10 @@ public class SimpleGui {
 
     private void prepareGui() {
         mainFrame = new JFrame("Allegro");
-        mainFrame.setSize(400,400);
+        mainFrame.setSize(400, 400);
         mainFrame.setLayout(new GridLayout(3, 2));
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 
         // Creates and sets the menu bar
         final JMenuBar menuBar = new JMenuBar();
@@ -33,6 +36,16 @@ public class SimpleGui {
         outputText.setEditable(false);
         JScrollPane outputPane = new JScrollPane(outputText);
         mainFrame.add(outputPane);
+        final JTextField tField = new JTextField();
+        mainFrame.add(tField);
+        mainFrame.add(new Button("Go"));
+
+        // Creates listener for the textField and sets focus
+        mainFrame.addWindowListener(new WindowAdapter() {
+            public void windowOpened(WindowEvent e) {
+                tField.requestFocus();
+            }
+        });
     }
 
     static class exitApp implements ActionListener {
