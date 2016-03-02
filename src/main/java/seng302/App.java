@@ -8,5 +8,6 @@ public class App
     {
         SimpleGui simpleGui = new SimpleGui();
         simpleGui.display();
+
     }
 }
