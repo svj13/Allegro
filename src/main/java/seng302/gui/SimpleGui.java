@@ -16,6 +16,7 @@ public class SimpleGui {
         mainFrame = new JFrame("Allegro");
         mainFrame.setSize(400,400);
         mainFrame.setLayout(new GridLayout(3, 2));
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Creates and sets the menu bar
         final JMenuBar menuBar = new JMenuBar();
