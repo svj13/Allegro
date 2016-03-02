@@ -19,12 +19,14 @@ public class CheckerTest {
 
     @Test
     public void testIsValidNote() throws Exception {
-        assertTrue(Checker.isValidNote("C4"));
-        assertFalse(Checker.isValidNote("H6"));
-        assertFalse(Checker.isValidNote("play C6"));
-        assertTrue(Checker.isValidNote("C#-1"));
-        assertFalse(Checker.isValidNote("Cb-1"));
+        assertTrue(Checker.isValidNormalNote("C4"));
+        assertTrue(Checker.isValidNormalNote("C#-1"));
+        assertTrue(Checker.isValidNormalNote("G9"));
 
+        assertFalse(Checker.isValidNormalNote("H6"));
+        assertFalse(Checker.isValidNormalNote("play C6"));
+        assertFalse(Checker.isValidNormalNote("Cb-1"));
+        assertFalse(Checker.isValidNormalNote("G#9"));
 
     }
 }
