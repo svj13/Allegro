@@ -15,7 +15,7 @@ public class SimpleGui {
     private void prepareGui() {
         mainFrame = new JFrame("Allegro");
         mainFrame.setSize(400,400);
-        mainFrame.setLayout(new GridLayout(3, 1));
+        mainFrame.setLayout(new GridLayout(3, 2));
 
         // Creates and sets the menu bar
         final JMenuBar menuBar = new JMenuBar();
@@ -25,6 +25,11 @@ public class SimpleGui {
         fileMenu.add(quit);
         menuBar.add(fileMenu);
         mainFrame.setJMenuBar(menuBar);
+
+        // Creates the area for displaying all previous commands
+        JTextArea outputPane = new JTextArea();
+        outputPane.setEditable(false);
+        mainFrame.add(outputPane);
     }
 
     static class exitApp implements ActionListener {
