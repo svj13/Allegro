@@ -36,7 +36,14 @@ public class SimpleGui {
         mainFrame.add(outputPane);
         final JTextField tField = new JTextField();
         mainFrame.add(tField);
-        mainFrame.add(new Button("Go"));
+        Button go = new Button("Go");
+        go.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                //This is where we call the method to read from text field.
+                System.out.println("go");
+            }
+        });
+        mainFrame.add(go);
 
         // Creates listener for the textField and sets focus
         mainFrame.addWindowListener(new WindowAdapter() {
