@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>seng302</groupId>
   <artifactId>app</artifactId>
@@ -20,7 +20,7 @@
       <version>11b</version>
     </dependency>
   </dependencies>
-  <build> 
+  <build>
     <plugins>
       <plugin>
 
@@ -39,43 +39,43 @@
           </transformers>
         </configuration>
         <executions>
-            <execution>
-                <phase>package</phase>
-                <goals>
-                    <goal>shade</goal>
-                </goals>
-            </execution>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+          </execution>
         </executions>
       </plugin>
-        <plugin>
+      <plugin>
         <groupId>com.github.vbmacher</groupId>
         <artifactId>cup-maven-plugin</artifactId>
         <version>1.0.1</version>
         <executions>
-            <execution>
-                <goals>
-                    <goal>generate</goal>
-                </goals>
-            </execution>
+          <execution>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+          </execution>
         </executions>
         <configuration>
-            <cupDefinition>src/main/cup/dsl.cup</cupDefinition>
-            <className>DslParser</className>
-            <symbolsName>DslSymbol</symbolsName>
+          <cupDefinition>src/main/cup/dsl.cup</cupDefinition>
+          <className>DslParser</className>
+          <symbolsName>DslSymbol</symbolsName>
         </configuration>
-        </plugin>
-        <plugin>
-            <groupId>de.jflex</groupId>
-            <artifactId>jflex-maven-plugin</artifactId>
-            <version>1.6.1</version>
-            <executions>
-                <execution>
-                    <goals>
-                        <goal>generate</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
+      </plugin>
+      <plugin>
+        <groupId>de.jflex</groupId>
+        <artifactId>jflex-maven-plugin</artifactId>
+        <version>1.6.1</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
   <reporting>

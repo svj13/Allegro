@@ -5,6 +5,7 @@ import seng302.data.Notes;
 
 public class App {
 
+
     public static void main( String[] args )
     {
         SimpleGui simpleGui = new SimpleGui();

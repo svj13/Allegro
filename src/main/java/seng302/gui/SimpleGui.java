@@ -3,6 +3,7 @@ package seng302.gui;
 import seng302.App;
 import seng302.DslExecutor;
 import seng302.Environment;
+import seng302.utility.TranscriptManager;
 
 import javax.swing.*;
 import java.awt.*;
