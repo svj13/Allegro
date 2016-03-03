@@ -14,6 +14,10 @@ public class Note implements Command {
         notes = new Notes();
     }
     public void execute(Environment env) {
-        env.println(notes.getNote(note) );
+        if (note < 0 || note > 127){
+            env.println("[ERROR] The provided number is not a valid MIDI value.");
+        } else {
+            env.println(notes.getNote(note));
+        }
     }
 }
