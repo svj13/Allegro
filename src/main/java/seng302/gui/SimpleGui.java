@@ -1,24 +1,29 @@
 package seng302.gui;
 
-import seng302.App;
 import seng302.DslExecutor;
 import seng302.Environment;
-import seng302.utility.TranscriptManager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 
 public class SimpleGui {
     //DslExecutor executor = new DslExecutor(new Environment());
     private JFrame mainFrame;
-
+    private JButton goButton;
+    private JTextField tField;
+    private  JTextArea outputText;
+    private DslExecutor executor;
 
     public SimpleGui() {
         prepareGui();
+    }
+
+    private void goAction(){
+        String text = tField.getText();
+        tField.setText("");
+        outputText.append("Command: " + text + "\n");
+        executor.executeCommand(text);
     }
 
     private void prepareGui() {
@@ -46,23 +51,35 @@ public class SimpleGui {
         mainFrame.setJMenuBar(menuBar);
 
         // Creates the area for displaying all previous commands
-        final JTextArea outputText = new JTextArea();
+        outputText = new JTextArea();
         outputText.setLineWrap(true);
         outputText.setEditable(false);
-        final DslExecutor executor = new DslExecutor(new Environment(outputText));
+        executor = new DslExecutor(new Environment(outputText));
         JScrollPane outputPane = new JScrollPane(outputText);
         mainFrame.add(outputPane);
-        final JTextField tField = new JTextField();
+        this.tField = new JTextField();
         mainFrame.add(tField);
         Button go = new Button("Go");
+
+
+        mainFrame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),"goEvent");
+        //Binds the enter key to the goAction.
+        mainFrame.getRootPane().getActionMap().put("goEvent",new AbstractAction(){
+            public void actionPerformed(ActionEvent ae){
+                goAction();
+
+            }
+        });
+
+
+        //Click listener;
         go.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //This is where we call the method to read from text field.
-                String text = tField.getText();
-                tField.setText("");
-                outputText.append("Command: " + text + "\n");
-                executor.executeCommand(text);
+                goAction();
             }
+
+
+
         });
         buttonFrame.add(go);
 
