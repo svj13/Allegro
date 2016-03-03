@@ -32,13 +32,14 @@ public class DslExecutor
         try {
             parseResult = parser.parse().value;
         } catch (Exception e) {
-            environment.error(String.format("Failed to parse command: \"%s\"", command_string));
+            //environment.error(String.format("Failed to parse command: \"%s\"", command_string));
+            environment.error(String.format("Invalid command: '" + command_string + "'."));
         }
 
         if (parseResult instanceof Command) {
             return (Command)parseResult;
         } else {
-            environment.error(String.format("Expected command object but got \"%s\"", parseResult));
+            //environment.error(String.format("Expected command object but got \"%s\"", parseResult));
             return new NullCommand();
         }
     }

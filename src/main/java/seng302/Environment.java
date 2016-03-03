@@ -16,6 +16,6 @@ public class Environment {
     }
 
     public void error(String error_message) {
-        System.err.format("[ERROR] %s%n", error_message);
+        output.append(String.format("[ERROR] %s\n", error_message));
     }
 }
