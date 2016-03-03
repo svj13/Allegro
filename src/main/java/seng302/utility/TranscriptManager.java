@@ -13,15 +13,15 @@ import java.util.ArrayList;
 public class TranscriptManager {
 
 
-    private ArrayList<String> words = new ArrayList<String>();
+    private ArrayList<String> transcriptContent = new ArrayList<String>();
 
 
     public void addText(String text){
-        words.add(text);
+        transcriptContent.add(text);
     }
 
     public ArrayList<String> getText(){
-        return words;
+        return transcriptContent;
     }
 
 
@@ -43,14 +43,14 @@ public class TranscriptManager {
 
     public void Open(String path){
 
-        words.clear(); // they want it so that when a file is opened the transcript gets replaced with the new content
+        transcriptContent.clear(); // they want it so that when a file is opened the transcript gets replaced with the new content
 
         try {
             FileReader reader =  new FileReader(path);
             BufferedReader input = new BufferedReader(reader);
             String str;
             while ((str = input.readLine()) != null) {
-               words.add(str);
+               transcriptContent.add(str);
             }
 
 

@@ -2,9 +2,17 @@ package seng302.gui;
 
 import seng302.DslExecutor;
 import seng302.Environment;
+import seng302.Manager;
+
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
+import java.util.ArrayList;
 import java.awt.event.*;
 
 public class SimpleGui {
@@ -14,8 +22,10 @@ public class SimpleGui {
     private JTextField tField;
     private  JTextArea outputText;
     private DslExecutor executor;
-
-    public SimpleGui() {
+    private Manager manager;
+    
+    public SimpleGui(Manager manager1) {
+        manager = manager1;
         prepareGui();
     }
 
@@ -24,16 +34,12 @@ public class SimpleGui {
         tField.setText("");
         if (text.length() > 0) {
             outputText.append("Command: " + text + "\n");
+            manager.transcriptManager.addText("Command: " + text + "\n");
             executor.executeCommand(text);
         } else {
             outputText.append("[ERROR] Cannot submit an empty command.\n");
         }
     }
-
-
-
-
-
 
     private void prepareGui() {
 
@@ -49,7 +55,30 @@ public class SimpleGui {
         final JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
         JMenuItem openTranscript = new JMenuItem("Open Transcript"); //open transcript file option
+        openTranscript.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                JFileChooser chooser = new JFileChooser();
+                chooser.showOpenDialog(mainFrame);
+                String path = chooser.getSelectedFile().getAbsolutePath();
+                ArrayList<String> text = new ArrayList<String>();
+                text = manager.transcriptManager.getText();
+                manager.transcriptManager.Open(path);
+            }
+        });
+
         JMenuItem saveTranscript = new JMenuItem("Save Transcript"); //save transcript file option
+        saveTranscript.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                JFileChooser chooser = new JFileChooser();
+                chooser.showSaveDialog(mainFrame);
+                String path = chooser.getSelectedFile().getAbsolutePath();
+                ArrayList<String> text = new ArrayList<String>();
+                text = manager.transcriptManager.getText();
+                manager.transcriptManager.Save(path,text);
+            }
+        });
         JMenuItem quit = new JMenuItem("Quit"); //quit file option
         quit.addActionListener(new exitApp());
         fileMenu.add(openTranscript);
@@ -71,35 +100,11 @@ public class SimpleGui {
 
         // Button
         goButton = new JButton("Go");
-
-        mainFrame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),"goEvent");
-        //Binds the enter key to the goAction.
-        mainFrame.getRootPane().getActionMap().put("goEvent",new AbstractAction(){
-            public void actionPerformed(ActionEvent ae){
-                goAction();
-
-            }
-        });
-
-
-        //Click listener;
         goButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 goAction();
             }
-
-
-
         });
-//        go.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                //This is where we call the method to read from text field.
-//                String text = tField.getText();
-//                tField.setText("");
-//                outputText.append("Command: " + text + "\n");
-//                executor.executeCommand(text);
-//            }
-//        });
         c.weightx = 0.2;
         c.gridx = 1;
         pane.add(goButton, c);
@@ -130,7 +135,7 @@ public class SimpleGui {
         });
 
         // Sets button on enter
-//        SwingUtilities.getRootPane(go).setDefaultButton(go);
+        SwingUtilities.getRootPane(goButton).setDefaultButton(goButton);
     }
 
     static class exitApp implements ActionListener {
