@@ -1,23 +1,21 @@
 package seng302.command;
 
 import seng302.Environment;
-import seng302.data.Notes;
+import seng302.data.Note;
 
 /**
  * Created by isabelle on 29/02/16.
  */
-public class Note implements Command {
-    private Integer note;
-    Notes notes;
-    public Note(Integer s) {
+public class NoteCommand implements Command {
+    private int note;
+    public NoteCommand(int s) {
         note = s;
-        notes = Notes.getInstance();
     }
     public void execute(Environment env) {
         if (note < 0 || note > 127){
             env.println("[ERROR] The provided number is not a valid MIDI value.");
         } else {
-            env.println(notes.getNote(note));
+            env.println(Note.lookup(Integer.toString(note)).getNote());
         }
     }
 }

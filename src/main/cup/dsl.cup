@@ -33,7 +33,7 @@ non terminal List<Integer> arg_list;
 command ::= COMMAND_HELP          {: RESULT = new Help(); :}
           | COMMAND_PLAY NUMBER:n {: RESULT = new Play(n); :}
           | COMMAND_FIND arg_list:args {: RESULT = new Find(args); :}
-          | COMMAND_NOTE NUMBER:n {: RESULT = new Note(n); :}
+          | COMMAND_NOTE NUMBER:n {: RESULT = new NoteCommand(n); :}
           | COMMAND_MIDI NOTE:s {: RESULT = new Midi(s); :}
           | COMMAND_VERSION       {: RESULT = new Version(); :}
           | COMMAND_SEMITONE_UP NOTE:s      {: RESULT = new Semitone(s, true); :}
