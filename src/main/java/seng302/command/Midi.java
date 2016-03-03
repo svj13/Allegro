@@ -12,7 +12,7 @@ public class Midi implements Command {
     Notes notes;
     public Midi(String s) {
         this.s = addDefaultOctave(s);
-        notes = new Notes();
+        notes = Notes.getInstance();
     }
     public void execute(Environment env) {
         if (Checker.isValidNormalNote(s)){

@@ -11,11 +11,16 @@ import java.util.regex.Pattern;
  *
  */
 public class Notes {
+
+    //create an object of Notes
+    private static Notes instance = new Notes();
+
     private HashMap<String,Note> notes;
 
     private List<String> noteNames = new ArrayList<String>(Arrays.asList("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"));
-    public Notes()
-    {
+
+    //make the constructor private so that this class cannot be instantiated
+    private Notes(){
         int current_octave = -1;
         notes = new HashMap<String, Note>();
         for (int i =0; i<128; i++){
@@ -31,6 +36,12 @@ public class Notes {
             Note temp = new Note(128+i, noteNames.get(i));
             notes.put(noteNames.get(i), temp);
         }
+    }
+
+
+    public static Notes getInstance()
+    {
+        return instance;
     }
 
     /**

@@ -11,7 +11,7 @@ public class Note implements Command {
     Notes notes;
     public Note(Integer s) {
         note = s;
-        notes = new Notes();
+        notes = Notes.getInstance();
     }
     public void execute(Environment env) {
         if (note < 0 || note > 127){

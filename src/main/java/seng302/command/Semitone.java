@@ -13,7 +13,7 @@ public class Semitone implements Command {
     Boolean up;
     public Semitone(String s, Boolean up) { //true for up, false for down.
         this.note = s;
-        this.notes = new Notes();
+        this.notes = Notes.getInstance();
         this.up = up;
     }
     public void execute(Environment env) {

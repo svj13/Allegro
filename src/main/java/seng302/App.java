@@ -11,6 +11,8 @@ public class App {
         SimpleGui simpleGui = new SimpleGui();
         simpleGui.display();
 
-        new Notes();
+        //new Notes();
+
+        Notes object = Notes.getInstance();
     }
 }
