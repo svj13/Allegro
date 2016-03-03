@@ -41,7 +41,7 @@ import java_cup.runtime.*;
 
 WhiteSpace = \p{Whitespace}
 Number = \p{Digit}+
-Note = ([A-G|a-g])(#?)([-1]?)([0-9]?)
+Note = [A-G|a-g]#?[-1]?[0-9]?
 //Note = ^[A-G|a-g][#|b]?[1-7]?$|^[A|B|a|b][#|b]?0$|^[C|c][#|b]8$
    
 %%
