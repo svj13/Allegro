@@ -22,8 +22,12 @@ public class SimpleGui {
     private void goAction(){
         String text = tField.getText();
         tField.setText("");
-        outputText.append("Command: " + text + "\n");
-        executor.executeCommand(text);
+        if (text.length() > 0) {
+            outputText.append("Command: " + text + "\n");
+            executor.executeCommand(text);
+        } else {
+            outputText.append("[ERROR] Cannot submit an empty command.\n");
+        }
     }
 
 
