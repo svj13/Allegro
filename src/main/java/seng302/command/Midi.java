@@ -2,6 +2,7 @@ package seng302.command;
 
 import seng302.Environment;
 import seng302.data.Notes;
+import seng302.utility.Checker;
 
 /**
  * Created by emily on 2/03/16.
@@ -14,7 +15,11 @@ public class Midi implements Command {
         notes = new Notes();
     }
     public void execute(Environment env) {
-        env.println(Integer.toString(notes.getMidi(s)));
+        if (Checker.isValidNormalNote(s)){
+            env.println(Integer.toString(notes.getMidi(s)));
+        } else {
+            env.println("Invalid note");
+        }
     }
 
     private String addDefaultOctave(String s){
