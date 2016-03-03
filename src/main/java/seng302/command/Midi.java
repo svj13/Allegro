@@ -14,6 +14,7 @@ public class Midi implements Command {
         notes = new Notes();
     }
     public void execute(Environment env) {
+        System.out.println();
         env.println(Integer.toString(notes.getMidi(midi)));
     }
 }

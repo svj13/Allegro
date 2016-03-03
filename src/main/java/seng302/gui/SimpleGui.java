@@ -8,13 +8,12 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class SimpleGui {
-    private DslExecutor executor;
+
     private JFrame mainFrame;
     private JButton goButton;
     private JTextField tField;
     private  JTextArea outputText;
     private DslExecutor executor;
-
 
     public SimpleGui() {
         prepareGui();
@@ -27,7 +26,13 @@ public class SimpleGui {
         executor.executeCommand(text);
     }
 
+
+
+
+
+
     private void prepareGui() {
+
         mainFrame = new JFrame("Allegro");
         mainFrame.setSize(400, 400);
 
@@ -35,11 +40,6 @@ public class SimpleGui {
         GridBagConstraints c = new GridBagConstraints();
         mainFrame.add(pane);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel buttonFrame = new JPanel(); //adding a panel for the "Go" button
-        buttonFrame.setPreferredSize(new Dimension(40, 40));
-        mainFrame.add(buttonFrame);
-        //buttonFrame.setSize(40,40);
-        //buttonFrame.setLayout(new Gridlayout(1,1));
 
         // Creates and sets the menu bar
         final JMenuBar menuBar = new JMenuBar();
@@ -55,7 +55,7 @@ public class SimpleGui {
         mainFrame.setJMenuBar(menuBar);
 
         // Text Field Input
-        final JTextField tField = new JTextField();
+        tField = new JTextField();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.8;
         c.gridx = 0;
@@ -63,18 +63,42 @@ public class SimpleGui {
         pane.add(tField, c);
 
         // Creates the area for displaying all previous commands
-        final JTextArea outputText = new JTextArea();
+        outputText = new JTextArea();
 
         // Button
-        JButton go = new JButton("Go");
-        go.addActionListener(new ActionListener() {
+        goButton = new JButton("Go");
+
+        mainFrame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),"goEvent");
+        //Binds the enter key to the goAction.
+        mainFrame.getRootPane().getActionMap().put("goEvent",new AbstractAction(){
+            public void actionPerformed(ActionEvent ae){
+                goAction();
+
+            }
+        });
+
+
+        //Click listener;
+        goButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 goAction();
             }
+
+
+
         });
+//        go.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                //This is where we call the method to read from text field.
+//                String text = tField.getText();
+//                tField.setText("");
+//                outputText.append("Command: " + text + "\n");
+//                executor.executeCommand(text);
+//            }
+//        });
         c.weightx = 0.2;
         c.gridx = 1;
-        pane.add(go, c);
+        pane.add(goButton, c);
 
 
         // Sets up OutputText Field
@@ -102,7 +126,7 @@ public class SimpleGui {
         });
 
         // Sets button on enter
-        SwingUtilities.getRootPane(go).setDefaultButton(go);
+//        SwingUtilities.getRootPane(go).setDefaultButton(go);
     }
 
     static class exitApp implements ActionListener {
