@@ -15,6 +15,7 @@ public class Note {
 
     public String getNote()
     {
+
         return this.note;
     }
 
