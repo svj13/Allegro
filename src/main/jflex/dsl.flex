@@ -53,8 +53,6 @@ Note = [A-G|a-g]#?[-1]?[0-9]?
 
 <YYINITIAL> {
     "help"             { return symbol(DslSymbol.COMMAND_HELP); }
-    "play"             { return symbol(DslSymbol.COMMAND_PLAY); }
-    "find"             { return symbol(DslSymbol.COMMAND_FIND); }
     "note"             { return symbol(DslSymbol.COMMAND_NOTE); }
     "midi"             { return symbol(DslSymbol.COMMAND_MIDI); }
     "version"          { return symbol(DslSymbol.COMMAND_VERSION); }
