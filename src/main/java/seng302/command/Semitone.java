@@ -15,7 +15,7 @@ public class Semitone implements Command {
         this.up = up;
     }
     public void execute(Environment env) {
-        if(up) env.println(note.semitone_up().getNote());
-        else env.println(note.semitone_down().getNote());
+        if(up) env.getTranscriptManager().setCommand(note.semitone_up().getNote());
+        else env.getTranscriptManager().setCommand(note.semitone_down().getNote());
     }
 }

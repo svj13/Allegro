@@ -7,9 +7,11 @@ public class App {
 
     public static void main( String[] args )
     {
-        Manager manager = new Manager();
+        Environment environment = new Environment();
 
-        SimpleGui simpleGui = new SimpleGui(manager);
+
+        //SimpleGui simpleGui = new SimpleGui(manager, enviroment);
+        SimpleGui simpleGui = new SimpleGui(environment);
         simpleGui.display();
 
 

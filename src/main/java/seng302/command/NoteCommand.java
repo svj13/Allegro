@@ -13,9 +13,9 @@ public class NoteCommand implements Command {
     }
     public void execute(Environment env) {
         if (note < 0 || note > 127){
-            env.println("[ERROR] The provided number is not a valid MIDI value.");
+            env.getTranscriptManager().setResult("[ERROR] The provided number is not a valid MIDI value.");
         } else {
-            env.println(Note.lookup(Integer.toString(note)).getNote());
+            env.getTranscriptManager().setResult(Note.lookup(Integer.toString(note)).getNote());
         }
     }
 }

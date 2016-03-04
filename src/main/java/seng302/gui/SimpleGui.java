@@ -2,7 +2,7 @@ package seng302.gui;
 
 import seng302.DslExecutor;
 import seng302.Environment;
-import seng302.Manager;
+;
 
 
 import javax.swing.*;
@@ -14,37 +14,46 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 import java.util.ArrayList;
-import java.awt.event.*;
 
 public class SimpleGui {
 
     private JFrame mainFrame;
     private JButton goButton;
     private JTextField tField;
-    private  JTextArea outputText;
+    private  JTextArea outputField;
     private DslExecutor executor;
-    private Manager manager;
+    private Environment env;
+
     
-    public SimpleGui(Manager manager1) {
-        manager = manager1;
+    public SimpleGui(Environment enviroment) {
+        this.env = enviroment;
+        executor = env.getExecutor();
         prepareGui();
     }
 
+    /**
+     * Go button Action
+     *
+     */
     private void goAction(){
         String text = tField.getText();
         tField.setText("");
         if (text.length() > 0) {
-            outputText.append("Command: " + text + "\n");
-            manager.transcriptManager.addText("Command: " + text + "\n");
+//            outputField.append("Command: " + text + "\n");
+//            env.getTranscriptManager().addText("Command: " + text + "\n");
+//            executor.executeCommand(text);
+
+            env.getTranscriptManager().setCommand("Command: "+ text + "\n");
             executor.executeCommand(text);
+            outputField.append(env.getTranscriptManager().getLastCommand());
         } else {
-            outputText.append("[ERROR] Cannot submit an empty command.\n");
+            outputField.append("[ERROR] Cannot submit an empty command.\n");
         }
     }
 
     private void prepareGui() {
+
 
         mainFrame = new JFrame("Allegro");
         mainFrame.setSize(400, 400);
@@ -68,8 +77,8 @@ public class SimpleGui {
                 chooser.setFileFilter(filter);
                 String path = chooser.getSelectedFile().getAbsolutePath();
                 ArrayList<String> text = new ArrayList<String>();
-                text = manager.transcriptManager.getText();
-                manager.transcriptManager.Open(path);
+                text = env.getTranscriptManager().getText();
+                env.getTranscriptManager().Open(path);
             }
         });
 
@@ -82,8 +91,8 @@ public class SimpleGui {
                 chooser.showSaveDialog(mainFrame);
                 String path = chooser.getSelectedFile().getAbsolutePath();
                 ArrayList<String> text = new ArrayList<String>();
-                text = manager.transcriptManager.getText();
-                manager.transcriptManager.Save(path,text);
+                text = env.getTranscriptManager().getText();
+                env.getTranscriptManager().Save(path,text);
             }
         });
         JMenuItem quit = new JMenuItem("Quit"); //quit file option
@@ -103,8 +112,8 @@ public class SimpleGui {
         pane.add(tField, c);
 
         // Creates the area for displaying all previous commands
-        outputText = new JTextArea();
-        DefaultCaret caret = (DefaultCaret)outputText.getCaret();
+        outputField = new JTextArea();
+        DefaultCaret caret = (DefaultCaret) outputField.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 
         // Button
@@ -120,12 +129,12 @@ public class SimpleGui {
 
 
         // Sets up OutputText Field
-        outputText.setLineWrap(true);
-        outputText.setEditable(false);
+        outputField.setLineWrap(true);
+        outputField.setEditable(false);
 
-        executor = new DslExecutor(new Environment(outputText));
+//        executor = new DslExecutor(new Environment(outputField));
 
-        JScrollPane outputPane = new JScrollPane(outputText);
+        JScrollPane outputPane = new JScrollPane(outputField);
         c.fill = GridBagConstraints.BOTH;
         c.anchor = GridBagConstraints.PAGE_START;
         c.weighty = 1.0;   //request any extra vertical space
