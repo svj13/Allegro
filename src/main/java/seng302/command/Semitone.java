@@ -21,18 +21,18 @@ public class Semitone implements Command {
         if (OctaveUtil.octaveSpecifierFlag(this.searchval)) {
             try {
                 this.note = Note.lookup(searchval);
-                if(up) env.getTranscriptManager().setCommand(note.semitone_up().getNote());
-                else env.getTranscriptManager().setCommand(note.semitone_down().getNote());
+                if(up) env.getTranscriptManager().setResult(note.semitone_up().getNote());
+                else env.getTranscriptManager().setResult(note.semitone_down().getNote());
             }
             catch (Exception e){
-                env.getTranscriptManager().setCommand("Note is not contained in the midi library");
+                env.getTranscriptManager().setResult("Note is not contained in the midi library");
             }
         }
         else
         {
             this.note = Note.lookup(OctaveUtil.addDefaultOctave(searchval));
-            if(up) env.getTranscriptManager().setCommand(OctaveUtil.removeOctaveSpecifier(note.semitone_up().getNote()));
-            else env.getTranscriptManager().setCommand(OctaveUtil.removeOctaveSpecifier(note.semitone_down().getNote()));
+            if(up) env.getTranscriptManager().setResult(OctaveUtil.removeOctaveSpecifier(note.semitone_up().getNote()));
+            else env.getTranscriptManager().setResult(OctaveUtil.removeOctaveSpecifier(note.semitone_down().getNote()));
         }
     }
 }

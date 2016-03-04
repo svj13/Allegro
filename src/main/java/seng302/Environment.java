@@ -2,27 +2,20 @@ package seng302;
 
 import seng302.utility.TranscriptManager;
 
-import javax.swing.*;
-
 public class Environment {
 
 
     private DslExecutor executor;
-
-
-
     private TranscriptManager transcriptManager;
 
 
 
 
     public Environment(){
-        //output = givenOutput;
 
         executor = new DslExecutor(this);
         transcriptManager = new TranscriptManager();
     }
-
 
 
 

@@ -11,26 +11,26 @@ import java.util.ArrayList;
  * Created by Joseph on 3/03/2016.
  */
 public class TranscriptManager {
+    private Tuple lastTuple;
+    private String  output;
+    private ArrayList<Tuple> transcriptContent = new ArrayList<Tuple>();
 
-    private String output;
-    private ArrayList<String> transcriptContent = new ArrayList<String>();
 
+//    public void addText(String text){
+//        transcriptContent.add(new Tuple(text));
+//    }
 
-    public void addText(String text){
-        transcriptContent.add(text);
-    }
-
-    public ArrayList<String> getText(){
+    public ArrayList<Tuple> getText(){
         return transcriptContent;
     }
 
 
-    public void Save(String path, ArrayList<String> info){
+    public void Save(String path, ArrayList<Tuple> info){
 
         try {
             FileWriter writer =  new FileWriter(path, true); // the true variable means that if the file exists it will append to it not 100% sure thats what we want yet
             for (int i = 0; i < info.size(); i++) {
-                writer.write(info.get(i));
+                writer.write(info.get(i).getCommand() + " " + info.get(i).getResult());
             }
             writer.close();
 
@@ -50,7 +50,7 @@ public class TranscriptManager {
             BufferedReader input = new BufferedReader(reader);
             String str;
             while ((str = input.readLine()) != null) {
-               transcriptContent.add(str);
+               //transcriptContent.add(str);
             }
 
 
@@ -64,7 +64,8 @@ public class TranscriptManager {
      * @param s
      */
     public void setCommand(String s){
-        output = s;
+        lastTuple = new Tuple(s);
+        output = "Command: " + s + "\n";
     }
 
     /**
@@ -72,7 +73,11 @@ public class TranscriptManager {
      * @param s
      */
     public void setResult(String s){
+        lastTuple.setResult(s); //pretty ugly way to do it. Adds result to last tuple.
         output += s + "\n";
+
+        transcriptContent.add(lastTuple);
+
     }
 
     public String getLastCommand(){

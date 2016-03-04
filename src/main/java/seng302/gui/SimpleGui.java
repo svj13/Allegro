@@ -2,6 +2,7 @@ package seng302.gui;
 
 import seng302.DslExecutor;
 import seng302.Environment;
+import seng302.utility.Tuple;
 ;
 
 
@@ -44,7 +45,7 @@ public class SimpleGui {
 //            env.getTranscriptManager().addText("Command: " + text + "\n");
 //            executor.executeCommand(text);
 
-            env.getTranscriptManager().setCommand("Command: "+ text + "\n");
+            env.getTranscriptManager().setCommand(text);
             executor.executeCommand(text);
             outputField.append(env.getTranscriptManager().getLastCommand());
         } else {
@@ -76,8 +77,12 @@ public class SimpleGui {
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
                 chooser.setFileFilter(filter);
                 String path = chooser.getSelectedFile().getAbsolutePath();
-                ArrayList<String> text = new ArrayList<String>();
-                text = env.getTranscriptManager().getText();
+//                ArrayList<String> text = new ArrayList<String>();
+//                text = env.getTranscriptManager().getText();
+
+//                ArrayList<Tuple> values = env.getTranscriptManager().getText();
+
+
                 env.getTranscriptManager().Open(path);
             }
         });
@@ -90,7 +95,7 @@ public class SimpleGui {
                 JFileChooser chooser = new JFileChooser();
                 chooser.showSaveDialog(mainFrame);
                 String path = chooser.getSelectedFile().getAbsolutePath();
-                ArrayList<String> text = new ArrayList<String>();
+                ArrayList<Tuple> text = new ArrayList<Tuple>();
                 text = env.getTranscriptManager().getText();
                 env.getTranscriptManager().Save(path,text);
             }
