@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by jat157 on 2/03/16.
+ * Created by team-5 on 2/03/16.
  */
 public class Note {
     int midi;
@@ -28,61 +28,33 @@ public class Note {
                 current_octave +=1;
             }
         }
-        // What is this doing?
-//        for (int i=0; i < noteNames.size(); i++)
-//        {
-//            Note temp = new Note(128+i, noteNames.get(i));
-//            notes.put(noteNames.get(i), temp);
-//        }
     }
 
     static public Note lookup(String s){
         return notes.get(s);
     }
-    static public Note lookup(int i){
-        return notes.get(i);
-    }
+
 
     /**
      * Returns the note name of the note a semitone higher than the input
      * No error handling yet implemented
      */
-    public Note semitone_up()
-    {
+    public Note semitone_up() {
 
         // Let's maybe reimplement this using the pattern note_object.semitone_up()
         // To get the note_object we can use Note.lookup(note_name) as above.
         // This is the basic idea:
-        return Note.lookup(this.getMidi()+1);
 
-//        if (checkOctaveSpecifier(initial_note_name))
-//        {
-//            if (initial_note_name.equals("B")){
-//                return "C";
-//            }
-//            else{
-//                int init_index = noteNames.indexOf(initial_note_name);
-//                return noteNames.get(init_index+1);
-//            }
-//        }
-//        else {
-//            Integer initial_midi = notes.get(initial_note_name).getMidi();
-//            if (initial_midi < 127) {
-//                return notes.get(Integer.toString(initial_midi + 1)).getNote();
-//            } else {
-//
-//                System.out.println("There is no higher semitone");
-//                return "N/A";
-//            }
-//        }
-}
+        return Note.lookup(Integer.toString(Integer.valueOf(this.getMidi()) + 1));
+    }
 //    /**
 //     * Returns the note name of the note a semitone lower than the input
 //     * No error handling yet implemented
 //     */
     public Note semitone_down()
     {
-        return Note.lookup(this.getMidi()-1);
+        return Note.lookup(Integer.toString(Integer.valueOf(this.getMidi()) - 1));
+
 //        Integer initial_midi = notes.get(initial_note_name).getMidi();
 //        if(initial_midi > 0)
 //        {

@@ -2,6 +2,7 @@ package seng302.command;
 
 import seng302.Environment;
 import seng302.data.Note;
+import seng302.utility.OctaveUtil;
 import seng302.utility.Checker;
 
 /**
@@ -10,7 +11,7 @@ import seng302.utility.Checker;
 public class Midi implements Command {
     private String s;
     public Midi(String s) {
-        this.s = addDefaultOctave(s);
+        this.s = OctaveUtil.addDefaultOctave(s);
 
     }
     public void execute(Environment env) {
@@ -21,20 +22,5 @@ public class Midi implements Command {
         }
     }
 
-    /**
-     * If the last character in the Note is not a number, the number 4 is
-     * added as the deafult octave specifier.
-     * @param s Note
-     * @return Note with octave specified.
-     */
-    private String addDefaultOctave(String s){
-        try{
-            String last = s.substring(s.length() - 1);
-            Integer.valueOf(last);
-        }
-        catch(Exception e) {
-            s = s + "4";
-        }
-        return s;
-    };
+
 }
