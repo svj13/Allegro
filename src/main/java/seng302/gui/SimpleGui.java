@@ -6,6 +6,7 @@ import seng302.Manager;
 
 
 import javax.swing.*;
+import javax.swing.text.DefaultCaret;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -97,6 +98,8 @@ public class SimpleGui {
 
         // Creates the area for displaying all previous commands
         outputText = new JTextArea();
+        DefaultCaret caret = (DefaultCaret)outputText.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 
         // Button
         goButton = new JButton("Go");
