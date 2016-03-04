@@ -7,6 +7,8 @@ import seng302.Manager;
 
 import javax.swing.*;
 import javax.swing.text.DefaultCaret;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -55,18 +57,22 @@ public class SimpleGui {
         // Creates and sets the menu bar
         final JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
+
+        //launches file browser when open/save transcript is selected from file menu
         JMenuItem openTranscript = new JMenuItem("Open Transcript"); //open transcript file option
         openTranscript.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
                 JFileChooser chooser = new JFileChooser();
                 chooser.showOpenDialog(mainFrame);
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
+                chooser.setFileFilter(filter);
                 String path = chooser.getSelectedFile().getAbsolutePath();
                 ArrayList<String> text = new ArrayList<String>();
                 text = manager.transcriptManager.getText();
                 manager.transcriptManager.Open(path);
             }
         });
+
 
         JMenuItem saveTranscript = new JMenuItem("Save Transcript"); //save transcript file option
         saveTranscript.addActionListener(new ActionListener() {
