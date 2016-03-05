@@ -14,6 +14,7 @@ public class TranscriptManager {
     private Tuple lastTuple;
     private String  output;
     private ArrayList<Tuple> transcriptContent = new ArrayList<Tuple>();
+    public int change = 0;
 
 
 //    public void addText(String text){
@@ -30,7 +31,7 @@ public class TranscriptManager {
         try {
             FileWriter writer =  new FileWriter(path, true); // the true variable means that if the file exists it will append to it not 100% sure thats what we want yet
             for (int i = 0; i < info.size(); i++) {
-                writer.write(info.get(i).getCommand() + " " + info.get(i).getResult());
+                writer.write(info.get(i).getCommand() + " : " + info.get(i).getResult()+ ",");
             }
             writer.close();
 
@@ -50,7 +51,14 @@ public class TranscriptManager {
             BufferedReader input = new BufferedReader(reader);
             String str;
             while ((str = input.readLine()) != null) {
-               //transcriptContent.add(str);
+                String[] commandList = str.split(",");
+
+
+                for (String element : commandList){
+                    String[] commandAndResult = element.split(":");
+                    Tuple newTuple = new Tuple(commandAndResult[0],commandAndResult[1]);
+                    transcriptContent.add(newTuple);
+                }
             }
 
 
@@ -82,6 +90,15 @@ public class TranscriptManager {
 
     public String getLastCommand(){
         return output;
+    }
+
+
+    public String convertToText(){
+        String displayText = "";
+        for (Tuple content :transcriptContent){
+            displayText += "Command : " +content.getCommand() + " Result :" + content.getResult() + "\n";
+        }
+        return displayText;
     }
 
 

@@ -55,7 +55,6 @@ public class SimpleGui {
 
     private void prepareGui() {
 
-
         mainFrame = new JFrame("Allegro");
         mainFrame.setSize(400, 400);
 
@@ -84,6 +83,7 @@ public class SimpleGui {
 
 
                 env.getTranscriptManager().Open(path);
+                outputField.setText(env.getTranscriptManager().convertToText());
             }
         });
 
