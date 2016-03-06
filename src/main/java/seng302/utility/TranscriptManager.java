@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class TranscriptManager {
     private Tuple lastTuple;
-    private String  output;
+    private String output;
     private ArrayList<Tuple> transcriptContent = new ArrayList<Tuple>();
     public int change = 0;
 
