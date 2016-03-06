@@ -9,6 +9,8 @@ public class Tuple {
     private String result;
 
 
+    Tuple(){}
+
     Tuple(String commandString){
         command = commandString;
     }
@@ -17,8 +19,6 @@ public class Tuple {
         command = commandString;
         result = resultString;
     }
-
-
 
     public String getCommand(){
         return command;
@@ -31,5 +31,7 @@ public class Tuple {
     public void setResult(String str){
         result = str;
     }
+
+    public void setCommand(String str) {command = str; }
 
 }

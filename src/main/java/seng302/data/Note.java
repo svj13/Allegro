@@ -40,32 +40,16 @@ public class Note {
      * No error handling yet implemented
      */
     public Note semitone_up() {
-
-        // Let's maybe reimplement this using the pattern note_object.semitone_up()
-        // To get the note_object we can use Note.lookup(note_name) as above.
-        // This is the basic idea:
-
         return Note.lookup(Integer.toString(Integer.valueOf(this.getMidi()) + 1));
     }
-//    /**
-//     * Returns the note name of the note a semitone lower than the input
-//     * No error handling yet implemented
-//     */
+
+    /**
+     * Returns the note name of the note a semitone lower than the input
+     * No error handling yet implemented
+     */
     public Note semitone_down()
     {
         return Note.lookup(Integer.toString(Integer.valueOf(this.getMidi()) - 1));
-
-//        Integer initial_midi = notes.get(initial_note_name).getMidi();
-//        if(initial_midi > 0)
-//        {
-//            System.out.println(notes.get(Integer.toString(initial_midi-1)).getNote());
-//            return notes.get(Integer.toString(initial_midi-1)).getNote();
-//        }
-//        else
-//        {
-//            System.out.println("There is no lower semitone");
-//            return "N/A";
-//        }
     }
 
     private boolean checkOctaveSpecifier(String note)

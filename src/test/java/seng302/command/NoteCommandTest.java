@@ -1,5 +1,6 @@
 package seng302.command;
 
+import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Mockito.*;
 
@@ -9,22 +10,29 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import seng302.Environment;
+import seng302.utility.TranscriptManager;
 
 @RunWith(MockitoJUnitRunner.class)
 public class NoteCommandTest {
 
-    @Mock private Environment env;
+    private Environment env;
+    @Mock private TranscriptManager transcriptManager;
 
-    @Test
-    public void printsCorrectNote() {
-        new NoteCommand(1).execute(env);
-
-        //verify(env).println("C#-1");
+    @Before
+    public void setUp() throws Exception {
+        env = new Environment();
+        env.setTranscriptManager(transcriptManager);
     }
 
     @Test
-    public void printsCorrectError() {
+    public void setsCorrectNoteResult() {
+        new NoteCommand(1).execute(env);
+        verify(transcriptManager).setResult("C#-1");
+    }
+
+    @Test
+    public void setsCorrectErrorResult() {
         new NoteCommand(128).execute(env);
-        //verify(env).println("[ERROR] The provided number is not a valid MIDI value.");
+        verify(transcriptManager).setResult("[ERROR] The provided number is not a valid MIDI value.");
     }
 }

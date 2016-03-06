@@ -20,6 +20,9 @@ public class TranscriptManager {
 //    public void addText(String text){
 //        transcriptContent.add(new Tuple(text));
 //    }
+    public TranscriptManager(){
+        lastTuple = new Tuple();
+    }
 
     public ArrayList<Tuple> getText(){
         return transcriptContent;
@@ -36,7 +39,7 @@ public class TranscriptManager {
             writer.close();
 
         }catch(IOException ex) {
-            System.out.println("problem writing to the selected file");
+            System.err.println("Problem writing to the selected file");
         }
     }
 
