@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,7 +32,11 @@ public class Note {
     }
 
     static public Note lookup(String s){
-        return notes.get(s);
+        Note note = notes.get(s);
+        if (note == null) {
+            System.err.println(s + " is not a note.");
+        }
+        return note;
     }
 
 
@@ -39,7 +44,7 @@ public class Note {
      * Returns the note name of the note a semitone higher than the input
      * No error handling yet implemented
      */
-    public Note semitone_up() {
+    public Note semitoneUp() {
         return Note.lookup(Integer.toString(Integer.valueOf(this.getMidi()) + 1));
     }
 
@@ -47,7 +52,7 @@ public class Note {
      * Returns the note name of the note a semitone lower than the input
      * No error handling yet implemented
      */
-    public Note semitone_down()
+    public Note semitoneDown()
     {
         return Note.lookup(Integer.toString(Integer.valueOf(this.getMidi()) - 1));
     }
@@ -62,7 +67,7 @@ public class Note {
 
 
 
-    private Note(int midi, String note){
+    protected Note(int midi, String note){
         this.midi = midi;
         this.note = note;
 
@@ -78,5 +83,17 @@ public class Note {
         return this.midi;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Note note1 = (Note) o;
+        return midi == note1.midi &&
+                Objects.equals(note, note1.note);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(midi, note);
+    }
 }
