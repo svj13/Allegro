@@ -25,6 +25,7 @@ public class SimpleGui {
     private  JTextArea outputField;
     private DslExecutor executor;
     private Environment env;
+    private String path;
 
     
     public SimpleGui(Environment enviroment) {
@@ -71,17 +72,11 @@ public class SimpleGui {
         JMenuItem openTranscript = new JMenuItem("Open Transcript"); //open transcript file option
         openTranscript.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JFileChooser chooser = new JFileChooser();
+                JFileChooser chooser = new JFileChooser(path);
                 chooser.showOpenDialog(mainFrame);
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
                 chooser.setFileFilter(filter);
-                String path = chooser.getSelectedFile().getAbsolutePath();
-//                ArrayList<String> text = new ArrayList<String>();
-//                text = env.getTranscriptManager().getText();
-
-//                ArrayList<Tuple> values = env.getTranscriptManager().getText();
-
-
+                path = chooser.getSelectedFile().getAbsolutePath();
                 env.getTranscriptManager().Open(path);
                 outputField.setText(env.getTranscriptManager().convertToText());
             }
