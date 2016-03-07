@@ -13,7 +13,7 @@ public class Environment {
     }
 
     public void error(String error_message) {
-        transcriptManager.setCommand(String.format("[ERROR] %s\n", error_message));
+        transcriptManager.setResult(String.format("[ERROR] %s", error_message));
     }
 
     public DslExecutor getExecutor() {
