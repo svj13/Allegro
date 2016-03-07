@@ -29,4 +29,17 @@ public class CheckerTest {
         assertFalse(Checker.isValidNormalNote("G#9"));
 
     }
+
+    @Test
+    public void testIsValidMidiNote() throws Exception {
+        assertTrue(Checker.isValidMidiNote("12"));
+
+        assertFalse(Checker.isValidMidiNote("1000"));
+        assertFalse(Checker.isValidMidiNote("cake"));
+        assertFalse(Checker.isValidMidiNote("the"));
+        assertFalse(Checker.isValidMidiNote("-5"));
+
+
+
+    }
 }

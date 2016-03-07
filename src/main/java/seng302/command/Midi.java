@@ -15,10 +15,10 @@ public class Midi implements Command {
 
     }
     public void execute(Environment env) {
-        if (Checker.isValidNormalNote(s)){
+        if (Checker.isValidNormalNote(s.toUpperCase())){
             env.getTranscriptManager().setResult(Integer.toString(Note.lookup(s).getMidi()));
         } else {
-            env.getTranscriptManager().setResult("Invalid note");
+            env.error("\'" + s + "\'" + " is not a valid note.");
         }
     }
 

@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 public class Note {
     int midi;
     String note;
+    private HashMap<String, String> enharmonics;
 
     public static HashMap<String, Note> notes;
     private static List<String> noteNames = new ArrayList<String>(Arrays.asList("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"));
@@ -22,7 +23,29 @@ public class Note {
         int current_octave = -1;
         notes = new HashMap<String, Note>();
         for (int i =0; i<128; i++){
-            Note temp = new Note(i,noteNames.get(i%12).concat(Integer.toString(current_octave)));
+            HashMap<String, String> tempEnharmonics = new HashMap<String, String>();
+            int index = i % 12;
+            switch (index) {
+                case 1:
+                    tempEnharmonics.put("descending", "Db".concat(Integer.toString(current_octave)));
+                    break;
+                case 3:
+                    tempEnharmonics.put("descending", "Eb".concat(Integer.toString(current_octave)));
+                    break;
+                case 6:
+                    tempEnharmonics.put("descending", "Gb".concat(Integer.toString(current_octave)));
+                    break;
+                case 8:
+                    tempEnharmonics.put("descending", "Ab".concat(Integer.toString(current_octave)));
+                    break;
+                case 10:
+                    tempEnharmonics.put("descending", "Bb".concat(Integer.toString(current_octave)));
+                    break;
+                default:
+                    tempEnharmonics.put("descending", noteNames.get(i % 12).concat(Integer.toString(current_octave)));
+                    break;
+            }
+            Note temp = new Note(i, noteNames.get(i % 12).concat(Integer.toString(current_octave)), tempEnharmonics);
             notes.put((noteNames.get(i%12).concat(Integer.toString(current_octave))),temp);
             notes.put(Integer.toString(i),temp);
             if((i+1)%12 == 0){
@@ -30,6 +53,7 @@ public class Note {
             }
         }
     }
+
 
     static public Note lookup(String s){
         s = s.toUpperCase();
@@ -40,6 +64,10 @@ public class Note {
         return note;
     }
 
+    public String getDescendingEharmonic() {
+        System.out.println(this.enharmonics.get("descending"));
+        return this.enharmonics.get("descending");
+    }
 
     /**
      * Returns the note name of the note a semitone higher than the input
@@ -58,20 +86,10 @@ public class Note {
         return Note.lookup(Integer.toString(Integer.valueOf(this.getMidi()) - 1));
     }
 
-    private boolean checkOctaveSpecifier(String note)
-    {
-        Pattern p = Pattern.compile("[A-G|a-g][#|b]?");
-        Matcher m = p.matcher(note);
-        boolean b = m.matches();
-        return b;
-    }
-
-
-
-    protected Note(int midi, String note){
+    protected Note(int midi, String note, HashMap<String,String> enharmonics){
         this.midi = midi;
         this.note = note;
-
+        this.enharmonics = enharmonics;
     }
 
     public String getNote()
@@ -93,8 +111,4 @@ public class Note {
                 Objects.equals(note, note1.note);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(midi, note);
-    }
 }
