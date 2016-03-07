@@ -32,6 +32,7 @@ public class Note {
     }
 
     static public Note lookup(String s){
+        s = s.toUpperCase();
         Note note = notes.get(s);
         if (note == null) {
             System.err.println(s + " is not a note.");
