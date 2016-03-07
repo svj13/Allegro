@@ -58,7 +58,7 @@ public class TranscriptManager {
 
 
                 for (String element : commandList){
-                    String[] commandAndResult = element.split(":");
+                    String[] commandAndResult = element.split("\\s:\\s");
                     Tuple newTuple = new Tuple(commandAndResult[0],commandAndResult[1]);
                     transcriptContent.add(newTuple);
                 }
@@ -99,7 +99,7 @@ public class TranscriptManager {
     public String convertToText(){
         String displayText = "";
         for (Tuple content :transcriptContent){
-            displayText += "Command : " +content.getCommand() + " Result :" + content.getResult() + "\n";
+            displayText += "Command: " +content.getCommand() + "\n" + content.getResult() + "\n";
         }
         return displayText;
     }
