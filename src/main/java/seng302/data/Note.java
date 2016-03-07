@@ -86,7 +86,7 @@ public class Note {
         return Note.lookup(Integer.toString(Integer.valueOf(this.getMidi()) - 1));
     }
 
-    protected Note(int midi, String note){
+    protected Note(int midi, String note, HashMap<String,String> enharmonics){
         this.midi = midi;
         this.note = note;
         this.enharmonics = enharmonics;
