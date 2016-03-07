@@ -1,21 +1,21 @@
 package seng302.gui;
 
-import seng302.DslExecutor;
-import seng302.Environment;
-import seng302.utility.Tuple;
-;
-
-
-import javax.swing.*;
-import javax.swing.text.DefaultCaret;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.text.DefaultCaret;
+
+import seng302.DslExecutor;
+import seng302.Environment;
+import seng302.utility.OutputTuple;
+
+
 
 public class SimpleGui {
 
@@ -90,8 +90,7 @@ public class SimpleGui {
                 JFileChooser chooser = new JFileChooser();
                 chooser.showSaveDialog(mainFrame);
                 String path = chooser.getSelectedFile().getAbsolutePath();
-                ArrayList<Tuple> text = new ArrayList<Tuple>();
-                text = env.getTranscriptManager().getText();
+                ArrayList<OutputTuple> text = env.getTranscriptManager().getTranscriptTuples();
                 env.getTranscriptManager().Save(path,text);
             }
         });
