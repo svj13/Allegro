@@ -78,8 +78,12 @@ public class SimpleGui {
                     FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
                     chooser.setFileFilter(filter);
                     path = chooser.getSelectedFile().getAbsolutePath();
-                    env.getTranscriptManager().Open(path);
-                    outputField.setText(env.getTranscriptManager().convertToText());
+                    try {
+                        env.getTranscriptManager().Open(path);
+                        outputField.setText(env.getTranscriptManager().convertToText());
+                    }catch(Exception ex){
+                        System.err.println("Not a valid file");
+                    }
                 }catch(Exception ex){
                     System.err.println("file chooser error");
                 }

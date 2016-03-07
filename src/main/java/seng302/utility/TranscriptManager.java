@@ -123,7 +123,7 @@ public class TranscriptManager {
     public String convertToText(){
         String displayText = "";
         for (OutputTuple content :transcriptContent){
-            displayText += "Command : " + content.getCommand() + " Result :" + content.getResult() + "\n";
+            displayText += "Command: " +content.getCommand() + "\n" + content.getResult() + "\n";
         }
         return displayText;
     }
