@@ -75,7 +75,7 @@ public class SimpleGui {
                 try {
                     JFileChooser chooser = new JFileChooser(path);
                     chooser.showOpenDialog(mainFrame);
-                    FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
+                    FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES (*.txt)", "txt");
                     chooser.setFileFilter(filter);
                     path = chooser.getSelectedFile().getAbsolutePath();
                     try {
