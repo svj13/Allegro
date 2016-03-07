@@ -18,7 +18,7 @@ public class Midi implements Command {
         if (Checker.isValidNormalNote(s)){
             env.getTranscriptManager().setResult(Integer.toString(Note.lookup(s).getMidi()));
         } else {
-            env.getTranscriptManager().setResult("Invalid note");
+            env.error("\'" + s + "\'" + " is not a valid note.");
         }
     }
 

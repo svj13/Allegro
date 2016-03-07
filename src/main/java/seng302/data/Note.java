@@ -58,16 +58,6 @@ public class Note {
         return Note.lookup(Integer.toString(Integer.valueOf(this.getMidi()) - 1));
     }
 
-    private boolean checkOctaveSpecifier(String note)
-    {
-        Pattern p = Pattern.compile("[A-G|a-g][#|b]?");
-        Matcher m = p.matcher(note);
-        boolean b = m.matches();
-        return b;
-    }
-
-
-
     protected Note(int midi, String note){
         this.midi = midi;
         this.note = note;
@@ -93,8 +83,4 @@ public class Note {
                 Objects.equals(note, note1.note);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(midi, note);
-    }
 }

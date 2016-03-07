@@ -14,6 +14,7 @@ import java.util.List;
 parser code {:
     public void report_error(String message, Object info) {
 
+
     }
 
     public void syntax_error(Symbol cur_token) {
@@ -31,11 +32,11 @@ non terminal Command command;
 non terminal List<Integer> arg_list;
 
 command ::= COMMAND_HELP          {: RESULT = new Help(); :}
-          | COMMAND_NOTE NUMBER:n {: RESULT = new NoteCommand(n); :}
-          | COMMAND_MIDI NOTE:s {: RESULT = new Midi(s); :}
+          | COMMAND_NOTE ATOM:n {: RESULT = new NoteCommand(n); :}
+          | COMMAND_MIDI ATOM:s {: RESULT = new Midi(s); :}
           | COMMAND_VERSION       {: RESULT = new Version(); :}
-          | COMMAND_SEMITONE_UP NOTE:s      {: RESULT = new Semitone(s, true); :}
-          | COMMAND_SEMITONE_DOWN NOTE:s      {: RESULT = new Semitone(s, false); :}
+          | COMMAND_SEMITONE_UP ATOM:s      {: RESULT = new Semitone(s, true); :}
+          | COMMAND_SEMITONE_DOWN ATOM:s      {: RESULT = new Semitone(s, false); :}
 ;
 
 arg_list ::= arg_list:list NUMBER:n {: list.add(n); RESULT = list; :}

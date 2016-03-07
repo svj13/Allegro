@@ -37,6 +37,6 @@ public class SemitoneTest {
     @Test
     public void printsCorrectError() {
         new Semitone("Cake", true).execute(env);
-        verify(transcriptManager).setResult("Note is not contained in the midi library");
+        verify(transcriptManager).setResult("Cake is not contained in the midi library");
     }
 }

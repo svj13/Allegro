@@ -4,7 +4,6 @@ import seng302.utility.TranscriptManager;
 
 public class Environment {
 
-
     private DslExecutor executor;
     private TranscriptManager transcriptManager;
 

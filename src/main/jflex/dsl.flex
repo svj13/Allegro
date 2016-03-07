@@ -42,6 +42,7 @@ import java_cup.runtime.*;
 WhiteSpace = \p{Whitespace}
 Number = -?\p{Digit}+
 Note = [A-G|a-g]#?[-1]?[0-9]?
+Atom = [^\s]+
 //Note = ^[A-G|a-g][#|b]?[1-7]?$|^[A|B|a|b][#|b]?0$|^[C|c][#|b]8$
    
 %%
@@ -58,6 +59,7 @@ Note = [A-G|a-g]#?[-1]?[0-9]?
     "version"          { return symbol(DslSymbol.COMMAND_VERSION); }
     "semitone up"       { return symbol(DslSymbol.COMMAND_SEMITONE_UP);}
     "semitone down"    {return symbol(DslSymbol.COMMAND_SEMITONE_DOWN);}
+    {Atom}              {return symbol(DslSymbol.ATOM, new String(yytext()));}
     {Number}           { return symbol(DslSymbol.NUMBER, new Integer(yytext())); }
     {Note}             { return symbol(DslSymbol.NOTE, new String(yytext())); }
 
