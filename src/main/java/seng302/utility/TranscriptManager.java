@@ -34,7 +34,7 @@ public class TranscriptManager {
 
 
     /**
-     * Saves Called commands/results to a text file.
+     * Saves Called commands/results to a local text file.
      *
      * @param path Text document path to save the data to.
      * @param info ArrayList of (Command, Result) tuples to be saved to specified file.
@@ -57,7 +57,7 @@ public class TranscriptManager {
 
 
     /**
-     * Generates a command/result history from a previously generated text file.
+     * Clears the current transcript and generates a command/result history from a previously generated text file.
      * @param path The path of the command/result text document.
      */
     public void Open(String path){
@@ -86,7 +86,7 @@ public class TranscriptManager {
     }
 
     /**
-     * sets the current command output with a provided command string.
+     * Sets the current command output with a provided command string.
      * @param s Command string.
      */
     public void setCommand(String s){
@@ -118,12 +118,12 @@ public class TranscriptManager {
     /**
      *  Generates a string containing the history of command/result outputs.
      *
-     * @return String containing output history.
+     * @return String containing output history; commands and their results separated by lines.
      */
     public String convertToText(){
         String displayText = "";
         for (OutputTuple content :transcriptContent){
-            displayText += "Command : " +content.getCommand() + " Result :" + content.getResult() + "\n";
+            displayText += "Command : " + content.getCommand() + " Result :" + content.getResult() + "\n";
         }
         return displayText;
     }

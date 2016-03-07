@@ -24,6 +24,11 @@ public class DslExecutor
     }
 
 
+    /**
+     * Parses the commands as they are entered.
+     * @param command_string
+     * @return The parsed command.
+     */
     public Command parseCommandString(String command_string) {
         DslParser parser = new DslParser(new DslLexer(new StringReader(command_string)));
 
