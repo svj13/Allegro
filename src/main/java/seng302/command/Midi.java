@@ -11,8 +11,11 @@ import seng302.utility.Checker;
 public class Midi implements Command {
     private String s;
     public Midi(String s) {
-        this.s = OctaveUtil.addDefaultOctave(s);
-
+        if (Checker.isValidNoteNoOctave(s)) {
+            this.s = OctaveUtil.addDefaultOctave(s);
+        } else {
+            this.s = s;
+        }
     }
     public void execute(Environment env) {
         if (Checker.isValidNormalNote(s.toUpperCase())){
