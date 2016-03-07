@@ -3,9 +3,8 @@ package seng302.utility;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.print.DocFlavor;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by isabelle on 2/03/16.
@@ -20,6 +19,7 @@ public class CheckerTest {
     @Test
     public void testIsValidNote() throws Exception {
         assertTrue(Checker.isValidNormalNote("C4"));
+        assertTrue(Checker.isValidNormalNote("C#"));
         assertTrue(Checker.isValidNormalNote("C#-1"));
         assertTrue(Checker.isValidNormalNote("G9"));
 

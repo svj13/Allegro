@@ -1,21 +1,23 @@
 package seng302.utility;
 
 /**
- * Created by Joseph on 5/03/2016.
+ * A Tuple utility which contains information for a Command + Result pair.
+ *
+ * Created by team5 on 5/03/2016.
  */
-public class Tuple {
+public class OutputTuple {
 
     private String command;
     private String result;
 
 
-    Tuple(){}
+    OutputTuple(){}
 
-    Tuple(String commandString){
+    OutputTuple(String commandString){
         command = commandString;
     }
 
-    Tuple(String commandString, String resultString){
+    OutputTuple(String commandString, String resultString){
         command = commandString;
         result = resultString;
     }
