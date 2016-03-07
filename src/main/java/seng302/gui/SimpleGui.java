@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class SimpleGui {
@@ -72,13 +73,17 @@ public class SimpleGui {
         JMenuItem openTranscript = new JMenuItem("Open Transcript"); //open transcript file option
         openTranscript.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JFileChooser chooser = new JFileChooser(path);
-                chooser.showOpenDialog(mainFrame);
-                FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
-                chooser.setFileFilter(filter);
-                path = chooser.getSelectedFile().getAbsolutePath();
-                env.getTranscriptManager().Open(path);
-                outputField.setText(env.getTranscriptManager().convertToText());
+                try {
+                    JFileChooser chooser = new JFileChooser(path);
+                    chooser.showOpenDialog(mainFrame);
+                    FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
+                    chooser.setFileFilter(filter);
+                    path = chooser.getSelectedFile().getAbsolutePath();
+                    env.getTranscriptManager().Open(path);
+                    outputField.setText(env.getTranscriptManager().convertToText());
+                }catch(Exception ex){
+                    System.err.println("file chooser error");
+                }
             }
         });
 
@@ -86,13 +91,16 @@ public class SimpleGui {
         JMenuItem saveTranscript = new JMenuItem("Save Transcript"); //save transcript file option
         saveTranscript.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
-                JFileChooser chooser = new JFileChooser();
-                chooser.showSaveDialog(mainFrame);
-                String path = chooser.getSelectedFile().getAbsolutePath();
-                ArrayList<Tuple> text = new ArrayList<Tuple>();
-                text = env.getTranscriptManager().getText();
-                env.getTranscriptManager().Save(path,text);
+                try {
+                    JFileChooser chooser = new JFileChooser();
+                    chooser.showSaveDialog(mainFrame);
+                    String path = chooser.getSelectedFile().getAbsolutePath();
+                    ArrayList<Tuple> text = new ArrayList<Tuple>();
+                    text = env.getTranscriptManager().getText();
+                    env.getTranscriptManager().Save(path, text);
+                }catch(Exception ex){
+                    System.err.println("file chooser error");
+                }
             }
         });
         JMenuItem quit = new JMenuItem("Quit"); //quit file option
