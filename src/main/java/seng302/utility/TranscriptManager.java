@@ -73,7 +73,7 @@ public class TranscriptManager {
 
 
                 for (String element : commandList){
-                    String[] commandAndResult = element.split(":");
+                    String[] commandAndResult = element.split("\\s:\\s");
                     OutputTuple newOutputTuple = new OutputTuple(commandAndResult[0],commandAndResult[1]);
                     transcriptContent.add(newOutputTuple);
                 }
