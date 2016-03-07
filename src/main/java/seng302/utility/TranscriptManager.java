@@ -51,7 +51,8 @@ public class TranscriptManager {
             writer.close();
 
         }catch(IOException ex) {
-            System.err.println("Problem writing to the selected file");
+
+            System.err.println("Problem writing to the selected file " + ex.getMessage());
         }
     }
 
