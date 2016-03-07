@@ -25,7 +25,7 @@ public class Semitone implements Command {
                 else env.getTranscriptManager().setResult(note.semitoneDown().getDescendingEharmonic());
             }
             catch (Exception e){
-                env.getTranscriptManager().setResult("Note is not contained in the midi library");
+                env.error("Note is not contained in the MIDI library.");
             }
         }
         else
@@ -37,7 +37,7 @@ public class Semitone implements Command {
                 else
                     env.getTranscriptManager().setResult(OctaveUtil.removeOctaveSpecifier(note.semitoneDown().getDescendingEharmonic()));
             } catch (Exception e){
-                env.getTranscriptManager().setResult("Note is not contained in the midi library");
+                env.error("Note is not contained in the MIDI library.");
             }
         }
     }

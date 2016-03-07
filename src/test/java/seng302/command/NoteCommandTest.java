@@ -33,6 +33,6 @@ public class NoteCommandTest {
     @Test
     public void setsCorrectErrorResult() {
         new NoteCommand("128").execute(env);
-        verify(transcriptManager).setResult("[ERROR] 128 is not a valid MIDI value.");
+        verify(transcriptManager).setResult("[ERROR] '128' is not a valid MIDI value.");
     }
 }

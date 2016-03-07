@@ -30,6 +30,6 @@ public class EnvironmentTest {
     @Test
     public void testError() throws Exception {
         env.error("This went wrong.");
-        verify(transcriptManager).setCommand("[ERROR] This went wrong.\n");
+        verify(transcriptManager).setResult("[ERROR] This went wrong.");
     }
 }

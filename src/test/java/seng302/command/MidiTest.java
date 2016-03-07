@@ -37,6 +37,6 @@ public class MidiTest {
     @Test
     public void setsCorrectErrorResult() {
         new Midi("Z#").execute(env);
-        verify(transcriptManager).setResult("Invalid note");
+        verify(transcriptManager).setResult("[ERROR] \'Z#\' is not a valid note.");
     }
 }
