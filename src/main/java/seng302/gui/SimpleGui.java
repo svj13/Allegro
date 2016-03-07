@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -95,8 +94,8 @@ public class SimpleGui {
                     JFileChooser chooser = new JFileChooser();
                     chooser.showSaveDialog(mainFrame);
                     String path = chooser.getSelectedFile().getAbsolutePath();
-                    ArrayList<Tuple> text = new ArrayList<Tuple>();
-                    text = env.getTranscriptManager().getText();
+                    ArrayList<OutputTuple> text = new ArrayList<OutputTuple>();
+                    text = env.getTranscriptManager().getTranscriptTuples();
                     env.getTranscriptManager().Save(path, text);
                 }catch(Exception ex){
                     System.err.println("file chooser error");
