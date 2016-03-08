@@ -9,7 +9,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by team-5 on 2/03/16.
+ * This Note class contains a static HashMap of all notes as well as the lookup method
+ * and functionality for individual note objects.
  */
 public class Note {
     int midi;
@@ -19,6 +20,15 @@ public class Note {
     public static HashMap<String, Note> notes;
     private static List<String> noteNames = new ArrayList<String>(Arrays.asList("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"));
 
+    protected Note(int midi, String note, HashMap<String, String> enharmonics) {
+        this.midi = midi;
+        this.note = note;
+        this.enharmonics = enharmonics;
+    }
+
+    /**
+     * This is how the HashMap of notes is populated.
+     */
     static {
         int current_octave = -1;
         notes = new HashMap<String, Note>();
@@ -54,7 +64,12 @@ public class Note {
         }
     }
 
-
+    /**
+     * Returns the note object from the HashMap of notes.
+     *
+     * @param s The note or MIDI value to lookup.
+     * @return Note object that matches the String supplied.
+     */
     static public Note lookup(String s) {
         s = s.toUpperCase();
         Note note = notes.get(s);
@@ -64,37 +79,42 @@ public class Note {
         return note;
     }
 
+    /**
+     * Returns the descending enharmonic name.
+     * So the b value instead of the # value.
+     * @return descending enharmonic name.
+     */
     public String getDescendingEharmonic() {
         System.out.println(this.enharmonics.get("descending"));
         return this.enharmonics.get("descending");
     }
 
     /**
-     * Returns the note name of the note a semitone higher than the input No error handling yet
-     * implemented
+     * Finds the note one semitone higher.
+     * @return the Note object one semitone higher than the current note.
      */
     public Note semitoneUp() {
-        return Note.lookup(Integer.toString(Integer.valueOf(this.getMidi()) + 1));
+        return Note.lookup(Integer.toString(this.getMidi() + 1));
     }
 
     /**
-     * Returns the note name of the note a semitone lower than the input No error handling yet
-     * implemented
+     * Finds the note one semitone lower.
+     * @return the Note object one semitone lower than the current note.
      */
     public Note semitoneDown() {
-        return Note.lookup(Integer.toString(Integer.valueOf(this.getMidi()) - 1));
+        return Note.lookup(Integer.toString(this.getMidi() - 1));
     }
 
-    protected Note(int midi, String note, HashMap<String, String> enharmonics) {
-        this.midi = midi;
-        this.note = note;
-        this.enharmonics = enharmonics;
-    }
-
+    /**
+     * @return the note name.
+     */
     public String getNote() {
         return this.note;
     }
 
+    /**
+     * @return the MIDI value.
+     */
     public Integer getMidi() {
         return this.midi;
     }
