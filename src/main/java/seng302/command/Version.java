@@ -1,13 +1,28 @@
 package seng302.command;
 
+
 import seng302.Environment;
+
+import java.io.IOException;
+
+import java.util.Properties;
 
 public class Version implements Command {
 
     private String currentVersion;
-
+    Properties props;
     public Version() {
-        currentVersion = "1.0";
+
+        props = new Properties();
+
+        try {
+            props.load( getClass().getResourceAsStream("/vals.properties"));
+            currentVersion = props.getProperty("version");
+        } catch (Exception e) {
+            currentVersion = "null";
+        }
+
+
     }
 
     public String getCurrentVersion() {
