@@ -12,6 +12,12 @@ public class Environment {
         transcriptManager = new TranscriptManager();
     }
 
+    /**
+     * All errors are handled through here. They are then passed to the transcriptmanager to be
+     * displayed.
+     *
+     * @param error_message The error message to be display to the user.
+     */
     public void error(String error_message) {
         transcriptManager.setResult(String.format("[ERROR] %s", error_message));
     }

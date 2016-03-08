@@ -12,13 +12,20 @@ public class DslExecutor {
         environment = env;
     }
 
-    // Once the command string has been parsed into a Command, it can be executed.
-    // The execute method for each command is specified in the particular command class.
+    /**
+     * Once the command string has been parsed into a Command, it can be executed. The execute
+     * method for each command is specified in the particular command class.
+     *
+     * @param command The Command to be executed.
+     */
     public void executeCommand(Command command) {
         command.execute(environment);
     }
 
-    // If the command is still a string, it must be parsed first.
+    /**
+     * If the command is still a string, it must be parsed first.
+     * @param command_string The command string to be parsed into a Command object.
+     */
     public void executeCommand(String command_string) {
         executeCommand(parseCommandString(command_string));
     }
@@ -26,7 +33,6 @@ public class DslExecutor {
 
     /**
      * Parses the commands as they are entered.
-     *
      * @return The parsed command.
      */
     public Command parseCommandString(String command_string) {
