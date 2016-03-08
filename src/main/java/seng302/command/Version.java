@@ -11,18 +11,17 @@ public class Version implements Command {
 
     private String currentVersion;
     Properties props;
+
     public Version() {
 
         props = new Properties();
 
         try {
-            props.load( getClass().getResourceAsStream("/vals.properties"));
+            props.load(getClass().getResourceAsStream("/vals.properties"));
             currentVersion = props.getProperty("version");
         } catch (Exception e) {
             currentVersion = "null";
         }
-
-
     }
 
     public String getCurrentVersion() {
@@ -30,6 +29,6 @@ public class Version implements Command {
     }
 
     public void execute(Environment env) {
-        env.getTranscriptManager().setResult("Current Version: " + currentVersion);
+        env.getTranscriptManager().setResult("Current Version: " + getCurrentVersion());
     }
 }
