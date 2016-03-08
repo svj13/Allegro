@@ -7,7 +7,7 @@ public class Environment {
     private DslExecutor executor;
     private TranscriptManager transcriptManager;
 
-    public Environment(){
+    public Environment() {
         executor = new DslExecutor(this);
         transcriptManager = new TranscriptManager();
     }
@@ -24,7 +24,7 @@ public class Environment {
         return transcriptManager;
     }
 
-    public void setTranscriptManager(TranscriptManager t){
+    public void setTranscriptManager(TranscriptManager t) {
         this.transcriptManager = t;
     }
 }

@@ -2,7 +2,7 @@ package seng302.command;
 
 import seng302.Environment;
 
-public class NullCommand implements Command{
+public class NullCommand implements Command {
     public NullCommand() {
     }
 

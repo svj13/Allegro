@@ -16,7 +16,8 @@ import seng302.utility.TranscriptManager;
 public class NoteCommandTest {
 
     private Environment env;
-    @Mock private TranscriptManager transcriptManager;
+    @Mock
+    private TranscriptManager transcriptManager;
 
     @Before
     public void setUp() throws Exception {

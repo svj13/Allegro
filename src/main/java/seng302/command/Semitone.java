@@ -5,8 +5,8 @@ import seng302.data.Note;
 import seng302.utility.OctaveUtil;
 
 /**
- * Created by team5 on 02-Mar-16.
- *  Command used to output a semitone either up or down from a provided note string.
+ * Created by team5 on 02-Mar-16. Command used to output a semitone either up or down from a
+ * provided note string.
  */
 public class Semitone implements Command {
     private Note note;
@@ -17,26 +17,25 @@ public class Semitone implements Command {
         this.searchval = s;
         this.up = up;
     }
+
     public void execute(Environment env) {
         if (OctaveUtil.octaveSpecifierFlag(this.searchval)) {
             try {
                 this.note = Note.lookup(searchval);
-                if(up) env.getTranscriptManager().setResult(note.semitoneUp().getNote());
-                else env.getTranscriptManager().setResult(note.semitoneDown().getDescendingEharmonic());
-            }
-            catch (Exception e){
+                if (up) env.getTranscriptManager().setResult(note.semitoneUp().getNote());
+                else
+                    env.getTranscriptManager().setResult(note.semitoneDown().getDescendingEharmonic());
+            } catch (Exception e) {
                 env.error("Note is not contained in the MIDI library.");
             }
-        }
-        else
-        {
+        } else {
             try {
                 this.note = Note.lookup(OctaveUtil.addDefaultOctave(searchval));
                 if (up)
                     env.getTranscriptManager().setResult(OctaveUtil.removeOctaveSpecifier(note.semitoneUp().getNote()));
                 else
                     env.getTranscriptManager().setResult(OctaveUtil.removeOctaveSpecifier(note.semitoneDown().getDescendingEharmonic()));
-            } catch (Exception e){
+            } catch (Exception e) {
                 env.error("Note is not contained in the MIDI library.");
             }
         }

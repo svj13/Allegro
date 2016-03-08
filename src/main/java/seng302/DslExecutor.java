@@ -1,11 +1,11 @@
 package seng302;
 
 import java.io.StringReader;
+
 import seng302.command.Command;
 import seng302.command.NullCommand;
 
-public class DslExecutor
-{
+public class DslExecutor {
     private Environment environment;
 
     public DslExecutor(Environment env) {
@@ -26,7 +26,7 @@ public class DslExecutor
 
     /**
      * Parses the commands as they are entered.
-     * @param command_string
+     *
      * @return The parsed command.
      */
     public Command parseCommandString(String command_string) {
@@ -42,7 +42,7 @@ public class DslExecutor
         }
 
         if (parseResult instanceof Command) {
-            return (Command)parseResult;
+            return (Command) parseResult;
         } else {
             //environment.error(String.format("Expected command object but got \"%s\"", parseResult));
             return new NullCommand();

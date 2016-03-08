@@ -16,18 +16,17 @@ import seng302.Environment;
 import seng302.utility.OutputTuple;
 
 
-
 public class SimpleGui {
 
     private JFrame mainFrame;
     private JButton goButton;
     private JTextField tField;
-    private  JTextArea outputField;
+    private JTextArea outputField;
     private DslExecutor executor;
     private Environment env;
     private String path;
 
-    
+
     public SimpleGui(Environment enviroment) {
         this.env = enviroment;
         executor = env.getExecutor();
@@ -36,9 +35,8 @@ public class SimpleGui {
 
     /**
      * Go button Action
-     *
      */
-    private void goAction(){
+    private void goAction() {
         String text = tField.getText();
         tField.setText("");
         if (text.length() > 0) {
@@ -81,10 +79,10 @@ public class SimpleGui {
                     try {
                         env.getTranscriptManager().Open(path);
                         outputField.setText(env.getTranscriptManager().convertToText());
-                    }catch(Exception ex){
+                    } catch (Exception ex) {
                         System.err.println("Not a valid file");
                     }
-                }catch(Exception ex){
+                } catch (Exception ex) {
                     System.err.println("file chooser error");
                 }
             }
@@ -101,7 +99,7 @@ public class SimpleGui {
                     ArrayList<OutputTuple> text = new ArrayList<OutputTuple>();
                     text = env.getTranscriptManager().getTranscriptTuples();
                     env.getTranscriptManager().Save(path, text);
-                }catch(Exception ex){
+                } catch (Exception ex) {
                     System.err.println("file chooser error");
                 }
             }
@@ -168,13 +166,12 @@ public class SimpleGui {
     }
 
     static class exitApp implements ActionListener {
-        public void actionPerformed(ActionEvent e)
-        {
+        public void actionPerformed(ActionEvent e) {
             System.exit(0);
         }
     }
 
-    public void display(){
+    public void display() {
         mainFrame.setVisible(true);
     }
 }

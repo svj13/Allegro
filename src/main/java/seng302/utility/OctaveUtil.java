@@ -6,8 +6,8 @@ package seng302.utility;
 public class OctaveUtil {
 
     /**
-     * If the last character in the Note is not a number, the number 4 is
-     * added as the default octave specifier.
+     * If the last character in the Note is not a number, the number 4 is added as the default
+     * octave specifier.
      *
      * @param s Note
      * @return Note with octave specified.
@@ -29,7 +29,7 @@ public class OctaveUtil {
      * @return Note without an octave specified.
      */
     public static String removeOctaveSpecifier(String s) {
-        String initial = s.substring(0,s.length() - 1);
+        String initial = s.substring(0, s.length() - 1);
         return initial;
     }
 

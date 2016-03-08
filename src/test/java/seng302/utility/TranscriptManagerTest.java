@@ -17,7 +17,7 @@ public class TranscriptManagerTest {
     File testFile;
 
     @Before
-    public  void setUp() throws Exception {
+    public void setUp() throws Exception {
         tm = new TranscriptManager();
 
         tm.setCommand("note 60");
@@ -29,17 +29,15 @@ public class TranscriptManagerTest {
         //testFile.createNewFile();
 
 
-
     }
 
     @Test
     public void testSave() throws Exception {
-        assertEquals(2,tm.getTranscriptTuples().size() );
+        assertEquals(2, tm.getTranscriptTuples().size());
 
         tm.Save(testFile.getAbsolutePath(), tm.getTranscriptTuples());
 
         assertTrue(testFile.exists());
-
 
 
     }
@@ -59,21 +57,17 @@ public class TranscriptManagerTest {
         tm.setResult("61");
 
 
-
         assertEquals(3, tm.getTranscriptTuples().size());
-
-
 
 
     }
 
     @After
-    public  void tearDown() throws Exception {
+    public void tearDown() throws Exception {
 
-        try{
+        try {
             testFile.delete();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.err.println("test file could not be deleted!");
         }
 

@@ -40,6 +40,5 @@ public class CheckerTest {
         assertFalse(Checker.isValidMidiNote("-5"));
 
 
-
     }
 }

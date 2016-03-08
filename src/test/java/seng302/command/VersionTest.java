@@ -19,13 +19,15 @@ import static org.mockito.Mockito.verify;
 public class VersionTest {
 
     private Environment env;
-    @Mock private TranscriptManager transcriptManager;
+    @Mock
+    private TranscriptManager transcriptManager;
 
     @Before
     public void setUp() throws Exception {
         env = new Environment();
         env.setTranscriptManager(transcriptManager);
     }
+
     @Test
     public void testExecute() throws Exception {
         Version version = new Version();

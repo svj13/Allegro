@@ -22,7 +22,7 @@ public class Note {
     static {
         int current_octave = -1;
         notes = new HashMap<String, Note>();
-        for (int i =0; i<128; i++){
+        for (int i = 0; i < 128; i++) {
             HashMap<String, String> tempEnharmonics = new HashMap<String, String>();
             int index = i % 12;
             switch (index) {
@@ -46,17 +46,16 @@ public class Note {
                     break;
             }
             Note temp = new Note(i, noteNames.get(i % 12).concat(Integer.toString(current_octave)), tempEnharmonics);
-            notes.put((noteNames.get(i%12).concat(Integer.toString(current_octave))),temp);
-            notes.put(Integer.toString(i),temp);
-            if((i+1)%12 == 0){
-                current_octave +=1;
+            notes.put((noteNames.get(i % 12).concat(Integer.toString(current_octave))), temp);
+            notes.put(Integer.toString(i), temp);
+            if ((i + 1) % 12 == 0) {
+                current_octave += 1;
             }
         }
     }
 
 
-
-    static public Note lookup(String s){
+    static public Note lookup(String s) {
         s = s.toUpperCase();
         Note note = notes.get(s);
         if (note == null) {
@@ -71,35 +70,32 @@ public class Note {
     }
 
     /**
-     * Returns the note name of the note a semitone higher than the input
-     * No error handling yet implemented
+     * Returns the note name of the note a semitone higher than the input No error handling yet
+     * implemented
      */
     public Note semitoneUp() {
         return Note.lookup(Integer.toString(Integer.valueOf(this.getMidi()) + 1));
     }
 
     /**
-     * Returns the note name of the note a semitone lower than the input
-     * No error handling yet implemented
+     * Returns the note name of the note a semitone lower than the input No error handling yet
+     * implemented
      */
-    public Note semitoneDown()
-    {
+    public Note semitoneDown() {
         return Note.lookup(Integer.toString(Integer.valueOf(this.getMidi()) - 1));
     }
 
-    protected Note(int midi, String note, HashMap<String,String> enharmonics){
+    protected Note(int midi, String note, HashMap<String, String> enharmonics) {
         this.midi = midi;
         this.note = note;
         this.enharmonics = enharmonics;
     }
 
-    public String getNote()
-    {
+    public String getNote() {
         return this.note;
     }
 
-    public Integer getMidi()
-    {
+    public Integer getMidi() {
         return this.midi;
     }
 

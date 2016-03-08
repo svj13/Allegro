@@ -11,29 +11,32 @@ public class OutputTuple {
     private String result;
 
 
-    OutputTuple(){}
+    OutputTuple() {
+    }
 
-    OutputTuple(String commandString){
+    OutputTuple(String commandString) {
         command = commandString;
     }
 
-    OutputTuple(String commandString, String resultString){
+    OutputTuple(String commandString, String resultString) {
         command = commandString;
         result = resultString;
     }
 
-    public String getCommand(){
+    public String getCommand() {
         return command;
     }
 
-    public String getResult(){
+    public String getResult() {
         return result;
     }
 
-    public void setResult(String str){
+    public void setResult(String str) {
         result = str;
     }
 
-    public void setCommand(String str) {command = str; }
+    public void setCommand(String str) {
+        command = str;
+    }
 
 }

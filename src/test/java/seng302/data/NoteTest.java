@@ -22,7 +22,7 @@ public class NoteTest {
 
     @Before
     public void setUp() throws Exception {
-        enharmonics  = new HashMap<String, String>();
+        enharmonics = new HashMap<String, String>();
         enharmonics.put("descending", "C4");
         middleC = new Note(60, "C4", enharmonics);
         enharmonics.clear();
@@ -54,10 +54,12 @@ public class NoteTest {
     public void testLookupBadNote() throws Exception {
         assertEquals(Note.lookup("C10"), null);
     }
+
     @Test
     public void testLookupBadMidiNegative() throws Exception {
         assertEquals(Note.lookup("-123"), null);
     }
+
     @Test
     public void testLookupBadMidiTooBig() throws Exception {
         assertEquals(Note.lookup("210"), null);

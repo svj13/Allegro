@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+
 import seng302.Environment;
 import seng302.utility.TranscriptManager;
 
@@ -14,7 +15,8 @@ import static org.mockito.Mockito.verify;
 public class MidiTest {
 
     private Environment env;
-    @Mock private TranscriptManager transcriptManager;
+    @Mock
+    private TranscriptManager transcriptManager;
 
     @Before
     public void setUp() throws Exception {

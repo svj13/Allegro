@@ -22,7 +22,8 @@ import static org.mockito.Mockito.*;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class DslExecutorTest {
-    @Mock private Environment env;
+    @Mock
+    private Environment env;
     private DslExecutor executor;
 
     @Before
