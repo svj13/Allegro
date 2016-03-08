@@ -72,9 +72,10 @@ public class SimpleGui {
             public void actionPerformed(ActionEvent e) {
                 try {
                     JFileChooser chooser = new JFileChooser(path);
-                    chooser.showOpenDialog(mainFrame);
+
                     FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES (*.txt)", "txt");
                     chooser.setFileFilter(filter);
+                    chooser.showOpenDialog(mainFrame);
                     path = chooser.getSelectedFile().getAbsolutePath();
                     try {
                         env.getTranscriptManager().Open(path);
