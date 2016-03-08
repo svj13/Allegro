@@ -2,11 +2,15 @@ package seng302.command;
 
 import seng302.Environment;
 
+/**
+ * A NullCommand is returned when the command can not be parsed.
+ */
 public class NullCommand implements Command {
-    public NullCommand() {
-    }
 
+    /**
+     * A NullCommand should do nothing when executed. The error message is handled in the
+     * DslExecutor.
+     */
     public void execute(Environment env) {
-
     }
 }
