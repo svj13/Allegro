@@ -85,7 +85,6 @@ public class Note {
      * @return descending enharmonic name.
      */
     public String getDescendingEharmonic() {
-        System.out.println(this.enharmonics.get("descending"));
         return this.enharmonics.get("descending");
     }
 
