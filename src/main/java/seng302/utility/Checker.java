@@ -19,20 +19,34 @@ public class Checker {
         return note.matches("^[A-G|a-g]([0-8]|-1)?$|^[C|D|G|F|A]#?([0-8]|-1)?$|^[C|D|F]#?9$|^[E|G]9");
     }
 
+    /**
+     * This method will return true if it is a note without and octave. E.g. G#
+     *
+     * @return true if valid note, false otherwise.
+     */
     public static boolean isValidNoteNoOctave(String note) {
         return note.matches("^[A-G|a-g]#?$");
     }
 
+    /**
+     *
+     * @param note
+     * @return true if valid MIDI note in range 0-127, false otherwise.
+     */
     public static boolean isValidMidiNote(String note) {
         return note.matches("^(0?[0-9]?[0-9]|1[01][0-9]|12[0-7])$");
     }
 
+    /**
+     * Checks if the string is the name of a command.
+     * @param c
+     * @return true if it is a command, false otherwise.
+     */
     public static boolean isCommand(String c){
 
         String[] helpCommands = {"midi", "note", "semitone up", "semitone down", "help"};
         System.out.println("valid? " + c.toLowerCase());
         return Arrays.asList(helpCommands).contains(c.toLowerCase());
-
 
     }
 }
