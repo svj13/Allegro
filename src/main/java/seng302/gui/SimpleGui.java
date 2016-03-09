@@ -40,10 +40,6 @@ public class SimpleGui {
         String text = tField.getText();
         tField.setText("");
         if (text.length() > 0) {
-//            outputField.append("Command: " + text + "\n");
-//            env.getTranscriptManager().addText("Command: " + text + "\n");
-//            executor.executeCommand(text);
-
             env.getTranscriptManager().setCommand(text);
             executor.executeCommand(text);
             outputField.append(env.getTranscriptManager().getLastCommand());
@@ -84,7 +80,7 @@ public class SimpleGui {
                         System.err.println("Not a valid file");
                     }
                 } catch (Exception ex) {
-                    System.err.println("file chooser error");
+                    System.err.println("File Chooser Error");
                 }
             }
         });
@@ -96,7 +92,7 @@ public class SimpleGui {
                 try {
                     JFileChooser chooser = new JFileChooser();
                     chooser.showSaveDialog(mainFrame);
-                    String path = chooser.getSelectedFile().getAbsolutePath();
+                    path = chooser.getSelectedFile().getAbsolutePath();
                     ArrayList<OutputTuple> text = new ArrayList<OutputTuple>();
                     text = env.getTranscriptManager().getTranscriptTuples();
                     env.getTranscriptManager().Save(path, text);
