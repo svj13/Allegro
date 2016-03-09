@@ -39,7 +39,7 @@ public class TranscriptManager {
     public void Save(String path, ArrayList<OutputTuple> info) {
 
         try {
-            FileWriter writer = new FileWriter(path, true); // the true variable means that if the file exists it will append to it not 100% sure thats what we want yet
+            FileWriter writer = new FileWriter(path, false); // the true variable means that if the file exists it will append to it not 100% sure thats what we want yet
 
             for (OutputTuple line : info) {
                 writer.write(line.getCommand() + " : " + line.getResult() + ",");
