@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileFilter;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
@@ -62,6 +63,14 @@ public class RootController {
     @FXML
     private void saveTranscript(){
         FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+        fileChooser.getExtensionFilters().add(textFilter);
+        File file = fileChooser.showSaveDialog(stage);
+
+        if (file != null) {
+            path = file.getAbsolutePath();
+            tm.Save(path);
+        }
 
 
 
@@ -78,8 +87,16 @@ public class RootController {
 
         if (file != null) {
             path = file.getAbsolutePath();
-            tm.Open(path);
-            txtTranscript.setText(tm.convertToText());
+            try {
+                tm.Open(path);
+                txtTranscript.setText(tm.convertToText());
+            } catch (Exception ex) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("This file is not valid");
+                alert.showAndWait();
+                System.err.println("Not a valid file");
+            }
+
         }
     }
 
