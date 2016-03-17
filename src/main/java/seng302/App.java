@@ -1,30 +1,53 @@
 package seng302;
 
-import java.io.IOException;
-
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.fxml.FXMLLoader;
+import seng302.gui.RootController;
 
 
 public class App extends Application {
     Stage primaryStage = new Stage();
+    Environment env;
 
     public static void main(String[] args) {
+
+
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) {
+
+        env = new Environment();
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/newGui.fxml"));
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/newGui.fxml"));
+
+            Parent root = loader.load();
+
+
+            //Parent root = loader;
             Scene scene = new Scene(root);
+
+
+
             primaryStage.setScene(scene);
             primaryStage.setTitle("Allegro");
+
+            RootController controller = loader.getController();
+            if(controller == null ) System.out.println("Controller is null");
+            controller.setEnvironment(new Environment());
+
             primaryStage.show();
-        } catch (IOException e){
+
+
+
+
+        } catch (Exception e){
             e.printStackTrace();
         }
 
