@@ -67,22 +67,22 @@ public class NoteTest {
 
     @Test
     public void testSemitoneUpNormalNote() throws Exception {
-        assertEquals(middleC.semitoneUp(), middleCSharp);
+        assertEquals(middleC.semitoneUp(1), middleCSharp);
     }
 
     @Test
     public void testSemitoneUpTopNote() throws Exception {
-        assertEquals(gNine.semitoneUp(), null);
+        assertEquals(gNine.semitoneUp(1), null);
     }
 
     @Test
     public void testSemitoneDownNormalNote() throws Exception {
-        assertEquals(middleCSharp.semitoneDown(), middleC);
+        assertEquals(middleCSharp.semitoneDown(1), middleC);
     }
 
     @Test
     public void testSemitoneDownBottomNote() throws Exception {
-        assertEquals(cNegativeOne.semitoneDown(), null);
+        assertEquals(cNegativeOne.semitoneDown(1), null);
     }
 
     @Test
