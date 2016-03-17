@@ -24,7 +24,7 @@ public class Help implements Command {
                 "semitone down : when followed by a valid note or midi number, it will return" +
                 " the note that is a semitone lower \n" +
                 "version : will return the current version number of the application \n \n " +
-                "Dom is a poo poo :p");
+                "Dom is a poo poo ");
 
     }
 

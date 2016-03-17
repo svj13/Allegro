@@ -35,8 +35,25 @@ public class SemitoneTest {
     }
 
     @Test
+    public void printsCorrectErrorWithHighestNote() {
+        new Semitone("G9", true).execute(env);
+        verify(transcriptManager).setResult("[ERROR] Note is not contained in the MIDI library.");
+    }
+
+    @Test public void printsCorrectErrorWithLowestNote() {
+        new Semitone("C-1", false).execute(env);
+        verify(transcriptManager).setResult("[ERROR] Note is not contained in the MIDI library.");
+    }
+
+    @Test
     public void printsCorrectError() {
         new Semitone("Cake", true).execute(env);
         verify(transcriptManager).setResult("[ERROR] Note is not contained in the MIDI library.");
+    }
+
+    @Test
+    public void caseInsensitivity() {
+        new Semitone("c#-1", true).execute(env);
+        verify(transcriptManager).setResult("D-1");
     }
 }
