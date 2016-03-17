@@ -1,16 +1,25 @@
 package seng302.gui;
 
 
+import java.io.File;
+import java.io.FileFilter;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import seng302.Environment;
 import seng302.utility.TranscriptManager;
 
 public class RootController {
     Environment env;
     TranscriptManager tm;
+    Stage stage;
+
+    String path;
 
 
 
@@ -23,12 +32,14 @@ public class RootController {
     @FXML
     private TextArea txtTranscript;
 
+    @FXML
+    private MenuItem menuOpen;
+
+    @FXML
+    private MenuItem menuSave;
 
     @FXML
     private void initialize(){
-
-        txtTranscript.setText("hello");
-        //env = new Environment();
 
     }
 
@@ -44,6 +55,40 @@ public class RootController {
         } else {
             txtTranscript.appendText("[ERROR] Cannot submit an empty command.\n");
         }
+    }
+
+
+
+    @FXML
+    private void saveTranscript(){
+        FileChooser fileChooser = new FileChooser();
+
+
+
+
+    }
+
+
+    @FXML
+    private void openTranscript(){
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+        fileChooser.getExtensionFilters().add(textFilter);
+        File file = fileChooser.showOpenDialog(stage);
+
+        if (file != null) {
+            path = file.getAbsolutePath();
+            tm.Open(path);
+            txtTranscript.setText(tm.convertToText());
+        }
+    }
+
+
+
+
+
+    public void setStage(Stage stage){
+        this.stage = stage;
     }
 
     public void setEnvironment(Environment env){

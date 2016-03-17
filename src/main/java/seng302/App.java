@@ -41,6 +41,7 @@ public class App extends Application {
             RootController controller = loader.getController();
             if(controller == null ) System.out.println("Controller is null");
             controller.setEnvironment(new Environment());
+            controller.setStage(primaryStage);
 
             primaryStage.show();
 

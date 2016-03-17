@@ -4,7 +4,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="457.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.RootController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="457.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.RootController">
    <children>
       <TextField fx:id="txtCommand" layoutY="420.0" prefHeight="25.0" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="95.0" AnchorPane.topAnchor="420.0" />
       <TextArea fx:id="txtTranscript" editable="false" layoutX="1.0" layoutY="29.0" prefHeight="373.0" prefWidth="480.0" />
@@ -14,6 +14,8 @@
           <Menu mnemonicParsing="false" text="File">
             <items>
               <MenuItem mnemonicParsing="false" text="Close" />
+                  <MenuItem fx:id="MenuSave" mnemonicParsing="false" onAction="#saveTranscript" text="Save Transcript" />
+                  <MenuItem fx:id="MenuOpen" mnemonicParsing="false" onAction="#openTranscript" text="Open Transcript" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
