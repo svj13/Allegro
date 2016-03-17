@@ -1,13 +1,33 @@
 package seng302;
 
-import seng302.gui.SimpleGui;
+import java.io.IOException;
 
-public class App {
+import javafx.application.Application;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.fxml.FXMLLoader;
 
+
+public class App extends Application {
+    Stage primaryStage = new Stage();
 
     public static void main(String[] args) {
-        Environment environment = new Environment();
-        SimpleGui simpleGui = new SimpleGui(environment);
-        simpleGui.display();
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/newGui.fxml"));
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            primaryStage.setTitle("Allegro");
+            primaryStage.show();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
+
     }
 }
