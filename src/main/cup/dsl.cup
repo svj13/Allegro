@@ -31,7 +31,7 @@ terminal String     STRING, ATOM, NOTE;
 non terminal Command command;
 non terminal List<Integer> arg_list;
 
-command ::= COMMAND_HELP ATOM:c         {: RESULT = new Help(c); :}
+command ::= COMMAND_HELP         {: RESULT = new Help(); :}
           | COMMAND_NOTE ATOM:n {: RESULT = new NoteCommand(n); :}
           | COMMAND_MIDI ATOM:s {: RESULT = new Midi(s); :}
           | COMMAND_VERSION       {: RESULT = new Version(); :}

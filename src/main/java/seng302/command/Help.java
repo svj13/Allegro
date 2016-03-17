@@ -8,30 +8,24 @@ import seng302.utility.Checker;
 
 
 public class Help implements Command {
-    String helpValue;
-    String helpLine = "\n" + new String(new char[10]).replace("\0", "_") + "\n";
 
-
-    public Help(String s) {
-        helpValue = s;
+    public Help() {
     }
 
     public void execute(Environment env) {
+        env.getTranscriptManager().setResult("" +
+                "midi : when followed by a valid note, it will return its corresponding midi number" +
+                " within the range of 0-127. If an octave not specified to the note, it will default " +
+                "to octave 4. e.g. 'midi' C4 will return 60. It is not case sensitive \n" +
+                "note : when followed by a valid midi number (within the range of 0-127), it will" +
+                " return the corresponding note name and its octave e.g. 'note 60' will return C4 \n" +
+                "semitone up : when followed by a valid note or midi number, it will return" +
+                " the note that is a semitone higher  \n" +
+                "semitone down : when followed by a valid note or midi number, it will return" +
+                " the note that is a semitone lower \n" +
+                "version : will return the current version number of the application \n \n " +
+                "Dom is a poo poo :p");
 
-        if (Checker.isCommand(helpValue)) {
-            String hv = helpValue.toLowerCase();
-
-            if (hv.equals("midi")) {
-                env.getTranscriptManager().setResult("Converts a Note Value into a midi numerical value\n" +
-                        "e.g. midi C# will return 68 as that is the midi equivalent."
-                        + helpLine
-                        + "Accepted values: Integer between 0 and 127"
-                );
-            }
-
-        } else {
-            env.error("\'" + helpValue + "\'" + " is not a valid command.");
-        }
     }
 
 
