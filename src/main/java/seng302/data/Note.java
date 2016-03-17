@@ -152,19 +152,21 @@ public class Note {
     }
 
     /**
-     * Finds the note one semitone higher.
+     * Finds the note x semitones higher.
+     * @param semitones The number of semitones to increase by
      * @return the Note object one semitone higher than the current note.
      */
-    public Note semitoneUp() {
-        return Note.lookup(Integer.toString(this.getMidi() + 1));
+    public Note semitoneUp(int semitones) {
+        return Note.lookup(Integer.toString(this.getMidi() + semitones));
     }
 
     /**
-     * Finds the note one semitone lower.
+     * Finds the note x semitones lower.
+     * @param semitones The number of semitones to decrease by
      * @return the Note object one semitone lower than the current note.
      */
-    public Note semitoneDown() {
-        return Note.lookup(Integer.toString(this.getMidi() - 1));
+    public Note semitoneDown(int semitones) {
+        return Note.lookup(Integer.toString(this.getMidi() - semitones));
     }
 
     /**

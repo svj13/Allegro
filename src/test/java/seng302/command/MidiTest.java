@@ -37,8 +37,26 @@ public class MidiTest {
     }
 
     @Test
+    public void printsLowestNote() {
+        new Midi("C-1").execute(env);
+        verify(transcriptManager).setResult("0");
+    }
+
+    @Test
+    public void printsHighestNote() {
+        new Midi("G9").execute(env);
+        verify(transcriptManager).setResult("127");
+    }
+
+    @Test
     public void setsCorrectErrorResult() {
         new Midi("Z#").execute(env);
         verify(transcriptManager).setResult("[ERROR] \'Z#\' is not a valid note.");
+    }
+
+    @Test
+    public void caseSensitivity() {
+        new Midi("c#").execute(env);
+        verify(transcriptManager).setResult("61");
     }
 }

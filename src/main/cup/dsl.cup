@@ -23,7 +23,7 @@ parser code {:
 :};
 
 /* Terminal tokens returns by the lexer */
-terminal COMMAND_HELP, COMMAND_NOTE, COMMAND_MIDI, COMMAND_VERSION, COMMAND_SEMITONE_UP, COMMAND_SEMITONE_DOWN;
+terminal COMMAND_HELP, COMMAND_NOTE, COMMAND_MIDI, COMMAND_VERSION, COMMAND_SEMITONE_UP, COMMAND_SEMITONE_DOWN, COMMAND_SCALE;
 terminal Integer NUMBER;
 terminal String     STRING, ATOM, NOTE;
 
@@ -31,14 +31,16 @@ terminal String     STRING, ATOM, NOTE;
 non terminal Command command;
 non terminal List<Integer> arg_list;
 
-command ::= COMMAND_HELP ATOM:c         {: RESULT = new Help(c); :}
+command ::= COMMAND_HELP         {: RESULT = new Help(); :}
           | COMMAND_NOTE ATOM:n {: RESULT = new NoteCommand(n); :}
           | COMMAND_MIDI ATOM:s {: RESULT = new Midi(s); :}
           | COMMAND_VERSION       {: RESULT = new Version(); :}
           | COMMAND_SEMITONE_UP ATOM:s      {: RESULT = new Semitone(s, true); :}
           | COMMAND_SEMITONE_DOWN ATOM:s      {: RESULT = new Semitone(s, false); :}
+          | COMMAND_SCALE ATOM:a ATOM:b          {: RESULT = new Scale(a, b); :}
 ;
 
 arg_list ::= arg_list:list NUMBER:n {: list.add(n); RESULT = list; :}
           | NUMBER:n {: RESULT = new ArrayList<Integer>(); RESULT.add(n); :}
 ;
+
