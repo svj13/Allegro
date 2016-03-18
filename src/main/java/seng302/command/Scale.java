@@ -49,7 +49,7 @@ public class Scale implements Command {
                 notesAsText += OctaveUtil.removeOctaveSpecifier(note.getNote()) + " ";
             }
         }
-        return notesAsText;
+        return notesAsText.trim();
 
     }
 }
