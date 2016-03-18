@@ -12,6 +12,7 @@ import seng302.utility.OctaveUtil;
 public class Scale implements Command {
     String search;
     String type;
+    private boolean octaveSpecified;
     private Note note;
 
 
@@ -21,24 +22,34 @@ public class Scale implements Command {
     }
 
     public void execute(Environment env){
-        try {
-            if (OctaveUtil.octaveSpecifierFlag(this.search)) {
-                this.note = Note.lookup(search);
-            } else {
-                this.note = Note.lookup(OctaveUtil.addDefaultOctave(search));
+        if (type.equals("major")) {
+            try {
+                if (OctaveUtil.octaveSpecifierFlag(this.search)) {
+                    octaveSpecified = true;
+                    this.note = Note.lookup(search);
+                } else {
+                    octaveSpecified = false;
+                    this.note = Note.lookup(OctaveUtil.addDefaultOctave(search));
+                }
+                env.getTranscriptManager().setResult(scaleToString(note.getMajorScale()));
+            } catch (Exception e) {
+                env.error("Note is not contained in the MIDI library.");
             }
-            env.getTranscriptManager().setResult(scaleToString(note.getMajorScale()));
-            //env.getTranscriptManager().setResult(type);
-        } catch (Exception e) {
-            env.error("Note is not contained in the MIDI library.");
+        } else {
+            env.error("Invalid scale type: '" + type + "'.");
         }
     }
 
     private String scaleToString(ArrayList<Note> scaleNotes){
         String notesAsText = "";
         for (Note note:scaleNotes) {
-            notesAsText += note.getNote() + " ";
+            if (this.octaveSpecified) {
+                notesAsText += note.getNote() + " ";
+            } else {
+                notesAsText += OctaveUtil.removeOctaveSpecifier(note.getNote()) + " ";
+            }
         }
         return notesAsText;
+
     }
 }
