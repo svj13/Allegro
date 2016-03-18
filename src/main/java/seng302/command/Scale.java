@@ -27,25 +27,11 @@ public class Scale implements Command {
             } else {
                 this.note = Note.lookup(OctaveUtil.addDefaultOctave(search));
             }
-            env.getTranscriptManager().setResult(scaleToString(getMajorScale(note)));
+            env.getTranscriptManager().setResult(scaleToString(note.getMajorScale()));
             //env.getTranscriptManager().setResult(type);
         } catch (Exception e) {
             env.error("Note is not contained in the MIDI library.");
         }
-    }
-
-    private ArrayList<Note> getMajorScale(Note note) {
-        ArrayList<Note> scaleNotes = new ArrayList<Note>();
-        scaleNotes.add(note);
-        scaleNotes.add(note.semitoneUp(2));
-        scaleNotes.add(note.semitoneUp(4));
-        scaleNotes.add(note.semitoneUp(5));
-        scaleNotes.add(note.semitoneUp(7));
-        scaleNotes.add(note.semitoneUp(9));
-        scaleNotes.add(note.semitoneUp(11));
-        scaleNotes.add(note.semitoneUp(12));
-
-        return scaleNotes;
     }
 
     private String scaleToString(ArrayList<Note> scaleNotes){

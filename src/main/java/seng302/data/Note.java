@@ -107,6 +107,30 @@ public class Note {
     }
 
     /**
+     * Makes an array list of the major scale starting on the note.
+     *
+     * @return array list of notes in the scale. If any notes are null, the scale returned will be
+     * null.
+     */
+    public ArrayList<Note> getMajorScale() {
+        ArrayList<Note> scaleNotes = new ArrayList<Note>();
+        scaleNotes.add(this);
+        scaleNotes.add(this.semitoneUp(2));
+        scaleNotes.add(this.semitoneUp(4));
+        scaleNotes.add(this.semitoneUp(5));
+        scaleNotes.add(this.semitoneUp(7));
+        scaleNotes.add(this.semitoneUp(9));
+        scaleNotes.add(this.semitoneUp(11));
+        scaleNotes.add(this.semitoneUp(12));
+        for (Note note : scaleNotes) {
+            if (note == null) {
+                return null;
+            }
+        }
+        return scaleNotes;
+    }
+
+    /**
      * @return the note name.
      */
     public String getNote() {

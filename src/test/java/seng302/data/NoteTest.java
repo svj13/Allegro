@@ -5,6 +5,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import static org.junit.Assert.*;
@@ -14,84 +16,112 @@ import static org.junit.Assert.*;
  */
 public class NoteTest {
 
-    public Note middleC;
-    public Note middleCSharp;
-    public Note gNine;
-    public Note cNegativeOne;
     HashMap<String, String> enharmonics;
 
     @Before
     public void setUp() throws Exception {
         enharmonics = new HashMap<String, String>();
-        enharmonics.put("descending", "C4");
-        middleC = new Note(60, "C4", enharmonics);
-        enharmonics.clear();
-        enharmonics.put("descending", "Db4");
-        middleCSharp = new Note(61, "C#4", enharmonics);
-        enharmonics.clear();
-        enharmonics.put("descending", "G9");
-        gNine = new Note(127, "G9", enharmonics);
-        enharmonics.clear();
-        enharmonics.put("descending", "C-1");
-        cNegativeOne = new Note(0, "C-1", enharmonics);
     }
 
     @Test
     public void testLookupGoodNote() throws Exception {
         enharmonics.clear();
         enharmonics.put("descending", "C4");
-        assertEquals(Note.lookup("C4"), new Note(60, "C4", enharmonics));
+        assertEquals(new Note(60, "C4", enharmonics), Note.lookup("C4"));
     }
 
     @Test
     public void testLookupGoodMidi() throws Exception {
         enharmonics.clear();
         enharmonics.put("descending", "C4");
-        assertEquals(Note.lookup("60"), new Note(60, "C4", enharmonics));
+        assertEquals(new Note(60, "C4", enharmonics), Note.lookup("60"));
     }
 
     @Test
     public void testLookupBadNote() throws Exception {
-        assertEquals(Note.lookup("C10"), null);
+        assertEquals(null, Note.lookup("C10"));
     }
 
     @Test
     public void testLookupBadMidiNegative() throws Exception {
-        assertEquals(Note.lookup("-123"), null);
+        assertEquals(null, Note.lookup("-123"));
     }
 
     @Test
     public void testLookupBadMidiTooBig() throws Exception {
-        assertEquals(Note.lookup("210"), null);
+        assertEquals(null, Note.lookup("210"));
     }
 
     @Test
     public void testSemitoneUpNormalNote() throws Exception {
-        assertEquals(middleC.semitoneUp(1), middleCSharp);
+        assertEquals(Note.lookup("C#4"), Note.lookup("C4").semitoneUp(1));
+    }
+
+    @Test
+    public void testManySemitonesUpNormalNote() throws Exception {
+        assertEquals(Note.lookup("C#5"), Note.lookup("C4").semitoneUp(13));
     }
 
     @Test
     public void testSemitoneUpTopNote() throws Exception {
-        assertEquals(gNine.semitoneUp(1), null);
+        assertEquals(null, Note.lookup("G9").semitoneUp(1));
+    }
+
+    @Test
+    public void testTwoSemitonesUpTooHigh() throws Exception {
+        assertEquals(null, Note.lookup("F#9").semitoneUp(2));
     }
 
     @Test
     public void testSemitoneDownNormalNote() throws Exception {
-        assertEquals(middleCSharp.semitoneDown(1), middleC);
+        assertEquals(Note.lookup("C4"), Note.lookup("C#4").semitoneDown(1));
+    }
+
+    @Test
+    public void testManySemitonesDownNormalNote() throws Exception {
+        assertEquals(Note.lookup("C4"), Note.lookup("C#5").semitoneDown(13));
     }
 
     @Test
     public void testSemitoneDownBottomNote() throws Exception {
-        assertEquals(cNegativeOne.semitoneDown(1), null);
+        assertEquals(null, Note.lookup("C-1").semitoneDown(1));
+    }
+
+    @Test
+    public void testTwoSemitonesDownTooLow() throws Exception {
+        assertEquals(null, Note.lookup("C#-1").semitoneDown(2));
+    }
+
+    @Test
+    public void testCMajorScale() throws Exception {
+        ArrayList<Note> scale = new ArrayList<Note>(
+                Arrays.asList(Note.lookup("C4"), Note.lookup("D4"), Note.lookup("E4"),
+                        Note.lookup("F4"), Note.lookup("G4"), Note.lookup("A4"),
+                        Note.lookup("B4"), Note.lookup("C5")));
+        assertEquals(scale, Note.lookup("C4").getMajorScale());
+    }
+
+    @Test
+    public void testDMajorScale() throws Exception {
+        ArrayList<Note> scale = new ArrayList<Note>(
+                Arrays.asList(Note.lookup("D4"), Note.lookup("E4"),
+                        Note.lookup("F#4"), Note.lookup("G4"), Note.lookup("A4"),
+                        Note.lookup("B4"), Note.lookup("C#5"), Note.lookup("D5")));
+        assertEquals(scale, Note.lookup("D4").getMajorScale());
+    }
+
+    @Test
+    public void testMajorScaleTooHigh() throws Exception {
+        assertEquals(null, Note.lookup("A8").getMajorScale());
     }
 
     @Test
     public void testGetNote() throws Exception {
-        assertEquals(middleC.getNote(), "C4");
+        assertEquals("C4", Note.lookup("C4").getNote());
     }
 
     @Test
     public void testGetMidi() throws Exception {
-        assertEquals(middleC.getMidi(), 60, 0.001);
+        assertEquals((Integer) 60, Note.lookup("C4").getMidi());
     }
 }
