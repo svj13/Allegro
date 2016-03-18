@@ -16,7 +16,7 @@ public class Checker {
      * point and will not allow enharmonics.
      */
     public static boolean isValidNormalNote(String note) {
-        return note.matches("^[A-G|a-g]([0-8]|-1)?$|^[C|D|G|F|A]#?([0-8]|-1)?$|^[C|D|F]#?9$|^[E|G]9");
+        return note.matches("^[A-G|a-g]([#|b|x]|(bb))?[0-8]?$|^[D-G|d-g]([#|b|x]|(bb))?[-1]?$|^[A-F|a-f]([#|b|x]|(bb))?[9]?$|^[C|c][#|x]?(-1)?$|^[G|g](b|bb)?[9]?$");
     }
 
     /**
@@ -25,7 +25,7 @@ public class Checker {
      * @return true if valid note, false otherwise.
      */
     public static boolean isValidNoteNoOctave(String note) {
-        return note.matches("^[A-G|a-g]#?$");
+        return note.matches("^[A-G|a-g]([#|b|x]|(bb))?$");
     }
 
     /**

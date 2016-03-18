@@ -22,11 +22,18 @@ public class CheckerTest {
         assertTrue(Checker.isValidNormalNote("C#"));
         assertTrue(Checker.isValidNormalNote("C#-1"));
         assertTrue(Checker.isValidNormalNote("G9"));
+        assertTrue(Checker.isValidNormalNote("Fb3"));
+        assertTrue(Checker.isValidNormalNote("Cx"));
+        assertTrue(Checker.isValidNormalNote("Gbb"));
+        assertTrue(Checker.isValidNormalNote("Ax7"));
 
         assertFalse(Checker.isValidNormalNote("H6"));
         assertFalse(Checker.isValidNormalNote("play C6"));
         assertFalse(Checker.isValidNormalNote("Cb-1"));
+        assertFalse(Checker.isValidNormalNote("A#-1"));
         assertFalse(Checker.isValidNormalNote("G#9"));
+        assertFalse(Checker.isValidNormalNote("Cbb-1"));
+        assertFalse(Checker.isValidNormalNote("Gx9"));
 
     }
 

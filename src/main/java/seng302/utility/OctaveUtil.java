@@ -48,4 +48,14 @@ public class OctaveUtil {
             return false;
         }
     }
+
+    /**
+     * Capitalise just the first char in a string. Used for capitalising Notes.
+     *
+     * @param note note name (not capitalised)
+     * @return The correct note name
+     */
+    public static String capitalise(final String note) {
+        return Character.toUpperCase(note.charAt(0)) + note.substring(1);
+    }
 }

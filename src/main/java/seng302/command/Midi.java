@@ -28,7 +28,7 @@ public class Midi implements Command {
      * @param env
      */
     public void execute(Environment env) {
-        if (Checker.isValidNormalNote(s.toUpperCase())) {
+        if (Checker.isValidNormalNote(OctaveUtil.capitalise(s))) {
             env.getTranscriptManager().setResult(Integer.toString(Note.lookup(s).getMidi()));
         } else {
             env.error("\'" + s + "\'" + " is not a valid note.");
