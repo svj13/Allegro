@@ -40,73 +40,103 @@ public class Note {
                     tempEnharmonics = generateEnharmonics(current_octave, "C", "Dbb", "B#", "B#");
                     notes.put(noteName, new Note(i, noteName, tempEnharmonics));
                     notes.put(Integer.toString(i), new Note(i, noteName, tempEnharmonics));
-                    
+                    tempEnharmonics2 = generateEnharmonics(current_octave, "C", "C", "", "C");
+                    notes.put("B#".concat(Integer.toString(current_octave)), new Note(i, "B#", tempEnharmonics2));
+                    tempEnharmonics3 = generateEnharmonics(current_octave, "C", "", "C", "C");
+                    notes.put("Dbb".concat(Integer.toString(current_octave)), new Note(i, "Dbb", tempEnharmonics3));
                     break;
                 case 1: // C#
                     tempEnharmonics = generateEnharmonics(current_octave, "Db", "Db", "Bx", "Db");
                     notes.put(noteName, new Note(i, noteName, tempEnharmonics));
                     notes.put(Integer.toString(i), new Note(i, noteName, tempEnharmonics));
-                    
+                    tempEnharmonics2 = generateEnharmonics(current_octave, "Db", "", "C#", "C#"); // Db
+                    notes.put("Db".concat(Integer.toString(current_octave)), new Note(i, "Db", tempEnharmonics2));
+                    tempEnharmonics3 = generateEnharmonics(current_octave, "Db", "C#", "", "C#"); // Bx
+                    notes.put("Bx".concat(Integer.toString(current_octave)), new Note(i, "Bx", tempEnharmonics3));
                     break;
                 case 2: // D
                     tempEnharmonics = generateEnharmonics(current_octave, "D", "Ebb", "Cx", "");
                     notes.put(noteName, new Note(i, noteName, tempEnharmonics));
                     notes.put(Integer.toString(i), new Note(i, noteName, tempEnharmonics));
-                    
+                    tempEnharmonics2 = generateEnharmonics(current_octave, "D", "", "D", "D"); // Ebb
+                    notes.put("B#".concat(Integer.toString(current_octave)), new Note(i, "Ebb", tempEnharmonics2));
+                    tempEnharmonics3 = generateEnharmonics(current_octave, "D", "D", "", "D"); // Cx
+                    notes.put("Dbb".concat(Integer.toString(current_octave)), new Note(i, "Cx", tempEnharmonics3));
                     break;
                 case 3: // D#
                     tempEnharmonics = generateEnharmonics(current_octave, "Eb", "Eb", "", "Eb");
                     notes.put(noteName, new Note(i, noteName, tempEnharmonics));
                     notes.put(Integer.toString(i), new Note(i, noteName, tempEnharmonics));
-                    
+                    tempEnharmonics2 = generateEnharmonics(current_octave, "Eb", "", "D#", "D#"); // Eb
+                    notes.put("B#".concat(Integer.toString(current_octave)), new Note(i, "Eb", tempEnharmonics2));
                     break;
                 case 4: // E
                     tempEnharmonics = generateEnharmonics(current_octave, "E", "Fb", "Dx", "Fb");
                     notes.put(noteName, new Note(i, noteName, tempEnharmonics));
                     notes.put(Integer.toString(i), new Note(i, noteName, tempEnharmonics));
-                    
+                    tempEnharmonics2 = generateEnharmonics(current_octave, "E", "E", "", "E"); // Fb
+                    notes.put("B#".concat(Integer.toString(current_octave)), new Note(i, "Fb", tempEnharmonics2));
+                    tempEnharmonics3 = generateEnharmonics(current_octave, "E", "", "E", "E"); // Dx
+                    notes.put("Dbb".concat(Integer.toString(current_octave)), new Note(i, "Dx", tempEnharmonics3));
                     break;
                 case 5: // F
                     tempEnharmonics = generateEnharmonics(current_octave, "F", "Gbb", "E#", "E#");
                     notes.put(noteName, new Note(i, noteName, tempEnharmonics));
                     notes.put(Integer.toString(i), new Note(i, noteName, tempEnharmonics));
-
+                    tempEnharmonics2 = generateEnharmonics(current_octave, "F", "F", "", "F"); // E#
+                    notes.put("B#".concat(Integer.toString(current_octave)), new Note(i, "E#", tempEnharmonics2));
+                    tempEnharmonics3 = generateEnharmonics(current_octave, "F", "", "F", "F"); // Gbb
+                    notes.put("Dbb".concat(Integer.toString(current_octave)), new Note(i, "Gbb", tempEnharmonics3));
                     break;
                 case 6: // F#
                     tempEnharmonics = generateEnharmonics(current_octave, "Gb", "Gb", "Ex", "Gb");
                     notes.put(noteName, new Note(i, noteName, tempEnharmonics));
                     notes.put(Integer.toString(i), new Note(i, noteName, tempEnharmonics));
-
+                    tempEnharmonics2 = generateEnharmonics(current_octave, "Gb", "", "F#", "F#"); // Gb
+                    notes.put("B#".concat(Integer.toString(current_octave)), new Note(i, "Gb", tempEnharmonics2));
+                    tempEnharmonics3 = generateEnharmonics(current_octave, "Gb", "F#", "", "F#"); // Ex
+                    notes.put("Dbb".concat(Integer.toString(current_octave)), new Note(i, "Ex", tempEnharmonics3));
                     break;
                 case 7: // G
                     tempEnharmonics = generateEnharmonics(current_octave, "G", "Abb", "Fx", "");
                     notes.put(noteName, new Note(i, noteName, tempEnharmonics));
                     notes.put(Integer.toString(i), new Note(i, noteName, tempEnharmonics));
-
+                    tempEnharmonics2 = generateEnharmonics(current_octave, "G", "", "G", "G"); //Abb
+                    notes.put("B#".concat(Integer.toString(current_octave)), new Note(i, "Abb", tempEnharmonics2));
+                    tempEnharmonics3 = generateEnharmonics(current_octave, "G", "G", "", "C"); // Fx
+                    notes.put("Dbb".concat(Integer.toString(current_octave)), new Note(i, "Fx", tempEnharmonics3));
                     break;
                 case 8: // G#
                     tempEnharmonics = generateEnharmonics(current_octave, "Ab", "Ab", "", "Ab");
                     notes.put(noteName, new Note(i, noteName, tempEnharmonics));
                     notes.put(Integer.toString(i), new Note(i, noteName, tempEnharmonics));
-
+                    tempEnharmonics2 = generateEnharmonics(current_octave, "Ab", "", "G#", "G#"); // Ab
+                    notes.put("B#".concat(Integer.toString(current_octave)), new Note(i, "Ab", tempEnharmonics2));
                     break;
                 case 9: // A
                     tempEnharmonics = generateEnharmonics(current_octave, "A", "Bbb", "Gx", "");
                     notes.put(noteName, new Note(i, noteName, tempEnharmonics));
                     notes.put(Integer.toString(i), new Note(i, noteName, tempEnharmonics));
-
+                    tempEnharmonics2 = generateEnharmonics(current_octave, "A", "", "A", "A"); //Bbb
+                    notes.put("B#".concat(Integer.toString(current_octave)), new Note(i, "Bbb", tempEnharmonics2));
+                    tempEnharmonics3 = generateEnharmonics(current_octave, "A", "A", "", "A"); // Gx
+                    notes.put("Dbb".concat(Integer.toString(current_octave)), new Note(i, "Gx", tempEnharmonics3));
                     break;
                 case 10: // A#
-                    tempEnharmonics = generateEnharmonics(current_octave, "Ab", "Bb", "", "Bb");
+                    tempEnharmonics = generateEnharmonics(current_octave, "Bb", "Bb", "", "Bb");
                     notes.put(noteName, new Note(i, noteName, tempEnharmonics));
                     notes.put(Integer.toString(i), new Note(i, noteName, tempEnharmonics));
-
+                    tempEnharmonics2 = generateEnharmonics(current_octave, "Bb", "", "A#", "A#"); // Bb
+                    notes.put("B#".concat(Integer.toString(current_octave)), new Note(i, "Bb", tempEnharmonics2));
                     break;
                 case 11: // B
                     tempEnharmonics = generateEnharmonics(current_octave, "B", "Cb", "Ax", "Cb");
                     notes.put(noteName, new Note(i, noteName, tempEnharmonics));
                     notes.put(Integer.toString(i), new Note(i, noteName, tempEnharmonics));
-                    
+                    tempEnharmonics2 = generateEnharmonics(current_octave, "B", "", "B", "B"); // Cb
+                    notes.put("B#".concat(Integer.toString(current_octave)), new Note(i, "Cb", tempEnharmonics2));
+                    tempEnharmonics3 = generateEnharmonics(current_octave, "B", "B", "", "B"); // Ax
+                    notes.put("Dbb".concat(Integer.toString(current_octave)), new Note(i, "Ax", tempEnharmonics3));
                     break;
                 default:
                     break;
