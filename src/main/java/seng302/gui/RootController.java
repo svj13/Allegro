@@ -10,6 +10,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import seng302.Environment;
@@ -30,6 +32,9 @@ public class RootController {
 
     @FXML
     private Button btnGo;
+
+    @FXML
+    private MenuItem menuQuit;
 
     @FXML
     private TextArea txtTranscript;
@@ -57,6 +62,12 @@ public class RootController {
         } else {
             txtTranscript.appendText("[ERROR] Cannot submit an empty command.\n");
         }
+    }
+
+    @FXML
+    private void closeApplication(){
+        System.exit(0);
+
     }
 
 
@@ -102,7 +113,12 @@ public class RootController {
 
 
 
-
+    @FXML
+    public void handleEnterPressed(KeyEvent event){
+    if (event.getCode() == KeyCode.ENTER) {
+        goAction();
+    }
+}
 
     public void setStage(Stage stage){
         this.stage = stage;
