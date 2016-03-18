@@ -23,7 +23,7 @@ parser code {:
 :};
 
 /* Terminal tokens returns by the lexer */
-terminal COMMAND_HELP, COMMAND_NOTE, COMMAND_MIDI, COMMAND_VERSION, COMMAND_SEMITONE_UP, COMMAND_SEMITONE_DOWN, COMMAND_SCALE, COMMAND_TEMPO, COMMAND_LIST_SCALE;
+terminal COMMAND_HELP, COMMAND_NOTE, COMMAND_MIDI, COMMAND_VERSION, COMMAND_SEMITONE_UP, COMMAND_SEMITONE_DOWN, COMMAND_SCALE, COMMAND_TEMPO, COMMAND_LIST_SCALE, COMMAND_SHARP_NAME, COMMAND_FLAT_NAME;
 terminal Integer NUMBER;
 terminal String     STRING, ATOM, NOTE;
 
@@ -31,15 +31,18 @@ terminal String     STRING, ATOM, NOTE;
 non terminal Command command;
 non terminal List<Integer> arg_list;
 
-command ::= COMMAND_HELP         {: RESULT = new Help(); :}
-          | COMMAND_NOTE ATOM:n {: RESULT = new NoteCommand(n); :}
-          | COMMAND_MIDI ATOM:s {: RESULT = new Midi(s); :}
-          | COMMAND_VERSION       {: RESULT = new Version(); :}
+command ::= COMMAND_HELP                    {: RESULT = new Help(); :}
+          | COMMAND_NOTE ATOM:n             {: RESULT = new NoteCommand(n); :}
+          | COMMAND_MIDI ATOM:s             {: RESULT = new Midi(s); :}
+          | COMMAND_VERSION                 {: RESULT = new Version(); :}
           | COMMAND_SEMITONE_UP ATOM:s      {: RESULT = new Semitone(s, true); :}
-          | COMMAND_SEMITONE_DOWN ATOM:s      {: RESULT = new Semitone(s, false); :}
-          | COMMAND_TEMPO     {: RESULT = new Tempo(); :}
+          | COMMAND_SEMITONE_DOWN ATOM:s    {: RESULT = new Semitone(s, false); :}
+          | COMMAND_TEMPO                   {: RESULT = new Tempo(); :}
           | COMMAND_SCALE ATOM:a ATOM:b     {: RESULT = new Scale(a, b, "note"); :}
           | COMMAND_LIST_SCALE ATOM:a ATOM:b    {: RESULT = new Scale(a, b, "midi"); :}
+          | COMMAND_SHARP_NAME ATOM:s       {: RESULT = new Enharmonic(s, true); :}
+          | COMMAND_FLAT_NAME ATOM:s        {: RESULT = new Enharmonic(s, false); :}
+
 ;
 
 arg_list ::= arg_list:list NUMBER:n {: list.add(n); RESULT = list; :}
