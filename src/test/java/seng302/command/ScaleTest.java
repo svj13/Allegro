@@ -30,7 +30,7 @@ public class ScaleTest {
 
     @Test
     public void setsCorrectScaleResult() {
-        new Scale("C4", "major").execute(env);
+        new Scale("C4", "major", "note").execute(env);
         verify(transcriptManager).setResult("C4 D4 E4 F4 G4 A4 B4 C5");
     }
 

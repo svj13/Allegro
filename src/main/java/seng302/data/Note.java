@@ -177,7 +177,7 @@ public class Note {
      * So the b value instead of the # value.
      * @return descending enharmonic name.
      */
-    public String getDescendingEharmonic() {
+    public String getDescendingEnharmonic() {
         return this.enharmonics.get("descending");
     }
 
@@ -197,6 +197,20 @@ public class Note {
      */
     public Note semitoneDown(int semitones) {
         return Note.lookup(Integer.toString(this.getMidi() - semitones));
+    }
+
+
+    /**
+     * Finds the preferred equivalent sharp note.
+     * @return the sharp name for the original note.
+     */
+    public String sharpName() {
+        return this.enharmonics.get("below");
+    }
+
+
+    public String flatName() {
+        return this.enharmonics.get("above");
     }
 
     /**

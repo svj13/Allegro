@@ -58,10 +58,13 @@ Atom = [^\s]+
     "midi"             { return symbol(DslSymbol.COMMAND_MIDI); }
     "tempo"            { return symbol(DslSymbol.COMMAND_TEMPO); }
     "version"          { return symbol(DslSymbol.COMMAND_VERSION); }
-    "semitone up"       { return symbol(DslSymbol.COMMAND_SEMITONE_UP);}
+    "semitone up"      { return symbol(DslSymbol.COMMAND_SEMITONE_UP);}
     "semitone down"    {return symbol(DslSymbol.COMMAND_SEMITONE_DOWN);}
-    "scale"             {return symbol(DslSymbol.COMMAND_SCALE);}
-    {Atom}              {return symbol(DslSymbol.ATOM, new String(yytext()));}
+    "scale"            {return symbol(DslSymbol.COMMAND_SCALE);}
+    "midi scale"       {return symbol(DslSymbol.COMMAND_LIST_SCALE);}
+    "flat name"        { return symbol(DslSymbol.COMMAND_FLAT_NAME); }
+    "sharp name"       { return symbol(DslSymbol.COMMAND_SHARP_NAME); }
+    {Atom}             { return symbol(DslSymbol.ATOM, new String(yytext()));}
     {Number}           { return symbol(DslSymbol.NUMBER, new Integer(yytext())); }
     {Note}             { return symbol(DslSymbol.NOTE, new String(yytext())); }
 

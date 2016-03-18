@@ -12,13 +12,15 @@ import seng302.utility.OctaveUtil;
 public class Scale implements Command {
     String search;
     String type;
+    String outputType;
     private boolean octaveSpecified;
     private Note note;
 
 
-    public Scale(String a, String b) {
+    public Scale(String a, String b, String outputType) {
         this.search = a;
         this.type = b;
+        this.outputType = outputType;
     }
 
     public void execute(Environment env){
@@ -31,7 +33,12 @@ public class Scale implements Command {
                     octaveSpecified = false;
                     this.note = Note.lookup(OctaveUtil.addDefaultOctave(search));
                 }
-                env.getTranscriptManager().setResult(scaleToString(note.getMajorScale()));
+                if (this.outputType.equals("note")) {
+                    env.getTranscriptManager().setResult(scaleToString(note.getMajorScale()));
+                } else {
+                    // Is midi
+                    env.getTranscriptManager().setResult(scaleToMidi(note.getMajorScale()));
+                }
             } catch (Exception e) {
                 env.error("Note is not contained in the MIDI library.");
             }
@@ -51,5 +58,13 @@ public class Scale implements Command {
         }
         return notesAsText.trim();
 
+    }
+
+    private String scaleToMidi(ArrayList<Note> scaleNotes) {
+        String midiValues = "";
+        for (Note note:scaleNotes) {
+            midiValues += note.getMidi() + " ";
+        }
+        return midiValues.trim();
     }
 }
