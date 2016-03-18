@@ -21,6 +21,7 @@ public class RootController {
     Stage stage;
 
     String path;
+    File fileDir;
 
 
 
@@ -59,22 +60,19 @@ public class RootController {
     }
 
 
-
     @FXML
     private void saveTranscript(){
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(textFilter);
+        fileChooser.setInitialDirectory(fileDir);
         File file = fileChooser.showSaveDialog(stage);
 
         if (file != null) {
+            fileDir = file.getParentFile();
             path = file.getAbsolutePath();
             tm.Save(path);
         }
-
-
-
-
     }
 
 
@@ -83,9 +81,11 @@ public class RootController {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(textFilter);
+        fileChooser.setInitialDirectory(fileDir);
         File file = fileChooser.showOpenDialog(stage);
 
         if (file != null) {
+            fileDir = file.getParentFile();
             path = file.getAbsolutePath();
             try {
                 tm.Open(path);
