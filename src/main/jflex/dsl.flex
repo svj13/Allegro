@@ -56,6 +56,7 @@ Atom = [^\s]+
     "help"             { return symbol(DslSymbol.COMMAND_HELP); }
     "note"             { return symbol(DslSymbol.COMMAND_NOTE); }
     "midi"             { return symbol(DslSymbol.COMMAND_MIDI); }
+    "tempo"            { return symbol(DslSymbol.COMMAND_TEMPO); }
     "version"          { return symbol(DslSymbol.COMMAND_VERSION); }
     "semitone up"       { return symbol(DslSymbol.COMMAND_SEMITONE_UP);}
     "semitone down"    {return symbol(DslSymbol.COMMAND_SEMITONE_DOWN);}
