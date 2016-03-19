@@ -38,6 +38,17 @@ public class CheckerTest {
     }
 
     @Test
+    public void testIsValidNoteNoOctave() throws Exception {
+        assertTrue(Checker.isValidNoteNoOctave("C"));
+        assertTrue(Checker.isValidNoteNoOctave("Dbb"));
+        assertTrue(Checker.isValidNoteNoOctave("G#"));
+        assertTrue(Checker.isValidNoteNoOctave("Ex"));
+        assertTrue(Checker.isValidNoteNoOctave("Fb"));
+
+        assertFalse(Checker.isValidNoteNoOctave("C4"));
+    }
+
+    @Test
     public void testIsValidMidiNote() throws Exception {
         assertTrue(Checker.isValidMidiNote("12"));
 

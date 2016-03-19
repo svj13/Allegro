@@ -76,6 +76,58 @@ public class ScaleTest {
         verify(transcriptManager).setResult("[ERROR] Note is not contained in the MIDI library.");
     }
 
+    @Test
+    public void correctResultWithCaseInsensitivity() {
+        new Scale("c#", "major", "note").execute(env);
+        verify(transcriptManager).setResult("C# D# E# F# G# A# B# C#");
+    }
+
+    @Test
+    public void correctResultWithCaseInsensitivityOfType() {
+        new Scale("C#", "maJOr", "note").execute(env);
+        verify(transcriptManager).setResult("C# D# E# F# G# A# B# C#");
+    }
+
+    @Test
+    public void correctErrorMessageForDoubleSharpScale() {
+        new Scale("Fx", "major", "note").execute(env);
+        verify(transcriptManager).setResult("[ERROR] Invalid scale: 'Fx major'.");
+    }
+
+    // MIDI scale tests
+
+    @Test
+    public void setsCorrectScaleResultMidi() {
+        new Scale("C4", "major", "midi").execute(env);
+        verify(transcriptManager).setResult("60 62 64 65 67 69 71 72");
+    }
+
+    @Test
+    public void setsCorrectErrorMessageMidi() {
+        new Scale("C4", "cake", "midi").execute(env);
+        verify(transcriptManager).setResult("[ERROR] Invalid scale type: 'cake'.");
+    }
+
+    @Test
+    public void setsCorrectErrorMessageBadNoteMidi() {
+        new Scale("cake", "major", "midi").execute(env);
+        verify(transcriptManager).setResult("[ERROR] Note is not contained in the MIDI library.");
+    }
+
+    @Test
+    public void setsCorrectEnharmonicScaleMidi() {
+        new Scale("B#", "major", "midi").execute(env);
+        verify(transcriptManager).setResult("60 62 64 65 67 69 71 72");
+    }
+
+    @Test
+    public void correctErrorMessageForDoubleSharpScaleMidi() {
+        new Scale("Fx", "major", "midi").execute(env);
+        verify(transcriptManager).setResult("[ERROR] Invalid scale: 'Fx major'.");
+    }
+
+
+
 
 
 }

@@ -23,6 +23,8 @@ public class NoteTest {
         enharmonics = new HashMap<String, String>();
     }
 
+    // Lookup Method Tests ---------------------------
+
     @Test
     public void testLookupGoodNote() throws Exception {
         enharmonics.clear();
@@ -51,6 +53,43 @@ public class NoteTest {
     public void testLookupBadMidiTooBig() throws Exception {
         assertEquals(null, Note.lookup("210"));
     }
+
+    @Test
+    public void testLookupEnharmonics() throws Exception {
+        assertEquals(Note.lookup("F4"), Note.lookup("E#4"));
+    }
+
+    @Test
+    public void testLookupEnharmonicsNoOctave() throws Exception {
+        assertEquals(Note.lookup("E"), Note.lookup("Fb"));
+    }
+
+    @Test
+    public void testLookupEnharmonicsDoubleSharp() throws Exception {
+        assertEquals(Note.lookup("Cx4"), Note.lookup("Ebb"));
+    }
+
+    @Test
+    public void testLookupExceptionEnharmonics() throws Exception {
+        assertEquals(Note.lookup("G#"), Note.lookup("Ab"));
+    }
+
+    @Test
+    public void testLookupEnharmonicsOverOctave() throws Exception {
+        assertEquals(Note.lookup("C5"), Note.lookup("B#5"));
+    }
+
+    @Test
+    public void testLookupTopEnharmonic() throws Exception {
+        assertEquals(Note.lookup("G9"), Note.lookup("Abb9"));
+    }
+
+    @Test
+    public void testLookupBottomEnharmonic() throws Exception {
+        assertEquals(Note.lookup("C-1"), Note.lookup("B#-1"));
+    }
+
+    // Semitone Method Tests -----------------------
 
     @Test
     public void testSemitoneUpNormalNote() throws Exception {
@@ -92,6 +131,8 @@ public class NoteTest {
         assertEquals(null, Note.lookup("C#-1").semitoneDown(2));
     }
 
+    // Major Scale Method Tests -----------------------------------------
+
     @Test
     public void testCMajorScale() throws Exception {
         ArrayList<Note> scale = new ArrayList<Note>(
@@ -115,6 +156,8 @@ public class NoteTest {
         assertEquals(null, Note.lookup("A8").getMajorScale());
     }
 
+    // Get Method Tests
+
     @Test
     public void testGetNote() throws Exception {
         assertEquals("C4", Note.lookup("C4").getNote());
@@ -124,4 +167,8 @@ public class NoteTest {
     public void testGetMidi() throws Exception {
         assertEquals((Integer) 60, Note.lookup("C4").getMidi());
     }
+
+    // Enharmonic Method Tests
+
+
 }
