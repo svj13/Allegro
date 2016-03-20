@@ -64,6 +64,7 @@ Atom = [^\s]+
     "midi scale"       {return symbol(DslSymbol.COMMAND_LIST_SCALE);}
     "flat name"        { return symbol(DslSymbol.COMMAND_FLAT_NAME); }
     "sharp name"       { return symbol(DslSymbol.COMMAND_SHARP_NAME); }
+    "simple enharmonic" { return symbol(DslSymbol.COMMAND_SIMPLE_ENHARMONIC); }
     {Atom}             { return symbol(DslSymbol.ATOM, new String(yytext()));}
     {Number}           { return symbol(DslSymbol.NUMBER, new Integer(yytext())); }
     {Note}             { return symbol(DslSymbol.NOTE, new String(yytext())); }
