@@ -55,7 +55,7 @@ public class Note {
                     notes.put("Bx".concat(Integer.toString(current_octave)), new Note(i, "Bx", tempEnharmonics3));
                     break;
                 case 2: // D
-                    tempEnharmonics = generateEnharmonics(current_octave, "D", "Ebb", "Cx", "");
+                    tempEnharmonics = generateEnharmonics(current_octave, "D", "Ebb", "Cx", "Note does not have simple enharmonic");
                     notes.put(noteName, new Note(i, noteName, tempEnharmonics));
                     notes.put(Integer.toString(i), new Note(i, noteName, tempEnharmonics));
                     tempEnharmonics2 = generateEnharmonics(current_octave, "D", "", "D", "D"); // Ebb
@@ -98,7 +98,7 @@ public class Note {
                     notes.put("Dbb".concat(Integer.toString(current_octave)), new Note(i, "Ex", tempEnharmonics3));
                     break;
                 case 7: // G
-                    tempEnharmonics = generateEnharmonics(current_octave, "G", "Abb", "Fx", "");
+                    tempEnharmonics = generateEnharmonics(current_octave, "G", "Abb", "Fx", "Note does not have simple enharmonic");
                     notes.put(noteName, new Note(i, noteName, tempEnharmonics));
                     notes.put(Integer.toString(i), new Note(i, noteName, tempEnharmonics));
                     tempEnharmonics2 = generateEnharmonics(current_octave, "G", "", "G", "G"); //Abb
@@ -114,7 +114,7 @@ public class Note {
                     notes.put("B#".concat(Integer.toString(current_octave)), new Note(i, "Ab", tempEnharmonics2));
                     break;
                 case 9: // A
-                    tempEnharmonics = generateEnharmonics(current_octave, "A", "Bbb", "Gx", "");
+                    tempEnharmonics = generateEnharmonics(current_octave, "A", "Bbb", "Gx", "Note does not have simple enharmonic");
                     notes.put(noteName, new Note(i, noteName, tempEnharmonics));
                     notes.put(Integer.toString(i), new Note(i, noteName, tempEnharmonics));
                     tempEnharmonics2 = generateEnharmonics(current_octave, "A", "", "A", "A"); //Bbb
@@ -205,12 +205,16 @@ public class Note {
      * @return the sharp name for the original note.
      */
     public String sharpName() {
-        return this.enharmonics.get("below");
+        return this.enharmonics.get("above");
     }
 
 
     public String flatName() {
-        return this.enharmonics.get("above");
+        return this.enharmonics.get("below");
+    }
+
+    public String simpleEnharmonic() {
+        return this.enharmonics.get("simple");
     }
 
     /**

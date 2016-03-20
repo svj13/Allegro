@@ -9,13 +9,13 @@ import seng302.utility.OctaveUtil;
  */
 public class Enharmonic implements Command {
     private Note note;
-    Boolean sharp;
+    int comm;
     String noteval;
 
 
-    public Enharmonic(String n, Boolean s) {
+    public Enharmonic(String n, int c) {
         this.noteval = n;
-        this.sharp = s;
+        this.comm = c;
     }
 
 
@@ -23,16 +23,19 @@ public class Enharmonic implements Command {
         try {
             if (OctaveUtil.octaveSpecifierFlag(this.noteval)) {
                 this.note = Note.lookup(noteval);
-                if (sharp) env.getTranscriptManager().setResult(note.sharpName());
+                if (comm == 1) env.getTranscriptManager().setResult(note.flatName());
+                else if (comm == 2) env.getTranscriptManager().setResult(note.simpleEnharmonic());
                 else {
-                    env.getTranscriptManager().setResult(note.flatName());
+                    env.getTranscriptManager().setResult(note.sharpName());
                 }
             } else {
                 this.note = Note.lookup(OctaveUtil.addDefaultOctave(noteval));
-                if (sharp)
-                    env.getTranscriptManager().setResult(OctaveUtil.removeOctaveSpecifier(note.sharpName()));
-                else
+                if (comm == 1)
                     env.getTranscriptManager().setResult(OctaveUtil.removeOctaveSpecifier(note.flatName()));
+                else if (comm == 2)
+                    env.getTranscriptManager().setResult(OctaveUtil.removeOctaveSpecifier(note.simpleEnharmonic()));
+                else
+                    env.getTranscriptManager().setResult(OctaveUtil.removeOctaveSpecifier(note.sharpName()));
             }
         } catch (Exception e) {
             env.error("Note is not contained in the MIDI library.");
