@@ -6,6 +6,7 @@ public class Environment {
 
     private DslExecutor executor;
     private TranscriptManager transcriptManager;
+    private int tempo = 120;
 
     public Environment() {
         executor = new DslExecutor(this);
@@ -32,5 +33,13 @@ public class Environment {
 
     public void setTranscriptManager(TranscriptManager t) {
         this.transcriptManager = t;
+    }
+
+    public void setTempo(int tempo) {
+        this.tempo = tempo;
+    }
+
+    public int getTempo(){
+        return this.tempo;
     }
 }
