@@ -3,10 +3,12 @@ package seng302.gui;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.util.Optional;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -66,8 +68,34 @@ public class RootController {
 
     @FXML
     private void closeApplication(){
-        System.exit(0);
+        if(tm.unsavedChanges == true) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setHeaderText("Unsaved changes");
+            alert.setContentText("Are you sure that you would like to quit?");
 
+            ButtonType saveBtn = new ButtonType("Save");
+            ButtonType quitBtn = new ButtonType("Quit");
+            ButtonType cancelBtn = new ButtonType("Cancel");
+
+            alert.getButtonTypes().setAll(saveBtn, quitBtn, cancelBtn);
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == saveBtn) {
+                saveTranscript();
+                if(tm.unsavedChanges == false) {
+                    System.exit(0);
+                }
+            } else if (result.get() == quitBtn) {
+                System.exit(0);
+
+            } else{
+                //do nothing
+            }
+
+
+        }else{
+            System.exit(0);
+        }
     }
 
 

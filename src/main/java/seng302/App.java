@@ -1,10 +1,12 @@
 package seng302;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import seng302.gui.RootController;
 
 
@@ -42,7 +44,12 @@ public class App extends Application {
             if(controller == null ) System.out.println("Controller is null");
             controller.setEnvironment(new Environment());
             controller.setStage(primaryStage);
+            primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                public void handle(WindowEvent event) {
+                    //--------------------------------------------need to find a way ro put unsaved changes dialong in here
 
+                }
+            });
             primaryStage.show();
 
 
@@ -52,6 +59,8 @@ public class App extends Application {
             e.printStackTrace();
         }
 
-
     }
+
+
+
 }

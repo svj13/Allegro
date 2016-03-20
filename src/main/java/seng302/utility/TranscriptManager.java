@@ -16,6 +16,7 @@ public class TranscriptManager {
     private OutputTuple lastOutputTuple; // The last command + result fired generated.
     private String output;
     private ArrayList<OutputTuple> transcriptContent = new ArrayList<OutputTuple>();
+    public boolean unsavedChanges = false;
 
 
     public TranscriptManager() {
@@ -45,6 +46,7 @@ public class TranscriptManager {
 
             }
             writer.close();
+            unsavedChanges = false;
 
         } catch (IOException ex) {
 
@@ -79,6 +81,7 @@ public class TranscriptManager {
             }
 
 
+
         } catch (IOException ex) {
             System.out.println("problem Reading from file");
         }
@@ -104,6 +107,7 @@ public class TranscriptManager {
         output += s + "\n";
 
         transcriptContent.add(lastOutputTuple);
+        unsavedChanges = true;
 
     }
 
