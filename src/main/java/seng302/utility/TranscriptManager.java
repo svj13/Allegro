@@ -34,14 +34,13 @@ public class TranscriptManager {
      * Saves Called commands/results to a local text file.
      *
      * @param path Text document path to save the data to.
-     * @param info ArrayList of (Command, Result) tuples to be saved to specified file.
      */
-    public void Save(String path, ArrayList<OutputTuple> info) {
+    public void Save(String path) {
 
         try {
             FileWriter writer = new FileWriter(path, false); // the true variable means that if the file exists it will append to it not 100% sure thats what we want yet
 
-            for (OutputTuple line : info) {
+            for (OutputTuple line : transcriptContent) {
                 writer.write(line.getCommand() + " : " + line.getResult() + ",");
 
             }
