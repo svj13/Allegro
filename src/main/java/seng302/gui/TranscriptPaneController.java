@@ -3,7 +3,6 @@ package seng302.gui;
 import java.io.File;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
@@ -23,6 +22,7 @@ public class TranscriptPaneController {
     Environment env;
 
     Stage stage;
+
 
     String path;
     File fileDir;
@@ -52,15 +52,16 @@ public class TranscriptPaneController {
     @FXML
     private SimpleIntegerProperty history;
 
-    @FXML
-    private SimpleStringProperty enteredCommand;
+
 
     @FXML
     private void initialize(){
 
     }
 
-    private String enteredText;
+    private String enteredCommand;
+
+    private int historyLevel;
 
 
     @FXML
@@ -89,51 +90,73 @@ public class TranscriptPaneController {
 
         else if(event.getCode() == KeyCode.UP){
 
-            int size = env.getTranscriptManager().getTranscriptTuples().size();
-            if(env.getTranscriptManager().historyLevel == -1 && size > 0){
-                env.getTranscriptManager().historyLevel = 1;
+            handleScrollUp();
 
-                enteredText = txtCommand.getText();
-
-            }
-            else{
-                if(env.getTranscriptManager().historyLevel < size){
-                    env.getTranscriptManager().historyLevel ++;
-                }
-
-
-            }
-
-            txtCommand.setText(env.getTranscriptManager().getTranscriptTuples().get(size-env.getTranscriptManager().historyLevel).getCommand());
-            System.out.println(enteredText);
         }
 
         else if(event.getCode() == KeyCode.DOWN){
-            int hl = env.getTranscriptManager().historyLevel;
-            int size = env.getTranscriptManager().getTranscriptTuples().size();
 
-            System.out.println(hl);
-            if(hl > 1){
-
-                env.getTranscriptManager().historyLevel --;
-
-                txtCommand.setText(env.getTranscriptManager().getTranscriptTuples().get(size-env.getTranscriptManager().historyLevel).getCommand());
-            }
-            else if(env.getTranscriptManager().historyLevel > 0){
-                env.getTranscriptManager().historyLevel --;
-                txtCommand.setText(enteredText);
-
-
-            }
-            else if(env.getTranscriptManager().historyLevel == 0){
-                txtCommand.setText("");
-                env.getTranscriptManager().historyLevel = -1;
-            }
+            handleScrollDown();
+        }
+        else if(event.getCode() == KeyCode.ALPHANUMERIC){
+            historyLevel = -1;
+            enteredCommand = "";
         }
 
 
 
     }
+
+
+    private void handleScrollUp(){
+        int size = env.getTranscriptManager().getTranscriptTuples().size();
+        if(historyLevel == -1 && size > 0){
+            historyLevel = 1;
+
+            enteredCommand = txtCommand.getText();
+
+        }
+        else{
+            if(historyLevel < size){
+                historyLevel ++;
+            }
+
+
+        }
+
+        txtCommand.setText(env.getTranscriptManager().getTranscriptTuples().get(size-historyLevel).getCommand());
+    }
+
+    private void handleScrollDown(){
+        int size = env.getTranscriptManager().getTranscriptTuples().size();
+
+        if(historyLevel > 1){
+
+            historyLevel--;
+
+            txtCommand.setText(env.getTranscriptManager().getTranscriptTuples().get(size-historyLevel).getCommand());
+        }
+        else if(historyLevel > 0){
+            historyLevel --;
+
+            if(enteredCommand != null && enteredCommand.equals("")){
+                System.out.println("empty!");
+                historyLevel = -1;
+                txtCommand.setText(enteredCommand);
+
+            }else{
+                txtCommand.setText(enteredCommand);
+            }
+
+
+
+        }
+        else if(historyLevel == 0){
+            txtCommand.setText("");
+            historyLevel = -1;
+        }
+    }
+
 
 
 
