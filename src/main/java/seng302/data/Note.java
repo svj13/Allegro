@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import seng302.utility.Checker;
 import seng302.utility.OctaveUtil;
 
 /**
@@ -154,7 +155,14 @@ public class Note {
         notesEnharmonics.put("descending", desc.concat(Integer.toString(octave)));
         notesEnharmonics.put("above", above.concat(Integer.toString(octave)));
         notesEnharmonics.put("below", below.concat(Integer.toString(octave)));
-        notesEnharmonics.put("simple", simple.concat(Integer.toString(octave)));
+        if (Checker.isValidNormalNote(simple))
+        {
+            notesEnharmonics.put("simple", simple.concat(Integer.toString(octave)));
+        }
+        else
+        {
+            notesEnharmonics.put("simple", simple);
+        }
         return notesEnharmonics;
     }
 
