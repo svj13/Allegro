@@ -56,7 +56,7 @@ public class NoteTest {
 
     @Test
     public void testLookupEnharmonics() throws Exception {
-        assertEquals(Note.lookup("F4"), Note.lookup("E#4"));
+        assertEquals(Note.lookup("F4").getMidi(), Note.lookup("E#4").getMidi());
     }
 
     @Test
@@ -66,7 +66,7 @@ public class NoteTest {
 
     @Test
     public void testLookupEnharmonicsDoubleSharp() throws Exception {
-        assertEquals(Note.lookup("Cx4"), Note.lookup("Ebb"));
+        assertEquals(Note.lookup("Cx4").getMidi(), Note.lookup("Ebb4").getMidi());
     }
 
     @Test
@@ -76,17 +76,17 @@ public class NoteTest {
 
     @Test
     public void testLookupEnharmonicsOverOctave() throws Exception {
-        assertEquals(Note.lookup("C5"), Note.lookup("B#5"));
+        assertEquals(Note.lookup("C5").getMidi(), Note.lookup("B#5").getMidi());
     }
 
     @Test
     public void testLookupTopEnharmonic() throws Exception {
-        assertEquals(Note.lookup("G9"), Note.lookup("Abb9"));
+        assertEquals(Note.lookup("G9").getMidi(), Note.lookup("Abb9").getMidi());
     }
 
     @Test
     public void testLookupBottomEnharmonic() throws Exception {
-        assertEquals(Note.lookup("C-1"), Note.lookup("B#-1"));
+        assertEquals(Note.lookup("C-1").getMidi(), Note.lookup("B#-1").getMidi());
     }
 
     // Semitone Method Tests -----------------------
@@ -130,6 +130,7 @@ public class NoteTest {
     public void testTwoSemitonesDownTooLow() throws Exception {
         assertEquals(null, Note.lookup("C#-1").semitoneDown(2));
     }
+    // Enharmonic Notes Exist test
 
     // Major Scale Method Tests -----------------------------------------
 
@@ -167,8 +168,5 @@ public class NoteTest {
     public void testGetMidi() throws Exception {
         assertEquals((Integer) 60, Note.lookup("C4").getMidi());
     }
-
-    // Enharmonic Method Tests
-
 
 }

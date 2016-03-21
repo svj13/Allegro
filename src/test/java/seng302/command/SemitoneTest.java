@@ -56,4 +56,28 @@ public class SemitoneTest {
         new Semitone("c#-1", true).execute(env);
         verify(transcriptManager).setResult("D-1");
     }
+
+    @Test
+    public void testPrintsCorrectSemitoneUpEnharmonic() {
+        new Semitone("Cx", true).execute(env);
+        verify(transcriptManager).setResult("D#");
+    }
+
+    @Test
+    public void testPrintsCorrectSemitoneDownEnharmonic() {
+        new Semitone("Cx", false).execute(env);
+        verify(transcriptManager).setResult("Db");
+    }
+
+    @Test
+    public void printsCorrectErrorWithHighestNoteEnharmonic() {
+        new Semitone("Fx9", true).execute(env);
+        verify(transcriptManager).setResult("[ERROR] Note is not contained in the MIDI library.");
+    }
+
+    @Test
+    public void printsCorrectErrorWithLowestNoteEnharmonic() {
+        new Semitone("B#-1", false).execute(env);
+        verify(transcriptManager).setResult("[ERROR] Note is not contained in the MIDI library.");
+    }
 }
