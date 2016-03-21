@@ -19,7 +19,7 @@ public class TranscriptManager {
     public boolean unsavedChanges = false;
 
     public int historyLevel;
-    public String lastEntered;
+
 
 
 
