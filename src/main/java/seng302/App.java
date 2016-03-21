@@ -44,12 +44,6 @@ public class App extends Application {
             if(controller == null ) System.out.println("Controller is null");
             controller.setEnvironment(new Environment());
             controller.setStage(primaryStage);
-            primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                public void handle(WindowEvent event) {
-                    //--------------------------------------------need to find a way ro put unsaved changes dialong in here
-
-                }
-            });
             primaryStage.show();
 
 

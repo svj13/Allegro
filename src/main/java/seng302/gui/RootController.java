@@ -4,6 +4,7 @@ package seng302.gui;
 import java.io.File;
 import java.util.Optional;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -13,6 +14,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import seng302.Environment;
 import seng302.utility.TranscriptManager;
 
@@ -47,6 +49,14 @@ public class RootController {
 
 
 
+
+
+
+
+    /**
+     * Closes the application, if There are unsaved changes then it prompts the user
+     * to save the file.
+     */
     @FXML
     private void closeApplication(){
         if(tm.unsavedChanges == true) {
@@ -79,7 +89,9 @@ public class RootController {
         }
     }
 
-
+    /**
+     * Used to save the transcript to a destination determined by the user, using a filechooser.
+     */
     @FXML
     private void saveTranscript(){
         FileChooser fileChooser = new FileChooser();
@@ -95,7 +107,9 @@ public class RootController {
         }
     }
 
-
+    /**
+     * Opens a transcript that has been previously saved.
+     */
     @FXML
     private void openTranscript(){
         FileChooser fileChooser = new FileChooser();
@@ -127,6 +141,12 @@ public class RootController {
 
     public void setStage(Stage stage){
         this.stage = stage;
+        this.stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent event) {
+                closeApplication();
+
+            }
+        });
     }
 
     public void setEnvironment(Environment env){
