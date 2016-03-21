@@ -18,9 +18,14 @@ public class TranscriptManager {
     private ArrayList<OutputTuple> transcriptContent = new ArrayList<OutputTuple>();
     public boolean unsavedChanges = false;
 
+    public int historyLevel;
+
+
+
 
     public TranscriptManager() {
         lastOutputTuple = new OutputTuple();
+        historyLevel = -1; //-1 used for no value.
     }
 
     /**
