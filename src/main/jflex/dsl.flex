@@ -69,6 +69,7 @@ Atom = [^\s]+
     {Atom}             { return symbol(DslSymbol.ATOM, new String(yytext()));}
     {Number}           { return symbol(DslSymbol.NUMBER, new Integer(yytext())); }
     {Note}             { return symbol(DslSymbol.NOTE, new String(yytext())); }
+    "crotchet duration"    { return symbol(DslSymbol.COMMAND_CROTCHET_DURATION); }
 
     {WhiteSpace}       { /* Ignore whitespace */ }
 }

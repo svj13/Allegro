@@ -14,6 +14,8 @@ public class Help implements Command {
 
     public void execute(Environment env) {
         env.getTranscriptManager().setResult("" +
+                "crotchet duration : returns the duration of a crotcher in seconds at a given tempo" +
+                        " speed in BPM \n" +
                 "midi : when followed by a valid note, it will return its corresponding midi number" +
                 " within the range of 0-127. If an octave not specified to the note, it will default " +
                 "to octave 4. e.g. 'midi' C4 will return 60. It is not case sensitive \n" +
@@ -23,6 +25,9 @@ public class Help implements Command {
                 " the note that is a semitone higher  \n" +
                 "semitone down : when followed by a valid note or midi number, it will return" +
                 " the note that is a semitone lower \n" +
+                "set tempo : when followed by a valid tempo will change the tempo to that value \n" +
+                "tempo : returns the current set tempo. When the program is launched, it will have" +
+                " a default value of 120BPM \n" +
                 "version : will return the current version number of the application \n \n " +
                 "Dom is a poo poo ");
 
