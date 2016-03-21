@@ -2,18 +2,15 @@ package seng302.gui;
 
 
 import java.io.File;
-import java.io.FileFilter;
 import java.util.Optional;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import seng302.Environment;
@@ -28,12 +25,8 @@ public class RootController {
     File fileDir;
 
 
-
     @FXML
-    private TextField txtCommand;
-
-    @FXML
-    private Button btnGo;
+    private Pane pane1;
 
     @FXML
     private MenuItem menuQuit;
@@ -52,19 +45,7 @@ public class RootController {
 
     }
 
-    @FXML
-    private void goAction(){
 
-        String text = txtCommand.getText();
-        txtCommand.setText("");
-        if (text.length() > 0) {
-            env.getTranscriptManager().setCommand(text);
-            env.getExecutor().executeCommand(text);
-            txtTranscript.appendText(env.getTranscriptManager().getLastCommand());
-        } else {
-            txtTranscript.appendText("[ERROR] Cannot submit an empty command.\n");
-        }
-    }
 
     @FXML
     private void closeApplication(){
@@ -141,12 +122,8 @@ public class RootController {
 
 
 
-    @FXML
-    public void handleEnterPressed(KeyEvent event){
-    if (event.getCode() == KeyCode.ENTER) {
-        goAction();
-    }
-}
+
+
 
     public void setStage(Stage stage){
         this.stage = stage;
@@ -156,7 +133,26 @@ public class RootController {
         this.env = env;
         tm = env.getTranscriptManager();
 
+        try{
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(this.getClass().getResource("/TranscriptPane.fxml"));
 
+
+            Pane transcriptPane = loader.load();
+
+            pane1.getChildren().add(transcriptPane);
+            TranscriptPaneController controller = loader.getController();
+            controller.setEnv(env);
+
+        }catch(Exception e){
+
+        }
+
+
+    }
+
+    public Environment getEnv(){
+        return env;
     }
 
 }
