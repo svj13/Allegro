@@ -11,7 +11,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -29,6 +31,13 @@ public class RootController {
 
     @FXML
     private Pane pane1;
+
+    @FXML AnchorPane paneMain;
+
+    @FXML AnchorPane transcriptAnchor;
+
+    @FXML
+    private StackPane stackPane1;
 
     @FXML
     private MenuItem menuQuit;
@@ -158,9 +167,19 @@ public class RootController {
             loader.setLocation(this.getClass().getResource("/TranscriptPane.fxml"));
 
 
-            Pane transcriptPane = loader.load();
+           // Pane transcriptPane = loader.load();
 
-            pane1.getChildren().add(transcriptPane);
+            transcriptAnchor = loader.load();
+
+
+//            pane1.getChildren().add(tPane);
+            //paneMain.getChildren().add(tPane);
+            stackPane1.getChildren().add(transcriptAnchor);
+
+            //Handle parent resizing.
+            transcriptAnchor.prefWidthProperty().bind(stackPane1.widthProperty());
+            transcriptAnchor.prefHeightProperty().bind(stackPane1.heightProperty());
+
             TranscriptPaneController controller = loader.getController();
             controller.setEnv(env);
 

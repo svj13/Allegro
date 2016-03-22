@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="457.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.TranscriptPaneController">
-    <children>
-        <TextField fx:id="txtCommand" layoutX="20.0" layoutY="395.0" onKeyPressed="#handleKeyPressed" prefHeight="25.0" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="95.0" AnchorPane.topAnchor="395.0" />
-        <TextArea fx:id="txtTranscript" editable="false" layoutY="6.0" prefHeight="373.0" prefWidth="480.0" />
-        <Button fx:id="btnGo" layoutX="400.0" layoutY="395.0" mnemonicParsing="false" onAction="#goAction" text="Go" AnchorPane.bottomAnchor="37.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="14.0" />
-    </children>
+<AnchorPane fx:id="transcriptAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="320.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.TranscriptPaneController">
+    <!--<children>-->
+      <!--<Pane layoutX="-283.0" style="-fx-background-color: brown;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">-->
+         <children>
+              <TextField fx:id="txtCommand" layoutX="11.0" layoutY="286.0" onKeyPressed="#handleKeyPressed" prefHeight="30.0" prefWidth="334.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="110.0" />
+              <TextArea fx:id="txtTranscript" editable="false" layoutY="-1.0" prefHeight="278.0" prefWidth="480.0" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" />
+              <Button fx:id="btnGo" layoutX="412.0" layoutY="285.0" mnemonicParsing="false" onAction="#goAction" prefHeight="30.0" prefWidth="74.0" text="Go" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="20.0" />
+         </children>
+      <!--</Pane>-->
+    <!--</children>-->
 </AnchorPane>

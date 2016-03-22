@@ -6,17 +6,19 @@
 
 <AnchorPane fx:id="paneMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="457.0" prefWidth="485.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.RootController">
    <children>
-      <MenuBar prefHeight="29.0" prefWidth="480.0">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-                  <MenuItem fx:id="MenuOpen" mnemonicParsing="false" onAction="#openTranscript" text="Open Transcript" />
-                  <MenuItem fx:id="MenuSave" mnemonicParsing="false" onAction="#saveTranscript" text="Save Transcript" />
-              <MenuItem fx:id="menuQuit" mnemonicParsing="false" onAction="#closeApplication" text="Quit" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-      <Pane fx:id="pane1" layoutY="29.0" prefHeight="429.0" prefWidth="480.0" />
+      <!--<children>-->
+         <MenuBar prefHeight="29.0" prefWidth="480.0" AnchorPane.bottomAnchor="428.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
+           <menus>
+             <Menu mnemonicParsing="false" text="File">
+               <items>
+                     <MenuItem fx:id="MenuOpen" mnemonicParsing="false" onAction="#openTranscript" text="Open Transcript" />
+                     <MenuItem fx:id="MenuSave" mnemonicParsing="false" onAction="#saveTranscript" text="Save Transcript" />
+                 <MenuItem fx:id="menuQuit" mnemonicParsing="false" onAction="#closeApplication" text="Quit" />
+               </items>
+             </Menu>
+           </menus>
+         </MenuBar>
+         <StackPane fx:id="stackPane1" layoutX="3.0" layoutY="29.0" prefHeight="428.0" prefWidth="485.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
    </children>
+   <!--</children>-->
 </AnchorPane>
