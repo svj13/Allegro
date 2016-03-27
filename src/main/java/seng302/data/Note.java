@@ -251,6 +251,15 @@ public class Note {
         return scaleNotes;
     }
 
+    public String getEnharmonicWithLetter(char letter) {
+        for (String value : enharmonics.values()) {
+            if (value.charAt(0) == letter) {
+                return value;
+            }
+        }
+        return null;
+    }
+
     /**
      * @return the note name.
      */

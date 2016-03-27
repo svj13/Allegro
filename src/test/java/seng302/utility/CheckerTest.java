@@ -59,4 +59,21 @@ public class CheckerTest {
 
 
     }
+
+    @Test
+    public void testIsDoubleSharp() throws Exception {
+        assertTrue(Checker.isDoubleSharp("Cx"));
+
+        assertFalse(Checker.isDoubleSharp("D#"));
+
+    }
+
+    @Test
+    public void testIsDoubleFlat() throws Exception {
+        assertTrue(Checker.isDoubleFlat("Cbb"));
+
+        assertFalse(Checker.isDoubleFlat("D#"));
+        assertFalse(Checker.isDoubleFlat("Eb"));
+
+    }
 }

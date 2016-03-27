@@ -49,4 +49,12 @@ public class Checker {
         return Arrays.asList(helpCommands).contains(c.toLowerCase());
 
     }
+
+    public static boolean isDoubleSharp(String name) {
+        return name.matches("^.x$");
+    }
+
+    public static boolean isDoubleFlat(String name) {
+        return name.matches("^.bb$");
+    }
 }
