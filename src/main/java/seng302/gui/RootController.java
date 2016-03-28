@@ -2,11 +2,13 @@ package seng302.gui;
 
 
 import java.io.File;
+import java.net.URL;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
@@ -20,7 +22,7 @@ import javafx.stage.WindowEvent;
 import seng302.Environment;
 import seng302.utility.TranscriptManager;
 
-public class RootController {
+public class RootController implements Initializable {
     Environment env;
     TranscriptManager tm;
     Stage stage;
@@ -35,7 +37,10 @@ public class RootController {
     @FXML AnchorPane paneMain;
 
 
-    @FXML private  TranscriptPaneController transcriptController;
+    @FXML
+    private PitchComparisonTutorController PitchComparisonTabController; //pitchController;
+    @FXML
+    private  TranscriptPaneController transcriptController;
 
     @FXML
     private StackPane stackPane1;
@@ -57,8 +62,19 @@ public class RootController {
 
     }
 
+    public void RootController(){
+
+    }
 
 
+
+
+
+    public void initialize(URL location, ResourceBundle resources) {
+
+        System.out.println("root controller initialize test");
+//
+    }
 
 
     /**
@@ -162,7 +178,9 @@ public class RootController {
         this.env = env;
         tm = env.getTranscriptManager();
 
-        try{
+
+
+       // try{
 //            FXMLLoader loader = new FXMLLoader();
 //            loader.setLocation(this.getClass().getResource("/Views/TranscriptPane.fxml"));
 //
@@ -183,11 +201,51 @@ public class RootController {
 
             //controller.setEnv(env);
 
+           // pitchComparisonController.create(env);
+
            transcriptController.setEnv(env);
 
-        }catch(Exception e){
-            System.out.println("unable to set transcript pane correctly..");
-        }
+
+//        FXMLLoader loader = new FXMLLoader();
+//        loader.setLocation(this.getClass().getResource("/Views/PitchComparisonPane.fxml"));
+//        try{
+//            loader.load();
+//        }
+//        catch (Exception e){
+//            System.out.println("LOADER FAILED");
+//        }
+//        pitchController = loader.getController();
+
+
+
+//        pitchController.createA(env);
+
+//        FXMLLoader loader = new FXMLLoader(
+//                getClass().getResource(
+//                        "/Views/PitchComparisonPane.fxml"
+//                )
+//        );
+//        try {
+//            Parent root = loader.load();
+//        }catch(Exception e){
+//            e.printStackTrace();
+//        }
+//
+//
+//        pitchController =
+//                loader.<PitchComparisonTutorController>getController();
+
+        PitchComparisonTabController.createA(env);
+
+
+
+
+
+
+
+       // }catch(Exception e){
+
+       // }
 
 
     }

@@ -10,7 +10,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import seng302.Environment;
 
@@ -56,7 +55,7 @@ public class TranscriptPaneController {
 
     @FXML
     private void initialize(){
-
+        System.out.println("Transcript Controller initialized");
     }
 
     private String enteredCommand;
@@ -128,6 +127,7 @@ public class TranscriptPaneController {
     }
     public void setEnv(Environment env){
         this.env = env;
+
     }
 
 
