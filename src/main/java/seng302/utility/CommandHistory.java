@@ -59,7 +59,7 @@ public class CommandHistory {
      * Called when the 'Down' key is pressed when the command prompt is active.
      * If the command prompt is showing a previously used command from the history, then a newer command will be shown.
      */
-    //s
+    //s trsdtrt
     public String handleScrollDown(String currentInput){
         int size = tm.getTranscriptTuples().size();
         System.out.println(historyLevel);
