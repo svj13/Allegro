@@ -61,8 +61,6 @@ public class RootController {
 
 
 
-
-
     /**
      * Closes the application, if There are unsaved changes then it prompts the user
      * to save the file.
