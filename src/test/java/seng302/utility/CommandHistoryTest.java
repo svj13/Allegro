@@ -44,15 +44,15 @@ public class CommandHistoryTest {
          * input: comma
          */
 
-        assertEquals("midi G#0", tm.inputHistory.handleScrollUp(textInput) ); //Pressing up before any history is added
+        assertEquals("midi G#0", tm.historyController.handleScrollUp(textInput) ); //Pressing up before any history is added
 
 
-        assertEquals("note 60", tm.inputHistory.handleScrollUp(textInput) );
+        assertEquals("note 60", tm.historyController.handleScrollUp(textInput) );
 
         //assertEquals("note 60", tm.inputHistory.handleScrollUp("midi G#0"));
 
 
-        assertEquals("note 60", tm.inputHistory.handleScrollUp("note 60"));
+        assertEquals("note 60", tm.historyController.handleScrollUp("note 60"));
 
 
 
@@ -68,17 +68,18 @@ public class CommandHistoryTest {
         tm = new TranscriptManager();
         String textInput = "comma"; //Emulated beginning to write a command.
 
-        assertEquals(textInput, tm.inputHistory.handleScrollUp(textInput) ); //Pressing up before any history is added
+        assertEquals(textInput, tm.historyController.handleScrollUp(textInput) ); //Pressing up before any history is added
 
 
 
         tm.setCommand("note 60");
         tm.setResult("C4");
 
-        assertEquals("note 60", tm.inputHistory.handleScrollUp(textInput) ); //up to history command.
-        assertEquals(textInput, tm.inputHistory.handleScrollDown("note 60"));
+        assertEquals("note 60", tm.historyController.handleScrollUp(textInput) ); //up to history command.
+        //assertEquals(textInput, tm.historyController.handleScrollDown("note 60"));
 
-        assertEquals("", tm.inputHistory.handleScrollDown(textInput) ); //Pressing down again should clear cmd.
+        assertEquals("", tm.historyController.handleScrollDown(textInput) ); //Pressing down again should clear cmd.
+
     }
 
 

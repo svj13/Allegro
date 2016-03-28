@@ -95,86 +95,27 @@ public class TranscriptPaneController {
 
         else if(event.getCode() == KeyCode.UP){
 
-           handleScrollUp();
-            //env.getTranscriptManager().cycleInputUp(txtCommand.getText());
+           //handleScrollUp();
+            txtCommand.setText(env.getTranscriptManager().cycleInputUp(txtCommand.getText()));
 
         }
 
         else if(event.getCode() == KeyCode.DOWN){
 
-            handleScrollDown();
+//            handleScrollDown();
+            txtCommand.setText(env.getTranscriptManager().cycleInputDown(txtCommand.getText()));
         }
         else if(event.getCode() == KeyCode.ALPHANUMERIC){
-            historyLevel = -1;
-            enteredCommand = "";
+            env.getTranscriptManager().resetHistoryLevel();
+           // historyLevel = -1;
+            //enteredCommand = "";
         }
 
 
 
     }
 
-    /**
-     * Called when the 'Up' arrow is pressed when the command prompt is active.
-     * Cycles through command history.
-     */
-    private void handleScrollUp(){
 
-        txtCommand.setText(env.getTranscriptManager().cycleInputUp(txtCommand.getText()));
-
-
-//        int size = env.getTranscriptManager().getTranscriptTuples().size();
-//        if(historyLevel == -1 && size > 0){
-//            historyLevel = 1;
-//
-//            enteredCommand = txtCommand.getText();
-//
-//        }
-//        else{
-//            if(historyLevel < size){
-//                historyLevel ++;
-//            }
-//
-//
-//        }
-//
-//        txtCommand.setText(env.getTranscriptManager().getTranscriptTuples().get(size-historyLevel).getCommand());
-    }
-
-    /**
-     * Called when the 'Down' key is pressed when the command prompt is active.
-     * If the command prompt is showing a previously used command from the history, then a newer command will be shown.
-     */
-    private void handleScrollDown(){
-//        int size = env.getTranscriptManager().getTranscriptTuples().size();
-//
-//        if(historyLevel > 1){
-//
-//            historyLevel--;
-//
-//            txtCommand.setText(env.getTranscriptManager().getTranscriptTuples().get(size-historyLevel).getCommand());
-//        }
-//        else if(historyLevel > 0){
-//            historyLevel --;
-//
-//            if(enteredCommand != null && enteredCommand.equals("")){
-//                System.out.println("empty!");
-//                historyLevel = -1;
-//                txtCommand.setText(enteredCommand);
-//
-//            }else{
-//                txtCommand.setText(enteredCommand);
-//            }
-//
-//
-//
-//        }
-//        else if(historyLevel == 0){
-//            txtCommand.setText("");
-//            historyLevel = -1;
-//        }
-
-        txtCommand.setText(env.getTranscriptManager().cycleInputDown(txtCommand.getText()));
-    }
 
 
 

@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * Created by team5 on 3/03/2016.
  */
 public class TranscriptManager {
-    CommandHistory inputHistory;
+    CommandHistory historyController;
     private OutputTuple lastOutputTuple; // The last command + result fired generated.
     private String output;
     private ArrayList<OutputTuple> transcriptContent = new ArrayList<OutputTuple>();
@@ -26,17 +26,20 @@ public class TranscriptManager {
 
     public TranscriptManager() {
         lastOutputTuple = new OutputTuple();
-        inputHistory = new CommandHistory(this);
+        historyController= new CommandHistory(this);
 
     }
 
     public String cycleInputUp(String field){
-        return inputHistory.handleScrollUp(field);
+        return historyController.handleScrollUp(field);
     }
 
 
     public String cycleInputDown(String field){
-        return inputHistory.handleScrollDown(field);
+        return historyController.handleScrollDown(field);
+    }
+    public void resetHistoryLevel(){
+        historyController.resetLevel();
     }
 
     /**

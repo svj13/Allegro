@@ -18,6 +18,9 @@ public class CommandHistory {
 
     }
 
+    public void resetLevel(){
+        historyLevel = -1;
+    }
     /**
      * Called when the 'Up' arrow is pressed when the command prompt is active.
      * Cycles through command history.
@@ -25,6 +28,7 @@ public class CommandHistory {
      */
     public String handleScrollUp(String currentText){
         int size = tm.getTranscriptTuples().size();
+        System.out.println(historyLevel);
 
         if(historyLevel == -1 && size > 0){
             historyLevel = 1;
@@ -92,4 +96,7 @@ public class CommandHistory {
         }
         return currentInput;
     }
+
+
+
 }
