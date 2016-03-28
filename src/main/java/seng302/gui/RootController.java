@@ -152,6 +152,7 @@ public class RootController {
         this.stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent event) {
                 closeApplication();
+                event.consume();
 
             }
         });
