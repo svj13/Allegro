@@ -28,8 +28,8 @@ public class TranscriptPaneController {
     File fileDir;
 
 
-    @FXML
-    private Pane pane1;
+//    @FXML
+//    private Pane pane1;
 
     @FXML
     private TextField txtCommand;
@@ -64,6 +64,9 @@ public class TranscriptPaneController {
     private int historyLevel;
 
 
+    /**
+     * The command which is binded to the Go button, or the enter key when the command prompt is active.
+     */
     @FXML
     private void goAction(){
 
@@ -79,8 +82,10 @@ public class TranscriptPaneController {
     }
 
 
-
-
+    /**
+     *
+     * @param event
+     */
 
     @FXML
     public void handleKeyPressed(KeyEvent event){
@@ -90,7 +95,8 @@ public class TranscriptPaneController {
 
         else if(event.getCode() == KeyCode.UP){
 
-            handleScrollUp();
+           handleScrollUp();
+            //env.getTranscriptManager().cycleInputUp(txtCommand.getText());
 
         }
 
@@ -107,54 +113,67 @@ public class TranscriptPaneController {
 
     }
 
-
+    /**
+     * Called when the 'Up' arrow is pressed when the command prompt is active.
+     * Cycles through command history.
+     */
     private void handleScrollUp(){
-        int size = env.getTranscriptManager().getTranscriptTuples().size();
-        if(historyLevel == -1 && size > 0){
-            historyLevel = 1;
 
-            enteredCommand = txtCommand.getText();
-
-        }
-        else{
-            if(historyLevel < size){
-                historyLevel ++;
-            }
+        txtCommand.setText(env.getTranscriptManager().cycleInputUp(txtCommand.getText()));
 
 
-        }
-
-        txtCommand.setText(env.getTranscriptManager().getTranscriptTuples().get(size-historyLevel).getCommand());
+//        int size = env.getTranscriptManager().getTranscriptTuples().size();
+//        if(historyLevel == -1 && size > 0){
+//            historyLevel = 1;
+//
+//            enteredCommand = txtCommand.getText();
+//
+//        }
+//        else{
+//            if(historyLevel < size){
+//                historyLevel ++;
+//            }
+//
+//
+//        }
+//
+//        txtCommand.setText(env.getTranscriptManager().getTranscriptTuples().get(size-historyLevel).getCommand());
     }
 
+    /**
+     * Called when the 'Down' key is pressed when the command prompt is active.
+     * If the command prompt is showing a previously used command from the history, then a newer command will be shown.
+     */
     private void handleScrollDown(){
-        int size = env.getTranscriptManager().getTranscriptTuples().size();
+//        int size = env.getTranscriptManager().getTranscriptTuples().size();
+//
+//        if(historyLevel > 1){
+//
+//            historyLevel--;
+//
+//            txtCommand.setText(env.getTranscriptManager().getTranscriptTuples().get(size-historyLevel).getCommand());
+//        }
+//        else if(historyLevel > 0){
+//            historyLevel --;
+//
+//            if(enteredCommand != null && enteredCommand.equals("")){
+//                System.out.println("empty!");
+//                historyLevel = -1;
+//                txtCommand.setText(enteredCommand);
+//
+//            }else{
+//                txtCommand.setText(enteredCommand);
+//            }
+//
+//
+//
+//        }
+//        else if(historyLevel == 0){
+//            txtCommand.setText("");
+//            historyLevel = -1;
+//        }
 
-        if(historyLevel > 1){
-
-            historyLevel--;
-
-            txtCommand.setText(env.getTranscriptManager().getTranscriptTuples().get(size-historyLevel).getCommand());
-        }
-        else if(historyLevel > 0){
-            historyLevel --;
-
-            if(enteredCommand != null && enteredCommand.equals("")){
-                System.out.println("empty!");
-                historyLevel = -1;
-                txtCommand.setText(enteredCommand);
-
-            }else{
-                txtCommand.setText(enteredCommand);
-            }
-
-
-
-        }
-        else if(historyLevel == 0){
-            txtCommand.setText("");
-            historyLevel = -1;
-        }
+        txtCommand.setText(env.getTranscriptManager().cycleInputDown(txtCommand.getText()));
     }
 
 

@@ -7,7 +7,7 @@
 <AnchorPane fx:id="paneMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="457.0" prefWidth="485.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.RootController">
    <children>
       <!--<children>-->
-         <MenuBar prefHeight="29.0" prefWidth="480.0" AnchorPane.bottomAnchor="428.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
+         <MenuBar minHeight="-Infinity" prefHeight="29.0" prefWidth="485.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
            <menus>
              <Menu mnemonicParsing="false" text="File">
                <items>
@@ -18,7 +18,22 @@
              </Menu>
            </menus>
          </MenuBar>
-         <StackPane fx:id="stackPane1" layoutX="3.0" layoutY="29.0" prefHeight="428.0" prefWidth="485.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
+      <TabPane layoutY="29.0" prefHeight="428.0" prefWidth="485.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0">
+        <tabs>
+          <Tab text="Transcript">
+            <content>
+              <fx:include fx:id="transcript" source="TranscriptPane.fxml" />
+              <!--<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />-->
+
+                  </content>
+          </Tab>
+          <Tab text="Pitch Tutor">
+            <content>
+                <fx:include fx:id="PitchComparisonTab" source="PitchComparisonPane.fxml" />
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
    </children>
    <!--</children>-->
 </AnchorPane>

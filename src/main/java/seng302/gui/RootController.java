@@ -34,7 +34,8 @@ public class RootController {
 
     @FXML AnchorPane paneMain;
 
-    @FXML AnchorPane transcriptAnchor;
+
+    @FXML private  TranscriptPaneController transcriptController;
 
     @FXML
     private StackPane stackPane1;
@@ -163,28 +164,30 @@ public class RootController {
         tm = env.getTranscriptManager();
 
         try{
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(this.getClass().getResource("/TranscriptPane.fxml"));
+//            FXMLLoader loader = new FXMLLoader();
+//            loader.setLocation(this.getClass().getResource("/Views/TranscriptPane.fxml"));
+//
+//
+//            Pane transcriptPane = loader.load();
+//
+//            transcriptAnchor = loader.load();
+////
 
-
-           // Pane transcriptPane = loader.load();
-
-            transcriptAnchor = loader.load();
-
-
-//            pane1.getChildren().add(tPane);
-            //paneMain.getChildren().add(tPane);
-            stackPane1.getChildren().add(transcriptAnchor);
+//
+            //stackPane1.getChildren().add(transcriptAnchor);
 
             //Handle parent resizing.
-            transcriptAnchor.prefWidthProperty().bind(stackPane1.widthProperty());
-            transcriptAnchor.prefHeightProperty().bind(stackPane1.heightProperty());
+//            transcriptAnchor.prefWidthProperty().bind(stackPane1.widthProperty());
+//            transcriptAnchor.prefHeightProperty().bind(stackPane1.heightProperty());
 
-            TranscriptPaneController controller = loader.getController();
-            controller.setEnv(env);
+           // TranscriptPaneController controller = loader.getController();
+
+            //controller.setEnv(env);
+
+           transcriptController.setEnv(env);
 
         }catch(Exception e){
-
+            System.out.println("unable to set transcript pane correctly..");
         }
 
 

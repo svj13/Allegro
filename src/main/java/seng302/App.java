@@ -1,12 +1,10 @@
 package seng302;
 
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import seng302.gui.RootController;
 
 
@@ -27,7 +25,7 @@ public class App extends Application {
         try {
 
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/newGui.fxml"));
+            loader.setLocation(getClass().getResource("/Views/newGui.fxml"));
 
             Parent root = loader.load();
 
