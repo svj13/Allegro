@@ -1,8 +1,10 @@
 package seng302.data;
 
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 
 import seng302.utility.Checker;
 import seng302.utility.OctaveUtil;
@@ -15,6 +17,7 @@ public class Note {
     private int midi;
     private String note;
     private HashMap<String, String> enharmonics;
+    public static final int noteCount = 128;
 
     public static HashMap<String, Note> notes;
     private static List<String> noteNames = new ArrayList<String>(Arrays.asList("C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"));
@@ -31,7 +34,7 @@ public class Note {
     static {
         int current_octave = -1;
         notes = new HashMap<String, Note>();
-        for (int i = 0; i < 128; i++) {
+        for (int i = 0; i < noteCount; i++) {
             HashMap<String, String> tempEnharmonics;
             HashMap<String, String> tempEnharmonics2;
             HashMap<String, String> tempEnharmonics3;
