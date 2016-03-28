@@ -1,12 +1,20 @@
 package seng302.gui;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import seng302.Environment;
@@ -27,6 +35,8 @@ public class PitchComparisonTutorController {
     TextField txtNotePairs;
 
     @FXML ComboBox<String> cbxLower;
+    @FXML
+    AnchorPane pitchTutorAnchor;
 
     @FXML ComboBox<String> cbxUpper;
     @FXML
@@ -37,13 +47,13 @@ public class PitchComparisonTutorController {
 
     @FXML Button btnGo;
 
-
+    Random rand;
 
 
     @FXML
     private void initialize(){
         System.out.println("pitch comparison initialized.");
-
+        rand = new Random();
 
     }
 
@@ -52,12 +62,31 @@ public class PitchComparisonTutorController {
      */
     @FXML
     private void goAction(){
+        ArrayList<FlowPane> panes = new ArrayList<FlowPane>();
 
         //generateComboValues(cbxUpper);
         questionRows.getChildren().clear();
         for(int i = 0; i < Integer.parseInt(txtNotePairs.getText()); i++){
-            questionRows.getChildren().add(new Button("test" + i));
+
+            FlowPane rowPane = new FlowPane();
+            rowPane.getChildren().add(new Label(Note.lookup(String.valueOf(rand.nextInt(128))).getNote() + "    "));
+
+            rowPane.getChildren().add(new Label(Note.lookup(String.valueOf(rand.nextInt(128))).getNote()));
+            ToggleGroup group = new ToggleGroup();
+            ToggleButton higher = new ToggleButton("Higher");
+            higher.setToggleGroup(group);
+            ToggleButton lower = new ToggleButton("Lower");
+            lower.setToggleGroup(group);
+
+            rowPane.getChildren().add(higher);
+            rowPane.getChildren().add(lower);
+
+            rowPane.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
+
+            questionRows.getChildren().add(rowPane);
         }
+
+        paneQuestions.prefWidthProperty().bind(pitchTutorAnchor.prefWidthProperty());
 
 
 
