@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -15,6 +17,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import seng302.Environment;
@@ -47,6 +50,8 @@ public class PitchComparisonTutorController {
 
     @FXML Button btnGo;
 
+    @FXML FlowPane headerPane;
+
     Random rand;
 
 
@@ -54,6 +59,8 @@ public class PitchComparisonTutorController {
     private void initialize(){
         System.out.println("pitch comparison initialized.");
         rand = new Random();
+
+
 
     }
 
@@ -68,29 +75,23 @@ public class PitchComparisonTutorController {
         questionRows.getChildren().clear();
         for(int i = 0; i < Integer.parseInt(txtNotePairs.getText()); i++){
 
-            FlowPane rowPane = new FlowPane();
-            rowPane.getChildren().add(new Label(Note.lookup(String.valueOf(rand.nextInt(128))).getNote() + "    "));
-
-            rowPane.getChildren().add(new Label(Note.lookup(String.valueOf(rand.nextInt(128))).getNote()));
-            ToggleGroup group = new ToggleGroup();
-            ToggleButton higher = new ToggleButton("Higher");
-            higher.setToggleGroup(group);
-            ToggleButton lower = new ToggleButton("Lower");
-            lower.setToggleGroup(group);
-
-            rowPane.getChildren().add(higher);
-            rowPane.getChildren().add(lower);
-
-            rowPane.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
+            HBox rowPane = generateQuestionPane();
 
             questionRows.getChildren().add(rowPane);
+            questionRows.setMargin(rowPane, new Insets(10, 10, 10, 10));
+
+
         }
+
+
 
         paneQuestions.prefWidthProperty().bind(pitchTutorAnchor.prefWidthProperty());
 
 
 
     }
+
+
     public void test(){
         System.out.println("Test worked!!");
     }
@@ -128,6 +129,35 @@ public class PitchComparisonTutorController {
         //Lowerbox value
 
 
+    }
+
+
+    private HBox generateQuestionPane(){
+
+
+        HBox rowPane = new HBox();
+
+        //HBox hbox = new HBox();
+        rowPane.setPadding(new Insets(10, 10, 10, 10));
+
+        rowPane.setSpacing(10);
+        rowPane.setStyle("-fx-background-color: #336699;");
+
+        rowPane.getChildren().add(new Label(Note.lookup(String.valueOf(rand.nextInt(128))).getNote() + "    "));
+
+        rowPane.getChildren().add(new Label(Note.lookup(String.valueOf(rand.nextInt(128))).getNote()));
+        ToggleGroup group = new ToggleGroup();
+        ToggleButton higher = new ToggleButton("Higher");
+        higher.setToggleGroup(group);
+        ToggleButton lower = new ToggleButton("Lower");
+        lower.setToggleGroup(group);
+
+        rowPane.getChildren().add(higher);
+        rowPane.getChildren().add(lower);
+
+        rowPane.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
+
+        return rowPane;
     }
 
 

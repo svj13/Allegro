@@ -7,75 +7,79 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="pitchTutorAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="320.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.PitchComparisonTutorController">
+<AnchorPane fx:id="pitchTutorAnchor" minWidth="460.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.PitchComparisonTutorController">
     <!--<children>-->
       <!--<Pane layoutX="-283.0" style="-fx-background-color: brown;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">-->
          <children>
-      <Label layoutX="109.0" layoutY="8.0" text="Pitch Comparison Tutor">
+      <Label text="Pitch Comparison Tutor">
          <font>
             <Font name="Tahoma Bold" size="21.0" />
          </font>
       </Label>
-      <FlowPane layoutX="10.0" layoutY="39.0" prefHeight="61.0" prefWidth="460.0">
+      <HBox alignment="CENTER" layoutY="36.0" minWidth="-Infinity" prefHeight="61.0" prefWidth="470.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="34.0">
          <children>
-            <TitledPane alignment="CENTER" animated="false" collapsible="false" prefHeight="58.0" prefWidth="119.0" text="Lower Pitch Range" textAlignment="CENTER">
-               <content>
-                  <ComboBox fx:id="cbxLower" prefHeight="25.0" prefWidth="114.0" promptText="Lower Midi Range">
-                     <tooltip>
-                        <Tooltip text="Lower Range" />
-                     </tooltip>
-                  </ComboBox>
-               </content>
-               <font>
-                  <Font size="10.0" />
-               </font>
-               <padding>
-                  <Insets left="5.0" right="5.0" />
-               </padding>
-            </TitledPane>
-            <TitledPane alignment="CENTER" animated="false" collapsible="false" prefHeight="58.0" prefWidth="119.0" text="Upper Pitch Range" textAlignment="CENTER">
-               <content>
-                  <ComboBox fx:id="cbxUpper" prefHeight="25.0" prefWidth="114.0">
-                     <tooltip>
-                        <Tooltip text="Lower Range" />
-                     </tooltip>
-                  </ComboBox>
-               </content>
-               <font>
-                  <Font size="10.0" />
-               </font>
-               <padding>
-                  <Insets left="5.0" right="5.0" />
-               </padding>
-            </TitledPane>
-            <TitledPane alignment="CENTER" animated="false" collapsible="false" prefHeight="58.0" prefWidth="107.0" text="Note Pairs" textAlignment="CENTER">
-               <font>
-                  <Font size="10.0" />
-               </font>
-               <content>
-                  <TextField id="txtNotes" fx:id="txtNotePairs" alignment="CENTER" prefHeight="25.0" prefWidth="54.0" promptText="1">
+            <FlowPane alignment="CENTER" prefHeight="61.0" prefWidth="460.0">
+               <children>
+                  <TitledPane alignment="CENTER" animated="false" collapsible="false" prefHeight="58.0" prefWidth="119.0" text="Lower Pitch Range" textAlignment="CENTER">
+                     <content>
+                        <ComboBox fx:id="cbxLower" prefHeight="25.0" prefWidth="114.0" promptText="Lower Midi Range">
+                           <tooltip>
+                              <Tooltip text="Lower Range" />
+                           </tooltip>
+                        </ComboBox>
+                     </content>
                      <font>
-                        <Font size="12.0" />
+                        <Font size="10.0" />
                      </font>
-                  </TextField>
-               </content>
-               <padding>
-                  <Insets left="5.0" right="5.0" />
-               </padding>
-            </TitledPane>
-            <Button id="btnGo" fx:id="btnGo" mnemonicParsing="false" onAction="#goAction" prefHeight="55.0" prefWidth="90.0" text="Go" textAlignment="CENTER">
-               <padding>
-                  <Insets left="5.0" right="5.0" />
-               </padding>
-               <font>
-                  <Font size="19.0" />
-               </font>
-            </Button>
+                     <padding>
+                        <Insets right="5.0" />
+                     </padding>
+                  </TitledPane>
+                  <TitledPane alignment="CENTER" animated="false" collapsible="false" prefHeight="58.0" prefWidth="119.0" text="Upper Pitch Range" textAlignment="CENTER">
+                     <content>
+                        <ComboBox fx:id="cbxUpper" prefHeight="25.0" prefWidth="114.0">
+                           <tooltip>
+                              <Tooltip text="Lower Range" />
+                           </tooltip>
+                        </ComboBox>
+                     </content>
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                     <padding>
+                        <Insets left="5.0" right="5.0" />
+                     </padding>
+                  </TitledPane>
+                  <TitledPane alignment="CENTER" animated="false" collapsible="false" prefHeight="58.0" prefWidth="107.0" text="Note Pairs" textAlignment="CENTER">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                     <content>
+                        <TextField id="txtNotes" fx:id="txtNotePairs" alignment="CENTER" prefHeight="25.0" prefWidth="54.0" promptText="1">
+                           <font>
+                              <Font size="12.0" />
+                           </font>
+                        </TextField>
+                     </content>
+                     <padding>
+                        <Insets left="5.0" right="5.0" />
+                     </padding>
+                  </TitledPane>
+                  <Button id="btnGo" fx:id="btnGo" mnemonicParsing="false" onAction="#goAction" prefHeight="55.0" prefWidth="90.0" text="Go" textAlignment="CENTER">
+                     <padding>
+                        <Insets left="5.0" right="5.0" />
+                     </padding>
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Button>
+               </children>
+            </FlowPane>
          </children>
-      </FlowPane>
-      <ScrollPane fx:id="paneQuestions" layoutX="14.0" layoutY="100.0" prefHeight="214.0" prefWidth="460.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      </HBox>
+      <ScrollPane fx:id="paneQuestions" fitToWidth="true" layoutY="105.0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="5" AnchorPane.rightAnchor="5" AnchorPane.topAnchor="105.0">
          <content>
-            <VBox fx:id="questionRows" />
+            <VBox fx:id="questionRows" prefWidth="470.0" />
          </content>
       </ScrollPane>
          </children>
