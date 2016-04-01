@@ -6,6 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.Receiver;
+import javax.sound.midi.ShortMessage;
+import javax.sound.midi.Synthesizer;
+
 import seng302.utility.Checker;
 import seng302.utility.OctaveUtil;
 
@@ -253,6 +258,25 @@ public class Note {
         }
         return scaleNotes;
     }
+
+
+
+    public void playNote(){
+        try {
+            Synthesizer synth = MidiSystem.getSynthesizer();
+            Receiver synthReceiver = synth.getReceiver();
+            synth.open();
+            ShortMessage myMessage = new ShortMessage();
+            myMessage.setMessage(ShortMessage.NOTE_ON, this.getMidi(), 127);
+            synthReceiver.send(myMessage, -1);
+        } catch (Exception e){
+            //env.error(e.getMessage());
+        }
+
+    }
+
+
+
 
     public String getEnharmonicWithLetter(char letter) {
         for (String value : enharmonics.values()) {
