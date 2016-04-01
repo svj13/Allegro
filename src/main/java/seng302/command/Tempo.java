@@ -27,8 +27,8 @@ public class Tempo implements Command {
             this.tempo = Integer.parseInt(tempo);
             if (this.tempo < 20 || this.tempo > 300) {
                 if (force == false) {
-                    this.result = "Tempo outside valid range. Use 'force' command to override. Use" +
-                            "'help' for more information";
+                    this.result = "Tempo outside valid range. Use 'force set tempo' command to " +
+                            "override. Use 'help' for more information";
                 } else {
                     this.result = String.format("Tempo changed to %d BPM", this.tempo);
                 }
