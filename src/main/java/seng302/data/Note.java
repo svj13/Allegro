@@ -260,6 +260,9 @@ public class Note {
                 return value;
             }
         }
+        if (getNote().charAt(0) == letter){
+            return getNote();
+        }
         return null;
     }
 

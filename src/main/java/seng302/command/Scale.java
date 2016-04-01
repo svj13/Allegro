@@ -1,7 +1,7 @@
 package seng302.command;
 
-//import sun.plugin2.jvm.CircularByteBuffer;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import seng302.Environment;
@@ -19,6 +19,7 @@ public class Scale implements Command {
     private boolean octaveSpecified;
     private Note note;
     private char[] letters;
+    private char currentLetter;
 
 
     public Scale(String a, String b, String outputType) {
@@ -26,15 +27,25 @@ public class Scale implements Command {
         this.type = b;
         this.outputType = outputType;
         this.letters = "ABCDEFG".toCharArray();
+        currentLetter = Character.toUpperCase(search.charAt(0));
+
 
 
     }
 
+    private void updateLetter(){
+        int index = "ABCDEFG".indexOf(currentLetter);
+        if (index + 1 > 6 ){
+            index = -1;
+        }
+        currentLetter = "ABCDEFG".charAt(index + 1);
+    }
+
     public void execute(Environment env){
-        if (Checker.isDoubleFlat(search) || Checker.isDoubleFlat(search)) {
+        if (Checker.isDoubleFlat(search) || Checker.isDoubleSharp(search)) {
             env.error("Invalid scale: '" + search + ' ' + type + "'.");
         } else {
-            if (type.equals("major")) {
+            if (type.toLowerCase().equals("major")) {
                 try {
                     if (OctaveUtil.octaveSpecifierFlag(this.search)) {
                         octaveSpecified = true;
@@ -58,27 +69,18 @@ public class Scale implements Command {
         }
     }
 
-    private String scaleToString(ArrayList<Note> scaleNotes){
+    private String scaleToString(ArrayList<Note> scaleNotes) {
         String notesAsText = "";
-        Note previousNote = null;
         for (Note note:scaleNotes) {
-            String noteName;
-            if (previousNote != null && previousNote.getNote().charAt(0) == note.getNote().charAt(0)) {
-                System.out.println("here");
-                noteName = note.flatName();
+            String currentNote = note.getEnharmonicWithLetter(currentLetter);
+            if (octaveSpecified) {
+                notesAsText += currentNote + " ";
             } else {
-                noteName = note.getNote();
+                notesAsText += OctaveUtil.removeOctaveSpecifier(currentNote) + " ";
             }
-
-            if (this.octaveSpecified) {
-                notesAsText += noteName + " ";
-            } else {
-                notesAsText += OctaveUtil.removeOctaveSpecifier(note.getNote()) + " ";
-            }
-            previousNote = note;
+            updateLetter();
         }
         return notesAsText.trim();
-
     }
 
     private String scaleToMidi(ArrayList<Note> scaleNotes) {
