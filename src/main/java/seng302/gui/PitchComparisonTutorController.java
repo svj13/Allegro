@@ -112,13 +112,17 @@ public class PitchComparisonTutorController {
     }
     @FXML
     private void handleLowerRangeAction() {
-        String selectedMidi = cbxLower.getSelectionModel().getSelectedItem().getMidi();
-        System.out.println("Changed to: " + selectedMidi);
+        if(!cbxLower.getSelectionModel().isEmpty()){
+            String selectedMidi = cbxLower.getSelectionModel().getSelectedItem().getMidi();
+            System.out.println("Changed to: " + selectedMidi);
 
-        int midiInt = Integer.getInteger(selectedMidi);
-        for(int i = midiInt ; i< Note.noteCount; i++ ){
-
+            int midiInt = Integer.parseInt(selectedMidi);
+            cbxUpper.getItems().clear();
+            for(int i = midiInt+1 ; i< Note.noteCount; i++ ){
+                cbxUpper.getItems().add(new MidiNotePair(String.valueOf(i), Note.lookup(String.valueOf(i)).getNote()));
+            }
         }
+
 
 
 
@@ -127,8 +131,38 @@ public class PitchComparisonTutorController {
 
     @FXML
     private void handleUpperRangeAction() {
-        String selectedMidi = cbxLower.getSelectionModel().getSelectedItem().getMidi();
-        System.out.println("Changed to: " + selectedMidi);
+        if(!cbxUpper.getSelectionModel().isEmpty()){
+            String selectedMidi = cbxUpper.getSelectionModel().getSelectedItem().getMidi();
+            System.out.println("upper action to: " + selectedMidi);
+
+            int midiInt = Integer.parseInt(selectedMidi);
+
+
+            //
+            System.out.println("selected index.. "  +cbxLower.getSelectionModel().getSelectedIndex( ));
+            if(cbxLower.getSelectionModel().isEmpty() ){
+                cbxLower.getItems().clear();
+                for(int i = 0; i< midiInt; i++ ){
+                    cbxLower.getItems().add(new MidiNotePair(String.valueOf(i), Note.lookup(String.valueOf(i)).getNote()));
+                }
+            }
+            else if(Integer.parseInt(cbxLower.getSelectionModel().getSelectedItem().getMidi()) < midiInt){
+                MidiNotePair oldVal = cbxLower.getSelectionModel().getSelectedItem();
+
+                cbxLower.getItems().clear();
+                for(int i = 0; i< midiInt; i++ ){
+                    cbxLower.getItems().add(new MidiNotePair(String.valueOf(i), Note.lookup(String.valueOf(i)).getNote()));
+                }
+                cbxLower.setValue(oldVal);
+            }
+
+
+
+
+
+        }
+
+
 
 
     }
