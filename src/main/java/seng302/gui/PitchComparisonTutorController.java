@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -94,8 +95,6 @@ public class PitchComparisonTutorController {
     }
 
 
-
-
     public void test(){
         System.out.println("Test worked!!");
     }
@@ -180,7 +179,6 @@ public class PitchComparisonTutorController {
             String val = i + " : "  + Note.lookup(String.valueOf(i)).getNote();
 
 
-
             assert cbxLower != null : "cbxLower was not injected, check the fxml";
 
             cbx.getItems().add(new MidiNotePair(String.valueOf(i), Note.lookup(String.valueOf(i)).getNote()));
@@ -193,27 +191,19 @@ public class PitchComparisonTutorController {
 
     }
 
-
-
-
-
-
     private HBox generateQuestionPane(){
 
 
         final HBox rowPane = new HBox();
 
-        //HBox hbox = new HBox();
         rowPane.setPadding(new Insets(10, 10, 10, 10));
 
         rowPane.setSpacing(10);
         rowPane.setStyle("-fx-background-color: #336699;");
 
 
-        //Note lowerNote = Note.lookup(String.valueOf(rand.nextInt(128)));
-        //Note higherNote = Note.lookup(String.valueOf(rand.nextInt(128)));
-
         rowPane.getChildren().add(new Label(Note.lookup(String.valueOf(rand.nextInt(128))).getNote()));
+
         rowPane.getChildren().add(new Label(Note.lookup(String.valueOf(rand.nextInt(128))).getNote()));
 
         ToggleGroup group = new ToggleGroup();
@@ -222,20 +212,50 @@ public class PitchComparisonTutorController {
         ToggleButton lower = new ToggleButton("Lower");
         lower.setToggleGroup(group);
 
+        higher.setOnAction(new EventHandler<ActionEvent>() {
+             public void handle(ActionEvent event) {
+                 Note note1 = Note.lookup(((Label) rowPane.getChildren().get(0)).getText());
+                 Note note2 = Note.lookup(((Label) rowPane.getChildren().get(1)).getText());
+
+                 if (noteComparison(true, note1, note2)) {
+                     rowPane.setStyle("-fx-background-color: red;");
+                 } else {
+                     rowPane.setStyle("-fx-background-color: green;");
+                 }
+             }
+        });
+
+        lower.setOnAction(new EventHandler<ActionEvent>() {
+                public void handle(ActionEvent event) {
+                Note note1 = Note.lookup(((Label) rowPane.getChildren().get(0)).getText());
+                Note note2 = Note.lookup(((Label) rowPane.getChildren().get(1)).getText());
+
+
+                    if (noteComparison(true, note1, note2)) {
+                        rowPane.setStyle("-fx-background-color: green;");
+                    } else {
+                        rowPane.setStyle("-fx-background-color: red;");
+                    }
+            }
+    });
+
         Button playBtn = new Button();
         playBtn.setText("Play");
         playBtn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                Note note1 = Note.lookup(((Label)rowPane.getChildren().get(0)).getText());
-                Note note2 = Note.lookup(((Label)rowPane.getChildren().get(1)).getText());
+                Note note1 = Note.lookup(((Label) rowPane.getChildren().get(0)).getText());
+                Note note2 = Note.lookup(((Label) rowPane.getChildren().get(1)).getText());
 
                 note1.playNote();
-                try{
+                try {
                     Thread.sleep(1000L);
-                }catch (Exception e) {}
+                } catch (Exception e) {
+                }
 
                 note2.playNote();
             }
+
+
         });
 
 
@@ -253,7 +273,22 @@ public class PitchComparisonTutorController {
 
 
 
+    private boolean noteComparison(boolean isHigher, Note note1, Note note2) {
 
+        if (isHigher) {
+            if (note1.getMidi() > note2.getMidi()) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            if (note1.getMidi() < note2.getMidi()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
 
 
 

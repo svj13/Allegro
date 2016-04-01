@@ -94,34 +94,34 @@ public class Note {
                     tempEnharmonics = generateEnharmonics(current_octave, "F", "Gbb", "E#", "E#");
                     notes.put(noteName, new Note(i, noteName, tempEnharmonics));
                     notes.put(Integer.toString(i), new Note(i, noteName, tempEnharmonics));
-                    tempEnharmonics2 = generateEnharmonics(current_octave, "F", "F", "", "F"); // E#
+                    tempEnharmonics2 = generateEnharmonics(current_octave, "F", "F", "Note does not have enharmonic up", "F"); // E#
                     notes.put("E#".concat(Integer.toString(current_octave)), new Note(i, "E#", tempEnharmonics2));
-                    tempEnharmonics3 = generateEnharmonics(current_octave, "F", "Note does not have enharmonic up", "F", "F"); // Gbb
+                    tempEnharmonics3 = generateEnharmonics(current_octave, "F", "Note does not have enharmonic down", "F", "F"); // Gbb
                     notes.put("Gbb".concat(Integer.toString(current_octave)), new Note(i, "Gbb", tempEnharmonics3));
                     break;
                 case 6: // F#
                     tempEnharmonics = generateEnharmonics(current_octave, "Gb", "Gb", "Ex", "Gb");
                     notes.put(noteName, new Note(i, noteName, tempEnharmonics));
                     notes.put(Integer.toString(i), new Note(i, noteName, tempEnharmonics));
-                    tempEnharmonics2 = generateEnharmonics(current_octave, "Gb", "Note does not have enharmonic up", "F#", "F#"); // Gb
+                    tempEnharmonics2 = generateEnharmonics(current_octave, "Gb", "Note does not have enharmonic down", "F#", "F#"); // Gb
                     notes.put("Gb".concat(Integer.toString(current_octave)), new Note(i, "Gb", tempEnharmonics2));
-                    tempEnharmonics3 = generateEnharmonics(current_octave, "Gb", "F#", "Note does not have enharmonic down", "F#"); // Ex
+                    tempEnharmonics3 = generateEnharmonics(current_octave, "Gb", "F#", "Note does not have enharmonic up", "F#"); // Ex
                     notes.put("Ex".concat(Integer.toString(current_octave)), new Note(i, "Ex", tempEnharmonics3));
                     break;
                 case 7: // G
                     tempEnharmonics = generateEnharmonics(current_octave, "G", "Abb", "Fx", "Note does not have simple enharmonic");
                     notes.put(noteName, new Note(i, noteName, tempEnharmonics));
                     notes.put(Integer.toString(i), new Note(i, noteName, tempEnharmonics));
-                    tempEnharmonics2 = generateEnharmonics(current_octave, "G", "Note does not have enharmonic up", "G", "G"); //Abb
+                    tempEnharmonics2 = generateEnharmonics(current_octave, "G", "Note does not have enharmonic down", "G", "G"); //Abb
                     notes.put("Abb".concat(Integer.toString(current_octave)), new Note(i, "Abb", tempEnharmonics2));
-                    tempEnharmonics3 = generateEnharmonics(current_octave, "G", "G", "Note does not have enharmonic down", "C"); // Fx
+                    tempEnharmonics3 = generateEnharmonics(current_octave, "G", "G", "Note does not have enharmonic up", "C"); // Fx
                     notes.put("Fx".concat(Integer.toString(current_octave)), new Note(i, "Fx", tempEnharmonics3));
                     break;
                 case 8: // G#
-                    tempEnharmonics = generateEnharmonics(current_octave, "Ab", "Ab", "Note does not have enharmonic down", "Ab");
+                    tempEnharmonics = generateEnharmonics(current_octave, "Ab", "Ab", "Note does not have enharmonic up", "Ab");
                     notes.put(noteName, new Note(i, noteName, tempEnharmonics));
                     notes.put(Integer.toString(i), new Note(i, noteName, tempEnharmonics));
-                    tempEnharmonics2 = generateEnharmonics(current_octave, "Ab", "Note does not have enharmonic up", "G#", "G#"); // Ab
+                    tempEnharmonics2 = generateEnharmonics(current_octave, "Ab", "Note does not have enharmonic down", "G#", "G#"); // Ab
                     notes.put("Ab".concat(Integer.toString(current_octave)), new Note(i, "Ab", tempEnharmonics2));
                     break;
                 case 9: // A
@@ -134,10 +134,10 @@ public class Note {
                     notes.put("Gx".concat(Integer.toString(current_octave)), new Note(i, "Gx", tempEnharmonics3));
                     break;
                 case 10: // A#
-                    tempEnharmonics = generateEnharmonics(current_octave, "Bb", "Bb", "Note does not have enharmonic down", "Bb");
+                    tempEnharmonics = generateEnharmonics(current_octave, "Bb", "Bb", "Note does not have enharmonic up", "Bb");
                     notes.put(noteName, new Note(i, noteName, tempEnharmonics));
                     notes.put(Integer.toString(i), new Note(i, noteName, tempEnharmonics));
-                    tempEnharmonics2 = generateEnharmonics(current_octave, "Bb", "Note does not have enharmonic up", "A#", "A#"); // Bb
+                    tempEnharmonics2 = generateEnharmonics(current_octave, "Bb", "Note does not have enharmonic down", "A#", "A#"); // Bb
                     notes.put("Bb".concat(Integer.toString(current_octave)), new Note(i, "Bb", tempEnharmonics2));
                     break;
                 case 11: // B
