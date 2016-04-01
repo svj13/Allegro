@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
@@ -20,9 +21,9 @@
          <children>
             <FlowPane alignment="CENTER" prefHeight="61.0" prefWidth="460.0">
                <children>
-                  <TitledPane alignment="CENTER" animated="false" collapsible="false" prefHeight="58.0" prefWidth="119.0" text="Lower Pitch Range" textAlignment="CENTER">
+                  <TitledPane alignment="CENTER" animated="false" collapsible="false" focusTraversable="false" prefHeight="58.0" prefWidth="119.0" text="Lower Pitch Range" textAlignment="CENTER">
                      <content>
-                        <ComboBox fx:id="cbxLower" onAction="#handleLowerRangeAction" prefHeight="25.0" prefWidth="114.0" promptText="Lower Midi Range">
+                        <ComboBox fx:id="cbxLower" onAction="#handleLowerRangeAction" prefHeight="25.0" prefWidth="114.0">
                            <tooltip>
                               <Tooltip text="Lower Range" />
                            </tooltip>
@@ -35,7 +36,7 @@
                         <Insets right="5.0" />
                      </padding>
                   </TitledPane>
-                  <TitledPane alignment="CENTER" animated="false" collapsible="false" prefHeight="58.0" prefWidth="119.0" text="Upper Pitch Range" textAlignment="CENTER">
+                  <TitledPane alignment="CENTER" animated="false" collapsible="false" focusTraversable="false" prefHeight="58.0" prefWidth="119.0" text="Upper Pitch Range" textAlignment="CENTER">
                      <content>
                         <ComboBox fx:id="cbxUpper" onAction="#handleUpperRangeAction" prefHeight="25.0" prefWidth="114.0">
                            <tooltip>
@@ -50,12 +51,12 @@
                         <Insets left="5.0" right="5.0" />
                      </padding>
                   </TitledPane>
-                  <TitledPane alignment="CENTER" animated="false" collapsible="false" prefHeight="58.0" prefWidth="107.0" text="Note Pairs" textAlignment="CENTER">
+                  <TitledPane alignment="CENTER" animated="false" collapsible="false" focusTraversable="false" prefHeight="58.0" prefWidth="107.0" text="Note Pairs" textAlignment="CENTER">
                      <font>
                         <Font size="10.0" />
                      </font>
                      <content>
-                        <TextField id="txtNotes" fx:id="txtNotePairs" alignment="CENTER" prefHeight="25.0" prefWidth="54.0" promptText="1">
+                        <TextField id="txtNotes" fx:id="txtNotePairs" alignment="CENTER" prefHeight="25.0" prefWidth="54.0" text="1">
                            <font>
                               <Font size="12.0" />
                            </font>
