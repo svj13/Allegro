@@ -16,11 +16,15 @@ public class Help implements Command {
         env.getTranscriptManager().setResult("" +
                 "crotchet duration : returns the duration of a crotcher in seconds at a given tempo" +
                         " speed in BPM \n" +
+                "force set tempo : when followed by a tempo, it will set the given tempo, even if it" +
+                        " is outside of the appropriate range \n" +
                 "midi : when followed by a valid note, it will return its corresponding midi number" +
                 " within the range of 0-127. If an octave not specified to the note, it will default " +
                 "to octave 4. e.g. 'midi' C4 will return 60. It is not case sensitive \n" +
                 "note : when followed by a valid midi number (within the range of 0-127), it will" +
                 " return the corresponding note name and its octave e.g. 'note 60' will return C4 \n" +
+                "play note : when followed by a valid midi number or valid note, the corresponding" +
+                        " note will be played \n" +
                 "semitone up : when followed by a valid note or midi number, it will return" +
                 " the note that is a semitone higher  \n" +
                 "semitone down : when followed by a valid note or midi number, it will return" +

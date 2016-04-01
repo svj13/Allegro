@@ -10,6 +10,7 @@ public class Tempo implements Command {
     private int tempo;
     private String result;
     private boolean isSetter;
+    private boolean force;
 
     public Tempo(){
         this.isSetter = false;
@@ -20,12 +21,18 @@ public class Tempo implements Command {
      * range, an error message will raise and notify the user
      *
      */
-    public Tempo(String tempo) {
+    public Tempo(String tempo, boolean force) {
         this.isSetter = true;
         try {
             this.tempo = Integer.parseInt(tempo);
-            if (this.tempo < 20 || this.tempo > 300){
-                this.result = "Tempo outside valid range";
+            if (this.tempo < 20 || this.tempo > 300) {
+                if (force == false) {
+                    this.result = "Tempo outside valid range. Use 'force set tempo' command to " +
+                            "override. Use 'help' for more information";
+                } else {
+                    this.result = String.format("Tempo changed to %d BPM", this.tempo);
+                }
+
             } else {
                 this.result = String.format("Tempo changed to %d BPM", this.tempo);
             }
