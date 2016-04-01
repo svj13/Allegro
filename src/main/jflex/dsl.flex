@@ -64,6 +64,7 @@ Atom = [^\s]+
     "midi scale"       {return symbol(DslSymbol.COMMAND_LIST_SCALE);}
     "flat name"        { return symbol(DslSymbol.COMMAND_FLAT_NAME); }
     "sharp name"       { return symbol(DslSymbol.COMMAND_SHARP_NAME); }
+    "force set tempo"  { return symbol(DslSymbol.COMMAND_FORCE_SET_TEMPO); }
     "simple enharmonic" { return symbol(DslSymbol.COMMAND_SIMPLE_ENHARMONIC); }
     "set tempo"        { return symbol(DslSymbol.COMMAND_SET_TEMPO);  }
     "play"             { return symbol(DslSymbol.COMMAND_PLAY_NOTE);    }

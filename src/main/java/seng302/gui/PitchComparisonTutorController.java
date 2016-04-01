@@ -3,13 +3,20 @@ package seng302.gui;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyCode;
@@ -20,7 +27,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import seng302.Environment;
-import seng302.data.MidiNotePair;
 import seng302.data.Note;
 
 /**
@@ -199,7 +205,7 @@ public class PitchComparisonTutorController {
     private HBox generateQuestionPane(){
 
 
-        HBox rowPane = new HBox();
+        final HBox rowPane = new HBox();
 
         //HBox hbox = new HBox();
         rowPane.setPadding(new Insets(10, 10, 10, 10));
@@ -207,22 +213,48 @@ public class PitchComparisonTutorController {
         rowPane.setSpacing(10);
         rowPane.setStyle("-fx-background-color: #336699;");
 
-        rowPane.getChildren().add(new Label(Note.lookup(String.valueOf(rand.nextInt(128))).getNote() + "    "));
+
+        //Note lowerNote = Note.lookup(String.valueOf(rand.nextInt(128)));
+        //Note higherNote = Note.lookup(String.valueOf(rand.nextInt(128)));
 
         rowPane.getChildren().add(new Label(Note.lookup(String.valueOf(rand.nextInt(128))).getNote()));
+        rowPane.getChildren().add(new Label(Note.lookup(String.valueOf(rand.nextInt(128))).getNote()));
+
         ToggleGroup group = new ToggleGroup();
         ToggleButton higher = new ToggleButton("Higher");
         higher.setToggleGroup(group);
         ToggleButton lower = new ToggleButton("Lower");
         lower.setToggleGroup(group);
 
+        Button playBtn = new Button();
+        playBtn.setText("Play");
+        playBtn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                Note note1 = Note.lookup(((Label)rowPane.getChildren().get(0)).getText());
+                Note note2 = Note.lookup(((Label)rowPane.getChildren().get(1)).getText());
+
+                note1.playNote();
+                try{
+                    Thread.sleep(1000L);
+                }catch (Exception e) {}
+
+                note2.playNote();
+            }
+        });
+
+
         rowPane.getChildren().add(higher);
         rowPane.getChildren().add(lower);
+        rowPane.getChildren().add(playBtn);
 
         rowPane.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
 
+
+
+
         return rowPane;
     }
+
 
 
 
