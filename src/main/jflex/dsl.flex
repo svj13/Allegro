@@ -66,6 +66,7 @@ Atom = [^\s]+
     "sharp name"       { return symbol(DslSymbol.COMMAND_SHARP_NAME); }
     "simple enharmonic" { return symbol(DslSymbol.COMMAND_SIMPLE_ENHARMONIC); }
     "set tempo"        { return symbol(DslSymbol.COMMAND_SET_TEMPO);  }
+    "play"             { return symbol(DslSymbol.COMMAND_PLAY_NOTE);    }
     {Atom}             { return symbol(DslSymbol.ATOM, new String(yytext()));}
     {Number}           { return symbol(DslSymbol.NUMBER, new Integer(yytext())); }
     {Note}             { return symbol(DslSymbol.NOTE, new String(yytext())); }
