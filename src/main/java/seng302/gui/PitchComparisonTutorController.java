@@ -5,7 +5,6 @@ import java.util.Random;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -21,6 +20,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import seng302.Environment;
+import seng302.data.MidiNotePair;
 import seng302.data.Note;
 
 /**
@@ -37,11 +37,11 @@ public class PitchComparisonTutorController {
     @FXML
     TextField txtNotePairs;
 
-    @FXML ComboBox<String> cbxLower;
+    @FXML ComboBox<MidiNotePair> cbxLower;
     @FXML
     AnchorPane pitchTutorAnchor;
 
-    @FXML ComboBox<String> cbxUpper;
+    @FXML ComboBox<MidiNotePair> cbxUpper;
     @FXML
     ScrollPane paneQuestions;
 
@@ -92,6 +92,8 @@ public class PitchComparisonTutorController {
     }
 
 
+
+
     public void test(){
         System.out.println("Test worked!!");
     }
@@ -105,23 +107,47 @@ public class PitchComparisonTutorController {
         generateComboValues(cbxUpper);
 
 
+
+
+    }
+    @FXML
+    private void handleLowerRangeAction() {
+        String selectedMidi = cbxLower.getSelectionModel().getSelectedItem().getMidi();
+        System.out.println("Changed to: " + selectedMidi);
+
+        int midiInt = Integer.getInteger(selectedMidi);
+        for(int i = midiInt ; i< Note.noteCount; i++ ){
+
+        }
+
+
+
+
+    }
+
+    @FXML
+    private void handleUpperRangeAction() {
+        String selectedMidi = cbxLower.getSelectionModel().getSelectedItem().getMidi();
+        System.out.println("Changed to: " + selectedMidi);
+
+
     }
 
     /**
      *
      * @param cbx
      */
-    private void generateComboValues(ComboBox<String> cbx){
+    private void generateComboValues(ComboBox<MidiNotePair> cbx){
 
         for(int i = 0; i < Note.noteCount; i++){
 
             String val = i + " : "  + Note.lookup(String.valueOf(i)).getNote();
 
 
+
             assert cbxLower != null : "cbxLower was not injected, check the fxml";
 
-
-            cbx.getItems().add(val);
+            cbx.getItems().add(new MidiNotePair(String.valueOf(i), Note.lookup(String.valueOf(i)).getNote()));
             //System.out.println(cbx.getItems().size());
         }
          //TODO Make it so it generates everytime a combobox is selected.
@@ -130,6 +156,10 @@ public class PitchComparisonTutorController {
 
 
     }
+
+
+
+
 
 
     private HBox generateQuestionPane(){

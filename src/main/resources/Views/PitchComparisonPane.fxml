@@ -22,7 +22,7 @@
                <children>
                   <TitledPane alignment="CENTER" animated="false" collapsible="false" prefHeight="58.0" prefWidth="119.0" text="Lower Pitch Range" textAlignment="CENTER">
                      <content>
-                        <ComboBox fx:id="cbxLower" prefHeight="25.0" prefWidth="114.0" promptText="Lower Midi Range">
+                        <ComboBox fx:id="cbxLower" onAction="#handleLowerRangeAction" prefHeight="25.0" prefWidth="114.0" promptText="Lower Midi Range">
                            <tooltip>
                               <Tooltip text="Lower Range" />
                            </tooltip>
@@ -37,7 +37,7 @@
                   </TitledPane>
                   <TitledPane alignment="CENTER" animated="false" collapsible="false" prefHeight="58.0" prefWidth="119.0" text="Upper Pitch Range" textAlignment="CENTER">
                      <content>
-                        <ComboBox fx:id="cbxUpper" prefHeight="25.0" prefWidth="114.0">
+                        <ComboBox fx:id="cbxUpper" onAction="#handleUpperRangeAction" prefHeight="25.0" prefWidth="114.0">
                            <tooltip>
                               <Tooltip text="Lower Range" />
                            </tooltip>
