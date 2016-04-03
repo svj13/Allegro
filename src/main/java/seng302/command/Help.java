@@ -14,7 +14,7 @@ public class Help implements Command {
 
     public void execute(Environment env) {
         env.getTranscriptManager().setResult("" +
-                "crotchet duration : returns the duration of a crotcher in seconds at a given tempo" +
+                "crotchet duration : returns the duration of a crotchet in seconds at the given tempo" +
                         " speed in BPM \n" +
                 "force set tempo : when followed by a tempo, it will set the given tempo, even if it" +
                         " is outside of the appropriate range \n" +

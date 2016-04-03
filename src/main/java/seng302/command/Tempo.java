@@ -18,7 +18,8 @@ public class Tempo implements Command {
 
     /**
      * Changes the tempo to the given value. If the value is outside of the appropriate tempo
-     * range, an error message will raise and notify the user
+     * range, an error message will raise and notify the user that there is a force command
+     * to override.
      *
      */
     public Tempo(String tempo, boolean force) {
