@@ -6,7 +6,7 @@ import seng302.utility.OctaveUtil;
 import seng302.utility.Checker;
 
 /**
- *  Midi is used to convert from a Note to a MIDI value.
+ * Midi is used to convert from a Note to a MIDI value.
  */
 public class Midi implements Command {
     private String s;
@@ -23,9 +23,8 @@ public class Midi implements Command {
     }
 
     /**
-     * Sets the result to the equivalent MIDI value or calls an
-     * error message if the note given is not valid.
-     * @param env
+     * Sets the result to the equivalent MIDI value or calls an error message if the note given is
+     * not valid.
      */
     public void execute(Environment env) {
         if (Checker.isValidNormalNote(OctaveUtil.capitalise(s))) {

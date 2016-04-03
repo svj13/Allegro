@@ -5,8 +5,7 @@ import seng302.data.Note;
 import seng302.utility.OctaveUtil;
 
 /**
- * Command used to output a semitone either up or down from a
- * provided note string.
+ * Command used to output a semitone either up or down from a provided note string.
  */
 public class Semitone implements Command {
     private Note note;

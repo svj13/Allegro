@@ -24,6 +24,7 @@ public class DslExecutor {
 
     /**
      * If the command is still a string, it must be parsed first.
+     *
      * @param command_string The command string to be parsed into a Command object.
      */
     public void executeCommand(String command_string) {
@@ -33,6 +34,7 @@ public class DslExecutor {
 
     /**
      * Parses the commands as they are entered.
+     *
      * @return The parsed command.
      */
     public Command parseCommandString(String command_string) {
