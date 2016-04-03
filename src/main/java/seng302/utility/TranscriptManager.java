@@ -55,7 +55,7 @@ public class TranscriptManager {
      *
      * @param path Text document path to save the data to.
      */
-    public void Save(String path) {
+    public void save(String path) {
 
         try {
             FileWriter writer = new FileWriter(path, false); // the true variable means that if the file exists it will append to it not 100% sure thats what we want yet
@@ -80,7 +80,7 @@ public class TranscriptManager {
      *
      * @param path The path of the command/result text document.
      */
-    public void Open(String path) {
+    public void open(String path) {
 
         transcriptContent.clear(); // they want it so that when a file is opened the transcript gets replaced with the new content
 

@@ -35,7 +35,7 @@ public class TranscriptManagerTest {
     public void testSave() throws Exception {
         assertEquals(2, tm.getTranscriptTuples().size());
 
-        tm.Save(testFile.getAbsolutePath());
+        tm.save(testFile.getAbsolutePath());
 
         assertTrue(testFile.exists());
 
@@ -48,7 +48,7 @@ public class TranscriptManagerTest {
         testSave();
 
         tm = new TranscriptManager();
-        tm.Open(testFile.getAbsolutePath());
+        tm.open(testFile.getAbsolutePath());
 
         assertEquals(2, tm.getTranscriptTuples().size());
 

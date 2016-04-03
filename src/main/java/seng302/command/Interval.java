@@ -12,7 +12,6 @@ package seng302.command;
 //*****************************
 
 
-
 import java.util.ArrayList;
 
 import seng302.Environment;
@@ -29,7 +28,7 @@ public class Interval implements Command {
     private Note note;
     private char[] letters;
 
-    public void execute(Environment env){
+    public void execute(Environment env) {
 
     }
 }

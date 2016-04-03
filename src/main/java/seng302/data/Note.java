@@ -15,8 +15,8 @@ import seng302.utility.Checker;
 import seng302.utility.OctaveUtil;
 
 /**
- * This Note class contains a static HashMap of all notes as well as the lookup method
- * and functionality for individual note objects.
+ * This Note class contains a static HashMap of all notes as well as the lookup method and
+ * functionality for individual note objects.
  */
 public class Note {
     private int midi;
@@ -163,12 +163,9 @@ public class Note {
         notesEnharmonics.put("descending", desc.concat(Integer.toString(octave)));
         notesEnharmonics.put("above", above.concat(Integer.toString(octave)));
         notesEnharmonics.put("below", below.concat(Integer.toString(octave)));
-        if (Checker.isValidNormalNote(simple))
-        {
+        if (Checker.isValidNormalNote(simple)) {
             notesEnharmonics.put("simple", simple.concat(Integer.toString(octave)));
-        }
-        else
-        {
+        } else {
             notesEnharmonics.put("simple", simple);
         }
         return notesEnharmonics;
@@ -191,8 +188,8 @@ public class Note {
     }
 
     /**
-     * Returns the descending enharmonic name.
-     * So the b value instead of the # value.
+     * Returns the descending enharmonic name. So the b value instead of the # value.
+     *
      * @return descending enharmonic name.
      */
     public String getDescendingEnharmonic() {
@@ -201,6 +198,7 @@ public class Note {
 
     /**
      * Finds the note x semitones higher.
+     *
      * @param semitones The number of semitones to increase by
      * @return the Note object one semitone higher than the current note.
      */
@@ -210,6 +208,7 @@ public class Note {
 
     /**
      * Finds the note x semitones lower.
+     *
      * @param semitones The number of semitones to decrease by
      * @return the Note object one semitone lower than the current note.
      */
@@ -220,6 +219,7 @@ public class Note {
 
     /**
      * Finds the preferred equivalent sharp note.
+     *
      * @return the sharp name for the original note.
      */
     public String sharpName() {
@@ -260,8 +260,7 @@ public class Note {
     }
 
 
-
-    public void playNote(){
+    public void playNote() {
         try {
             Synthesizer synth = MidiSystem.getSynthesizer();
             Receiver synthReceiver = synth.getReceiver();
@@ -269,13 +268,11 @@ public class Note {
             ShortMessage myMessage = new ShortMessage();
             myMessage.setMessage(ShortMessage.NOTE_ON, this.getMidi(), 127);
             synthReceiver.send(myMessage, -1);
-        } catch (Exception e){
+        } catch (Exception e) {
             //env.error(e.getMessage());
         }
 
     }
-
-
 
 
     public String getEnharmonicWithLetter(char letter) {
@@ -284,7 +281,7 @@ public class Note {
                 return value;
             }
         }
-        if (getNote().charAt(0) == letter){
+        if (getNote().charAt(0) == letter) {
             return getNote();
         }
         return null;

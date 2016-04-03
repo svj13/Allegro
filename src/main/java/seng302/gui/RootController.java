@@ -34,13 +34,14 @@ public class RootController implements Initializable {
     @FXML
     private Pane pane1;
 
-    @FXML AnchorPane paneMain;
+    @FXML
+    AnchorPane paneMain;
 
 
     @FXML
     private PitchComparisonTutorController PitchComparisonTabController; //pitchController;
     @FXML
-    private  TranscriptPaneController transcriptController;
+    private TranscriptPaneController transcriptController;
 
     @FXML
     private StackPane stackPane1;
@@ -58,16 +59,13 @@ public class RootController implements Initializable {
     private MenuItem menuSave;
 
     @FXML
-    private void initialize(){
+    private void initialize() {
 
     }
 
-    public void RootController(){
+    public void RootController() {
 
     }
-
-
-
 
 
     public void initialize(URL location, ResourceBundle resources) {
@@ -78,12 +76,12 @@ public class RootController implements Initializable {
 
 
     /**
-     * Closes the application, if There are unsaved changes then it prompts the user
-     * to save the file.
+     * Closes the application, if There are unsaved changes then it prompts the user to save the
+     * file.
      */
     @FXML
-    private void closeApplication(){
-        if(tm.unsavedChanges == true) {
+    private void closeApplication() {
+        if (tm.unsavedChanges == true) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("Unsaved changes");
             alert.setContentText("Are you sure that you would like to quit?");
@@ -97,18 +95,18 @@ public class RootController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == saveBtn) {
                 saveTranscript();
-                if(tm.unsavedChanges == false) {
+                if (tm.unsavedChanges == false) {
                     System.exit(0);
                 }
             } else if (result.get() == quitBtn) {
                 System.exit(0);
 
-            } else{
+            } else {
                 //do nothing
             }
 
 
-        }else{
+        } else {
             System.exit(0);
         }
     }
@@ -117,7 +115,7 @@ public class RootController implements Initializable {
      * Used to save the transcript to a destination determined by the user, using a filechooser.
      */
     @FXML
-    private void saveTranscript(){
+    private void saveTranscript() {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(textFilter);
@@ -127,7 +125,7 @@ public class RootController implements Initializable {
         if (file != null) {
             fileDir = file.getParentFile();
             path = file.getAbsolutePath();
-            tm.Save(path);
+            tm.save(path);
         }
     }
 
@@ -135,7 +133,7 @@ public class RootController implements Initializable {
      * Opens a transcript that has been previously saved.
      */
     @FXML
-    private void openTranscript(){
+    private void openTranscript() {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(textFilter);
@@ -146,7 +144,7 @@ public class RootController implements Initializable {
             fileDir = file.getParentFile();
             path = file.getAbsolutePath();
             try {
-                tm.Open(path);
+                tm.open(path);
                 txtTranscript.setText(tm.convertToText());
             } catch (Exception ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -159,11 +157,7 @@ public class RootController implements Initializable {
     }
 
 
-
-
-
-
-    public void setStage(Stage stage){
+    public void setStage(Stage stage) {
         this.stage = stage;
         this.stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent event) {
@@ -174,13 +168,12 @@ public class RootController implements Initializable {
         });
     }
 
-    public void setEnvironment(Environment env){
+    public void setEnvironment(Environment env) {
         this.env = env;
         tm = env.getTranscriptManager();
 
 
-
-       // try{
+        // try{
 //            FXMLLoader loader = new FXMLLoader();
 //            loader.setLocation(this.getClass().getResource("/Views/TranscriptPane.fxml"));
 //
@@ -191,19 +184,19 @@ public class RootController implements Initializable {
 ////
 
 //
-            //stackPane1.getChildren().add(transcriptAnchor);
+        //stackPane1.getChildren().add(transcriptAnchor);
 
-            //Handle parent resizing.
+        //Handle parent resizing.
 //            transcriptAnchor.prefWidthProperty().bind(stackPane1.widthProperty());
 //            transcriptAnchor.prefHeightProperty().bind(stackPane1.heightProperty());
 
-           // TranscriptPaneController controller = loader.getController();
+        // TranscriptPaneController controller = loader.getController();
 
-            //controller.setEnv(env);
+        //controller.setEnv(env);
 
-           // pitchComparisonController.create(env);
+        // pitchComparisonController.create(env);
 
-           transcriptController.setEnv(env);
+        transcriptController.setEnv(env);
 
 
 //        FXMLLoader loader = new FXMLLoader();
@@ -215,7 +208,6 @@ public class RootController implements Initializable {
 //            System.out.println("LOADER FAILED");
 //        }
 //        pitchController = loader.getController();
-
 
 
 //        pitchController.createA(env);
@@ -238,19 +230,14 @@ public class RootController implements Initializable {
         PitchComparisonTabController.createA(env);
 
 
+        // }catch(Exception e){
 
-
-
-
-
-       // }catch(Exception e){
-
-       // }
+        // }
 
 
     }
 
-    public Environment getEnv(){
+    public Environment getEnv() {
         return env;
     }
 

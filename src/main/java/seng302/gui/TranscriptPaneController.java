@@ -52,9 +52,8 @@ public class TranscriptPaneController {
     private SimpleIntegerProperty history;
 
 
-
     @FXML
-    private void initialize(){
+    private void initialize() {
         System.out.println("Transcript Controller initialized");
     }
 
@@ -64,10 +63,11 @@ public class TranscriptPaneController {
 
 
     /**
-     * The command which is binded to the Go button, or the enter key when the command prompt is active.
+     * The command which is binded to the Go button, or the enter key when the command prompt is
+     * active.
      */
     @FXML
-    private void goAction(){
+    private void goAction() {
 
         String text = txtCommand.getText();
         txtCommand.setText("");
@@ -87,51 +87,37 @@ public class TranscriptPaneController {
      */
 
     @FXML
-    public void handleKeyPressed(KeyEvent event){
+    public void handleKeyPressed(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
             goAction();
-        }
+        } else if (event.getCode() == KeyCode.UP) {
 
-        else if(event.getCode() == KeyCode.UP){
-
-           //handleScrollUp();
+            //handleScrollUp();
             txtCommand.setText(env.getTranscriptManager().cycleInputUp(txtCommand.getText()));
 
-        }
-
-        else if(event.getCode() == KeyCode.DOWN){
+        } else if (event.getCode() == KeyCode.DOWN) {
 
 //            handleScrollDown();
             txtCommand.setText(env.getTranscriptManager().cycleInputDown(txtCommand.getText()));
-        }
-        else if(event.getCode() == KeyCode.ALPHANUMERIC){
+        } else if (event.getCode() == KeyCode.ALPHANUMERIC) {
             env.getTranscriptManager().resetHistoryLevel();
-           // historyLevel = -1;
+            // historyLevel = -1;
             //enteredCommand = "";
         }
 
 
-
     }
 
 
-
-
-
-
-
-
-    public void setStage(Stage stage){
+    public void setStage(Stage stage) {
         this.stage = stage;
 
     }
-    public void setEnv(Environment env){
+
+    public void setEnv(Environment env) {
         this.env = env;
 
     }
-
-
-
 
 
 }

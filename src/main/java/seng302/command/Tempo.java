@@ -12,14 +12,13 @@ public class Tempo implements Command {
     private boolean isSetter;
     private boolean force;
 
-    public Tempo(){
+    public Tempo() {
         this.isSetter = false;
     }
 
     /**
-     * Changes the tempo to the given value. If the value is outside of the appropriate tempo
-     * range, an error message will raise and notify the user
-     *
+     * Changes the tempo to the given value. If the value is outside of the appropriate tempo range,
+     * an error message will raise and notify the user
      */
     public Tempo(String tempo, boolean force) {
         this.isSetter = true;
@@ -42,12 +41,11 @@ public class Tempo implements Command {
     }
 
     /**
-     * Executes the tempo command. It will return the current set tempo in BPM. If no tempo has
-     * been set, it defaults to the value of 120BMP
-     *
+     * Executes the tempo command. It will return the current set tempo in BPM. If no tempo has been
+     * set, it defaults to the value of 120BMP
      */
     public void execute(Environment env) {
-        if (isSetter){
+        if (isSetter) {
             env.setTempo(this.tempo);
             env.getTranscriptManager().setResult(result);
         } else {
