@@ -4,7 +4,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="paneMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="457.0" prefWidth="485.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.RootController">
+<AnchorPane fx:id="paneMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="457.0" prefWidth="485.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.RootController">
    <children>
       <!--<children>-->
          <MenuBar minHeight="-Infinity" prefHeight="29.0" prefWidth="485.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -32,6 +32,11 @@
                 <fx:include fx:id="PitchComparisonTab" source="PitchComparisonPane.fxml" />
             </content>
           </Tab>
+            <Tab text="Interval Tutor">
+              <content>
+                  <fx:include fx:id="IntervalRecognitionTab" source="IntervalRecognitionPane.fxml" />
+              </content>
+            </Tab>
         </tabs>
       </TabPane>
    </children>
