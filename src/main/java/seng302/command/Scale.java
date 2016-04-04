@@ -65,7 +65,7 @@ public class Scale implements Command {
                         int duration = env.getTempo() / 60;
                         for (Note note:notesToPlay) {
                             // Play each note for the duration
-                            note.playNote();
+                            note.playNote(env.getTempo());
                         }
                     }
                 } catch (Exception e) {

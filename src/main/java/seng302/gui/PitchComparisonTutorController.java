@@ -237,13 +237,13 @@ public class PitchComparisonTutorController {
                 Note note1 = Note.lookup(((Label) rowPane.getChildren().get(0)).getText());
                 Note note2 = Note.lookup(((Label) rowPane.getChildren().get(1)).getText());
 
-                note1.playNote();
+                note1.playNote(env.getTempo());
                 try {
                     Thread.sleep(1000L);
                 } catch (Exception e) {
                 }
 
-                note2.playNote();
+                note2.playNote(env.getTempo());
             }
 
 
