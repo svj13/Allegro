@@ -38,8 +38,8 @@ non terminal Note note;
 non terminal ArrayList<Note> scale;
 
 command ::= COMMAND_HELP                        {: RESULT = new Help(); :}
-          | COMMAND_NOTE note:n                 {: RESULT = new NoteCommand(n); :}
-          | COMMAND_MIDI note:s                 {: RESULT = new Midi(s); :}
+          | COMMAND_NOTE ATOM:n                 {: RESULT = new NoteCommand(n); :}
+          | COMMAND_MIDI ATOM:s                 {: RESULT = new Midi(s); :}
           | COMMAND_VERSION                     {: RESULT = new Version(); :}
           | COMMAND_SEMITONE_UP ATOM:s          {: RESULT = new Semitone(s, true); :}
           | COMMAND_SEMITONE_DOWN ATOM:s        {: RESULT = new Semitone(s, false); :}

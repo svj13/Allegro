@@ -8,9 +8,9 @@ import seng302.utility.Checker;
  * NoteCommand is used to convert from a MIDI value to a Note.
  */
 public class NoteCommand implements Command {
-    private Note note;
+    private String note;
 
-    public NoteCommand(Note s) {
+    public NoteCommand(String s) {
         note = s;
     }
 
@@ -19,6 +19,10 @@ public class NoteCommand implements Command {
      * valid note.
      */
     public void execute(Environment env) {
-        env.getTranscriptManager().setResult(note.getNote());
+        if (Checker.isValidMidiNote(note)) {
+            env.getTranscriptManager().setResult(Note.lookup(note).getNote());
+        } else {
+            env.error("\'" + note + "\'" + " is not a valid MIDI value.");
+        }
     }
 }
