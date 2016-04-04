@@ -23,7 +23,7 @@ public class PlayNote implements Command {
 
 
     public void execute(Environment env) {
-        note.playNote();
+        note.playNote(env.getTempo());
     }
 }
 
