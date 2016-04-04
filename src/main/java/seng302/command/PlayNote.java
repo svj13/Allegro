@@ -29,7 +29,7 @@ public class PlayNote implements Command {
 
 
     public void execute(Environment env) {
-        if (this.duration != null) {
+        if (this.duration == null) {
             note.playNote(env.getTempo());
         } else {
             note.playNote(this.duration);
