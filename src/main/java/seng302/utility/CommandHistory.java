@@ -90,8 +90,9 @@ public class CommandHistory {
 
         }
         else if(historyLevel == 0){
-            historyLevel = -1;
-           return "";
+            //historyLevel = -1;
+           //return "";
+            return storedInput;
 
         }
         return currentInput;
