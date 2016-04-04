@@ -3,6 +3,7 @@ package seng302.command;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import seng302.Environment;
 import seng302.data.Note;
@@ -20,6 +21,7 @@ public class Scale implements Command {
     private Note note;
     private char[] letters;
     private char currentLetter;
+    private String direction = "up";
 
 
     public Scale(String a, String b, String outputType) {
@@ -30,6 +32,15 @@ public class Scale implements Command {
         currentLetter = Character.toUpperCase(search.charAt(0));
 
 
+    }
+
+    public Scale(String a, String b, String outputType, String scaleType) {
+        this.search = a;
+        this.type = b;
+        this.outputType = outputType;
+        this.letters = "ABCDEFG".toCharArray();
+        currentLetter = Character.toUpperCase(search.charAt(0));
+        this.direction = scaleType;
     }
 
     private void updateLetter() {
@@ -60,7 +71,17 @@ public class Scale implements Command {
                 } else {
                     // Is play
                     ArrayList<Note> notesToPlay = note.getScale(type);
-                    env.getTranscriptManager().setResult(scaleToString(notesToPlay));
+                    // We need to alter the notes if it's down or up/down
+                    if (this.direction.equals("down")) {
+                        Collections.reverse(notesToPlay);
+                    }
+                    if (this.direction.equals("updown")) {
+                        ArrayList<Note> reversedNotes = new ArrayList<Note>(notesToPlay);
+                        Collections.reverse(reversedNotes);
+                        notesToPlay.addAll(reversedNotes);
+                    }
+                    //Problem here: if notesToPlay is updown, the program can't ID what the notes should look like
+                    //env.getTranscriptManager().setResult(scaleToString(notesToPlay));
                     int duration = env.getTempo() / 60;
                     for (Note note : notesToPlay) {
                         // Play each note for the duration
@@ -69,6 +90,7 @@ public class Scale implements Command {
                 }
             } catch (Exception e) {
                 env.error("Note is not contained in the MIDI library.");
+                System.out.println(e);
             }
         }
     }
