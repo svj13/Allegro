@@ -16,14 +16,24 @@ import seng302.utility.OctaveUtil;
 public class PlayNote implements Command {
 
     private Note note;
+    private Integer duration;
 
     public PlayNote(String note) {
         this.note = Note.lookup(OctaveUtil.addDefaultOctave(note));
     }
 
+    public PlayNote(String note, int duration) {
+        this.note = Note.lookup(OctaveUtil.addDefaultOctave(note));
+        this.duration = duration;
+    }
+
 
     public void execute(Environment env) {
-        note.playNote(env.getTempo());
+        if (this.duration != null) {
+            note.playNote(env.getTempo());
+        } else {
+            note.playNote(this.duration);
+        }
     }
 }
 
