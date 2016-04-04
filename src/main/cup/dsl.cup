@@ -2,6 +2,8 @@ package seng302;
 
 import java_cup.runtime.*;
 import seng302.command.*;
+import seng302.utility.OctaveUtil;
+import seng302.data.Note;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +20,8 @@ parser code {:
     }
 
     public void syntax_error(Symbol cur_token) {
+        System.out.println(cur_token.value);
+
 
     }
 :};
@@ -25,11 +29,13 @@ parser code {:
 /* Terminal tokens returns by the lexer */
 terminal COMMAND_HELP, COMMAND_NOTE, COMMAND_MIDI, COMMAND_VERSION, COMMAND_SEMITONE_UP, COMMAND_SEMITONE_DOWN, COMMAND_SCALE, COMMAND_TEMPO, COMMAND_LIST_SCALE, COMMAND_SHARP_NAME, COMMAND_FLAT_NAME, COMMAND_SIMPLE_ENHARMONIC, COMMAND_SET_TEMPO, COMMAND_CROTCHET_DURATION, COMMAND_PLAY_NOTE, COMMAND_FORCE_SET_TEMPO, COMMAND_PLAY_SCALE, COMMAND_MUSICAL_TERM;
 terminal Integer NUMBER;
-terminal String     STRING, ATOM, NOTE;
+terminal String     STRING, ATOM, NOTE, SCALE_TYPE;
 
 /* Non terminals */
 non terminal Command command;
 non terminal List<Integer> arg_list;
+non terminal Note note;
+non terminal ArrayList<Note> scale;
 
 command ::= COMMAND_HELP                        {: RESULT = new Help(); :}
           | COMMAND_NOTE ATOM:n                 {: RESULT = new NoteCommand(n); :}
@@ -44,7 +50,7 @@ command ::= COMMAND_HELP                        {: RESULT = new Help(); :}
           | COMMAND_SHARP_NAME ATOM:s           {: RESULT = new Enharmonic(s, 1); :}
           | COMMAND_SIMPLE_ENHARMONIC ATOM:s    {: RESULT = new Enharmonic(s, 2); :}
           | COMMAND_SET_TEMPO ATOM:s            {: RESULT = new Tempo(s, false); :}
-          | COMMAND_FORCE_SET_TEMPO ATOM:s      {:RESULT = new Tempo(s, true); :}
+          | COMMAND_FORCE_SET_TEMPO ATOM:s      {: RESULT = new Tempo(s, true); :}
           | COMMAND_CROTCHET_DURATION           {: RESULT = new CrotchetDuration(); :}
           | COMMAND_PLAY_NOTE  ATOM:s           {: RESULT = new PlayNote(s); :}
           | COMMAND_MUSICAL_TERM ATOM:s           {:RESULT = new MusicalTerm(s); :}
@@ -54,4 +60,10 @@ command ::= COMMAND_HELP                        {: RESULT = new Help(); :}
 
 arg_list ::= arg_list:list NUMBER:n {: list.add(n); RESULT = list; :}
           | NUMBER:n {: RESULT = new ArrayList<Integer>(); RESULT.add(n); :}
+;
+
+note ::= NOTE:s             {:RESULT = Note.lookup(OctaveUtil.addDefaultOctave(s));:}
+;
+
+scale ::= NOTE:s SCALE_TYPE:r       {:RESULT = Note.lookup(s).getScale(r);:}
 ;

@@ -2,6 +2,7 @@ package seng302.gui;
 
 import java.io.File;
 
+import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -54,7 +55,12 @@ public class TranscriptPaneController {
 
     @FXML
     private void initialize() {
-        System.out.println("Transcript Controller initialized");
+        // Text field can only request focus once everything has been loaded.
+        Platform.runLater(new Runnable() {
+            public void run() {
+                txtCommand.requestFocus();
+            }
+        });
     }
 
     private String enteredCommand;
