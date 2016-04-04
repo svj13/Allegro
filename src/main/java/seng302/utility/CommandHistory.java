@@ -10,17 +10,15 @@ public class CommandHistory {
 
     public CommandHistory(TranscriptManager manager) {
         tm = manager;
-
         historyLevel = -1;
-
-
-
 
     }
 
     public void resetLevel() {
         historyLevel = -1;
     }
+
+
     /**
      * Called when the 'Up' arrow is pressed when the command prompt is active. Cycles through
      * command history.
@@ -40,12 +38,6 @@ public class CommandHistory {
         } else {
             if (historyLevel < size) {
                 historyLevel++;
-            } else {
-                //historyLevel = 0;
-                //return storedInput;
-
-
-
             }
 
 
@@ -85,16 +77,10 @@ public class CommandHistory {
 
 
         } else if (historyLevel == 0) {
-            historyLevel = -1;
-            return "";
-
-        }
-        else if(historyLevel == 0){
-            //historyLevel = -1;
-           //return "";
             return storedInput;
 
         }
+
         return currentInput;
     }
 

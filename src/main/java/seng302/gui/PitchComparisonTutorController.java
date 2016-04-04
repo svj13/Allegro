@@ -7,7 +7,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -86,22 +85,16 @@ public class PitchComparisonTutorController {
             questionRows.getChildren().add(rowPane);
             questionRows.setMargin(rowPane, new Insets(10, 10, 10, 10));
 
-
         }
-
-
         paneQuestions.prefWidthProperty().bind(pitchTutorAnchor.prefWidthProperty());
 
 
     }
 
+    
 
-    public void test() {
-        System.out.println("Test worked!!");
-    }
+    public void create(Environment env) {
 
-
-    public void createA(Environment env) {
 
         System.out.println("inside pitch comparison tutor");
         this.env = env;
@@ -127,6 +120,9 @@ public class PitchComparisonTutorController {
 
     }
 
+    /**
+     * Called whenever the upper range selector is interacted with.
+     */
     @FXML
     private void handleUpperRangeAction() {
         if (!cbxUpper.getSelectionModel().isEmpty()) {
@@ -160,7 +156,7 @@ public class PitchComparisonTutorController {
     }
 
     /**
-     *
+     * Generates the lower and upper range combobox values.
      * @param cbx
      */
     private void generateComboValues(ComboBox<MidiNotePair> cbx) {
@@ -182,8 +178,11 @@ public class PitchComparisonTutorController {
 
     }
 
+    /**
+     * Constructs the question panels.
+     * @return
+     */
     private HBox generateQuestionPane() {
-
 
         final HBox rowPane = new HBox();
 
@@ -261,24 +260,30 @@ public class PitchComparisonTutorController {
     }
 
 
+    /**
+     * Note comparison
+     * @param isHigher
+     * @param note1
+     * @param note2
+     * @return
+     */
     private boolean noteComparison(boolean isHigher, Note note1, Note note2) {
 
         if (isHigher) {
-            if (note1.getMidi() > note2.getMidi()) {
-                return true;
-            } else {
-                return false;
-            }
+            if (note1.getMidi() > note2.getMidi()) return true;
+
+            else return false;
         } else {
-            if (note1.getMidi() < note2.getMidi()) {
-                return true;
-            } else {
-                return false;
-            }
+            if (note1.getMidi() < note2.getMidi()) return true;
+            else return false;
         }
     }
 
 
+    /**
+     * Key event binder. No functionality at this point.
+     * @param event
+     */
     @FXML
     public void handleKeyPressed(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
@@ -297,10 +302,6 @@ public class PitchComparisonTutorController {
     }
 
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
-
-    }
 
 
 }
