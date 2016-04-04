@@ -90,7 +90,6 @@ public class Scale implements Command {
                 }
             } catch (Exception e) {
                 env.error("Note is not contained in the MIDI library.");
-                System.out.println(e);
             }
         }
     }
