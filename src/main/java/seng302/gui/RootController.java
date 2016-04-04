@@ -227,7 +227,7 @@ public class RootController implements Initializable {
 //        pitchController =
 //                loader.<PitchComparisonTutorController>getController();
 
-        PitchComparisonTabController.createA(env);
+        PitchComparisonTabController.create(env);
 
 
         // }catch(Exception e){
