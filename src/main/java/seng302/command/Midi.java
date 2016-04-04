@@ -9,17 +9,13 @@ import seng302.utility.Checker;
  * Midi is used to convert from a Note to a MIDI value.
  */
 public class Midi implements Command {
-    private String s;
+    private Note a;
 
     /**
      * Adds the default octave to the note if it does not specify an octave.
      */
-    public Midi(String s) {
-        if (Checker.isValidNoteNoOctave(s)) {
-            this.s = OctaveUtil.addDefaultOctave(s);
-        } else {
-            this.s = s;
-        }
+    public Midi(Note s) {
+        a = s;
     }
 
     /**
@@ -27,11 +23,7 @@ public class Midi implements Command {
      * not valid.
      */
     public void execute(Environment env) {
-        if (Checker.isValidNormalNote(OctaveUtil.capitalise(s))) {
-            env.getTranscriptManager().setResult(Integer.toString(Note.lookup(s).getMidi()));
-        } else {
-            env.error("\'" + s + "\'" + " is not a valid note.");
-        }
+        env.getTranscriptManager().setResult(Integer.toString(a.getMidi()));
     }
 
 

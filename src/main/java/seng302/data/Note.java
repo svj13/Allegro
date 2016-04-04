@@ -241,19 +241,21 @@ public class Note {
      * @return array list of notes in the scale. If any notes are null, the scale returned will be
      * null.
      */
-    public ArrayList<Note> getMajorScale() {
+    public ArrayList<Note> getScale(String type) {
         ArrayList<Note> scaleNotes = new ArrayList<Note>();
-        scaleNotes.add(this);
-        scaleNotes.add(this.semitoneUp(2));
-        scaleNotes.add(this.semitoneUp(4));
-        scaleNotes.add(this.semitoneUp(5));
-        scaleNotes.add(this.semitoneUp(7));
-        scaleNotes.add(this.semitoneUp(9));
-        scaleNotes.add(this.semitoneUp(11));
-        scaleNotes.add(this.semitoneUp(12));
-        for (Note note : scaleNotes) {
-            if (note == null) {
-                return null;
+        if (type.toLowerCase().equals("major")) {
+            scaleNotes.add(this);
+            scaleNotes.add(this.semitoneUp(2));
+            scaleNotes.add(this.semitoneUp(4));
+            scaleNotes.add(this.semitoneUp(5));
+            scaleNotes.add(this.semitoneUp(7));
+            scaleNotes.add(this.semitoneUp(9));
+            scaleNotes.add(this.semitoneUp(11));
+            scaleNotes.add(this.semitoneUp(12));
+            for (Note note : scaleNotes) {
+                if (note == null) {
+                    return null;
+                }
             }
         }
         return scaleNotes;

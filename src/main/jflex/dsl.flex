@@ -41,8 +41,9 @@ import java_cup.runtime.*;
 
 WhiteSpace = \p{Whitespace}
 Number = -?\p{Digit}+
-Note = [A-G|a-g]#?[-1]?[0-9]?
+Note = [A-G|a-g]([#|b|x]|(bb))?[0-8]?|[D-G|d-g]([#|b|x]|(bb))?[-1]?|[A-F|a-f]([#|b|x]|(bb))?[9]?|[C|c][#|x]?(-1)?|[G|g](b|bb)?[9]?|(0?[0-9]?[0-9]|1[01][0-9]|12[0-7])
 Atom = [^\s]+
+ScaleType = major
 //Note = ^[A-G|a-g][#|b]?[1-7]?$|^[A|B|a|b][#|b]?0$|^[C|c][#|b]8$
    
 %%
@@ -69,9 +70,9 @@ Atom = [^\s]+
     "set tempo"        { return symbol(DslSymbol.COMMAND_SET_TEMPO);  }
     "play scale"        {return symbol(DslSymbol.COMMAND_PLAY_SCALE); }
     "play"             { return symbol(DslSymbol.COMMAND_PLAY_NOTE);    }
+    {ScaleType}         {return symbol(DslSymbol.SCALE_TYPE, new String(yytext()));}
     {Atom}             { return symbol(DslSymbol.ATOM, new String(yytext()));}
     {Number}           { return symbol(DslSymbol.NUMBER, new Integer(yytext())); }
-    {Note}             { return symbol(DslSymbol.NOTE, new String(yytext())); }
     "crotchet duration"    { return symbol(DslSymbol.COMMAND_CROTCHET_DURATION); }
     "meaning of"       { return symbol(DslSymbol.COMMAND_MUSICAL_TERM); }
 

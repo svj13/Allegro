@@ -44,35 +44,31 @@ public class Scale implements Command {
         if (Checker.isDoubleFlat(search) || Checker.isDoubleSharp(search)) {
             env.error("Invalid scale: '" + search + ' ' + type + "'.");
         } else {
-            if (type.toLowerCase().equals("major")) {
-                try {
-                    if (OctaveUtil.octaveSpecifierFlag(this.search)) {
-                        octaveSpecified = true;
-                        this.note = Note.lookup(search);
-                    } else {
-                        octaveSpecified = false;
-                        this.note = Note.lookup(OctaveUtil.addDefaultOctave(search));
-                    }
-                    if (this.outputType.equals("note")) {
-                        env.getTranscriptManager().setResult(scaleToString(note.getMajorScale()));
-                    } else if (this.outputType.equals("midi")) {
-                        // Is midi
-                        env.getTranscriptManager().setResult(scaleToMidi(note.getMajorScale()));
-                    } else {
-                        // Is play
-                        ArrayList<Note> notesToPlay = note.getMajorScale();
-                        env.getTranscriptManager().setResult(scaleToString(notesToPlay));
-                        int duration = env.getTempo() / 60;
-                        for (Note note:notesToPlay) {
-                            // Play each note for the duration
-                            note.playNote(env.getTempo());
-                        }
-                    }
-                } catch (Exception e) {
-                    env.error("Note is not contained in the MIDI library.");
+            try {
+                if (OctaveUtil.octaveSpecifierFlag(this.search)) {
+                    octaveSpecified = true;
+                    this.note = Note.lookup(search);
+                } else {
+                    octaveSpecified = false;
+                    this.note = Note.lookup(OctaveUtil.addDefaultOctave(search));
                 }
-            } else {
-                env.error("Invalid scale type: '" + type + "'.");
+                if (this.outputType.equals("note")) {
+                    env.getTranscriptManager().setResult(scaleToString(note.getScale(type)));
+                } else if (this.outputType.equals("midi")) {
+                    // Is midi
+                    env.getTranscriptManager().setResult(scaleToMidi(note.getScale(type)));
+                } else {
+                    // Is play
+                    ArrayList<Note> notesToPlay = note.getScale(type);
+                    env.getTranscriptManager().setResult(scaleToString(notesToPlay));
+                    int duration = env.getTempo() / 60;
+                    for (Note note : notesToPlay) {
+                        // Play each note for the duration
+                        note.playNote(env.getTempo());
+                    }
+                }
+            } catch (Exception e) {
+                env.error("Note is not contained in the MIDI library.");
             }
         }
     }
