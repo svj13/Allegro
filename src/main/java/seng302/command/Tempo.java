@@ -17,9 +17,8 @@ public class Tempo implements Command {
     }
 
     /**
-     * Changes the tempo to the given value. If the value is outside of the appropriate tempo
-     * range, an error message will raise and notify the user
-     *
+     * Changes the tempo to the given value. If the value is outside of the appropriate tempo range,
+     * an error message will raise and notify the user
      */
     public Tempo(String tempo, boolean force) {
         this.isSetter = true;

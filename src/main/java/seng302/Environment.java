@@ -39,7 +39,7 @@ public class Environment {
         this.tempo = tempo;
     }
 
-    public int getTempo(){
+    public int getTempo() {
         return this.tempo;
     }
 }

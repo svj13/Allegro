@@ -34,27 +34,23 @@ public class App extends Application {
             Scene scene = new Scene(root);
 
 
-
             primaryStage.setScene(scene);
             primaryStage.setTitle("Allegro");
             primaryStage.setMinHeight(450);
             primaryStage.setMinWidth(450);
 
             RootController controller = loader.getController();
-            if(controller == null ) System.out.println("Controller is null");
+            if (controller == null) System.out.println("Controller is null");
             controller.setEnvironment(new Environment());
             controller.setStage(primaryStage);
             primaryStage.show();
 
 
-
-
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
-
 
 
 }

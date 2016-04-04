@@ -30,18 +30,17 @@ public class Scale implements Command {
         currentLetter = Character.toUpperCase(search.charAt(0));
 
 
-
     }
 
-    private void updateLetter(){
+    private void updateLetter() {
         int index = "ABCDEFG".indexOf(currentLetter);
-        if (index + 1 > 6 ){
+        if (index + 1 > 6) {
             index = -1;
         }
         currentLetter = "ABCDEFG".charAt(index + 1);
     }
 
-    public void execute(Environment env){
+    public void execute(Environment env) {
         if (Checker.isDoubleFlat(search) || Checker.isDoubleSharp(search)) {
             env.error("Invalid scale: '" + search + ' ' + type + "'.");
         } else {
@@ -56,9 +55,18 @@ public class Scale implements Command {
                     }
                     if (this.outputType.equals("note")) {
                         env.getTranscriptManager().setResult(scaleToString(note.getMajorScale()));
-                    } else {
+                    } else if (this.outputType.equals("midi")) {
                         // Is midi
                         env.getTranscriptManager().setResult(scaleToMidi(note.getMajorScale()));
+                    } else {
+                        // Is play
+                        ArrayList<Note> notesToPlay = note.getMajorScale();
+                        env.getTranscriptManager().setResult(scaleToString(notesToPlay));
+                        int duration = env.getTempo() / 60;
+                        for (Note note:notesToPlay) {
+                            // Play each note for the duration
+                            note.playNote(env.getTempo());
+                        }
                     }
                 } catch (Exception e) {
                     env.error("Note is not contained in the MIDI library.");
@@ -71,7 +79,7 @@ public class Scale implements Command {
 
     private String scaleToString(ArrayList<Note> scaleNotes) {
         String notesAsText = "";
-        for (Note note:scaleNotes) {
+        for (Note note : scaleNotes) {
             String currentNote = note.getEnharmonicWithLetter(currentLetter);
             if (octaveSpecified) {
                 notesAsText += currentNote + " ";
@@ -85,7 +93,7 @@ public class Scale implements Command {
 
     private String scaleToMidi(ArrayList<Note> scaleNotes) {
         String midiValues = "";
-        for (Note note:scaleNotes) {
+        for (Note note : scaleNotes) {
             midiValues += note.getMidi() + " ";
         }
         return midiValues.trim();

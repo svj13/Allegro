@@ -17,13 +17,13 @@ public class PlayNote implements Command {
 
     private Note note;
 
-    public PlayNote(String note){
+    public PlayNote(String note) {
         this.note = Note.lookup(OctaveUtil.addDefaultOctave(note));
     }
 
 
     public void execute(Environment env) {
-        note.playNote();
+        note.playNote(env.getTempo());
     }
 }
 

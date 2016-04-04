@@ -1,7 +1,6 @@
 package seng302.utility;
 
 
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,8 +28,6 @@ public class Checker {
     }
 
     /**
-     *
-     * @param note
      * @return true if valid MIDI note in range 0-127, false otherwise.
      */
     public static boolean isValidMidiNote(String note) {
@@ -39,10 +36,10 @@ public class Checker {
 
     /**
      * Checks if the string is the name of a command.
-     * @param c
+     *
      * @return true if it is a command, false otherwise.
      */
-    public static boolean isCommand(String c){
+    public static boolean isCommand(String c) {
 
         String[] helpCommands = {"midi", "note", "semitone up", "semitone down", "help"};
         System.out.println("valid? " + c.toLowerCase());
