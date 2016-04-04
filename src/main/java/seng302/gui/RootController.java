@@ -168,71 +168,20 @@ public class RootController implements Initializable {
         });
     }
 
+    /**
+     * Connects the GUI components with the logic environment
+     * @param env
+     */
     public void setEnvironment(Environment env) {
         this.env = env;
         tm = env.getTranscriptManager();
 
 
-        // try{
-//            FXMLLoader loader = new FXMLLoader();
-//            loader.setLocation(this.getClass().getResource("/Views/TranscriptPane.fxml"));
-//
-//
-//            Pane transcriptPane = loader.load();
-//
-//            transcriptAnchor = loader.load();
-////
-
-//
-        //stackPane1.getChildren().add(transcriptAnchor);
-
-        //Handle parent resizing.
-//            transcriptAnchor.prefWidthProperty().bind(stackPane1.widthProperty());
-//            transcriptAnchor.prefHeightProperty().bind(stackPane1.heightProperty());
-
-        // TranscriptPaneController controller = loader.getController();
-
-        //controller.setEnv(env);
-
-        // pitchComparisonController.create(env);
-
         transcriptController.setEnv(env);
 
 
-//        FXMLLoader loader = new FXMLLoader();
-//        loader.setLocation(this.getClass().getResource("/Views/PitchComparisonPane.fxml"));
-//        try{
-//            loader.load();
-//        }
-//        catch (Exception e){
-//            System.out.println("LOADER FAILED");
-//        }
-//        pitchController = loader.getController();
 
-
-//        pitchController.createA(env);
-
-//        FXMLLoader loader = new FXMLLoader(
-//                getClass().getResource(
-//                        "/Views/PitchComparisonPane.fxml"
-//                )
-//        );
-//        try {
-//            Parent root = loader.load();
-//        }catch(Exception e){
-//            e.printStackTrace();
-//        }
-//
-//
-//        pitchController =
-//                loader.<PitchComparisonTutorController>getController();
-
-        PitchComparisonTabController.createA(env);
-
-
-        // }catch(Exception e){
-
-        // }
+        PitchComparisonTabController.create(env);
 
 
     }

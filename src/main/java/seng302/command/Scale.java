@@ -55,9 +55,18 @@ public class Scale implements Command {
                     }
                     if (this.outputType.equals("note")) {
                         env.getTranscriptManager().setResult(scaleToString(note.getMajorScale()));
-                    } else {
+                    } else if (this.outputType.equals("midi")) {
                         // Is midi
                         env.getTranscriptManager().setResult(scaleToMidi(note.getMajorScale()));
+                    } else {
+                        // Is play
+                        ArrayList<Note> notesToPlay = note.getMajorScale();
+                        env.getTranscriptManager().setResult(scaleToString(notesToPlay));
+                        int duration = env.getTempo() / 60;
+                        for (Note note:notesToPlay) {
+                            // Play each note for the duration
+                            note.playNote(env.getTempo());
+                        }
                     }
                 } catch (Exception e) {
                     env.error("Note is not contained in the MIDI library.");
