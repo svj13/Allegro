@@ -1,7 +1,11 @@
 package seng302.gui;
 
-/**
- * Created by emily on 4/04/16.
- */
+import javafx.fxml.FXML;
+import javafx.scene.layout.AnchorPane;
+
 public class IntervalRecognitionTutorController {
+
+    @FXML
+    private AnchorPane IntervalRecognitionTab;
+
 }
