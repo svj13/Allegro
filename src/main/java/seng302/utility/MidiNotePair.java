@@ -1,19 +1,19 @@
-package seng302.data;
+package seng302.utility;
 
 /**
  * Created by jat157 on 1/04/16.
  */
 public class MidiNotePair {
 
-    private final String key;
+    private final int key;
     private final String value;
 
-    public MidiNotePair(String key, String value) {
+    public MidiNotePair(int key, String value) {
         this.key = key;
         this.value = value;
     }
 
-    public String getMidi() {
+    public int getMidi() {
         return key;
     }
 

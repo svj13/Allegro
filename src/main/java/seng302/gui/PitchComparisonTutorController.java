@@ -22,7 +22,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import seng302.Environment;
-import seng302.data.MidiNotePair;
+import seng302.utility.MidiNotePair;
 import seng302.data.Note;
 
 /**
@@ -107,13 +107,14 @@ public class PitchComparisonTutorController {
     @FXML
     private void handleLowerRangeAction() {
         if (!cbxLower.getSelectionModel().isEmpty()) {
-            String selectedMidi = cbxLower.getSelectionModel().getSelectedItem().getMidi();
+            int selectedMidi = cbxLower.getSelectionModel().getSelectedItem().getMidi();
             System.out.println("Changed to: " + selectedMidi);
 
-            int midiInt = Integer.parseInt(selectedMidi);
+            int midiInt = selectedMidi;
+            //int midiInt = Integer.parseInt(selectedMidi);
             cbxUpper.getItems().clear();
             for (int i = midiInt + 1; i < Note.noteCount; i++) {
-                cbxUpper.getItems().add(new MidiNotePair(String.valueOf(i), Note.lookup(String.valueOf(i)).getNote()));
+                cbxUpper.getItems().add(new MidiNotePair(i, Note.lookup(String.valueOf(i)).getNote()));
             }
         }
 
@@ -126,10 +127,10 @@ public class PitchComparisonTutorController {
     @FXML
     private void handleUpperRangeAction() {
         if (!cbxUpper.getSelectionModel().isEmpty()) {
-            String selectedMidi = cbxUpper.getSelectionModel().getSelectedItem().getMidi();
-            System.out.println("upper action to: " + selectedMidi);
+            int midiInt = cbxUpper.getSelectionModel().getSelectedItem().getMidi();
+//            System.out.println("upper action to: " + selectedMidi);
 
-            int midiInt = Integer.parseInt(selectedMidi);
+            //int midiInt = Integer.parseInt(selectedMidi);
 
 
             //
@@ -137,14 +138,14 @@ public class PitchComparisonTutorController {
             if (cbxLower.getSelectionModel().isEmpty()) {
                 cbxLower.getItems().clear();
                 for (int i = 0; i < midiInt; i++) {
-                    cbxLower.getItems().add(new MidiNotePair(String.valueOf(i), Note.lookup(String.valueOf(i)).getNote()));
+                    cbxLower.getItems().add(new MidiNotePair(i, Note.lookup(String.valueOf(i)).getNote()));
                 }
-            } else if (Integer.parseInt(cbxLower.getSelectionModel().getSelectedItem().getMidi()) < midiInt) {
+            } else if (cbxLower.getSelectionModel().getSelectedItem().getMidi() < midiInt) {
                 MidiNotePair oldVal = cbxLower.getSelectionModel().getSelectedItem();
 
                 cbxLower.getItems().clear();
                 for (int i = 0; i < midiInt; i++) {
-                    cbxLower.getItems().add(new MidiNotePair(String.valueOf(i), Note.lookup(String.valueOf(i)).getNote()));
+                    cbxLower.getItems().add(new MidiNotePair(i, Note.lookup(String.valueOf(i)).getNote()));
                 }
                 cbxLower.setValue(oldVal);
             }
@@ -168,7 +169,7 @@ public class PitchComparisonTutorController {
 
             assert cbxLower != null : "cbxLower was not injected, check the fxml";
 
-            cbx.getItems().add(new MidiNotePair(String.valueOf(i), Note.lookup(String.valueOf(i)).getNote()));
+            cbx.getItems().add(new MidiNotePair(i, Note.lookup(String.valueOf(i)).getNote()));
             //System.out.println(cbx.getItems().size());
         }
         //TODO Make it so it generates everytime a combobox is selected.
@@ -191,10 +192,16 @@ public class PitchComparisonTutorController {
         rowPane.setSpacing(10);
         rowPane.setStyle("-fx-background-color: #336699;");
 
+        int lowerPitchBound = cbxLower.getSelectionModel().getSelectedItem().getMidi();
 
-        rowPane.getChildren().add(new Label(Note.lookup(String.valueOf(rand.nextInt(128))).getNote()));
+        int upperPitchBound = cbxUpper.getSelectionModel().getSelectedItem().getMidi();
 
-        rowPane.getChildren().add(new Label(Note.lookup(String.valueOf(rand.nextInt(128))).getNote()));
+        int difference = upperPitchBound - lowerPitchBound;
+
+
+        rowPane.getChildren().add(new Label(Note.lookup(String.valueOf(lowerPitchBound + rand.nextInt(difference))).getNote()));
+
+        rowPane.getChildren().add(new Label(Note.lookup(String.valueOf(lowerPitchBound + rand.nextInt(difference))).getNote()));
 
         ToggleGroup group = new ToggleGroup();
         ToggleButton higher = new ToggleButton("Higher");
