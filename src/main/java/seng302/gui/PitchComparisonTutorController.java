@@ -7,6 +7,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -32,8 +34,8 @@ public class PitchComparisonTutorController {
 
     Environment env;
 
-    Stage stage;
-
+    Boolean lowerSet = false;
+    Boolean upperSet = false;
 
     @FXML
     TextField txtNotePairs;
@@ -69,26 +71,28 @@ public class PitchComparisonTutorController {
     }
 
     /**
-     * The command which is binded to the Go button, or the enter key when the command prompt is
-     * active.
+     * The command which is bound to the Go button, or the enter key when the command prompt is
+     * active. Checks that both lower and upper notes selected, alerts user if not.
      */
     @FXML
     private void goAction() {
-        ArrayList<FlowPane> panes = new ArrayList<FlowPane>();
+        System.out.println("Lower: " + lowerSet);
+        System.out.println("Upper: " + upperSet);
+        if (lowerSet && upperSet) {
+            questionRows.getChildren().clear();
+            for (int i = 0; i < Integer.parseInt(txtNotePairs.getText()); i++) {
+                HBox rowPane = generateQuestionPane();
+                questionRows.getChildren().add(rowPane);
+                questionRows.setMargin(rowPane, new Insets(10, 10, 10, 10));
+            }
 
-        //generateComboValues(cbxUpper);
-        questionRows.getChildren().clear();
-        for (int i = 0; i < Integer.parseInt(txtNotePairs.getText()); i++) {
-
-            HBox rowPane = generateQuestionPane();
-
-            questionRows.getChildren().add(rowPane);
-            questionRows.setMargin(rowPane, new Insets(10, 10, 10, 10));
-
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Unselected range");
+            alert.setContentText("Please select valid upper and lower ranges");
+            alert.setResizable(false);
+            alert.showAndWait();
         }
-        paneQuestions.prefWidthProperty().bind(pitchTutorAnchor.prefWidthProperty());
-
-
     }
 
     
@@ -101,23 +105,31 @@ public class PitchComparisonTutorController {
         generateComboValues(cbxLower);
         generateComboValues(cbxUpper);
 
-
     }
 
     @FXML
     private void handleLowerRangeAction() {
+        lowerSet = true;
         if (!cbxLower.getSelectionModel().isEmpty()) {
             String selectedMidi = cbxLower.getSelectionModel().getSelectedItem().getMidi();
             System.out.println("Changed to: " + selectedMidi);
 
             int midiInt = Integer.parseInt(selectedMidi);
-            cbxUpper.getItems().clear();
-            for (int i = midiInt + 1; i < Note.noteCount; i++) {
-                cbxUpper.getItems().add(new MidiNotePair(String.valueOf(i), Note.lookup(String.valueOf(i)).getNote()));
+            if (cbxUpper.getSelectionModel().isEmpty()) {
+                cbxUpper.getItems().clear();
+                for (int i = midiInt + 1; i < Note.noteCount; i++) {
+                    cbxUpper.getItems().add(new MidiNotePair(String.valueOf(i), Note.lookup(String.valueOf(i)).getNote()));
+                }
+            } else if (Integer.parseInt(cbxUpper.getSelectionModel().getSelectedItem().getMidi()) < midiInt) {
+                MidiNotePair oldVal = cbxUpper.getSelectionModel().getSelectedItem();
+
+                cbxUpper.getItems().clear();
+                for (int i = 0; i < midiInt; i++) {
+                    cbxUpper.getItems().add(new MidiNotePair(String.valueOf(i), Note.lookup(String.valueOf(i)).getNote()));
+                }
+                cbxUpper.setValue(oldVal);
             }
         }
-
-
     }
 
     /**
@@ -125,6 +137,7 @@ public class PitchComparisonTutorController {
      */
     @FXML
     private void handleUpperRangeAction() {
+        upperSet = true;
         if (!cbxUpper.getSelectionModel().isEmpty()) {
             String selectedMidi = cbxUpper.getSelectionModel().getSelectedItem().getMidi();
             System.out.println("upper action to: " + selectedMidi);
@@ -132,7 +145,6 @@ public class PitchComparisonTutorController {
             int midiInt = Integer.parseInt(selectedMidi);
 
 
-            //
             System.out.println("selected index.. " + cbxLower.getSelectionModel().getSelectedIndex());
             if (cbxLower.getSelectionModel().isEmpty()) {
                 cbxLower.getItems().clear();
