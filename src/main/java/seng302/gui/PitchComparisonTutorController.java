@@ -207,6 +207,9 @@ public class PitchComparisonTutorController {
                 Note note1 = Note.lookup(((Label) rowPane.getChildren().get(0)).getText());
                 Note note2 = Note.lookup(((Label) rowPane.getChildren().get(1)).getText());
 
+                rowPane.getChildren().get(2).setStyle("-fx-text-fill: white;-fx-background-color: blue");
+                rowPane.getChildren().get(2).setDisable(true);
+                rowPane.getChildren().get(3).setDisable(true);
                 if (noteComparison(true, note1, note2)) {
                     rowPane.setStyle("-fx-background-color: red;");
                 } else {
@@ -220,7 +223,9 @@ public class PitchComparisonTutorController {
                 Note note1 = Note.lookup(((Label) rowPane.getChildren().get(0)).getText());
                 Note note2 = Note.lookup(((Label) rowPane.getChildren().get(1)).getText());
 
-
+                rowPane.getChildren().get(3).setStyle("-fx-text-fill: white;-fx-background-color: blue");
+                rowPane.getChildren().get(2).setDisable(true);
+                rowPane.getChildren().get(3).setDisable(true);
                 if (noteComparison(true, note1, note2)) {
                     rowPane.setStyle("-fx-background-color: green;");
                 } else {
