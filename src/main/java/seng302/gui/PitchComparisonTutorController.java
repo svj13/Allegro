@@ -306,13 +306,7 @@ public class PitchComparisonTutorController {
                 rowPane.getChildren().get(3).setDisable(true);
                 rowPane.getChildren().get(4).setDisable(true);
                 rowPane.getChildren().get(6).setDisable(true);
-//                if (note1 != note2) {
                 rowPane.setStyle("-fx-background-color: grey;");
-//                    manager.add(note1.getNote(), note2.getNote(), false);
-//                } else {
-//                    rowPane.setStyle("-fx-background-color: green;");
-//                    manager.add(note1.getNote(), note2.getNote(), true);
-//                }
                 manager.questions -= 1;
                 manager.add(note1.getNote(), note2.getNote(), false);
                 if (manager.answered == manager.questions) { finished(); }
@@ -340,7 +334,6 @@ public class PitchComparisonTutorController {
         });
 
 
-
         rowPane.getChildren().add(higher);
         rowPane.getChildren().add(same);
         rowPane.getChildren().add(lower);
@@ -348,8 +341,6 @@ public class PitchComparisonTutorController {
         rowPane.getChildren().add(skip);
 
         rowPane.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
-
-
         return rowPane;
     }
 
@@ -373,6 +364,10 @@ public class PitchComparisonTutorController {
         }
     }
 
+    /**
+     * Creates an alert once all the questions have been answered that allows the user to re-attempt
+     * the skipped and incorrect questions or allows them to clear the question set.
+     */
     private void finished() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Finished");
@@ -391,11 +386,14 @@ public class PitchComparisonTutorController {
             retest();
         }
 
-//        manager.questions = 0;
         manager.answered = 0;
         manager.correct = 0;
     }
 
+
+    /**
+     * Re generates the questions with the questions that were answered incorrectly
+     */
     private void retest() {
         ArrayList<OutputTuple> tempIncorrectResponses = new ArrayList<OutputTuple>(manager.getTempIncorrectResponses());
 
@@ -429,8 +427,5 @@ public class PitchComparisonTutorController {
 
 
     }
-
-
-
 
 }
