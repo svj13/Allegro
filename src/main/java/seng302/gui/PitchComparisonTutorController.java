@@ -267,7 +267,9 @@ public class PitchComparisonTutorController {
                     manager.add(note1.getNote(), note2.getNote(), false);
                 }
                 manager.answered += 1;
-                if (manager.answered == manager.questions) { finished(); }
+                if (manager.answered == manager.questions) {
+                    finished();
+                }
             }
         });
 
@@ -309,7 +311,9 @@ public class PitchComparisonTutorController {
                 rowPane.setStyle("-fx-background-color: grey;");
                 manager.questions -= 1;
                 manager.add(note1.getNote(), note2.getNote(), false);
-                if (manager.answered == manager.questions) { finished(); }
+                if (manager.answered == manager.questions) {
+                    finished();
+                }
             }
         });
 
@@ -371,7 +375,11 @@ public class PitchComparisonTutorController {
     private void finished() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Finished");
-        alert.setContentText("You got " + manager.correct + " out of " + manager.questions + ". Well done :)");
+        int cor = manager.correct;
+        int ques = manager.questions;
+        String percentage = toString().format("%d", cor*100/ques);
+        alert.setContentText("You got " + (cor) + " out of " + ques
+                + ", " + percentage + "%.\nWell done :)");
         alert.setResizable(false);
         ButtonType retestBtn = new ButtonType("Retest");
         ButtonType clearBtn = new ButtonType("Clear");
