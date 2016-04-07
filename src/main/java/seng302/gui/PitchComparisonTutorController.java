@@ -28,6 +28,8 @@ import javafx.stage.Stage;
 import seng302.Environment;
 import seng302.data.MidiNotePair;
 import seng302.data.Note;
+import seng302.utility.OutputTuple;
+import seng302.utility.PitchComparisonTutorManager;
 
 /**
  * Created by jat157 on 20/03/16.
@@ -57,15 +59,14 @@ public class PitchComparisonTutorController {
 
     @FXML
     FlowPane headerPane;
-
+//Made it so that the buttond csn only be selected once
     Random rand;
 
     Boolean lowerSet = false;
     Boolean upperSet = false;
 
-    int questions = 0;
-    int answered = 0;
-    int correct = 0;
+
+    PitchComparisonTutorManager manager;
 
 
     @FXML
@@ -83,9 +84,11 @@ public class PitchComparisonTutorController {
     private void goAction() {
         if (lowerSet && upperSet) {
             questionRows.getChildren().clear();
-            questions = Integer.parseInt(txtNotePairs.getText());
-            for (int i = 0; i < questions; i++) {
-                HBox rowPane = generateQuestionPane();
+            manager.questions = Integer.parseInt(txtNotePairs.getText());
+            for (int i = 0; i < manager.questions; i++) {
+                String noteName1 = Note.lookup(String.valueOf(rand.nextInt(128))).getNote();
+                String noteName2 = Note.lookup(String.valueOf(rand.nextInt(128))).getNote();
+                HBox rowPane = generateQuestionPane(noteName1,noteName2);
                 questionRows.getChildren().add(rowPane);
                 questionRows.setMargin(rowPane, new Insets(10, 10, 10, 10));
             }
@@ -103,14 +106,13 @@ public class PitchComparisonTutorController {
     
 
     public void create(Environment env) {
-
-
         System.out.println("inside pitch comparison tutor");
         this.env = env;
         generateComboValues(cbxLower);
         generateComboValues(cbxUpper);
-
+        manager = env.getPctManager();
     }
+
 
     @FXML
     private void handleLowerRangeAction() {
@@ -121,7 +123,7 @@ public class PitchComparisonTutorController {
 
             int midiInt = Integer.parseInt(selectedMidi);
             if (cbxUpper.getSelectionModel().isEmpty()) {
-                cbxUpper.getItems().clear();
+                cbxUpper.getItems().clear();String.valueOf(rand.nextInt(128));
                 for (int i = midiInt + 1; i < Note.noteCount; i++) {
                     cbxUpper.getItems().add(new MidiNotePair(String.valueOf(i), Note.lookup(String.valueOf(i)).getNote()));
                 }
@@ -199,7 +201,7 @@ public class PitchComparisonTutorController {
      * Constructs the question panels.
      * @return
      */
-    private HBox generateQuestionPane() {
+    private HBox generateQuestionPane(String noteName1, String noteName2 ) {
 
         final HBox rowPane = new HBox();
 
@@ -209,9 +211,9 @@ public class PitchComparisonTutorController {
         rowPane.setStyle("-fx-background-color: #336699;");
 
 
-        rowPane.getChildren().add(new Label(Note.lookup(String.valueOf(rand.nextInt(128))).getNote()));
+        rowPane.getChildren().add(new Label(noteName1));
 
-        rowPane.getChildren().add(new Label(Note.lookup(String.valueOf(rand.nextInt(128))).getNote()));
+        rowPane.getChildren().add(new Label(noteName2));
 
         ToggleGroup group = new ToggleGroup();
         ToggleButton higher = new ToggleButton("Higher");
@@ -229,15 +231,13 @@ public class PitchComparisonTutorController {
                 rowPane.getChildren().get(3).setDisable(true);
                 if (noteComparison(true, note1, note2)) {
                     rowPane.setStyle("-fx-background-color: red;");
-                    env.getPctManager().add(note1.getNote(), note2.getNote(), false);
+                    manager.add(note1.getNote(), note2.getNote(), false);
                 } else {
                     rowPane.setStyle("-fx-background-color: green;");
-                    env.getPctManager().add(note1.getNote(), note2.getNote(), true);
-                    correct += 1;
+                    manager.add(note1.getNote(), note2.getNote(), true);
                 }
-                answered += 1;
-//                System.out.println("Answered: " + answered);
-                if (answered == questions) { finished(); }
+                manager.answered += 1;
+                if (manager.answered == manager.questions) { finished(); }
             }
         });
 
@@ -251,19 +251,17 @@ public class PitchComparisonTutorController {
                 rowPane.getChildren().get(3).setDisable(true);
                 if (noteComparison(true, note1, note2)) {
                     rowPane.setStyle("-fx-background-color: green;");
-                    correct += 1;
-                    env.getPctManager().add(note1.getNote(), note2.getNote(), true);
+                    manager.add(note1.getNote(), note2.getNote(), true);
 
                 } else {
                     rowPane.setStyle("-fx-background-color: red;");
-                    env.getPctManager().add(note1.getNote(), note2.getNote(), false);
+                    manager.add(note1.getNote(), note2.getNote(), false);
                 }
-                answered += 1;
-//                System.out.println("Answered: " + answered);
-                if (answered == questions) { finished(); }
+                manager.answered += 1;
+                if (manager.answered == manager.questions) { finished(); }
             }
         });
-
+            btnGo.setText("Retest");
         Button playBtn = new Button();
         playBtn.setText("Play");
         playBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -317,7 +315,7 @@ public class PitchComparisonTutorController {
     private void finished() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Finished");
-        alert.setContentText("You got " + correct + " out of " + questions + ". Well done :)");
+        alert.setContentText("You got " + manager.correct + " out of " + manager.questions + ". Well done :)");
         alert.setResizable(false);
         ButtonType retestBtn = new ButtonType("Retest");
         ButtonType clearBtn = new ButtonType("Clear");
@@ -326,19 +324,27 @@ public class PitchComparisonTutorController {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == clearBtn) {
             questionRows.getChildren().clear();
-            btnGo.setText("Retest");
-            env.getPctManager().tempIncorrectClear();
+            manager.saveTempIncorrect();
         } else if (result.get() == retestBtn) {
+            questionRows.getChildren().clear();
             retest();
         }
 
-        questions = 0;
-        answered = 0;
-        correct = 0;
+//        manager.questions = 0;
+        manager.answered = 0;
+        manager.correct = 0;
     }
 
     private void retest() {
+        ArrayList<OutputTuple> tempIncorrectResponses = new ArrayList<OutputTuple>(manager.getTempIncorrectResponses());
 
+        manager.clearTempIncorrect();
+        for(OutputTuple tuple : tempIncorrectResponses){
+            HBox rowPane = generateQuestionPane(tuple.getInput(), tuple.getResult());
+            questionRows.getChildren().add(rowPane);
+            questionRows.setMargin(rowPane, new Insets(10, 10, 10, 10));
+        }
+        manager.questions = tempIncorrectResponses.size();
 
     }
 
