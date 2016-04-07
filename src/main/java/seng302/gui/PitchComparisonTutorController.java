@@ -217,6 +217,8 @@ public class PitchComparisonTutorController {
         ToggleGroup group = new ToggleGroup();
         ToggleButton higher = new ToggleButton("Higher");
         higher.setToggleGroup(group);
+        ToggleButton same = new ToggleButton("Same");
+        same.setToggleGroup(group);
         ToggleButton lower = new ToggleButton("Lower");
         lower.setToggleGroup(group);
         ToggleButton skip = new ToggleButton("Skip");
@@ -230,6 +232,8 @@ public class PitchComparisonTutorController {
                 rowPane.getChildren().get(2).setStyle("-fx-text-fill: white;-fx-background-color: blue");
                 rowPane.getChildren().get(2).setDisable(true);
                 rowPane.getChildren().get(3).setDisable(true);
+                rowPane.getChildren().get(4).setDisable(true);
+                rowPane.getChildren().get(6).setDisable(true);
                 if (noteComparison(true, note1, note2)) {
                     rowPane.setStyle("-fx-background-color: red;");
                     manager.add(note1.getNote(), note2.getNote(), false);
@@ -249,9 +253,11 @@ public class PitchComparisonTutorController {
                 Note note1 = Note.lookup(((Label) rowPane.getChildren().get(0)).getText());
                 Note note2 = Note.lookup(((Label) rowPane.getChildren().get(1)).getText());
 
-                rowPane.getChildren().get(3).setStyle("-fx-text-fill: white;-fx-background-color: blue");
+                rowPane.getChildren().get(4).setStyle("-fx-text-fill: white;-fx-background-color: blue");
                 rowPane.getChildren().get(2).setDisable(true);
                 rowPane.getChildren().get(3).setDisable(true);
+                rowPane.getChildren().get(4).setDisable(true);
+                rowPane.getChildren().get(6).setDisable(true);
                 if (noteComparison(true, note1, note2)) {
                     rowPane.setStyle("-fx-background-color: green;");
                     manager.add(note1.getNote(), note2.getNote(), true);
@@ -265,15 +271,41 @@ public class PitchComparisonTutorController {
             }
         });
 
+        same.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                Note note1 = Note.lookup(((Label) rowPane.getChildren().get(0)).getText());
+                Note note2 = Note.lookup(((Label) rowPane.getChildren().get(1)).getText());
+                rowPane.getChildren().get(3).setStyle("-fx-text-fill: white;-fx-background-color: blue");
+                rowPane.getChildren().get(2).setDisable(true);
+                rowPane.getChildren().get(3).setDisable(true);
+                rowPane.getChildren().get(4).setDisable(true);
+                rowPane.getChildren().get(6).setDisable(true);
+                if (note1 == note2) {
+                    rowPane.setStyle("-fx-background-color: green;");
+                    manager.add(note1.getNote(), note2.getNote(), true);
+
+                } else {
+                    rowPane.setStyle("-fx-background-color: red;");
+                    manager.add(note1.getNote(), note2.getNote(), false);
+                }
+                manager.answered += 1;
+                if (manager.answered == manager.questions) { finished(); }
+            }
+        });
+
+
+            btnGo.setText("Retest");
+
         skip.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 Note note1 = Note.lookup(((Label) rowPane.getChildren().get(0)).getText());
                 Note note2 = Note.lookup(((Label) rowPane.getChildren().get(1)).getText());
 
-                rowPane.getChildren().get(4).setStyle("-fx-text-fill: white;-fx-background-color: blue");
+                rowPane.getChildren().get(6).setStyle("-fx-text-fill: white;-fx-background-color: blue");
                 rowPane.getChildren().get(2).setDisable(true);
                 rowPane.getChildren().get(3).setDisable(true);
                 rowPane.getChildren().get(4).setDisable(true);
+                rowPane.getChildren().get(6).setDisable(true);
 //                if (note1 != note2) {
                 rowPane.setStyle("-fx-background-color: grey;");
 //                    manager.add(note1.getNote(), note2.getNote(), false);
@@ -308,10 +340,12 @@ public class PitchComparisonTutorController {
         });
 
 
+
         rowPane.getChildren().add(higher);
+        rowPane.getChildren().add(same);
         rowPane.getChildren().add(lower);
-        rowPane.getChildren().add(skip);
         rowPane.getChildren().add(playBtn);
+        rowPane.getChildren().add(skip);
 
         rowPane.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
 
