@@ -7,7 +7,7 @@ package seng302.utility;
  */
 public class OutputTuple {
 
-    private String command;
+    private String input;
     private String result;
 
 
@@ -15,16 +15,16 @@ public class OutputTuple {
     }
 
     OutputTuple(String commandString) {
-        command = commandString;
+        input = commandString;
     }
 
     OutputTuple(String commandString, String resultString) {
-        command = commandString;
+        input = commandString;
         result = resultString;
     }
 
-    public String getCommand() {
-        return command;
+    public String getInput() {
+        return input;
     }
 
     public String getResult() {
@@ -35,8 +35,8 @@ public class OutputTuple {
         result = str;
     }
 
-    public void setCommand(String str) {
-        command = str;
+    public void setInput(String str) {
+        input = str;
     }
 
 }

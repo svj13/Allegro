@@ -1,16 +1,19 @@
 package seng302;
 
+import seng302.utility.PitchComparisonTutorManager;
 import seng302.utility.TranscriptManager;
 
 public class Environment {
 
     private DslExecutor executor;
     private TranscriptManager transcriptManager;
+    private PitchComparisonTutorManager pctManager;
     private int tempo = 120;
 
     public Environment() {
         executor = new DslExecutor(this);
         transcriptManager = new TranscriptManager();
+        pctManager = new PitchComparisonTutorManager();
     }
 
     /**
@@ -31,8 +34,16 @@ public class Environment {
         return transcriptManager;
     }
 
+    public PitchComparisonTutorManager getPctManager(){
+        return pctManager;
+    }
+
     public void setTranscriptManager(TranscriptManager t) {
         this.transcriptManager = t;
+    }
+
+    public void setPctManager(PitchComparisonTutorManager p){
+        this.pctManager = p;
     }
 
     public void setTempo(int tempo) {

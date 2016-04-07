@@ -229,8 +229,10 @@ public class PitchComparisonTutorController {
                 rowPane.getChildren().get(3).setDisable(true);
                 if (noteComparison(true, note1, note2)) {
                     rowPane.setStyle("-fx-background-color: red;");
+                    env.getPctManager().add(note1.getNote(), note2.getNote(), false);
                 } else {
                     rowPane.setStyle("-fx-background-color: green;");
+                    env.getPctManager().add(note1.getNote(), note2.getNote(), true);
                     correct += 1;
                 }
                 answered += 1;
@@ -250,8 +252,11 @@ public class PitchComparisonTutorController {
                 if (noteComparison(true, note1, note2)) {
                     rowPane.setStyle("-fx-background-color: green;");
                     correct += 1;
+                    env.getPctManager().add(note1.getNote(), note2.getNote(), true);
+
                 } else {
                     rowPane.setStyle("-fx-background-color: red;");
+                    env.getPctManager().add(note1.getNote(), note2.getNote(), false);
                 }
                 answered += 1;
 //                System.out.println("Answered: " + answered);
@@ -322,6 +327,7 @@ public class PitchComparisonTutorController {
         if (result.get() == clearBtn) {
             questionRows.getChildren().clear();
             btnGo.setText("Retest");
+            env.getPctManager().tempIncorrectClear();
         } else if (result.get() == retestBtn) {
             retest();
         }
@@ -332,6 +338,7 @@ public class PitchComparisonTutorController {
     }
 
     private void retest() {
+
 
     }
 
