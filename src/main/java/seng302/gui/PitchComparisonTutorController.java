@@ -1,6 +1,7 @@
 package seng302.gui;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Random;
 
 import javafx.event.ActionEvent;
@@ -10,6 +11,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -33,9 +35,6 @@ import seng302.data.Note;
 public class PitchComparisonTutorController {
 
     Environment env;
-
-    Boolean lowerSet = false;
-    Boolean upperSet = false;
 
     @FXML
     TextField txtNotePairs;
@@ -61,12 +60,18 @@ public class PitchComparisonTutorController {
 
     Random rand;
 
+    Boolean lowerSet = false;
+    Boolean upperSet = false;
+
+    int questions = 0;
+    int answered = 0;
+    int correct = 0;
+
 
     @FXML
     private void initialize() {
         System.out.println("pitch comparison initialized.");
         rand = new Random();
-
 
     }
 
@@ -76,15 +81,15 @@ public class PitchComparisonTutorController {
      */
     @FXML
     private void goAction() {
-        System.out.println("Lower: " + lowerSet);
-        System.out.println("Upper: " + upperSet);
         if (lowerSet && upperSet) {
             questionRows.getChildren().clear();
-            for (int i = 0; i < Integer.parseInt(txtNotePairs.getText()); i++) {
+            questions = Integer.parseInt(txtNotePairs.getText());
+            for (int i = 0; i < questions; i++) {
                 HBox rowPane = generateQuestionPane();
                 questionRows.getChildren().add(rowPane);
                 questionRows.setMargin(rowPane, new Insets(10, 10, 10, 10));
             }
+
 
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -226,7 +231,11 @@ public class PitchComparisonTutorController {
                     rowPane.setStyle("-fx-background-color: red;");
                 } else {
                     rowPane.setStyle("-fx-background-color: green;");
+                    correct += 1;
                 }
+                answered += 1;
+//                System.out.println("Answered: " + answered);
+                if (answered == questions) { finished(); }
             }
         });
 
@@ -240,9 +249,13 @@ public class PitchComparisonTutorController {
                 rowPane.getChildren().get(3).setDisable(true);
                 if (noteComparison(true, note1, note2)) {
                     rowPane.setStyle("-fx-background-color: green;");
+                    correct += 1;
                 } else {
                     rowPane.setStyle("-fx-background-color: red;");
                 }
+                answered += 1;
+//                System.out.println("Answered: " + answered);
+                if (answered == questions) { finished(); }
             }
         });
 
@@ -296,6 +309,31 @@ public class PitchComparisonTutorController {
         }
     }
 
+    private void finished() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText("Finished");
+        alert.setContentText("You got " + correct + " out of " + questions + ". Well done :)");
+        alert.setResizable(false);
+        ButtonType retestBtn = new ButtonType("Retest");
+        ButtonType clearBtn = new ButtonType("Clear");
+        alert.getButtonTypes().setAll(retestBtn, clearBtn);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == clearBtn) {
+            questionRows.getChildren().clear();
+            btnGo.setText("Retest");
+        } else if (result.get() == retestBtn) {
+            retest();
+        }
+
+        questions = 0;
+        answered = 0;
+        correct = 0;
+    }
+
+    private void retest() {
+
+    }
 
     /**
      * Key event binder. No functionality at this point.
