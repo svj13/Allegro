@@ -59,7 +59,7 @@ public class PitchComparisonTutorController {
 
     @FXML
     FlowPane headerPane;
-//Made it so that the buttond csn only be selected once
+
     Random rand;
 
     Boolean lowerSet = false;
@@ -67,7 +67,6 @@ public class PitchComparisonTutorController {
 
 
     PitchComparisonTutorManager manager;
-
 
     @FXML
     private void initialize() {
@@ -220,6 +219,8 @@ public class PitchComparisonTutorController {
         higher.setToggleGroup(group);
         ToggleButton lower = new ToggleButton("Lower");
         lower.setToggleGroup(group);
+        ToggleButton skip = new ToggleButton("Skip");
+        skip.setToggleGroup(group);
 
         higher.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
@@ -237,7 +238,9 @@ public class PitchComparisonTutorController {
                     manager.add(note1.getNote(), note2.getNote(), true);
                 }
                 manager.answered += 1;
-                if (manager.answered == manager.questions) { finished(); }
+                if (manager.answered == manager.questions) {
+                    finished();
+                }
             }
         });
 
@@ -261,7 +264,30 @@ public class PitchComparisonTutorController {
                 if (manager.answered == manager.questions) { finished(); }
             }
         });
-            btnGo.setText("Retest");
+
+        skip.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                Note note1 = Note.lookup(((Label) rowPane.getChildren().get(0)).getText());
+                Note note2 = Note.lookup(((Label) rowPane.getChildren().get(1)).getText());
+
+                rowPane.getChildren().get(4).setStyle("-fx-text-fill: white;-fx-background-color: blue");
+                rowPane.getChildren().get(2).setDisable(true);
+                rowPane.getChildren().get(3).setDisable(true);
+                rowPane.getChildren().get(4).setDisable(true);
+//                if (note1 != note2) {
+                rowPane.setStyle("-fx-background-color: grey;");
+//                    manager.add(note1.getNote(), note2.getNote(), false);
+//                } else {
+//                    rowPane.setStyle("-fx-background-color: green;");
+//                    manager.add(note1.getNote(), note2.getNote(), true);
+//                }
+                manager.questions -= 1;
+                manager.add(note1.getNote(), note2.getNote(), false);
+                if (manager.answered == manager.questions) { finished(); }
+            }
+        });
+
+        btnGo.setText("Retest");
         Button playBtn = new Button();
         playBtn.setText("Play");
         playBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -284,6 +310,7 @@ public class PitchComparisonTutorController {
 
         rowPane.getChildren().add(higher);
         rowPane.getChildren().add(lower);
+        rowPane.getChildren().add(skip);
         rowPane.getChildren().add(playBtn);
 
         rowPane.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
