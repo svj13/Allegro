@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
@@ -12,5 +13,41 @@
             <Font size="21.0" />
          </font>
       </Label>
+      <HBox alignment="CENTER" layoutX="-24.0" layoutY="47.0" minWidth="-Infinity" prefHeight="61.0" prefWidth="470.0">
+         <children>
+            <FlowPane alignment="CENTER" prefHeight="61.0" prefWidth="421.0">
+               <children>
+                  <TitledPane alignment="CENTER" animated="false" collapsible="false" focusTraversable="false" prefHeight="58.0" prefWidth="107.0" text="Number of Intervals" textAlignment="CENTER">
+                     <content>
+                        <TextField id="txtNotes" fx:id="txtNumIntervals" alignment="CENTER" prefHeight="25.0" prefWidth="54.0" text="1">
+                           <font>
+                              <Font size="12.0" />
+                           </font>
+                        </TextField>
+                     </content>
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                     <padding>
+                        <Insets left="5.0" right="5.0" />
+                     </padding>
+                  </TitledPane>
+                  <Button id="btnGo" fx:id="btnGo" mnemonicParsing="false" onAction="#goAction" prefHeight="55.0" prefWidth="90.0" text="Go" textAlignment="CENTER">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                     <padding>
+                        <Insets left="5.0" right="5.0" />
+                     </padding>
+                  </Button>
+               </children>
+            </FlowPane>
+         </children>
+      </HBox>
+      <ScrollPane fx:id="paneQuestions" fitToWidth="true" layoutX="10.0" layoutY="115.0">
+         <content>
+            <VBox fx:id="questionRows" prefWidth="470.0" />
+         </content>
+      </ScrollPane>
    </children>
 </AnchorPane>
