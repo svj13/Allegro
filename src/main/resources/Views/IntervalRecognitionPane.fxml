@@ -44,7 +44,7 @@
             </FlowPane>
          </children>
       </HBox>
-      <ScrollPane fx:id="paneQuestions" fitToWidth="true" layoutX="10.0" layoutY="115.0">
+      <ScrollPane fx:id="paneQuestions" fitToWidth="true" layoutY="105.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="105.0">
          <content>
             <VBox fx:id="questionRows" prefWidth="470.0" />
          </content>

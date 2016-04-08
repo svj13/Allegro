@@ -13,32 +13,35 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import seng302.Environment;
 
 public class IntervalRecognitionTutorController {
 
     @FXML
-    private TextField txtNumIntervals;
+    TextField txtNumIntervals;
 
     @FXML
-    private VBox questionRows;
+    VBox questionRows;
 
     @FXML
-    private AnchorPane IntervalRecognitionTab;
+    AnchorPane IntervalRecognitionTab;
 
     @FXML
-    private ScrollPane paneQuestions;
+    ScrollPane paneQuestions;
 
     @FXML
-    private Button btnGo;
+    Button btnGo;
 
+    Environment env;
     // hash map where the key is the number of semitones and the value is the name of that interval
     private HashMap intervals = new HashMap(8);
 
-    @FXML
-    private void initialize() {
+
+
+    public void create(Environment env) {
+        this.env = env;
         populateIntervals();
     }
-
 
     @FXML
     void goAction(ActionEvent event) {
@@ -95,6 +98,7 @@ public class IntervalRecognitionTutorController {
         questionRow.getChildren().add(cancel);
         questionRow.getChildren().add(generateChoices());
 
+        questionRow.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
         return questionRow;
     }
 
