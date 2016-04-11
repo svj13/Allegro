@@ -6,9 +6,12 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="IntervalRecognitionTab" minWidth="460.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.IntervalRecognitionTutorController">
+<AnchorPane fx:id="IntervalRecognitionTab" minWidth="460.0" prefWidth="460.0"
+            xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="seng302.gui.IntervalRecognitionTutorController">
    <children>
-      <Label text="Interval Recognition Tutor">
+      <Label text="Interval Recognition Tutor" AnchorPane.leftAnchor="5.0"
+             AnchorPane.topAnchor="5.0">
          <font>
             <Font size="21.0" />
          </font>
