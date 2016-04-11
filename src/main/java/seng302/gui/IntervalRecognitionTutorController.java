@@ -16,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import seng302.Environment;
 import seng302.data.Interval;
+import seng302.data.Note;
 
 public class IntervalRecognitionTutorController {
 
@@ -82,8 +83,9 @@ public class IntervalRecognitionTutorController {
         Button skip = new Button("Skip");
         Button cancel = new Button("Cancel");
         final ComboBox<String> options = generateChoices();
-
         final Interval thisInterval = generateInterval();
+        Note firstNote = getStartingNote();
+        Note secondNote = getFinalNote(firstNote, thisInterval);
 
         options.setOnAction(new EventHandler<ActionEvent>() {
             // This handler colors the GUI depending on the user's input
@@ -105,6 +107,14 @@ public class IntervalRecognitionTutorController {
         return questionRow;
     }
 
+    private Note getStartingNote() {
+        Random randNote = new Random();
+        return Note.notes.get(randNote.nextInt(128));
+    }
+
+    private Note getFinalNote(Note startingNote, Interval interval) {
+        return startingNote.semitoneUp(interval.getSemitones());
+    }
 
     private Interval generateInterval() {
         Random rand = new Random();

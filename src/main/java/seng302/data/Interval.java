@@ -30,4 +30,8 @@ public class Interval {
     public String getName(){
         return this.name;
     }
+
+    public int getSemitones() {
+        return this.semitones;
+    }
 }
