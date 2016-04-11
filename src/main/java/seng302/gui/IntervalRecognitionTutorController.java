@@ -62,6 +62,10 @@ public class IntervalRecognitionTutorController {
 
     }
 
+    /**
+     * Creates a JavaFX combo box containing the lexical names of all intervals.
+     * @return a combo box of interval options
+     */
     private ComboBox<String> generateChoices() {
         ComboBox<String> options = new ComboBox<String>();
         for (Interval interval:Interval.intervals.values()) {
@@ -71,6 +75,10 @@ public class IntervalRecognitionTutorController {
     }
 
 
+    /**
+     * Creates a GUI section for one question.
+     * @return a JavaFX HBox containing controls and info about one question.
+     */
     private HBox generateQuestionRow() {
         final HBox questionRow = new HBox();
 
@@ -107,15 +115,29 @@ public class IntervalRecognitionTutorController {
         return questionRow;
     }
 
+    /**
+     * Randomly selects a note for the interval.
+     * @return A Note object, for playing an interval.
+     */
     private Note getStartingNote() {
         Random randNote = new Random();
         return Note.notes.get(randNote.nextInt(128));
     }
 
+    /**
+     * Calculates the second note of an interval based on the first.
+     * @param startingNote The first note of an interval
+     * @param interval The number of semitones in an interval
+     * @return The second note of the interval
+     */
     private Note getFinalNote(Note startingNote, Interval interval) {
         return startingNote.semitoneUp(interval.getSemitones());
     }
 
+    /**
+     * Randomly selects an interval from the approved list
+     * @return the randomly selected interval
+     */
     private Interval generateInterval() {
         Random rand = new Random();
         // There are 8 different intervals
