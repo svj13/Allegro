@@ -82,16 +82,19 @@ public class PitchComparisonTutorController {
     @FXML
     private void goAction() {
         if (lowerSet && upperSet) {
+            int bump = Integer.valueOf(cbxLower.getValue().getMidi());
+            int difference = Integer.valueOf(cbxUpper.getValue().getMidi()) - bump;
             questionRows.getChildren().clear();
             manager.questions = Integer.parseInt(txtNotePairs.getText());
             for (int i = 0; i < manager.questions; i++) {
-                String noteName1 = Note.lookup(String.valueOf(rand.nextInt(128))).getNote();
-                String noteName2 = Note.lookup(String.valueOf(rand.nextInt(128))).getNote();
+                int note1midi = (rand.nextInt(difference) + bump);
+                int note2midi = (rand.nextInt(difference) + bump);
+                String noteName1 = Note.lookup(String.valueOf(note1midi)).getNote();
+                String noteName2 = Note.lookup(String.valueOf(note2midi)).getNote();
                 HBox rowPane = generateQuestionPane(noteName1,noteName2);
                 questionRows.getChildren().add(rowPane);
                 questionRows.setMargin(rowPane, new Insets(10, 10, 10, 10));
             }
-
 
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -303,7 +306,6 @@ public class PitchComparisonTutorController {
         });
 
 
-            btnGo.setText("Retest");
 
         skip.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
@@ -324,7 +326,7 @@ public class PitchComparisonTutorController {
             }
         });
 
-        btnGo.setText("Retest");
+
         Button playBtn = new Button();
         playBtn.setText("Play");
         playBtn.setOnAction(new EventHandler<ActionEvent>() {
