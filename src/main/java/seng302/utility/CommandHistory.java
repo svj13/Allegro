@@ -43,9 +43,9 @@ public class CommandHistory {
 
         }
         if (tm.getTranscriptTuples().size() > 0) {
-            return tm.getTranscriptTuples().get(size - historyLevel).getCommand();
+            return tm.getTranscriptTuples().get(size - historyLevel).getInput();
         } else return currentText;
-        //txtCommand.setText(env.getTranscriptManager().getTranscriptTuples().get(size-historyLevel).getCommand());
+        //txtCommand.setText(env.getTranscriptManager().getTranscriptTuples().get(size-historyLevel).getInput());
     }
 
     /**
@@ -61,7 +61,7 @@ public class CommandHistory {
 
             historyLevel--;
 
-            return tm.getTranscriptTuples().get(size - historyLevel).getCommand();
+            return tm.getTranscriptTuples().get(size - historyLevel).getInput();
         } else if (historyLevel == 1) {
             historyLevel--;
 

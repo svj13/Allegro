@@ -16,14 +16,14 @@ public class OutputTupleTest {
     @Before
     public void setUp() throws Exception {
         OutputTuple tuple = new OutputTuple();
-        tuple.setCommand("");
+        tuple.setInput("");
         tuple.setResult("");
     }
 
     @Test
     public void testGetCommand() throws Exception {
         OutputTuple tuple = new OutputTuple("", "");
-        assertEquals(tuple.getCommand(), "");
+        assertEquals(tuple.getInput(), "");
     }
 
     @Test

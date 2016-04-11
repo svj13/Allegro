@@ -61,7 +61,7 @@ public class TranscriptManager {
             FileWriter writer = new FileWriter(path, false); // the true variable means that if the file exists it will append to it not 100% sure thats what we want yet
 
             for (OutputTuple line : transcriptContent) {
-                writer.write(line.getCommand() + " : " + line.getResult() + ",");
+                writer.write(line.getInput() + " : " + line.getResult() + ",");
 
             }
             writer.close();
@@ -146,7 +146,7 @@ public class TranscriptManager {
     public String convertToText() {
         String displayText = "";
         for (OutputTuple content : transcriptContent) {
-            displayText += "Command: " + content.getCommand() + "\n" + content.getResult() + "\n";
+            displayText += "Command: " + content.getInput() + "\n" + content.getResult() + "\n";
         }
         return displayText;
     }

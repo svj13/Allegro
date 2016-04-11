@@ -40,6 +40,10 @@ public class RootController implements Initializable {
 
     @FXML
     private PitchComparisonTutorController PitchComparisonTabController; //pitchController;
+
+    @FXML
+    private IntervalRecognitionTutorController IntervalRecognitionTabController;
+
     @FXML
     private TranscriptPaneController transcriptController;
 
@@ -182,6 +186,7 @@ public class RootController implements Initializable {
 
 
         PitchComparisonTabController.create(env);
+        IntervalRecognitionTabController.create(env);
 
 
     }
