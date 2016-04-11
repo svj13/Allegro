@@ -16,15 +16,18 @@ public class Interval {
     }
 
     // Populates a hashmap of intervals.
-    public static HashMap<String, Interval> intervals = new HashMap<String, Interval>() {{
-        put("unison", new Interval(0, "unison"));
-        put("major second", new Interval(2, "major second"));
-        put("major third", new Interval(4, "major third"));
-        put("perfect fourth", new Interval(5, "perfect fourth"));
-        put("perfect fifth", new Interval(7, "perfect fifth"));
-        put("major sixth", new Interval (9, "major sixth"));
-        put("major seventh", new Interval(11, "major seventh"));
-        put("perfect octave", new Interval(12, "perfect octave"));
+    public static HashMap<Integer, Interval> intervals = new HashMap<Integer, Interval>() {{
+        put(0, new Interval(0, "unison"));
+        put(1, new Interval(2, "major second"));
+        put(2, new Interval(4, "major third"));
+        put(3, new Interval(5, "perfect fourth"));
+        put(4, new Interval(7, "perfect fifth"));
+        put(5, new Interval (9, "major sixth"));
+        put(6, new Interval(11, "major seventh"));
+        put(7, new Interval(12, "perfect octave"));
     }};
 
+    public String getName(){
+        return this.name;
+    }
 }

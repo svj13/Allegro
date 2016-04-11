@@ -1,6 +1,6 @@
 package seng302.gui;
 
-import java.util.HashMap;
+import java.util.Random;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -15,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import seng302.Environment;
+import seng302.data.Interval;
 
 public class IntervalRecognitionTutorController {
 
@@ -34,14 +35,9 @@ public class IntervalRecognitionTutorController {
     Button btnGo;
 
     Environment env;
-    // hash map where the key is the number of semitones and the value is the name of that interval
-    private HashMap intervals = new HashMap(8);
-
-
 
     public void create(Environment env) {
         this.env = env;
-        populateIntervals();
     }
 
     @FXML
@@ -67,21 +63,12 @@ public class IntervalRecognitionTutorController {
 
     private ComboBox<String> generateChoices() {
         ComboBox<String> options = new ComboBox<String>();
-        options.getItems().addAll(intervals.values());
+        for (Interval interval:Interval.intervals.values()) {
+            options.getItems().add(interval.getName());
+        }
         return options;
     }
 
-
-    void populateIntervals() {
-        intervals.put(0, "unison");
-        intervals.put(2, "major second");
-        intervals.put(4, "major third");
-        intervals.put(5, "perfect fourth");
-        intervals.put(7, "perfect fifth");
-        intervals.put(9, "major sixth");
-        intervals.put(11, "major seventh");
-        intervals.put(12, "perfect octave");
-    }
 
     private HBox generateQuestionRow() {
         final HBox questionRow = new HBox();
@@ -96,10 +83,12 @@ public class IntervalRecognitionTutorController {
         Button cancel = new Button("Cancel");
         final ComboBox<String> options = generateChoices();
 
+        final Interval thisInterval = generateInterval();
+
         options.setOnAction(new EventHandler<ActionEvent>() {
             // This handler colors the GUI depending on the user's input
             public void handle(ActionEvent event) {
-                if (isCorrect("", options.getValue())) {
+                if (options.getValue().equals(thisInterval.getName())) {
                     questionRow.setStyle("-fx-background-color: green;");
                 } else {
                     questionRow.setStyle("-fx-background-color: red;");
@@ -116,12 +105,11 @@ public class IntervalRecognitionTutorController {
         return questionRow;
     }
 
-    private boolean isCorrect(String correctAnswer, String userAnswer) {
-        if (correctAnswer.equals(userAnswer)) {
-            return true;
-        } else {
-            return false;
-        }
+
+    private Interval generateInterval() {
+        Random rand = new Random();
+        // There are 8 different intervals
+        return Interval.intervals.get(rand.nextInt(8));
     }
 
 }
