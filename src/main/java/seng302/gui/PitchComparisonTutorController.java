@@ -317,7 +317,6 @@ public class PitchComparisonTutorController {
         });
 
 
-            btnGo.setText("Retest");
 
         skip.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
@@ -338,7 +337,7 @@ public class PitchComparisonTutorController {
             }
         });
 
-        btnGo.setText("Retest");
+
         Button playBtn = new Button();
         playBtn.setText("Play");
         playBtn.setOnAction(new EventHandler<ActionEvent>() {
