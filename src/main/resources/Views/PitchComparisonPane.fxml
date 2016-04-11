@@ -77,11 +77,10 @@
                 </Button>
             </children>
         </HBox>
-        <ScrollPane fx:id="paneQuestions" fitToWidth="true" layoutY="105.0"
-                    minViewportHeight="36.0" minViewportWidth="400.0" minWidth="-Infinity"
-                    prefHeight="36.0" prefViewportHeight="36.0" prefViewportWidth="400.0"
-                    prefWidth="430.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5"
-                    AnchorPane.rightAnchor="5" AnchorPane.topAnchor="120.0">
+       <ScrollPane fx:id="paneQuestions" fitToWidth="true" layoutY="105.0" minWidth="-Infinity"
+                   prefHeight="36.0" prefViewportHeight="36.0" prefViewportWidth="400.0"
+                   prefWidth="430.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5"
+                   AnchorPane.rightAnchor="5" AnchorPane.topAnchor="120.0">
             <content>
                 <VBox fx:id="questionRows"/>
             </content>
