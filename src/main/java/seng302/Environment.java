@@ -8,12 +8,14 @@ public class Environment {
     private DslExecutor executor;
     private TranscriptManager transcriptManager;
     private PitchComparisonTutorManager pctManager;
-    private int tempo = 120;
+    private MusicPlayer player;
 
     public Environment() {
         executor = new DslExecutor(this);
+        player = new MusicPlayer();
         transcriptManager = new TranscriptManager();
         pctManager = new PitchComparisonTutorManager();
+
     }
 
     /**
@@ -34,7 +36,7 @@ public class Environment {
         return transcriptManager;
     }
 
-    public PitchComparisonTutorManager getPctManager(){
+    public PitchComparisonTutorManager getPctManager() {
         return pctManager;
     }
 
@@ -42,15 +44,16 @@ public class Environment {
         this.transcriptManager = t;
     }
 
-    public void setPctManager(PitchComparisonTutorManager p){
+    public void setPctManager(PitchComparisonTutorManager p) {
         this.pctManager = p;
     }
 
-    public void setTempo(int tempo) {
-        this.tempo = tempo;
+    public MusicPlayer getPlayer() {
+        return player;
     }
 
-    public int getTempo() {
-        return this.tempo;
+    public void setPlayer(MusicPlayer player) {
+        this.player = player;
     }
+
 }
