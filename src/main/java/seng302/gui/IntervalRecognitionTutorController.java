@@ -121,7 +121,7 @@ public class IntervalRecognitionTutorController {
      */
     private Note getStartingNote() {
         Random randNote = new Random();
-        return Note.notes.get(randNote.nextInt(128));
+        return Note.lookup(String.valueOf(randNote.nextInt(128)));
     }
 
     /**
