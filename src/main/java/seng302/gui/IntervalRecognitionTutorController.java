@@ -68,7 +68,7 @@ public class IntervalRecognitionTutorController {
      */
     private ComboBox<String> generateChoices() {
         ComboBox<String> options = new ComboBox<String>();
-        for (Interval interval:Interval.intervals.values()) {
+        for (Interval interval:Interval.intervals) {
             options.getItems().add(interval.getName());
         }
         return options;
@@ -141,7 +141,7 @@ public class IntervalRecognitionTutorController {
     private Interval generateInterval() {
         Random rand = new Random();
         // There are 8 different intervals
-        return Interval.intervals.get(rand.nextInt(8));
+        return Interval.intervals[rand.nextInt(8)];
     }
 
 }
