@@ -26,7 +26,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import seng302.Environment;
-import seng302.data.MidiNotePair;
+import seng302.utility.MidiNotePair;
 import seng302.data.Note;
 import seng302.utility.OutputTuple;
 import seng302.utility.PitchComparisonTutorManager;
@@ -132,21 +132,22 @@ public class PitchComparisonTutorController {
             int selectedMidi = cbxLower.getSelectionModel().getSelectedItem().getMidi();
             System.out.println("Changed to: " + selectedMidi);
 
-            int midiInt = Integer.parseInt(selectedMidi);
+           // int midiInt = Integer.parseInt(selectedMidi);
             if (cbxUpper.getSelectionModel().isEmpty()) {
                 cbxUpper.getItems().clear();String.valueOf(rand.nextInt(128));
-                for (int i = midiInt + 1; i < Note.noteCount; i++) {
-                    cbxUpper.getItems().add(new MidiNotePair(String.valueOf(i), Note.lookup(String.valueOf(i)).getNote()));
+                for (int i = selectedMidi + 1; i < Note.noteCount; i++) {
+                    cbxUpper.getItems().add(new MidiNotePair(i, Note.lookup(String.valueOf(i)).getNote()));
                 }
-            } else if (Integer.parseInt(cbxUpper.getSelectionModel().getSelectedItem().getMidi()) < midiInt) {
+            } else if (cbxUpper.getSelectionModel().getSelectedItem().getMidi() > selectedMidi) {
                 MidiNotePair oldVal = cbxUpper.getSelectionModel().getSelectedItem();
 
                 cbxUpper.getItems().clear();
-                for (int i = 0; i < midiInt; i++) {
-                    cbxUpper.getItems().add(new MidiNotePair(String.valueOf(i), Note.lookup(String.valueOf(i)).getNote()));
+                for (int i = selectedMidi; i < Note.noteCount; i++) {
+                    cbxUpper.getItems().add(new MidiNotePair(i, Note.lookup(String.valueOf(i)).getNote()));
                 }
                 cbxUpper.setValue(oldVal);
             }
+
         }
 
 
@@ -182,6 +183,9 @@ public class PitchComparisonTutorController {
                 cbxLower.setValue(oldVal);
             }
 
+
+        }
+        else{
 
         }
 
