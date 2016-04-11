@@ -109,6 +109,13 @@ public class PitchComparisonTutorController {
         this.env = env;
         generateComboValues(cbxLower);
         generateComboValues(cbxUpper);
+
+        // Set default values to C4 and C5
+        cbxLower.getSelectionModel().select(60);
+        cbxUpper.getSelectionModel().select(72);
+        lowerSet = true;
+        upperSet = true;
+
         manager = env.getPctManager();
     }
 
