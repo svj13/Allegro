@@ -22,6 +22,7 @@ public class Scale implements Command {
     private char[] letters;
     private char currentLetter;
     private String direction = "up";
+    private Environment env;
 
 
     public Scale(String a, String b, String outputType) {
@@ -52,6 +53,7 @@ public class Scale implements Command {
     }
 
     public void execute(Environment env) {
+        this.env = env;
         if (Checker.isDoubleFlat(search) || Checker.isDoubleSharp(search)) {
             env.error("Invalid scale: '" + search + ' ' + type + "'.");
         } else {
@@ -63,30 +65,17 @@ public class Scale implements Command {
                     octaveSpecified = false;
                     this.note = Note.lookup(OctaveUtil.addDefaultOctave(search));
                 }
-                if (this.outputType.equals("note")) {
-                    env.getTranscriptManager().setResult(scaleToString(note.getScale(type)));
-                } else if (this.outputType.equals("midi")) {
-                    // Is midi
-                    env.getTranscriptManager().setResult(scaleToMidi(note.getScale(type)));
-                } else {
-                    // Is play
-                    ArrayList<Note> notesToPlay = note.getScale(type);
-                    // We need to alter the notes if it's down or up/down
-                    if (this.direction.equals("down")) {
-                        Collections.reverse(notesToPlay);
+                try {
+                    if (this.outputType.equals("note")) {
+                        env.getTranscriptManager().setResult(scaleToString(note.getScale(type)));
+                    } else if (this.outputType.equals("midi")) {
+                        env.getTranscriptManager().setResult(scaleToMidi(note.getScale(type)));
+                    } else { // Play scale.
+                        ArrayList<Note> notesToPlay = note.getScale(type);
+                        playScale(notesToPlay, direction);
                     }
-                    if (this.direction.equals("updown")) {
-                        ArrayList<Note> reversedNotes = new ArrayList<Note>(notesToPlay);
-                        Collections.reverse(reversedNotes);
-                        notesToPlay.addAll(reversedNotes);
-                    }
-                    //Problem here: if notesToPlay is updown, the program can't ID what the notes should look like
-                    //env.getTranscriptManager().setResult(scaleToString(notesToPlay));
-                    int duration = env.getTempo() / 60;
-                    for (Note note : notesToPlay) {
-                        // Play each note for the duration
-                        note.playNote(env.getTempo());
-                    }
+                } catch (IllegalArgumentException i) {
+                    env.error(i.getMessage());
                 }
             } catch (Exception e) {
                 env.error("Note is not contained in the MIDI library.");
@@ -114,5 +103,24 @@ public class Scale implements Command {
             midiValues += note.getMidi() + " ";
         }
         return midiValues.trim();
+    }
+
+    private void playScale(ArrayList<Note> notes, String direction) {
+        // We need to alter the notes if it's down or up/down
+        if (this.direction.equals("down")) {
+            Collections.reverse(notes);
+        }
+        if (this.direction.equals("updown")) {
+            ArrayList<Note> reversedNotes = new ArrayList<Note>(notes);
+            Collections.reverse(reversedNotes);
+            notes.addAll(reversedNotes);
+        }
+        //Problem here: if notesToPlay is updown, the program can't ID what the notes should look like
+        //env.getTranscriptManager().setResult(scaleToString(notesToPlay));
+        int duration = env.getTempo() / 60;
+        for (Note note : notes) {
+            // Play each note for the duration
+            note.playNote(env.getTempo());
+        }
     }
 }

@@ -257,6 +257,8 @@ public class Note {
                     return null;
                 }
             }
+        } else {
+            throw new IllegalArgumentException("Invalid scale type: '" + type + "'.");
         }
         return scaleNotes;
     }
