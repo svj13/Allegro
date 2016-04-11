@@ -7,13 +7,19 @@ import javax.sound.midi.*;
 import seng302.data.Note;
 
 /**
- * Created by isabelle on 11/04/16.
+ * The Music Player class handles all sound that is produced by the program.
  */
 public class MusicPlayer {
     Sequencer seq;
 
+    /**
+     * Default tempo is 120 BPM.
+     */
     private int tempo = 120;
 
+    /**
+     * Music Player constructor opens the sequencers and synthesizer. It also sets the receiver.
+     */
     public MusicPlayer() {
         try {
             this.seq = MidiSystem.getSequencer();
@@ -23,12 +29,14 @@ public class MusicPlayer {
             seq.getTransmitter().setReceiver(synthesizer.getReceiver());
         } catch (MidiUnavailableException e) {
 
-            System.err.println("Can't play Midi sound at the moment1.");
+            System.err.println("Can't play Midi sound at the moment.");
         }
     }
 
     /**
      * Plays an array of notes directly after each other.
+     *
+     * @param notes The notes in the order to be played.
      */
     public void playNotes(ArrayList<Note> notes) {
         try {
@@ -103,6 +111,11 @@ public class MusicPlayer {
         track.add(new MidiEvent(off, startTick + tickLength));
     }
 
+    /**
+     * Sets the sequence to be played and the tempo. Then the sequencer starts playing.
+     *
+     * @param sequence The sequence containing the track to be played.
+     */
     private void playSequence(Sequence sequence) {
         try {
             seq.setSequence(sequence);
@@ -114,10 +127,20 @@ public class MusicPlayer {
         seq.start();
     }
 
+    /**
+     * Returns the current tempo.
+     *
+     * @return current tempo.
+     */
     public int getTempo() {
         return tempo;
     }
 
+    /**
+     * Sets the tempo to the given int.
+     *
+     * @param tempo The tempo to be changed to.
+     */
     public void setTempo(int tempo) {
         this.tempo = tempo;
     }
