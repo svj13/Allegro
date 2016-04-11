@@ -47,11 +47,11 @@ public class Tempo implements Command {
      */
     public void execute(Environment env) {
         if (isSetter){
-            env.setTempo(this.tempo);
+            env.getPlayer().setTempo(tempo);
             env.getTranscriptManager().setResult(result);
         } else {
             //is getting the tempo
-            env.getTranscriptManager().setResult(env.getTempo() + " BPM");
+            env.getTranscriptManager().setResult(env.getPlayer().getTempo() + " BPM");
         }
 
     }

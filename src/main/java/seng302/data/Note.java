@@ -264,61 +264,6 @@ public class Note {
     }
 
 
-    public void playNote(int tempo) {
-        try {
-            float temp = (float) ((60.0 / tempo) * 1000.0);
-            long duration = (long) Math.ceil(temp);
-            System.out.println(duration);
-            System.out.println(tempo);
-            Synthesizer synth = MidiSystem.getSynthesizer();
-            final Receiver synthReceiver = synth.getReceiver();
-            synth.open();
-            ShortMessage myMessage = new ShortMessage();
-            myMessage.setMessage(ShortMessage.NOTE_ON, this.getMidi(), 127);
-            final ShortMessage stopMessage = new ShortMessage();
-            stopMessage.setMessage(ShortMessage.NOTE_OFF, this.getMidi(), 127);
-            Timer stopTimer = new Timer();
-            TimerTask stopNote = new TimerTask() {
-                @Override
-                public void run() {
-                    synthReceiver.send(stopMessage, -1);
-                }
-            };
-            stopTimer.schedule(stopNote, duration);
-            synthReceiver.send(myMessage, -1);
-
-        } catch (Exception e) {
-            //env.error(e.getMessage());
-        }
-
-    }
-
-    public void playNote(int tempo, long duration) {
-        try {
-            Synthesizer synth = MidiSystem.getSynthesizer();
-            final Receiver synthReceiver = synth.getReceiver();
-            synth.open();
-            ShortMessage myMessage = new ShortMessage();
-            myMessage.setMessage(ShortMessage.NOTE_ON, this.getMidi(), 127);
-            final ShortMessage stopMessage = new ShortMessage();
-            stopMessage.setMessage(ShortMessage.NOTE_OFF, this.getMidi(), 127);
-            Timer stopTimer = new Timer();
-            TimerTask stopNote = new TimerTask() {
-                @Override
-                public void run() {
-                    synthReceiver.send(stopMessage, -1);
-                }
-            };
-            stopTimer.schedule(stopNote, duration);
-            synthReceiver.send(myMessage, -1);
-
-        } catch (Exception e) {
-            //env.error(e.getMessage());
-        }
-
-    }
-
-
     public String getEnharmonicWithLetter(char letter) {
         for (String value : enharmonics.values()) {
             if (value.charAt(0) == letter) {

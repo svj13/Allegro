@@ -341,14 +341,10 @@ public class PitchComparisonTutorController {
             public void handle(ActionEvent event) {
                 Note note1 = Note.lookup(((Label) rowPane.getChildren().get(0)).getText());
                 Note note2 = Note.lookup(((Label) rowPane.getChildren().get(1)).getText());
-
-                note1.playNote(env.getTempo());
-                try {
-                    Thread.sleep(1000L);
-                } catch (Exception e) {
-                }
-
-                note2.playNote(env.getTempo());
+                ArrayList<Note> notes = new ArrayList<Note>();
+                notes.add(note1);
+                notes.add(note2);
+                env.getPlayer().playNotes(notes);
             }
 
 
