@@ -3,6 +3,7 @@ package seng302.gui;
 import java.util.HashMap;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
@@ -93,13 +94,34 @@ public class IntervalRecognitionTutorController {
         Button play = new Button("Play");
         Button skip = new Button("Skip");
         Button cancel = new Button("Cancel");
+        final ComboBox<String> options = generateChoices();
+
+        options.setOnAction(new EventHandler<ActionEvent>() {
+            // This handler colors the GUI depending on the user's input
+            public void handle(ActionEvent event) {
+                if (isCorrect("", options.getValue())) {
+                    questionRow.setStyle("-fx-background-color: green;");
+                } else {
+                    questionRow.setStyle("-fx-background-color: red;");
+                }
+            }
+        });
+
         questionRow.getChildren().add(play);
         questionRow.getChildren().add(skip);
         questionRow.getChildren().add(cancel);
-        questionRow.getChildren().add(generateChoices());
+        questionRow.getChildren().add(options);
 
         questionRow.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
         return questionRow;
+    }
+
+    private boolean isCorrect(String correctAnswer, String userAnswer) {
+        if (correctAnswer.equals(userAnswer)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }
