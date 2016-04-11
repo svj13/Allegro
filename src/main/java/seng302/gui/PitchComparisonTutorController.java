@@ -85,9 +85,16 @@ public class PitchComparisonTutorController {
             questionRows.getChildren().clear();
             manager.questions = Integer.parseInt(txtNotePairs.getText());
             for (int i = 0; i < manager.questions; i++) {
-                String noteName1 = Note.lookup(String.valueOf(rand.nextInt(128))).getNote();
-                String noteName2 = Note.lookup(String.valueOf(rand.nextInt(128))).getNote();
-                HBox rowPane = generateQuestionPane(noteName1,noteName2);
+                //String noteName1 = Note.lookup(String.valueOf(rand.nextInt(128))).getNote();
+                //String noteName2 = Note.lookup(String.valueOf(rand.nextInt(128))).getNote();
+
+                int lowerPitchBound = cbxLower.getSelectionModel().getSelectedItem().getMidi();
+                int upperPitchBound = cbxUpper.getSelectionModel().getSelectedItem().getMidi();
+                int pitchRange = upperPitchBound - lowerPitchBound;
+                String midiOne =  String.valueOf(lowerPitchBound + rand.nextInt(pitchRange+1));
+                String midiTwo = String.valueOf(lowerPitchBound + rand.nextInt(pitchRange+1));
+
+                HBox rowPane = generateQuestionPane(midiOne, midiTwo);
                 questionRows.getChildren().add(rowPane);
                 questionRows.setMargin(rowPane, new Insets(10, 10, 10, 10));
             }
@@ -215,11 +222,54 @@ public class PitchComparisonTutorController {
 
     }
 
+
+    private void questionResponse(HBox row, String m1, String m2){
+
+        Note note1 = Note.lookup(m1);
+        Note note2 = Note.lookup(m2);
+
+
+        row.getChildren().get(2).setStyle("-fx-text-fill: white;-fx-background-color: blue");
+        row.getChildren().get(2).setDisable(true);
+        row.getChildren().get(3).setDisable(true);
+        row.getChildren().get(4).setDisable(true);
+        row.getChildren().get(6).setDisable(true);
+
+
+        boolean correctChoice = false;
+
+        if(((ToggleButton)row.getChildren().get(2)).isSelected()){ //Higher\
+            System.out.println("higher is pressed");
+            if (noteComparison(true, note1, note2)) correctChoice = true;
+        }
+        else  if(((ToggleButton)row.getChildren().get(3)).isSelected()){ //Same
+            if (note1 == note2) correctChoice = true;
+        }
+        else  if(((ToggleButton)row.getChildren().get(4)).isSelected()){ //Lower
+            if (noteComparison(false, note1, note2)) {
+                correctChoice = true;
+            }
+        }
+
+    if(correctChoice) row.setStyle("-fx-background-color: green;");
+    else row.setStyle("-fx-background-color: red;");
+    manager.add(note1.getNote(), note2.getNote(), correctChoice);
+
+        manager.answered += 1;
+        if (manager.answered == manager.questions) {
+            finished();
+        }
+
+
+
+
+    }
+
     /**
      * Constructs the question panels.
      * @return
      */
-    private HBox generateQuestionPane(String noteName1, String noteName2 ) {
+    private HBox generateQuestionPane(final String midiOne, final String midiTwo) {
 
         final HBox rowPane = new HBox();
 
@@ -228,12 +278,10 @@ public class PitchComparisonTutorController {
         rowPane.setSpacing(10);
         rowPane.setStyle("-fx-background-color: #336699;");
 
-        int lowerPitchBound = cbxLower.getSelectionModel().getSelectedItem().getMidi();
 
-        rowPane.getChildren().add(new Label(noteName1));
-        int upperPitchBound = cbxUpper.getSelectionModel().getSelectedItem().getMidi();
 
-        rowPane.getChildren().add(new Label(noteName2));
+        rowPane.getChildren().add(new Label(String.valueOf(midiOne)));
+        rowPane.getChildren().add(new Label(String.valueOf(midiTwo)));
 
         ToggleGroup group = new ToggleGroup();
         ToggleButton higher = new ToggleButton("Higher");
@@ -247,72 +295,24 @@ public class PitchComparisonTutorController {
 
         higher.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                Note note1 = Note.lookup(((Label) rowPane.getChildren().get(0)).getText());
-                Note note2 = Note.lookup(((Label) rowPane.getChildren().get(1)).getText());
 
-                rowPane.getChildren().get(2).setStyle("-fx-text-fill: white;-fx-background-color: blue");
-                rowPane.getChildren().get(2).setDisable(true);
-                rowPane.getChildren().get(3).setDisable(true);
-                rowPane.getChildren().get(4).setDisable(true);
-                rowPane.getChildren().get(6).setDisable(true);
-                if (noteComparison(true, note1, note2)) {
-                    rowPane.setStyle("-fx-background-color: red;");
-                    manager.add(note1.getNote(), note2.getNote(), false);
-                } else {
-                    rowPane.setStyle("-fx-background-color: green;");
-                    manager.add(note1.getNote(), note2.getNote(), true);
-                }
-                manager.answered += 1;
-                if (manager.answered == manager.questions) {
-                    finished();
-                }
+                questionResponse(rowPane, midiOne, midiTwo);
+
             }
         });
 
         lower.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                Note note1 = Note.lookup(((Label) rowPane.getChildren().get(0)).getText());
-                Note note2 = Note.lookup(((Label) rowPane.getChildren().get(1)).getText());
 
-                rowPane.getChildren().get(4).setStyle("-fx-text-fill: white;-fx-background-color: blue");
-                rowPane.getChildren().get(2).setDisable(true);
-                rowPane.getChildren().get(3).setDisable(true);
-                rowPane.getChildren().get(4).setDisable(true);
-                rowPane.getChildren().get(6).setDisable(true);
-                if (noteComparison(true, note1, note2)) {
-                    rowPane.setStyle("-fx-background-color: green;");
-                    manager.add(note1.getNote(), note2.getNote(), true);
 
-                } else {
-                    rowPane.setStyle("-fx-background-color: red;");
-                    manager.add(note1.getNote(), note2.getNote(), false);
-                }
-                manager.answered += 1;
-                if (manager.answered == manager.questions) {
-                    finished();
-                }
+                questionResponse(rowPane, midiOne, midiTwo);
             }
         });
 
         same.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                Note note1 = Note.lookup(((Label) rowPane.getChildren().get(0)).getText());
-                Note note2 = Note.lookup(((Label) rowPane.getChildren().get(1)).getText());
-                rowPane.getChildren().get(3).setStyle("-fx-text-fill: white;-fx-background-color: blue");
-                rowPane.getChildren().get(2).setDisable(true);
-                rowPane.getChildren().get(3).setDisable(true);
-                rowPane.getChildren().get(4).setDisable(true);
-                rowPane.getChildren().get(6).setDisable(true);
-                if (note1 == note2) {
-                    rowPane.setStyle("-fx-background-color: green;");
-                    manager.add(note1.getNote(), note2.getNote(), true);
 
-                } else {
-                    rowPane.setStyle("-fx-background-color: red;");
-                    manager.add(note1.getNote(), note2.getNote(), false);
-                }
-                manager.answered += 1;
-                if (manager.answered == manager.questions) { finished(); }
+                questionResponse(rowPane, midiOne, midiTwo);
             }
         });
 
