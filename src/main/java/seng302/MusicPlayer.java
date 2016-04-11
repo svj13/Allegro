@@ -37,8 +37,9 @@ public class MusicPlayer {
      * Plays an array of notes directly after each other.
      *
      * @param notes The notes in the order to be played.
+     * @param pause The number of ticks to pause between notes. 16 ticks = 1 crotchet beat.
      */
-    public void playNotes(ArrayList<Note> notes) {
+    public void playNotes(ArrayList<Note> notes, int pause) {
         try {
             int instrument = 0;
             // 16 ticks per crotchet note.
@@ -53,13 +54,22 @@ public class MusicPlayer {
             int currenttick = 0;
             for (Note note : notes) {
                 addNote(track, currenttick, 16, note.getMidi(), 64);
-                currenttick += 16;
+                currenttick += (16 + pause);
             }
             playSequence(sequence);
 
         } catch (InvalidMidiDataException e) {
             System.err.println("The notes you are trying to play were invalid");
         }
+    }
+
+    /**
+     * Convenience method to play notes with no pause.
+     *
+     * @param notes The notes to play.
+     */
+    public void playNotes(ArrayList<Note> notes) {
+        playNotes(notes, 0);
     }
 
     /**

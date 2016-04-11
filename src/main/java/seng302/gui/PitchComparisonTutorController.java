@@ -334,7 +334,7 @@ public class PitchComparisonTutorController {
                 ArrayList<Note> notes = new ArrayList<Note>();
                 notes.add(note1);
                 notes.add(note2);
-                env.getPlayer().playNotes(notes);
+                env.getPlayer().playNotes(notes, 48);
             }
 
 
