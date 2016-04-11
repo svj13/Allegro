@@ -26,7 +26,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import seng302.Environment;
-import seng302.data.MidiNotePair;
+import seng302.utility.MidiNotePair;
 import seng302.data.Note;
 import seng302.utility.OutputTuple;
 import seng302.utility.PitchComparisonTutorManager;
@@ -103,11 +103,16 @@ public class PitchComparisonTutorController {
             alert.setResizable(false);
             alert.showAndWait();
         }
+        paneQuestions.prefWidthProperty().bind(pitchTutorAnchor.prefWidthProperty());
+
+
     }
 
     
 
     public void create(Environment env) {
+
+
         System.out.println("inside pitch comparison tutor");
         this.env = env;
         generateComboValues(cbxLower);
@@ -127,25 +132,28 @@ public class PitchComparisonTutorController {
     private void handleLowerRangeAction() {
         lowerSet = true;
         if (!cbxLower.getSelectionModel().isEmpty()) {
-            String selectedMidi = cbxLower.getSelectionModel().getSelectedItem().getMidi();
+            int selectedMidi = cbxLower.getSelectionModel().getSelectedItem().getMidi();
             System.out.println("Changed to: " + selectedMidi);
 
-            int midiInt = Integer.parseInt(selectedMidi);
+           // int midiInt = Integer.parseInt(selectedMidi);
             if (cbxUpper.getSelectionModel().isEmpty()) {
                 cbxUpper.getItems().clear();String.valueOf(rand.nextInt(128));
-                for (int i = midiInt + 1; i < Note.noteCount; i++) {
-                    cbxUpper.getItems().add(new MidiNotePair(String.valueOf(i), Note.lookup(String.valueOf(i)).getNote()));
+                for (int i = selectedMidi + 1; i < Note.noteCount; i++) {
+                    cbxUpper.getItems().add(new MidiNotePair(i, Note.lookup(String.valueOf(i)).getNote()));
                 }
-            } else if (Integer.parseInt(cbxUpper.getSelectionModel().getSelectedItem().getMidi()) < midiInt) {
+            } else if (cbxUpper.getSelectionModel().getSelectedItem().getMidi() > selectedMidi) {
                 MidiNotePair oldVal = cbxUpper.getSelectionModel().getSelectedItem();
 
                 cbxUpper.getItems().clear();
-                for (int i = 0; i < midiInt; i++) {
-                    cbxUpper.getItems().add(new MidiNotePair(String.valueOf(i), Note.lookup(String.valueOf(i)).getNote()));
+                for (int i = selectedMidi; i < Note.noteCount; i++) {
+                    cbxUpper.getItems().add(new MidiNotePair(i, Note.lookup(String.valueOf(i)).getNote()));
                 }
                 cbxUpper.setValue(oldVal);
             }
+
         }
+
+
     }
 
     /**
@@ -155,28 +163,32 @@ public class PitchComparisonTutorController {
     private void handleUpperRangeAction() {
         upperSet = true;
         if (!cbxUpper.getSelectionModel().isEmpty()) {
-            String selectedMidi = cbxUpper.getSelectionModel().getSelectedItem().getMidi();
-            System.out.println("upper action to: " + selectedMidi);
+            int midiInt = cbxUpper.getSelectionModel().getSelectedItem().getMidi();
+//            System.out.println("upper action to: " + selectedMidi);
 
-            int midiInt = Integer.parseInt(selectedMidi);
+            //int midiInt = Integer.parseInt(selectedMidi);
 
 
+            //
             System.out.println("selected index.. " + cbxLower.getSelectionModel().getSelectedIndex());
             if (cbxLower.getSelectionModel().isEmpty()) {
                 cbxLower.getItems().clear();
                 for (int i = 0; i < midiInt; i++) {
-                    cbxLower.getItems().add(new MidiNotePair(String.valueOf(i), Note.lookup(String.valueOf(i)).getNote()));
+                    cbxLower.getItems().add(new MidiNotePair(i, Note.lookup(String.valueOf(i)).getNote()));
                 }
-            } else if (Integer.parseInt(cbxLower.getSelectionModel().getSelectedItem().getMidi()) < midiInt) {
+            } else if (cbxLower.getSelectionModel().getSelectedItem().getMidi() < midiInt) {
                 MidiNotePair oldVal = cbxLower.getSelectionModel().getSelectedItem();
 
                 cbxLower.getItems().clear();
                 for (int i = 0; i < midiInt; i++) {
-                    cbxLower.getItems().add(new MidiNotePair(String.valueOf(i), Note.lookup(String.valueOf(i)).getNote()));
+                    cbxLower.getItems().add(new MidiNotePair(i, Note.lookup(String.valueOf(i)).getNote()));
                 }
                 cbxLower.setValue(oldVal);
             }
 
+
+        }
+        else{
 
         }
 
@@ -196,7 +208,7 @@ public class PitchComparisonTutorController {
 
             assert cbxLower != null : "cbxLower was not injected, check the fxml";
 
-            cbx.getItems().add(new MidiNotePair(String.valueOf(i), Note.lookup(String.valueOf(i)).getNote()));
+            cbx.getItems().add(new MidiNotePair(i, Note.lookup(String.valueOf(i)).getNote()));
             //System.out.println(cbx.getItems().size());
         }
         //TODO Make it so it generates everytime a combobox is selected.
@@ -219,8 +231,10 @@ public class PitchComparisonTutorController {
         rowPane.setSpacing(10);
         rowPane.setStyle("-fx-background-color: #336699;");
 
+        int lowerPitchBound = cbxLower.getSelectionModel().getSelectedItem().getMidi();
 
         rowPane.getChildren().add(new Label(noteName1));
+        int upperPitchBound = cbxUpper.getSelectionModel().getSelectedItem().getMidi();
 
         rowPane.getChildren().add(new Label(noteName2));
 
@@ -350,6 +364,8 @@ public class PitchComparisonTutorController {
         rowPane.getChildren().add(skip);
 
         rowPane.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
+
+
         return rowPane;
     }
 
@@ -440,5 +456,8 @@ public class PitchComparisonTutorController {
 
 
     }
+
+
+
 
 }
