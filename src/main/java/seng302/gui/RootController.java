@@ -1,6 +1,7 @@
 package seng302.gui;
 
 
+import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -20,6 +21,8 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import seng302.Environment;
 import seng302.utility.TranscriptManager;
 
@@ -64,6 +67,9 @@ public class RootController implements Initializable {
     private MenuItem menuSave;
 
     @FXML
+    private Menu menuOpenProjects;
+
+    @FXML
     private void initialize() {
 
     }
@@ -71,6 +77,7 @@ public class RootController implements Initializable {
     public void RootController() {
 
     }
+
 
 
     public void initialize(URL location, ResourceBundle resources) {
@@ -199,6 +206,28 @@ public class RootController implements Initializable {
 
     }
 
+    @FXML
+    private void bindOpenObjects(){
+        System.out.println("projects bound in project menu");
+        JSONArray projects = env.getJson().getProjectList();
+        for(int i = 0; i < projects.size(); i++){
+            final String projectName = projects.get(i).toString();
+            System.out.println("menu project: " + projectName);
+            MenuItem projectItem = new MenuItem(projectName);
+            projectItem.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
+                public void handle(javafx.event.ActionEvent event) {
+                    env.getJson().loadProject(projectName);
+                }
+
+
+            });
+
+            menuOpenProjects.getItems().add(projectItem); //Add to Open projects menu
+
+
+        }
+
+    }
 
 
 
