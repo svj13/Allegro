@@ -318,22 +318,7 @@ public class PitchComparisonTutorController {
 
         skip.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-              /*  Note note1 = Note.lookup(((Label) rowPane.getChildren().get(0)).getText());
-                Note note2 = Note.lookup(((Label) rowPane.getChildren().get(1)).getText());
 
-                rowPane.getChildren().get(6).setStyle("-fx-text-fill: white;-fx-background-color: blue");
-                rowPane.getChildren().get(2).setDisable(true);
-                rowPane.getChildren().get(3).setDisable(true);
-                rowPane.getChildren().get(4).setDisable(true);
-                rowPane.getChildren().get(6).setDisable(true);
-                rowPane.setStyle("-fx-background-color: grey;");
-                manager.questions -= 1;
-                manager.add(note1.getNote(), note2.getNote(), false);
-                if (manager.answered == manager.questions) {
-                    finished();
-                }
-
-                */
                 questionResponse(rowPane, midiOne, midiTwo);
             }
         });
@@ -397,21 +382,50 @@ public class PitchComparisonTutorController {
         int cor = manager.correct;
         int ques = manager.questions;
         String percentage = toString().format("%d", cor*100/ques);
-        alert.setContentText("You got " + (cor) + " out of " + ques
-                + ", " + percentage + "%.\nWell done :)");
-        alert.setResizable(false);
+
+
         ButtonType retestBtn = new ButtonType("Retest");
-        ButtonType clearBtn = new ButtonType("Clear");
-        alert.getButtonTypes().setAll(retestBtn, clearBtn);
+        ButtonType clearBtn  = new ButtonType("Clear");
+        if(manager.getTempIncorrectResponses().size() > 0){
+            alert.setContentText("You got " + (cor) + " out of " + ques + ", " + percentage + "%.\nWell done :)");
+            alert.getButtonTypes().setAll(retestBtn, clearBtn);
+        }
+        else{
+
+
+            alert.setContentText("Congratulations!\nYou got " + (cor) + " out of " + ques
+                    + ", " + percentage + "%.");
+            alert.getButtonTypes().setAll(clearBtn);
+
+        }
+
+
+        alert.setResizable(false);
+
 
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == clearBtn) {
-            questionRows.getChildren().clear();
-            manager.saveTempIncorrect();
-        } else if (result.get() == retestBtn) {
-            questionRows.getChildren().clear();
-            retest();
+        if(manager.getTempIncorrectResponses().size() > 0){
+
+
+            if (result.get() == clearBtn) {
+                questionRows.getChildren().clear();
+                manager.saveTempIncorrect();
+            } else if (result.get() == retestBtn) {
+                questionRows.getChildren().clear();
+                retest();
+            }
         }
+        else{
+            //alert.getButtonTypes().setAll(clearBtn);
+            if (result.get() == clearBtn) {
+                questionRows.getChildren().clear();
+                manager.saveTempIncorrect();
+
+            }
+        }
+
+
+
 
         manager.answered = 0;
         manager.correct = 0;
@@ -422,7 +436,7 @@ public class PitchComparisonTutorController {
      * Re generates the questions with the questions that were answered incorrectly
      */
     private void retest() {
-        ArrayList<OutputTuple> tempIncorrectResponses = new ArrayList<OutputTuple>(manager.getTempIncorrectResponses());
+        ArrayList<OutputTuple> tempIncorrectResponses = manager.getTempIncorrectResponses();
 
         manager.clearTempIncorrect();
         for(OutputTuple tuple : tempIncorrectResponses){
