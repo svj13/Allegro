@@ -207,6 +207,11 @@ public class RootController implements Initializable {
     }
 
     @FXML
+    private void saveProject(){
+        env.getJson().saveCurrentProject();
+    }
+
+    @FXML
     private void bindOpenObjects(){
         System.out.println("projects bound in project menu");
         JSONArray projects = env.getJson().getProjectList();

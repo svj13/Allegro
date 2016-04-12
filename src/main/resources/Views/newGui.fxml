@@ -13,15 +13,12 @@
                <items>
                      <MenuItem fx:id="MenuOpen" mnemonicParsing="false" onAction="#openTranscript" text="Open Transcript" />
                      <MenuItem fx:id="MenuSave" mnemonicParsing="false" onAction="#saveTranscript" text="Save Transcript" />
+                  <MenuItem fx:id="menuSaveProject" mnemonicParsing="false" onAction="#saveProject" text="Save Project" />
                  <MenuItem fx:id="menuQuit" mnemonicParsing="false" onAction="#closeApplication" text="Quit" />
                   <Menu fx:id="menuOpen" mnemonicParsing="false" onAction="#bindOpenObjects" onShown="#bindOpenObjects" text="Open...">
                     <items>
                         <SeparatorMenuItem mnemonicParsing="false" text="Find.." />
-                        <Menu fx:id="menuOpenProjects" mnemonicParsing="false" text="Project">
-                          <items>
-                            <MenuItem mnemonicParsing="false" text="Action 1" />
-                          </items>
-                        </Menu>
+                        <Menu fx:id="menuOpenProjects" mnemonicParsing="false" text="Project" />
                     </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="New..">
