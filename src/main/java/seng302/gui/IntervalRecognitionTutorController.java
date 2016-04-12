@@ -1,6 +1,7 @@
 package seng302.gui;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Random;
 
 import javafx.event.ActionEvent;
@@ -9,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -19,6 +21,7 @@ import javafx.scene.layout.VBox;
 import seng302.Environment;
 import seng302.data.Interval;
 import seng302.data.Note;
+import seng302.utility.PitchComparisonTutorManager;
 
 public class IntervalRecognitionTutorController {
 
@@ -41,15 +44,18 @@ public class IntervalRecognitionTutorController {
 
     public void create(Environment env) {
         this.env = env;
+        manager = env.getIrtManager();
     }
+
+    PitchComparisonTutorManager manager;
 
     @FXML
     void goAction(ActionEvent event) {
-        int numberIntervals = Integer.parseInt(txtNumIntervals.getText());
-        if (numberIntervals >= 1){
+        manager.questions = Integer.parseInt(txtNumIntervals.getText());
+        if (manager.questions >= 1){
             // Run the tutor
             questionRows.getChildren().clear();
-            for (int i = 0; i < numberIntervals; i++) {
+            for (int i = 0; i < manager.questions; i++) {
                 HBox questionRow = generateQuestionRow();
                 questionRows.getChildren().add(questionRow);
                 questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
@@ -97,8 +103,8 @@ public class IntervalRecognitionTutorController {
 
 
         final Interval thisInterval = generateInterval();
-        Note firstNote = getStartingNote(thisInterval.getSemitones());
-        Note secondNote = getFinalNote(firstNote, thisInterval);
+        final Note firstNote = getStartingNote(thisInterval.getSemitones());
+        final Note secondNote = getFinalNote(firstNote, thisInterval);
         final ArrayList<Note> playNotes = new ArrayList<Note>();
         playNotes.add(firstNote);
         playNotes.add(secondNote);
@@ -109,17 +115,43 @@ public class IntervalRecognitionTutorController {
             }
         });
 
+        skip.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                manager.questions -= 1;
+                manager.add(firstNote.getNote(), secondNote.getNote(), false);
+                if (manager.answered == manager.questions) {
+                    finished();
+                }
+            }
+        });
+
+        cancel.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                manager.questions -= 1;
+                manager.add(firstNote.getNote(), secondNote.getNote(), false);
+                if (manager.answered == manager.questions) {
+                    finished();
+                }
+            }
+        });
+
         options.setOnAction(new EventHandler<ActionEvent>() {
             // This handler colors the GUI depending on the user's input
             public void handle(ActionEvent event) {
                 if (options.getValue().equals(thisInterval.getName())) {
                     questionRow.setStyle("-fx-background-color: green;");
+                    manager.add(firstNote.getNote(), secondNote.getNote(), true);
                 } else {
                     questionRow.setStyle("-fx-background-color: red;");
+                    manager.add(firstNote.getNote(), secondNote.getNote(), false);
                 }
+                manager.answered += 1;
 
                 // Shows the correct answer
                 correctAnswer.setText(thisInterval.getName());
+                if (manager.answered == manager.questions) {
+                    finished();
+                }
             }
         });
 
@@ -161,6 +193,17 @@ public class IntervalRecognitionTutorController {
         Random rand = new Random();
         // There are 8 different intervals
         return Interval.intervals[rand.nextInt(8)];
+    }
+
+    private void finished() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText("Finished");
+        alert.setContentText("You have finished the tutor.");
+        Optional<ButtonType> result = alert.showAndWait();
+
+        // Clear the results
+        manager.answered = 0;
+        manager.correct = 0;
     }
 
 }

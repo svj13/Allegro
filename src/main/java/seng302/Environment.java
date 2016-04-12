@@ -8,6 +8,7 @@ public class Environment {
     private DslExecutor executor;
     private TranscriptManager transcriptManager;
     private PitchComparisonTutorManager pctManager;
+    private PitchComparisonTutorManager irtManager;
     private MusicPlayer player;
 
     public Environment() {
@@ -15,6 +16,7 @@ public class Environment {
         player = new MusicPlayer();
         transcriptManager = new TranscriptManager();
         pctManager = new PitchComparisonTutorManager();
+        irtManager = new PitchComparisonTutorManager();
 
     }
 
@@ -38,6 +40,10 @@ public class Environment {
 
     public PitchComparisonTutorManager getPctManager() {
         return pctManager;
+    }
+
+    public PitchComparisonTutorManager getIrtManager() {
+        return irtManager;
     }
 
     public void setTranscriptManager(TranscriptManager t) {
