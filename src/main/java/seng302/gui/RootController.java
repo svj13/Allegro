@@ -210,6 +210,7 @@ public class RootController implements Initializable {
     private void bindOpenObjects(){
         System.out.println("projects bound in project menu");
         JSONArray projects = env.getJson().getProjectList();
+        menuOpenProjects.getItems().clear();
         for(int i = 0; i < projects.size(); i++){
             final String projectName = projects.get(i).toString();
             System.out.println("menu project: " + projectName);
