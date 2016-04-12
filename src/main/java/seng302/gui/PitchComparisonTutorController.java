@@ -91,8 +91,8 @@ public class PitchComparisonTutorController {
                 int lowerPitchBound = cbxLower.getSelectionModel().getSelectedItem().getMidi();
                 int upperPitchBound = cbxUpper.getSelectionModel().getSelectedItem().getMidi();
                 int pitchRange = upperPitchBound - lowerPitchBound;
-                String midiOne =  String.valueOf(lowerPitchBound + rand.nextInt(pitchRange+1));
-                String midiTwo = String.valueOf(lowerPitchBound + rand.nextInt(pitchRange+1));
+                String midiOne =  String.valueOf(lowerPitchBound + rand.nextInt(pitchRange + 1));
+                String midiTwo = String.valueOf(lowerPitchBound + rand.nextInt(pitchRange + 1));
 
                 HBox rowPane = generateQuestionPane(midiOne, midiTwo);
                 questionRows.getChildren().add(rowPane);
@@ -137,7 +137,7 @@ public class PitchComparisonTutorController {
         lowerSet = true;
         if (!cbxLower.getSelectionModel().isEmpty()) {
             int selectedMidi = cbxLower.getSelectionModel().getSelectedItem().getMidi();
-            System.out.println("Changed to: " + selectedMidi);
+
 
            // int midiInt = Integer.parseInt(selectedMidi);
             if (cbxUpper.getSelectionModel().isEmpty()) {
@@ -168,12 +168,7 @@ public class PitchComparisonTutorController {
         upperSet = true;
         if (!cbxUpper.getSelectionModel().isEmpty()) {
             int midiInt = cbxUpper.getSelectionModel().getSelectedItem().getMidi();
-//            System.out.println("upper action to: " + selectedMidi);
 
-            //int midiInt = Integer.parseInt(selectedMidi);
-
-
-            //
             System.out.println("selected index.. " + cbxLower.getSelectionModel().getSelectedIndex());
             if (cbxLower.getSelectionModel().isEmpty()) {
                 cbxLower.getItems().clear();
@@ -229,7 +224,7 @@ public class PitchComparisonTutorController {
         Note note2 = Note.lookup(m2);
 
 
-        row.getChildren().get(2).setStyle("-fx-text-fill: white;-fx-background-color: blue");
+
         row.getChildren().get(2).setDisable(true);
         row.getChildren().get(3).setDisable(true);
         row.getChildren().get(4).setDisable(true);
@@ -239,13 +234,16 @@ public class PitchComparisonTutorController {
         boolean correctChoice = false;
 
         if(((ToggleButton)row.getChildren().get(2)).isSelected()){ //Higher\
+            row.getChildren().get(2).setStyle("-fx-text-fill: white;-fx-background-color: blue");
             System.out.println("higher is pressed");
             if (noteComparison(true, note1, note2)) correctChoice = true;
         }
         else  if(((ToggleButton)row.getChildren().get(3)).isSelected()){ //Same
+            row.getChildren().get(3).setStyle("-fx-text-fill: white;-fx-background-color: blue");
             if (note1 == note2) correctChoice = true;
         }
         else  if(((ToggleButton)row.getChildren().get(4)).isSelected()){ //Lower
+            row.getChildren().get(4).setStyle("-fx-text-fill: white;-fx-background-color: blue");
             if (noteComparison(false, note1, note2)) {
                 correctChoice = true;
             }
@@ -320,7 +318,7 @@ public class PitchComparisonTutorController {
 
         skip.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                Note note1 = Note.lookup(((Label) rowPane.getChildren().get(0)).getText());
+              /*  Note note1 = Note.lookup(((Label) rowPane.getChildren().get(0)).getText());
                 Note note2 = Note.lookup(((Label) rowPane.getChildren().get(1)).getText());
 
                 rowPane.getChildren().get(6).setStyle("-fx-text-fill: white;-fx-background-color: blue");
@@ -334,6 +332,9 @@ public class PitchComparisonTutorController {
                 if (manager.answered == manager.questions) {
                     finished();
                 }
+
+                */
+                questionResponse(rowPane, midiOne, midiTwo);
             }
         });
 
