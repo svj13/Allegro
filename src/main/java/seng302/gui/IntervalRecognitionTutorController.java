@@ -92,7 +92,7 @@ public class IntervalRecognitionTutorController {
         Button cancel = new Button("Cancel");
         final ComboBox<String> options = generateChoices();
         final Interval thisInterval = generateInterval();
-        Note firstNote = getStartingNote();
+        Note firstNote = getStartingNote(thisInterval.getSemitones());
         Note secondNote = getFinalNote(firstNote, thisInterval);
 
         options.setOnAction(new EventHandler<ActionEvent>() {
@@ -117,11 +117,12 @@ public class IntervalRecognitionTutorController {
 
     /**
      * Randomly selects a note for the interval.
+     * @param numSemitones The generated interval, so the second note is not outside correct range
      * @return A Note object, for playing an interval.
      */
-    private Note getStartingNote() {
+    private Note getStartingNote(int numSemitones) {
         Random randNote = new Random();
-        return Note.lookup(String.valueOf(randNote.nextInt(128)));
+        return Note.lookup(String.valueOf(randNote.nextInt(128 - numSemitones)));
     }
 
     /**
