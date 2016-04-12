@@ -1,5 +1,6 @@
 package seng302;
 
+import seng302.json.jsonHandler;
 import seng302.utility.PitchComparisonTutorManager;
 import seng302.utility.TranscriptManager;
 
@@ -11,12 +12,17 @@ public class Environment {
     private PitchComparisonTutorManager irtManager;
     private MusicPlayer player;
 
+
+
+    private jsonHandler json;
+
     public Environment() {
         executor = new DslExecutor(this);
         player = new MusicPlayer();
         transcriptManager = new TranscriptManager();
         pctManager = new PitchComparisonTutorManager();
         irtManager = new PitchComparisonTutorManager();
+        json = new jsonHandler(this);
 
     }
 
@@ -60,6 +66,14 @@ public class Environment {
 
     public void setPlayer(MusicPlayer player) {
         this.player = player;
+    }
+
+    public jsonHandler getJson() {
+        return json;
+    }
+
+    public void setJson(jsonHandler json) {
+        this.json = json;
     }
 
 }

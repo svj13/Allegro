@@ -2,17 +2,18 @@ package seng302.gui;
 
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -160,6 +161,47 @@ public class RootController implements Initializable {
         }
     }
 
+    @FXML
+    private void newProject(){
+
+        TextInputDialog dialog = new TextInputDialog("");
+        dialog.setTitle("New Project");
+        dialog.setHeaderText("New Project");
+        dialog.setContentText("Please enter the project name:");
+
+    // Traditional way to get the response value.
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()){
+            String resultString = result.get().toString();
+            Path path = Paths.get("UserData/Projects/" + resultString);
+            if(!Files.isDirectory(path)){
+                try{
+                    Files.createDirectories(path);
+                    env.getJson().saveProject(path.toString() + "/"+resultString);
+                    System.out.println("Woo,  " + path.toString() + "/" + resultString + " created");
+
+                }
+                catch(IOException e){
+                    //Failed to create the directory.
+                    e.printStackTrace();
+                }
+
+
+            }
+            else{
+                System.out.println("Sorry, the path " + resultString + " already exists.");
+            }
+
+        }
+
+    // The Java 8 way to get the response value (with lambda expression).
+
+
+    }
+
+
+
+
 
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -187,6 +229,8 @@ public class RootController implements Initializable {
 
         PitchComparisonTabController.create(env);
         IntervalRecognitionTabController.create(env);
+
+
 
 
     }

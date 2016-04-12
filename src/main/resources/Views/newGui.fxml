@@ -14,6 +14,21 @@
                      <MenuItem fx:id="MenuOpen" mnemonicParsing="false" onAction="#openTranscript" text="Open Transcript" />
                      <MenuItem fx:id="MenuSave" mnemonicParsing="false" onAction="#saveTranscript" text="Save Transcript" />
                  <MenuItem fx:id="menuQuit" mnemonicParsing="false" onAction="#closeApplication" text="Quit" />
+                  <Menu fx:id="menuOpen" mnemonicParsing="false" onAction="#bindOpenObjects" text="Open...">
+                    <items>
+                        <SeparatorMenuItem mnemonicParsing="false" text="Find.." />
+                        <Menu fx:id="menuOpenProjects" mnemonicParsing="false" text="Project">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Action 1" />
+                          </items>
+                        </Menu>
+                    </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="New..">
+                    <items>
+                        <MenuItem fx:id="menuNewProject" mnemonicParsing="false" onAction="#newProject" text="Project" />
+                    </items>
+                  </Menu>
                </items>
              </Menu>
            </menus>
