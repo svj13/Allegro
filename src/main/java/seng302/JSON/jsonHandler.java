@@ -1,4 +1,4 @@
-package seng302.json;
+package seng302.JSON;
 
 /**
  * Created by Jonty on 12-Apr-16.
@@ -8,7 +8,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Iterator;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -21,41 +22,116 @@ public class jsonHandler {
     JSONObject projectSettings = new JSONObject();
     JSONParser parser = new JSONParser(); //parser for reading project
 
+    JSONArray projectList;
+
+    JSONObject projectsInfo = new JSONObject();
+    Path userDirectory = Paths.get("UserData"); //Default user path for now, before user compatibility is set up.
+
+    String currentProjectPath;
+
+    String test; //delete this testing for commit fix.
 
     Environment env;
     public jsonHandler(Environment env){
         this.env = env;
+        try {
+            this.projectsInfo = (JSONObject) parser.parse(new FileReader(userDirectory+"/projects.JSON"));
+            this.projectList = (JSONArray) projectsInfo.get("projects");
+
+        } catch (FileNotFoundException e) {
+            try {
+                System.err.println("projects.JSON Does not exist! - Creating new one");
+                projectList = new JSONArray();
+
+
+                projectsInfo.put("projects",projectList);
+
+                FileWriter file = new FileWriter(userDirectory+"/projects.JSON");
+                file.write(projectsInfo.toJSONString());
+                file.flush();
+                file.close();
+
+            } catch (IOException e2) {
+                e.printStackTrace();
+            }
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
     }
 
-    public void saveProject(String projectName){
+    public void saveCurrentProject(){
+        if(currentProjectPath.length() > 0){
+            saveProject(currentProjectPath);
+        }
+        else System.err.println("Project could not be saved!!");
+        //TODO make a pop up window if the project cannot be saved.
+
+    }
+    public void saveProject(String projectAddress){
 
         //Add all settings to such as tempo speed to the project here.
 
 
         try {
+            System.out.println("projets length: " + projectList.size());
 
-            projectSettings.put("tempo", env.getPlayer().getTempo());
+            projectSettings.put("tempo", (int) env.getPlayer().getTempo());
 
-
-            FileWriter file = new FileWriter(projectName+".json");
+            FileWriter file = new FileWriter(projectAddress+".JSON");
             file.write(projectSettings.toJSONString());
             file.flush();
             file.close();
+            String projectName = projectAddress.substring(projectAddress.lastIndexOf("/") + 1);
+            System.out.println("project name: " + projectName);
+
+
+                    //Check if it exists inside the Json Projects file.
+            if(!projectList.contains(projectName)){
+                System.out.println("Saved project not found in projects.JSON - adding it");
+                projectList.add(projectName);
+                System.out.println(projectList.size());
+
+                try {
+                    projectsInfo.put("projects", projectList);
+                    FileWriter projectsJson = new FileWriter(userDirectory+"/projects.JSON");
+                    projectsJson.write(projectsInfo.toJSONString());
+                    projectsJson.flush();
+                    projectsJson.close();
+
+                } catch (Exception e2) {
+                    e2.printStackTrace();
+                }
+
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public  void loadProject(String path){
+
+
+    public  void loadProject(String pName){
         try {
 
-            JSONObject obj = (JSONObject) parser.parse(new FileReader(path));
+            String path = userDirectory+"/Projects/"+pName+"/"+pName;
+            projectSettings = (JSONObject) parser.parse(new FileReader(path+".JSON"));
 
 
-
-            String tempo = (String) projectSettings.get("tempo");
+            int tempo = ((Long)projectSettings.get("tempo")).intValue();
             System.out.println(tempo);
+
+            //SetTempo
+            env.getPlayer().setTempo(tempo);
+
+            currentProjectPath = path;
+            //ignore
+
 
 
 
@@ -68,6 +144,10 @@ public class jsonHandler {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    public JSONArray getProjectList(){
+        return this.projectList;
     }
 
 }
