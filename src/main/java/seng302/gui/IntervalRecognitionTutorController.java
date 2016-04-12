@@ -9,6 +9,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -91,6 +92,9 @@ public class IntervalRecognitionTutorController {
         Button skip = new Button("Skip");
         Button cancel = new Button("Cancel");
         final ComboBox<String> options = generateChoices();
+        final Label correctAnswer = new Label();
+
+
         final Interval thisInterval = generateInterval();
         Note firstNote = getStartingNote(thisInterval.getSemitones());
         Note secondNote = getFinalNote(firstNote, thisInterval);
@@ -103,6 +107,9 @@ public class IntervalRecognitionTutorController {
                 } else {
                     questionRow.setStyle("-fx-background-color: red;");
                 }
+
+                // Shows the correct answer
+                correctAnswer.setText(thisInterval.getName());
             }
         });
 
@@ -110,6 +117,7 @@ public class IntervalRecognitionTutorController {
         questionRow.getChildren().add(skip);
         questionRow.getChildren().add(cancel);
         questionRow.getChildren().add(options);
+        questionRow.getChildren().add(correctAnswer);
 
         questionRow.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
         return questionRow;
