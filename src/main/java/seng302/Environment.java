@@ -2,7 +2,7 @@ package seng302;
 
 import seng302.utility.PitchComparisonTutorManager;
 import seng302.utility.TranscriptManager;
-import seng302.utility.jsonHandler;
+import seng302.JSON.jsonHandler;
 
 public class Environment {
 
