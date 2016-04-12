@@ -1,5 +1,6 @@
 package seng302.gui;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import javafx.event.ActionEvent;
@@ -98,6 +99,15 @@ public class IntervalRecognitionTutorController {
         final Interval thisInterval = generateInterval();
         Note firstNote = getStartingNote(thisInterval.getSemitones());
         Note secondNote = getFinalNote(firstNote, thisInterval);
+        final ArrayList<Note> playNotes = new ArrayList<Note>();
+        playNotes.add(firstNote);
+        playNotes.add(secondNote);
+
+        play.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                env.getPlayer().playNotes(playNotes, 48);
+            }
+        });
 
         options.setOnAction(new EventHandler<ActionEvent>() {
             // This handler colors the GUI depending on the user's input
