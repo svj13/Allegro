@@ -117,6 +117,12 @@ public class IntervalRecognitionTutorController {
 
         skip.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
+                //Disables skip and cancel buttons, combo box also
+                for (int i = 0; i < questionRow.getChildren().size(); i++) {
+                    questionRow.getChildren().get(i).setDisable(true);
+                }
+
+
                 manager.questions -= 1;
                 manager.add(firstNote.getNote(), secondNote.getNote(), false);
                 if (manager.answered == manager.questions) {
