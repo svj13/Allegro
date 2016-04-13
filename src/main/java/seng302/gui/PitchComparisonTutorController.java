@@ -310,10 +310,9 @@ public class PitchComparisonTutorController {
     if(correctChoice == 1) {
         row.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
         manager.answered += 1;
-    }
-    else if (correctChoice == 2) row.setStyle("-fx-background-color: grey;");
+    } else if (correctChoice == 2) row.setStyle("-fx-border-color: grey; -fx-border-width: 2px;");
     else {
-        row.setStyle("-fx-background-color: red;");
+        row.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
         manager.answered += 1;
     }
     manager.add(new Pair<String, String>(note1.getNote(), note2.getNote()), correctChoice);
