@@ -275,40 +275,48 @@ public class PitchComparisonTutorController {
         Note note2 = Note.lookup(m2);
 
 
-
         row.getChildren().get(2).setDisable(true);
         row.getChildren().get(3).setDisable(true);
         row.getChildren().get(4).setDisable(true);
         row.getChildren().get(6).setDisable(true);
 
 
-        boolean correctChoice = false;
+        int correctChoice = 0;
 
         if(((ToggleButton)row.getChildren().get(2)).isSelected()){ //Higher\
             row.getChildren().get(2).setStyle("-fx-text-fill: white;-fx-background-color: blue");
-            System.out.println("higher is pressed");
-            if (noteComparison(true, note1, note2)) correctChoice = true;
+            if (noteComparison(true, note1, note2)) correctChoice = 1;
         }
         else  if(((ToggleButton)row.getChildren().get(3)).isSelected()){ //Same
             row.getChildren().get(3).setStyle("-fx-text-fill: white;-fx-background-color: blue");
-            if (note1 == note2) correctChoice = true;
+            if (note1 == note2) correctChoice = 1;
         }
         else  if(((ToggleButton)row.getChildren().get(4)).isSelected()){ //Lower
             row.getChildren().get(4).setStyle("-fx-text-fill: white;-fx-background-color: blue");
             if (noteComparison(false, note1, note2)) {
-                correctChoice = true;
+                correctChoice = 1;
             }
         }
+        else if(((ToggleButton)row.getChildren().get(6)).isSelected()) { //Skip
+            row.getChildren().get(6).setStyle("-fx-text-fill: white;-fx-background-color: blue");
+            correctChoice = 2;
+            manager.questions -= 1;
+        }
 
-    if(correctChoice) row.setStyle("-fx-background-color: green;");
-    else row.setStyle("-fx-background-color: red;");
+    if(correctChoice == 1) {
+        row.setStyle("-fx-background-color: green;");
+        manager.answered += 1;
+    }
+    else if (correctChoice == 2) row.setStyle("-fx-background-color: grey;");
+    else {
+        row.setStyle("-fx-background-color: red;");
+        manager.answered += 1;
+    }
     manager.add(note1.getNote(), note2.getNote(), correctChoice);
 
-        manager.answered += 1;
         if (manager.answered == manager.questions) {
             finished();
         }
-
 
 
 
@@ -414,12 +422,11 @@ public class PitchComparisonTutorController {
     private boolean noteComparison(boolean isHigher, Note note1, Note note2) {
 
         if (isHigher) {
-            if (note1.getMidi() > note2.getMidi()) return true;
-
-            else return false;
+            if (note1.getMidi() > note2.getMidi()) return false;
+            else return true;
         } else {
-            if (note1.getMidi() < note2.getMidi()) return true;
-            else return false;
+            if (note1.getMidi() < note2.getMidi()) return false;
+            else return true;
         }
     }
 
@@ -487,8 +494,7 @@ public class PitchComparisonTutorController {
      * Re generates the questions with the questions that were answered incorrectly
      */
     private void retest() {
-        ArrayList<OutputTuple> tempIncorrectResponses = manager.getTempIncorrectResponses();
-
+        ArrayList<OutputTuple> tempIncorrectResponses = new ArrayList<OutputTuple>(manager.getTempIncorrectResponses());
         manager.clearTempIncorrect();
         for(OutputTuple tuple : tempIncorrectResponses){
             HBox rowPane = generateQuestionPane(tuple.getInput(), tuple.getResult());

@@ -127,7 +127,7 @@ public class IntervalRecognitionTutorController {
                 disableButtons(questionRow);
 
                 manager.questions -= 1;
-                manager.add(firstNote.getNote(), secondNote.getNote(), false);
+                manager.add(firstNote.getNote(), secondNote.getNote(), 0);
                 if (manager.answered == manager.questions) {
                     finished();
                 }
@@ -137,7 +137,7 @@ public class IntervalRecognitionTutorController {
         cancel.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 manager.questions -= 1;
-                manager.add(firstNote.getNote(), secondNote.getNote(), false);
+                manager.add(firstNote.getNote(), secondNote.getNote(), 0);
                 if (manager.answered == manager.questions) {
                     finished();
                 }
@@ -150,10 +150,10 @@ public class IntervalRecognitionTutorController {
                 disableButtons(questionRow);
                 if (options.getValue().equals(thisInterval.getName())) {
                     questionRow.setStyle("-fx-background-color: green;");
-                    manager.add(firstNote.getNote(), secondNote.getNote(), true);
+                    manager.add(firstNote.getNote(), secondNote.getNote(), 1);
                 } else {
                     questionRow.setStyle("-fx-background-color: red;");
-                    manager.add(firstNote.getNote(), secondNote.getNote(), false);
+                    manager.add(firstNote.getNote(), secondNote.getNote(), 0);
                 }
                 manager.answered += 1;
 
