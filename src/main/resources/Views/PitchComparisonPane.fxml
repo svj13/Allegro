@@ -10,8 +10,8 @@
 <?import javafx.scene.layout.*?>
 <?import org.controlsfx.control.RangeSlider?>
 
-<AnchorPane fx:id="pitchTutorAnchor" xmlns="http://javafx.com/javafx/8"
-            xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane fx:id="pitchTutorAnchor" minHeight="-Infinity" minWidth="-Infinity" prefHeight="191.0"
+            prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="seng302.gui.PitchComparisonTutorController">
     <children>
     <!--<Pane layoutX="-283.0" style="-fx-background-color: brown;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">-->
@@ -22,8 +22,9 @@
                 <Font size="24.0"/>
             </font>
         </Label>
-        <HBox fx:id="sliderBox" alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="450.0"
-              spacing="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="48.0">
+        <HBox fx:id="sliderBox" alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="700.0"
+              spacing="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0"
+              AnchorPane.topAnchor="48.0">
             <children>
                 <VBox prefHeight="200.0" prefWidth="100.0">
                     <children>
@@ -35,7 +36,7 @@
         </HBox>
         <HBox fx:id="settings" alignment="CENTER_LEFT" layoutY="36.0" minWidth="-Infinity"
               prefHeight="10.0" spacing="10.0" AnchorPane.leftAnchor="10.0"
-              AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="90.0">
+              AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="100.0">
             <children>
                 <TitledPane alignment="CENTER" animated="false" collapsible="false"
                             focusTraversable="false" prefHeight="20.0" prefWidth="100.0"
@@ -61,9 +62,9 @@
             </children>
         </HBox>
         <ScrollPane fx:id="paneQuestions" fitToWidth="true" layoutY="105.0" minWidth="-Infinity"
-                    prefHeight="36.0" prefViewportHeight="36.0" prefViewportWidth="400.0"
-                    prefWidth="430.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5"
-                    AnchorPane.rightAnchor="5" AnchorPane.topAnchor="135.0">
+                    prefHeight="50.0" prefViewportHeight="50.0" prefViewportWidth="680.0"
+                    prefWidth="700.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5"
+                    AnchorPane.rightAnchor="5" AnchorPane.topAnchor="150.0">
             <content>
                 <VBox fx:id="questionRows"/>
             </content>
