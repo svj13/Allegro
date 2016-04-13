@@ -235,7 +235,14 @@ public class IntervalRecognitionTutorController {
 
         ButtonType retestBtn = new ButtonType("Retest");
         ButtonType clearBtn  = new ButtonType("Clear");
-        alert.getButtonTypes().setAll(retestBtn, clearBtn);
+
+        if (manager.getTempIncorrectResponses().size() > 0) {
+            //Can re-test
+            alert.getButtonTypes().setAll(retestBtn, clearBtn);
+        } else {
+            //Perfect score
+            alert.getButtonTypes().setAll(clearBtn);
+        }
         Optional<ButtonType> result = alert.showAndWait();
         questionRows.getChildren().clear();
 
