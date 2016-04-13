@@ -14,7 +14,7 @@ public class Help implements Command {
 
     public void execute(Environment env) {
         env.getTranscriptManager().setResult("" +
-                "crotchet duration : returns the duration of a crotcher in seconds at a given tempo" +
+                "crotchet duration : returns the duration of a crotchet in seconds at a given tempo" +
                 " speed in BPM \n" +
                 "force set tempo : when followed by a tempo, it will set the given tempo, even if it" +
                 " is outside of the appropriate range \n" +
@@ -32,8 +32,7 @@ public class Help implements Command {
                 "set tempo : when followed by a valid tempo will change the tempo to that value \n" +
                 "tempo : returns the current set tempo. When the program is launched, it will have" +
                 " a default value of 120BPM \n" +
-                "version : will return the current version number of the application \n \n " +
-                "Dom is a poo poo ");
+                "version : will return the current version number of the application");
 
     }
 
