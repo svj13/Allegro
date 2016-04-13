@@ -30,6 +30,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 import seng302.Environment;
 import seng302.utility.MidiNotePair;
 import seng302.data.Note;
@@ -494,10 +495,10 @@ public class PitchComparisonTutorController {
      * Re generates the questions with the questions that were answered incorrectly
      */
     private void retest() {
-        ArrayList<OutputTuple> tempIncorrectResponses = new ArrayList<OutputTuple>(manager.getTempIncorrectResponses());
+        ArrayList<Pair> tempIncorrectResponses = new ArrayList<Pair>(manager.getTempIncorrectResponses());
         manager.clearTempIncorrect();
-        for(OutputTuple tuple : tempIncorrectResponses){
-            HBox rowPane = generateQuestionPane(tuple.getInput(), tuple.getResult());
+        for(Pair pair : tempIncorrectResponses){
+            HBox rowPane = generateQuestionPane((String)pair.getKey(), (String) pair.getValue());
             questionRows.getChildren().add(rowPane);
             questionRows.setMargin(rowPane, new Insets(10, 10, 10, 10));
         }

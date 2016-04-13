@@ -18,9 +18,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.util.Pair;
 import seng302.Environment;
 import seng302.data.Interval;
 import seng302.data.Note;
+import seng302.utility.OutputTuple;
 import seng302.utility.PitchComparisonTutorManager;
 
 public class IntervalRecognitionTutorController {
@@ -56,7 +58,7 @@ public class IntervalRecognitionTutorController {
             // Run the tutor
             questionRows.getChildren().clear();
             for (int i = 0; i < manager.questions; i++) {
-                HBox questionRow = generateQuestionRow();
+                HBox questionRow = setUpQuestion();
                 questionRows.getChildren().add(questionRow);
                 questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
             }
@@ -88,12 +90,20 @@ public class IntervalRecognitionTutorController {
         }
     }
 
+    private HBox setUpQuestion() {
+        // Key is the interval, value is the note
+        Interval thisInterval = generateInterval();
+        Note firstNote = getStartingNote(thisInterval.getSemitones());
+        Pair<Interval, Note> pair = new Pair<Interval, Note>(thisInterval, firstNote);
+        return generateQuestionRow(pair);
+    }
+
 
     /**
      * Creates a GUI section for one question.
      * @return a JavaFX HBox containing controls and info about one question.
      */
-    private HBox generateQuestionRow() {
+    private HBox generateQuestionRow(Pair intervalAndNote) {
         final HBox questionRow = new HBox();
 
         questionRow.setPadding(new Insets(10, 10, 10, 10));
@@ -107,9 +117,8 @@ public class IntervalRecognitionTutorController {
         final ComboBox<String> options = generateChoices();
         final Label correctAnswer = new Label();
 
-
-        final Interval thisInterval = generateInterval();
-        final Note firstNote = getStartingNote(thisInterval.getSemitones());
+        final Interval thisInterval = (Interval) intervalAndNote.getKey();
+        final Note firstNote = (Note) intervalAndNote.getValue();
         final Note secondNote = getFinalNote(firstNote, thisInterval);
         final ArrayList<Note> playNotes = new ArrayList<Note>();
         playNotes.add(firstNote);
@@ -226,5 +235,6 @@ public class IntervalRecognitionTutorController {
         manager.answered = 0;
         manager.correct = 0;
     }
+
 
 }
