@@ -23,6 +23,7 @@ public class MusicalTerm implements Command {
     public MusicalTerm(String musicalTerm) {
         IntiailizeHashMap();
         this.musicalTerm = musicalTerm.toLowerCase(); //changes input to lower case
+        //this.musicalTerm.toLowerCase();
         this.isSetter = true; //The function has been given an input
         try {
             if (MusicalTermsMap.get(this.musicalTerm) != null) {
@@ -36,10 +37,9 @@ public class MusicalTerm implements Command {
 
     public void IntiailizeHashMap() {
         this.MusicalTermsMap = new HashMap<String, String>();
-        /**Inserting the definitions of all of the musical terms
-         */
-        MusicalTermsMap.put("lento", "\"Origin: Italian \nCategory: Tempo \nDefinition: Slowly\";");
 
+        MusicalTermsMap.put("lento", "Origin: Italian \nCategory: Tempo \nDefinition: The speed at" +
+                "which a passage of music is or should be played");
     }
 
     public void execute(Environment env) {

@@ -174,7 +174,9 @@ public class Note {
 
     /**
      * Returns the note object from the HashMap of notes.
-     *
+     *Created the tempo class
+
+Created the tempo class and made it so it defaults to 120BMP
      * @param s The note or MIDI value to lookup.
      * @return Note object that matches the String supplied.
      */
