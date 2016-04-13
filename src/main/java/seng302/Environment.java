@@ -63,8 +63,8 @@ public class Environment {
         return player;
     }
 
-    public void setPlayer(MusicPlayer player) {
-        this.player = player;
+    public void setPlayer(MusicPlayer m) {
+        this.player = m;
     }
 
     public seng302.JSON.jsonHandler getJson() {

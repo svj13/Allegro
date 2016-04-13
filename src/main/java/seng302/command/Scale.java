@@ -148,7 +148,6 @@ public class Scale implements Command {
                     env.error(i.getMessage());
                 }
             } catch (Exception e) {
-                e.printStackTrace();
                 env.error("Note is not contained in the MIDI library.");
             }
         }
@@ -162,8 +161,6 @@ public class Scale implements Command {
     private String scaleToString(ArrayList<Note> scaleNotes, boolean up) {
         String notesAsText = "";
         for (Note note : scaleNotes) {
-            System.out.println(currentLetter);
-            System.out.println(note.getNote());
             String currentNote = note.getEnharmonicWithLetter(currentLetter);
             if (octaveSpecified) {
                 notesAsText += currentNote + " ";
@@ -180,6 +177,12 @@ public class Scale implements Command {
         return notesAsText.trim();
     }
 
+    /**
+     * A convenience method put together the string of notes up and the string of notes downs.
+     *
+     * @param scaleNotes The notes of the scale.
+     * @return The string of the scale notes.
+     */
     private String scaleToStringUpDown(ArrayList<Note> scaleNotes) {
         String up = scaleToString(new ArrayList<Note>(scaleNotes.subList(0, 8)), true);
         updateLetter(true);

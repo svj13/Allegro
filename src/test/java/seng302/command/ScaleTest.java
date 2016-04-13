@@ -6,7 +6,12 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import seng302.Environment;
+import seng302.MusicPlayer;
+import seng302.data.Note;
 import seng302.utility.TranscriptManager;
 
 import static org.junit.Assert.*;
@@ -21,11 +26,14 @@ public class ScaleTest {
     private Environment env;
     @Mock
     private TranscriptManager transcriptManager;
+    @Mock
+    private MusicPlayer player;
 
     @Before
     public void setUp() throws Exception {
         env = new Environment();
         env.setTranscriptManager(transcriptManager);
+        env.setPlayer(player);
     }
 
     @Test
@@ -125,6 +133,41 @@ public class ScaleTest {
         new Scale("Fx", "major", "midi").execute(env);
         verify(transcriptManager).setResult("[ERROR] Invalid scale: 'Fx major'.");
     }
+
+    @Test
+    public void testPlayScale() {
+        new Scale("F", "major", "play").execute(env);
+        verify(transcriptManager).setResult("F G A Bb C D E F");
+        verify(player).playNotes(Note.lookup("F4").getScale("major"));
+    }
+
+    @Test
+    public void testPlayCorrectScaleDown() {
+        new Scale("C", "major", "play", "down").execute(env);
+        verify(transcriptManager).setResult("C B A G F E D C");
+        ArrayList<Note> scale = Note.lookup("C4").getScale("major");
+        Collections.reverse(scale);
+        verify(player).playNotes(scale);
+    }
+
+    @Test
+    public void testPlayCorrectScaleUpDown() {
+        new Scale("C", "major", "play", "updown").execute(env);
+        verify(transcriptManager).setResult("C D E F G A B C C B A G F E D C");
+        ArrayList<Note> notesToPlay = Note.lookup("C4").getScale("major");
+        ArrayList<Note> notes = new ArrayList<Note>(notesToPlay);
+        Collections.reverse(notes);
+        notesToPlay.addAll(notes);
+        verify(player).playNotes(notesToPlay);
+    }
+
+    @Test
+    public void testCorrectErrorInvalidDirection() {
+        new Scale("C", "major", "play", "cake").execute(env);
+        verify(transcriptManager).setResult("[ERROR] 'cake' is not a valid scale direction. Try 'up', 'updown' or 'down'.");
+    }
+
+
 
 
 
