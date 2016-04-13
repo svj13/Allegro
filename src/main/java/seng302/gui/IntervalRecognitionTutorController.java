@@ -18,9 +18,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.util.Pair;
 import seng302.Environment;
 import seng302.data.Interval;
 import seng302.data.Note;
+import seng302.utility.OutputTuple;
 import seng302.utility.PitchComparisonTutorManager;
 
 public class IntervalRecognitionTutorController {
@@ -56,7 +58,7 @@ public class IntervalRecognitionTutorController {
             // Run the tutor
             questionRows.getChildren().clear();
             for (int i = 0; i < manager.questions; i++) {
-                HBox questionRow = generateQuestionRow();
+                HBox questionRow = setUpQuestion();
                 questionRows.getChildren().add(questionRow);
                 questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
             }
@@ -82,12 +84,26 @@ public class IntervalRecognitionTutorController {
         return options;
     }
 
+    private void disableButtons(HBox questionRow) {
+        for (int i = 0; i < questionRow.getChildren().size(); i++) {
+            questionRow.getChildren().get(i).setDisable(true);
+        }
+    }
+
+    private HBox setUpQuestion() {
+        // Key is the interval, value is the note
+        Interval thisInterval = generateInterval();
+        Note firstNote = getStartingNote(thisInterval.getSemitones());
+        Pair<Interval, Note> pair = new Pair<Interval, Note>(thisInterval, firstNote);
+        return generateQuestionRow(pair);
+    }
+
 
     /**
      * Creates a GUI section for one question.
      * @return a JavaFX HBox containing controls and info about one question.
      */
-    private HBox generateQuestionRow() {
+    private HBox generateQuestionRow(Pair intervalAndNote) {
         final HBox questionRow = new HBox();
 
         questionRow.setPadding(new Insets(10, 10, 10, 10));
@@ -100,10 +116,9 @@ public class IntervalRecognitionTutorController {
         Button cancel = new Button("Cancel");
         final ComboBox<String> options = generateChoices();
         final Label correctAnswer = new Label();
-
-
-        final Interval thisInterval = generateInterval();
-        final Note firstNote = getStartingNote(thisInterval.getSemitones());
+        final Pair pair = intervalAndNote;
+        final Interval thisInterval = (Interval) intervalAndNote.getKey();
+        final Note firstNote = (Note) intervalAndNote.getValue();
         final Note secondNote = getFinalNote(firstNote, thisInterval);
         final ArrayList<Note> playNotes = new ArrayList<Note>();
         playNotes.add(firstNote);
@@ -118,13 +133,10 @@ public class IntervalRecognitionTutorController {
         skip.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 //Disables skip and cancel buttons, combo box also
-                for (int i = 0; i < questionRow.getChildren().size(); i++) {
-                    questionRow.getChildren().get(i).setDisable(true);
-                }
-
+                disableButtons(questionRow);
 
                 manager.questions -= 1;
-                manager.add(firstNote.getNote(), secondNote.getNote(), false);
+                manager.add(pair, 0);
                 if (manager.answered == manager.questions) {
                     finished();
                 }
@@ -134,7 +146,7 @@ public class IntervalRecognitionTutorController {
         cancel.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 manager.questions -= 1;
-                manager.add(firstNote.getNote(), secondNote.getNote(), false);
+                manager.add(pair, 0);
                 if (manager.answered == manager.questions) {
                     finished();
                 }
@@ -144,12 +156,13 @@ public class IntervalRecognitionTutorController {
         options.setOnAction(new EventHandler<ActionEvent>() {
             // This handler colors the GUI depending on the user's input
             public void handle(ActionEvent event) {
+                disableButtons(questionRow);
                 if (options.getValue().equals(thisInterval.getName())) {
                     questionRow.setStyle("-fx-background-color: green;");
-                    manager.add(firstNote.getNote(), secondNote.getNote(), true);
+                    manager.add(pair, 1);
                 } else {
                     questionRow.setStyle("-fx-background-color: red;");
-                    manager.add(firstNote.getNote(), secondNote.getNote(), false);
+                    manager.add(pair, 0);
                 }
                 manager.answered += 1;
 
@@ -201,15 +214,39 @@ public class IntervalRecognitionTutorController {
         return Interval.intervals[rand.nextInt(8)];
     }
 
+    private float getScore(int correct, int answered) {
+        float score = 0;
+        if (answered > 0) {
+            score = (float) correct / (float) answered * 100;
+        }
+        return score;
+
+    }
+
     private void finished() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Finished");
-        alert.setContentText("You have finished the tutor.");
+        float userScore = getScore(manager.correct, manager.answered);
+        String outputText = String.format("You have finished the tutor. You got %d out of %d. This is a score of %.2f percent", manager.correct, manager.answered, userScore);
+        alert.setContentText(outputText);
+
+
+        ButtonType retestBtn = new ButtonType("Retest");
+        ButtonType clearBtn  = new ButtonType("Clear");
+        alert.getButtonTypes().setAll(retestBtn, clearBtn);
         Optional<ButtonType> result = alert.showAndWait();
 
-        // Clear the results
+        if (result.get() == clearBtn) {
+            manager.saveTempIncorrect();
+        } else if (result.get() == retestBtn) {
+            //retest();
+        }
+
+        // Clear the current session
+        questionRows.getChildren().clear();
         manager.answered = 0;
         manager.correct = 0;
     }
+
 
 }

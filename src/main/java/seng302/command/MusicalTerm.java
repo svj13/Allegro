@@ -4,6 +4,7 @@ package seng302.command;
  * Created by Sarah on 3/04/2016.
  */
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import seng302.Environment;
@@ -20,26 +21,48 @@ public class MusicalTerm implements Command {
      */
     public MusicalTerm () { this.isSetter = false; }
 
-    public MusicalTerm(String musicalTerm) {
+    public MusicalTerm(ArrayList<String> musicalTermList) {
         IntiailizeHashMap();
-        this.musicalTerm = musicalTerm.toLowerCase(); //changes input to lower case
-        this.isSetter = true; //The function has been given an input
-        try {
-            if (MusicalTermsMap.get(this.musicalTerm) != null) {
-                this.result = MusicalTermsMap.get(musicalTerm);
+        Integer musicalTermWords = musicalTermList.size(); //an array to handle the "meaning of"
+        //input if there is more than one word (more than one argument)
+
+        //iterates through the musicalTermList to ensure all of the arguments are case insensitive
+        for (int i = 0; i < musicalTermWords; i++)
+        {
+            if (i == 0)
+            {
+                this.musicalTerm = musicalTermList.get(i).toLowerCase();
             }
-        } catch (Exception e) {
+            else
+            {
+                this.musicalTerm = this.musicalTerm.concat(" " + musicalTermList.get(i).toLowerCase());
+            }
+        }
+
+        this.isSetter = true; //The function has been given an input
+
+        //checks to see if the definition exists in the hashmap
+        if (MusicalTermsMap.get(this.musicalTerm) != null) {
+            this.result = MusicalTermsMap.get(musicalTerm);
+        }
+
+        //if a given term is not in the hash map, it will return an error message to the user
+        if (MusicalTermsMap.get(this.musicalTerm) == null) {
             this.result = String.format("%s is not recognised as a musical term.",
                     this.musicalTerm);
         }
+
     }
 
     public void IntiailizeHashMap() {
         this.MusicalTermsMap = new HashMap<String, String>();
-        /**Inserting the definitions of all of the musical terms
-         */
-        MusicalTermsMap.put("lento", "\"Origin: Italian \nCategory: Tempo \nDefinition: Slowly\";");
 
+
+        //preset definitions for testing
+        MusicalTermsMap.put("lento", "Origin: Italian \nCategory: Tempo \nDefinition: The speed at" +
+                " which a passage of music is or should be played");
+        MusicalTermsMap.put("a b", "Origin: Italian \nCategory: Tempo \nDefinition: The speed at" +
+                " which a passage of music is or should be played");
     }
 
     public void execute(Environment env) {

@@ -32,6 +32,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 import seng302.Environment;
 import seng302.utility.MidiNotePair;
 import seng302.data.Note;
@@ -284,31 +285,42 @@ public class PitchComparisonTutorController {
         row.getChildren().get(6).setDisable(true);
 
 
-        boolean correctChoice = false;
+        int correctChoice = 0;
 
-        if (((ToggleButton) row.getChildren().get(3)).isSelected()) { //Higher\
+        if(((ToggleButton)row.getChildren().get(3)).isSelected()){ //Higher\
             row.getChildren().get(3).setStyle("-fx-text-fill: white;-fx-background-color: blue");
-            System.out.println("higher is pressed");
-            if (noteComparison(true, note1, note2)) correctChoice = true;
-        } else if (((ToggleButton) row.getChildren().get(4)).isSelected()) { //Same
+            if (noteComparison(true, note1, note2)) correctChoice = 1;
+        }
+        else  if(((ToggleButton)row.getChildren().get(4)).isSelected()){ //Same
             row.getChildren().get(4).setStyle("-fx-text-fill: white;-fx-background-color: blue");
-            if (note1 == note2) correctChoice = true;
-        } else if (((ToggleButton) row.getChildren().get(5)).isSelected()) { //Lower
+            if (note1 == note2) correctChoice = 1;
+        }
+        else  if(((ToggleButton)row.getChildren().get(5)).isSelected()){ //Lower
             row.getChildren().get(5).setStyle("-fx-text-fill: white;-fx-background-color: blue");
             if (noteComparison(false, note1, note2)) {
-                correctChoice = true;
+                correctChoice = 1;
             }
         }
+        else if(((ToggleButton)row.getChildren().get(6)).isSelected()) { //Skip
+            row.getChildren().get(6).setStyle("-fx-text-fill: white;-fx-background-color: blue");
+            correctChoice = 2;
+            manager.questions -= 1;
+        }
 
-        if (correctChoice) row.setStyle("-fx-border-color: green; -fx-border-width: 2px");
-        else row.setStyle("-fx-border-color: red; -fx-border-width: 2px");
-    manager.add(note1.getNote(), note2.getNote(), correctChoice);
-
+    if(correctChoice == 1) {
+        row.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
         manager.answered += 1;
+    }
+    else if (correctChoice == 2) row.setStyle("-fx-background-color: grey;");
+    else {
+        row.setStyle("-fx-background-color: red;");
+        manager.answered += 1;
+    }
+    manager.add(new Pair<String, String>(note1.getNote(), note2.getNote()), correctChoice);
+
         if (manager.answered == manager.questions) {
             finished();
         }
-
 
 
 
@@ -422,12 +434,11 @@ public class PitchComparisonTutorController {
     private boolean noteComparison(boolean isHigher, Note note1, Note note2) {
 
         if (isHigher) {
-            if (note1.getMidi() > note2.getMidi()) return true;
-
-            else return false;
+            if (note1.getMidi() > note2.getMidi()) return false;
+            else return true;
         } else {
-            if (note1.getMidi() < note2.getMidi()) return true;
-            else return false;
+            if (note1.getMidi() < note2.getMidi()) return false;
+            else return true;
         }
     }
 
@@ -495,11 +506,10 @@ public class PitchComparisonTutorController {
      * Re generates the questions with the questions that were answered incorrectly
      */
     private void retest() {
-        ArrayList<OutputTuple> tempIncorrectResponses = manager.getTempIncorrectResponses();
-
+        ArrayList<Pair> tempIncorrectResponses = new ArrayList<Pair>(manager.getTempIncorrectResponses());
         manager.clearTempIncorrect();
-        for(OutputTuple tuple : tempIncorrectResponses){
-            HBox rowPane = generateQuestionPane(tuple.getInput(), tuple.getResult());
+        for(Pair pair : tempIncorrectResponses){
+            HBox rowPane = generateQuestionPane((String)pair.getKey(), (String) pair.getValue());
             questionRows.getChildren().add(rowPane);
             questionRows.setMargin(rowPane, new Insets(10, 10, 10, 10));
         }
