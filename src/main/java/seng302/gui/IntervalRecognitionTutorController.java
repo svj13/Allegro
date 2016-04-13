@@ -22,8 +22,7 @@ import javafx.util.Pair;
 import seng302.Environment;
 import seng302.data.Interval;
 import seng302.data.Note;
-import seng302.utility.OutputTuple;
-import seng302.utility.PitchComparisonTutorManager;
+import seng302.utility.TutorManager;
 
 public class IntervalRecognitionTutorController {
 
@@ -49,7 +48,7 @@ public class IntervalRecognitionTutorController {
         manager = env.getIrtManager();
     }
 
-    PitchComparisonTutorManager manager;
+    TutorManager manager;
 
     @FXML
     void goAction(ActionEvent event) {

@@ -7,7 +7,7 @@ import javafx.util.Pair;
 /**
  * Created by jmw280 on 7/04/16.
  */
-public class PitchComparisonTutorManager {
+public class TutorManager {
 
 
     /**

@@ -13,7 +13,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -28,16 +27,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import javafx.util.Pair;
 import seng302.Environment;
 import seng302.utility.MidiNotePair;
 import seng302.data.Note;
-import seng302.utility.OutputTuple;
-import seng302.utility.PitchComparisonTutorManager;
+import seng302.utility.TutorManager;
 
 /**
  * Created by jat157 on 20/03/16.
@@ -83,7 +79,7 @@ public class PitchComparisonTutorController {
     Boolean upperSet = false;
 
 
-    PitchComparisonTutorManager manager;
+    TutorManager manager;
 
     @FXML
     private void initialize() {

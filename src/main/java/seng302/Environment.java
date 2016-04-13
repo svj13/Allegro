@@ -1,15 +1,14 @@
 package seng302;
 
-import seng302.utility.PitchComparisonTutorManager;
+import seng302.utility.TutorManager;
 import seng302.utility.TranscriptManager;
-import seng302.JSON.jsonHandler;
 
 public class Environment {
 
     private DslExecutor executor;
     private TranscriptManager transcriptManager;
-    private PitchComparisonTutorManager pctManager;
-    private PitchComparisonTutorManager irtManager;
+    private TutorManager pctManager;
+    private TutorManager irtManager;
     private MusicPlayer player;
 
 
@@ -20,8 +19,8 @@ public class Environment {
         executor = new DslExecutor(this);
         player = new MusicPlayer();
         transcriptManager = new TranscriptManager();
-        pctManager = new PitchComparisonTutorManager();
-        irtManager = new PitchComparisonTutorManager();
+        pctManager = new TutorManager();
+        irtManager = new TutorManager();
         json = new seng302.JSON.jsonHandler(this);
 
     }
@@ -44,11 +43,11 @@ public class Environment {
         return transcriptManager;
     }
 
-    public PitchComparisonTutorManager getPctManager() {
+    public TutorManager getPctManager() {
         return pctManager;
     }
 
-    public PitchComparisonTutorManager getIrtManager() {
+    public TutorManager getIrtManager() {
         return irtManager;
     }
 
@@ -56,7 +55,7 @@ public class Environment {
         this.transcriptManager = t;
     }
 
-    public void setPctManager(PitchComparisonTutorManager p) {
+    public void setPctManager(TutorManager p) {
         this.pctManager = p;
     }
 
