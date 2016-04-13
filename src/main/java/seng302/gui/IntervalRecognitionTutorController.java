@@ -109,10 +109,9 @@ public class IntervalRecognitionTutorController {
         questionRow.setSpacing(10);
         questionRow.setStyle("-fx-border-color: #336699; -fx-border-width: 2px;");
 
-        //Add buttons for play, skip, and cancel
+        //Add buttons for play and skip
         Button play = new Button("Play");
         Button skip = new Button("Skip");
-        Button cancel = new Button("Cancel");
         final ComboBox<String> options = generateChoices();
         final Label correctAnswer = new Label();
 
@@ -133,19 +132,9 @@ public class IntervalRecognitionTutorController {
 
         skip.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                //Disables skip and cancel buttons, combo box also
+                //Disables inputs
                 disableButtons(questionRow);
                 questionRow.setStyle("-fx-border-color: grey; -fx-border-width: 2px;");
-                manager.questions -= 1;
-                manager.add(pair, 0);
-                if (manager.answered == manager.questions) {
-                    finished();
-                }
-            }
-        });
-
-        cancel.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
                 manager.questions -= 1;
                 manager.add(pair, 0);
                 if (manager.answered == manager.questions) {
@@ -177,7 +166,6 @@ public class IntervalRecognitionTutorController {
 
         questionRow.getChildren().add(play);
         questionRow.getChildren().add(skip);
-        questionRow.getChildren().add(cancel);
         questionRow.getChildren().add(options);
         questionRow.getChildren().add(correctAnswer);
 
