@@ -107,7 +107,7 @@ public class IntervalRecognitionTutorController {
 
         questionRow.setPadding(new Insets(10, 10, 10, 10));
         questionRow.setSpacing(10);
-        questionRow.setStyle("-fx-background-color: #336699;");
+        questionRow.setStyle("-fx-border-color: #336699; -fx-border-width: 2px;");
 
         //Add buttons for play, skip, and cancel
         Button play = new Button("Play");
@@ -135,7 +135,7 @@ public class IntervalRecognitionTutorController {
             public void handle(ActionEvent event) {
                 //Disables skip and cancel buttons, combo box also
                 disableButtons(questionRow);
-
+                questionRow.setStyle("-fx-border-color: grey; -fx-border-width: 2px;");
                 manager.questions -= 1;
                 manager.add(pair, 0);
                 if (manager.answered == manager.questions) {
@@ -159,10 +159,10 @@ public class IntervalRecognitionTutorController {
             public void handle(ActionEvent event) {
                 disableButtons(questionRow);
                 if (options.getValue().equals(thisInterval.getName())) {
-                    questionRow.setStyle("-fx-background-color: green;");
+                    questionRow.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
                     manager.add(pair, 1);
                 } else {
-                    questionRow.setStyle("-fx-background-color: red;");
+                    questionRow.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
                     manager.add(pair, 0);
                 }
                 manager.answered += 1;
