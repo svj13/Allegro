@@ -167,6 +167,29 @@ public class ScaleTest {
         verify(transcriptManager).setResult("[ERROR] 'cake' is not a valid scale direction. Try 'up', 'updown' or 'down'.");
     }
 
+    @Test
+    public void testNoteTooHighForScale() {
+        new Scale("C9", "major", "note").execute(env);
+        verify(transcriptManager).setResult("[ERROR] This scale goes beyond the MIDI notes available.");
+    }
+
+    @Test
+    public void testNoteTooLowForScale() {
+        new Scale("D-1", "major", "note", "down").execute(env);
+        verify(transcriptManager).setResult("[ERROR] This scale goes beyond the MIDI notes available.");
+    }
+
+    @Test
+    public void testNoteTooHighForScaleTwoOctaves() {
+        new Scale("C8", "major", "note", "up", 2).execute(env);
+        verify(transcriptManager).setResult("[ERROR] This scale goes beyond the MIDI notes available.");
+    }
+
+    @Test
+    public void testNoteTooHighForScaleUpDown() {
+        new Scale("E9", "major", "note", "updown").execute(env);
+        verify(transcriptManager).setResult("[ERROR] This scale goes beyond the MIDI notes available.");
+    }
 
 
 
