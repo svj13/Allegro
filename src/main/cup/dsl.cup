@@ -57,10 +57,11 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_MUSICAL_TERM musicalTerm:s          {:RESULT = new MusicalTerm(s, false); :}
           | COMMAND_PLAY_SCALE ATOM:a ATOM:b            {: RESULT = new Scale(a, b, "play"); :}
           | COMMAND_ADD_MUSICAL_TERM musicalTerm:s      {:RESULT = new MusicalTerm(s, true); :}
+          | COMMAND_PLAY_SCALE ATOM:a ATOM:b NUMBER:d   {: RESULT = new Scale(a, b, "play", "up", d); :}
           | COMMAND_PLAY_SCALE ATOM:a ATOM:b ATOM:c     {: RESULT = new Scale(a, b, "play", c); :}
           | COMMAND_PLAY_SCALE ATOM:a ATOM:b ATOM:c NUMBER:d
                                                         {: RESULT = new Scale(a, b, "play", c, d); :}
-          | COMMAND_PLAY_SCALE ATOM:a ATOM:b NUMBER:d   {: RESULT = new Scale(a, b, "play", "up", d); :}
+
 
 ;
 

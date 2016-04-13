@@ -243,40 +243,44 @@ Created the tempo class and made it so it defaults to 120BMP
      * @return array list of notes in the scale. If any notes are null, the scale returned will be
      * null.
      */
-    public ArrayList<Note> getScale(String type, boolean up) {
+    public ArrayList<Note> getOctaveScale(String type, int octaves, boolean up) {
         ArrayList<Note> scaleNotes = new ArrayList<Note>();
         if (up) {
             if (type.toLowerCase().equals("major")) {
-                scaleNotes.add(this);
-                scaleNotes.add(this.semitoneUp(2));
-                scaleNotes.add(this.semitoneUp(4));
-                scaleNotes.add(this.semitoneUp(5));
-                scaleNotes.add(this.semitoneUp(7));
-                scaleNotes.add(this.semitoneUp(9));
-                scaleNotes.add(this.semitoneUp(11));
-                scaleNotes.add(this.semitoneUp(12));
-                for (Note note : scaleNotes) {
-                    if (note == null) {
-                        return null;
-                    }
+                Note currentNote = this;
+                scaleNotes.add(currentNote);
+                for (int i = 0; i < octaves; i++) {
+                    scaleNotes.add(currentNote.semitoneUp(2));
+                    scaleNotes.add(currentNote.semitoneUp(4));
+                    scaleNotes.add(currentNote.semitoneUp(5));
+                    scaleNotes.add(currentNote.semitoneUp(7));
+                    scaleNotes.add(currentNote.semitoneUp(9));
+                    scaleNotes.add(currentNote.semitoneUp(11));
+                    scaleNotes.add(currentNote.semitoneUp(12));
+                    currentNote = currentNote.semitoneUp(12);
+                }
+                if (scaleNotes.contains(null)) {
+                    return null;
                 }
             } else {
                 throw new IllegalArgumentException("Invalid scale type: '" + type + "'.");
             }
         } else {
             if (type.toLowerCase().equals("major")) {
-                scaleNotes.add(this);
-                scaleNotes.add(this.semitoneDown(1));
-                scaleNotes.add(this.semitoneDown(3));
-                scaleNotes.add(this.semitoneDown(5));
-                scaleNotes.add(this.semitoneDown(7));
-                scaleNotes.add(this.semitoneDown(8));
-                scaleNotes.add(this.semitoneDown(10));
-                scaleNotes.add(this.semitoneDown(12));
-                for (Note note : scaleNotes) {
-                    if (note == null) {
-                        return null;
-                    }
+                Note currentNote = this;
+                scaleNotes.add(currentNote);
+                for (int i = 0; i < octaves; i++) {
+                    scaleNotes.add(currentNote.semitoneDown(1));
+                    scaleNotes.add(currentNote.semitoneDown(3));
+                    scaleNotes.add(currentNote.semitoneDown(5));
+                    scaleNotes.add(currentNote.semitoneDown(7));
+                    scaleNotes.add(currentNote.semitoneDown(8));
+                    scaleNotes.add(currentNote.semitoneDown(10));
+                    scaleNotes.add(currentNote.semitoneDown(12));
+                    currentNote = currentNote.semitoneDown(12);
+                }
+                if (scaleNotes.contains(null)) {
+                    return null;
                 }
             } else {
                 throw new IllegalArgumentException("Invalid scale type: '" + type + "'.");
@@ -284,6 +288,19 @@ Created the tempo class and made it so it defaults to 120BMP
         }
         return scaleNotes;
     }
+
+    /**
+     * Convenience method for when you only want one octave.
+     *
+     * @param type Type of scale. major, minor etc.
+     * @param up   Whether the scale goes up or down.
+     * @return The Arraylist of notes that make up the scale. Or null if invalid scale.
+     */
+    public ArrayList<Note> getScale(String type, boolean up) {
+        return this.getOctaveScale(type, 1, up);
+    }
+
+
 
 
     public String getEnharmonicWithLetter(char letter) {

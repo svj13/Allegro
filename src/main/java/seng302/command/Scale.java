@@ -145,9 +145,9 @@ public class Scale implements Command {
                     this.note = Note.lookup(OctaveUtil.addDefaultOctave(startNote));
                 }
                 try {
-                    ArrayList<Note> scale = note.getScale(type, true);
+                    ArrayList<Note> scale = note.getOctaveScale(type, octaves, true);
                     if (direction.equals("down")) {
-                        scale = note.getScale(type, false);
+                        scale = note.getOctaveScale(type, octaves, false);
                     }
                     if (scale == null) {
                         env.error("This scale goes beyond the MIDI notes available.");
@@ -215,9 +215,10 @@ public class Scale implements Command {
      * @return The string of the scale notes.
      */
     private String scaleToStringUpDown(ArrayList<Note> scaleNotes) {
-        String up = scaleToString(new ArrayList<Note>(scaleNotes.subList(0, 8)), true);
+        int size = scaleNotes.size();
+        String up = scaleToString(new ArrayList<Note>(scaleNotes.subList(0, size / 2)), true);
         updateLetter(true);
-        String down = scaleToString(new ArrayList<Note>(scaleNotes.subList(8, 16)), false);
+        String down = scaleToString(new ArrayList<Note>(scaleNotes.subList(size / 2, size)), false);
         return up + " " + down;
     }
 
