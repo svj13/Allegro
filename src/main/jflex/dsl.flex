@@ -76,6 +76,7 @@ ScaleType = major
 
     "crotchet duration"    { return symbol(DslSymbol.COMMAND_CROTCHET_DURATION); }
     "meaning of"       { return symbol(DslSymbol.COMMAND_MUSICAL_TERM); }
+    "add musical term"  {return symbol(DslSymbol.COMMAND_ADD_MUSICAL_TERM); }
 
     {WhiteSpace}       { /* Ignore whitespace */ }
 }

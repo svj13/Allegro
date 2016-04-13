@@ -22,8 +22,7 @@ import javafx.util.Pair;
 import seng302.Environment;
 import seng302.data.Interval;
 import seng302.data.Note;
-import seng302.utility.OutputTuple;
-import seng302.utility.PitchComparisonTutorManager;
+import seng302.utility.TutorManager;
 
 public class IntervalRecognitionTutorController {
 
@@ -49,7 +48,7 @@ public class IntervalRecognitionTutorController {
         manager = env.getIrtManager();
     }
 
-    PitchComparisonTutorManager manager;
+    TutorManager manager;
 
     @FXML
     void goAction(ActionEvent event) {
@@ -108,19 +107,20 @@ public class IntervalRecognitionTutorController {
 
         questionRow.setPadding(new Insets(10, 10, 10, 10));
         questionRow.setSpacing(10);
-        questionRow.setStyle("-fx-background-color: #336699;");
+        questionRow.setStyle("-fx-border-color: #336699; -fx-border-width: 2px;");
 
-        //Add buttons for play, skip, and cancel
+        //Add buttons for play and skip
         Button play = new Button("Play");
         Button skip = new Button("Skip");
-        Button cancel = new Button("Cancel");
         final ComboBox<String> options = generateChoices();
         final Label correctAnswer = new Label();
+
         final Pair pair = intervalAndNote;
-        final Interval thisInterval = (Interval) intervalAndNote.getKey();
-        final Note firstNote = (Note) intervalAndNote.getValue();
+        final Interval thisInterval = (Interval) pair.getKey();
+        final Note firstNote = (Note) pair.getValue();
         final Note secondNote = getFinalNote(firstNote, thisInterval);
         final ArrayList<Note> playNotes = new ArrayList<Note>();
+
         playNotes.add(firstNote);
         playNotes.add(secondNote);
 
@@ -132,19 +132,9 @@ public class IntervalRecognitionTutorController {
 
         skip.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                //Disables skip and cancel buttons, combo box also
+                //Disables inputs
                 disableButtons(questionRow);
-
-                manager.questions -= 1;
-                manager.add(pair, 0);
-                if (manager.answered == manager.questions) {
-                    finished();
-                }
-            }
-        });
-
-        cancel.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
+                questionRow.setStyle("-fx-border-color: grey; -fx-border-width: 2px;");
                 manager.questions -= 1;
                 manager.add(pair, 0);
                 if (manager.answered == manager.questions) {
@@ -158,10 +148,10 @@ public class IntervalRecognitionTutorController {
             public void handle(ActionEvent event) {
                 disableButtons(questionRow);
                 if (options.getValue().equals(thisInterval.getName())) {
-                    questionRow.setStyle("-fx-background-color: green;");
+                    questionRow.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
                     manager.add(pair, 1);
                 } else {
-                    questionRow.setStyle("-fx-background-color: red;");
+                    questionRow.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
                     manager.add(pair, 0);
                 }
                 manager.answered += 1;
@@ -176,7 +166,6 @@ public class IntervalRecognitionTutorController {
 
         questionRow.getChildren().add(play);
         questionRow.getChildren().add(skip);
-        questionRow.getChildren().add(cancel);
         questionRow.getChildren().add(options);
         questionRow.getChildren().add(correctAnswer);
 
@@ -233,19 +222,38 @@ public class IntervalRecognitionTutorController {
 
         ButtonType retestBtn = new ButtonType("Retest");
         ButtonType clearBtn  = new ButtonType("Clear");
-        alert.getButtonTypes().setAll(retestBtn, clearBtn);
+
+        if (manager.getTempIncorrectResponses().size() > 0) {
+            //Can re-test
+            alert.getButtonTypes().setAll(retestBtn, clearBtn);
+        } else {
+            //Perfect score
+            alert.getButtonTypes().setAll(clearBtn);
+        }
         Optional<ButtonType> result = alert.showAndWait();
+        questionRows.getChildren().clear();
 
         if (result.get() == clearBtn) {
             manager.saveTempIncorrect();
         } else if (result.get() == retestBtn) {
-            //retest();
+            retest();
         }
 
         // Clear the current session
-        questionRows.getChildren().clear();
         manager.answered = 0;
         manager.correct = 0;
+    }
+
+    private void retest() {
+        ArrayList<Pair> tempIncorrectResponses = new ArrayList<Pair>(manager.getTempIncorrectResponses());
+        manager.clearTempIncorrect();
+        manager.questions = tempIncorrectResponses.size();
+        for(Pair<Interval, Note> pair : tempIncorrectResponses){
+            HBox questionRow = generateQuestionRow(pair);
+            questionRows.getChildren().add(questionRow);
+            questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
+        }
+
     }
 
 

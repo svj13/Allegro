@@ -5,25 +5,25 @@ import java.util.ArrayList;
 import javafx.util.Pair;
 
 /**
- * Created by jmw280 on 7/04/16.
+ * A class used for managing tutoring sessions. Stores the user's progress.
  */
-public class PitchComparisonTutorManager {
+public class TutorManager {
 
 
     /**
-     * A list of tuples that stores the temporary incorrect responses
+     * A list of pairs that stores the temporary incorrect responses
      */
     private ArrayList<Pair> tempIncorrectResponses = new ArrayList<Pair>();
 
 
     /**
-     * A list of tuples that stores all the correct responses
+     * A list of pairs that stores all the correct responses
      */
     private ArrayList<Pair> correctResponses = new ArrayList<Pair>();
 
 
     /**
-     * A list of tuples stores all the incorrect responses that haven't been re-attempted
+     * A list of pairs that stores all the incorrect responses that haven't been re-attempted
      */
     private ArrayList<Pair> incorrectResponses = new ArrayList<Pair>();
 
@@ -46,8 +46,8 @@ public class PitchComparisonTutorManager {
 
     /**
      *Add note pair to to the corresponding array
-     * @param pair pair of anything to store
-     * @param outcome value that represents if the note pair was answered correctly
+     * @param pair pair of objects to store - note+note, interval+note, etc
+     * @param outcome value that represents if the question was answered correctly
      */
     public void add(Pair pair, int outcome){
         if(outcome == 1){
@@ -57,7 +57,6 @@ public class PitchComparisonTutorManager {
             tempIncorrectResponses.add(pair);
         }
     }
-
 
 
     /**
