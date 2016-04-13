@@ -116,11 +116,13 @@ public class IntervalRecognitionTutorController {
         Button cancel = new Button("Cancel");
         final ComboBox<String> options = generateChoices();
         final Label correctAnswer = new Label();
+
         final Pair pair = intervalAndNote;
-        final Interval thisInterval = (Interval) intervalAndNote.getKey();
-        final Note firstNote = (Note) intervalAndNote.getValue();
+        final Interval thisInterval = (Interval) pair.getKey();
+        final Note firstNote = (Note) pair.getValue();
         final Note secondNote = getFinalNote(firstNote, thisInterval);
         final ArrayList<Note> playNotes = new ArrayList<Note>();
+
         playNotes.add(firstNote);
         playNotes.add(secondNote);
 
@@ -235,17 +237,29 @@ public class IntervalRecognitionTutorController {
         ButtonType clearBtn  = new ButtonType("Clear");
         alert.getButtonTypes().setAll(retestBtn, clearBtn);
         Optional<ButtonType> result = alert.showAndWait();
+        questionRows.getChildren().clear();
 
         if (result.get() == clearBtn) {
             manager.saveTempIncorrect();
         } else if (result.get() == retestBtn) {
-            //retest();
+            retest();
         }
 
         // Clear the current session
-        questionRows.getChildren().clear();
         manager.answered = 0;
         manager.correct = 0;
+    }
+
+    private void retest() {
+        ArrayList<Pair> tempIncorrectResponses = new ArrayList<Pair>(manager.getTempIncorrectResponses());
+        manager.clearTempIncorrect();
+        manager.questions = tempIncorrectResponses.size();
+        for(Pair<Interval, Note> pair : tempIncorrectResponses){
+            HBox questionRow = generateQuestionRow(pair);
+            questionRows.getChildren().add(questionRow);
+            questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
+        }
+
     }
 
 
