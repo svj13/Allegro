@@ -313,7 +313,7 @@ public class PitchComparisonTutorController {
         row.setStyle("-fx-background-color: red;");
         manager.answered += 1;
     }
-    manager.add(note1.getNote(), note2.getNote(), correctChoice);
+    manager.add(new Pair<String, String>(note1.getNote(), note2.getNote()), correctChoice);
 
         if (manager.answered == manager.questions) {
             finished();

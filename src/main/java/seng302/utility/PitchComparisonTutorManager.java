@@ -46,17 +46,15 @@ public class PitchComparisonTutorManager {
 
     /**
      *Add note pair to to the corresponding array
-     * @param note1 first note name of the note pair
-     * @param note2 second note name of the note pair
+     * @param pair pair of anything to store
      * @param outcome value that represents if the note pair was answered correctly
      */
-    public void add(String note1, String note2, int outcome){
-        Pair notePair  = new Pair(note1,note2);
+    public void add(Pair pair, int outcome){
         if(outcome == 1){
-            correctResponses.add(notePair);
+            correctResponses.add(pair);
             correct += 1;
         } else{
-            tempIncorrectResponses.add(notePair);
+            tempIncorrectResponses.add(pair);
         }
     }
 

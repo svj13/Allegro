@@ -116,7 +116,7 @@ public class IntervalRecognitionTutorController {
         Button cancel = new Button("Cancel");
         final ComboBox<String> options = generateChoices();
         final Label correctAnswer = new Label();
-
+        final Pair pair = intervalAndNote;
         final Interval thisInterval = (Interval) intervalAndNote.getKey();
         final Note firstNote = (Note) intervalAndNote.getValue();
         final Note secondNote = getFinalNote(firstNote, thisInterval);
@@ -136,7 +136,7 @@ public class IntervalRecognitionTutorController {
                 disableButtons(questionRow);
 
                 manager.questions -= 1;
-                manager.add(firstNote.getNote(), secondNote.getNote(), 0);
+                manager.add(pair, 0);
                 if (manager.answered == manager.questions) {
                     finished();
                 }
@@ -146,7 +146,7 @@ public class IntervalRecognitionTutorController {
         cancel.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 manager.questions -= 1;
-                manager.add(firstNote.getNote(), secondNote.getNote(), 0);
+                manager.add(pair, 0);
                 if (manager.answered == manager.questions) {
                     finished();
                 }
@@ -159,10 +159,10 @@ public class IntervalRecognitionTutorController {
                 disableButtons(questionRow);
                 if (options.getValue().equals(thisInterval.getName())) {
                     questionRow.setStyle("-fx-background-color: green;");
-                    manager.add(firstNote.getNote(), secondNote.getNote(), 1);
+                    manager.add(pair, 1);
                 } else {
                     questionRow.setStyle("-fx-background-color: red;");
-                    manager.add(firstNote.getNote(), secondNote.getNote(), 0);
+                    manager.add(pair, 0);
                 }
                 manager.answered += 1;
 
@@ -229,9 +229,21 @@ public class IntervalRecognitionTutorController {
         float userScore = getScore(manager.correct, manager.answered);
         String outputText = String.format("You have finished the tutor. You got %d out of %d. This is a score of %.2f percent", manager.correct, manager.answered, userScore);
         alert.setContentText(outputText);
+
+
+        ButtonType retestBtn = new ButtonType("Retest");
+        ButtonType clearBtn  = new ButtonType("Clear");
+        alert.getButtonTypes().setAll(retestBtn, clearBtn);
         Optional<ButtonType> result = alert.showAndWait();
 
-        // Clear the results
+        if (result.get() == clearBtn) {
+            manager.saveTempIncorrect();
+        } else if (result.get() == retestBtn) {
+            //retest();
+        }
+
+        // Clear the current session
+        questionRows.getChildren().clear();
         manager.answered = 0;
         manager.correct = 0;
     }
