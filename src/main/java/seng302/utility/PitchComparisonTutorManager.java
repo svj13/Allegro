@@ -48,9 +48,9 @@ public class PitchComparisonTutorManager {
      * @param note2 second note name of the note pair
      * @param outcome value that represents if the note pair was answered correctly
      */
-    public void add(String note1, String note2, Boolean outcome){
+    public void add(String note1, String note2, int outcome){
         OutputTuple notePair  = new OutputTuple(note1,note2);
-        if(outcome){
+        if(outcome == 1){
             correctResponses.add(notePair);
             correct += 1;
         } else{

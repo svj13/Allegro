@@ -82,6 +82,12 @@ public class IntervalRecognitionTutorController {
         return options;
     }
 
+    private void disableButtons(HBox questionRow) {
+        for (int i = 0; i < questionRow.getChildren().size(); i++) {
+            questionRow.getChildren().get(i).setDisable(true);
+        }
+    }
+
 
     /**
      * Creates a GUI section for one question.
@@ -118,13 +124,10 @@ public class IntervalRecognitionTutorController {
         skip.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 //Disables skip and cancel buttons, combo box also
-                for (int i = 0; i < questionRow.getChildren().size(); i++) {
-                    questionRow.getChildren().get(i).setDisable(true);
-                }
-
+                disableButtons(questionRow);
 
                 manager.questions -= 1;
-                manager.add(firstNote.getNote(), secondNote.getNote(), false);
+                manager.add(firstNote.getNote(), secondNote.getNote(), 0);
                 if (manager.answered == manager.questions) {
                     finished();
                 }
@@ -134,7 +137,7 @@ public class IntervalRecognitionTutorController {
         cancel.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 manager.questions -= 1;
-                manager.add(firstNote.getNote(), secondNote.getNote(), false);
+                manager.add(firstNote.getNote(), secondNote.getNote(), 0);
                 if (manager.answered == manager.questions) {
                     finished();
                 }
@@ -144,12 +147,13 @@ public class IntervalRecognitionTutorController {
         options.setOnAction(new EventHandler<ActionEvent>() {
             // This handler colors the GUI depending on the user's input
             public void handle(ActionEvent event) {
+                disableButtons(questionRow);
                 if (options.getValue().equals(thisInterval.getName())) {
                     questionRow.setStyle("-fx-background-color: green;");
-                    manager.add(firstNote.getNote(), secondNote.getNote(), true);
+                    manager.add(firstNote.getNote(), secondNote.getNote(), 1);
                 } else {
                     questionRow.setStyle("-fx-background-color: red;");
-                    manager.add(firstNote.getNote(), secondNote.getNote(), false);
+                    manager.add(firstNote.getNote(), secondNote.getNote(), 0);
                 }
                 manager.answered += 1;
 
