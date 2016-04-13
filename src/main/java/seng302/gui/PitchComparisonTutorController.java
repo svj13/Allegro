@@ -23,6 +23,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -276,24 +278,25 @@ public class PitchComparisonTutorController {
         Note note2 = Note.lookup(m2);
 
 
-        row.getChildren().get(2).setDisable(true);
+
         row.getChildren().get(3).setDisable(true);
         row.getChildren().get(4).setDisable(true);
+        row.getChildren().get(5).setDisable(true);
         row.getChildren().get(6).setDisable(true);
 
 
         int correctChoice = 0;
 
-        if(((ToggleButton)row.getChildren().get(2)).isSelected()){ //Higher\
-            row.getChildren().get(2).setStyle("-fx-text-fill: white;-fx-background-color: blue");
+        if(((ToggleButton)row.getChildren().get(3)).isSelected()){ //Higher\
+            row.getChildren().get(3).setStyle("-fx-text-fill: white;-fx-background-color: blue");
             if (noteComparison(true, note1, note2)) correctChoice = 1;
         }
-        else  if(((ToggleButton)row.getChildren().get(3)).isSelected()){ //Same
-            row.getChildren().get(3).setStyle("-fx-text-fill: white;-fx-background-color: blue");
+        else  if(((ToggleButton)row.getChildren().get(4)).isSelected()){ //Same
+            row.getChildren().get(4).setStyle("-fx-text-fill: white;-fx-background-color: blue");
             if (note1 == note2) correctChoice = 1;
         }
-        else  if(((ToggleButton)row.getChildren().get(4)).isSelected()){ //Lower
-            row.getChildren().get(4).setStyle("-fx-text-fill: white;-fx-background-color: blue");
+        else  if(((ToggleButton)row.getChildren().get(5)).isSelected()){ //Lower
+            row.getChildren().get(5).setStyle("-fx-text-fill: white;-fx-background-color: blue");
             if (noteComparison(false, note1, note2)) {
                 correctChoice = 1;
             }
@@ -305,12 +308,11 @@ public class PitchComparisonTutorController {
         }
 
     if(correctChoice == 1) {
-        row.setStyle("-fx-background-color: green;");
+        row.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
         manager.answered += 1;
-    }
-    else if (correctChoice == 2) row.setStyle("-fx-background-color: grey;");
+    } else if (correctChoice == 2) row.setStyle("-fx-border-color: grey; -fx-border-width: 2px;");
     else {
-        row.setStyle("-fx-background-color: red;");
+        row.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
         manager.answered += 1;
     }
     manager.add(new Pair<String, String>(note1.getNote(), note2.getNote()), correctChoice);
@@ -334,7 +336,7 @@ public class PitchComparisonTutorController {
         rowPane.setPadding(new Insets(10, 10, 10, 10));
 
         rowPane.setSpacing(10);
-        rowPane.setStyle("-fx-background-color: #336699;");
+        rowPane.setStyle("-fx-border-color: #336699; -fx-border-width: 2px;");
 
 
 
@@ -343,12 +345,20 @@ public class PitchComparisonTutorController {
 
         ToggleGroup group = new ToggleGroup();
         ToggleButton higher = new ToggleButton("Higher");
+        Image imageUp = new Image(getClass().getResourceAsStream("/up-arrow.png"), 20, 20, true, true);
+        higher.setGraphic(new ImageView(imageUp));
         higher.setToggleGroup(group);
         ToggleButton same = new ToggleButton("Same");
+        Image imageSame = new Image(getClass().getResourceAsStream("/minus-symbol.png"), 20, 20, true, true);
+        same.setGraphic(new ImageView(imageSame));
         same.setToggleGroup(group);
         ToggleButton lower = new ToggleButton("Lower");
+        Image imageLower = new Image(getClass().getResourceAsStream("/download-arrow-1.png"), 20, 20, true, true);
+        lower.setGraphic(new ImageView(imageLower));
         lower.setToggleGroup(group);
         ToggleButton skip = new ToggleButton("Skip");
+        Image imageSkip = new Image(getClass().getResourceAsStream("/right-arrow.png"), 20, 20, true, true);
+        skip.setGraphic(new ImageView(imageSkip));
         skip.setToggleGroup(group);
 
         higher.setOnAction(new EventHandler<ActionEvent>() {
@@ -385,7 +395,8 @@ public class PitchComparisonTutorController {
 
 
         Button playBtn = new Button();
-        playBtn.setText("Play");
+        Image imagePlay = new Image(getClass().getResourceAsStream("/play-button.png"), 20, 20, true, true);
+        playBtn.setGraphic(new ImageView(imagePlay));
         playBtn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 Note note1 = Note.lookup(((Label) rowPane.getChildren().get(0)).getText());
@@ -399,11 +410,10 @@ public class PitchComparisonTutorController {
 
         });
 
-
+        rowPane.getChildren().add(playBtn);
         rowPane.getChildren().add(higher);
         rowPane.getChildren().add(same);
         rowPane.getChildren().add(lower);
-        rowPane.getChildren().add(playBtn);
         rowPane.getChildren().add(skip);
 
         rowPane.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
