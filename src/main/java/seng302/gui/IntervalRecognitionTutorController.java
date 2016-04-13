@@ -201,10 +201,21 @@ public class IntervalRecognitionTutorController {
         return Interval.intervals[rand.nextInt(8)];
     }
 
+    private float getScore(int correct, int answered) {
+        float score = 0;
+        if (answered > 0) {
+            score = (float) correct / (float) answered * 100;
+        }
+        return score;
+
+    }
+
     private void finished() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Finished");
-        alert.setContentText("You have finished the tutor.");
+        float userScore = getScore(manager.correct, manager.answered);
+        String outputText = String.format("You have finished the tutor. You got %d out of %d. This is a score of %.2f percent", manager.correct, manager.answered, userScore);
+        alert.setContentText(outputText);
         Optional<ButtonType> result = alert.showAndWait();
 
         // Clear the results
