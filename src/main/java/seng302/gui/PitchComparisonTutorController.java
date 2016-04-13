@@ -1,9 +1,14 @@
 package seng302.gui;
 
+import org.controlsfx.control.RangeSlider;
+import org.controlsfx.control.spreadsheet.StringConverterWithFormat;
+
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Random;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -47,6 +52,9 @@ public class PitchComparisonTutorController {
     AnchorPane pitchTutorAnchor;
 
     @FXML
+    HBox sliderBox;
+
+    @FXML
     ComboBox<MidiNotePair> cbxUpper;
     @FXML
     ScrollPane paneQuestions;
@@ -58,7 +66,13 @@ public class PitchComparisonTutorController {
     Button btnGo;
 
     @FXML
-    FlowPane headerPane;
+    HBox settings;
+
+    @FXML
+    RangeSlider rangeSlider;
+
+    @FXML
+    Label notes;
 
     Random rand;
 
@@ -88,8 +102,10 @@ public class PitchComparisonTutorController {
                 //String noteName1 = Note.lookup(String.valueOf(rand.nextInt(128))).getNote();
                 //String noteName2 = Note.lookup(String.valueOf(rand.nextInt(128))).getNote();
 
-                int lowerPitchBound = cbxLower.getSelectionModel().getSelectedItem().getMidi();
-                int upperPitchBound = cbxUpper.getSelectionModel().getSelectedItem().getMidi();
+                //int lowerPitchBound = cbxLower.getSelectionModel().getSelectedItem().getMidi();
+                //int upperPitchBound = cbxUpper.getSelectionModel().getSelectedItem().getMidi();
+                int lowerPitchBound = ((Double) rangeSlider.getLowValue()).intValue();
+                int upperPitchBound = ((Double) rangeSlider.getHighValue()).intValue();
                 int pitchRange = upperPitchBound - lowerPitchBound;
                 String midiOne =  String.valueOf(lowerPitchBound + rand.nextInt(pitchRange + 1));
                 String midiTwo = String.valueOf(lowerPitchBound + rand.nextInt(pitchRange + 1));
@@ -109,22 +125,54 @@ public class PitchComparisonTutorController {
         }
         paneQuestions.prefWidthProperty().bind(pitchTutorAnchor.prefWidthProperty());
 
-
     }
 
-    
 
+    /**
+     * Fills the pitch combo boxes and sets them to default values. Also sets the env and manager.
+     *
+     * @param env The environment of the app.
+     */
     public void create(Environment env) {
-
-
-        System.out.println("inside pitch comparison tutor");
         this.env = env;
-        generateComboValues(cbxLower);
-        generateComboValues(cbxUpper);
+        //generateComboValues(cbxLower);
+        //generateComboValues(cbxUpper);
+        rangeSlider = new RangeSlider(0, 127, 60, 72);
+        rangeSlider.setBlockIncrement(1);
+        rangeSlider.setMajorTickUnit(12);
+        rangeSlider.setPrefWidth(340);
+        rangeSlider.setShowTickLabels(true);
+        rangeSlider.setLabelFormatter(new StringConverterWithFormat<Number>() {
+            @Override
+            public String toString(Number object) {
+                Integer num = object.intValue();
+                return Note.lookup(String.valueOf(num)).getNote();
+            }
+
+            @Override
+            public Number fromString(String string) {
+                return Note.lookup(string).getMidi();
+            }
+        });
+
+        sliderBox.getChildren().add(1, rangeSlider);
+        notes.setText(rangeSlider.getLabelFormatter().toString(rangeSlider.getLowValue()) + " - "
+                + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
+        ChangeListener<Number> updateLabel = new ChangeListener<Number>() {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                notes.setText(rangeSlider.getLabelFormatter().toString(rangeSlider.getLowValue()) + " - "
+                        + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
+            }
+        };
+        rangeSlider.lowValueProperty().addListener(updateLabel);
+        rangeSlider.highValueProperty().addListener(updateLabel);
+
 
         // Set default values to C4 and C5
-        cbxLower.getSelectionModel().select(60);
-        cbxUpper.getSelectionModel().select(72);
+//        cbxLower.getSelectionModel().select(60);
+//        handleLowerRangeAction();
+//        cbxUpper.getSelectionModel().select(12);
+//        handleUpperRangeAction();
         lowerSet = true;
         upperSet = true;
 
@@ -132,16 +180,19 @@ public class PitchComparisonTutorController {
     }
 
 
+    /**
+     * This function is triggered when the lower range of the pitch changes. If something has been
+     * selected, then the upper selection box is changed to only contain notes greater than or equal
+     * to the selected note.
+     */
     @FXML
     private void handleLowerRangeAction() {
         lowerSet = true;
         if (!cbxLower.getSelectionModel().isEmpty()) {
             int selectedMidi = cbxLower.getSelectionModel().getSelectedItem().getMidi();
 
-
-           // int midiInt = Integer.parseInt(selectedMidi);
             if (cbxUpper.getSelectionModel().isEmpty()) {
-                cbxUpper.getItems().clear();String.valueOf(rand.nextInt(128));
+                cbxUpper.getItems().clear();
                 for (int i = selectedMidi + 1; i < Note.noteCount; i++) {
                     cbxUpper.getItems().add(new MidiNotePair(i, Note.lookup(String.valueOf(i)).getNote()));
                 }
@@ -161,7 +212,8 @@ public class PitchComparisonTutorController {
     }
 
     /**
-     * Called whenever the upper range selector is interacted with.
+     * Called whenever the upper range pitch is changed. If something has been selected,
+     * Then the lower range selector removes any options that are above the upeer range.
      */
     @FXML
     private void handleUpperRangeAction() {
@@ -169,7 +221,6 @@ public class PitchComparisonTutorController {
         if (!cbxUpper.getSelectionModel().isEmpty()) {
             int midiInt = cbxUpper.getSelectionModel().getSelectedItem().getMidi();
 
-            System.out.println("selected index.. " + cbxLower.getSelectionModel().getSelectedIndex());
             if (cbxLower.getSelectionModel().isEmpty()) {
                 cbxLower.getItems().clear();
                 for (int i = 0; i < midiInt; i++) {

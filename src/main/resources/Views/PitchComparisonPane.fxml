@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import org.controlsfx.control.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.text.*?>
@@ -7,8 +8,9 @@
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
+<?import org.controlsfx.control.RangeSlider?>
 
-<AnchorPane fx:id="pitchTutorAnchor" xmlns="http://javafx.com/javafx/8.0.40"
+<AnchorPane fx:id="pitchTutorAnchor" xmlns="http://javafx.com/javafx/8"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="seng302.gui.PitchComparisonTutorController">
     <children>
@@ -20,49 +22,30 @@
                 <Font size="24.0"/>
             </font>
         </Label>
-        <HBox alignment="CENTER_LEFT" layoutY="36.0" minWidth="-Infinity" prefHeight="61.0"
-              spacing="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0"
-              AnchorPane.topAnchor="48.0">
+        <HBox fx:id="sliderBox" alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="450.0"
+              spacing="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="48.0">
+            <children>
+                <VBox prefHeight="200.0" prefWidth="100.0">
+                    <children>
+                        <Label text="Note Range:"/>
+                        <Label fx:id="notes"/>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+        <HBox fx:id="settings" alignment="CENTER_LEFT" layoutY="36.0" minWidth="-Infinity"
+              prefHeight="10.0" spacing="10.0" AnchorPane.leftAnchor="10.0"
+              AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="90.0">
             <children>
                 <TitledPane alignment="CENTER" animated="false" collapsible="false"
-                            focusTraversable="false" prefHeight="58.0" prefWidth="100.0"
-                            text="Lower Pitch Range" textAlignment="CENTER">
-                    <content>
-                        <ComboBox fx:id="cbxLower" onAction="#handleLowerRangeAction" prefHeight="25.0"
-                                  prefWidth="114.0">
-                            <tooltip>
-                                <Tooltip text="Lower Range"/>
-                            </tooltip>
-                        </ComboBox>
-                    </content>
-                    <font>
-                        <Font size="10.0"/>
-                    </font>
-                </TitledPane>
-                <TitledPane alignment="CENTER" animated="false" collapsible="false"
-                            focusTraversable="false" prefHeight="58.0" prefWidth="100.0"
-                            text="Upper Pitch Range" textAlignment="CENTER">
-                    <content>
-                        <ComboBox fx:id="cbxUpper" onAction="#handleUpperRangeAction" prefHeight="25.0"
-                                  prefWidth="114.0">
-                            <tooltip>
-                                <Tooltip text="Lower Range"/>
-                            </tooltip>
-                        </ComboBox>
-                    </content>
-                    <font>
-                        <Font size="10.0"/>
-                    </font>
-                </TitledPane>
-                <TitledPane alignment="CENTER" animated="false" collapsible="false"
-                            focusTraversable="false" prefHeight="58.0" prefWidth="100.0"
+                            focusTraversable="false" prefHeight="20.0" prefWidth="100.0"
                             text="Note Pairs" textAlignment="CENTER">
                     <font>
                         <Font size="10.0"/>
                     </font>
                     <content>
-                        <TextField id="txtNotes" fx:id="txtNotePairs" alignment="CENTER" prefHeight="25.0"
-                                   prefWidth="54.0" text="1">
+                        <TextField id="txtNotes" fx:id="txtNotePairs" alignment="CENTER"
+                                   prefHeight="25.0" prefWidth="54.0" text="1">
                             <font>
                                 <Font size="12.0"/>
                             </font>
@@ -77,10 +60,10 @@
                 </Button>
             </children>
         </HBox>
-       <ScrollPane fx:id="paneQuestions" fitToWidth="true" layoutY="105.0" minWidth="-Infinity"
-                   prefHeight="36.0" prefViewportHeight="36.0" prefViewportWidth="400.0"
-                   prefWidth="430.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5"
-                   AnchorPane.rightAnchor="5" AnchorPane.topAnchor="120.0">
+        <ScrollPane fx:id="paneQuestions" fitToWidth="true" layoutY="105.0" minWidth="-Infinity"
+                    prefHeight="36.0" prefViewportHeight="36.0" prefViewportWidth="400.0"
+                    prefWidth="430.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5"
+                    AnchorPane.rightAnchor="5" AnchorPane.topAnchor="135.0">
             <content>
                 <VBox fx:id="questionRows"/>
             </content>
