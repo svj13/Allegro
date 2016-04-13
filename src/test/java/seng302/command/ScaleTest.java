@@ -138,15 +138,14 @@ public class ScaleTest {
     public void testPlayScale() {
         new Scale("F", "major", "play").execute(env);
         verify(transcriptManager).setResult("F G A Bb C D E F");
-        verify(player).playNotes(Note.lookup("F4").getScale("major"));
+        verify(player).playNotes(Note.lookup("F4").getScale("major", true));
     }
 
     @Test
     public void testPlayCorrectScaleDown() {
         new Scale("C", "major", "play", "down").execute(env);
         verify(transcriptManager).setResult("C B A G F E D C");
-        ArrayList<Note> scale = Note.lookup("C4").getScale("major");
-        Collections.reverse(scale);
+        ArrayList<Note> scale = Note.lookup("C4").getScale("major", false);
         verify(player).playNotes(scale);
     }
 
@@ -154,7 +153,7 @@ public class ScaleTest {
     public void testPlayCorrectScaleUpDown() {
         new Scale("C", "major", "play", "updown").execute(env);
         verify(transcriptManager).setResult("C D E F G A B C C B A G F E D C");
-        ArrayList<Note> notesToPlay = Note.lookup("C4").getScale("major");
+        ArrayList<Note> notesToPlay = Note.lookup("C4").getScale("major", true);
         ArrayList<Note> notes = new ArrayList<Note>(notesToPlay);
         Collections.reverse(notes);
         notesToPlay.addAll(notes);
@@ -175,19 +174,19 @@ public class ScaleTest {
 
     @Test
     public void testNoteTooLowForScale() {
-        new Scale("D-1", "major", "note", "down").execute(env);
+        new Scale("D-1", "major", "play", "down").execute(env);
         verify(transcriptManager).setResult("[ERROR] This scale goes beyond the MIDI notes available.");
     }
 
     @Test
     public void testNoteTooHighForScaleTwoOctaves() {
-        new Scale("C8", "major", "note", "up", 2).execute(env);
+        new Scale("C8", "major", "play", "up", 2).execute(env);
         verify(transcriptManager).setResult("[ERROR] This scale goes beyond the MIDI notes available.");
     }
 
     @Test
     public void testNoteTooHighForScaleUpDown() {
-        new Scale("E9", "major", "note", "updown").execute(env);
+        new Scale("E9", "major", "play", "updown").execute(env);
         verify(transcriptManager).setResult("[ERROR] This scale goes beyond the MIDI notes available.");
     }
 

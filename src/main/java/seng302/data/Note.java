@@ -243,24 +243,44 @@ Created the tempo class and made it so it defaults to 120BMP
      * @return array list of notes in the scale. If any notes are null, the scale returned will be
      * null.
      */
-    public ArrayList<Note> getScale(String type) {
+    public ArrayList<Note> getScale(String type, boolean up) {
         ArrayList<Note> scaleNotes = new ArrayList<Note>();
-        if (type.toLowerCase().equals("major")) {
-            scaleNotes.add(this);
-            scaleNotes.add(this.semitoneUp(2));
-            scaleNotes.add(this.semitoneUp(4));
-            scaleNotes.add(this.semitoneUp(5));
-            scaleNotes.add(this.semitoneUp(7));
-            scaleNotes.add(this.semitoneUp(9));
-            scaleNotes.add(this.semitoneUp(11));
-            scaleNotes.add(this.semitoneUp(12));
-            for (Note note : scaleNotes) {
-                if (note == null) {
-                    return null;
+        if (up) {
+            if (type.toLowerCase().equals("major")) {
+                scaleNotes.add(this);
+                scaleNotes.add(this.semitoneUp(2));
+                scaleNotes.add(this.semitoneUp(4));
+                scaleNotes.add(this.semitoneUp(5));
+                scaleNotes.add(this.semitoneUp(7));
+                scaleNotes.add(this.semitoneUp(9));
+                scaleNotes.add(this.semitoneUp(11));
+                scaleNotes.add(this.semitoneUp(12));
+                for (Note note : scaleNotes) {
+                    if (note == null) {
+                        return null;
+                    }
                 }
+            } else {
+                throw new IllegalArgumentException("Invalid scale type: '" + type + "'.");
             }
         } else {
-            throw new IllegalArgumentException("Invalid scale type: '" + type + "'.");
+            if (type.toLowerCase().equals("major")) {
+                scaleNotes.add(this);
+                scaleNotes.add(this.semitoneDown(1));
+                scaleNotes.add(this.semitoneDown(3));
+                scaleNotes.add(this.semitoneDown(5));
+                scaleNotes.add(this.semitoneDown(7));
+                scaleNotes.add(this.semitoneDown(8));
+                scaleNotes.add(this.semitoneDown(10));
+                scaleNotes.add(this.semitoneDown(12));
+                for (Note note : scaleNotes) {
+                    if (note == null) {
+                        return null;
+                    }
+                }
+            } else {
+                throw new IllegalArgumentException("Invalid scale type: '" + type + "'.");
+            }
         }
         return scaleNotes;
     }

@@ -51,6 +51,11 @@ public class Scale implements Command {
      */
     private String direction;
 
+    /**
+     * The number of octaves to be played.
+     */
+    private int octaves;
+
 
     /**
      * This constructor does not specify a direction so it defaults to 'up'.
@@ -65,6 +70,7 @@ public class Scale implements Command {
         this.outputType = outputType;
         currentLetter = Character.toUpperCase(startNote.charAt(0));
         direction = "up";
+        octaves = 1;
 
     }
 
@@ -81,6 +87,24 @@ public class Scale implements Command {
         this.outputType = outputType;
         currentLetter = Character.toUpperCase(startNote.charAt(0));
         this.direction = direction;
+        octaves = 1;
+    }
+
+    /**
+     * A constructor that takes in the number of octaves to play.
+     * @param a The start note.
+     * @param b The scale type.
+     * @param outputType The way the scale is outputted.
+     * @param direction The direction to play the scale.
+     * @param octaves The number of octaves of the scale to play.
+     */
+    public Scale(String a, String b, String outputType, String direction, int octaves) {
+        this.startNote = a;
+        this.type = b;
+        this.outputType = outputType;
+        currentLetter = Character.toUpperCase(startNote.charAt(0));
+        this.direction = direction;
+        this.octaves = octaves;
     }
 
     /**
@@ -121,33 +145,40 @@ public class Scale implements Command {
                     this.note = Note.lookup(OctaveUtil.addDefaultOctave(startNote));
                 }
                 try {
-                    if (this.outputType.equals("note")) {
-                        env.getTranscriptManager().setResult(scaleToString(note.getScale(type), true));
-                    } else if (this.outputType.equals("midi")) {
-                        env.getTranscriptManager().setResult(scaleToMidi(note.getScale(type)));
-                    } else { // Play scale.
-                        ArrayList<Note> notesToPlay = note.getScale(type);
-                        if (direction.equals("updown")) {
-                            ArrayList<Note> notes = new ArrayList<Note>(notesToPlay);
-                            Collections.reverse(notes);
-                            notesToPlay.addAll(notes);
-                            env.getPlayer().playNotes(notesToPlay);
-                            env.getTranscriptManager().setResult(scaleToStringUpDown(notesToPlay));
-                        } else if (direction.equals("down")) {
-                            Collections.reverse(notesToPlay);
-                            env.getPlayer().playNotes(notesToPlay);
-                            env.getTranscriptManager().setResult(scaleToString(notesToPlay, false));
-                        } else if (direction.equals("up")) {
-                            env.getPlayer().playNotes(notesToPlay);
-                            env.getTranscriptManager().setResult(scaleToString(notesToPlay, true));
-                        } else {
-                            env.error("'" + direction + "' is not a valid scale direction. Try 'up', 'updown' or 'down'.");
+                    ArrayList<Note> scale = note.getScale(type, true);
+                    if (direction.equals("down")) {
+                        scale = note.getScale(type, false);
+                    }
+                    if (scale == null) {
+                        env.error("This scale goes beyond the MIDI notes available.");
+                    } else {
+                        if (this.outputType.equals("note")) {
+                            env.getTranscriptManager().setResult(scaleToString(scale, true));
+                        } else if (this.outputType.equals("midi")) {
+                            env.getTranscriptManager().setResult(scaleToMidi(scale));
+                        } else { // Play scale.
+                            if (direction.equals("updown")) {
+                                ArrayList<Note> notes = new ArrayList<Note>(scale);
+                                Collections.reverse(notes);
+                                scale.addAll(notes);
+                                env.getPlayer().playNotes(scale);
+                                env.getTranscriptManager().setResult(scaleToStringUpDown(scale));
+                            } else if (direction.equals("down")) {
+                                env.getPlayer().playNotes(scale);
+                                env.getTranscriptManager().setResult(scaleToString(scale, false));
+                            } else if (direction.equals("up")) {
+                                env.getPlayer().playNotes(scale);
+                                env.getTranscriptManager().setResult(scaleToString(scale, true));
+                            } else {
+                                env.error("'" + direction + "' is not a valid scale direction. Try 'up', 'updown' or 'down'.");
+                            }
                         }
                     }
                 } catch (IllegalArgumentException i) {
                     env.error(i.getMessage());
                 }
             } catch (Exception e) {
+                e.printStackTrace();
                 env.error("Note is not contained in the MIDI library.");
             }
         }

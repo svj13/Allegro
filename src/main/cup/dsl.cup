@@ -29,7 +29,7 @@ parser code {:
 /* Terminal tokens returns by the lexer */
 terminal COMMAND_HELP, COMMAND_NOTE, COMMAND_MIDI, COMMAND_VERSION, COMMAND_SEMITONE_UP, COMMAND_SEMITONE_DOWN, COMMAND_SCALE, COMMAND_TEMPO, COMMAND_LIST_SCALE, COMMAND_SHARP_NAME, COMMAND_FLAT_NAME, COMMAND_SIMPLE_ENHARMONIC, COMMAND_SET_TEMPO, COMMAND_CROTCHET_DURATION, COMMAND_PLAY_NOTE, COMMAND_FORCE_SET_TEMPO, COMMAND_PLAY_SCALE, COMMAND_MUSICAL_TERM, COMMAND_ADD_MUSICAL_TERM;
 terminal Integer NUMBER;
-terminal String     STRING, ATOM, NOTE, SCALE_TYPE;
+terminal String STRING, ATOM, NOTE, SCALE_TYPE;
 
 /* Non terminals */
 non terminal Command command;
@@ -38,26 +38,29 @@ non terminal Note note;
 non terminal ArrayList<Note> scale;
 non terminal ArrayList<String> musicalTerm;
 
-command ::= COMMAND_HELP                        {: RESULT = new Help(); :}
-          | COMMAND_NOTE ATOM:n                 {: RESULT = new NoteCommand(n); :}
-          | COMMAND_MIDI ATOM:s                 {: RESULT = new Midi(s); :}
-          | COMMAND_VERSION                     {: RESULT = new Version(); :}
-          | COMMAND_SEMITONE_UP ATOM:s          {: RESULT = new Semitone(s, true); :}
-          | COMMAND_SEMITONE_DOWN ATOM:s        {: RESULT = new Semitone(s, false); :}
-          | COMMAND_TEMPO                       {: RESULT = new Tempo(); :}
-          | COMMAND_SCALE ATOM:a ATOM:b         {: RESULT = new Scale(a, b, "note"); :}
-          | COMMAND_LIST_SCALE ATOM:a ATOM:b    {: RESULT = new Scale(a, b, "midi"); :}
-          | COMMAND_FLAT_NAME ATOM:s            {: RESULT = new Enharmonic(s, 0); :}
-          | COMMAND_SHARP_NAME ATOM:s           {: RESULT = new Enharmonic(s, 1); :}
-          | COMMAND_SIMPLE_ENHARMONIC ATOM:s    {: RESULT = new Enharmonic(s, 2); :}
-          | COMMAND_SET_TEMPO ATOM:s            {: RESULT = new Tempo(s, false); :}
-          | COMMAND_FORCE_SET_TEMPO ATOM:s      {: RESULT = new Tempo(s, true); :}
-          | COMMAND_CROTCHET_DURATION           {: RESULT = new CrotchetDuration(); :}
-          | COMMAND_PLAY_NOTE  ATOM:s           {: RESULT = new PlayNote(s); :}
-          | COMMAND_MUSICAL_TERM musicalTerm:s           {:RESULT = new MusicalTerm(s, false); :}
-          | COMMAND_PLAY_SCALE ATOM:a ATOM:b    {: RESULT = new Scale(a, b, "play"); :}
-          | COMMAND_ADD_MUSICAL_TERM musicalTerm:s {:RESULT = new MusicalTerm(s, true); :}
-          | COMMAND_PLAY_SCALE ATOM:a ATOM:b ATOM:c   {: RESULT = new Scale(a, b, "play", c); :}
+command ::= COMMAND_HELP                                {: RESULT = new Help(); :}
+          | COMMAND_NOTE ATOM:n                         {: RESULT = new NoteCommand(n); :}
+          | COMMAND_MIDI ATOM:s                         {: RESULT = new Midi(s); :}
+          | COMMAND_VERSION                             {: RESULT = new Version(); :}
+          | COMMAND_SEMITONE_UP ATOM:s                  {: RESULT = new Semitone(s, true); :}
+          | COMMAND_SEMITONE_DOWN ATOM:s                {: RESULT = new Semitone(s, false); :}
+          | COMMAND_TEMPO                               {: RESULT = new Tempo(); :}
+          | COMMAND_SCALE ATOM:a ATOM:b                 {: RESULT = new Scale(a, b, "note"); :}
+          | COMMAND_LIST_SCALE ATOM:a ATOM:b            {: RESULT = new Scale(a, b, "midi"); :}
+          | COMMAND_FLAT_NAME ATOM:s                    {: RESULT = new Enharmonic(s, 0); :}
+          | COMMAND_SHARP_NAME ATOM:s                   {: RESULT = new Enharmonic(s, 1); :}
+          | COMMAND_SIMPLE_ENHARMONIC ATOM:s            {: RESULT = new Enharmonic(s, 2); :}
+          | COMMAND_SET_TEMPO ATOM:s                    {: RESULT = new Tempo(s, false); :}
+          | COMMAND_FORCE_SET_TEMPO ATOM:s              {: RESULT = new Tempo(s, true); :}
+          | COMMAND_CROTCHET_DURATION                   {: RESULT = new CrotchetDuration(); :}
+          | COMMAND_PLAY_NOTE  ATOM:s                   {: RESULT = new PlayNote(s); :}
+          | COMMAND_MUSICAL_TERM musicalTerm:s          {:RESULT = new MusicalTerm(s, false); :}
+          | COMMAND_PLAY_SCALE ATOM:a ATOM:b            {: RESULT = new Scale(a, b, "play"); :}
+          | COMMAND_ADD_MUSICAL_TERM musicalTerm:s      {:RESULT = new MusicalTerm(s, true); :}
+          | COMMAND_PLAY_SCALE ATOM:a ATOM:b ATOM:c     {: RESULT = new Scale(a, b, "play", c); :}
+          | COMMAND_PLAY_SCALE ATOM:a ATOM:b ATOM:c NUMBER:d
+                                                        {: RESULT = new Scale(a, b, "play", c, d); :}
+          | COMMAND_PLAY_SCALE ATOM:a ATOM:b NUMBER:d   {: RESULT = new Scale(a, b, "play", "up", d); :}
 
 ;
 
@@ -68,7 +71,7 @@ arg_list ::= arg_list:list NUMBER:n {: list.add(n); RESULT = list; :}
 note ::= NOTE:s             {:RESULT = Note.lookup(OctaveUtil.addDefaultOctave(s));:}
 ;
 
-scale ::= NOTE:s SCALE_TYPE:r       {:RESULT = Note.lookup(s).getScale(r);:}
+scale ::= NOTE:s SCALE_TYPE:r       {:RESULT = Note.lookup(s).getScale(r, true);:}
 ;
 
 musicalTerm ::= musicalTerm:list ATOM:n {: list.add(n); RESULT = list; :}
