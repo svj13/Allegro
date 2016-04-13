@@ -98,6 +98,9 @@ public class PitchComparisonTutorController {
      */
     @FXML
     private void goAction() {
+//        manager.questions = 0;
+        manager.answered = 0;
+
         if (lowerSet && upperSet) {
             questionRows.getChildren().clear();
             manager.questions = Integer.parseInt(txtNotePairs.getText());
@@ -322,7 +325,6 @@ public class PitchComparisonTutorController {
         }
 
 
-
     }
 
     /**
@@ -431,13 +433,12 @@ public class PitchComparisonTutorController {
      * @return
      */
     private boolean noteComparison(boolean isHigher, Note note1, Note note2) {
-
         if (isHigher) {
-            if (note1.getMidi() > note2.getMidi()) return false;
-            else return true;
+            if (note1.getMidi() < note2.getMidi()) return true;
+            else return false;
         } else {
-            if (note1.getMidi() < note2.getMidi()) return false;
-            else return true;
+            if (note1.getMidi() > note2.getMidi()) return true;
+            else return false;
         }
     }
 
@@ -450,20 +451,21 @@ public class PitchComparisonTutorController {
         alert.setHeaderText("Finished");
         int cor = manager.correct;
         int ques = manager.questions;
-        String percentage = toString().format("%d", cor*100/ques);
 
 
         ButtonType retestBtn = new ButtonType("Retest");
         ButtonType clearBtn  = new ButtonType("Clear");
-        if(manager.getTempIncorrectResponses().size() > 0){
-            alert.setContentText("You got " + (cor) + " out of " + ques + ", " + percentage + "%.\nWell done :)");
+        if (manager.questions == 0){
+          alert.setContentText("It appears you skipped every question. Would you like to reattempt?");
+          alert.getButtonTypes().setAll(retestBtn, clearBtn);
+        } else if(manager.getTempIncorrectResponses().size() > 0){
+            alert.setContentText("You got " + (cor) + " out of " + ques + ", " + cor*100/ques +
+                    "%.\nWell done :)");
             alert.getButtonTypes().setAll(retestBtn, clearBtn);
         }
-        else{
-
-
+        else {
             alert.setContentText("Congratulations!\nYou got " + (cor) + " out of " + ques
-                    + ", " + percentage + "%.");
+                    + ", " + cor*100/ques + "%.");
             alert.getButtonTypes().setAll(clearBtn);
 
         }
@@ -474,7 +476,6 @@ public class PitchComparisonTutorController {
 
         Optional<ButtonType> result = alert.showAndWait();
         if(manager.getTempIncorrectResponses().size() > 0){
-
 
             if (result.get() == clearBtn) {
                 questionRows.getChildren().clear();
@@ -489,7 +490,6 @@ public class PitchComparisonTutorController {
             if (result.get() == clearBtn) {
                 questionRows.getChildren().clear();
                 manager.saveTempIncorrect();
-
             }
         }
 
