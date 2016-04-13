@@ -56,6 +56,7 @@ command ::= COMMAND_HELP                        {: RESULT = new Help(); :}
           | COMMAND_PLAY_NOTE  ATOM:s           {: RESULT = new PlayNote(s); :}
           | COMMAND_MUSICAL_TERM musicalTerm:s           {:RESULT = new MusicalTerm(s); :}
           | COMMAND_PLAY_SCALE ATOM:a ATOM:b    {: RESULT = new Scale(a, b, "play"); :}
+          | COMMAND_PLAY_SCALE ATOM:a ATOM:b ATOM:c   {: RESULT = new Scale(a, b, "play", c); :}
 
 ;
 

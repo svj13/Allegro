@@ -2,6 +2,7 @@ package seng302.command;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import seng302.Environment;
 import seng302.data.Note;
@@ -87,12 +88,19 @@ public class Scale implements Command {
      * the next letter will be A. This method is used to ensure one of each letter name
      * is in each scale.
      */
-    private void updateLetter() {
+    private void updateLetter(boolean switchBack) {
         int index = "ABCDEFG".indexOf(currentLetter);
-        if (index + 1 > 6) {
-            index = -1;
+        if (switchBack) {
+            if (index - 1 < 0) {
+                index = 7;
+            }
+            currentLetter = "ABCDEFG".charAt(index - 1);
+        } else {
+            if (index + 1 > 6) {
+                index = -1;
+            }
+            currentLetter = "ABCDEFG".charAt(index + 1);
         }
-        currentLetter = "ABCDEFG".charAt(index + 1);
     }
 
     /**
@@ -114,17 +122,33 @@ public class Scale implements Command {
                 }
                 try {
                     if (this.outputType.equals("note")) {
-                        env.getTranscriptManager().setResult(scaleToString(note.getScale(type)));
+                        env.getTranscriptManager().setResult(scaleToString(note.getScale(type), true));
                     } else if (this.outputType.equals("midi")) {
                         env.getTranscriptManager().setResult(scaleToMidi(note.getScale(type)));
                     } else { // Play scale.
                         ArrayList<Note> notesToPlay = note.getScale(type);
-                        env.getPlayer().playNotes(notesToPlay);
+                        if (direction.equals("updown")) {
+                            ArrayList<Note> notes = new ArrayList<Note>(notesToPlay);
+                            Collections.reverse(notes);
+                            notesToPlay.addAll(notes);
+                            env.getPlayer().playNotes(notesToPlay);
+                            env.getTranscriptManager().setResult(scaleToStringUpDown(notesToPlay));
+                        } else if (direction.equals("down")) {
+                            Collections.reverse(notesToPlay);
+                            env.getPlayer().playNotes(notesToPlay);
+                            env.getTranscriptManager().setResult(scaleToString(notesToPlay, false));
+                        } else if (direction.equals("up")) {
+                            env.getPlayer().playNotes(notesToPlay);
+                            env.getTranscriptManager().setResult(scaleToString(notesToPlay, true));
+                        } else {
+                            env.error("'" + direction + "' is not a valid scale direction. Try 'up', 'updown' or 'down'.");
+                        }
                     }
                 } catch (IllegalArgumentException i) {
                     env.error(i.getMessage());
                 }
             } catch (Exception e) {
+                e.printStackTrace();
                 env.error("Note is not contained in the MIDI library.");
             }
         }
@@ -135,18 +159,32 @@ public class Scale implements Command {
      * @param scaleNotes The notes to display.
      * @return The note names as a String.
      */
-    private String scaleToString(ArrayList<Note> scaleNotes) {
+    private String scaleToString(ArrayList<Note> scaleNotes, boolean up) {
         String notesAsText = "";
         for (Note note : scaleNotes) {
+            System.out.println(currentLetter);
+            System.out.println(note.getNote());
             String currentNote = note.getEnharmonicWithLetter(currentLetter);
             if (octaveSpecified) {
                 notesAsText += currentNote + " ";
             } else {
                 notesAsText += OctaveUtil.removeOctaveSpecifier(currentNote) + " ";
             }
-            updateLetter();
+            if (up) {
+                updateLetter(false);
+            } else {
+                updateLetter(true);
+            }
         }
+
         return notesAsText.trim();
+    }
+
+    private String scaleToStringUpDown(ArrayList<Note> scaleNotes) {
+        String up = scaleToString(new ArrayList<Note>(scaleNotes.subList(0, 8)), true);
+        updateLetter(true);
+        String down = scaleToString(new ArrayList<Note>(scaleNotes.subList(8, 16)), false);
+        return up + " " + down;
     }
 
     /**
