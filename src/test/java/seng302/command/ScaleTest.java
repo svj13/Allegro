@@ -190,6 +190,34 @@ public class ScaleTest {
         verify(transcriptManager).setResult("[ERROR] This scale goes beyond the MIDI notes available.");
     }
 
+    @Test
+    public void testPlayThreeOctavesUp() {
+        new Scale("F3", "major", "play", "up", 3).execute(env);
+        verify(transcriptManager).setResult("F3 G3 A3 Bb3 C4 D4 E4 F4 G4 A4 Bb4 C5 D5 E5 F5 G5 A5 Bb5 C6 D6 E6 F6");
+        ArrayList<Note> scale = Note.lookup("F3").getOctaveScale("major", 3, true);
+        verify(player).playNotes(scale);
+    }
+
+    @Test
+    public void testPlayFourOctavesDown() {
+        new Scale("G6", "major", "play", "down", 4).execute(env);
+        verify(transcriptManager).setResult("G6 F#6 E6 D6 C6 B5 A5 G5 F#5 E5 D5 C5 B4 A4 G4 F#4 E4 D4 C4 B3 A3 G3 F#3 E3 D3 C3 B2 A2 G2");
+        ArrayList<Note> scale = Note.lookup("G6").getOctaveScale("major", 4, false);
+        verify(player).playNotes(scale);
+    }
+
+    @Test
+    public void testPlayTwoOctavesUpDown() {
+        new Scale("D", "major", "play", "updown", 2).execute(env);
+        verify(transcriptManager).setResult("D E F# G A B C# D E F# G A B C# D D C# B A G F# E D C# B A G F# E D");
+        ArrayList<Note> scale = Note.lookup("D4").getOctaveScale("major", 2, true);
+        ArrayList<Note> notes = new ArrayList<Note>(scale);
+        Collections.reverse(notes);
+        scale.addAll(notes);
+        verify(player).playNotes(scale);
+
+    }
+
 
 
 
