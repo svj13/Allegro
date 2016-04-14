@@ -98,13 +98,13 @@ public class Scale implements Command {
      * @param direction The direction to play the scale.
      * @param octaves The number of octaves of the scale to play.
      */
-    public Scale(String a, String b, String outputType, String direction, int octaves) {
+    public Scale(String a, String b, String outputType, String direction, String octaves) {
         this.startNote = a;
         this.type = b;
         this.outputType = outputType;
         currentLetter = Character.toUpperCase(startNote.charAt(0));
         this.direction = direction;
-        this.octaves = octaves;
+        this.octaves = Integer.parseInt(octaves);
     }
 
     /**
