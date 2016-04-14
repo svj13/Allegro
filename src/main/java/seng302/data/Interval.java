@@ -59,7 +59,7 @@ public class Interval {
         return this.semitones;
     }
 
-    public Interval lookupByName(String name) {
+    public static Interval lookupByName(String name) {
         for (Interval interval:intervals) {
             if (interval.getName().equals(name)) {
                 return interval;
@@ -68,7 +68,7 @@ public class Interval {
         return null;
     }
 
-    public Interval lookupBySemitones(int semitones) {
+    public static Interval lookupBySemitones(int semitones) {
         for (Interval interval:intervals) {
             if (interval.getSemitones() == semitones) {
                 return interval;
