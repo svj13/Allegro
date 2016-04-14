@@ -26,6 +26,11 @@ public class PlayNote implements Command {
         this.note = Note.lookup(Integer.toString(note));
     }
 
+    public PlayNote(int note, int duration) {
+        this.note = Note.lookup(Integer.toString(note));
+        this.duration = duration;
+    }
+
     public PlayNote(String note, int duration) {
         this.note = Note.lookup(OctaveUtil.addDefaultOctave(note));
         this.duration = duration;
