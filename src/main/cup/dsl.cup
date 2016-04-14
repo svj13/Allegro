@@ -54,6 +54,7 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_FORCE_SET_TEMPO ATOM:s              {: RESULT = new Tempo(s, true); :}
           | COMMAND_CROTCHET_DURATION                   {: RESULT = new CrotchetDuration(); :}
           | COMMAND_PLAY_NOTE  ATOM:s                   {: RESULT = new PlayNote(s); :}
+          | COMMAND_PLAY_NOTE  NUMBER:n                 {: RESULT = new PlayNote(n); :}
           | COMMAND_PLAY_NOTE  ATOM:s NUMBER:n          {: RESULT = new PlayNote(s, n); :}
           | COMMAND_MUSICAL_TERM musicalTerm:s          {:RESULT = new MusicalTerm(s, false); :}
           | COMMAND_PLAY_SCALE ATOM:a ATOM:b            {: RESULT = new Scale(a, b, "play"); :}
