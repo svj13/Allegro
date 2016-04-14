@@ -15,12 +15,13 @@ package seng302.command;
 import java.util.ArrayList;
 
 import seng302.Environment;
+import seng302.data.Interval;
 import seng302.data.Note;
 import seng302.utility.Checker;
 import seng302.utility.OctaveUtil;
 
 
-public class Interval implements Command {
+public class IntervalCommand implements Command {
     String search;
     String type;
     String outputType;
