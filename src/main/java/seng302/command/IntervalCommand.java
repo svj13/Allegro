@@ -29,6 +29,10 @@ public class IntervalCommand implements Command {
     private Note note;
     private char[] letters;
 
+    public IntervalCommand(String intervalName) {
+        search = intervalName;
+    }
+
     public void execute(Environment env) {
         //This section of code gets the number of semitones in a given interval
         try {
