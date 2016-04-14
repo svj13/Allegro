@@ -30,8 +30,12 @@ public class IntervalCommand implements Command {
     private char[] letters;
 
     public void execute(Environment env) {
-        //This line of code gets the number of semitones in a given interval
-        int semitones = Interval.lookupByName(search).getSemitones();
+        //This section of code gets the number of semitones in a given interval
+        try {
+            int semitones = Interval.lookupByName(search).getSemitones();
+        } catch (Exception e) {
+            env.error("Unknown interval");
+        }
 
     }
 }
