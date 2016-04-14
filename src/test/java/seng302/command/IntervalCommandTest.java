@@ -27,7 +27,7 @@ public class IntervalCommandTest {
     @Test
     public void setsCorrectSemitoneResult() {
         new IntervalCommand("perfect octave").execute(env);
-        verify(transcriptManager).setResult("8");
+        verify(transcriptManager).setResult("12");
     }
 
     @Test
