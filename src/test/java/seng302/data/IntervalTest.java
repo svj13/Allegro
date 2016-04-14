@@ -40,6 +40,20 @@ public class IntervalTest {
         assertEquals("perfect octave", Interval.lookupBySemitones(12).getName());
     }
 
+    @Test
+    public void testLookupInvalidSemitones() throws Exception {
+        assertEquals(null, Interval.lookupBySemitones(-1));
+        assertEquals(null, Interval.lookupBySemitones(1));
+        assertEquals(null, Interval.lookupBySemitones(100));
+    }
+
+    @Test
+    public void testLookupInvalidNames() throws Exception {
+        assertEquals(null, Interval.lookupByName("octave"));
+        assertEquals(null, Interval.lookupByName("perfect second"));
+        assertEquals(null, Interval.lookupByName("test"));
+    }
+
 
 
 
