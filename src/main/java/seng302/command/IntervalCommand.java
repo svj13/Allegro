@@ -78,35 +78,51 @@ public class IntervalCommand implements Command {
     }
 
     /**
-     * The logic for the interval command/s.
+     * Gets the corresponding note when given a starting note and an interval.
+     * @param env
+     */
+    private void getCorrespondingNote(Environment env) {
+        try {
+            setNoteInformation();
+            try {
+                int numSemitones = Interval.lookupByName(intervalName).getSemitones();
+                try {
+                    correspondingNote = note.semitoneUp(numSemitones).getNote();
+                    setNoteOutput(env);
+                } catch (Exception e) {
+                    env.error("Invalid combination of tonic and interval.");
+                }
+            } catch (Exception e) {
+                env.error("Unknown interval: " + intervalName);
+            }
+        } catch (Exception e) {
+            env.error("\'" + tonic + "\'" + " is not a valid note.");
+        }
+    }
+
+    /**
+     * Gets the number of semitones represented by an interval.
+     * @param env
+     */
+    private void getSemitones(Environment env) {
+        //This section of code gets the number of semitones in a given interval
+        try {
+            String semitones = Integer.toString(Interval.lookupByName(intervalName).getSemitones());
+            env.getTranscriptManager().setResult(semitones);
+        } catch (Exception e) {
+            env.error("Unknown interval: " + intervalName);
+        }
+    }
+
+    /**
+     * The execute function decides which function to run.
      * @param env
      */
     public void execute(Environment env) {
         if (outputType.equals("semitones")) {
-            //This section of code gets the number of semitones in a given interval
-            try {
-                env.getTranscriptManager().setResult((Integer.toString(Interval.lookupByName(intervalName).getSemitones())));
-            } catch (Exception e) {
-                env.error("Unknown interval: " + intervalName);
-            }
+            getSemitones(env);
         } else if (outputType.equals("note")) {
-            //This section of code gets the corresponding note given a tonic and interval
-            try {
-                setNoteInformation();
-                try {
-                    int numSemitones = Interval.lookupByName(intervalName).getSemitones();
-                    try {
-                        correspondingNote = note.semitoneUp(numSemitones).getNote();
-                        setNoteOutput(env);
-                    } catch (Exception e) {
-                        env.error("Invalid combination of tonic and interval.");
-                    }
-                } catch (Exception e) {
-                    env.error("Unknown interval: " + intervalName);
-                }
-            } catch (Exception e) {
-                env.error("\'" + tonic + "\'" + " is not a valid note.");
-            }
+            getCorrespondingNote(env);
         }
 
     }
