@@ -14,12 +14,14 @@ package seng302.command;
 import seng302.Environment;
 import seng302.data.Interval;
 import seng302.data.Note;
+import seng302.utility.OctaveUtil;
 
 
 public class IntervalCommand implements Command {
     String intervalName;
     String tonic;
     String outputType;
+    String correspondingNote;
     private boolean octaveSpecified;
     private Note note;
 
@@ -34,6 +36,17 @@ public class IntervalCommand implements Command {
         this.outputType = "note";
     }
 
+    private void setNoteInformation() throws Exception {
+        // First checks that the tonic is a valid note
+        note = Note.lookup(OctaveUtil.addDefaultOctave(tonic));
+        if (note == null) {
+            throw new Exception();
+        }
+    }
+
+    private void setNoteOutput(Environment env) throws Exception {
+        env.getTranscriptManager().setResult(correspondingNote);
+    }
 
     public void execute(Environment env) {
         if (outputType.equals("semitones")) {
@@ -44,14 +57,23 @@ public class IntervalCommand implements Command {
                 env.error("Unknown interval: " + intervalName);
             }
         } else if (outputType.equals("note")) {
-            //First, search for the note
-            note = Note.lookup(tonic);
-
-            //Second, get the number of semitones
-            int numSemitones = Interval.lookupByName(intervalName).getSemitones();
-
-            note = note.semitoneUp(numSemitones);
-            env.getTranscriptManager().setResult(note.getNote());
+            //This section of code gets the corresponding note given a tonic and interval
+            try {
+                setNoteInformation();
+                try {
+                    int numSemitones = Interval.lookupByName(intervalName).getSemitones();
+                    try {
+                        correspondingNote = note.semitoneUp(numSemitones).getNote();
+                        setNoteOutput(env);
+                    } catch (Exception e) {
+                        env.error("Invalid combination of tonic and interval.");
+                    }
+                } catch (Exception e) {
+                    env.error("Unknown interval: " + intervalName);
+                }
+            } catch (Exception e) {
+                env.error("\'" + tonic + "\'" + " is not a valid note.");
+            }
         }
 
     }
