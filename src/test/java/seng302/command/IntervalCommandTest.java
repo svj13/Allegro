@@ -40,6 +40,9 @@ public class IntervalCommandTest {
     public void setsCorrectNoteResult() {
         new IntervalCommand("perfect fourth", "G").execute(env);
         verify(transcriptManager).setResult("C");
+
+        new IntervalCommand("major seventh", "G4").execute(env);
+        verify(transcriptManager).setResult("F#5");
     }
 
     @Test
