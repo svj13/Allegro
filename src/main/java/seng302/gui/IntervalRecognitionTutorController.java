@@ -43,12 +43,12 @@ public class IntervalRecognitionTutorController {
 
     Environment env;
 
+    TutorManager manager;
+
     public void create(Environment env) {
         this.env = env;
         manager = env.getIrtManager();
     }
-
-    TutorManager manager;
 
     @FXML
     void goAction(ActionEvent event) {
@@ -83,14 +83,21 @@ public class IntervalRecognitionTutorController {
         return options;
     }
 
+    /**
+     * A function for disabling the buttons in an HBox
+     * @param questionRow the HBox containing children to be disabled
+     */
     private void disableButtons(HBox questionRow) {
         for (int i = 0; i < questionRow.getChildren().size(); i++) {
             questionRow.getChildren().get(i).setDisable(true);
         }
     }
 
+    /**
+     * This function generates information for a new question, and displays it in the GUI
+     * @return an HBox object containing the GUI for one question
+     */
     private HBox setUpQuestion() {
-        // Key is the interval, value is the note
         Interval thisInterval = generateInterval();
         Note firstNote = getStartingNote(thisInterval.getSemitones());
         Pair<Interval, Note> pair = new Pair<Interval, Note>(thisInterval, firstNote);
@@ -203,6 +210,12 @@ public class IntervalRecognitionTutorController {
         return Interval.intervals[rand.nextInt(8)];
     }
 
+    /**
+     * Calculates a user's score after a tutoring session
+     * @param correct The number of questions the user answered correctly
+     * @param answered The number of questions the user answered, correctly or incorrectly
+     * @return the user's score as a percentage value
+     */
     private float getScore(int correct, int answered) {
         float score = 0;
         if (answered > 0) {
@@ -212,6 +225,9 @@ public class IntervalRecognitionTutorController {
 
     }
 
+    /**
+     * This function is run once a tutoring session has been completed.
+     */
     private void finished() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Finished");
@@ -244,6 +260,10 @@ public class IntervalRecognitionTutorController {
         manager.correct = 0;
     }
 
+    /**
+     * If the user chooses to re-test their self on their failed questions, this function
+     * sets up the tutoring environment for that.
+     */
     private void retest() {
         ArrayList<Pair> tempIncorrectResponses = new ArrayList<Pair>(manager.getTempIncorrectResponses());
         manager.clearTempIncorrect();
@@ -255,6 +275,5 @@ public class IntervalRecognitionTutorController {
         }
 
     }
-
 
 }
