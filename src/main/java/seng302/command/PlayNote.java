@@ -17,28 +17,26 @@ public class PlayNote implements Command {
 
     private Note note;
     private Integer duration;
+    private String error = "";
 
     public PlayNote(String note) {
         this.note = Note.lookup(OctaveUtil.addDefaultOctave(note));
     }
 
-    public PlayNote(int note) {
-        this.note = Note.lookup(Integer.toString(note));
-    }
-
-    public PlayNote(int note, int duration) {
-        this.note = Note.lookup(Integer.toString(note));
-        this.duration = duration;
-    }
-
-    public PlayNote(String note, int duration) {
+    public PlayNote(String note, String duration) {
         this.note = Note.lookup(OctaveUtil.addDefaultOctave(note));
-        this.duration = duration;
+        try {
+            this.duration = Integer.parseInt(duration);
+        } catch (Exception e) {
+            error = "Invalid duration: " + duration;
+        }
     }
 
 
     public void execute(Environment env) {
-        if (this.duration == null) {
+        if (!error.equals("")) {
+            env.error(error);
+        } else if (this.duration == null) {
             env.getPlayer().playNote(note);
         } else {
             env.getPlayer().playNote(note, duration);
