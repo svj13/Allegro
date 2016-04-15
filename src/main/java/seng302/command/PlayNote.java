@@ -26,7 +26,12 @@ public class PlayNote implements Command {
     public PlayNote(String note, String duration) {
         this.note = Note.lookup(OctaveUtil.addDefaultOctave(note));
         try {
-            this.duration = Integer.parseInt(duration);
+            int tempDuration = Integer.parseInt(duration);
+            if (tempDuration <= 0) {
+                error = "Invalid duration: " + duration + " milliseconds";
+            } else {
+                this.duration = tempDuration;
+            }
         } catch (Exception e) {
             error = "Invalid duration: " + duration;
         }
