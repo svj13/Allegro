@@ -36,13 +36,14 @@ non terminal Command command;
 non terminal List<Integer> arg_list;
 non terminal Note note;
 non terminal ArrayList<Note> scale;
+non terminal ArrayList<String> interval;
 non terminal ArrayList<String> musicalTerm;
 
 command ::= COMMAND_HELP                                {: RESULT = new Help(); :}
           | COMMAND_NOTE ATOM:n                         {: RESULT = new NoteCommand(n); :}
           | COMMAND_MIDI ATOM:s                         {: RESULT = new Midi(s); :}
           | COMMAND_VERSION                             {: RESULT = new Version(); :}
-          | COMMAND_INTERVAL_NUM_SEMITONES ATOM:s       {: RESULT = new IntervalCommand(s); :}
+          | COMMAND_INTERVAL_NUM_SEMITONES interval:i   {: RESULT = new IntervalCommand(i); :}
           | COMMAND_SEMITONE_UP ATOM:s                  {: RESULT = new Semitone(s, true); :}
           | COMMAND_SEMITONE_DOWN ATOM:s                {: RESULT = new Semitone(s, false); :}
           | COMMAND_TEMPO                               {: RESULT = new Tempo(); :}
@@ -74,6 +75,10 @@ note ::= NOTE:s             {:RESULT = Note.lookup(OctaveUtil.addDefaultOctave(s
 ;
 
 scale ::= NOTE:s SCALE_TYPE:r       {:RESULT = Note.lookup(s).getScale(r, true);:}
+;
+
+interval ::= interval:list ATOM:s {: list.add(s); RESULT = list; :}
+           | ATOM:s {: RESULT = new ArrayList<String>(); RESULT.add(s); :}
 ;
 
 musicalTerm ::= musicalTerm:list ATOM:n {: list.add(n); RESULT = list; :}
