@@ -25,17 +25,31 @@ public class IntervalCommand implements Command {
     private boolean octaveSpecified;
     private Note note;
 
+    /**
+     * Constructs a command of the type lookup number of semitones
+     * @param intervalName the name of the desired interval
+     */
     public IntervalCommand(String intervalName) {
         this.intervalName = intervalName;
         this.outputType = "semitones";
     }
 
+    /**
+     * Constructs a command of the type fetch note given tonic and interval
+     * @param intervalName the provided interval
+     * @param tonic the starting note
+     */
     public IntervalCommand(String intervalName, String tonic) {
         this.intervalName = intervalName;
         this.tonic = tonic;
         this.outputType = "note";
     }
 
+    /**
+     * This function checks that the given tonic is valid, and checks whether
+     * or not it has a specified octave.
+     * @throws Exception if the note is invalid
+     */
     private void setNoteInformation() throws Exception {
         // First checks that the tonic is a valid note
         note = Note.lookup(OctaveUtil.addDefaultOctave(tonic));
@@ -51,6 +65,11 @@ public class IntervalCommand implements Command {
         }
     }
 
+    /**
+     * This function shows output. Called when the user is requesting the corresponding note.
+     * @param env the display environment
+     * @throws Exception if the tonic + interval is outside the accepted range
+     */
     private void setNoteOutput(Environment env) throws Exception {
         if (!octaveSpecified) {
             correspondingNote = OctaveUtil.removeOctaveSpecifier(correspondingNote);
@@ -58,6 +77,10 @@ public class IntervalCommand implements Command {
         env.getTranscriptManager().setResult(correspondingNote);
     }
 
+    /**
+     * The logic for the interval command/s.
+     * @param env
+     */
     public void execute(Environment env) {
         if (outputType.equals("semitones")) {
             //This section of code gets the number of semitones in a given interval
