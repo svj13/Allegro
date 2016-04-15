@@ -71,6 +71,7 @@ ScaleType = major
     "play scale"        {return symbol(DslSymbol.COMMAND_PLAY_SCALE); }
     "play"             { return symbol(DslSymbol.COMMAND_PLAY_NOTE);    }
     "interval semitone"  { return symbol(DslSymbol.COMMAND_INTERVAL_NUM_SEMITONES);    }
+    "interval"          {return symbol(DslSymbol.COMMAND_INTERVAL_GET_NOTE); }
 
     {Atom}             { return symbol(DslSymbol.ATOM, new String(yytext()));}
     {Number}           { return symbol(DslSymbol.NUMBER, new Integer(yytext())); }
