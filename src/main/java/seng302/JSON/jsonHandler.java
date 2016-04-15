@@ -33,6 +33,7 @@ public class jsonHandler {
 
     Environment env;
     public jsonHandler(Environment env){
+
         this.env = env;
         try {
             this.projectsInfo = (JSONObject) parser.parse(new FileReader(userDirectory+"/projects.JSON"));
