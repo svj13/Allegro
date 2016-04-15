@@ -395,6 +395,8 @@ public class PitchComparisonTutorController {
         Button playBtn = new Button();
         Image imagePlay = new Image(getClass().getResourceAsStream("/play-button.png"), 20, 20, true, true);
         playBtn.setGraphic(new ImageView(imagePlay));
+        playBtn.setStyle("-fx-base: #6EFF73;");
+
         playBtn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 Note note1 = Note.lookup(((Label) rowPane.getChildren().get(0)).getText());

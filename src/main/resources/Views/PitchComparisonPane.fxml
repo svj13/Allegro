@@ -11,16 +11,23 @@
 
 <?import org.controlsfx.control.RangeSlider?>
 
-<AnchorPane fx:id="pitchTutorAnchor" minHeight="-Infinity" minWidth="-Infinity" prefHeight="191.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.PitchComparisonTutorController">
+<AnchorPane fx:id="pitchTutorAnchor" prefHeight="191.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.PitchComparisonTutorController">
     <children>
-    <!--<Pane layoutX="-283.0" style="-fx-background-color: brown;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">-->
-    <!--<children>-->
-        <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="Pitch Comparison Tutor" textAlignment="CENTER" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
-            <font>
-                <Font size="24.0" />
-            </font>
-        </Label>
-        <HBox fx:id="settings" alignment="CENTER_LEFT" layoutY="36.0" minWidth="-Infinity" prefHeight="10.0" spacing="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="45.0">
+      <HBox prefHeight="30.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+         <children>
+          <!--<Pane layoutX="-283.0" style="-fx-background-color: brown;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">-->
+          <!--<children>-->
+              <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="Pitch Comparison Tutor" textAlignment="CENTER">
+                  <font>
+                      <Font size="24.0" />
+                  </font>
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
+              </Label>
+         </children>
+      </HBox>
+        <HBox fx:id="settings" alignment="CENTER_LEFT" layoutY="36.0" minWidth="400.0" prefHeight="10.0" spacing="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="45.0">
             <children>
             <VBox alignment="CENTER" prefHeight="49.0" prefWidth="400.0">
                <children>
@@ -32,7 +39,11 @@
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
                               <Label text="Note Range:" />
-                              <Label fx:id="notes" />
+                              <Label fx:id="notes" prefWidth="60.0">
+                           <HBox.margin>
+                              <Insets left="3.0" />
+                           </HBox.margin>
+                        </Label>
                      </children>
                      <VBox.margin>
                         <Insets top="5.0" />
@@ -59,7 +70,7 @@
                 </Button>
             </children>
         </HBox>
-        <ScrollPane fx:id="paneQuestions" fitToWidth="true" layoutY="105.0" minWidth="-Infinity" prefHeight="50.0" prefViewportHeight="50.0" prefViewportWidth="680.0" prefWidth="700.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5" AnchorPane.rightAnchor="5" AnchorPane.topAnchor="150.0">
+        <ScrollPane fx:id="paneQuestions" fitToWidth="true" layoutY="105.0" minHeight="10.0" minWidth="10.0" prefHeight="50.0" prefViewportHeight="50.0" prefViewportWidth="680.0" prefWidth="700.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5" AnchorPane.rightAnchor="5" AnchorPane.topAnchor="150.0">
             <content>
                 <VBox fx:id="questionRows" />
             </content>
