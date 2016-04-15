@@ -6,6 +6,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.ArrayList;
+
 import seng302.Environment;
 import seng302.utility.TranscriptManager;
 
@@ -17,40 +19,54 @@ public class IntervalCommandTest {
     private Environment env;
     @Mock
     private TranscriptManager transcriptManager;
+    private ArrayList<String> intervalWords;
 
     @Before
     public void setUp() throws Exception {
         env = new Environment();
         env.setTranscriptManager(transcriptManager);
+        intervalWords = new ArrayList<String>();
     }
 
     @Test
     public void setsCorrectSemitoneResult() {
-        new IntervalCommand("perfect octave").execute(env);
+        intervalWords.add("perfect");
+        intervalWords.add("octave");
+        new IntervalCommand(intervalWords).execute(env);
         verify(transcriptManager).setResult("12");
     }
 
     @Test
     public void setsCorrectErrorResult() {
-        new IntervalCommand("blah").execute(env);
+        intervalWords.add("blah");
+        new IntervalCommand(intervalWords).execute(env);
         verify(transcriptManager).setResult("[ERROR] Unknown interval: blah");
     }
 
     @Test
     public void setsCorrectNoteResult() {
-        new IntervalCommand("perfect fourth", "G").execute(env);
+        intervalWords.add("perfect");
+        intervalWords.add("fourth");
+        new IntervalCommand(intervalWords, "G").execute(env);
         verify(transcriptManager).setResult("C");
 
-        new IntervalCommand("major seventh", "G4").execute(env);
+        intervalWords.clear();
+        intervalWords.add("major");
+        intervalWords.add("seventh");
+        new IntervalCommand(intervalWords, "G4").execute(env);
         verify(transcriptManager).setResult("F#5");
     }
 
     @Test
     public void setsCorrectNoteErrors() {
-        new IntervalCommand("perfect fourth", "M").execute(env);
+        intervalWords.add("perfect");
+        intervalWords.add("fourth");
+        new IntervalCommand(intervalWords, "M").execute(env);
         verify(transcriptManager).setResult("[ERROR] 'M' is not a valid note.");
 
-        new IntervalCommand("blah", "C").execute(env);
+        intervalWords.clear();
+        intervalWords.add("blah");
+        new IntervalCommand(intervalWords, "C").execute(env);
         verify(transcriptManager).setResult("[ERROR] Unknown interval: blah");
     }
 }
