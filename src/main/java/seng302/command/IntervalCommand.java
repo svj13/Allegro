@@ -11,14 +11,9 @@ package seng302.command;
 //**********************************
 //*****************************
 
-
-import java.util.ArrayList;
-
 import seng302.Environment;
 import seng302.data.Interval;
 import seng302.data.Note;
-import seng302.utility.Checker;
-import seng302.utility.OctaveUtil;
 
 
 public class IntervalCommand implements Command {
