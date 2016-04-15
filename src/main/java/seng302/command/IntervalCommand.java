@@ -11,6 +11,8 @@ package seng302.command;
 //**********************************
 //*****************************
 
+import java.util.ArrayList;
+
 import seng302.Environment;
 import seng302.data.Interval;
 import seng302.data.Note;
@@ -25,12 +27,13 @@ public class IntervalCommand implements Command {
     private boolean octaveSpecified;
     private Note note;
 
+
     /**
      * Constructs a command of the type lookup number of semitones
-     * @param intervalName the name of the desired interval
+     * @param intervalName A list of the words in the interval name
      */
-    public IntervalCommand(String intervalName) {
-        this.intervalName = intervalName;
+    public IntervalCommand(ArrayList<String> intervalName) {
+        this.intervalName = createIntervalName(intervalName);
         this.outputType = "semitones";
     }
 
@@ -39,10 +42,18 @@ public class IntervalCommand implements Command {
      * @param intervalName the provided interval
      * @param tonic the starting note
      */
-    public IntervalCommand(String intervalName, String tonic) {
-        this.intervalName = intervalName;
+    public IntervalCommand(ArrayList<String> intervalName, String tonic) {
+        this.intervalName = createIntervalName(intervalName);
         this.tonic = tonic;
         this.outputType = "note";
+    }
+
+    private String createIntervalName(ArrayList<String> intervalWords) {
+        String interval = "";
+        for (String word:intervalWords) {
+            interval += (word + " ");
+        }
+        return interval.trim();
     }
 
     /**
