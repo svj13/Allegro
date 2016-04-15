@@ -45,7 +45,7 @@ public class IntervalCommandTest {
     @Test
     public void setsCorrectNoteErrors() {
         new IntervalCommand("perfect fourth", "M").execute(env);
-        verify(transcriptManager).setResult("[ERROR] 'M' is not a valid note");
+        verify(transcriptManager).setResult("[ERROR] 'M' is not a valid note.");
 
         new IntervalCommand("blah", "C").execute(env);
         verify(transcriptManager).setResult("[ERROR] Unknown interval: blah");
