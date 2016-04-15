@@ -8,6 +8,7 @@ import javax.sound.midi.Synthesizer;
 
 import seng302.Environment;
 import seng302.data.Note;
+import seng302.utility.Checker;
 import seng302.utility.OctaveUtil;
 
 /**
@@ -15,37 +16,39 @@ import seng302.utility.OctaveUtil;
  */
 public class PlayNote implements Command {
 
-    private Note note;
-    private Integer duration;
-    private String error = "";
+    private String note;
+    private String duration;
 
     public PlayNote(String note) {
-        this.note = Note.lookup(OctaveUtil.addDefaultOctave(note));
+        this.note = note;
     }
 
     public PlayNote(String note, String duration) {
-        this.note = Note.lookup(OctaveUtil.addDefaultOctave(note));
-        try {
-            int tempDuration = Integer.parseInt(duration);
-            if (tempDuration <= 0) {
-                error = "Invalid duration: " + duration + " milliseconds";
-            } else {
-                this.duration = tempDuration;
-            }
-        } catch (Exception e) {
-            error = "Invalid duration: " + duration;
-        }
+        this.note = note;
+        this.duration = duration;
     }
 
 
     public void execute(Environment env) {
-        if (!error.equals("")) {
-            env.error(error);
-        } else if (this.duration == null) {
-            env.getPlayer().playNote(note);
-        } else {
-            env.getPlayer().playNote(note, duration);
+        try {
+            Note playNote = Note.lookup(OctaveUtil.addDefaultOctave(note));
+            if (this.duration == null) {
+                env.getPlayer().playNote(playNote);
+            } else {
+                try {
+                    int playDuration = Integer.parseInt(duration);
+                    if (playDuration <= 0) {
+                        throw new Exception();
+                    }
+                    env.getPlayer().playNote(playNote, playDuration);
+                } catch (Exception e) {
+                    env.error("Invalid duration " + duration);
+                }
+            }
+        } catch (Exception e) {
+            env.error("\'" + note + "\'" + " is not a valid note.");
         }
+
     }
 }
 
