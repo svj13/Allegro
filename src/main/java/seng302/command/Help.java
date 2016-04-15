@@ -1,11 +1,7 @@
 package seng302.command;
 
 
-import seng302.App;
 import seng302.Environment;
-
-import seng302.utility.Checker;
-
 
 public class Help implements Command {
 

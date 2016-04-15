@@ -1,48 +1,63 @@
 package seng302.command;
 
-
-import javax.sound.midi.MidiSystem;
-import javax.sound.midi.Receiver;
-import javax.sound.midi.ShortMessage;
-import javax.sound.midi.Synthesizer;
-
 import seng302.Environment;
 import seng302.data.Note;
 import seng302.utility.OctaveUtil;
 
 /**
- * Plays a note using the midi library
+ * Plays a note using the midi library, given a note/midi value, and an optional duration.
  */
 public class PlayNote implements Command {
 
-    private Note note;
-    private Integer duration;
+    private String note;
+    private String duration;
 
+    /**
+     * Constructor for PlayNote
+     * @param note Either the note or midi representation of note to be played
+     */
     public PlayNote(String note) {
-        this.note = Note.lookup(OctaveUtil.addDefaultOctave(note));
+        this.note = note;
     }
 
-    public PlayNote(int note) {
-        this.note = Note.lookup(Integer.toString(note));
-    }
-
-    public PlayNote(int note, int duration) {
-        this.note = Note.lookup(Integer.toString(note));
+    /**
+     * Constructor for PlayNote with custom duration
+     * @param note Either the note or midi representation of note to be played
+     * @param duration A custom duration to play the note for
+     */
+    public PlayNote(String note, String duration) {
+        this.note = note;
         this.duration = duration;
     }
 
-    public PlayNote(String note, int duration) {
-        this.note = Note.lookup(OctaveUtil.addDefaultOctave(note));
-        this.duration = duration;
-    }
-
-
+    /**
+     * Uses the music player class to play a given note.
+     * Displays errors if the given note or duration is invalid.
+     * @param env The environment in which to function.
+     */
     public void execute(Environment env) {
-        if (this.duration == null) {
-            env.getPlayer().playNote(note);
-        } else {
-            env.getPlayer().playNote(note, duration);
+        try {
+            Note playNote = Note.lookup(OctaveUtil.addDefaultOctave(note));
+            if (this.duration == null) {
+                env.getPlayer().playNote(playNote);
+            } else {
+                // The duration has been specified by the user
+                try {
+                    int playDuration = Integer.parseInt(duration);
+                    if (playDuration <= 0) {
+                        throw new Exception();
+                    }
+                    env.getPlayer().playNote(playNote, playDuration);
+                } catch (Exception e) {
+                    // Catches invalid durations
+                    env.error("Invalid duration " + duration);
+                }
+            }
+        } catch (Exception e) {
+            // Catches invalid notes
+            env.error("\'" + note + "\'" + " is not a valid note.");
         }
+
     }
 }
 

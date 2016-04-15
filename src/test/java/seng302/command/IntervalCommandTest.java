@@ -35,4 +35,22 @@ public class IntervalCommandTest {
         new IntervalCommand("blah").execute(env);
         verify(transcriptManager).setResult("[ERROR] Unknown interval: blah");
     }
+
+    @Test
+    public void setsCorrectNoteResult() {
+        new IntervalCommand("perfect fourth", "G").execute(env);
+        verify(transcriptManager).setResult("C");
+
+        new IntervalCommand("major seventh", "G4").execute(env);
+        verify(transcriptManager).setResult("F#5");
+    }
+
+    @Test
+    public void setsCorrectNoteErrors() {
+        new IntervalCommand("perfect fourth", "M").execute(env);
+        verify(transcriptManager).setResult("[ERROR] 'M' is not a valid note.");
+
+        new IntervalCommand("blah", "C").execute(env);
+        verify(transcriptManager).setResult("[ERROR] Unknown interval: blah");
+    }
 }
