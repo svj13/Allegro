@@ -42,9 +42,19 @@ public class IntervalCommand implements Command {
         if (note == null) {
             throw new Exception();
         }
+
+        // Provided the note was valid, determines whether or not the tonic was given with an octave
+        if (OctaveUtil.octaveSpecifierFlag(tonic)) {
+            octaveSpecified = true;
+        } else {
+            octaveSpecified = false;
+        }
     }
 
     private void setNoteOutput(Environment env) throws Exception {
+        if (!octaveSpecified) {
+            correspondingNote = OctaveUtil.removeOctaveSpecifier(correspondingNote);
+        }
         env.getTranscriptManager().setResult(correspondingNote);
     }
 
