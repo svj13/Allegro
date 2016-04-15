@@ -44,7 +44,7 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_MIDI ATOM:s                         {: RESULT = new Midi(s); :}
           | COMMAND_VERSION                             {: RESULT = new Version(); :}
           | COMMAND_INTERVAL_NUM_SEMITONES interval:i   {: RESULT = new IntervalCommand(i); :}
-          | COMMAND_INTERVAL_GET_NOTE ATOM:n interval: i
+          | COMMAND_INTERVAL_GET_NOTE interval: i ATOM:n
                                                         {: RESULT = new IntervalCommand(i, n); :}
           | COMMAND_SEMITONE_UP ATOM:s                  {: RESULT = new Semitone(s, true); :}
           | COMMAND_SEMITONE_DOWN ATOM:s                {: RESULT = new Semitone(s, false); :}
