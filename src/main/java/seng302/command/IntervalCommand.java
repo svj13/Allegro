@@ -39,7 +39,7 @@ public class IntervalCommand implements Command {
 
     /**
      * Constructs a command of the type fetch note given tonic and interval
-     * @param intervalName the provided interval
+     * @param intervalName A list of the words in the interval name
      * @param tonic the starting note
      */
     public IntervalCommand(ArrayList<String> intervalName, String tonic) {
@@ -48,6 +48,11 @@ public class IntervalCommand implements Command {
         this.outputType = "note";
     }
 
+    /**
+     * Given a list of words, turns them into a string interval name.
+     * @param intervalWords List of words
+     * @return string representation of the user's inputted interval name.
+     */
     private String createIntervalName(ArrayList<String> intervalWords) {
         String interval = "";
         for (String word:intervalWords) {
