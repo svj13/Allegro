@@ -42,6 +42,7 @@ public class IntervalCommand implements Command {
      * Constructs a command of the type fetch note given tonic and interval
      * @param intervalName A list of the words in the interval name
      * @param tonic the starting note
+     * @param outputType whether this interval will be played or displayed
      */
     public IntervalCommand(ArrayList<String> intervalName, String tonic, String outputType) {
         this.intervalName = createIntervalName(intervalName);
@@ -132,6 +133,10 @@ public class IntervalCommand implements Command {
         }
     }
 
+    /**
+     * Plays the two notes of an interval given the interval and starting note
+     * @param env
+     */
     private void playInterval(Environment env) {
         try {
             setNoteInformation();
