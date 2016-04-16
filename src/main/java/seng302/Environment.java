@@ -9,6 +9,7 @@ public class Environment {
     private TranscriptManager transcriptManager;
     private TutorManager pctManager;
     private TutorManager irtManager;
+    private TutorManager mttManager;
     private MusicPlayer player;
 
 
@@ -21,6 +22,7 @@ public class Environment {
         transcriptManager = new TranscriptManager();
         pctManager = new TutorManager();
         irtManager = new TutorManager();
+        mttManager = new TutorManager();
         json = new seng302.JSON.jsonHandler(this);
 
     }
@@ -51,12 +53,19 @@ public class Environment {
         return irtManager;
     }
 
+    public TutorManager getMttManager() {
+        return mttManager;
+    }
+
     public void setTranscriptManager(TranscriptManager t) {
         this.transcriptManager = t;
     }
 
     public void setPctManager(TutorManager p) {
         this.pctManager = p;
+    }
+    public void setMttManager(TutorManager p) {
+        this.mttManager = p;
     }
 
     public MusicPlayer getPlayer() {

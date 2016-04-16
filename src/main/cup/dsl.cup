@@ -59,9 +59,9 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_CROTCHET_DURATION                   {: RESULT = new CrotchetDuration(); :}
           | COMMAND_PLAY_NOTE  ATOM:s                   {: RESULT = new PlayNote(s); :}
           | COMMAND_PLAY_NOTE  ATOM:s ATOM:d            {: RESULT = new PlayNote(s, d); :}
-          | COMMAND_MUSICAL_TERM musicalTerm:s          {:RESULT = new MusicalTerm(s, false); :}
+          | COMMAND_MUSICAL_TERM musicalTerm:s          {:RESULT = new MusicalTerm(s, true); :}
           | COMMAND_PLAY_SCALE ATOM:a ATOM:b            {: RESULT = new Scale(a, b, "play"); :}
-          | COMMAND_ADD_MUSICAL_TERM musicalTerm:s      {:RESULT = new MusicalTerm(s, true); :}
+          | COMMAND_ADD_MUSICAL_TERM musicalTerm:s             {:RESULT = new MusicalTerm(s, false); :}
           | COMMAND_PLAY_SCALE ATOM:a ATOM:b ATOM:c     {: RESULT = new Scale(a, b, "play", c); :}
           | COMMAND_PLAY_SCALE ATOM:a ATOM:b ATOM:c ATOM:d
                                                         {: RESULT = new Scale(a, b, "play", c, d); :}

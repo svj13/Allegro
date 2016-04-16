@@ -54,6 +54,11 @@
                   <fx:include fx:id="IntervalRecognitionTab" source="IntervalRecognitionPane.fxml" />
               </content>
             </Tab>
+           <Tab text="Musical Terms Tutor">
+               <content>
+                   <fx:include fx:id="MusicalTermsTab" source="MusicalTermsPane.fxml" />
+               </content>
+           </Tab>
         </tabs>
       </TabPane>
    </children>
