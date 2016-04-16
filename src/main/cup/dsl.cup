@@ -27,7 +27,7 @@ parser code {:
 :};
 
 /* Terminal tokens returns by the lexer */
-terminal COMMAND_HELP, COMMAND_NOTE, COMMAND_MIDI, COMMAND_VERSION, COMMAND_SEMITONE_UP, COMMAND_SEMITONE_DOWN, COMMAND_SCALE, COMMAND_TEMPO, COMMAND_LIST_SCALE, COMMAND_SHARP_NAME, COMMAND_FLAT_NAME, COMMAND_SIMPLE_ENHARMONIC, COMMAND_SET_TEMPO, COMMAND_CROTCHET_DURATION, COMMAND_PLAY_NOTE, COMMAND_FORCE_SET_TEMPO, COMMAND_PLAY_SCALE, COMMAND_MUSICAL_TERM, COMMAND_ADD_MUSICAL_TERM, COMMAND_INTERVAL_NUM_SEMITONES, COMMAND_INTERVAL_GET_NOTE;
+terminal COMMAND_HELP, COMMAND_NOTE, COMMAND_MIDI, COMMAND_VERSION, COMMAND_SEMITONE_UP, COMMAND_SEMITONE_DOWN, COMMAND_SCALE, COMMAND_TEMPO, COMMAND_LIST_SCALE, COMMAND_SHARP_NAME, COMMAND_FLAT_NAME, COMMAND_SIMPLE_ENHARMONIC, COMMAND_SET_TEMPO, COMMAND_CROTCHET_DURATION, COMMAND_PLAY_NOTE, COMMAND_FORCE_SET_TEMPO, COMMAND_PLAY_SCALE, COMMAND_MUSICAL_TERM, COMMAND_ADD_MUSICAL_TERM, COMMAND_INTERVAL_NUM_SEMITONES, COMMAND_INTERVAL_GET_NOTE, COMMAND_PLAY_INTERVAL;
 terminal Integer NUMBER;
 terminal String STRING, ATOM, NOTE, SCALE_TYPE;
 
@@ -45,7 +45,8 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_VERSION                             {: RESULT = new Version(); :}
           | COMMAND_INTERVAL_NUM_SEMITONES interval:i   {: RESULT = new IntervalCommand(i); :}
           | COMMAND_INTERVAL_GET_NOTE interval: i ATOM:n
-                                                        {: RESULT = new IntervalCommand(i, n); :}
+                                                        {: RESULT = new IntervalCommand(i, n, "note"); :}
+          | COMMAND_PLAY_INTERVAL interval:i ATOM:n    {: RESULT = new IntervalCommand(i, n, "play"); :}
           | COMMAND_SEMITONE_UP ATOM:s                  {: RESULT = new Semitone(s, true); :}
           | COMMAND_SEMITONE_DOWN ATOM:s                {: RESULT = new Semitone(s, false); :}
           | COMMAND_TEMPO                               {: RESULT = new Tempo(); :}
