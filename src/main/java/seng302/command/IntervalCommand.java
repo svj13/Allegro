@@ -149,7 +149,8 @@ public class IntervalCommand implements Command {
                     ArrayList<Note> notes = new ArrayList<Note>();
                     notes.add(note);
                     notes.add(note.semitoneUp(numSemitones));
-                    env.getPlayer().playNotes(notes);
+                    // Waits for three crotchets
+                    env.getPlayer().playNotes(notes, (48));
                 } catch (Exception e) {
                     env.error("Invalid combination of tonic and interval.");
                 }
