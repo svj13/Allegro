@@ -47,13 +47,13 @@ public class IntervalCommandTest {
     public void setsCorrectNoteResult() {
         intervalWords.add("perfect");
         intervalWords.add("fourth");
-        new IntervalCommand(intervalWords, "G").execute(env);
+        new IntervalCommand(intervalWords, "G", "note").execute(env);
         verify(transcriptManager).setResult("C");
 
         intervalWords.clear();
         intervalWords.add("major");
         intervalWords.add("seventh");
-        new IntervalCommand(intervalWords, "G4").execute(env);
+        new IntervalCommand(intervalWords, "G4", "note").execute(env);
         verify(transcriptManager).setResult("F#5");
     }
 
@@ -61,12 +61,12 @@ public class IntervalCommandTest {
     public void setsCorrectNoteErrors() {
         intervalWords.add("perfect");
         intervalWords.add("fourth");
-        new IntervalCommand(intervalWords, "M").execute(env);
+        new IntervalCommand(intervalWords, "M", "note").execute(env);
         verify(transcriptManager).setResult("[ERROR] 'M' is not a valid note.");
 
         intervalWords.clear();
         intervalWords.add("blah");
-        new IntervalCommand(intervalWords, "C").execute(env);
+        new IntervalCommand(intervalWords, "C", "note").execute(env);
         verify(transcriptManager).setResult("[ERROR] Unknown interval: blah");
     }
 }
