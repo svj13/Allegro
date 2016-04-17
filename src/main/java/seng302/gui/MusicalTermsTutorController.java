@@ -2,6 +2,7 @@ package seng302.gui;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Random;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -54,11 +55,15 @@ public class MusicalTermsTutorController {
 
     MusicalTermsTutorBackEnd dataManager;
 
+    Random rand;
+
+
 
     public void create(Environment env) {
         this.env = env;
         manager = env.getMttManager();
         dataManager = env.getMttDataManager();
+        rand = new Random();
     }
 
     @FXML
@@ -117,6 +122,9 @@ public class MusicalTermsTutorController {
      */
     private HBox generateQuestionPane() {
 
+        ArrayList<Term> termArray = dataManager.getTerms();
+        final Term currentTerm = termArray.get(rand.nextInt(dataManager.getTerms().size()));
+
         final HBox rowPane = new HBox();
 
         rowPane.setPadding(new Insets(10, 10, 10, 10));
@@ -125,15 +133,67 @@ public class MusicalTermsTutorController {
         rowPane.setStyle("-fx-border-color: #336699; -fx-border-width: 2px;");
 
 
-        // get musical term
 
-        //make combo box X3
-
-        Label termLabel = new Label("term name");
+        Label termLabel = new Label(currentTerm.getMusicalTermName());
         Button skip = new Button();
         Image imageSkip = new Image(getClass().getResourceAsStream("/right-arrow.png"), 20, 20, true, true);
         skip.setGraphic(new ImageView(imageSkip));
 
+        final ComboBox<String> originOptions = generateOriginChoices();
+        final ComboBox<String> categoryOptions = generateCategoryChoices();
+        final ComboBox<String> definitionOptions = generateDefinitionChoices();
+
+
+        originOptions.setOnAction(new EventHandler<ActionEvent>() {
+            // This handler colors the GUI depending on the user's input
+            public void handle(ActionEvent event) {
+                if (originOptions.getValue().equals(currentTerm.getMusicalTermOrigin())) {
+                    originOptions.setStyle("-fx-background-color: green");
+                    //rowPane.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
+                    //manager.add(pair, 1);
+                } else {
+                    originOptions.setStyle("-fx-background-color: red");
+                    //rowPane.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                    //manager.add(pair, 0);
+                }
+                manager.answered += 1;
+
+            }
+        });
+
+        categoryOptions.setOnAction(new EventHandler<ActionEvent>() {
+            // This handler colors the GUI depending on the user's input
+            public void handle(ActionEvent event) {
+                if (categoryOptions.getValue().equals(currentTerm.getMusicalTermCategory())) {
+                    categoryOptions.setStyle("-fx-background-color: green");
+                    //rowPane.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
+                    //manager.add(pair, 1);
+                } else {
+                    categoryOptions.setStyle("-fx-background-color: red");
+                    //rowPane.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                    //manager.add(pair, 0);
+                }
+                manager.answered += 1;
+
+            }
+        });
+
+        definitionOptions.setOnAction(new EventHandler<ActionEvent>() {
+            // This handler colors the GUI depending on the user's input
+            public void handle(ActionEvent event) {
+                if (definitionOptions.getValue().equals(currentTerm.getMusicalTermDefinition())) {
+                    definitionOptions.setStyle("-fx-background-color: green");
+                    //rowPane.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
+                    //manager.add(pair, 1);
+                } else {
+                    definitionOptions.setStyle("-fx-background-color: red");
+                    //rowPane.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                    //manager.add(pair, 0);
+                }
+                manager.answered += 1;
+
+            }
+        });
 
         skip.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
@@ -142,13 +202,15 @@ public class MusicalTermsTutorController {
             }
         });
 
+
+
         rowPane.getChildren().add(termLabel);
         rowPane.getChildren().add(new Label("Origin"));
-        rowPane.getChildren().add(generateOriginChoices());
+        rowPane.getChildren().add(originOptions);
         rowPane.getChildren().add(new Label("Category"));
-        rowPane.getChildren().add(generateCategoryChoices());
+        rowPane.getChildren().add(categoryOptions);
         rowPane.getChildren().add(new Label("Definion"));
-        rowPane.getChildren().add(generateDefinitionChoices());
+        rowPane.getChildren().add(definitionOptions);
         rowPane.getChildren().add(skip);
 
         rowPane.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
@@ -157,5 +219,11 @@ public class MusicalTermsTutorController {
         return rowPane;
     }
 
+
+    public void allPartsOfQuestionAwnsered(){
+
+
+
+    }
 
 }
