@@ -1,5 +1,6 @@
 package seng302;
 
+import seng302.utility.MusicalTermsTutorBackEnd;
 import seng302.utility.TutorManager;
 import seng302.utility.TranscriptManager;
 
@@ -10,6 +11,7 @@ public class Environment {
     private TutorManager pctManager;
     private TutorManager irtManager;
     private TutorManager mttManager;
+    private MusicalTermsTutorBackEnd mttDataManager; ///////////////////////////////////////
     private MusicPlayer player;
 
 
@@ -23,6 +25,7 @@ public class Environment {
         pctManager = new TutorManager();
         irtManager = new TutorManager();
         mttManager = new TutorManager();
+        mttDataManager = new MusicalTermsTutorBackEnd(); ///////////////////////////////
         json = new seng302.JSON.jsonHandler(this);
 
     }
@@ -56,6 +59,8 @@ public class Environment {
     public TutorManager getMttManager() {
         return mttManager;
     }
+
+    public MusicalTermsTutorBackEnd getMttDataManager(){ return mttDataManager;} //////////////////////////////
 
     public void setTranscriptManager(TranscriptManager t) {
         this.transcriptManager = t;
