@@ -188,7 +188,7 @@ public class RootController implements Initializable {
                 try{
                     Files.createDirectories(path);
                     env.getJson().saveProject(path.toString() + "/"+resultString);
-                    setWindowTitle(resultString);
+                    //setWindowTitle(resultString);
 
                 }
                 catch(IOException e){

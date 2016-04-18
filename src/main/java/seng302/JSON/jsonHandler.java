@@ -29,7 +29,7 @@ public class jsonHandler {
 
     String currentProjectPath;
 
-    String test; //delete this testing for commit fix.
+    String projName; //delete this testing for commit fix.
 
     Environment env;
     public jsonHandler(Environment env){
@@ -79,7 +79,7 @@ public class jsonHandler {
 
 
         try {
-            System.out.println("projects length: " + projectList.size());
+
 
             projectSettings.put("tempo", (int) env.getPlayer().getTempo());
 
@@ -88,10 +88,10 @@ public class jsonHandler {
             file.flush();
             file.close();
             String projectName = projectAddress.substring(projectAddress.lastIndexOf("/") + 1);
-            System.out.println("project name: " + projectName);
+            this.projName = projectName;
+            env.getRootController().setWindowTitle(projName);
 
-
-                    //Check if it exists inside the Json Projects file.
+            //Check if it isn't an exisiting stored project
             if(!projectList.contains(projectName)){
                 System.out.println("Saved project not found in projects.JSON - adding it");
                 projectList.add(projectName);
@@ -103,6 +103,7 @@ public class jsonHandler {
                     projectsJson.write(projectsInfo.toJSONString());
                     projectsJson.flush();
                     projectsJson.close();
+
 
                 } catch (Exception e2) {
                     e2.printStackTrace();
@@ -131,6 +132,18 @@ public class jsonHandler {
      */
     public void checkChanges(String propName){
 
+        //Accepted values: tempo
+
+        if(propName == "tempo"){
+
+            if(!(projectSettings.get("tempo") == String.valueOf(env.getPlayer().getTempo()))){ //If not equal
+
+                env.getRootController().setWindowTitle(projName + "*");
+            }
+        }
+
+
+
     }
 
 
@@ -140,7 +153,7 @@ public class jsonHandler {
 
             String path = userDirectory+"/Projects/"+pName+"/"+pName;
             projectSettings = (JSONObject) parser.parse(new FileReader(path+".JSON"));
-
+            this.projName = pName;
 
             int tempo = ((Long)projectSettings.get("tempo")).intValue();
             System.out.println(tempo);
@@ -152,8 +165,6 @@ public class jsonHandler {
 
             env.getRootController().setWindowTitle(pName);
             //ignore
-
-
 
 
 

@@ -49,6 +49,9 @@ public class Tempo implements Command {
         if (isSetter){
             env.getPlayer().setTempo(tempo);
             env.getTranscriptManager().setResult(result);
+            //Update project saved state
+            env.getJson().checkChanges("tempo");
+
         } else {
             //is getting the tempo
             env.getTranscriptManager().setResult(env.getPlayer().getTempo() + " BPM");
