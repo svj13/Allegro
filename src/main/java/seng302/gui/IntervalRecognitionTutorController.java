@@ -210,20 +210,6 @@ public class IntervalRecognitionTutorController {
         return Interval.intervals[rand.nextInt(8)];
     }
 
-    /**
-     * Calculates a user's score after a tutoring session
-     * @param correct The number of questions the user answered correctly
-     * @param answered The number of questions the user answered, correctly or incorrectly
-     * @return the user's score as a percentage value
-     */
-    private float getScore(int correct, int answered) {
-        float score = 0;
-        if (answered > 0) {
-            score = (float) correct / (float) answered * 100;
-        }
-        return score;
-
-    }
 
     /**
      * This function is run once a tutoring session has been completed.
@@ -231,7 +217,7 @@ public class IntervalRecognitionTutorController {
     private void finished() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Finished");
-        float userScore = getScore(manager.correct, manager.answered);
+        float userScore = manager.getScore();
         String outputText = String.format("You have finished the tutor. You got %d out of %d. This is a score of %.2f percent", manager.correct, manager.answered, userScore);
         alert.setContentText(outputText);
 

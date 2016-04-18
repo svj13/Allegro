@@ -86,4 +86,16 @@ public class TutorManager {
         return tempIncorrectResponses;
     }
 
+    /**
+     * Calculates a user's score after a tutoring session
+     * @return the user's score as a percentage value
+     */
+    public float getScore() {
+        float score = 0;
+        if (answered > 0) {
+            score = (float) correct / (float) answered * 100;
+        }
+        return score;
+    }
+
 }

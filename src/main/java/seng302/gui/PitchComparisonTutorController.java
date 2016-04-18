@@ -450,6 +450,8 @@ public class PitchComparisonTutorController {
         int cor = manager.correct;
         int ques = manager.questions;
 
+        float score = manager.getScore();
+
 
         ButtonType retestBtn = new ButtonType("Retest");
         ButtonType clearBtn  = new ButtonType("Clear");
@@ -457,13 +459,13 @@ public class PitchComparisonTutorController {
           alert.setContentText("It appears you skipped every question. Would you like to reattempt?");
           alert.getButtonTypes().setAll(retestBtn, clearBtn);
         } else if(manager.getTempIncorrectResponses().size() > 0){
-            alert.setContentText("You got " + (cor) + " out of " + ques + ", " + cor*100/ques +
+            alert.setContentText("You got " + (cor) + " out of " + ques + ", " + score +
                     "%.\nWell done :)");
             alert.getButtonTypes().setAll(retestBtn, clearBtn);
         }
         else {
             alert.setContentText("Congratulations!\nYou got " + (cor) + " out of " + ques
-                    + ", " + cor*100/ques + "%.");
+                    + ", " + score + "%.");
             alert.getButtonTypes().setAll(clearBtn);
 
         }
