@@ -6,6 +6,7 @@ import seng302.utility.OctaveUtil;
 import seng302.data.Note;
 import java.util.ArrayList;
 import java.util.List;
+import seng302.DslSymbol;
 
 /*
     The following block lets you inject code into the parser class
@@ -14,15 +15,32 @@ import java.util.List;
 */
 
 parser code {:
+
+    private String errorMessage = "";
     public void report_error(String message, Object info) {
 
 
     }
 
     public void syntax_error(Symbol cur_token) {
-        System.out.println(cur_token.value);
+        //System.out.println(cur_token.value);
+        //System.out.println(DslSymbol.terminalNames[cur_token.sym]);
+
+        Symbol prev_token = (Symbol) this.stack.pop();
+        //System.out.println(DslSymbol.terminalNames[prev_token.sym]);
+
+        switch(prev_token.sym){
+            case 3: //COMMAND_NOTE
+                errorMessage = "\'" + cur_token.value + "\'" + " is not a valid MIDI value.";
+                break;
+
+        }
 
 
+    }
+
+    public String getErrorMessage(){
+        return errorMessage;
     }
 :};
 
@@ -40,7 +58,7 @@ non terminal ArrayList<String> interval;
 non terminal ArrayList<String> musicalTerm;
 
 command ::= COMMAND_HELP                                {: RESULT = new Help(); :}
-          | COMMAND_NOTE ATOM:n                         {: RESULT = new NoteCommand(n); :}
+          | COMMAND_NOTE note:n                         {: RESULT = new NoteCommand(n); :}
           | COMMAND_MIDI ATOM:s                         {: RESULT = new Midi(s); :}
           | COMMAND_VERSION                             {: RESULT = new Version(); :}
           | COMMAND_INTERVAL_NUM_SEMITONES interval:i   {: RESULT = new IntervalCommand(i); :}

@@ -13,7 +13,6 @@ public class Environment {
     private MusicPlayer player;
 
 
-
     private seng302.JSON.jsonHandler json;
 
     public Environment() {
