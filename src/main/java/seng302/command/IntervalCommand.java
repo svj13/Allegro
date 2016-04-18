@@ -21,6 +21,7 @@ public class IntervalCommand implements Command {
     int intervalSemis = -1;
     private boolean octaveSpecified;
     private Note note;
+    private Interval playingInterval;
 
 
     /**
@@ -145,8 +146,10 @@ public class IntervalCommand implements Command {
                 int numSemitones;
                 if (Interval.acceptedSemitones.contains(intervalSemis)) {
                     numSemitones = intervalSemis;
+                    playingInterval = Interval.lookupBySemitones(intervalSemis);
                 } else {
-                    numSemitones = Interval.lookupByName(intervalName).getSemitones();
+                    playingInterval = Interval.lookupByName(intervalName);
+                    numSemitones = playingInterval.getSemitones();
                 }
 
                 try {
@@ -158,6 +161,8 @@ public class IntervalCommand implements Command {
                     notes.add(note.semitoneUp(numSemitones));
                     // Waits for three crotchets
                     env.getPlayer().playNotes(notes, (48));
+                    env.getTranscriptManager().setResult("Playing interval "
+                             + playingInterval.getName() + " above " + note.getNote());
                 } catch (Exception e) {
                     env.error("Invalid combination of tonic and interval.");
                 }
