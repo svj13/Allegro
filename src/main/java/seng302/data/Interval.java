@@ -1,5 +1,8 @@
 package seng302.data;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * This class works similarly to the Note class.
  * Contains a static hash map of all the intervals, indexed from 0-7 for random selection.
@@ -42,6 +45,22 @@ public class Interval {
             new Interval(11, "major seventh"),
             new Interval(12, "perfect octave")
     };
+
+    public static Set<Integer> acceptedSemitones;
+
+    static {
+        acceptedSemitones = new HashSet<Integer>();
+        acceptedSemitones.add(0);
+        acceptedSemitones.add(2);
+        acceptedSemitones.add(4);
+        acceptedSemitones.add(5);
+        acceptedSemitones.add(7);
+        acceptedSemitones.add(9);
+        acceptedSemitones.add(11);
+        acceptedSemitones.add(12);
+    }
+
+
 
     /**
      * Gets the lexical name of an interval.
