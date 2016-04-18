@@ -5,6 +5,7 @@ import seng302.command.*;
 import seng302.utility.OctaveUtil;
 import seng302.data.Note;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import seng302.DslSymbol;
 
@@ -23,17 +24,43 @@ parser code {:
     }
 
     public void syntax_error(Symbol cur_token) {
-        //System.out.println(cur_token.value);
-        //System.out.println(DslSymbol.terminalNames[cur_token.sym]);
+        System.out.println(cur_token.value);
+        System.out.println(DslSymbol.terminalNames[cur_token.sym]);
 
         Symbol prev_token = (Symbol) this.stack.pop();
-        //System.out.println(DslSymbol.terminalNames[prev_token.sym]);
+        System.out.println(DslSymbol.terminalNames[prev_token.sym]);
+        System.out.println(prev_token.sym);
 
         switch(prev_token.sym){
-            case 3: //COMMAND_NOTE
+            case 3: // prev_token is COMMAND_NOTE so expect a MIDI.
                 errorMessage = "\'" + cur_token.value + "\'" + " is not a valid MIDI value.";
                 break;
+            case 0: // prev_token is EOF so not a valid command at all
+                errorMessage = "\'" + cur_token.value + "\'" + " is not a valid command.";
+                break;
+            case 26: // prev_token is NOTE so cur_token could be a scale_type or a note duration.
+                Symbol prev_token2 = (Symbol) this.stack.pop();
+                System.out.println(DslSymbol.terminalNames[prev_token2.sym]);
+                System.out.println(prev_token2.sym);
+                if (prev_token2.sym == 18) { //COMMAND_PLAY_SCALE so cur_token should be scale type.
+                    errorMessage = "\'" + cur_token.value + "\'" + " is not a valid scale type.";
+                } else if (prev_token2.sym == 16) { //COMMAND_PLAY_NOTE so cur_token should be duration.
+                    errorMessage = "\'" + cur_token.value + "\'" + " is not a valid duration.";
+                }
+                break;
+            case 14: // prev_token is COMMAND_SET_TEMPO so cur_token should be positive num.
+                errorMessage = "\'" + cur_token.value + "\'" + " is not a valid tempo.";
+                break;
+            case 17: // prev_token is COMMAND_FORCE_SET_TEMPO so cur_token should be positive num.
+                errorMessage = "\'" + cur_token.value + "\'" + " is not a valid tempo.";
+                break;
+            default: // Expected a note
+                errorMessage = "\'" + cur_token.value + "\'" + " is not a valid note.";
 
+        }
+
+        if (cur_token.value == null){
+            errorMessage = "Invalid command. Please type 'help' to see the list of valid commands.";
         }
 
 
@@ -46,56 +73,63 @@ parser code {:
 
 /* Terminal tokens returns by the lexer */
 terminal COMMAND_HELP, COMMAND_NOTE, COMMAND_MIDI, COMMAND_VERSION, COMMAND_SEMITONE_UP, COMMAND_SEMITONE_DOWN, COMMAND_SCALE, COMMAND_TEMPO, COMMAND_LIST_SCALE, COMMAND_SHARP_NAME, COMMAND_FLAT_NAME, COMMAND_SIMPLE_ENHARMONIC, COMMAND_SET_TEMPO, COMMAND_CROTCHET_DURATION, COMMAND_PLAY_NOTE, COMMAND_FORCE_SET_TEMPO, COMMAND_PLAY_SCALE, COMMAND_MUSICAL_TERM, COMMAND_ADD_MUSICAL_TERM, COMMAND_INTERVAL_NUM_SEMITONES, COMMAND_INTERVAL_GET_NOTE, COMMAND_PLAY_INTERVAL;
-terminal Integer NUMBER;
-terminal String STRING, ATOM, NOTE, SCALE_TYPE;
+terminal String STRING, ATOM, NOTE, SCALE_TYPE, DIRECTION, MIDINOTE, NUMBER, POSNUM;
 
 /* Non terminals */
 non terminal Command command;
-non terminal List<Integer> arg_list;
-non terminal Note note;
-non terminal ArrayList<Note> scale;
+non terminal String note;
+non terminal HashMap<String, String> scale;
 non terminal ArrayList<String> interval;
 non terminal ArrayList<String> musicalTerm;
+non terminal String midiNote;
+non terminal String positiveNum;
 
 command ::= COMMAND_HELP                                {: RESULT = new Help(); :}
           | COMMAND_NOTE note:n                         {: RESULT = new NoteCommand(n); :}
-          | COMMAND_MIDI ATOM:s                         {: RESULT = new Midi(s); :}
+          | COMMAND_MIDI note:s                         {: RESULT = new Midi(s); :}
           | COMMAND_VERSION                             {: RESULT = new Version(); :}
           | COMMAND_INTERVAL_NUM_SEMITONES interval:i   {: RESULT = new IntervalCommand(i); :}
           | COMMAND_INTERVAL_GET_NOTE interval: i ATOM:n
                                                         {: RESULT = new IntervalCommand(i, n, "note"); :}
-          | COMMAND_PLAY_INTERVAL interval:i ATOM:n    {: RESULT = new IntervalCommand(i, n, "play"); :}
-          | COMMAND_SEMITONE_UP ATOM:s                  {: RESULT = new Semitone(s, true); :}
-          | COMMAND_SEMITONE_DOWN ATOM:s                {: RESULT = new Semitone(s, false); :}
+          | COMMAND_PLAY_INTERVAL interval:i ATOM:n     {: RESULT = new IntervalCommand(i, n, "play"); :}
+          | COMMAND_SEMITONE_UP note:s                  {: RESULT = new Semitone(s, true); :}
+          | COMMAND_SEMITONE_DOWN note:s                {: RESULT = new Semitone(s, false); :}
           | COMMAND_TEMPO                               {: RESULT = new Tempo(); :}
-          | COMMAND_SCALE ATOM:a ATOM:b                 {: RESULT = new Scale(a, b, "note"); :}
-          | COMMAND_LIST_SCALE ATOM:a ATOM:b            {: RESULT = new Scale(a, b, "midi"); :}
-          | COMMAND_FLAT_NAME ATOM:s                    {: RESULT = new Enharmonic(s, 0); :}
-          | COMMAND_SHARP_NAME ATOM:s                   {: RESULT = new Enharmonic(s, 1); :}
-          | COMMAND_SIMPLE_ENHARMONIC ATOM:s            {: RESULT = new Enharmonic(s, 2); :}
-          | COMMAND_SET_TEMPO ATOM:s                    {: RESULT = new Tempo(s, false); :}
-          | COMMAND_FORCE_SET_TEMPO ATOM:s              {: RESULT = new Tempo(s, true); :}
+          | COMMAND_SCALE scale:s                       {: RESULT = new Scale(s, "note"); :}
+          | COMMAND_LIST_SCALE scale:s                  {: RESULT = new Scale(s, "midi"); :}
+          | COMMAND_FLAT_NAME note:s                    {: RESULT = new Enharmonic(s, 0); :}
+          | COMMAND_SHARP_NAME note:s                   {: RESULT = new Enharmonic(s, 1); :}
+          | COMMAND_SIMPLE_ENHARMONIC note:s            {: RESULT = new Enharmonic(s, 2); :}
+          | COMMAND_SET_TEMPO positiveNum:s                    {: RESULT = new Tempo(s, false); :}
+          | COMMAND_FORCE_SET_TEMPO positiveNum:s              {: RESULT = new Tempo(s, true); :}
           | COMMAND_CROTCHET_DURATION                   {: RESULT = new CrotchetDuration(); :}
-          | COMMAND_PLAY_NOTE  ATOM:s                   {: RESULT = new PlayNote(s); :}
-          | COMMAND_PLAY_NOTE  ATOM:s ATOM:d            {: RESULT = new PlayNote(s, d); :}
-          | COMMAND_MUSICAL_TERM musicalTerm:s          {:RESULT = new MusicalTerm(s, true); :}
-          | COMMAND_PLAY_SCALE ATOM:a ATOM:b            {: RESULT = new Scale(a, b, "play"); :}
-          | COMMAND_ADD_MUSICAL_TERM musicalTerm:s             {:RESULT = new MusicalTerm(s, false); :}
-          | COMMAND_PLAY_SCALE ATOM:a ATOM:b ATOM:c     {: RESULT = new Scale(a, b, "play", c); :}
-          | COMMAND_PLAY_SCALE ATOM:a ATOM:b ATOM:c ATOM:d
-                                                        {: RESULT = new Scale(a, b, "play", c, d); :}
+          | COMMAND_PLAY_NOTE note:s                   {: RESULT = new PlayNote(s); :}
+          | COMMAND_PLAY_NOTE note:s positiveNum:d            {: RESULT = new PlayNote(s, d); :}
+          | COMMAND_MUSICAL_TERM musicalTerm:s          {: RESULT = new MusicalTerm(s, true); :}
+          | COMMAND_ADD_MUSICAL_TERM musicalTerm:s      {: RESULT = new MusicalTerm(s, false); :}
+          | COMMAND_PLAY_SCALE scale:s                  {: RESULT = new Scale(s, "play");:}
+
 
 
 ;
 
-arg_list ::= arg_list:list NUMBER:n {: list.add(n); RESULT = list; :}
-          | NUMBER:n {: RESULT = new ArrayList<Integer>(); RESULT.add(n); :}
+
+note ::= NOTE:s             {:RESULT = s;:}
+       | midiNote:s         {:RESULT = s;:}
 ;
 
-note ::= NOTE:s             {:RESULT = Note.lookup(OctaveUtil.addDefaultOctave(s));:}
+midiNote ::= MIDINOTE:s     {:RESULT = s;:}
+           | NUMBER:s       {:RESULT = s;:}
 ;
 
-scale ::= NOTE:s SCALE_TYPE:r       {:RESULT = Note.lookup(s).getScale(r, true);:}
+positiveNum ::= midiNote:s   {:RESULT = s;:}
+              | POSNUM:s     {:RESULT = s;:}
+;
+
+scale ::= NOTE:s SCALE_TYPE:r       {:RESULT = new HashMap<String,String>(); RESULT.put("note", s);
+                                      RESULT.put("scale_type", r);:}
+        | scale:s DIRECTION:a {: s.put("direction", a); RESULT = s;:}
+        | scale:s NUMBER:a {: s.put("octaves", String.valueOf(a)); RESULT = s;:}
 ;
 
 interval ::= interval:list ATOM:s {: list.add(s); RESULT = list; :}

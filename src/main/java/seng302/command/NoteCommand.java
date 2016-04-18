@@ -9,14 +9,10 @@ import seng302.utility.Checker;
  */
 public class NoteCommand implements Command {
     private String note;
-    private Note note1;
+
 
     public NoteCommand(String s) {
         note = s;
-    }
-
-    public NoteCommand(Note n) {
-        note1 = n;
     }
 
     /**
@@ -24,11 +20,10 @@ public class NoteCommand implements Command {
      * valid note.
      */
     public void execute(Environment env) {
-        env.getTranscriptManager().setResult(note1.getNote());
-//        if (Checker.isValidMidiNote(note)) {
-//            env.getTranscriptManager().setResult(Note.lookup(note).getNote());
-//        } else {
-//            env.error("\'" + note + "\'" + " is not a valid MIDI value.");
-//        }
+        if (Checker.isValidMidiNote(note)) {
+            env.getTranscriptManager().setResult(Note.lookup(note).getNote());
+        } else {
+            env.error("\'" + note + "\'" + " is not a valid MIDI value.");
+        }
     }
 }

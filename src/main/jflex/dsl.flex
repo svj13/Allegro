@@ -40,10 +40,13 @@ import java_cup.runtime.*;
 */
 
 WhiteSpace = \p{Whitespace}
-Number = -?\p{Digit}+
-Note = [A-G|a-g]([#|b|x]|(bb))?[0-8]?|[D-G|d-g]([#|b|x]|(bb))?[-1]?|[A-F|a-f]([#|b|x]|(bb))?[9]?|[C|c][#|x]?(-1)?|[G|g](b|bb)?[9]?|(0?[0-9]?[0-9]|1[01][0-9]|12[0-7])
+Number = \p{Digit}
+Note = [A-G|a-g]([#|b|x]|(bb))?[0-8]?|[D-G|d-g]([#|b|x]|(bb))?[-1]?|[A-F|a-f]([#|b|x]|(bb))?[9]?|[C|c][#|x]?(-1)?|[G|g](b|bb)?[9]?
+MidiNote = (0?[0-9]?[0-9]|1[01][0-9]|12[0-7])
 Atom = [^\s]+
 ScaleType = major
+Direction = updown|up|down
+PosNum = \p{Digit}+
 //Note = ^[A-G|a-g][#|b]?[1-7]?$|^[A|B|a|b][#|b]?0$|^[C|c][#|b]8$
    
 %%
@@ -73,16 +76,17 @@ ScaleType = major
     "play"             { return symbol(DslSymbol.COMMAND_PLAY_NOTE);    }
     "interval semitone"  { return symbol(DslSymbol.COMMAND_INTERVAL_NUM_SEMITONES);    }
     "interval"          {return symbol(DslSymbol.COMMAND_INTERVAL_GET_NOTE); }
-    {Note}              {return symbol(DslSymbol.NOTE, new String(yytext()));}
-
-    {Atom}             { return symbol(DslSymbol.ATOM, new String(yytext()));}
-    {Number}           { return symbol(DslSymbol.NUMBER, new Integer(yytext())); }
-    //{ScaleType}         {return symbol(DslSymbol.SCALE_TYPE, new String(yytext()));}
-
     "crotchet duration"    { return symbol(DslSymbol.COMMAND_CROTCHET_DURATION); }
     "meaning of"       { return symbol(DslSymbol.COMMAND_MUSICAL_TERM); }
     "add musical term"  {return symbol(DslSymbol.COMMAND_ADD_MUSICAL_TERM); }
+    {Note}              {return symbol(DslSymbol.NOTE, new String(yytext()));}
+    {Number}           { return symbol(DslSymbol.NUMBER, new String(yytext())); }
+    {MidiNote}          {return symbol(DslSymbol.MIDINOTE, new String(yytext())); }
+    {ScaleType}         {return symbol(DslSymbol.SCALE_TYPE, new String(yytext()));}
+    {Direction}         {return symbol(DslSymbol.DIRECTION, new String(yytext()));}
+    {PosNum}            {return symbol(DslSymbol.POSNUM, new String(yytext()));}
 
+    {Atom}             { return symbol(DslSymbol.ATOM, new String(yytext()));}
     {WhiteSpace}       { /* Ignore whitespace */ }
 }
 
