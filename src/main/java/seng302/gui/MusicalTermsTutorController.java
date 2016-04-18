@@ -20,6 +20,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.util.Pair;
 import seng302.Environment;
 
 import seng302.data.Term;
@@ -58,7 +59,6 @@ public class MusicalTermsTutorController {
     Random rand;
 
 
-
     public void create(Environment env) {
         this.env = env;
         manager = env.getMttManager();
@@ -70,10 +70,12 @@ public class MusicalTermsTutorController {
     void goAction(ActionEvent event) {
         manager.questions = Integer.parseInt(txtNumMusicalTerms.getText());
         if (manager.questions >= 1) {
+            ArrayList<Term> termArray = dataManager.getTerms();
             // Run the tutor
             questionRows.getChildren().clear();
             for (int i = 0; i < manager.questions; i++) {
-                HBox questionRow = generateQuestionPane();
+                Term term = termArray.get(rand.nextInt(dataManager.getTerms().size()));
+                HBox questionRow = generateQuestionPane(term);
                 questionRows.getChildren().add(questionRow);
                 questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
             }
@@ -120,18 +122,19 @@ public class MusicalTermsTutorController {
     /**
      * Constructs the question panels.
      */
-    private HBox generateQuestionPane() {
+    private HBox generateQuestionPane(Term term) {
+        int partsQuestionAnswered = 0;
 
         ArrayList<Term> termArray = dataManager.getTerms();
-        final Term currentTerm = termArray.get(rand.nextInt(dataManager.getTerms().size()));
+        //final Term currentTerm = termArray.get(rand.nextInt(dataManager.getTerms().size()));
 
+        final Term currentTerm = term;
         final HBox rowPane = new HBox();
 
         rowPane.setPadding(new Insets(10, 10, 10, 10));
 
         rowPane.setSpacing(10);
         rowPane.setStyle("-fx-border-color: #336699; -fx-border-width: 2px;");
-
 
 
         Label termLabel = new Label(currentTerm.getMusicalTermName());
@@ -148,15 +151,22 @@ public class MusicalTermsTutorController {
             // This handler colors the GUI depending on the user's input
             public void handle(ActionEvent event) {
                 if (originOptions.getValue().equals(currentTerm.getMusicalTermOrigin())) {
+                    //final static int partsQuestionAnswered = 0;
                     originOptions.setStyle("-fx-background-color: green");
+                    //partsQuestionAnswered += 1;
                     //rowPane.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
-                    //manager.add(pair, 1);
+                    manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 1);
+
                 } else {
                     originOptions.setStyle("-fx-background-color: red");
                     //rowPane.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-                    //manager.add(pair, 0);
+                    manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 0);
                 }
+                rowPane.getChildren().get(2).setDisable(true);
                 manager.answered += 1;
+                if (manager.answered == manager.questions) {
+                    finished();
+                }
 
             }
         });
@@ -167,13 +177,17 @@ public class MusicalTermsTutorController {
                 if (categoryOptions.getValue().equals(currentTerm.getMusicalTermCategory())) {
                     categoryOptions.setStyle("-fx-background-color: green");
                     //rowPane.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
-                    //manager.add(pair, 1);
+                    manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 1);
                 } else {
                     categoryOptions.setStyle("-fx-background-color: red");
                     //rowPane.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-                    //manager.add(pair, 0);
+                    manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 0);
                 }
+                rowPane.getChildren().get(4).setDisable(true);
                 manager.answered += 1;
+                if (manager.answered == manager.questions) {
+                    finished();
+                }
 
             }
         });
@@ -184,24 +198,30 @@ public class MusicalTermsTutorController {
                 if (definitionOptions.getValue().equals(currentTerm.getMusicalTermDefinition())) {
                     definitionOptions.setStyle("-fx-background-color: green");
                     //rowPane.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
-                    //manager.add(pair, 1);
+                    manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 1);
                 } else {
                     definitionOptions.setStyle("-fx-background-color: red");
                     //rowPane.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-                    //manager.add(pair, 0);
+                    manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 0);
                 }
+                rowPane.getChildren().get(6).setDisable(true);
                 manager.answered += 1;
+                if (manager.answered == manager.questions) {
+                    finished();
+                }
 
             }
         });
 
         skip.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-
+                rowPane.getChildren().get(2).setDisable(true);
+                rowPane.getChildren().get(4).setDisable(true);
+                rowPane.getChildren().get(6).setDisable(true);
+                rowPane.getChildren().get(7).setDisable(true);
 
             }
         });
-
 
 
         rowPane.getChildren().add(termLabel);
@@ -220,10 +240,77 @@ public class MusicalTermsTutorController {
     }
 
 
-    public void allPartsOfQuestionAwnsered(){
-
+    public void allPartsOfQuestionAnswered() {
 
 
     }
 
+
+    /**
+     * Calculates a user's score after a tutoring session
+     *
+     * @param correct  The number of questions the user answered correctly
+     * @param answered The number of questions the user answered, correctly or incorrectly
+     * @return the user's score as a percentage value
+     */
+    private float getScore(int correct, int answered) {
+        float score = 0;
+        if (answered > 0) {
+            score = (float) correct / (float) answered * 100;
+        }
+        return score;
+
+    }
+
+    /**
+     * This function is run once a tutoring session has been completed.
+     */
+    private void finished() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText("Finished");
+        float userScore = getScore(manager.correct, manager.answered);
+        String outputText = String.format("You have finished the tutor. You got %d out of %d. This is a score of %.2f percent", manager.correct, manager.answered, userScore);
+        alert.setContentText(outputText);
+
+
+        ButtonType retestBtn = new ButtonType("Retest");
+        ButtonType clearBtn = new ButtonType("Clear");
+
+        if (manager.getTempIncorrectResponses().size() > 0) {
+            //Can re-test
+            alert.getButtonTypes().setAll(retestBtn, clearBtn);
+        } else {
+            //Perfect score
+            alert.getButtonTypes().setAll(clearBtn);
+        }
+        Optional<ButtonType> result = alert.showAndWait();
+        questionRows.getChildren().clear();
+
+        if (result.get() == clearBtn) {
+            manager.saveTempIncorrect();
+        } else if (result.get() == retestBtn) {
+            retest();
+        }
+
+        // Clear the current session
+        manager.answered = 0;
+        manager.correct = 0;
+
+    }
+
+    /**
+     * If the user chooses to re-test their self on their failed questions, this function
+     * sets up the tutoring environment for that.
+     */
+    private void retest() {
+        ArrayList<Pair> tempIncorrectResponses = new ArrayList<Pair>(manager.getTempIncorrectResponses());
+        manager.clearTempIncorrect();
+        manager.questions = tempIncorrectResponses.size();
+        for(Pair<String, Term> pair : tempIncorrectResponses){
+            HBox questionRow = generateQuestionPane(pair.getValue());
+            questionRows.getChildren().add(questionRow);
+            questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
+        }
+
+    }
 }
