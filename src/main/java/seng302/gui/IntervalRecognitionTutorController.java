@@ -1,6 +1,7 @@
 package seng302.gui;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Optional;
 import java.util.Random;
 
@@ -24,6 +25,7 @@ import seng302.Environment;
 import seng302.data.Interval;
 import seng302.data.Note;
 import seng302.utility.TutorManager;
+import seng302.utility.TutorRecord;
 
 public class IntervalRecognitionTutorController {
 
@@ -61,13 +63,17 @@ public class IntervalRecognitionTutorController {
 
     TutorManager manager;
 
+    TutorRecord record;
+
     public void create(Environment env) {
         this.env = env;
         manager = env.getIrtManager();
+        record = new TutorRecord();
     }
 
     @FXML
     void goAction(ActionEvent event) {
+        record.setStartTime(new Date());
         manager.questions = Integer.parseInt(txtNumIntervals.getText());
         if (manager.questions >= 1){
             // Run the tutor
@@ -178,7 +184,13 @@ public class IntervalRecognitionTutorController {
                     manager.add(pair, 0);
                 }
                 manager.answered += 1;
-
+                // Sets up the question to be saved to the record
+                String[] question = new String[] {
+                        String.format("Interval between %s and %s", firstNote.getNote(), secondNote.getNote()),
+                        options.getValue(),
+                        Boolean.toString(options.getValue().equals(thisInterval.getName()))
+                };
+                record.addQuestionAnswer(question);
                 // Shows the correct answer
                 correctAnswer.setText(thisInterval.getName());
                 if (manager.answered == manager.questions) {
@@ -245,6 +257,7 @@ public class IntervalRecognitionTutorController {
 
         clearBtn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
+                manager.writeToFile(record);
                 manager.saveTempIncorrect();
                 paneResults.setVisible(false);
                 paneQuestions.setVisible(true);

@@ -104,6 +104,12 @@ public class TutorManager {
         return score;
     }
 
+    public void writeToFile(TutorRecord record) {
+        record.setQuestionsAnsweredCorrectly(correctResponses.size());
+        record.setQuestionsAnsweredIncorrectly(tempIncorrectResponses.size());
+        record.writeToFile();
+    }
+
 
 
 }

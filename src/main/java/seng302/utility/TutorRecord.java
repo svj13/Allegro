@@ -65,11 +65,11 @@ public class TutorRecord {
         lines.add("Questions answered incorrectly: " + questionsAnsweredIncorrectly);
         lines.add("Percentage answered correctly: " + calculatePercentageCorrect() + "%");
 
-        Path file = Paths.get("the-file-name.txt");
+        Path file = Paths.get("testfile.txt");
         try {
-            Files.write(file, lines, Charset.forName("UTF-8"), StandardOpenOption.APPEND);
+            Files.write(file, lines, Charset.forName("UTF-8"), StandardOpenOption.CREATE);
         } catch (Exception e) {
-            System.out.println("Couldn't save file");
+            System.out.println(e.getMessage());
         }
 
     }
