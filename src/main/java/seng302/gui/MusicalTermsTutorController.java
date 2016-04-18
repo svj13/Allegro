@@ -131,8 +131,6 @@ public class MusicalTermsTutorController {
      * Constructs the question panels.
      */
     private HBox generateQuestionPane(Term term) {
-        int partsQuestionAnswered = 0;
-
 
         final Term currentTerm = term;
         final HBox rowPane = new HBox();
@@ -157,19 +155,29 @@ public class MusicalTermsTutorController {
             // This handler colors the GUI depending on the user's input
             public void handle(ActionEvent event) {
                 if (originOptions.getValue().equals(currentTerm.getMusicalTermOrigin())) {
-                    //final static int partsQuestionAnswered = 0;
                     originOptions.setStyle("-fx-background-color: green");
-                    //partsQuestionAnswered += 1;
-                    //rowPane.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
-                    manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 1);
 
                 } else {
                     originOptions.setStyle("-fx-background-color: red");
-                    //rowPane.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-                    manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 0);
                 }
+
+                if(categoryOptions.getValue() != null && definitionOptions.getValue()!= null){
+                    if(categoryOptions.getStyle() == "-fx-background-color: red" && definitionOptions.getStyle() == "-fx-background-color: red" && originOptions.getStyle() == "-fx-background-color: red" ){
+                        rowPane.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                        manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 0);
+                    }else if(categoryOptions.getStyle() == "-fx-background-color: green" && definitionOptions.getStyle() == "-fx-background-color: green" && originOptions.getStyle() == "-fx-background-color: green" ){
+                        rowPane.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
+                        manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 1);
+                    }else{
+                        rowPane.setStyle("-fx-border-color: yellow; -fx-border-width: 2px;");
+                        manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 0);
+
+                    }
+                    rowPane.getChildren().get(7).setDisable(true);
+                    manager.answered += 1;
+                }
+
                 rowPane.getChildren().get(2).setDisable(true);
-                manager.answered += 1;
                 if (manager.answered == manager.questions) {
                     finished();
                 }
@@ -182,15 +190,27 @@ public class MusicalTermsTutorController {
             public void handle(ActionEvent event) {
                 if (categoryOptions.getValue().equals(currentTerm.getMusicalTermCategory())) {
                     categoryOptions.setStyle("-fx-background-color: green");
-                    //rowPane.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
-                    manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 1);
                 } else {
-                    categoryOptions.setStyle("-fx-background-color: red");
-                    //rowPane.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-                    manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 0);
+                    categoryOptions.setStyle("-fx-background-color: red");;
+                }
+
+                if(definitionOptions.getValue() != null && originOptions.getValue()!= null){
+                    if(categoryOptions.getStyle() == "-fx-background-color: red" && definitionOptions.getStyle() == "-fx-background-color: red" && originOptions.getStyle() == "-fx-background-color: red" ){
+                        rowPane.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                        manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 0);
+                    }else if(categoryOptions.getStyle() == "-fx-background-color: green" && definitionOptions.getStyle() == "-fx-background-color: green" && originOptions.getStyle() == "-fx-background-color: green" ){
+                        rowPane.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
+                        manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 1);
+                    }else{
+                        rowPane.setStyle("-fx-border-color: yellow; -fx-border-width: 2px;");
+                        manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 0);
+
+                    }
+                    rowPane.getChildren().get(7).setDisable(true);
+                    manager.answered += 1;
                 }
                 rowPane.getChildren().get(4).setDisable(true);
-                manager.answered += 1;
+
                 if (manager.answered == manager.questions) {
                     finished();
                 }
@@ -202,16 +222,31 @@ public class MusicalTermsTutorController {
             // This handler colors the GUI depending on the user's input
             public void handle(ActionEvent event) {
                 if (definitionOptions.getValue().equals(currentTerm.getMusicalTermDefinition())) {
-                    definitionOptions.setStyle("-fx-background-color: green");
-                    //rowPane.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
-                    manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 1);
+                    definitionOptions.setStyle("-fx-background-color: green");;
                 } else {
-                    definitionOptions.setStyle("-fx-background-color: red");
-                    //rowPane.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-                    manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 0);
+                    definitionOptions.setStyle("-fx-background-color: red");;
                 }
+
+                if(categoryOptions.getValue() != null && originOptions.getValue()!= null){
+                    if(categoryOptions.getStyle() == "-fx-background-color: red" && definitionOptions.getStyle() == "-fx-background-color: red" && originOptions.getStyle() == "-fx-background-color: red" ){
+                        rowPane.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                        manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 0);
+                    }else if(categoryOptions.getStyle() == "-fx-background-color: green" && definitionOptions.getStyle() == "-fx-background-color: green" && originOptions.getStyle() == "-fx-background-color: green" ){
+                        rowPane.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
+                        manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 1);
+                    }else{
+                        rowPane.setStyle("-fx-border-color: yellow; -fx-border-width: 2px;");
+                        manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 0);
+
+                    }
+                    rowPane.getChildren().get(7).setDisable(true);
+                    manager.answered += 1;
+                }
+
                 rowPane.getChildren().get(6).setDisable(true);
-                manager.answered += 1;
+
+
+
                 if (manager.answered == manager.questions) {
                     finished();
                 }
@@ -221,10 +256,17 @@ public class MusicalTermsTutorController {
 
         skip.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
+                rowPane.setStyle("-fx-border-color: grey; -fx-border-width: 2px;");
+                manager.questions -= 1;
+                manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 0);
                 rowPane.getChildren().get(2).setDisable(true);
                 rowPane.getChildren().get(4).setDisable(true);
                 rowPane.getChildren().get(6).setDisable(true);
                 rowPane.getChildren().get(7).setDisable(true);
+                if (manager.answered == manager.questions) {
+                    finished();
+                }
+
 
             }
         });
