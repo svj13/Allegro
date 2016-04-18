@@ -66,13 +66,20 @@ public class jsonHandler {
     }
 
     public void saveCurrentProject(){
-        if(currentProjectPath.length() > 0){
+        if(currentProjectPath != null){
             saveProject(currentProjectPath);
         }
-        else System.err.println("Project could not be saved!!");
-        //TODO make a pop up window if the project cannot be saved.
+        else{
+            env.getRootController().newProject();
+        }
+
+
 
     }
+
+
+
+
     public void saveProject(String projectAddress){
 
         //Add all settings to such as tempo speed to the project here.
@@ -90,7 +97,8 @@ public class jsonHandler {
             String projectName = projectAddress.substring(projectAddress.lastIndexOf("/") + 1);
             this.projName = projectName;
             env.getRootController().setWindowTitle(projName);
-
+            System.out.println("project name" +projectAddress);
+            currentProjectPath = projectAddress;
             //Check if it isn't an exisiting stored project
             if(!projectList.contains(projectName)){
                 System.out.println("Saved project not found in projects.JSON - adding it");
@@ -133,12 +141,13 @@ public class jsonHandler {
     public void checkChanges(String propName){
 
         //Accepted values: tempo
+        String saveName = (propName.length() < 1) ? "New Project" : projName;
 
         if(propName == "tempo"){
 
             if(!(projectSettings.get("tempo") == String.valueOf(env.getPlayer().getTempo()))){ //If not equal
 
-                env.getRootController().setWindowTitle(projName + "*");
+                env.getRootController().setWindowTitle(saveName + "*");
             }
         }
 

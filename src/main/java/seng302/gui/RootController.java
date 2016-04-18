@@ -24,6 +24,7 @@ import javafx.stage.WindowEvent;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import seng302.Environment;
+import seng302.JSON.jsonHandler;
 import seng302.utility.TranscriptManager;
 
 public class RootController implements Initializable {
@@ -172,7 +173,7 @@ public class RootController implements Initializable {
     }
 
     @FXML
-    private void newProject(){
+    public void newProject(){
 
         TextInputDialog dialog = new TextInputDialog("");
         dialog.setTitle("New Project");
@@ -187,6 +188,7 @@ public class RootController implements Initializable {
             if(!Files.isDirectory(path)){
                 try{
                     Files.createDirectories(path);
+
                     env.getJson().saveProject(path.toString() + "/"+resultString);
                     //setWindowTitle(resultString);
 
@@ -216,12 +218,12 @@ public class RootController implements Initializable {
 
     @FXML
     private void bindOpenObjects(){
-        System.out.println("projects bound in project menu");
+
         JSONArray projects = env.getJson().getProjectList();
         menuOpenProjects.getItems().clear();
         for(int i = 0; i < projects.size(); i++){
             final String projectName = projects.get(i).toString();
-            System.out.println("menu project: " + projectName);
+
             MenuItem projectItem = new MenuItem(projectName);
             projectItem.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
                 public void handle(javafx.event.ActionEvent event) {
