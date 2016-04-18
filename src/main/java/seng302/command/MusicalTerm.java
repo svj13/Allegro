@@ -8,19 +8,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import seng302.Environment;
+import seng302.data.Term;
 
 public class MusicalTerm implements Command {
-    private String musicalTerm;
-    private String musicalTermName;
-    private String musicalTermCategory;
-    private String musicalTermOrigin;
-    private String musicalTermDefinition;
-    private int count = 0;
     private String result;
     private String input;
     private boolean isSetter;
     private static  HashMap<String, String> MusicalTermsMap = new HashMap<String, String>();
 
+    private  boolean termAdded = false;
+    private Term term;
 
     /**MusicalTerm(String) is a function that takes a musical term as a parameter and returns
      * the definition of that term along with the origin of the work (e.g. French, Italian).
@@ -39,20 +36,17 @@ public class MusicalTerm implements Command {
 
     public MusicalTerm( ArrayList<String> musicalTermArray,Boolean input) {
         String musicalTerm = createMusicalTermString(musicalTermArray);
-        System.out.println(musicalTerm);
 
         if(input == true) {
-            System.out.println("input = true");
             musicalTerm = musicalTerm.toLowerCase();
             String[] parts = musicalTerm.split(";");
             String musicalTermName = parts[0];
-            System.out.println(musicalTermName);
 
-            //System.out.println(this.MusicalTermsMap.get("lento"));
             this.isSetter = true; //it has an input
 
             //checks to see if the definition exists in the hashmap
             if (MusicalTermsMap.get(musicalTermName) != null) {
+
                 this.result = this.MusicalTermsMap.get(musicalTermName);
 
                 //if a given term is not in the hash map it will return an error to the user
@@ -66,31 +60,39 @@ public class MusicalTerm implements Command {
         }
 
         else{
-            System.out.println("input = false");
             musicalTerm = musicalTerm.toLowerCase();
-
             String[] parts = musicalTerm.split(";");
-            this.musicalTermName = parts[0];
-            this.musicalTermOrigin = parts[1];
-            this.musicalTermCategory = parts[2];
-            this.musicalTermDefinition = parts[3];
+            termAdded = true;
+            term = new Term(parts[0],parts[2],parts[1],parts[3]);
+
             String definition = "Origin: " + parts[1] + "\nCategory: " + parts[2] +
                     "\nDefinition: " + parts[3];
 
-            System.out.println(definition);
-            MusicalTermsMap.put(musicalTermName, definition);
-
-
+            MusicalTermsMap.put(parts[0], definition);
 
         }
-//            System.out.println(musicalTermName);
-//            System.out.println(musicalTermCategory);
-//            System.out.println(musicalTermOrigin);
-//            System.out{.println(musicalTermDefinition);
-
     }
 
 
+    /**
+     *
+     * @param muscialTerm
+     */
+    public void addMusicalTerm(ArrayList<String> muscialTerm) {
+        this.input = input;
+    }
+
+    public void execute(Environment env) {
+
+        if(termAdded == true){
+            env.getMttDataManager().addTerm(term);
+
+        } else {
+
+            env.getTranscriptManager().setResult(result);
+
+        }
+    }
 
 
 
@@ -223,18 +225,6 @@ public class MusicalTerm implements Command {
 //                " which a passage of music is or should be played");
 //    }
 
-    /**
-     *
-     * @param muscialTerm
-     */
-    public void addMusicalTerm(ArrayList<String> muscialTerm) {
-        this.input = input;
-    }
 
-    public void execute(Environment env) {
-        if (isSetter) {
-            env.getTranscriptManager().setResult(result);
-        }
-    }
 
 }

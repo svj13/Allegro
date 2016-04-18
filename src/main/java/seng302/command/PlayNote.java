@@ -40,6 +40,8 @@ public class PlayNote implements Command {
             Note playNote = Note.lookup(OctaveUtil.addDefaultOctave(note));
             if (this.duration == null) {
                 env.getPlayer().playNote(playNote);
+                env.getTranscriptManager().setResult("Playing " + note + " at "
+                        + env.getPlayer().getTempo() + "BPM");
             } else {
                 // The duration has been specified by the user
                 try {
@@ -48,6 +50,8 @@ public class PlayNote implements Command {
                         throw new Exception();
                     }
                     env.getPlayer().playNote(playNote, playDuration);
+                    env.getTranscriptManager().setResult("Playing " + note + " at "
+                            + env.getPlayer().getTempo() + "BPM");
                 } catch (Exception e) {
                     // Catches invalid durations
                     env.error("Invalid duration " + duration);

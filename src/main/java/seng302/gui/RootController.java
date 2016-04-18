@@ -52,6 +52,9 @@ public class RootController implements Initializable {
     private TranscriptPaneController transcriptController;
 
     @FXML
+    private MusicalTermsTutorController MusicalTermsTabController;
+
+    @FXML
     private StackPane stackPane1;
 
     @FXML
@@ -259,11 +262,9 @@ public class RootController implements Initializable {
 
 
         transcriptController.setEnv(env);
-
-
-
         PitchComparisonTabController.create(env);
         IntervalRecognitionTabController.create(env);
+        MusicalTermsTabController.create(env);
 
 
 
