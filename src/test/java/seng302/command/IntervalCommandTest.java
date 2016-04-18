@@ -81,5 +81,15 @@ public class IntervalCommandTest {
         intervalWords.add("blah");
         new IntervalCommand(intervalWords, "C", "play").execute(env);
         verify(transcriptManager).setResult("[ERROR] Unknown interval: blah");
+
+        intervalWords.clear();
+        intervalWords.add("15");
+        new IntervalCommand(intervalWords, "C", "play").execute(env);
+        verify(transcriptManager).setResult("[ERROR] Unknown interval: 15");
+
+        intervalWords.clear();
+        intervalWords.add("-1");
+        new IntervalCommand(intervalWords, "C", "play").execute(env);
+        verify(transcriptManager).setResult("[ERROR] Unknown interval: -1");
     }
 }
