@@ -26,7 +26,7 @@ public class TranscriptManager {
 
     public TranscriptManager() {
         lastOutputTuple = new OutputTuple();
-        historyController= new CommandHistory(this);
+        historyController = new CommandHistory(this);
 
     }
 

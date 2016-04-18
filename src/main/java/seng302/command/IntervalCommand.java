@@ -14,6 +14,7 @@ package seng302.command;
 import java.util.ArrayList;
 
 import seng302.Environment;
+import seng302.MusicPlayer;
 import seng302.data.Interval;
 import seng302.data.Note;
 import seng302.utility.OctaveUtil;
@@ -41,12 +42,14 @@ public class IntervalCommand implements Command {
      * Constructs a command of the type fetch note given tonic and interval
      * @param intervalName A list of the words in the interval name
      * @param tonic the starting note
+     * @param outputType whether this interval will be played or displayed
      */
-    public IntervalCommand(ArrayList<String> intervalName, String tonic) {
+    public IntervalCommand(ArrayList<String> intervalName, String tonic, String outputType) {
         this.intervalName = createIntervalName(intervalName);
         this.tonic = tonic;
-        this.outputType = "note";
+        this.outputType = outputType;
     }
+
 
     /**
      * Given a list of words, turns them into a string interval name.
@@ -131,6 +134,35 @@ public class IntervalCommand implements Command {
     }
 
     /**
+     * Plays the two notes of an interval given the interval and starting note
+     * @param env
+     */
+    private void playInterval(Environment env) {
+        try {
+            setNoteInformation();
+            try {
+                int numSemitones = Interval.lookupByName(intervalName).getSemitones();
+                try {
+                    if (note.semitoneUp(numSemitones) == null) {
+                        throw new Exception();
+                    }
+                    ArrayList<Note> notes = new ArrayList<Note>();
+                    notes.add(note);
+                    notes.add(note.semitoneUp(numSemitones));
+                    // Waits for three crotchets
+                    env.getPlayer().playNotes(notes, (48));
+                } catch (Exception e) {
+                    env.error("Invalid combination of tonic and interval.");
+                }
+            } catch (Exception e) {
+                env.error("Unknown interval: " + intervalName);
+            }
+        } catch (Exception e) {
+            env.error("\'" + tonic + "\'" + " is not a valid note.");
+        }
+    }
+
+    /**
      * The execute function decides which function to run.
      * @param env
      */
@@ -139,6 +171,10 @@ public class IntervalCommand implements Command {
             getSemitones(env);
         } else if (outputType.equals("note")) {
             getCorrespondingNote(env);
+        } else if (outputType.equals("play")) {
+            playInterval(env);
+        } else {
+            env.error("Unknown command");
         }
 
     }

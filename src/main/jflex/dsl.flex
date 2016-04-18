@@ -69,6 +69,7 @@ ScaleType = major
     "simple enharmonic" { return symbol(DslSymbol.COMMAND_SIMPLE_ENHARMONIC); }
     "set tempo"        { return symbol(DslSymbol.COMMAND_SET_TEMPO);  }
     "play scale"        {return symbol(DslSymbol.COMMAND_PLAY_SCALE); }
+    "play interval"     {return symbol(DslSymbol.COMMAND_PLAY_INTERVAL); }
     "play"             { return symbol(DslSymbol.COMMAND_PLAY_NOTE);    }
     "interval semitone"  { return symbol(DslSymbol.COMMAND_INTERVAL_NUM_SEMITONES);    }
     "interval"          {return symbol(DslSymbol.COMMAND_INTERVAL_GET_NOTE); }
