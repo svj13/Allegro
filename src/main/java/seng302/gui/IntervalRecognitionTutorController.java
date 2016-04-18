@@ -18,6 +18,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.util.Pair;
 import seng302.Environment;
 import seng302.data.Interval;
@@ -37,6 +38,21 @@ public class IntervalRecognitionTutorController {
 
     @FXML
     ScrollPane paneQuestions;
+
+    @FXML
+    ScrollPane paneResults;
+
+    @FXML
+    Text resultsTitle;
+
+    @FXML
+    Text resultsContent;
+
+    @FXML
+    VBox resultsBox;
+
+    @FXML
+    HBox buttons;
 
     @FXML
     Button btnGo;
@@ -215,30 +231,40 @@ public class IntervalRecognitionTutorController {
      * This function is run once a tutoring session has been completed.
      */
     private void finished() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText("Finished");
         float userScore = manager.getScore();
-        String outputText = String.format("You have finished the tutor. You got %d out of %d. This is a score of %.2f percent", manager.correct, manager.answered, userScore);
-        alert.setContentText(outputText);
+        String outputText = String.format("You have finished the tutor." +
+                " You got %d out of %d. This is a score of %.2f percent",
+                manager.correct, manager.answered, userScore);
+        resultsContent.setText(outputText);
+        paneQuestions.setVisible(false);
+        paneResults.setVisible(true);
+        questionRows.getChildren().clear();
 
+        Button retestBtn = new Button("Retest");
+        Button clearBtn  = new Button("Clear");
 
-        ButtonType retestBtn = new ButtonType("Retest");
-        ButtonType clearBtn  = new ButtonType("Clear");
+        clearBtn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                manager.saveTempIncorrect();
+                paneResults.setVisible(false);
+                paneQuestions.setVisible(true);
+            }
+        });
+
+        retestBtn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                paneResults.setVisible(false);
+                paneQuestions.setVisible(true);
+                retest();
+            }
+        });
 
         if (manager.getTempIncorrectResponses().size() > 0) {
             //Can re-test
-            alert.getButtonTypes().setAll(retestBtn, clearBtn);
+            buttons.getChildren().setAll(retestBtn, clearBtn);
         } else {
             //Perfect score
-            alert.getButtonTypes().setAll(clearBtn);
-        }
-        Optional<ButtonType> result = alert.showAndWait();
-        questionRows.getChildren().clear();
-
-        if (result.get() == clearBtn) {
-            manager.saveTempIncorrect();
-        } else if (result.get() == retestBtn) {
-            retest();
+            buttons.getChildren().setAll(clearBtn);
         }
 
         // Clear the current session
