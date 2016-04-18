@@ -1,6 +1,7 @@
 package seng302.utility;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import javafx.util.Pair;
 
@@ -42,6 +43,11 @@ public class TutorManager {
      *Stores the number of questions that have been answered correctly
      */
     public int correct = 0;
+
+    /**
+     * Stores the date and time the tutor session was initiated
+     */
+    public Date dateAndTime = new Date();
 
 
     /**
@@ -97,5 +103,7 @@ public class TutorManager {
         }
         return score;
     }
+
+
 
 }
