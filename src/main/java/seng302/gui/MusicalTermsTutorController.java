@@ -73,11 +73,19 @@ public class MusicalTermsTutorController {
             ArrayList<Term> termArray = dataManager.getTerms();
             // Run the tutor
             questionRows.getChildren().clear();
-            for (int i = 0; i < manager.questions; i++) {
-                Term term = termArray.get(rand.nextInt(dataManager.getTerms().size()));
-                HBox questionRow = generateQuestionPane(term);
-                questionRows.getChildren().add(questionRow);
-                questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
+            if(termArray.size() < 1){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setHeaderText("No Musical Terms Added");
+                alert.setContentText("There are no terms to be tested on. \nTo add them use the 'add musical term' command");
+                alert.showAndWait();
+
+            }else {//if there are terms to display
+                for (int i = 0; i < manager.questions; i++) {
+                    Term term = termArray.get(rand.nextInt(termArray.size()));
+                    HBox questionRow = generateQuestionPane(term);
+                    questionRows.getChildren().add(questionRow);
+                    questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
+                }
             }
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -125,8 +133,6 @@ public class MusicalTermsTutorController {
     private HBox generateQuestionPane(Term term) {
         int partsQuestionAnswered = 0;
 
-        ArrayList<Term> termArray = dataManager.getTerms();
-        //final Term currentTerm = termArray.get(rand.nextInt(dataManager.getTerms().size()));
 
         final Term currentTerm = term;
         final HBox rowPane = new HBox();
