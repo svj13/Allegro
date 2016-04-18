@@ -69,4 +69,17 @@ public class IntervalCommandTest {
         new IntervalCommand(intervalWords, "C", "note").execute(env);
         verify(transcriptManager).setResult("[ERROR] Unknown interval: blah");
     }
+
+    @Test
+    public void setsCorrectPlayErrors() {
+        intervalWords.add("perfect");
+        intervalWords.add("fourth");
+        new IntervalCommand(intervalWords, "M", "play").execute(env);
+        verify(transcriptManager).setResult("[ERROR] 'M' is not a valid note.");
+
+        intervalWords.clear();
+        intervalWords.add("blah");
+        new IntervalCommand(intervalWords, "C", "play").execute(env);
+        verify(transcriptManager).setResult("[ERROR] Unknown interval: blah");
+    }
 }
