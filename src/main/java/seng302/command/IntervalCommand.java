@@ -5,16 +5,9 @@ package seng302.command;
  */
 
 
-// *********************************
-//*******************************
-//CURRENTLY NOT HOOKED UP TO THE DSL CUP OR FLEX
-//**********************************
-//*****************************
-
 import java.util.ArrayList;
 
 import seng302.Environment;
-import seng302.MusicPlayer;
 import seng302.data.Interval;
 import seng302.data.Note;
 import seng302.utility.OctaveUtil;
@@ -25,6 +18,7 @@ public class IntervalCommand implements Command {
     String tonic;
     String outputType;
     String correspondingNote;
+    int intervalSemis = -1;
     private boolean octaveSpecified;
     private Note note;
 
@@ -38,6 +32,7 @@ public class IntervalCommand implements Command {
         this.outputType = "semitones";
     }
 
+
     /**
      * Constructs a command of the type fetch note given tonic and interval
      * @param intervalName A list of the words in the interval name
@@ -46,9 +41,15 @@ public class IntervalCommand implements Command {
      */
     public IntervalCommand(ArrayList<String> intervalName, String tonic, String outputType) {
         this.intervalName = createIntervalName(intervalName);
+        try {
+            this.intervalSemis = Integer.parseInt(this.intervalName);
+        } catch (Exception e) {
+            // Do nothing
+        }
         this.tonic = tonic;
         this.outputType = outputType;
     }
+
 
 
     /**
@@ -141,7 +142,13 @@ public class IntervalCommand implements Command {
         try {
             setNoteInformation();
             try {
-                int numSemitones = Interval.lookupByName(intervalName).getSemitones();
+                int numSemitones;
+                if (Interval.acceptedSemitones.contains(intervalSemis)) {
+                    numSemitones = intervalSemis;
+                } else {
+                    numSemitones = Interval.lookupByName(intervalName).getSemitones();
+                }
+
                 try {
                     if (note.semitoneUp(numSemitones) == null) {
                         throw new Exception();
