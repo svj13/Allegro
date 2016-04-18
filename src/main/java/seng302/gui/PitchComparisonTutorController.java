@@ -3,6 +3,7 @@ package seng302.gui;
 import org.controlsfx.control.RangeSlider;
 import org.controlsfx.control.spreadsheet.StringConverterWithFormat;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Random;
@@ -492,6 +493,27 @@ public class PitchComparisonTutorController {
                 manager.saveTempIncorrect();
             }
         }
+
+
+
+
+        manager.answered = 0;
+        manager.correct = 0;
+    }
+
+
+    private void finished2() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText("Finished");
+        int cor = manager.correct;
+        int ques = manager.questions;
+
+
+        ButtonType retestBtn = new ButtonType("Retest");
+        ButtonType clearBtn  = new ButtonType("Clear");
+
+        Panel pnlComplete;
+
 
 
 

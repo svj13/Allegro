@@ -9,7 +9,7 @@ import seng302.gui.RootController;
 
 
 public class App extends Application {
-    Stage primaryStage = new Stage();
+    Stage primaryStage ;
     Environment env;
 
     public static void main(String[] args) {
@@ -33,7 +33,7 @@ public class App extends Application {
             //Parent root = loader;
             Scene scene = new Scene(root);
 
-
+            primaryStage = new Stage();
             primaryStage.setScene(scene);
             primaryStage.setTitle("Allegro");
             primaryStage.setMinHeight(450);

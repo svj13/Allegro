@@ -1,5 +1,6 @@
 package seng302;
 
+import seng302.gui.RootController;
 import seng302.utility.MusicalTermsTutorBackEnd;
 import seng302.utility.TutorManager;
 import seng302.utility.TranscriptManager;
@@ -13,6 +14,18 @@ public class Environment {
     private TutorManager mttManager;
     private MusicalTermsTutorBackEnd mttDataManager; ///////////////////////////////////////
     private MusicPlayer player;
+
+    public RootController getRootController() {
+        return rootController;
+    }
+
+    public void setRootController(RootController rootController) {
+        this.rootController = rootController;
+    }
+
+    // Root Controller
+    private RootController rootController;
+
 
 
 
@@ -88,5 +101,8 @@ public class Environment {
     public void setJson(seng302.JSON.jsonHandler json) {
         this.json = json;
     }
+
+
+
 
 }

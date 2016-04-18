@@ -188,7 +188,7 @@ public class RootController implements Initializable {
                 try{
                     Files.createDirectories(path);
                     env.getJson().saveProject(path.toString() + "/"+resultString);
-                    System.out.println("Woo,  " + path.toString() + "/" + resultString + " created");
+                    setWindowTitle(resultString);
 
                 }
                 catch(IOException e){
@@ -267,8 +267,12 @@ public class RootController implements Initializable {
         MusicalTermsTabController.create(env);
 
 
+        env.setRootController(this);
 
+    }
 
+    public void setWindowTitle(String text){
+        this.stage.setTitle("Allegro    " + text);
     }
 
     public Environment getEnv() {

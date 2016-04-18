@@ -81,6 +81,8 @@ public class TranscriptPaneController {
             env.getTranscriptManager().setCommand(text);
             env.getExecutor().executeCommand(text);
             txtTranscript.appendText(env.getTranscriptManager().getLastCommand());
+
+
         } else {
             txtTranscript.appendText("[ERROR] Cannot submit an empty command.\n");
         }
@@ -123,7 +125,10 @@ public class TranscriptPaneController {
     public void setEnv(Environment env) {
         this.env = env;
 
+
+
     }
+
 
 
 }

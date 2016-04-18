@@ -4,38 +4,38 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="paneMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="457.0"
-            minWidth="700.0" prefHeight="457.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.RootController">
+<AnchorPane fx:id="paneMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="457.0" minWidth="700.0" prefHeight="457.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.RootController">
    <children>
       <!--<children>-->
-       <MenuBar minHeight="-Infinity" prefHeight="29.0" prefWidth="500.0"
-                AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+       <MenuBar minHeight="-Infinity" prefHeight="29.0" prefWidth="500.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
            <menus>
              <Menu mnemonicParsing="false" text="File">
                <items>
-                     <MenuItem fx:id="MenuOpen" mnemonicParsing="false" onAction="#openTranscript" text="Open Transcript" />
-                     <MenuItem fx:id="MenuSave" mnemonicParsing="false" onAction="#saveTranscript" text="Save Transcript" />
-                  <MenuItem fx:id="menuSaveProject" mnemonicParsing="false" onAction="#saveProject" text="Save Project" />
                  <MenuItem fx:id="menuQuit" mnemonicParsing="false" onAction="#closeApplication" text="Quit" />
                   <Menu fx:id="menuOpen" mnemonicParsing="false" onAction="#bindOpenObjects" onShown="#bindOpenObjects" text="Open...">
                     <items>
                         <SeparatorMenuItem mnemonicParsing="false" text="Find.." />
                         <Menu fx:id="menuOpenProjects" mnemonicParsing="false" text="Project" />
+                           <MenuItem fx:id="MenuOpen" mnemonicParsing="false" onAction="#openTranscript" text="Open Transcript" />
                     </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="New..">
                     <items>
                         <MenuItem fx:id="menuNewProject" mnemonicParsing="false" onAction="#newProject" text="Project" />
+                        <MenuItem fx:id="menuNewProject1" mnemonicParsing="false" onAction="#newProject" text="Project" />
                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Save...">
+                     <items>
+                        <MenuItem fx:id="menuSaveProject" mnemonicParsing="false" onAction="#saveProject" text="Save Project" />
+                           <MenuItem fx:id="MenuSave" mnemonicParsing="false" onAction="#saveTranscript" text="Save Transcript" />
+                     </items>
                   </Menu>
                </items>
              </Menu>
            </menus>
          </MenuBar>
-       <TabPane layoutY="29.0" prefHeight="428.0" prefWidth="500.0" tabClosingPolicy="UNAVAILABLE"
-                AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0">
+       <TabPane layoutY="29.0" prefHeight="428.0" prefWidth="500.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0">
         <tabs>
           <Tab text="Transcript">
             <content>

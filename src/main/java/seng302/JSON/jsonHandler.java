@@ -79,7 +79,7 @@ public class jsonHandler {
 
 
         try {
-            System.out.println("projets length: " + projectList.size());
+            System.out.println("projects length: " + projectList.size());
 
             projectSettings.put("tempo", (int) env.getPlayer().getTempo());
 
@@ -115,6 +115,24 @@ public class jsonHandler {
         }
     }
 
+    /**
+     * Compares all current project properties to the saved values
+     * If there are any differences, adds an asterix indicator to the project title
+     */
+    public void checkChanges(){
+
+
+    }
+
+    /**
+     * Compares a specified project property to the saved value
+     * If there is a difference, adds an asterix indicator to the project title
+     * @param propName property id which is stored in the Json project file.
+     */
+    public void checkChanges(String propName){
+
+    }
+
 
 
     public  void loadProject(String pName){
@@ -131,6 +149,8 @@ public class jsonHandler {
             env.getPlayer().setTempo(tempo);
 
             currentProjectPath = path;
+
+            env.getRootController().setWindowTitle(pName);
             //ignore
 
 

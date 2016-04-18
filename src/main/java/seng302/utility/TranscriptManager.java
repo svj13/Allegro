@@ -128,6 +128,11 @@ public class TranscriptManager {
         transcriptContent.add(lastOutputTuple);
         unsavedChanges = true;
 
+
+
+
+
+
     }
 
 
