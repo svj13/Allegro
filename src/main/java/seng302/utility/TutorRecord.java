@@ -35,7 +35,7 @@ public class TutorRecord {
     }
 
     public void addRetest() {
-        lines.add("Re-testing");
+        lines.add("===== Re-testing =====");
         lines.add("");
     }
 
@@ -45,6 +45,7 @@ public class TutorRecord {
 
         float percentage = (questionsAnsweredCorrectly * 100) / (questionsAnsweredCorrectly + questionsAnsweredIncorrectly);
         lines.add("Percentage answered correctly: " + percentage + "%");
+        lines.add("");
     }
 
     public void writeToFile() {
