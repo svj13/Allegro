@@ -21,50 +21,37 @@ public class TutorRecord {
 
     private int questionsAnsweredIncorrectly;
 
+    private ArrayList<String> lines = new ArrayList<String>();
 
-    /**
-     * An array of questions, stored as question, answer, correct
-     * For example:
-     * Interval tutor would store as "Interval between Note1 and Note2", "unison/etc", true
-     * Pitch tutor would store as "Is Note2 higher/lower than Note1", "higher/lower/same", false
-     */
-    private ArrayList<String[]> questionsAnswers = new ArrayList<String[]>();
 
     public void setStartTime(Date startTime) {
         this.startTime = startTime;
+        lines.add("Date: " + startTime.toString());
     }
 
-    public void addQuestionAnswer(String[] questionAndAnswer) {
-        questionsAnswers.add(questionAndAnswer);
+    public void addQuestionAnswer(String[] questionSet) {
+        lines.add("Question: " + questionSet[0]);
+        lines.add("Answer: " + questionSet[1]);
+        lines.add("Correct: " + questionSet[2]);
+        lines.add("");
     }
 
     public void setQuestionsAnsweredCorrectly(int questionsAnsweredCorrectly) {
         this.questionsAnsweredCorrectly = questionsAnsweredCorrectly;
+        lines.add("Questions answered correctly: " + questionsAnsweredCorrectly);
     }
 
     public void setQuestionsAnsweredIncorrectly(int questionsAnsweredIncorrectly) {
         this.questionsAnsweredIncorrectly = questionsAnsweredIncorrectly;
+        lines.add("Questions answered incorrectly: " + questionsAnsweredIncorrectly);
     }
 
-    public float calculatePercentageCorrect() {
-        return (this.questionsAnsweredCorrectly * 100) / (this.questionsAnsweredCorrectly + this.questionsAnsweredIncorrectly);
+    public void calculatePercentageCorrect() {
+        float percentage = (this.questionsAnsweredCorrectly * 100) / (this.questionsAnsweredCorrectly + this.questionsAnsweredIncorrectly);
+        lines.add("Percentage answered correctly: " + percentage + "%");
     }
 
     public void writeToFile() {
-        ArrayList<String> lines = new ArrayList<String>();
-        lines.add("Date: " + startTime.toString());
-
-        for (String[] questionSet:questionsAnswers) {
-            lines.add("Question: " + questionSet[0]);
-            lines.add("Answer: " + questionSet[1]);
-            lines.add("Correct: " + questionSet[2]);
-            lines.add("");
-        }
-
-        lines.add("Questions answered correctly: " + questionsAnsweredCorrectly);
-        lines.add("Questions answered incorrectly: " + questionsAnsweredIncorrectly);
-        lines.add("Percentage answered correctly: " + calculatePercentageCorrect() + "%");
-
         Path file = Paths.get("testfile.txt");
         try {
             Files.write(file, lines, Charset.forName("UTF-8"), StandardOpenOption.CREATE);

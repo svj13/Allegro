@@ -107,6 +107,7 @@ public class TutorManager {
     public void writeToFile(TutorRecord record) {
         record.setQuestionsAnsweredCorrectly(correctResponses.size());
         record.setQuestionsAnsweredIncorrectly(tempIncorrectResponses.size());
+        record.calculatePercentageCorrect();
         record.writeToFile();
     }
 
