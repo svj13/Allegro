@@ -4,14 +4,8 @@ package seng302.command;
  * Created by Sarah on 1/04/2016.
  */
 
-
-// *********************************
-//*******************************
-//CURRENTLY NOT HOOKED UP TO THE DSL CUP OR FLEX
-//**********************************
-//*****************************
-
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import seng302.Environment;
 import seng302.MusicPlayer;
@@ -25,43 +19,26 @@ public class IntervalCommand implements Command {
     String tonic;
     String outputType;
     String correspondingNote;
+    String semitones;
     private boolean octaveSpecified;
     private Note note;
 
 
     /**
-     * Constructs a command of the type lookup number of semitones
-     * @param intervalName A list of the words in the interval name
-     */
-    public IntervalCommand(ArrayList<String> intervalName) {
-        this.intervalName = createIntervalName(intervalName);
-        this.outputType = "semitones";
-    }
-
-    /**
      * Constructs a command of the type fetch note given tonic and interval
-     * @param intervalName A list of the words in the interval name
-     * @param tonic the starting note
      * @param outputType whether this interval will be played or displayed
      */
-    public IntervalCommand(ArrayList<String> intervalName, String tonic, String outputType) {
-        this.intervalName = createIntervalName(intervalName);
-        this.tonic = tonic;
-        this.outputType = outputType;
-    }
-
-
-    /**
-     * Given a list of words, turns them into a string interval name.
-     * @param intervalWords List of words
-     * @return string representation of the user's inputted interval name.
-     */
-    private String createIntervalName(ArrayList<String> intervalWords) {
-        String interval = "";
-        for (String word:intervalWords) {
-            interval += (word + " ");
+    public IntervalCommand(HashMap<String, String> interval, String outputType) {
+        if (interval.get("interval") != null) {
+            this.intervalName = interval.get("interval");
+        } else if (interval.get("semitones") != null) {
+            this.semitones = interval.get("semitones");
         }
-        return interval.trim();
+        if (interval.get("note") != null) {
+            this.tonic = interval.get("note");
+        }
+        this.outputType = outputType;
+
     }
 
     /**
@@ -104,7 +81,12 @@ public class IntervalCommand implements Command {
         try {
             setNoteInformation();
             try {
-                int numSemitones = Interval.lookupByName(intervalName).getSemitones();
+                int numSemitones;
+                if (intervalName != null) {
+                    numSemitones = Interval.lookupByName(intervalName).getSemitones();
+                } else {
+                    numSemitones = Integer.valueOf(semitones);
+                }
                 try {
                     correspondingNote = note.semitoneUp(numSemitones).getNote();
                     setNoteOutput(env);
@@ -126,10 +108,12 @@ public class IntervalCommand implements Command {
     private void getSemitones(Environment env) {
         //This section of code gets the number of semitones in a given interval
         try {
-            String semitones = Integer.toString(Interval.lookupByName(intervalName).getSemitones());
-            env.getTranscriptManager().setResult(semitones);
-        } catch (Exception e) {
-            env.error("Unknown interval: " + intervalName);
+            if (semitones == null) {
+                semitones = Integer.toString(Interval.lookupByName(intervalName).getSemitones());
+            }
+            env.getTranscriptManager().setResult(semitones + " semitones");
+        } catch (NullPointerException e) {
+            env.error("Unknown interval: " + semitones);
         }
     }
 
@@ -141,7 +125,12 @@ public class IntervalCommand implements Command {
         try {
             setNoteInformation();
             try {
-                int numSemitones = Interval.lookupByName(intervalName).getSemitones();
+                int numSemitones;
+                if (intervalName != null) {
+                    numSemitones = Interval.lookupByName(intervalName).getSemitones();
+                } else {
+                    numSemitones = Integer.valueOf(semitones);
+                }
                 try {
                     if (note.semitoneUp(numSemitones) == null) {
                         throw new Exception();
@@ -167,6 +156,7 @@ public class IntervalCommand implements Command {
      * @param env
      */
     public void execute(Environment env) {
+        System.out.println(outputType);
         if (outputType.equals("semitones")) {
             getSemitones(env);
         } else if (outputType.equals("note")) {

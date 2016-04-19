@@ -53,6 +53,8 @@ public class jsonHandler {
                 file.close();
 
             } catch (IOException e2) {
+                System.out.println(e2.getMessage());
+
                 e.printStackTrace();
             }
 
