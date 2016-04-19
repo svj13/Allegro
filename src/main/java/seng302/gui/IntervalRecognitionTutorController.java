@@ -68,12 +68,11 @@ public class IntervalRecognitionTutorController {
     public void create(Environment env) {
         this.env = env;
         manager = env.getIrtManager();
-        record = new TutorRecord();
     }
 
     @FXML
     void goAction(ActionEvent event) {
-        record.setStartTime(new Date());
+        record = new TutorRecord(new Date());
         manager.questions = Integer.parseInt(txtNumIntervals.getText());
         if (manager.questions >= 1){
             // Run the tutor
@@ -249,6 +248,7 @@ public class IntervalRecognitionTutorController {
      */
     private void finished() {
         float userScore = manager.getScore();
+        record.setStats(manager.correct, manager.getTempIncorrectResponses().size());
         String outputText = String.format("You have finished the tutor." +
                 " You got %d out of %d. This is a score of %.2f percent",
                 manager.correct, manager.answered, userScore);
@@ -262,7 +262,7 @@ public class IntervalRecognitionTutorController {
 
         clearBtn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                manager.writeToFile(record);
+                record.writeToFile();
                 manager.saveTempIncorrect();
                 paneResults.setVisible(false);
                 paneQuestions.setVisible(true);

@@ -15,17 +15,9 @@ import javafx.util.Pair;
  */
 public class TutorRecord {
 
-    private Date startTime;
-
-    private int questionsAnsweredCorrectly;
-
-    private int questionsAnsweredIncorrectly;
-
     private ArrayList<String> lines = new ArrayList<String>();
 
-
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public TutorRecord(Date startTime) {
         lines.add("Date: " + startTime.toString());
     }
 
@@ -47,18 +39,11 @@ public class TutorRecord {
         lines.add("");
     }
 
-    public void setQuestionsAnsweredCorrectly(int questionsAnsweredCorrectly) {
-        this.questionsAnsweredCorrectly = questionsAnsweredCorrectly;
+    public void setStats(int questionsAnsweredCorrectly, int questionsAnsweredIncorrectly) {
         lines.add("Questions answered correctly: " + questionsAnsweredCorrectly);
-    }
-
-    public void setQuestionsAnsweredIncorrectly(int questionsAnsweredIncorrectly) {
-        this.questionsAnsweredIncorrectly = questionsAnsweredIncorrectly;
         lines.add("Questions answered incorrectly: " + questionsAnsweredIncorrectly);
-    }
 
-    public void calculatePercentageCorrect() {
-        float percentage = (this.questionsAnsweredCorrectly * 100) / (this.questionsAnsweredCorrectly + this.questionsAnsweredIncorrectly);
+        float percentage = (questionsAnsweredCorrectly * 100) / (questionsAnsweredCorrectly + questionsAnsweredIncorrectly);
         lines.add("Percentage answered correctly: " + percentage + "%");
     }
 
