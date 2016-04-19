@@ -68,8 +68,8 @@ Interval = ("unison"|"major second"|"major third"|"perfect fourth"|"perfect fift
     "semitone down"    {return symbol(DslSymbol.COMMAND_SEMITONE_DOWN);}
     "scale"            {return symbol(DslSymbol.COMMAND_SCALE);}
     "midi scale"       {return symbol(DslSymbol.COMMAND_LIST_SCALE);}
-    "flat name"        { return symbol(DslSymbol.COMMAND_FLAT_NAME); }
-    "sharp name"       { return symbol(DslSymbol.COMMAND_SHARP_NAME); }
+    "enharmonic higher"  { return symbol(DslSymbol.COMMAND_ENHARMONIC_HIGHER); }
+    "enharmonic lower"   { return symbol(DslSymbol.COMMAND_ENHARMONIC_LOWER); }
     "force set tempo"  { return symbol(DslSymbol.COMMAND_FORCE_SET_TEMPO); }
     "simple enharmonic" { return symbol(DslSymbol.COMMAND_SIMPLE_ENHARMONIC); }
     "set tempo"        { return symbol(DslSymbol.COMMAND_SET_TEMPO);  }
