@@ -23,7 +23,7 @@ public class Enharmonic implements Command {
         try {
             if (OctaveUtil.octaveSpecifierFlag(this.noteval)) {
                 this.note = Note.lookup(noteval);
-                if (comm == 0) {
+                if (comm == 1) {
                     if (note.flatName().length() == 1) {
                         env.error("Note does not have a lower enharmonic.");
                     } else {
@@ -45,7 +45,7 @@ public class Enharmonic implements Command {
                 }
             } else {
                 this.note = Note.lookup(OctaveUtil.addDefaultOctave(noteval));
-                if (comm == 0) {
+                if (comm == 1) {
                     if (note.flatName().length() == 1) {
                         env.error("Note does not have a lower enharmonic.");
                     } else {

@@ -16,7 +16,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 /**
- * Created by Elliot on 18/03/2016.
+ * Created by team 5 on 18/03/2016.
  */
 @RunWith(MockitoJUnitRunner.class)
 public class EnharmonicTest extends TestCase {
@@ -60,7 +60,7 @@ public class EnharmonicTest extends TestCase {
         verify(transcriptManager).setResult("B#4");
 
         new Enharmonic("D4", 2).execute(env);
-        verify(transcriptManager).setResult("Note does not have simple enharmonic");
+        verify(transcriptManager).setResult("[ERROR] Note does not have a simple enharmonic.");
 
         new Enharmonic("E4", 2).execute(env);
         verify(transcriptManager).setResult("Fb4");
@@ -69,10 +69,10 @@ public class EnharmonicTest extends TestCase {
         verify(transcriptManager).setResult("E#4");
 
         new Enharmonic("G4", 2).execute(env);
-        verify(transcriptManager, times(2)).setResult("Note does not have simple enharmonic");
+        verify(transcriptManager, times(2)).setResult("[ERROR] Note does not have a simple enharmonic.");
 
         new Enharmonic("A4", 2).execute(env);
-        verify(transcriptManager, times(3)).setResult("Note does not have simple enharmonic");
+        verify(transcriptManager, times(3)).setResult("[ERROR] Note does not have a simple enharmonic.");
 
         new Enharmonic("B4", 2).execute(env);
         verify(transcriptManager).setResult("Cb4");

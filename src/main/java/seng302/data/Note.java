@@ -316,11 +316,11 @@ Created the tempo class and made it so it defaults to 120BMP
 
     public String getEnharmonicWithLetter(char letter) {
         for (String value : enharmonics.values()) {
-            if (value.charAt(0) == letter) {
+            if (value.startsWith(String.valueOf(letter))) {
                 return value;
             }
         }
-        if (getNote().charAt(0) == letter) {
+        if (getNote().startsWith(String.valueOf(letter))) {
             return getNote();
         }
         return null;
