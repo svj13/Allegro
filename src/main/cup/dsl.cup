@@ -24,12 +24,12 @@ parser code {:
     }
 
     public void syntax_error(Symbol cur_token) {
-        System.out.println(cur_token.value);
-        System.out.println(DslSymbol.terminalNames[cur_token.sym]);
+        //System.out.println(cur_token.value);
+        //System.out.println(DslSymbol.terminalNames[cur_token.sym]);
 
         Symbol prev_token = (Symbol) this.stack.pop();
-        System.out.println(DslSymbol.terminalNames[prev_token.sym]);
-        System.out.println(prev_token.sym);
+        //System.out.println(DslSymbol.terminalNames[prev_token.sym]);
+        //System.out.println(prev_token.sym);
 
         switch(prev_token.sym){
             case 3: // prev_token is COMMAND_NOTE so expect a MIDI.
@@ -93,7 +93,7 @@ COMMAND_FLAT_NAME, COMMAND_SIMPLE_ENHARMONIC, COMMAND_SET_TEMPO, COMMAND_CROTCHE
 COMMAND_PLAY_NOTE, COMMAND_FORCE_SET_TEMPO, COMMAND_PLAY_SCALE, COMMAND_MUSICAL_TERM,
 COMMAND_ADD_MUSICAL_TERM, COMMAND_INTERVAL, COMMAND_PLAY_INTERVAL;
 
-terminal String STRING, ATOM, NOTE, SCALE_TYPE, DIRECTION, MIDINOTE, NUMBER, POSNUM, INTERVAL;
+terminal String ATOM, NOTE, SCALE_TYPE, DIRECTION, MIDINOTE, NUMBER, POSNUM, INTERVAL;
 
 /* Non terminals */
 non terminal Command command;

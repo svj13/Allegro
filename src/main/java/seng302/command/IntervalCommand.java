@@ -113,7 +113,11 @@ public class IntervalCommand implements Command {
             }
             env.getTranscriptManager().setResult(semitones + " semitones");
         } catch (NullPointerException e) {
-            env.error("Unknown interval: " + semitones);
+            if (semitones != null) {
+                env.error("Unknown interval: " + semitones);
+            } else {
+                env.error("Unknown interval: " + intervalName);
+            }
         }
     }
 
