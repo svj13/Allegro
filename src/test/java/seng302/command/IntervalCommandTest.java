@@ -73,24 +73,27 @@ public class IntervalCommandTest {
 
     @Test
     public void setsCorrectPlayErrors() {
-        intervalWords.add("perfect");
-        intervalWords.add("fourth");
-        new IntervalCommand(intervalWords, "M", "play").execute(env);
+        interval.put("interval", "perfect fourth");
+        interval.put("note", "M");
+        new IntervalCommand(interval, "play").execute(env);
         verify(transcriptManager).setResult("[ERROR] 'M' is not a valid note.");
 
-        intervalWords.clear();
-        intervalWords.add("blah");
-        new IntervalCommand(intervalWords, "C", "play").execute(env);
+        interval.clear();
+        interval.put("interval", "blah");
+        interval.put("note", "C");
+        new IntervalCommand(interval, "play").execute(env);
         verify(transcriptManager).setResult("[ERROR] Unknown interval: blah");
 
-        intervalWords.clear();
-        intervalWords.add("15");
-        new IntervalCommand(intervalWords, "C", "play").execute(env);
+        interval.clear();
+        interval.put("semitones", "15");
+        interval.put("note", "C");
+        new IntervalCommand(interval, "play").execute(env);
         verify(transcriptManager).setResult("[ERROR] Unknown interval: 15");
 
-        intervalWords.clear();
-        intervalWords.add("-1");
-        new IntervalCommand(intervalWords, "C", "play").execute(env);
+        interval.clear();
+        interval.put("semitones", "-1");
+        interval.put("note", "C");
+        new IntervalCommand(interval, "play").execute(env);
         verify(transcriptManager).setResult("[ERROR] Unknown interval: -1");
     }
 }
