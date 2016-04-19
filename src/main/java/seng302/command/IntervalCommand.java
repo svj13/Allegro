@@ -133,10 +133,11 @@ public class IntervalCommand implements Command {
             try {
                 int numSemitones;
                 if (intervalName != null) {
-                    numSemitones = Interval.lookupByName(intervalName).getSemitones();
+                    playingInterval = Interval.lookupByName(intervalName);
                 } else {
-                    numSemitones = Integer.valueOf(semitones);
+                    playingInterval = Interval.lookupBySemitones(Integer.valueOf(semitones));
                 }
+                numSemitones = playingInterval.getSemitones();
                 try {
                     if (note.semitoneUp(numSemitones) == null) {
                         throw new Exception();
@@ -152,7 +153,13 @@ public class IntervalCommand implements Command {
                     env.error("Invalid combination of tonic and interval.");
                 }
             } catch (Exception e) {
-                env.error("Unknown interval: " + intervalName);
+                if (intervalName != null) {
+                    env.error("Unknown interval: " + intervalName);
+                } else if (semitones != null) {
+                    env.error("Unknown interval: " + semitones);
+                } else {
+                    env.error("Unknown interval.");
+                }
             }
         } catch (Exception e) {
             env.error("\'" + tonic + "\'" + " is not a valid note.");
