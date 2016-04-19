@@ -39,6 +39,7 @@ public class IntervalCommand implements Command {
             this.tonic = interval.get("note");
         }
         this.outputType = outputType;
+    }
 
 
 
