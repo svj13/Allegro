@@ -3,6 +3,7 @@ package seng302.command;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 import seng302.Environment;
 import seng302.data.Note;
@@ -57,6 +58,22 @@ public class Scale implements Command {
     private int octaves;
 
 
+    public Scale(HashMap<String, String> scale, String outputType) {
+        this.startNote = scale.get("note");
+        this.type = scale.get("scale_type");
+        this.outputType = outputType;
+        currentLetter = Character.toUpperCase(startNote.charAt(0));
+        if (scale.get("direction") != null) {
+            this.direction = scale.get("direction");
+        } else {
+            direction = "up";
+        }
+        if (scale.get("octaves") != null) {
+            this.octaves = Integer.valueOf(scale.get("octaves"));
+        } else {
+            this.octaves = 1;
+        }
+    }
     /**
      * This constructor does not specify a direction so it defaults to 'up'.
      *

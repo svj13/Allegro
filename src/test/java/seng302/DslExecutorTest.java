@@ -63,6 +63,6 @@ public class DslExecutorTest {
     public void logsErrorOnParseFailure() {
         Command command = executor.parseCommandString("cake");
 
-        verify(env).error("Invalid command: 'cake'.");
+        verify(env).error("'cake' is not a valid command.");
     }
 }

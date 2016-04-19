@@ -45,7 +45,8 @@ public class DslExecutor {
         try {
             parseResult = parser.parse().value;
         } catch (Exception e) {
-            environment.error(String.format("Invalid command: '" + command_string + "'."));
+            String error = parser.getErrorMessage();
+            environment.error(String.format(error));
         }
 
         if (parseResult instanceof Command) {
