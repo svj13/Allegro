@@ -6,6 +6,7 @@ package seng302.command;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import seng302.Environment;
 import seng302.data.Interval;
@@ -18,53 +19,29 @@ public class IntervalCommand implements Command {
     String tonic;
     String outputType;
     String correspondingNote;
-    int intervalSemis = -1;
+    String semitones;
     private boolean octaveSpecified;
     private Note note;
     private Interval playingInterval;
 
 
     /**
-     * Constructs a command of the type lookup number of semitones
-     * @param intervalName A list of the words in the interval name
-     */
-    public IntervalCommand(ArrayList<String> intervalName) {
-        this.intervalName = createIntervalName(intervalName);
-        this.outputType = "semitones";
-    }
-
-
-    /**
      * Constructs a command of the type fetch note given tonic and interval
-     * @param intervalName A list of the words in the interval name
-     * @param tonic the starting note
      * @param outputType whether this interval will be played or displayed
      */
-    public IntervalCommand(ArrayList<String> intervalName, String tonic, String outputType) {
-        this.intervalName = createIntervalName(intervalName);
-        try {
-            this.intervalSemis = Integer.parseInt(this.intervalName);
-        } catch (Exception e) {
-            // Do nothing
+    public IntervalCommand(HashMap<String, String> interval, String outputType) {
+        if (interval.get("interval") != null) {
+            this.intervalName = interval.get("interval");
+        } else if (interval.get("semitones") != null) {
+            this.semitones = interval.get("semitones");
         }
-        this.tonic = tonic;
+        if (interval.get("note") != null) {
+            this.tonic = interval.get("note");
+        }
         this.outputType = outputType;
     }
 
 
-
-    /**
-     * Given a list of words, turns them into a string interval name.
-     * @param intervalWords List of words
-     * @return string representation of the user's inputted interval name.
-     */
-    private String createIntervalName(ArrayList<String> intervalWords) {
-        String interval = "";
-        for (String word:intervalWords) {
-            interval += (word + " ");
-        }
-        return interval.trim();
-    }
 
     /**
      * This function checks that the given tonic is valid, and checks whether
@@ -106,7 +83,12 @@ public class IntervalCommand implements Command {
         try {
             setNoteInformation();
             try {
-                int numSemitones = Interval.lookupByName(intervalName).getSemitones();
+                int numSemitones;
+                if (intervalName != null) {
+                    numSemitones = Interval.lookupByName(intervalName).getSemitones();
+                } else {
+                    numSemitones = Integer.valueOf(semitones);
+                }
                 try {
                     correspondingNote = note.semitoneUp(numSemitones).getNote();
                     setNoteOutput(env);
@@ -128,10 +110,16 @@ public class IntervalCommand implements Command {
     private void getSemitones(Environment env) {
         //This section of code gets the number of semitones in a given interval
         try {
-            String semitones = Integer.toString(Interval.lookupByName(intervalName).getSemitones());
-            env.getTranscriptManager().setResult(semitones);
-        } catch (Exception e) {
-            env.error("Unknown interval: " + intervalName);
+            if (semitones == null) {
+                semitones = Integer.toString(Interval.lookupByName(intervalName).getSemitones());
+            }
+            env.getTranscriptManager().setResult(semitones + " semitones");
+        } catch (NullPointerException e) {
+            if (semitones != null) {
+                env.error("Unknown interval: " + semitones);
+            } else {
+                env.error("Unknown interval: " + intervalName);
+            }
         }
     }
 
@@ -144,14 +132,11 @@ public class IntervalCommand implements Command {
             setNoteInformation();
             try {
                 int numSemitones;
-                if (Interval.acceptedSemitones.contains(intervalSemis)) {
-                    numSemitones = intervalSemis;
-                    playingInterval = Interval.lookupBySemitones(intervalSemis);
+                if (intervalName != null) {
+                    numSemitones = Interval.lookupByName(intervalName).getSemitones();
                 } else {
-                    playingInterval = Interval.lookupByName(intervalName);
-                    numSemitones = playingInterval.getSemitones();
+                    numSemitones = Integer.valueOf(semitones);
                 }
-
                 try {
                     if (note.semitoneUp(numSemitones) == null) {
                         throw new Exception();

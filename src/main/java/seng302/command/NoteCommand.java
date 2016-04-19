@@ -10,6 +10,7 @@ import seng302.utility.Checker;
 public class NoteCommand implements Command {
     private String note;
 
+
     public NoteCommand(String s) {
         note = s;
     }
