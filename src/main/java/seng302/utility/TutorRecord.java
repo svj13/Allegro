@@ -36,6 +36,17 @@ public class TutorRecord {
         lines.add("");
     }
 
+    public void addSkippedQuestion(String[] question) {
+        lines.add("Skipped Question: " + question[0]);
+        lines.add("Correct Answer: " + question[1]);
+        lines.add("");
+    }
+
+    public void addRetest() {
+        lines.add("Re-testing");
+        lines.add("");
+    }
+
     public void setQuestionsAnsweredCorrectly(int questionsAnsweredCorrectly) {
         this.questionsAnsweredCorrectly = questionsAnsweredCorrectly;
         lines.add("Questions answered correctly: " + questionsAnsweredCorrectly);

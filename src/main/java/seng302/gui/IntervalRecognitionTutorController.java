@@ -166,6 +166,11 @@ public class IntervalRecognitionTutorController {
                 questionRow.setStyle("-fx-border-color: grey; -fx-border-width: 2px;");
                 manager.questions -= 1;
                 manager.add(pair, 0);
+                String[] question = new String[]{
+                        String.format("Interval between %s and %s", firstNote.getNote(), secondNote.getNote()),
+                        thisInterval.getName()
+                };
+                record.addSkippedQuestion(question);
                 if (manager.answered == manager.questions) {
                     finished();
                 }
@@ -266,6 +271,7 @@ public class IntervalRecognitionTutorController {
 
         retestBtn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
+                record.addRetest();
                 paneResults.setVisible(false);
                 paneQuestions.setVisible(true);
                 retest();
