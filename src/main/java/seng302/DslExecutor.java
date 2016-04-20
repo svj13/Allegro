@@ -46,6 +46,9 @@ public class DslExecutor {
             parseResult = parser.parse().value;
         } catch (Exception e) {
             String error = parser.getErrorMessage();
+            if (error.equals("")) {
+                error = "Invalid command. Please type 'help' to see the list of valid commands.";
+            }
             environment.error(String.format(error));
         }
 

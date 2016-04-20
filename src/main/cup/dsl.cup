@@ -38,11 +38,11 @@ parser code {:
             case 0: // prev_token is EOF so not a valid command at all
                 errorMessage = "\'" + cur_token.value + "\'" + " is not a valid command.";
                 break;
-            case 26: // prev_token is NOTE so cur_token could be a scale_type or a note duration.
+            case 24: // prev_token is NOTE so cur_token could be a scale_type or a note duration.
                 Symbol prev_token2 = (Symbol) this.stack.pop();
                 System.out.println(DslSymbol.terminalNames[prev_token2.sym]);
                 System.out.println(prev_token2.sym);
-                if (prev_token2.sym == 18) { //COMMAND_PLAY_SCALE so cur_token should be scale type.
+                if (prev_token2.sym == 18 || prev_token2.sym == 8) { //COMMAND_PLAY_SCALE so cur_token should be scale type.
                     errorMessage = "\'" + cur_token.value + "\'" + " is not a valid scale type.";
                 } else if (prev_token2.sym == 16) { //COMMAND_PLAY_NOTE so cur_token should be duration.
                     errorMessage = "\'" + cur_token.value + "\'" + " is not a valid duration.";
@@ -58,6 +58,10 @@ parser code {:
             case 22: // prev_token is COMMAND_PLAY_INTERVAL so cur_token should be interval.
                 errorMessage = "\'" + cur_token.value + "\'" + " is not a valid interval.";
                 break;
+            case 20:
+            case 23:
+                errorMessage = "Please provide the name, origin, category and definition of the musical term.";
+                break;
             case 4: // prev_token is COMMAND_MIDI
             case 6: // prev_token is COMMAND_SEMITONE_UP
             case 7: // prev_token is COMMAND_SEMITONE_DOWN
@@ -65,19 +69,17 @@ parser code {:
             case 12: // prev_token is COMMAND_FLAT_NAME
             case 13: // prev_token is COMMAND_SIMPLE_ENHARMONIC
             case 16: // prev_token is COMMAND_PLAY_NOTE
+            case 8: // prev_token is COMMAND_SCALE
+            case 18: // prev_token is COMMAND_PLAY_SCALE
+            case 30: // prev_token is INTERVAL
                 // All expect a note.
                 errorMessage = "\'" + cur_token.value + "\'" + " is not a valid note.";
                 break;
             default:
-                errorMessage = "\'" + cur_token.value + "\'" + " is not a valid input for this command.";
+                errorMessage = "Invalid input for this command.";
 
 
         }
-
-        if (cur_token.value == null){
-            errorMessage = "Invalid command. Please type 'help' to see the list of valid commands.";
-        }
-
 
     }
 
@@ -100,6 +102,7 @@ non terminal Command command;
 non terminal String note;
 non terminal HashMap<String, String> scale;
 non terminal ArrayList<String> musicalTerm;
+non terminal ArrayList<String> musicalDef;
 non terminal String midiNote;
 non terminal String positiveNum;
 non terminal HashMap<String, String> interval;
@@ -126,7 +129,7 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_PLAY_NOTE note:s                    {: RESULT = new PlayNote(s); :}
           | COMMAND_PLAY_NOTE note:s positiveNum:d      {: RESULT = new PlayNote(s, d); :}
           | COMMAND_MUSICAL_TERM musicalTerm:s          {: RESULT = new MusicalTerm(s, true); :}
-          | COMMAND_ADD_MUSICAL_TERM musicalTerm:s      {: RESULT = new MusicalTerm(s, false); :}
+          | COMMAND_ADD_MUSICAL_TERM musicalDef:s      {: RESULT = new MusicalTerm(s, false); :}
           | COMMAND_PLAY_SCALE scale:s                  {: RESULT = new Scale(s, "play");:}
 
 ;
@@ -159,4 +162,8 @@ intervalWithTonic ::= interval:i NOTE:a {: i.put("note",a); RESULT = i;:}
 
 musicalTerm ::= musicalTerm:list ATOM:n {: list.add(n); RESULT = list; :}
           | ATOM:n {: RESULT = new ArrayList<String>(); RESULT.add(n); :}
+;
+
+musicalDef ::= ATOM:a ATOM:b ATOM:c ATOM:d {: RESULT = new ArrayList<String>(); RESULT.add(a);
+                                              RESULT.add(b); RESULT.add(c); RESULT.add(d); :}
 ;

@@ -14,7 +14,7 @@ public class CrotchetDuration implements Command {
         int tempo = env.getPlayer().getTempo();
         float speed = (float) 60000 / tempo;
         env.getTranscriptManager().setResult(String.format("The speed of a crotchet at %d BPM is " +
-                "%.2f milliseconds", tempo, speed));
+                "%.2f milliseconds.", tempo, speed));
     }
 
 }

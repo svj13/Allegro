@@ -61,7 +61,7 @@ public class MusicalTerm implements Command {
 
         else{
             musicalTerm = musicalTerm.toLowerCase();
-            String[] parts = musicalTerm.split(";");
+            String[] parts = musicalTerm.split(" ");
             termAdded = true;
             term = new Term(parts[0],parts[2],parts[1],parts[3]);
 
