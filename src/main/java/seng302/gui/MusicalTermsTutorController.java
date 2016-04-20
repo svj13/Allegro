@@ -32,7 +32,7 @@ import seng302.utility.TutorManager;
  */
 
 
-public class MusicalTermsTutorController {
+public class MusicalTermsTutorController extends TutorController{
 
 
     @FXML
@@ -50,18 +50,13 @@ public class MusicalTermsTutorController {
     @FXML
     Button btnGo;
 
-    Environment env;
-
-    TutorManager manager;
-
     MusicalTermsTutorBackEnd dataManager;
 
     Random rand;
 
 
     public void create(Environment env) {
-        this.env = env;
-        manager = env.getMttManager();
+        super.create(env);
         dataManager = env.getMttDataManager();
         rand = new Random();
     }
@@ -343,22 +338,6 @@ public class MusicalTermsTutorController {
         // Clear the current session
         manager.answered = 0;
         manager.correct = 0;
-
-    }
-
-    /**
-     * If the user chooses to re-test their self on their failed questions, this function
-     * sets up the tutoring environment for that.
-     */
-    private void retest() {
-        ArrayList<Pair> tempIncorrectResponses = new ArrayList<Pair>(manager.getTempIncorrectResponses());
-        manager.clearTempIncorrect();
-        manager.questions = tempIncorrectResponses.size();
-        for(Pair<String, Term> pair : tempIncorrectResponses){
-            HBox questionRow = generateQuestionPane(pair.getValue());
-            questionRows.getChildren().add(questionRow);
-            questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
-        }
 
     }
 }
