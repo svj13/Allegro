@@ -41,9 +41,7 @@ import seng302.utility.TutorRecord;
 /**
  * Created by jat157 on 20/03/16.
  */
-public class PitchComparisonTutorController {
-
-    Environment env;
+public class PitchComparisonTutorController extends TutorController{
 
     @FXML
     TextField txtNotePairs;
@@ -80,11 +78,6 @@ public class PitchComparisonTutorController {
 
     Boolean lowerSet = false;
     Boolean upperSet = false;
-
-
-    TutorManager manager;
-
-    TutorRecord record;
 
     @FXML
     private void initialize() {
@@ -142,7 +135,7 @@ public class PitchComparisonTutorController {
      * @param env The environment of the app.
      */
     public void create(Environment env) {
-        this.env = env;
+        super.create(env);
         //generateComboValues(cbxLower);
         //generateComboValues(cbxUpper);
         rangeSlider = new RangeSlider(0, 127, 60, 72);

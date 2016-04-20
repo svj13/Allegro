@@ -27,7 +27,7 @@ import seng302.data.Note;
 import seng302.utility.TutorManager;
 import seng302.utility.TutorRecord;
 
-public class IntervalRecognitionTutorController {
+public class IntervalRecognitionTutorController extends TutorController {
 
     @FXML
     TextField txtNumIntervals;
@@ -59,19 +59,13 @@ public class IntervalRecognitionTutorController {
     @FXML
     Button btnGo;
 
-    Environment env;
-
-    TutorManager manager;
-
     TutorRecord record;
 
-    public void create(Environment env) {
-        this.env = env;
-        manager = env.getIrtManager();
+    public IntervalRecognitionTutorController() {
+        super();
     }
 
-    @FXML
-    void goAction(ActionEvent event) {
+    public void goAction(ActionEvent event) {
         record = new TutorRecord(new Date(), "Interval Recognition");
         manager.questions = Integer.parseInt(txtNumIntervals.getText());
         if (manager.questions >= 1){
@@ -130,7 +124,7 @@ public class IntervalRecognitionTutorController {
      * Creates a GUI section for one question.
      * @return a JavaFX HBox containing controls and info about one question.
      */
-    private HBox generateQuestionRow(Pair intervalAndNote) {
+    public HBox generateQuestionRow(Pair intervalAndNote) {
         final HBox questionRow = new HBox();
 
         questionRow.setPadding(new Insets(10, 10, 10, 10));
@@ -246,7 +240,7 @@ public class IntervalRecognitionTutorController {
     /**
      * This function is run once a tutoring session has been completed.
      */
-    private void finished() {
+    public void finished() {
         float userScore = manager.getScore();
         record.setStats(manager.correct, manager.getTempIncorrectResponses().size());
         String outputText = String.format("You have finished the tutor.\n" +
@@ -303,7 +297,7 @@ public class IntervalRecognitionTutorController {
      * If the user chooses to re-test their self on their failed questions, this function
      * sets up the tutoring environment for that.
      */
-    private void retest() {
+    public void retest() {
         ArrayList<Pair> tempIncorrectResponses = new ArrayList<Pair>(manager.getTempIncorrectResponses());
         manager.clearTempIncorrect();
         manager.questions = tempIncorrectResponses.size();
