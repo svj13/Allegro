@@ -1,7 +1,12 @@
 package seng302.command;
 
 /**
+ *
+ * MusicalTerm is used to look up and add musical
+ * terms to the musical terms hashmap
  * Created by Sarah on 3/04/2016.
+ *
+ *
  */
 
 import java.util.ArrayList;
@@ -93,11 +98,11 @@ public class MusicalTerm implements Command {
 
     /**
      *
-     * @param muscialTerm
+     * @param muscialTerm CURRENTLY UNUSED
      */
-    public void addMusicalTerm(ArrayList<String> muscialTerm) {
-        this.input = input;
-    }
+    //public void addMusicalTerm(ArrayList<String> muscialTerm) {
+      //  this.input = input;
+    //}
 
 
     /**will add the musical term to the dictionary, or print the relevant defintion if the musical
