@@ -59,8 +59,6 @@ public class IntervalRecognitionTutorController extends TutorController {
     @FXML
     Button btnGo;
 
-    TutorRecord record;
-
     public IntervalRecognitionTutorController() {
         super();
     }
@@ -86,27 +84,6 @@ public class IntervalRecognitionTutorController extends TutorController {
 
     }
 
-    /**
-     * Creates a JavaFX combo box containing the lexical names of all intervals.
-     * @return a combo box of interval options
-     */
-    private ComboBox<String> generateChoices() {
-        ComboBox<String> options = new ComboBox<String>();
-        for (Interval interval:Interval.intervals) {
-            options.getItems().add(interval.getName());
-        }
-        return options;
-    }
-
-    /**
-     * A function for disabling the buttons in an HBox
-     * @param questionRow the HBox containing children to be disabled
-     */
-    private void disableButtons(HBox questionRow) {
-        for (int i = 0; i < questionRow.getChildren().size(); i++) {
-            questionRow.getChildren().get(i).setDisable(true);
-        }
-    }
 
     /**
      * This function generates information for a new question, and displays it in the GUI
@@ -206,6 +183,54 @@ public class IntervalRecognitionTutorController extends TutorController {
         return questionRow;
     }
 
+
+    /**
+     * This function is run once a tutoring session has been completed.
+     */
+    public void finished() {
+        super.finished();
+
+        // Sets the finished view
+        resultsContent.setText(outputText);
+        paneQuestions.setVisible(false);
+        paneResults.setVisible(true);
+        questionRows.getChildren().clear();
+
+        Button retestBtn = new Button("Retest");
+        Button clearBtn  = new Button("Clear");
+
+        clearBtn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                saveRecord();
+                manager.saveTempIncorrect();
+                paneResults.setVisible(false);
+                paneQuestions.setVisible(true);
+            }
+        });
+
+        retestBtn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                record.addRetest();
+                paneResults.setVisible(false);
+                paneQuestions.setVisible(true);
+                retest();
+            }
+        });
+
+        if (manager.getTempIncorrectResponses().size() > 0) {
+            //Can re-test
+            buttons.getChildren().setAll(retestBtn, clearBtn);
+        } else {
+            //Perfect score
+            buttons.getChildren().setAll(clearBtn);
+        }
+
+        // Clear the current session
+        manager.resetStats();
+    }
+
+    // The following methods are specific to this tutor
+
     /**
      * Randomly selects a note for the interval.
      * @param numSemitones The generated interval, so the second note is not outside correct range
@@ -236,63 +261,16 @@ public class IntervalRecognitionTutorController extends TutorController {
         return Interval.intervals[rand.nextInt(8)];
     }
 
-
     /**
-     * This function is run once a tutoring session has been completed.
+     * Creates a JavaFX combo box containing the lexical names of all intervals.
+     * @return a combo box of interval options
      */
-    public void finished() {
-        float userScore = manager.getScore();
-        record.setStats(manager.correct, manager.getTempIncorrectResponses().size());
-        String outputText = String.format("You have finished the tutor.\n" +
-                "You answered %d questions, and skipped %d questions.\n" +
-                "You answered %d questions correctly, %d questions incorrectly.\n" +
-                "This gives a score of %.2f percent",
-                manager.questions, manager.skipped,
-                manager.correct, manager.incorrect, userScore);
-        resultsContent.setText(outputText);
-        paneQuestions.setVisible(false);
-        paneResults.setVisible(true);
-        questionRows.getChildren().clear();
-
-        Button retestBtn = new Button("Retest");
-        Button clearBtn  = new Button("Clear");
-
-        clearBtn.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                if (env.getRecordLocation() != null) {
-                    record.writeToFile(env.getRecordLocation());
-                } else {
-                    //show a file picker
-                    env.setRecordLocation("new-file.txt");
-                    record.writeToFile("new-file.txt");
-                }
-                manager.saveTempIncorrect();
-                paneResults.setVisible(false);
-                paneQuestions.setVisible(true);
-            }
-        });
-
-        retestBtn.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                record.addRetest();
-                paneResults.setVisible(false);
-                paneQuestions.setVisible(true);
-                retest();
-            }
-        });
-
-        if (manager.getTempIncorrectResponses().size() > 0) {
-            //Can re-test
-            buttons.getChildren().setAll(retestBtn, clearBtn);
-        } else {
-            //Perfect score
-            buttons.getChildren().setAll(clearBtn);
+    private ComboBox<String> generateChoices() {
+        ComboBox<String> options = new ComboBox<String>();
+        for (Interval interval:Interval.intervals) {
+            options.getItems().add(interval.getName());
         }
-
-        // Clear the current session
-        manager.resetStats();
+        return options;
     }
-
-
 
 }

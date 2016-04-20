@@ -478,14 +478,14 @@ public class PitchComparisonTutorController extends TutorController{
      * Creates an alert once all the questions have been answered that allows the user to re-attempt
      * the skipped and incorrect questions or allows them to clear the question set.
      */
-    private void finished() {
-        record.setStats(manager.correct, manager.getTempIncorrectResponses().size());
+    public void finished() {
+        super.finished();
+
+        // Sets the finished view
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Finished");
         int cor = manager.correct;
         int ques = manager.questions;
-
-        float score = manager.getScore();
 
 
         ButtonType retestBtn = new ButtonType("Retest");
@@ -494,20 +494,15 @@ public class PitchComparisonTutorController extends TutorController{
           alert.setContentText("It appears you skipped every question. Would you like to reattempt?");
           alert.getButtonTypes().setAll(retestBtn, clearBtn);
         } else if(manager.getTempIncorrectResponses().size() > 0){
-            alert.setContentText("You got " + (cor) + " out of " + ques + ", " + score +
-                    "%.\nWell done :)");
+            alert.setContentText(outputText);
             alert.getButtonTypes().setAll(retestBtn, clearBtn);
-        }
-        else {
-            alert.setContentText("Congratulations!\nYou got " + (cor) + " out of " + ques
-                    + ", " + score + "%.");
+        } else {
+            alert.setContentText(outputText);
             alert.getButtonTypes().setAll(clearBtn);
 
         }
 
-
         alert.setResizable(false);
-
 
         Optional<ButtonType> result = alert.showAndWait();
         if(manager.getTempIncorrectResponses().size() > 0){
@@ -531,16 +526,6 @@ public class PitchComparisonTutorController extends TutorController{
         }
 
         manager.resetStats();
-    }
-
-    private void saveRecord() {
-        if (env.getRecordLocation() != null) {
-            record.writeToFile(env.getRecordLocation());
-        } else {
-            //show a file picker
-            env.setRecordLocation("new-file.txt");
-            record.writeToFile("new-file.txt");
-        }
     }
 
 
