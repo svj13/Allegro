@@ -559,22 +559,6 @@ public class PitchComparisonTutorController extends TutorController{
         manager.resetStats();
     }
 
-
-    /**
-     * Re generates the questions with the questions that were answered incorrectly
-     */
-    private void retest() {
-        ArrayList<Pair> tempIncorrectResponses = new ArrayList<Pair>(manager.getTempIncorrectResponses());
-        manager.clearTempIncorrect();
-        for(Pair pair : tempIncorrectResponses){
-            HBox rowPane = generateQuestionPane((String)pair.getKey(), (String) pair.getValue());
-            questionRows.getChildren().add(rowPane);
-            questionRows.setMargin(rowPane, new Insets(10, 10, 10, 10));
-        }
-        manager.questions = tempIncorrectResponses.size();
-
-    }
-
     /**
      * Key event binder. No functionality at this point.
      * @param event
