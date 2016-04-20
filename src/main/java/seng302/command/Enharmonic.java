@@ -1,5 +1,8 @@
 package seng302.command;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+
 import seng302.Environment;
 import seng302.data.Note;
 import seng302.utility.OctaveUtil;
@@ -35,13 +38,23 @@ public class Enharmonic implements Command {
                     } else {
                         env.getTranscriptManager().setResult(note.simpleEnharmonic());
                     }
-                }
-                else {
+                } else if (comm == 0) {
                     if (note.sharpName().length() == 1) {
                         env.error("Note does not have a higher enharmonic.");
                     } else {
                         env.getTranscriptManager().setResult(note.sharpName());
                     }
+                } else {
+                    String allEnharmonics = "";
+                    ArrayList<String> arrayAllEnharmonics = note.getAllEnharmonics();
+                    for (String enharmonic : arrayAllEnharmonics) {
+                        if (allEnharmonics.length() == 0) {
+                            allEnharmonics = enharmonic;
+                        } else {
+                            allEnharmonics = allEnharmonics + " " + enharmonic;
+                        }
+                    }
+                    env.getTranscriptManager().setResult(allEnharmonics);
                 }
             } else {
                 this.note = Note.lookup(OctaveUtil.addDefaultOctave(noteval));
@@ -57,12 +70,23 @@ public class Enharmonic implements Command {
                     } else {
                         env.getTranscriptManager().setResult(OctaveUtil.removeOctaveSpecifier(note.simpleEnharmonic()));
                     }
-                } else {
+                } else if (comm == 0) {
                     if (note.sharpName().length() == 1) {
                         env.error("Note does not have a higher enharmonic.");
                     } else {
                         env.getTranscriptManager().setResult(OctaveUtil.removeOctaveSpecifier(note.sharpName()));
                     }
+                } else {
+                    String allEnharmonics = "";
+                    ArrayList<String> arrayAllEnharmonics = note.getAllEnharmonics();
+                    for (String enharmonic : arrayAllEnharmonics) {
+                        if (allEnharmonics.length() == 0) {
+                            allEnharmonics = OctaveUtil.removeOctaveSpecifier(enharmonic);
+                        } else {
+                            allEnharmonics = allEnharmonics + " " + OctaveUtil.removeOctaveSpecifier(enharmonic);
+                        }
+                    }
+                    env.getTranscriptManager().setResult(allEnharmonics);
                 }
             }
         } catch (Exception e) {
