@@ -123,4 +123,15 @@ public class TutorManager {
         return score;
     }
 
+    /**
+     * Clears the variables that are used to track user's scores.
+     * This allows for re-testing without holding onto the previous info.
+     */
+    public void resetStats() {
+        answered = 0;
+        correct = 0;
+        skipped = 0;
+        incorrect = 0;
+    }
+
 }

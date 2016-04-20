@@ -290,10 +290,7 @@ public class IntervalRecognitionTutorController {
         }
 
         // Clear the current session
-        manager.answered = 0;
-        manager.correct = 0;
-        manager.skipped = 0;
-        manager.incorrect = 0;
+        manager.resetStats();
     }
 
     /**

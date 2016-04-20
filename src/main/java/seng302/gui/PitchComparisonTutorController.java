@@ -494,11 +494,7 @@ public class PitchComparisonTutorController {
             }
         }
 
-
-
-
-        manager.answered = 0;
-        manager.correct = 0;
+        manager.resetStats();
     }
 
 
@@ -514,12 +510,7 @@ public class PitchComparisonTutorController {
 
         Panel pnlComplete;
 
-
-
-
-
-        manager.answered = 0;
-        manager.correct = 0;
+        manager.resetStats();
     }
 
 
