@@ -103,10 +103,7 @@ public class IntervalRecognitionTutorController extends TutorController {
      */
     public HBox generateQuestionRow(Pair intervalAndNote) {
         final HBox questionRow = new HBox();
-
-        questionRow.setPadding(new Insets(10, 10, 10, 10));
-        questionRow.setSpacing(10);
-        questionRow.setStyle("-fx-border-color: #336699; -fx-border-width: 2px;");
+        formatQuestionRow(questionRow);
 
         //Add buttons for play and skip
         Button play = new Button("Play");

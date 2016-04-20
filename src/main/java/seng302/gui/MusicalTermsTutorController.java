@@ -129,12 +129,7 @@ public class MusicalTermsTutorController extends TutorController{
 
         final Term currentTerm = term;
         final HBox rowPane = new HBox();
-
-        rowPane.setPadding(new Insets(10, 10, 10, 10));
-
-        rowPane.setSpacing(10);
-        rowPane.setStyle("-fx-border-color: #336699; -fx-border-width: 2px;");
-
+        formatQuestionRow(rowPane);
 
         Label termLabel = new Label(currentTerm.getMusicalTermName());
         Button skip = new Button();

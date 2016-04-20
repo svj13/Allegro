@@ -110,4 +110,11 @@ public class TutorController {
                 manager.questions, manager.skipped,
                 manager.correct, manager.incorrect, userScore);
     }
+
+
+    public void formatQuestionRow(HBox questionRow) {
+        questionRow.setPadding(new Insets(10, 10, 10, 10));
+        questionRow.setSpacing(10);
+        questionRow.setStyle("-fx-border-color: #336699; -fx-border-width: 2px;");
+    }
 }

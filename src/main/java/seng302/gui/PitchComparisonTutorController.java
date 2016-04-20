@@ -354,13 +354,7 @@ public class PitchComparisonTutorController extends TutorController{
     private HBox generateQuestionPane(final String midiOne, final String midiTwo) {
 
         final HBox rowPane = new HBox();
-
-        rowPane.setPadding(new Insets(10, 10, 10, 10));
-
-        rowPane.setSpacing(10);
-        rowPane.setStyle("-fx-border-color: #336699; -fx-border-width: 2px;");
-
-
+        formatQuestionRow(rowPane);
 
         rowPane.getChildren().add(new Label(String.valueOf(midiOne)));
         rowPane.getChildren().add(new Label(String.valueOf(midiTwo)));
