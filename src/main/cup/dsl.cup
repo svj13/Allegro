@@ -24,12 +24,12 @@ parser code {:
     }
 
     public void syntax_error(Symbol cur_token) {
-        //System.out.println(cur_token.value);
-        //System.out.println(DslSymbol.terminalNames[cur_token.sym]);
+        System.out.println(cur_token.value);
+        System.out.println(DslSymbol.terminalNames[cur_token.sym]);
 
         Symbol prev_token = (Symbol) this.stack.pop();
-        //System.out.println(DslSymbol.terminalNames[prev_token.sym]);
-        //System.out.println(prev_token.sym);
+        System.out.println(DslSymbol.terminalNames[prev_token.sym]);
+        System.out.println(prev_token.sym);
 
         switch(prev_token.sym){
             case 3: // prev_token is COMMAND_NOTE so expect a MIDI.
@@ -90,7 +90,7 @@ parser code {:
 
 /* Terminal tokens returns by the lexer */
 terminal COMMAND_HELP, COMMAND_NOTE, COMMAND_MIDI, COMMAND_VERSION, COMMAND_SEMITONE_UP,
-COMMAND_SEMITONE_DOWN, COMMAND_SCALE, COMMAND_TEMPO, COMMAND_LIST_SCALE, COMMAND_ENHARMONIC_LOWER,
+COMMAND_SEMITONE_DOWN, COMMAND_SCALE, COMMAND_TEMPO, COMMAND_MIDI_SCALE, COMMAND_ENHARMONIC_LOWER,
 COMMAND_ENHARMONIC_HIGHER, COMMAND_SIMPLE_ENHARMONIC, COMMAND_SET_TEMPO, COMMAND_CROTCHET_DURATION,
 COMMAND_PLAY_NOTE, COMMAND_FORCE_SET_TEMPO, COMMAND_PLAY_SCALE, COMMAND_MUSICAL_TERM,
 COMMAND_ADD_MUSICAL_TERM, COMMAND_INTERVAL, COMMAND_PLAY_INTERVAL;
@@ -107,6 +107,8 @@ non terminal String midiNote;
 non terminal String positiveNum;
 non terminal HashMap<String, String> interval;
 non terminal HashMap<String, String> intervalWithTonic;
+non terminal String keyword;
+non terminal String term;
 
 command ::= COMMAND_HELP                                {: RESULT = new Help(); :}
           | COMMAND_NOTE note:n                         {: RESULT = new NoteCommand(n); :}
@@ -119,7 +121,7 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_SEMITONE_DOWN note:s                {: RESULT = new Semitone(s, false); :}
           | COMMAND_TEMPO                               {: RESULT = new Tempo(); :}
           | COMMAND_SCALE scale:s                       {: RESULT = new Scale(s, "note"); :}
-          | COMMAND_LIST_SCALE scale:s                  {: RESULT = new Scale(s, "midi"); :}
+          | COMMAND_MIDI_SCALE scale:s                  {: RESULT = new Scale(s, "midi"); :}
           | COMMAND_ENHARMONIC_HIGHER note:s            {: RESULT = new Enharmonic(s, 0); :}
           | COMMAND_ENHARMONIC_LOWER note:s             {: RESULT = new Enharmonic(s, 1); :}
           | COMMAND_SIMPLE_ENHARMONIC note:s            {: RESULT = new Enharmonic(s, 2); :}
@@ -157,13 +159,48 @@ interval ::= INTERVAL:i {: RESULT = new HashMap<String,String>(); RESULT.put("in
            | positiveNum:a {: RESULT = new HashMap<String,String>(); RESULT.put("semitones", a);:}
 ;
 
-intervalWithTonic ::= interval:i NOTE:a {: i.put("note",a); RESULT = i;:}
+intervalWithTonic ::= interval:i note:a {: i.put("note",a); RESULT = i;:}
 ;
 
-musicalTerm ::= musicalTerm:list ATOM:n {: list.add(n); RESULT = list; :}
-          | ATOM:n {: RESULT = new ArrayList<String>(); RESULT.add(n); :}
+musicalTerm ::= musicalTerm:list term:n {: list.add(n); RESULT = list; :}
+          | term:n {: RESULT = new ArrayList<String>(); RESULT.add(n); :}
 ;
 
-musicalDef ::= ATOM:a ATOM:b ATOM:c ATOM:d {: RESULT = new ArrayList<String>(); RESULT.add(a);
+musicalDef ::= term:a term:b term:c term:d {: RESULT = new ArrayList<String>(); RESULT.add(a);
                                               RESULT.add(b); RESULT.add(c); RESULT.add(d); :}
 ;
+
+term ::= keyword:s {: RESULT = s;:}
+       | ATOM:s {: RESULT = s;:}
+       | note:s {: RESULT = s;:}
+       | SCALE_TYPE:s {:RESULT = s;:}
+       | DIRECTION:s   {:RESULT = s;:}
+       | INTERVAL:i    {:RESULT = i;:}
+;
+
+keyword ::= COMMAND_HELP    {: RESULT = "help"; :}
+          | COMMAND_VERSION {: RESULT = "version"; :}
+          | COMMAND_TEMPO   {: RESULT = "tempo"; :}
+          | COMMAND_NOTE    {: RESULT = "note"; :}
+          | COMMAND_MIDI    {: RESULT = "midi"; :}
+          | COMMAND_SCALE   {: RESULT = "scale"; :}
+          | COMMAND_INTERVAL {: RESULT = "interval"; :}
+          | COMMAND_PLAY_NOTE {: RESULT = "play"; :}
+          | COMMAND_PLAY_SCALE {: RESULT = "play scale"; :}
+          | COMMAND_PLAY_INTERVAL {: RESULT = "play interval"; :}
+          | COMMAND_SEMITONE_UP {: RESULT = "semitone up"; :}
+          | COMMAND_SEMITONE_DOWN {: RESULT = "semitone down"; :}
+          | COMMAND_MIDI_SCALE {: RESULT = "midi scale";:}
+          | COMMAND_ENHARMONIC_HIGHER {: RESULT = "enharmonic higher";:}
+          | COMMAND_ENHARMONIC_LOWER {: RESULT = "enharmonic lower";:}
+          | COMMAND_SIMPLE_ENHARMONIC {: RESULT = "simple enharmonic";:}
+          | COMMAND_SET_TEMPO {: RESULT = "set tempo";:}
+          | COMMAND_FORCE_SET_TEMPO {: RESULT = "force set tempo";:}
+          | COMMAND_CROTCHET_DURATION {: RESULT = "crotchet duration"; :}
+          | COMMAND_MUSICAL_TERM {: RESULT = "meaning of"; :}
+          | COMMAND_ADD_MUSICAL_TERM {: RESULT = "add musical term"; :}
+;
+
+
+
+
