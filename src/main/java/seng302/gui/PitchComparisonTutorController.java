@@ -367,19 +367,19 @@ public class PitchComparisonTutorController extends TutorController{
 
         ToggleGroup group = new ToggleGroup();
         ToggleButton higher = new ToggleButton("Higher");
-        Image imageUp = new Image(getClass().getResourceAsStream("/up-arrow.png"), 20, 20, true, true);
+        Image imageUp = new Image(getClass().getResourceAsStream("/images/up-arrow.png"), 20, 20, true, true);
         higher.setGraphic(new ImageView(imageUp));
         higher.setToggleGroup(group);
         ToggleButton same = new ToggleButton("Same");
-        Image imageSame = new Image(getClass().getResourceAsStream("/minus-symbol.png"), 20, 20, true, true);
+        Image imageSame = new Image(getClass().getResourceAsStream("/images/minus-symbol.png"), 20, 20, true, true);
         same.setGraphic(new ImageView(imageSame));
         same.setToggleGroup(group);
         ToggleButton lower = new ToggleButton("Lower");
-        Image imageLower = new Image(getClass().getResourceAsStream("/download-arrow-1.png"), 20, 20, true, true);
+        Image imageLower = new Image(getClass().getResourceAsStream("/images/download-arrow-1.png"), 20, 20, true, true);
         lower.setGraphic(new ImageView(imageLower));
         lower.setToggleGroup(group);
         ToggleButton skip = new ToggleButton("Skip");
-        Image imageSkip = new Image(getClass().getResourceAsStream("/right-arrow.png"), 20, 20, true, true);
+        Image imageSkip = new Image(getClass().getResourceAsStream("/images/right-arrow.png"), 20, 20, true, true);
         skip.setGraphic(new ImageView(imageSkip));
         skip.setToggleGroup(group);
 
@@ -417,7 +417,7 @@ public class PitchComparisonTutorController extends TutorController{
 
 
         Button playBtn = new Button();
-        Image imagePlay = new Image(getClass().getResourceAsStream("/play-button.png"), 20, 20, true, true);
+        Image imagePlay = new Image(getClass().getResourceAsStream("/images/play-button.png"), 20, 20, true, true);
         playBtn.setGraphic(new ImageView(imagePlay));
         playBtn.setStyle("-fx-base: #6EFF73;");
 
