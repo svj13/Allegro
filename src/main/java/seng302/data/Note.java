@@ -83,9 +83,9 @@ public class Note {
                     tempEnharmonics = generateEnharmonics(current_octave, "E", "Fb", "Dx", "Fb", "");
                     notes.put(noteName, new Note(i, noteName, tempEnharmonics));
                     notes.put(Integer.toString(i), new Note(i, noteName, tempEnharmonics));
-                    tempEnharmonics2 = generateEnharmonics(current_octave, "E", "E", "", "E", "Dx"); // Fb
+                    tempEnharmonics2 = generateEnharmonics(current_octave, "E", "", "E", "E", "Dx"); // Fb
                     notes.put("Fb".concat(Integer.toString(current_octave)), new Note(i, "Fb".concat(Integer.toString(current_octave)), tempEnharmonics2));
-                    tempEnharmonics3 = generateEnharmonics(current_octave, "E", "", "E", "E", "Fb"); // Dx
+                    tempEnharmonics3 = generateEnharmonics(current_octave, "E", "E", "", "E", "Fb"); // Dx
                     notes.put("Dx".concat(Integer.toString(current_octave)), new Note(i, "Dx".concat(Integer.toString(current_octave)), tempEnharmonics3));
                     break;
                 case 5: // F
