@@ -72,7 +72,7 @@ public class IntervalRecognitionTutorController {
 
     @FXML
     void goAction(ActionEvent event) {
-        record = new TutorRecord(new Date());
+        record = new TutorRecord(new Date(), "Interval Recognition");
         manager.questions = Integer.parseInt(txtNumIntervals.getText());
         if (manager.questions >= 1){
             // Run the tutor

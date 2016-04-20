@@ -14,8 +14,9 @@ public class TutorRecord {
 
     private ArrayList<String> lines = new ArrayList<String>();
 
-    public TutorRecord(Date startTime) {
+    public TutorRecord(Date startTime, String tutorType) {
         lines.add("Date: " + startTime.toString() + "\n");
+        lines.add("Tutor type: " + tutorType + "\n");
     }
 
     public void addQuestionAnswer(String[] questionSet) {
