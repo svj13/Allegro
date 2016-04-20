@@ -164,7 +164,7 @@ public class IntervalRecognitionTutorController {
                 disableButtons(questionRow);
                 questionRow.setStyle("-fx-border-color: grey; -fx-border-width: 2px;");
                 manager.questions -= 1;
-                manager.add(pair, 0);
+                manager.add(pair, 2);
                 String[] question = new String[]{
                         String.format("Interval between %s and %s", firstNote.getNote(), secondNote.getNote()),
                         thisInterval.getName()
@@ -249,9 +249,12 @@ public class IntervalRecognitionTutorController {
     private void finished() {
         float userScore = manager.getScore();
         record.setStats(manager.correct, manager.getTempIncorrectResponses().size());
-        String outputText = String.format("You have finished the tutor." +
-                " You got %d out of %d. This is a score of %.2f percent",
-                manager.correct, manager.answered, userScore);
+        String outputText = String.format("You have finished the tutor.\n" +
+                "You answered %d questions, and skipped %d questions.\n" +
+                "You answered %d questions correctly, %d questions incorrectly.\n" +
+                "This gives a score of %.2f percent",
+                manager.questions, manager.skipped,
+                manager.correct, manager.incorrect, userScore);
         resultsContent.setText(outputText);
         paneQuestions.setVisible(false);
         paneResults.setVisible(true);
@@ -289,6 +292,8 @@ public class IntervalRecognitionTutorController {
         // Clear the current session
         manager.answered = 0;
         manager.correct = 0;
+        manager.skipped = 0;
+        manager.incorrect = 0;
     }
 
     /**

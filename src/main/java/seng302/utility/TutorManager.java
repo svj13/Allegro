@@ -44,6 +44,10 @@ public class TutorManager {
      */
     public int correct = 0;
 
+    public int skipped = 0;
+
+    public int incorrect = 0;
+
     /**
      * Stores the date and time the tutor session was initiated
      */
@@ -56,10 +60,16 @@ public class TutorManager {
      * @param outcome value that represents if the question was answered correctly
      */
     public void add(Pair pair, int outcome){
-        if(outcome == 1){
-            correctResponses.add(pair);
+        if (outcome == 0) {
+            incorrect += 1;
+            tempIncorrectResponses.add(pair);
+        }
+        if(outcome == 1) {
             correct += 1;
-        } else{
+            correctResponses.add(pair);
+        }
+        if (outcome == 2) {
+            skipped += 1;
             tempIncorrectResponses.add(pair);
         }
     }
