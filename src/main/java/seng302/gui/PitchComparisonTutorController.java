@@ -5,6 +5,7 @@ import org.controlsfx.control.spreadsheet.StringConverterWithFormat;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Optional;
 import java.util.Random;
 
@@ -35,6 +36,7 @@ import seng302.Environment;
 import seng302.utility.MidiNotePair;
 import seng302.data.Note;
 import seng302.utility.TutorManager;
+import seng302.utility.TutorRecord;
 
 /**
  * Created by jat157 on 20/03/16.
@@ -82,6 +84,8 @@ public class PitchComparisonTutorController {
 
     TutorManager manager;
 
+    TutorRecord record;
+
     @FXML
     private void initialize() {
         System.out.println("pitch comparison initialized.");
@@ -96,6 +100,7 @@ public class PitchComparisonTutorController {
     @FXML
     private void goAction() {
 //        manager.questions = 0;
+        record = new TutorRecord(new Date(), "Pitch Comparison");
         manager.answered = 0;
 
         if (lowerSet && upperSet) {
@@ -287,24 +292,49 @@ public class PitchComparisonTutorController {
 
         int correctChoice = 0;
 
+
         if(((ToggleButton)row.getChildren().get(3)).isSelected()){ //Higher\
             row.getChildren().get(3).setStyle("-fx-text-fill: white;-fx-background-color: blue");
             if (noteComparison(true, note1, note2)) correctChoice = 1;
+            String[] question = new String[]{
+                    String.format("Is %s higher or lower than %s", note2.getNote(), note1.getNote()),
+                    "Higher",
+                    Boolean.toString(getAnswer(note1, note2).equals("Higher"))
+            };
+            record.addQuestionAnswer(question);
         }
         else  if(((ToggleButton)row.getChildren().get(4)).isSelected()){ //Same
             row.getChildren().get(4).setStyle("-fx-text-fill: white;-fx-background-color: blue");
             if (note1 == note2) correctChoice = 1;
+            String[] question = new String[]{
+                    String.format("Is %s higher or lower than %s", note2.getNote(), note1.getNote()),
+                    "Same",
+                    Boolean.toString(getAnswer(note1, note2).equals("Same"))
+            };
+            record.addQuestionAnswer(question);
         }
         else  if(((ToggleButton)row.getChildren().get(5)).isSelected()){ //Lower
             row.getChildren().get(5).setStyle("-fx-text-fill: white;-fx-background-color: blue");
             if (noteComparison(false, note1, note2)) {
                 correctChoice = 1;
             }
+            String[] question = new String[]{
+                    String.format("Is %s higher or lower than %s", note2.getNote(), note1.getNote()),
+                    "Lower",
+                    Boolean.toString(getAnswer(note1, note2).equals("Lower"))
+            };
+            record.addQuestionAnswer(question);
         }
         else if(((ToggleButton)row.getChildren().get(6)).isSelected()) { //Skip
             row.getChildren().get(6).setStyle("-fx-text-fill: white;-fx-background-color: blue");
             correctChoice = 2;
             manager.questions -= 1;
+
+            String[] question = new String[]{
+                    String.format("Is %s higher or lower than %s", note2.getNote(), note1.getNote()),
+                    getAnswer(note1, note2)
+            };
+            record.addSkippedQuestion(question);
         }
 
     if(correctChoice == 1) {
@@ -441,11 +471,22 @@ public class PitchComparisonTutorController {
         }
     }
 
+    private String getAnswer(Note note1, Note note2) {
+        if (note1.getMidi() == note2.getMidi()) {
+            return "Same";
+        } else if (note1.getMidi() < note2.getMidi()) {
+            return "Higher";
+        } else {
+            return "Lower";
+        }
+    }
+
     /**
      * Creates an alert once all the questions have been answered that allows the user to re-attempt
      * the skipped and incorrect questions or allows them to clear the question set.
      */
     private void finished() {
+        record.setStats(manager.correct, manager.getTempIncorrectResponses().size());
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText("Finished");
         int cor = manager.correct;
@@ -479,6 +520,7 @@ public class PitchComparisonTutorController {
         if(manager.getTempIncorrectResponses().size() > 0){
 
             if (result.get() == clearBtn) {
+                saveRecord();
                 questionRows.getChildren().clear();
                 manager.saveTempIncorrect();
             } else if (result.get() == retestBtn) {
@@ -489,12 +531,23 @@ public class PitchComparisonTutorController {
         else{
             //alert.getButtonTypes().setAll(clearBtn);
             if (result.get() == clearBtn) {
+                saveRecord();
                 questionRows.getChildren().clear();
                 manager.saveTempIncorrect();
             }
         }
 
         manager.resetStats();
+    }
+
+    private void saveRecord() {
+        if (env.getRecordLocation() != null) {
+            record.writeToFile(env.getRecordLocation());
+        } else {
+            //show a file picker
+            env.setRecordLocation("new-file.txt");
+            record.writeToFile("new-file.txt");
+        }
     }
 
 
