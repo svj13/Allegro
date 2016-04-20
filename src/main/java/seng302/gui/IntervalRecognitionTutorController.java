@@ -265,7 +265,13 @@ public class IntervalRecognitionTutorController {
 
         clearBtn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                record.writeToFile();
+                if (env.getRecordLocation() != null) {
+                    record.writeToFile(env.getRecordLocation());
+                } else {
+                    //show a file picker
+                    env.setRecordLocation("new-file.txt");
+                    record.writeToFile("new-file.txt");
+                }
                 manager.saveTempIncorrect();
                 paneResults.setVisible(false);
                 paneQuestions.setVisible(true);

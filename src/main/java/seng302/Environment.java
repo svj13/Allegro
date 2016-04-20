@@ -14,6 +14,7 @@ public class Environment {
     private TutorManager mttManager;
     private MusicalTermsTutorBackEnd mttDataManager; ///////////////////////////////////////
     private MusicPlayer player;
+    private String recordLocation;
 
     public RootController getRootController() {
         return rootController;
@@ -83,6 +84,14 @@ public class Environment {
     }
     public void setMttManager(TutorManager p) {
         this.mttManager = p;
+    }
+
+    public String getRecordLocation() {
+        return recordLocation;
+    }
+
+    public void setRecordLocation(String recordLocation) {
+        this.recordLocation = recordLocation;
     }
 
     public MusicPlayer getPlayer() {
