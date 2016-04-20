@@ -14,7 +14,7 @@ public class MusicalTerm implements Command {
     private String result;
     private String input;
     private boolean isSetter;
-    private static  HashMap<String, String> MusicalTermsMap = new HashMap<String, String>();
+    private static HashMap<String, String> MusicalTermsMap = new HashMap<String, String>();
 
     private  boolean termAdded = false;
     private Term term;
@@ -40,7 +40,7 @@ public class MusicalTerm implements Command {
 
         if(input == true) {
             musicalTerm = musicalTerm.toLowerCase();
-            String[] parts = musicalTerm.split(";");
+            String[] parts = musicalTerm.split(" ");
             String musicalTermName = parts[0];
 
             this.isSetter = true; //it has an input

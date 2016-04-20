@@ -143,7 +143,7 @@ public class MusicalTermsTutorController {
 
         Label termLabel = new Label(currentTerm.getMusicalTermName());
         Button skip = new Button();
-        Image imageSkip = new Image(getClass().getResourceAsStream("/right-arrow.png"), 20, 20, true, true);
+        Image imageSkip = new Image(getClass().getResourceAsStream("/images/right-arrow.png"), 20, 20, true, true);
         skip.setGraphic(new ImageView(imageSkip));
 
         final ComboBox<String> originOptions = generateOriginChoices();
