@@ -32,7 +32,7 @@ import seng302.utility.TutorManager;
  */
 
 
-public class MusicalTermsTutorController {
+public class MusicalTermsTutorController extends TutorController{
 
 
     @FXML
@@ -50,18 +50,13 @@ public class MusicalTermsTutorController {
     @FXML
     Button btnGo;
 
-    Environment env;
-
-    TutorManager manager;
-
     MusicalTermsTutorBackEnd dataManager;
 
     Random rand;
 
 
     public void create(Environment env) {
-        this.env = env;
-        manager = env.getMttManager();
+        super.create(env);
         dataManager = env.getMttDataManager();
         rand = new Random();
     }
