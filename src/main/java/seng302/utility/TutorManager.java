@@ -44,8 +44,14 @@ public class TutorManager {
      */
     public int correct = 0;
 
+    /**
+     * Stores the number of questions that have been skipped
+     */
     public int skipped = 0;
 
+    /**
+     * Stores the number of questions that have been answered incorrectly
+     */
     public int incorrect = 0;
 
     /**
@@ -61,14 +67,17 @@ public class TutorManager {
      */
     public void add(Pair pair, int outcome){
         if (outcome == 0) {
+            // Wrong answer
             incorrect += 1;
             tempIncorrectResponses.add(pair);
         }
         if(outcome == 1) {
+            // Right answer
             correct += 1;
             correctResponses.add(pair);
         }
         if (outcome == 2) {
+            // Skipped question
             skipped += 1;
             tempIncorrectResponses.add(pair);
         }
