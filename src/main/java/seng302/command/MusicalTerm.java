@@ -100,7 +100,10 @@ public class MusicalTerm implements Command {
     }
 
 
-
+    /**will add the musical term to the dictionary, or print the relevant defintion if the musical
+     * term exists in the transcript manager
+     * @param env
+     */
     public void execute(Environment env) {
 
         if(termAdded == true){
