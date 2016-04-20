@@ -35,6 +35,22 @@ public class MusicalTerm implements Command {
         return interval.trim();
     }
 
+
+    /**
+     *
+     * Checks to see if a musical term stream has been inputted and splits this input into the
+     * 4 corresponding categories: name; origin; category; definition.
+     *
+     * If the musical term name is not null, it will look up to see if it exists in the dictionary
+     * and reutrn the definition, else it will notify the user that the musical term is not in
+     * the dictionary.
+     *
+     * If the musical term name is null, it will add it to the dictionary and format it accordingly
+     *
+     *
+     * @param musicalTermArray
+     * @param input
+     */
     public MusicalTerm( ArrayList<String> musicalTermArray,Boolean input) {
         String musicalTerm = createMusicalTermString(musicalTermArray);
 
@@ -82,6 +98,8 @@ public class MusicalTerm implements Command {
     public void addMusicalTerm(ArrayList<String> muscialTerm) {
         this.input = input;
     }
+
+
 
     public void execute(Environment env) {
 
