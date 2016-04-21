@@ -44,6 +44,10 @@ public class DslExecutor {
 
         try {
             parseResult = parser.parse().value;
+
+            // For debugging the DSL uncomment this line:
+            // parseResult = parser.debug_parse().value;
+
         } catch (Exception e) {
             String error = parser.getErrorMessage();
             if (error.equals("")) {

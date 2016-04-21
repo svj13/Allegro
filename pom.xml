@@ -88,6 +88,7 @@
           <cupDefinition>src/main/cup/dsl.cup</cupDefinition>
           <className>DslParser</className>
           <symbolsName>DslSymbol</symbolsName>
+            <nontermsToSymbols>true</nontermsToSymbols>
         </configuration>
       </plugin>
       <plugin>
