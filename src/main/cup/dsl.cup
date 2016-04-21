@@ -30,55 +30,48 @@ parser code {:
         Symbol prev_token = (Symbol) this.stack.pop();
         System.out.println(DslSymbol.terminalNames[prev_token.sym]);
         System.out.println(prev_token.sym);
+        System.out.println(prev_token.value);
 
-        switch(prev_token.sym){
-            case 3: // prev_token is COMMAND_NOTE so expect a MIDI.
-                errorMessage = "\'" + cur_token.value + "\'" + " is not a valid MIDI value.";
-                break;
-            case 0: // prev_token is EOF so not a valid command at all
-                errorMessage = "\'" + cur_token.value + "\'" + " is not a valid command.";
-                break;
-            case 24: // prev_token is NOTE so cur_token could be a scale_type or a note duration.
-                Symbol prev_token2 = (Symbol) this.stack.pop();
-                System.out.println(DslSymbol.terminalNames[prev_token2.sym]);
-                System.out.println(prev_token2.sym);
-                if (prev_token2.sym == 18 || prev_token2.sym == 8) { //COMMAND_PLAY_SCALE so cur_token should be scale type.
-                    errorMessage = "\'" + cur_token.value + "\'" + " is not a valid scale type.";
-                } else if (prev_token2.sym == 16) { //COMMAND_PLAY_NOTE so cur_token should be duration.
-                    errorMessage = "\'" + cur_token.value + "\'" + " is not a valid duration.";
-                } else {
-                    errorMessage = "Invalid command. Please type 'help' to see the list of valid commands.";
-                }
-                break;
-            case 14: // prev_token is COMMAND_SET_TEMPO so cur_token should be positive num.
-            case 17: // prev_token is COMMAND_FORCE_SET_TEMPO so cur_token should be positive num.
-                errorMessage = "\'" + cur_token.value + "\'" + " is not a valid tempo.";
-                break;
-            case 21: // prev_token is COMMAND_INTERVAL so cur_token should be interval.
-            case 22: // prev_token is COMMAND_PLAY_INTERVAL so cur_token should be interval.
-                errorMessage = "\'" + cur_token.value + "\'" + " is not a valid interval.";
-                break;
-            case 20:
-            case 23:
-                errorMessage = "Please provide the name, origin, category and definition of the musical term.";
-                break;
-            case 4: // prev_token is COMMAND_MIDI
-            case 6: // prev_token is COMMAND_SEMITONE_UP
-            case 7: // prev_token is COMMAND_SEMITONE_DOWN
-            case 11: // prev_token is COMMAND_SHARP_NAME
-            case 12: // prev_token is COMMAND_FLAT_NAME
-            case 13: // prev_token is COMMAND_SIMPLE_ENHARMONIC
-            case 16: // prev_token is COMMAND_PLAY_NOTE
-            case 8: // prev_token is COMMAND_SCALE
-            case 18: // prev_token is COMMAND_PLAY_SCALE
-            case 30: // prev_token is INTERVAL
-                // All expect a note.
-                errorMessage = "\'" + cur_token.value + "\'" + " is not a valid note.";
-                break;
-            default:
-                errorMessage = "Invalid input for this command.";
+        String prevTokenName = DslSymbol.terminalNames[prev_token.sym];
 
 
+        if (prevTokenName.equals("COMMAND_NOTE")){ // Expect a MIDI.
+            errorMessage = "\'" + cur_token.value + "\'" + " is not a valid MIDI value.";
+        } else if (prevTokenName.equals("EOF")) {
+            errorMessage = "\'" + cur_token.value + "\'" + " is not a valid command.";
+        } else if (prevTokenName.equals("NOTE")) { // so cur_token could be a scale_type or a note duration.
+            Symbol prev_token2 = (Symbol) this.stack.pop();
+            String command = DslSymbol.terminalNames[prev_token2.sym];
+            if (command.equals("COMMAND_PLAY_SCALE") || command.equals("COMMAND_SCALE") ||
+                command.equals("COMMAND_MIDI_SCALE")) { // cur_token should be scale type.
+                errorMessage = "\'" + cur_token.value + "\'" + " is not a valid scale type.";
+            } else if (command.equals("COMMAND_PLAY_NOTE")) {
+                errorMessage = "\'" + cur_token.value + "\'" + " is not a valid duration.";
+            } else {
+                errorMessage = "Invalid command. Please type 'help' to see the list of valid commands.";
+            }
+        } else if (prevTokenName.equals("COMMAND_SET_TEMPO") ||
+                   prevTokenName.equals("COMMAND_FORCE_SET_TEMPO")) {
+            errorMessage = "\'" + cur_token.value + "\'" + " is not a valid tempo.";
+        } else if (prevTokenName.equals("COMMAND_INTERVAL") ||
+                   prevTokenName.equals("COMMAND_PLAY_INTERVAL")) {
+            errorMessage = "\'" + cur_token.value + "\'" + " is not a valid interval.";
+        } else if (prevTokenName.equals("COMMAND_ADD_MUSICAL_TERM") ||
+                   prevTokenName.equals("COMMAND_MUSICAL_TERM")) {
+            errorMessage = "Please provide the name, origin, category and definition of the musical term.";
+        } else if (prevTokenName.equals("COMMAND_MIDI") ||
+                   prevTokenName.equals("COMMAND_SEMITONE_UP") ||
+                   prevTokenName.equals("COMMAND_SEMITONE_DOWN") ||
+                   prevTokenName.equals("COMMAND_ENHARMONIC_HIGHER") ||
+                   prevTokenName.equals("COMMAND_ENHARMONIC_LOWER") ||
+                   prevTokenName.equals("COMMAND_SIMPLE_ENHARMONIC") ||
+                   prevTokenName.equals("COMMAND_PLAY_NOTE") ||
+                   prevTokenName.equals("COMMAND_PLAY_SCALE") ||
+                   prevTokenName.equals("INTERVAL") ||
+                   prevTokenName.equals("COMMAND_SCALE")) {
+            errorMessage = "\'" + cur_token.value + "\'" + " is not a valid note.";
+        } else {
+            errorMessage = "Invalid input for this command.";
         }
 
     }

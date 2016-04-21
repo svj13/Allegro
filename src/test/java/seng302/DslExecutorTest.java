@@ -182,7 +182,7 @@ public class DslExecutorTest {
 
     @Test
     public void logsErrorOnAddMusicalTermCommandTooFewArgs() {
-        Command command = executor.parseCommandString("add musical term lento");
+        Command command = executor.parseCommandString("add musical term tempo");
         verify(env).error("Please provide the name, origin, category and definition of the musical term.");
     }
 
