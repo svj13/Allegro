@@ -15,7 +15,7 @@ public class TutorRecord {
     /**
      * Stores all the information to save as text
      */
-    private ArrayList<String> lines = new ArrayList<String>();
+    protected ArrayList<String> lines = new ArrayList<String>();
 
     /**
      * Record Constructor
