@@ -47,9 +47,6 @@ public class MusicalTermsTutorController extends TutorController{
     AnchorPane IntervalRecognitionTab;
 
     @FXML
-    ScrollPane paneQuestions;
-
-    @FXML
     Button btnGo;
 
     MusicalTermsTutorBackEnd dataManager;
@@ -65,6 +62,8 @@ public class MusicalTermsTutorController extends TutorController{
 
     @FXML
     void goAction(ActionEvent event) {
+        paneQuestions.setVisible(true);
+        paneResults.setVisible(false);
         record = new TutorRecord(new Date(), "Musical Terms");
         manager.questions = Integer.parseInt(txtNumMusicalTerms.getText());
         if (manager.questions >= 1) {

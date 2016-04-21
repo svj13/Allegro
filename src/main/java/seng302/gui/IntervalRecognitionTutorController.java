@@ -35,20 +35,6 @@ public class IntervalRecognitionTutorController extends TutorController {
     @FXML
     AnchorPane IntervalRecognitionTab;
 
-    @FXML
-    ScrollPane paneResults;
-
-    @FXML
-    Text resultsTitle;
-
-    @FXML
-    Text resultsContent;
-
-    @FXML
-    VBox resultsBox;
-
-    @FXML
-    HBox buttons;
 
     @FXML
     Button btnGo;
@@ -58,6 +44,8 @@ public class IntervalRecognitionTutorController extends TutorController {
     }
 
     public void goAction(ActionEvent event) {
+        paneQuestions.setVisible(true);
+        paneResults.setVisible(false);
         record = new TutorRecord(new Date(), "Interval Recognition");
         manager.questions = Integer.parseInt(txtNumIntervals.getText());
         if (manager.questions >= 1){

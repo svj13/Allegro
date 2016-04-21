@@ -88,6 +88,8 @@ public class PitchComparisonTutorController extends TutorController{
     @FXML
     private void goAction() {
 //        manager.questions = 0;
+        paneQuestions.setVisible(true);
+        paneResults.setVisible(false);
         record = new TutorRecord(new Date(), "Pitch Comparison");
         manager.answered = 0;
 
