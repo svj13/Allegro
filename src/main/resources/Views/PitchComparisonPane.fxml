@@ -18,24 +18,21 @@
 
 <AnchorPane fx:id="pitchTutorAnchor" prefHeight="191.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.PitchComparisonTutorController">
     <children>
-        <HBox prefHeight="30.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0"
-              AnchorPane.topAnchor="10.0">
+        <HBox prefHeight="30.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
          <children>
           <!--<Pane layoutX="-283.0" style="-fx-background-color: brown;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">-->
           <!--<children>-->
               <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="Pitch Comparison Tutor" textAlignment="CENTER">
                   <font>
-                      <Font name="System Bold" size="21.0"/>
+                      <Font name="System Bold" size="21.0" />
                   </font>
                <HBox.margin>
-                   <Insets/>
+                   <Insets />
                </HBox.margin>
               </Label>
          </children>
       </HBox>
-        <HBox fx:id="settings" alignment="CENTER_LEFT" layoutY="36.0" minWidth="400.0"
-              prefHeight="10.0" spacing="5.0" AnchorPane.leftAnchor="10.0"
-              AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="50.0">
+        <HBox fx:id="settings" alignment="CENTER_LEFT" layoutY="36.0" minWidth="400.0" prefHeight="10.0" spacing="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="50.0">
             <children>
                 <VBox alignment="CENTER_LEFT" prefHeight="49.0" prefWidth="400.0" spacing="10.0">
                <children>
@@ -59,36 +56,38 @@
                   </HBox>
                </children>
             </VBox>
-                <Label alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity"
-                       minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" text="Note Pairs:"/>
-                <TextField id="txtNotes" fx:id="txtNotePairs" alignment="CENTER"
-                           minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0"
-                           prefWidth="40.0" text="1">
+                <Label alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" text="Note Pairs:" />
+                <TextField id="txtNotes" fx:id="txtNotePairs" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="40.0" text="1">
                     <font>
-                        <Font size="12.0"/>
+                        <Font size="12.0" />
                     </font>
                 </TextField>
-                <Button id="btnGo" fx:id="btnGo" alignment="CENTER" minHeight="-Infinity"
-                        minWidth="-Infinity" mnemonicParsing="false" onAction="#goAction"
-                        prefHeight="30.0" prefWidth="90.0" text="Go" textAlignment="CENTER">
+                <Button id="btnGo" fx:id="btnGo" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#goAction" prefHeight="30.0" prefWidth="90.0" text="Go" textAlignment="CENTER">
                     <font>
-                        <Font size="14.0"/>
+                        <Font size="14.0" />
                     </font>
                     <HBox.margin>
-                        <Insets left="5.0"/>
+                        <Insets left="5.0" />
                     </HBox.margin>
                 </Button>
             </children>
         </HBox>
-        <ScrollPane fx:id="paneQuestions" fitToHeight="true" fitToWidth="true" layoutY="105.0"
-                    minHeight="10.0" minWidth="10.0" prefHeight="50.0" prefViewportHeight="60.0"
-                    prefViewportWidth="680.0" prefWidth="700.0" AnchorPane.bottomAnchor="5.0"
-                    AnchorPane.leftAnchor="5" AnchorPane.rightAnchor="5"
-                    AnchorPane.topAnchor="120.0">
+        <ScrollPane fx:id="paneQuestions" fitToHeight="true" fitToWidth="true" layoutY="105.0" minHeight="10.0" minWidth="10.0" prefHeight="50.0" prefViewportHeight="60.0" prefViewportWidth="680.0" prefWidth="700.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5" AnchorPane.rightAnchor="5" AnchorPane.topAnchor="120.0">
             <content>
                 <VBox fx:id="questionRows" />
             </content>
         </ScrollPane>
+      <ScrollPane fx:id="paneResults" fitToWidth="true" layoutX="20.0" layoutY="125.0" visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="120.0">
+         <content>
+            <VBox fx:id="resultsBox" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Text fx:id="resultsTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Results" />
+                  <Text fx:id="resultsContent" strokeType="OUTSIDE" strokeWidth="0.0" />
+                  <HBox fx:id="buttons" prefHeight="100.0" prefWidth="200.0" />
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
     <!--</children>-->
     <!--</Pane>-->
     </children>

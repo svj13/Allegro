@@ -282,40 +282,4 @@ public class MusicalTermsTutorController extends TutorController{
 
 
     }
-
-
-    /**
-     * This function is run once a tutoring session has been completed.
-     */
-    public void finished() {
-        super.finished();
-
-        // Sets the finished view
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText("Finished");
-        alert.setContentText(outputText);
-
-        ButtonType retestBtn = new ButtonType("Retest");
-        ButtonType clearBtn = new ButtonType("Clear");
-
-        if (manager.getTempIncorrectResponses().size() > 0) {
-            //Can re-test
-            alert.getButtonTypes().setAll(retestBtn, clearBtn);
-        } else {
-            //Perfect score
-            alert.getButtonTypes().setAll(clearBtn);
-        }
-        Optional<ButtonType> result = alert.showAndWait();
-        questionRows.getChildren().clear();
-
-        if (result.get() == clearBtn) {
-            manager.saveTempIncorrect();
-        } else if (result.get() == retestBtn) {
-            retest();
-        }
-
-        // Clear the current session
-        manager.resetStats();
-
-    }
 }

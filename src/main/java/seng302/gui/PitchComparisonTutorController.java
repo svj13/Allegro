@@ -468,60 +468,6 @@ public class PitchComparisonTutorController extends TutorController{
         }
     }
 
-    /**
-     * Creates an alert once all the questions have been answered that allows the user to re-attempt
-     * the skipped and incorrect questions or allows them to clear the question set.
-     */
-    public void finished() {
-        super.finished();
-
-        // Sets the finished view
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText("Finished");
-        int cor = manager.correct;
-        int ques = manager.questions;
-
-
-        ButtonType retestBtn = new ButtonType("Retest");
-        ButtonType clearBtn  = new ButtonType("Clear");
-        if (manager.questions == 0){
-          alert.setContentText("It appears you skipped every question. Would you like to reattempt?");
-          alert.getButtonTypes().setAll(retestBtn, clearBtn);
-        } else if(manager.getTempIncorrectResponses().size() > 0){
-            alert.setContentText(outputText);
-            alert.getButtonTypes().setAll(retestBtn, clearBtn);
-        } else {
-            alert.setContentText(outputText);
-            alert.getButtonTypes().setAll(clearBtn);
-
-        }
-
-        alert.setResizable(false);
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if(manager.getTempIncorrectResponses().size() > 0){
-
-            if (result.get() == clearBtn) {
-                saveRecord();
-                questionRows.getChildren().clear();
-                manager.saveTempIncorrect();
-            } else if (result.get() == retestBtn) {
-                questionRows.getChildren().clear();
-                retest();
-            }
-        }
-        else{
-            //alert.getButtonTypes().setAll(clearBtn);
-            if (result.get() == clearBtn) {
-                saveRecord();
-                questionRows.getChildren().clear();
-                manager.saveTempIncorrect();
-            }
-        }
-
-        manager.resetStats();
-    }
-
 
     private void finished2() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

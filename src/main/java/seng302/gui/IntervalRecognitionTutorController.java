@@ -180,52 +180,6 @@ public class IntervalRecognitionTutorController extends TutorController {
         return questionRow;
     }
 
-
-    /**
-     * This function is run once a tutoring session has been completed.
-     */
-    public void finished() {
-        super.finished();
-
-        // Sets the finished view
-        resultsContent.setText(outputText);
-        paneQuestions.setVisible(false);
-        paneResults.setVisible(true);
-        questionRows.getChildren().clear();
-
-        Button retestBtn = new Button("Retest");
-        Button clearBtn  = new Button("Clear");
-
-        clearBtn.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                saveRecord();
-                manager.saveTempIncorrect();
-                paneResults.setVisible(false);
-                paneQuestions.setVisible(true);
-            }
-        });
-
-        retestBtn.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                record.addRetest();
-                paneResults.setVisible(false);
-                paneQuestions.setVisible(true);
-                retest();
-            }
-        });
-
-        if (manager.getTempIncorrectResponses().size() > 0) {
-            //Can re-test
-            buttons.getChildren().setAll(retestBtn, clearBtn);
-        } else {
-            //Perfect score
-            buttons.getChildren().setAll(clearBtn);
-        }
-
-        // Clear the current session
-        manager.resetStats();
-    }
-
     // The following methods are specific to this tutor
 
     /**

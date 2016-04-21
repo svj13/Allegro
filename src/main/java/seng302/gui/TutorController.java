@@ -3,9 +3,14 @@ package seng302.gui;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.util.Pair;
 import seng302.Environment;
 import seng302.data.Interval;
@@ -26,6 +31,24 @@ public class TutorController {
     public float userScore;
 
     public String outputText;
+
+    @FXML
+    ScrollPane paneQuestions;
+
+    @FXML
+    ScrollPane paneResults;
+
+    @FXML
+    Text resultsTitle;
+
+    @FXML
+    Text resultsContent;
+
+    @FXML
+    VBox resultsBox;
+
+    @FXML
+    HBox buttons;
 
     public TutorController() {
 
@@ -109,6 +132,43 @@ public class TutorController {
                 "This gives a score of %.2f percent",
                 manager.questions, manager.skipped,
                 manager.correct, manager.incorrect, userScore);
+        // Sets the finished view
+        resultsContent.setText(outputText);
+        paneQuestions.setVisible(false);
+        paneResults.setVisible(true);
+        questionRows.getChildren().clear();
+
+        Button retestBtn = new Button("Retest");
+        Button clearBtn  = new Button("Clear");
+
+        clearBtn.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
+            public void handle(javafx.event.ActionEvent event) {
+                saveRecord();
+                manager.saveTempIncorrect();
+                paneResults.setVisible(false);
+                paneQuestions.setVisible(true);
+            }
+        });
+
+        retestBtn.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
+            public void handle(javafx.event.ActionEvent event) {
+                record.addRetest();
+                paneResults.setVisible(false);
+                paneQuestions.setVisible(true);
+                retest();
+            }
+        });
+
+        if (manager.getTempIncorrectResponses().size() > 0) {
+            //Can re-test
+            buttons.getChildren().setAll(retestBtn, clearBtn);
+        } else {
+            //Perfect score
+            buttons.getChildren().setAll(clearBtn);
+        }
+
+        // Clear the current session
+        manager.resetStats();
     }
 
 
