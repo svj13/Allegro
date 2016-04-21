@@ -2,11 +2,14 @@ package seng302.gui;
 
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -149,7 +152,7 @@ public class TutorController {
 
         clearBtn.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             public void handle(javafx.event.ActionEvent event) {
-                saveRecord();
+                promptSaveRecord();
                 manager.saveTempIncorrect();
                 paneResults.setVisible(false);
                 paneQuestions.setVisible(true);
@@ -185,5 +188,20 @@ public class TutorController {
         questionRow.setPadding(new Insets(10, 10, 10, 10));
         questionRow.setSpacing(10);
         questionRow.setStyle("-fx-border-color: #336699; -fx-border-width: 2px;");
+    }
+
+
+    public void promptSaveRecord() {
+        Alert savePrompt = new Alert(Alert.AlertType.NONE);
+        savePrompt.setContentText("Would you like to save this tutoring session?");
+        savePrompt.setHeaderText("Save Record?");
+        ButtonType save = new ButtonType("Save");
+        ButtonType cancel = new ButtonType("Cancel");
+        savePrompt.getButtonTypes().setAll(save, cancel);
+        ButtonType result = savePrompt.showAndWait().get();
+
+        if (result.equals(save)) {
+            saveRecord();
+        }
     }
 }
