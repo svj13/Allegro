@@ -191,6 +191,9 @@ public class TutorController {
     }
 
 
+    /**
+     * Creates an alert to ask the user whether or not to save a record to file.
+     */
     public void promptSaveRecord() {
         Alert savePrompt = new Alert(Alert.AlertType.NONE);
         savePrompt.setContentText("Would you like to save this tutoring session?");
