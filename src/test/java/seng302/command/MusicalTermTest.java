@@ -10,14 +10,16 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import seng302.Environment;
 import seng302.command.Enharmonic;
+import seng302.data.Term;
+import seng302.utility.MusicalTermsTutorBackEnd;
 import seng302.utility.TranscriptManager;
+
+import java.util.ArrayList;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-/**
- * Created by Sarah on 18/03/2016.
- */
+
 @RunWith(MockitoJUnitRunner.class)
 public class MusicalTermTest extends TestCase {
 
@@ -25,57 +27,102 @@ public class MusicalTermTest extends TestCase {
     @Mock
     private TranscriptManager transcriptManager;
 
+    @Mock
+    private MusicalTermsTutorBackEnd tutorDataManger;
+    private Term term = new Term("name","category","origin","description");
+
     @Before
     public void setUp() throws Exception {
         env = new Environment();
         env.setTranscriptManager(transcriptManager);
+        env.setMttDataManager(tutorDataManger);
+    }
+
+
+    @Test
+    public void testMeaningOfCommandGoodInput() throws Exception {
+        //add new term
+        ArrayList<String> musicalTermArray = new ArrayList<String>();
+        musicalTermArray.add("name");
+        musicalTermArray.add("category");
+        musicalTermArray.add("origin");
+        musicalTermArray.add("definition");
+        MusicalTerm termCommand = new MusicalTerm(musicalTermArray, false);
+        termCommand.execute(env);
+
+        // get the meaning of
+        ArrayList<String> getTermArray = new ArrayList<String>();
+        getTermArray.add("name");
+        MusicalTerm termCommand2 = new MusicalTerm(getTermArray, true);
+        termCommand2.execute(env);
+
+        verify(transcriptManager).setResult(
+                "Origin: category\n" +
+                "Category: origin\n" +
+                "Definition: definition");
     }
 
     @Test
-    public void testMusicalTerm() throws Exception {
-        new Enharmonic("C4", 1).execute(env);
-        verify(transcriptManager).setResult("B#4");
+    public void testMeaningOfCommandSpaceInTermName() throws Exception {
+        //add new term
+        ArrayList<String> musicalTermArray = new ArrayList<String>();
+        musicalTermArray.add("space name");
+        musicalTermArray.add("category");
+        musicalTermArray.add("origin");
+        musicalTermArray.add("definition");
+        MusicalTerm termCommand = new MusicalTerm(musicalTermArray, false);
+        termCommand.execute(env);
 
-        new Enharmonic("C", 1).execute(env);
-        verify(transcriptManager).setResult("B#");
+        // get the meaning of
+        ArrayList<String> getTermArray = new ArrayList<String>();
+        getTermArray.add("name");
+        MusicalTerm termCommand2 = new MusicalTerm(getTermArray, true);
+        termCommand2.execute(env);
 
-        new Enharmonic("F4", 1).execute(env);
-        verify(transcriptManager).setResult("E#4");
-
+        verify(transcriptManager).setResult(
+                "Origin: category\n" +
+                        "Category: origin\n" +
+                        "Definition: definition");
     }
 
     @Test
-    public void testEnharmonicFlatName() throws Exception {
-        new Enharmonic("E4", 0).execute(env);
-        verify(transcriptManager).setResult("Fb4");
+    public void testMeaningOfWhereTermDoesntExist() throws Exception {
+        //add new term
+        ArrayList<String> musicalTermArray = new ArrayList<String>();
+        musicalTermArray.add("name");
+        musicalTermArray.add("category");
+        musicalTermArray.add("origin");
+        musicalTermArray.add("definition");
+        MusicalTerm termCommand = new MusicalTerm(musicalTermArray, false);
+        termCommand.execute(env);
 
-        new Enharmonic("F4", 0).execute(env);
-        verify(transcriptManager).setResult("Gbb4");
+        // get the meaning of
+        ArrayList<String> getTermArray = new ArrayList<String>();
+        getTermArray.add("nonExistantName");
+        MusicalTerm termCommand2 = new MusicalTerm(getTermArray, true);
+        termCommand2.execute(env);
 
+        verify(transcriptManager).setResult(
+                "nonexistantname is not recognised as an existing musical term.");
     }
 
     @Test
-    public void testSimpleEnharmonic() throws Exception {
-        new Enharmonic("C4", 2).execute(env);
-        verify(transcriptManager).setResult("B#4");
+    public void testAddMusicalTerm() throws Exception {
+        ArrayList<String> musicalTermArray = new ArrayList<String>();
+        musicalTermArray.add("name");
+        musicalTermArray.add("category");
+        musicalTermArray.add("origin");
+        musicalTermArray.add("description");
+        MusicalTerm termCommand = new MusicalTerm(musicalTermArray, false);
+        termCommand.execute(env);
 
-        new Enharmonic("D4", 2).execute(env);
-        verify(transcriptManager).setResult("[ERROR] Note does not have a simple enharmonic.");
 
-        new Enharmonic("E4", 2).execute(env);
-        verify(transcriptManager).setResult("Fb4");
+        verify(tutorDataManger).addTerm(termCommand.term);
 
-        new Enharmonic("F4", 2).execute(env);
-        verify(transcriptManager).setResult("E#4");
-
-        new Enharmonic("G4", 2).execute(env);
-        verify(transcriptManager, times(2)).setResult("[ERROR] Note does not have a simple enharmonic.");
-
-        new Enharmonic("A4", 2).execute(env);
-        verify(transcriptManager, times(3)).setResult("[ERROR] Note does not have a simple enharmonic.");
-
-        new Enharmonic("B4", 2).execute(env);
-        verify(transcriptManager).setResult("Cb4");
-
+        ArrayList<Term> terms = new ArrayList<Term>();
+        terms.add(termCommand.term);
+        //assertEquals(terms,tutorDataManger.getTerms()); ////WHY THE ... DOES THIS NOT WORK
     }
+
+
 }

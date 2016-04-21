@@ -35,7 +35,7 @@ public class Environment {
         executor = new DslExecutor(this);
         player = new MusicPlayer();
         transcriptManager = new TranscriptManager();
-        mttDataManager = new MusicalTermsTutorBackEnd(); ///////////////////////////////
+        mttDataManager = new MusicalTermsTutorBackEnd();
         json = new seng302.JSON.jsonHandler(this);
 
     }
@@ -58,11 +58,13 @@ public class Environment {
         return transcriptManager;
     }
 
-    public MusicalTermsTutorBackEnd getMttDataManager(){ return mttDataManager;} //////////////////////////////
+    public MusicalTermsTutorBackEnd getMttDataManager(){ return mttDataManager;}
 
     public void setTranscriptManager(TranscriptManager t) {
         this.transcriptManager = t;
     }
+
+    public void setMttDataManager(MusicalTermsTutorBackEnd t){this.mttDataManager = t;}
 
     public String getRecordLocation() {
         return recordLocation;
