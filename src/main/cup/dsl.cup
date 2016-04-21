@@ -25,12 +25,9 @@ parser code {:
 
     public void syntax_error(Symbol cur_token) {
         System.out.println(cur_token.value);
-        System.out.println(DslSymbol.terminalNames[cur_token.sym]);
 
         Symbol prev_token = (Symbol) this.stack.pop();
-        System.out.println(DslSymbol.terminalNames[prev_token.sym]);
-        System.out.println(prev_token.sym);
-        System.out.println(prev_token.value);
+
 
         String prevTokenName = DslSymbol.terminalNames[prev_token.sym];
 
@@ -86,7 +83,7 @@ terminal COMMAND_HELP, COMMAND_NOTE, COMMAND_MIDI, COMMAND_VERSION, COMMAND_SEMI
 COMMAND_SEMITONE_DOWN, COMMAND_SCALE, COMMAND_TEMPO, COMMAND_MIDI_SCALE, COMMAND_ENHARMONIC_LOWER,
 COMMAND_ENHARMONIC_HIGHER, COMMAND_SIMPLE_ENHARMONIC, COMMAND_SET_TEMPO, COMMAND_CROTCHET_DURATION,
 COMMAND_PLAY_NOTE, COMMAND_FORCE_SET_TEMPO, COMMAND_PLAY_SCALE, COMMAND_MUSICAL_TERM,
-COMMAND_ADD_MUSICAL_TERM, COMMAND_INTERVAL, COMMAND_PLAY_INTERVAL, COMMAND_ALL_ENHARMONICS;
+COMMAND_ADD_MUSICAL_TERM, COMMAND_INTERVAL, COMMAND_PLAY_INTERVAL, COMMAND_ALL_ENHARMONICS, SEMIC;
 
 terminal String ATOM, NOTE, SCALE_TYPE, DIRECTION, MIDINOTE, NUMBER, POSNUM, INTERVAL;
 
@@ -102,6 +99,8 @@ non terminal HashMap<String, String> interval;
 non terminal HashMap<String, String> intervalWithTonic;
 non terminal String keyword;
 non terminal String term;
+
+start with command;
 
 command ::= COMMAND_HELP                                {: RESULT = new Help(); :}
           | COMMAND_NOTE note:n                         {: RESULT = new NoteCommand(n); :}
@@ -156,22 +155,6 @@ interval ::= INTERVAL:i {: RESULT = new HashMap<String,String>(); RESULT.put("in
 intervalWithTonic ::= interval:i note:a {: i.put("note",a); RESULT = i;:}
 ;
 
-musicalTerm ::= musicalTerm:list term:n {: list.add(n); RESULT = list; :}
-          | term:n {: RESULT = new ArrayList<String>(); RESULT.add(n); :}
-;
-
-musicalDef ::= term:a term:b term:c term:d {: RESULT = new ArrayList<String>(); RESULT.add(a);
-                                              RESULT.add(b); RESULT.add(c); RESULT.add(d); :}
-;
-
-term ::= keyword:s {: RESULT = s;:}
-       | ATOM:s {: RESULT = s;:}
-       | note:s {: RESULT = s;:}
-       | SCALE_TYPE:s {:RESULT = s;:}
-       | DIRECTION:s   {:RESULT = s;:}
-       | INTERVAL:i    {:RESULT = i;:}
-;
-
 keyword ::= COMMAND_HELP    {: RESULT = "help"; :}
           | COMMAND_VERSION {: RESULT = "version"; :}
           | COMMAND_TEMPO   {: RESULT = "tempo"; :}
@@ -194,6 +177,24 @@ keyword ::= COMMAND_HELP    {: RESULT = "help"; :}
           | COMMAND_MUSICAL_TERM {: RESULT = "meaning of"; :}
           | COMMAND_ADD_MUSICAL_TERM {: RESULT = "add musical term"; :}
 ;
+
+term ::= keyword:s {: RESULT = s;:}
+       | ATOM:s {: RESULT = s;:}
+       | note:s {: RESULT = s;:}
+       | SCALE_TYPE:s {:RESULT = s;:}
+       | DIRECTION:s   {:RESULT = s;:}
+       | INTERVAL:i    {:RESULT = i;:}
+;
+
+musicalTerm ::= musicalTerm:list term:n {: list.add(n); RESULT = list; :}
+          | term:n {: RESULT = new ArrayList<String>(); RESULT.add(n); :}
+;
+
+musicalDef ::= term:a SEMIC term:b SEMIC term:c SEMIC term:d {: RESULT = new ArrayList<String>(); RESULT.add(a);
+                                              RESULT.add(b); RESULT.add(c); RESULT.add(d); :}
+;
+
+
 
 
 

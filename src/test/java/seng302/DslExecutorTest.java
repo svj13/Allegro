@@ -170,7 +170,7 @@ public class DslExecutorTest {
 
     @Test
     public void parsesAddMusicalTermCommand() {
-        Command command = executor.parseCommandString("add musical term lento speed slow french");
+        Command command = executor.parseCommandString("add musical term lento; speed; slow;french");
         assertThat(command, instanceOf(seng302.command.MusicalTerm.class));
     }
 

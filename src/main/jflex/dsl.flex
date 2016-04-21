@@ -11,9 +11,13 @@ import java_cup.runtime.*;
 %column
 %unicode
 %caseless
+/* Uncomment for debugging info.
+%debug
+*/
 
 %cupsym DslSymbol
 %cup
+
    
 /* Declarations
  * The contents of this block is copied verbatim into the Lexer class, this
@@ -25,12 +29,14 @@ import java_cup.runtime.*;
        the current token, the token will have no value in this
        case. */
     private Symbol symbol(int type) {
+        //System.err.println("Obtain token " + DslSymbol.terminalNames[type] + " \"" + yytext() + "\"" );
         return new Symbol(type, yyline, yycolumn);
     }
     
     /* Also creates a new java_cup.runtime.Symbol with information
        about the current token, but this object has a value. */
     private Symbol symbol(int type, Object value) {
+        //System.err.println("Obtain token " + DslSymbol.terminalNames[type] + " \"" + yytext() + "\"" );
         return new Symbol(type, yyline, yycolumn, value);
     }
 %}
@@ -44,12 +50,12 @@ WhiteSpace = \p{Whitespace}
 Number = \p{Digit}
 Note = [A-G|a-g]([#|b|x]|(bb))?[0-8]?|[D-G|d-g]([#|b|x]|(bb))?[-1]?|[A-F|a-f]([#|b|x]|(bb))?[9]?|[C|c][#|x]?(-1)?|[G|g](b|bb)?[9]?
 MidiNote = (0?[0-9]?[0-9]|1[01][0-9]|12[0-7])
-Atom = [^\s]+
+Atom = [^\s|;]+
+SemiColon = ";"
 ScaleType = "major"
 Direction = "updown"|"up"|"down"
 PosNum = \p{Digit}+
 Interval = ("unison"|"major second"|"major third"|"perfect fourth"|"perfect fifth"|"major sixth"|"major seventh"|"octave")
-//Note = ^[A-G|a-g][#|b]?[1-7]?$|^[A|B|a|b][#|b]?0$|^[C|c][#|b]8$
    
 %%
 
@@ -88,6 +94,7 @@ Interval = ("unison"|"major second"|"major third"|"perfect fourth"|"perfect fift
     {Direction}         {return symbol(DslSymbol.DIRECTION, new String(yytext()));}
     {PosNum}            {return symbol(DslSymbol.POSNUM, new String(yytext()));}
     {Interval}          {return symbol(DslSymbol.INTERVAL, new String(yytext()));}
+    {SemiColon}         {return symbol(DslSymbol.SEMIC);}
     {Atom}             { return symbol(DslSymbol.ATOM, new String(yytext()));}
     {WhiteSpace}       { /* Ignore whitespace */ }
 }
