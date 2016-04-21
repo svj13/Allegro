@@ -2,7 +2,6 @@ package seng302.gui;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Optional;
 import java.util.Random;
 
 import javafx.event.ActionEvent;
@@ -250,7 +249,7 @@ public class MusicalTermsTutorController extends TutorController{
             public void handle(ActionEvent event) {
                 rowPane.setStyle("-fx-border-color: grey; -fx-border-width: 2px;");
                 manager.questions -= 1;
-                manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 0);
+                manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 2);
                 rowPane.getChildren().get(2).setDisable(true);
                 rowPane.getChildren().get(4).setDisable(true);
                 rowPane.getChildren().get(6).setDisable(true);
@@ -279,9 +278,4 @@ public class MusicalTermsTutorController extends TutorController{
         return rowPane;
     }
 
-
-    public void allPartsOfQuestionAnswered() {
-
-
-    }
 }
