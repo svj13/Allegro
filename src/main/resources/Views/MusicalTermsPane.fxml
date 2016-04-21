@@ -40,7 +40,13 @@
          <content>
             <VBox fx:id="resultsBox" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <Text fx:id="resultsTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Results" />
+                  <Text fx:id="resultsTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Musical Terms Tutor">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin></Text>
                   <Text fx:id="resultsContent" strokeType="OUTSIDE" strokeWidth="0.0" />
                   <HBox fx:id="buttons" prefHeight="100.0" prefWidth="200.0" />
                </children>

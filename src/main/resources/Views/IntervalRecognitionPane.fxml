@@ -43,7 +43,10 @@
                   <Text fx:id="resultsTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Interval Tutor Results">
                      <font>
                         <Font name="System Bold" size="12.0" />
-                     </font></Text>
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin></Text>
                   <Text fx:id="resultsContent" strokeType="OUTSIDE" strokeWidth="0.0" />
                   <HBox fx:id="buttons" prefHeight="100.0" prefWidth="200.0" />
                </children>
