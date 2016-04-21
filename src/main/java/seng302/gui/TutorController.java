@@ -56,6 +56,10 @@ public class TutorController {
 
     }
 
+    /**
+     * The method called to initialise a tutor
+     * @param env
+     */
     public void create(Environment env){
         this.env = env;
         manager = new TutorManager();
@@ -80,7 +84,6 @@ public class TutorController {
      * An empty function which is overridden by each tutor
      */
     public HBox generateQuestionPane(Pair data) {
-        System.out.println("using blank method instead");
         return new HBox();
     }
 
@@ -174,6 +177,10 @@ public class TutorController {
     }
 
 
+    /**
+     * Styles a question row consistently
+     * @param questionRow the row being styled
+     */
     public void formatQuestionRow(HBox questionRow) {
         questionRow.setPadding(new Insets(10, 10, 10, 10));
         questionRow.setSpacing(10);
