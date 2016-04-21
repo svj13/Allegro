@@ -1,6 +1,7 @@
 package seng302.gui;
 
 import java.awt.event.ActionEvent;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -14,6 +15,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.util.Pair;
 import seng302.Environment;
 import seng302.data.Interval;
@@ -33,6 +36,12 @@ public class TutorController {
     public float userScore;
 
     public String outputText;
+
+    Stage stage;
+
+    File fileDir;
+
+    String path;
 
     @FXML
     VBox questionRows;
@@ -105,11 +114,21 @@ public class TutorController {
      */
     public void saveRecord() {
         if (env.getRecordLocation() != null) {
+            // Appends to file already created in this session.
             record.writeToFile(env.getRecordLocation());
         } else {
             //show a file picker
-            env.setRecordLocation("new-file.txt");
-            record.writeToFile("new-file.txt");
+            FileChooser fileChooser = new FileChooser();
+            FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+            fileChooser.getExtensionFilters().add(textFilter);
+            File file = fileChooser.showSaveDialog(stage);
+
+            if (file != null) {
+                fileDir = file.getParentFile();
+                path = file.getAbsolutePath();
+                env.setRecordLocation(path);
+                record.writeToFile(path);
+            }
         }
     }
 
