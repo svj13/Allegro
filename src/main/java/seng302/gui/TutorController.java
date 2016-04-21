@@ -1,16 +1,22 @@
 package seng302.gui;
 
 import java.awt.event.ActionEvent;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.util.Pair;
 import seng302.Environment;
 import seng302.data.Interval;
@@ -30,6 +36,12 @@ public class TutorController {
     public float userScore;
 
     public String outputText;
+
+    Stage stage;
+
+    File fileDir;
+
+    String path;
 
     @FXML
     VBox questionRows;
@@ -102,11 +114,21 @@ public class TutorController {
      */
     public void saveRecord() {
         if (env.getRecordLocation() != null) {
+            // Appends to file already created in this session.
             record.writeToFile(env.getRecordLocation());
         } else {
             //show a file picker
-            env.setRecordLocation("new-file.txt");
-            record.writeToFile("new-file.txt");
+            FileChooser fileChooser = new FileChooser();
+            FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+            fileChooser.getExtensionFilters().add(textFilter);
+            File file = fileChooser.showSaveDialog(stage);
+
+            if (file != null) {
+                fileDir = file.getParentFile();
+                path = file.getAbsolutePath();
+                env.setRecordLocation(path);
+                record.writeToFile(path);
+            }
         }
     }
 
@@ -150,7 +172,7 @@ public class TutorController {
 
         clearBtn.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             public void handle(javafx.event.ActionEvent event) {
-                saveRecord();
+                promptSaveRecord();
                 manager.saveTempIncorrect();
                 paneResults.setVisible(false);
                 paneQuestions.setVisible(true);
@@ -188,5 +210,23 @@ public class TutorController {
         questionRow.setPadding(new Insets(10, 10, 10, 10));
         questionRow.setSpacing(10);
         questionRow.setStyle("-fx-border-color: #336699; -fx-border-width: 2px;");
+    }
+
+
+    /**
+     * Creates an alert to ask the user whether or not to save a record to file.
+     */
+    public void promptSaveRecord() {
+        Alert savePrompt = new Alert(Alert.AlertType.NONE);
+        savePrompt.setContentText("Would you like to save this tutoring session?");
+        savePrompt.setHeaderText("Save Record?");
+        ButtonType save = new ButtonType("Save");
+        ButtonType cancel = new ButtonType("Cancel");
+        savePrompt.getButtonTypes().setAll(save, cancel);
+        ButtonType result = savePrompt.showAndWait().get();
+
+        if (result.equals(save)) {
+            saveRecord();
+        }
     }
 }

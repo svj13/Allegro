@@ -22,7 +22,7 @@ public class MusicalTerm implements Command {
     private static HashMap<String, String> MusicalTermsMap = new HashMap<String, String>();
 
     private  boolean termAdded = false;
-    private Term term;
+    public Term term;
 
 
     /**MusicalTerm(String) is a function that takes a musical term as a parameter and returns
@@ -57,6 +57,7 @@ public class MusicalTerm implements Command {
      * @param input
      */
     public MusicalTerm( ArrayList<String> musicalTermArray,Boolean input) {
+        System.out.println(musicalTermArray);
         String musicalTerm = createMusicalTermString(musicalTermArray);
 
         if(input == true) {
