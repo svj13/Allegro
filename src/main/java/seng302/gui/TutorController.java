@@ -56,7 +56,7 @@ public class TutorController {
 
     public void create(Environment env){
         this.env = env;
-        manager = env.getIrtManager();
+        manager = new TutorManager();
     }
 
     /**

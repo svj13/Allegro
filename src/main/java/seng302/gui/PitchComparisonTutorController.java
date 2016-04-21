@@ -176,8 +176,6 @@ public class PitchComparisonTutorController extends TutorController{
 //        handleUpperRangeAction();
         lowerSet = true;
         upperSet = true;
-
-        manager = env.getPctManager();
     }
 
 
