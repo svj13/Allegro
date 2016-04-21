@@ -33,13 +33,7 @@ public class IntervalRecognitionTutorController extends TutorController {
     TextField txtNumIntervals;
 
     @FXML
-    VBox questionRows;
-
-    @FXML
     AnchorPane IntervalRecognitionTab;
-
-    @FXML
-    ScrollPane paneQuestions;
 
     @FXML
     ScrollPane paneResults;
@@ -93,7 +87,7 @@ public class IntervalRecognitionTutorController extends TutorController {
         Interval thisInterval = generateInterval();
         Note firstNote = getStartingNote(thisInterval.getSemitones());
         Pair<Interval, Note> pair = new Pair<Interval, Note>(thisInterval, firstNote);
-        return generateQuestionRow(pair);
+        return generateQuestionPane(pair);
     }
 
 
@@ -101,7 +95,7 @@ public class IntervalRecognitionTutorController extends TutorController {
      * Creates a GUI section for one question.
      * @return a JavaFX HBox containing controls and info about one question.
      */
-    public HBox generateQuestionRow(Pair intervalAndNote) {
+    public HBox generateQuestionPane(Pair intervalAndNote) {
         final HBox questionRow = new HBox();
         formatQuestionRow(questionRow);
 

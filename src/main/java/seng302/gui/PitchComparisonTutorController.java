@@ -56,11 +56,6 @@ public class PitchComparisonTutorController extends TutorController{
 
     @FXML
     ComboBox<MidiNotePair> cbxUpper;
-    @FXML
-    ScrollPane paneQuestions;
-
-    @FXML
-    VBox questionRows;
 
     @FXML
     Button btnGo;
@@ -111,7 +106,8 @@ public class PitchComparisonTutorController extends TutorController{
                 String midiOne =  String.valueOf(lowerPitchBound + rand.nextInt(pitchRange + 1));
                 String midiTwo = String.valueOf(lowerPitchBound + rand.nextInt(pitchRange + 1));
 
-                HBox rowPane = generateQuestionPane(midiOne, midiTwo);
+                Pair<String, String> midis = new Pair<String, String>(midiOne, midiTwo);
+                HBox rowPane = generateQuestionPane(midis);
                 questionRows.getChildren().add(rowPane);
                 questionRows.setMargin(rowPane, new Insets(10, 10, 10, 10));
             }
@@ -349,11 +345,12 @@ public class PitchComparisonTutorController extends TutorController{
      * Constructs the question panels.
      * @return
      */
-    private HBox generateQuestionPane(final String midiOne, final String midiTwo) {
+    public HBox generateQuestionPane(Pair midis) {
 
         final HBox rowPane = new HBox();
         formatQuestionRow(rowPane);
-
+        final String midiOne = midis.getKey().toString();
+        final String midiTwo = midis.getValue().toString();
         rowPane.getChildren().add(new Label(String.valueOf(midiOne)));
         rowPane.getChildren().add(new Label(String.valueOf(midiTwo)));
 

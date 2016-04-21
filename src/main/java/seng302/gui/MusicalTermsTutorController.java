@@ -1,6 +1,7 @@
 package seng302.gui;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Optional;
 import java.util.Random;
 
@@ -26,6 +27,7 @@ import seng302.Environment;
 import seng302.data.Term;
 import seng302.utility.MusicalTermsTutorBackEnd;
 import seng302.utility.TutorManager;
+import seng302.utility.TutorRecord;
 
 /**
  * Created by jmw280 on 16/04/16.
@@ -63,6 +65,7 @@ public class MusicalTermsTutorController extends TutorController{
 
     @FXML
     void goAction(ActionEvent event) {
+        record = new TutorRecord(new Date(), "Musical Terms");
         manager.questions = Integer.parseInt(txtNumMusicalTerms.getText());
         if (manager.questions >= 1) {
             ArrayList<Term> termArray = dataManager.getTerms();
@@ -125,7 +128,7 @@ public class MusicalTermsTutorController extends TutorController{
     /**
      * Constructs the question panels.
      */
-    private HBox generateQuestionPane(Term term) {
+    public HBox generateQuestionPane(Term term) {
 
         final Term currentTerm = term;
         final HBox rowPane = new HBox();

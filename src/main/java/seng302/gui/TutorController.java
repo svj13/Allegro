@@ -20,7 +20,6 @@ import seng302.utility.TutorManager;
 import seng302.utility.TutorRecord;
 
 public class TutorController {
-    VBox questionRows;
 
     public Environment env;
 
@@ -31,6 +30,9 @@ public class TutorController {
     public float userScore;
 
     public String outputText;
+
+    @FXML
+    VBox questionRows;
 
     @FXML
     ScrollPane paneQuestions;
@@ -68,7 +70,7 @@ public class TutorController {
         manager.clearTempIncorrect();
         manager.questions = tempIncorrectResponses.size();
         for(Pair pair : tempIncorrectResponses){
-            HBox questionRow = generateQuestionRow(pair);
+            HBox questionRow = generateQuestionPane(pair);
             questionRows.getChildren().add(questionRow);
             questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
         }
@@ -77,7 +79,8 @@ public class TutorController {
     /**
      * An empty function which is overridden by each tutor
      */
-    public HBox generateQuestionRow(Pair pair) {
+    public HBox generateQuestionPane(Pair data) {
+        System.out.println("using blank method instead");
         return new HBox();
     }
 
@@ -152,7 +155,6 @@ public class TutorController {
 
         retestBtn.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             public void handle(javafx.event.ActionEvent event) {
-                record.addRetest();
                 paneResults.setVisible(false);
                 paneQuestions.setVisible(true);
                 retest();
