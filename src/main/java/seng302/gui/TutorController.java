@@ -140,6 +140,7 @@ public class TutorController {
                 manager.correct, manager.incorrect, userScore);
         // Sets the finished view
         resultsContent.setText(outputText);
+
         paneQuestions.setVisible(false);
         paneResults.setVisible(true);
         questionRows.getChildren().clear();
@@ -155,7 +156,7 @@ public class TutorController {
                 paneQuestions.setVisible(true);
             }
         });
-
+        paneResults.setPadding(new Insets(10, 10, 10, 10));
         retestBtn.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             public void handle(javafx.event.ActionEvent event) {
                 paneResults.setVisible(false);
@@ -172,6 +173,8 @@ public class TutorController {
             buttons.getChildren().setAll(clearBtn);
         }
 
+        buttons.setMargin(retestBtn, new Insets(10,10,10,10));
+        buttons.setMargin(clearBtn, new Insets(10,10,10,10));
         // Clear the current session
         manager.resetStats();
     }
