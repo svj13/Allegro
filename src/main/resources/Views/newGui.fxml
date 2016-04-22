@@ -16,6 +16,7 @@
                     <items>
                         <SeparatorMenuItem mnemonicParsing="false" text="Find.." />
                         <Menu fx:id="menuOpenProjects" mnemonicParsing="false" text="Project" />
+
                            <MenuItem fx:id="MenuOpen" mnemonicParsing="false" onAction="#openTranscript" text="Open Transcript" />
                     </items>
                   </Menu>
