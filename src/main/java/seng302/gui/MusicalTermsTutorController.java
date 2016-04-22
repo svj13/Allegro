@@ -242,7 +242,7 @@ public class MusicalTermsTutorController extends TutorController{
                 };
                 record.addSkippedQuestion(question);
 
-                rowPane.setStyle("-fx-border-color: grey; -fx-border-width: 2px;");
+                formatSkippedQuestion(rowPane);
                 manager.questions -= 1;
                 manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 2);
                 rowPane.getChildren().get(2).setDisable(true);
@@ -277,15 +277,15 @@ public class MusicalTermsTutorController extends TutorController{
         if(secondBox.getValue() != null && thirdBox.getValue()!= null){
             if(secondBox.getStyle() == "-fx-background-color: red" && thirdBox.getStyle() == "-fx-background-color: red" && currentSelection.getStyle() == "-fx-background-color: red" ){
                 // All parts incorrect
-                rowPane.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                formatIncorrectQuestion(rowPane);
                 manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 0);
             }else if(secondBox.getStyle() == "-fx-background-color: green" && thirdBox.getStyle() == "-fx-background-color: green" && currentSelection.getStyle() == "-fx-background-color: green" ){
                 // All parts correct
-                rowPane.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
+                formatCorrectQuestion(rowPane);
                 manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 1);
             }else{
                 // Some parts correct, some parts incorrect
-                rowPane.setStyle("-fx-border-color: yellow; -fx-border-width: 2px;");
+                formatPartiallyCorrectQuestion(rowPane);
                 manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 0);
 
             }

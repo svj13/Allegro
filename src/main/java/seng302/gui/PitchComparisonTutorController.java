@@ -323,11 +323,11 @@ public class PitchComparisonTutorController extends TutorController{
         }
 
     if(correctChoice == 1) {
-        row.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
+        formatCorrectQuestion(row);
         manager.answered += 1;
-    } else if (correctChoice == 2) row.setStyle("-fx-border-color: grey; -fx-border-width: 2px;");
+    } else if (correctChoice == 2) formatSkippedQuestion(row);
     else {
-        row.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+        formatIncorrectQuestion(row);
         manager.answered += 1;
     }
     manager.add(new Pair<String, String>(note1.getNote(), note2.getNote()), correctChoice);

@@ -120,7 +120,7 @@ public class IntervalRecognitionTutorController extends TutorController {
             public void handle(ActionEvent event) {
                 //Disables inputs
                 disableButtons(questionRow);
-                questionRow.setStyle("-fx-border-color: grey; -fx-border-width: 2px;");
+                formatSkippedQuestion(questionRow);
                 manager.questions -= 1;
                 manager.add(pair, 2);
                 String[] question = new String[]{
@@ -139,10 +139,10 @@ public class IntervalRecognitionTutorController extends TutorController {
             public void handle(ActionEvent event) {
                 disableButtons(questionRow);
                 if (options.getValue().equals(thisInterval.getName())) {
-                    questionRow.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
+                    formatCorrectQuestion(questionRow);
                     manager.add(pair, 1);
                 } else {
-                    questionRow.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                    formatIncorrectQuestion(questionRow);
                     manager.add(pair, 0);
                 }
                 manager.answered += 1;

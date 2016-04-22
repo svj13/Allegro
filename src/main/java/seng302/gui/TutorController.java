@@ -229,4 +229,20 @@ public class TutorController {
             saveRecord();
         }
     }
+
+    public void formatSkippedQuestion(HBox question) {
+        question.setStyle("-fx-border-color: grey; -fx-border-width: 2px;");
+    }
+
+    public void formatCorrectQuestion(HBox question) {
+        question.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
+    }
+
+    public void formatIncorrectQuestion(HBox question) {
+        question.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+    }
+
+    public void formatPartiallyCorrectQuestion(HBox question) {
+        question.setStyle("-fx-border-color: yellow; -fx-border-width: 2px;");
+    }
 }
