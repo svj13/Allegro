@@ -221,7 +221,7 @@ public class TutorController {
         savePrompt.setContentText("Would you like to save this tutoring session?");
         savePrompt.setHeaderText("Save Record?");
         ButtonType save = new ButtonType("Save");
-        ButtonType cancel = new ButtonType("Cancel");
+        ButtonType cancel = new ButtonType("Discard");
         savePrompt.getButtonTypes().setAll(save, cancel);
         ButtonType result = savePrompt.showAndWait().get();
 
