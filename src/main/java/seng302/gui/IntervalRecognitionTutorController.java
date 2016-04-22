@@ -16,6 +16,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -88,9 +90,15 @@ public class IntervalRecognitionTutorController extends TutorController {
         formatQuestionRow(questionRow);
 
         //Add buttons for play and skip
-        Button play = new Button("Play");
+        Button play = new Button();
+        Image imagePlay = new Image(getClass().getResourceAsStream("/images/play-button.png"), 20, 20, true, true);
+        play.setGraphic(new ImageView(imagePlay));
+        play.setStyle("-fx-base: #40a927;");
         Button skip = new Button("Skip");
+        Image imageSkip = new Image(getClass().getResourceAsStream("/images/right-arrow.png"), 20, 20, true, true);
+        skip.setGraphic(new ImageView(imageSkip));
         final ComboBox<String> options = generateChoices();
+        options.setPrefHeight(30);
         final Label correctAnswer = new Label();
 
         final Pair pair = intervalAndNote;
@@ -154,8 +162,8 @@ public class IntervalRecognitionTutorController extends TutorController {
         });
 
         questionRow.getChildren().add(play);
-        questionRow.getChildren().add(skip);
         questionRow.getChildren().add(options);
+        questionRow.getChildren().add(skip);
         questionRow.getChildren().add(correctAnswer);
 
         questionRow.prefWidthProperty().bind(paneQuestions.prefWidthProperty());

@@ -39,12 +39,12 @@ public class App extends Application {
 
             primaryStage = new Stage();
             primaryStage.setScene(scene);
-            primaryStage.setTitle("Allegro  No Project");
+            primaryStage.setTitle("Allegro - Unsaved Project");
             primaryStage.setMinHeight(450);
             primaryStage.setMinWidth(450);
 
             RootController controller = loader.getController();
-            if (controller == null) System.out.println("Controller is null");
+            if (controller == null) System.err.println("Controller is null");
             controller.setEnvironment(new Environment());
             controller.setStage(primaryStage);
             primaryStage.show();

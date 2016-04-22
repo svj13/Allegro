@@ -157,7 +157,7 @@ public class TutorController {
         outputText = String.format("You have finished the tutor.\n" +
                 "You answered %d questions, and skipped %d questions.\n" +
                 "You answered %d questions correctly, %d questions incorrectly.\n" +
-                "This gives a score of %.2f percent",
+                        "This gives a score of %.2f percent.",
                 manager.questions, manager.skipped,
                 manager.correct, manager.incorrect, userScore);
         // Sets the finished view

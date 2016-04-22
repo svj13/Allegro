@@ -16,12 +16,15 @@
       <HBox alignment="CENTER_LEFT" layoutX="-24.0" layoutY="47.0" minWidth="-Infinity" prefHeight="40.0" prefWidth="470.0" spacing="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="56.0">
          <children>
             <Label text="Musical Terms: " />
-            <TextField id="txtNotes" fx:id="txtNumMusicalTerms" alignment="CENTER" prefHeight="30.0" prefWidth="40.0" text="1">
+            <TextField id="txtNotes" fx:id="txtNumMusicalTerms" alignment="CENTER" prefHeight="30.0"
+                       prefWidth="40.0" text="10">
                <font>
                   <Font size="12.0" />
                </font>
             </TextField>
-            <Button id="btnGo" fx:id="btnGo" mnemonicParsing="false" onAction="#goAction" prefHeight="30.0" prefWidth="90.0" text="Go" textAlignment="CENTER">
+            <Button id="btnGo" fx:id="btnGo" alignment="CENTER" contentDisplay="CENTER"
+                    mnemonicParsing="false" onAction="#goAction" prefHeight="30.0" prefWidth="90.0"
+                    text="Go" textAlignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font>

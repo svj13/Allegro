@@ -93,7 +93,6 @@ terminal String ATOM, NOTE, SCALE_TYPE, DIRECTION, MIDINOTE, NUMBER, POSNUM, INT
 non terminal Command command;
 non terminal String note;
 non terminal HashMap<String, String> scale;
-non terminal ArrayList<String> musicalTerm;
 non terminal ArrayList<String> musicalDef;
 non terminal String midiNote;
 non terminal String positiveNum;

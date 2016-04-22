@@ -20,6 +20,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.util.Pair;
 import seng302.Environment;
 
@@ -133,13 +134,17 @@ public class MusicalTermsTutorController extends TutorController{
         formatQuestionRow(rowPane);
 
         Label termLabel = new Label(currentTerm.getMusicalTermName());
-        Button skip = new Button();
+        termLabel.setFont(Font.font("System Bold", 13));
+        Button skip = new Button("Skip");
         Image imageSkip = new Image(getClass().getResourceAsStream("/images/right-arrow.png"), 20, 20, true, true);
         skip.setGraphic(new ImageView(imageSkip));
 
         final ComboBox<String> originOptions = generateOriginChoices();
+        originOptions.setPrefHeight(30);
         final ComboBox<String> categoryOptions = generateCategoryChoices();
+        categoryOptions.setPrefHeight(30);
         final ComboBox<String> definitionOptions = generateDefinitionChoices();
+        definitionOptions.setPrefHeight(30);
 
 
         originOptions.setOnAction(new EventHandler<ActionEvent>() {
@@ -264,11 +269,11 @@ public class MusicalTermsTutorController extends TutorController{
 
 
         rowPane.getChildren().add(termLabel);
-        rowPane.getChildren().add(new Label("Origin"));
+        rowPane.getChildren().add(new Label("Origin:"));
         rowPane.getChildren().add(originOptions);
-        rowPane.getChildren().add(new Label("Category"));
+        rowPane.getChildren().add(new Label("Category:"));
         rowPane.getChildren().add(categoryOptions);
-        rowPane.getChildren().add(new Label("Definion"));
+        rowPane.getChildren().add(new Label("Definition:"));
         rowPane.getChildren().add(definitionOptions);
         rowPane.getChildren().add(skip);
 

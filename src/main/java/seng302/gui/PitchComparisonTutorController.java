@@ -272,18 +272,17 @@ public class PitchComparisonTutorController extends TutorController{
         Note note2 = Note.lookup(m2);
 
 
-
+        row.getChildren().get(1).setDisable(true);
+        row.getChildren().get(2).setDisable(true);
         row.getChildren().get(3).setDisable(true);
         row.getChildren().get(4).setDisable(true);
-        row.getChildren().get(5).setDisable(true);
-        row.getChildren().get(6).setDisable(true);
 
 
         int correctChoice = 0;
 
 
-        if(((ToggleButton)row.getChildren().get(3)).isSelected()){ //Higher\
-            row.getChildren().get(3).setStyle("-fx-text-fill: white;-fx-background-color: blue");
+        if (((ToggleButton) row.getChildren().get(1)).isSelected()) { //Higher\
+            row.getChildren().get(1).setStyle("-fx-text-fill: white;-fx-background-color: blue");
             if (noteComparison(true, note1, note2)) correctChoice = 1;
             String[] question = new String[]{
                     String.format("Is %s higher or lower than %s", note2.getNote(), note1.getNote()),
@@ -291,9 +290,8 @@ public class PitchComparisonTutorController extends TutorController{
                     Boolean.toString(getAnswer(note1, note2).equals("Higher"))
             };
             record.addQuestionAnswer(question);
-        }
-        else  if(((ToggleButton)row.getChildren().get(4)).isSelected()){ //Same
-            row.getChildren().get(4).setStyle("-fx-text-fill: white;-fx-background-color: blue");
+        } else if (((ToggleButton) row.getChildren().get(2)).isSelected()) { //Same
+            row.getChildren().get(2).setStyle("-fx-text-fill: white;-fx-background-color: blue");
             if (note1 == note2) correctChoice = 1;
             String[] question = new String[]{
                     String.format("Is %s higher or lower than %s", note2.getNote(), note1.getNote()),
@@ -301,9 +299,8 @@ public class PitchComparisonTutorController extends TutorController{
                     Boolean.toString(getAnswer(note1, note2).equals("Same"))
             };
             record.addQuestionAnswer(question);
-        }
-        else  if(((ToggleButton)row.getChildren().get(5)).isSelected()){ //Lower
-            row.getChildren().get(5).setStyle("-fx-text-fill: white;-fx-background-color: blue");
+        } else if (((ToggleButton) row.getChildren().get(3)).isSelected()) { //Lower
+            row.getChildren().get(3).setStyle("-fx-text-fill: white;-fx-background-color: blue");
             if (noteComparison(false, note1, note2)) {
                 correctChoice = 1;
             }
@@ -313,9 +310,8 @@ public class PitchComparisonTutorController extends TutorController{
                     Boolean.toString(getAnswer(note1, note2).equals("Lower"))
             };
             record.addQuestionAnswer(question);
-        }
-        else if(((ToggleButton)row.getChildren().get(6)).isSelected()) { //Skip
-            row.getChildren().get(6).setStyle("-fx-text-fill: white;-fx-background-color: blue");
+        } else if (((ToggleButton) row.getChildren().get(4)).isSelected()) { //Skip
+            row.getChildren().get(4).setStyle("-fx-text-fill: white;-fx-background-color: blue");
             correctChoice = 2;
             manager.questions -= 1;
 
@@ -353,8 +349,6 @@ public class PitchComparisonTutorController extends TutorController{
         formatQuestionRow(rowPane);
         final String midiOne = midis.getKey().toString();
         final String midiTwo = midis.getValue().toString();
-        rowPane.getChildren().add(new Label(String.valueOf(midiOne)));
-        rowPane.getChildren().add(new Label(String.valueOf(midiTwo)));
 
         ToggleGroup group = new ToggleGroup();
         ToggleButton higher = new ToggleButton("Higher");
@@ -410,12 +404,12 @@ public class PitchComparisonTutorController extends TutorController{
         Button playBtn = new Button();
         Image imagePlay = new Image(getClass().getResourceAsStream("/images/play-button.png"), 20, 20, true, true);
         playBtn.setGraphic(new ImageView(imagePlay));
-        playBtn.setStyle("-fx-base: #6EFF73;");
+        playBtn.setStyle("-fx-base: #40a927;");
 
         playBtn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                Note note1 = Note.lookup(((Label) rowPane.getChildren().get(0)).getText());
-                Note note2 = Note.lookup(((Label) rowPane.getChildren().get(1)).getText());
+                Note note1 = Note.lookup(midiOne);
+                Note note2 = Note.lookup(midiTwo);
                 ArrayList<Note> notes = new ArrayList<Note>();
                 notes.add(note1);
                 notes.add(note2);

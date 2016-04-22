@@ -72,14 +72,14 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
        the current token, the token will have no value in this
        case. */
     private Symbol symbol(int type) {
-        System.err.println("Obtain token " + DslSymbol.terminalNames[type] + " \"" + yytext() + "\"" );
+        //System.err.println("Obtain token " + DslSymbol.terminalNames[type] + " \"" + yytext() + "\"" );
         return new Symbol(type, yyline, yycolumn);
     }
     
     /* Also creates a new java_cup.runtime.Symbol with information
        about the current token, but this object has a value. */
     private Symbol symbol(int type, Object value) {
-        System.err.println("Obtain token " + DslSymbol.terminalNames[type] + " \"" + yytext() + "\"" );
+        //System.err.println("Obtain token " + DslSymbol.terminalNames[type] + " \"" + yytext() + "\"" );
         return new Symbol(type, yyline, yycolumn, value);
     }
 
