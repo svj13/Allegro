@@ -6,7 +6,6 @@ import org.controlsfx.control.spreadsheet.StringConverterWithFormat;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Optional;
 import java.util.Random;
 
 import javafx.beans.value.ChangeListener;
@@ -20,7 +19,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -30,12 +28,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 import seng302.Environment;
 import seng302.utility.MidiNotePair;
 import seng302.data.Note;
-import seng302.utility.TutorManager;
 import seng302.utility.TutorRecord;
 
 /**

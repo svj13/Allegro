@@ -1,10 +1,9 @@
 package seng302.gui;
 
-import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Optional;
 
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -19,9 +18,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import seng302.Environment;
-import seng302.data.Interval;
-import seng302.data.Note;
-import seng302.data.Term;
 import seng302.utility.TutorManager;
 import seng302.utility.TutorRecord;
 
@@ -170,8 +166,8 @@ public class TutorController {
         Button retestBtn = new Button("Retest");
         Button clearBtn  = new Button("Clear");
 
-        clearBtn.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
-            public void handle(javafx.event.ActionEvent event) {
+        clearBtn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
                 promptSaveRecord();
                 manager.saveTempIncorrect();
                 paneResults.setVisible(false);
@@ -179,8 +175,8 @@ public class TutorController {
             }
         });
         paneResults.setPadding(new Insets(10, 10, 10, 10));
-        retestBtn.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
-            public void handle(javafx.event.ActionEvent event) {
+        retestBtn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
                 paneResults.setVisible(false);
                 paneQuestions.setVisible(true);
                 retest();

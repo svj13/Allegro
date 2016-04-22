@@ -11,22 +11,16 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.util.Pair;
-import seng302.Environment;
 import seng302.data.Interval;
 import seng302.data.Note;
-import seng302.utility.TutorManager;
 import seng302.utility.TutorRecord;
 
 public class IntervalRecognitionTutorController extends TutorController {
