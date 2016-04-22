@@ -25,6 +25,7 @@ public class TutorRecord {
     public TutorRecord(Date startTime, String tutorType) {
         lines.add("Date: " + startTime.toString() + "\n");
         lines.add("Tutor type: " + tutorType + "\n");
+        lines.add("\n");
     }
 
     /**
