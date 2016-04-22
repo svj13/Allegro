@@ -51,9 +51,7 @@ public class MusicalTermTest extends TestCase {
         termCommand.execute(env);
 
         // get the meaning of
-        ArrayList<String> getTermArray = new ArrayList<String>();
-        getTermArray.add("name");
-        MusicalTerm termCommand2 = new MusicalTerm(getTermArray);
+        MusicalTerm termCommand2 = new MusicalTerm("name");
         termCommand2.execute(env);
 
         verify(transcriptManager).setResult(
@@ -96,10 +94,7 @@ public class MusicalTermTest extends TestCase {
         MusicalTerm termCommand = new MusicalTerm(musicalTermArray);
         termCommand.execute(env);
 
-        // get the meaning of
-        ArrayList<String> getTermArray = new ArrayList<String>();
-        getTermArray.add("nonExistantName");
-        MusicalTerm termCommand2 = new MusicalTerm(getTermArray);
+        MusicalTerm termCommand2 = new MusicalTerm("nonExistantName");
         termCommand2.execute(env);
 
         verify(transcriptManager).setResult(
