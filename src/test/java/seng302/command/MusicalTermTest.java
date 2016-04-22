@@ -47,13 +47,13 @@ public class MusicalTermTest extends TestCase {
         musicalTermArray.add("category");
         musicalTermArray.add("origin");
         musicalTermArray.add("definition");
-        MusicalTerm termCommand = new MusicalTerm(musicalTermArray, false);
+        MusicalTerm termCommand = new MusicalTerm(musicalTermArray);
         termCommand.execute(env);
 
         // get the meaning of
         ArrayList<String> getTermArray = new ArrayList<String>();
         getTermArray.add("name");
-        MusicalTerm termCommand2 = new MusicalTerm(getTermArray, true);
+        MusicalTerm termCommand2 = new MusicalTerm(getTermArray);
         termCommand2.execute(env);
 
         verify(transcriptManager).setResult(
@@ -70,13 +70,13 @@ public class MusicalTermTest extends TestCase {
         musicalTermArray.add("category");
         musicalTermArray.add("origin");
         musicalTermArray.add("definition");
-        MusicalTerm termCommand = new MusicalTerm(musicalTermArray, false);
+        MusicalTerm termCommand = new MusicalTerm(musicalTermArray);
         termCommand.execute(env);
 
         // get the meaning of
         ArrayList<String> getTermArray = new ArrayList<String>();
         getTermArray.add("name");
-        MusicalTerm termCommand2 = new MusicalTerm(getTermArray, true);
+        MusicalTerm termCommand2 = new MusicalTerm(getTermArray);
         termCommand2.execute(env);
 
         verify(transcriptManager).setResult(
@@ -93,13 +93,13 @@ public class MusicalTermTest extends TestCase {
         musicalTermArray.add("category");
         musicalTermArray.add("origin");
         musicalTermArray.add("definition");
-        MusicalTerm termCommand = new MusicalTerm(musicalTermArray, false);
+        MusicalTerm termCommand = new MusicalTerm(musicalTermArray);
         termCommand.execute(env);
 
         // get the meaning of
         ArrayList<String> getTermArray = new ArrayList<String>();
         getTermArray.add("nonExistantName");
-        MusicalTerm termCommand2 = new MusicalTerm(getTermArray, true);
+        MusicalTerm termCommand2 = new MusicalTerm(getTermArray);
         termCommand2.execute(env);
 
         verify(transcriptManager).setResult(
@@ -113,7 +113,7 @@ public class MusicalTermTest extends TestCase {
         musicalTermArray.add("category");
         musicalTermArray.add("origin");
         musicalTermArray.add("description");
-        MusicalTerm termCommand = new MusicalTerm(musicalTermArray, false);
+        MusicalTerm termCommand = new MusicalTerm(musicalTermArray);
         termCommand.execute(env);
 
 
