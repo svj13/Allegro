@@ -29,7 +29,7 @@ public class CommandHistory {
         int size = tm.getTranscriptTuples().size();
         System.out.println(historyLevel);
 
-        if (historyLevel == -1 && size > 0) {
+        if (historyLevel < 1 && size > 0) {
             historyLevel = 1;
 
             storedInput = currentText;

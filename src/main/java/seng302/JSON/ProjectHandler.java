@@ -1,6 +1,11 @@
 package seng302.JSON;
 
 /**
+ *  ProjectHandler
+ *
+ *  In charge of handling user project data, including saving, loading and validating.
+
+ *
  * Created by Jonty on 12-Apr-16.
  */
 
@@ -17,7 +22,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import seng302.Environment;
 
-public class jsonHandler {
+public class ProjectHandler {
 
     JSONObject projectSettings = new JSONObject();
     JSONParser parser = new JSONParser(); //parser for reading project
@@ -32,7 +37,7 @@ public class jsonHandler {
     String projName; //delete this testing for commit fix.
 
     Environment env;
-    public jsonHandler(Environment env){
+    public ProjectHandler(Environment env){
 
         this.env = env;
         try {
@@ -67,6 +72,10 @@ public class jsonHandler {
 
     }
 
+
+    /**
+     * Saves the current project, or if there is no current working project; launches the New project dialog.
+     */
     public void saveCurrentProject(){
         if(currentProjectPath != null){
             saveProject(currentProjectPath);
@@ -75,22 +84,22 @@ public class jsonHandler {
             env.getRootController().newProject();
         }
 
-
-
     }
 
 
-
+    /**
+     * Handles Saving a .JSON Project file, for the specified project address
+     * @param projectAddress Project directory address.
+     */
 
     public void saveProject(String projectAddress){
 
         //Add all settings to such as tempo speed to the project here.
 
-
         try {
 
 
-            projectSettings.put("tempo", (int) env.getPlayer().getTempo());
+            projectSettings.put("tempo", env.getPlayer().getTempo());
 
             FileWriter file = new FileWriter(projectAddress+".JSON");
             file.write(projectSettings.toJSONString());
@@ -145,9 +154,9 @@ public class jsonHandler {
         //Accepted values: tempo
         String saveName = (propName.length() < 1) ? "New Project" : projName;
 
-        if(propName == "tempo"){
+        if(propName.equals("tempo")){
 
-            if(!(projectSettings.get("tempo") == String.valueOf(env.getPlayer().getTempo()))){ //If not equal
+            if(!(projectSettings.get("tempo").equals(String.valueOf(env.getPlayer().getTempo())))){ //If not equal
 
                 env.getRootController().setWindowTitle(saveName + "*");
             }
@@ -158,7 +167,11 @@ public class jsonHandler {
     }
 
 
-
+    /**
+     * Loads a project, specifed by the project name.
+     * All projects must be located in the user's projects directory to be correctly loaded.
+     * @param pName project name string
+     */
     public  void loadProject(String pName){
         try {
 

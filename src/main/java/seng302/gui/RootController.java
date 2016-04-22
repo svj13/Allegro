@@ -1,7 +1,6 @@
 package seng302.gui;
 
 
-import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -18,13 +17,12 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import seng302.Environment;
-import seng302.JSON.jsonHandler;
 import seng302.utility.TranscriptManager;
 
 public class RootController implements Initializable {
@@ -221,7 +219,20 @@ public class RootController implements Initializable {
 
         JSONArray projects = env.getJson().getProjectList();
         menuOpenProjects.getItems().clear();
-        for(int i = 0; i < projects.size(); i++){
+
+        MenuItem selectItem = new MenuItem("Select Project");
+        selectItem.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
+            public void handle(javafx.event.ActionEvent event) {
+                selectProjectDirectory();
+            }
+
+
+        });
+        SeparatorMenuItem dividor = new SeparatorMenuItem();
+        dividor.setText("Recent Projects..");
+        menuOpenProjects.getItems().add(selectItem);
+        menuOpenProjects.getItems().add(dividor);
+        for(int i = projects.size()-1; i >= 0 ; i--){
             final String projectName = projects.get(i).toString();
 
             MenuItem projectItem = new MenuItem(projectName);
@@ -234,12 +245,47 @@ public class RootController implements Initializable {
             });
 
             menuOpenProjects.getItems().add(projectItem); //Add to Open projects menu
-
+            if((projects.size()-1) - i >= 5) break; //Only show the 5 latest projects.
 
         }
 
     }
 
+
+    private void selectProjectDirectory(){
+        DirectoryChooser dirChooser = new DirectoryChooser();
+
+        dirChooser.setTitle("Select a project directory");
+        Path path = Paths.get("UserData/Projects/");
+
+
+
+        dirChooser.setInitialDirectory(path.toFile());
+
+
+        File folder  = dirChooser.showDialog(stage);
+
+        if(folder != null){
+            if(folder.isDirectory()){
+                for(File f : folder.listFiles()){
+
+                    if(f.getName().endsWith(".JSON") && f.getName().substring(0, f.getName().length() - 5).equals(folder.getName())){
+
+                        System.out.println("VALID PROJECT");
+                        env.getJson().loadProject(folder.getName());
+                        return;
+
+                    }
+
+                }
+                System.out.println("Not a valid project folder - try again!");
+                selectProjectDirectory();
+                return;
+            }
+        }
+
+
+    }
 
 
 

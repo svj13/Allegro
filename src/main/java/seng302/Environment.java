@@ -1,5 +1,6 @@
 package seng302;
 
+import seng302.JSON.ProjectHandler;
 import seng302.gui.RootController;
 import seng302.utility.MusicalTermsTutorBackEnd;
 import seng302.utility.TutorManager;
@@ -29,14 +30,14 @@ public class Environment {
 
 
 
-    private seng302.JSON.jsonHandler json;
+    private ProjectHandler json;
 
     public Environment() {
         executor = new DslExecutor(this);
         player = new MusicPlayer();
         transcriptManager = new TranscriptManager();
         mttDataManager = new MusicalTermsTutorBackEnd();
-        json = new seng302.JSON.jsonHandler(this);
+        json = new ProjectHandler(this);
 
     }
 
@@ -82,11 +83,11 @@ public class Environment {
         this.player = m;
     }
 
-    public seng302.JSON.jsonHandler getJson() {
+    public ProjectHandler getJson() {
         return json;
     }
 
-    public void setJson(seng302.JSON.jsonHandler json) {
+    public void setJson(ProjectHandler json) {
         this.json = json;
     }
 
