@@ -28,7 +28,7 @@
                   </Menu>
                   <Menu mnemonicParsing="false" text="Save...">
                      <items>
-                        <MenuItem fx:id="menuSaveProject" mnemonicParsing="false" onAction="#saveProject" text="Save Project" />
+                        <MenuItem fx:id="menuSaveProject" mnemonicParsing="false" onAction="#saveProject" text="Save Project" accelerator="Shortcut+S" />
                            <MenuItem fx:id="MenuSave" mnemonicParsing="false" onAction="#saveTranscript" text="Save Transcript" />
                      </items>
                   </Menu>
