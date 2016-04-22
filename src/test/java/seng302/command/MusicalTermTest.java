@@ -2,6 +2,7 @@ package seng302.command;
 
 import junit.framework.TestCase;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,6 +37,11 @@ public class MusicalTermTest extends TestCase {
         env = new Environment();
         env.setTranscriptManager(transcriptManager);
         env.setMttDataManager(tutorDataManger);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        MusicalTerm.MusicalTermsMap.clear();
     }
 
 

@@ -18,7 +18,7 @@ import seng302.data.Term;
 public class MusicalTerm implements Command {
     private String result;
     private String input;
-    private static HashMap<String, String> MusicalTermsMap = new HashMap<String, String>();
+    protected static HashMap<String, String> MusicalTermsMap = new HashMap<String, String>();
 
     private  boolean termAdded = false;
     private boolean validAdd = true;
