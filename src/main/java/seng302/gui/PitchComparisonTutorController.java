@@ -56,11 +56,6 @@ public class PitchComparisonTutorController extends TutorController{
 
     @FXML
     ComboBox<MidiNotePair> cbxUpper;
-    @FXML
-    ScrollPane paneQuestions;
-
-    @FXML
-    VBox questionRows;
 
     @FXML
     Button btnGo;
@@ -93,6 +88,8 @@ public class PitchComparisonTutorController extends TutorController{
     @FXML
     private void goAction() {
 //        manager.questions = 0;
+        paneQuestions.setVisible(true);
+        paneResults.setVisible(false);
         record = new TutorRecord(new Date(), "Pitch Comparison");
         manager.answered = 0;
 
@@ -111,7 +108,8 @@ public class PitchComparisonTutorController extends TutorController{
                 String midiOne =  String.valueOf(lowerPitchBound + rand.nextInt(pitchRange + 1));
                 String midiTwo = String.valueOf(lowerPitchBound + rand.nextInt(pitchRange + 1));
 
-                HBox rowPane = generateQuestionPane(midiOne, midiTwo);
+                Pair<String, String> midis = new Pair<String, String>(midiOne, midiTwo);
+                HBox rowPane = generateQuestionPane(midis);
                 questionRows.getChildren().add(rowPane);
                 questionRows.setMargin(rowPane, new Insets(10, 10, 10, 10));
             }
@@ -176,8 +174,6 @@ public class PitchComparisonTutorController extends TutorController{
 //        handleUpperRangeAction();
         lowerSet = true;
         upperSet = true;
-
-        manager = env.getPctManager();
     }
 
 
@@ -351,11 +347,12 @@ public class PitchComparisonTutorController extends TutorController{
      * Constructs the question panels.
      * @return
      */
-    private HBox generateQuestionPane(final String midiOne, final String midiTwo) {
+    public HBox generateQuestionPane(Pair midis) {
 
         final HBox rowPane = new HBox();
         formatQuestionRow(rowPane);
-
+        final String midiOne = midis.getKey().toString();
+        final String midiTwo = midis.getValue().toString();
         rowPane.getChildren().add(new Label(String.valueOf(midiOne)));
         rowPane.getChildren().add(new Label(String.valueOf(midiTwo)));
 
@@ -466,60 +463,6 @@ public class PitchComparisonTutorController extends TutorController{
         } else {
             return "Lower";
         }
-    }
-
-    /**
-     * Creates an alert once all the questions have been answered that allows the user to re-attempt
-     * the skipped and incorrect questions or allows them to clear the question set.
-     */
-    public void finished() {
-        super.finished();
-
-        // Sets the finished view
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText("Finished");
-        int cor = manager.correct;
-        int ques = manager.questions;
-
-
-        ButtonType retestBtn = new ButtonType("Retest");
-        ButtonType clearBtn  = new ButtonType("Clear");
-        if (manager.questions == 0){
-          alert.setContentText("It appears you skipped every question. Would you like to reattempt?");
-          alert.getButtonTypes().setAll(retestBtn, clearBtn);
-        } else if(manager.getTempIncorrectResponses().size() > 0){
-            alert.setContentText(outputText);
-            alert.getButtonTypes().setAll(retestBtn, clearBtn);
-        } else {
-            alert.setContentText(outputText);
-            alert.getButtonTypes().setAll(clearBtn);
-
-        }
-
-        alert.setResizable(false);
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if(manager.getTempIncorrectResponses().size() > 0){
-
-            if (result.get() == clearBtn) {
-                saveRecord();
-                questionRows.getChildren().clear();
-                manager.saveTempIncorrect();
-            } else if (result.get() == retestBtn) {
-                questionRows.getChildren().clear();
-                retest();
-            }
-        }
-        else{
-            //alert.getButtonTypes().setAll(clearBtn);
-            if (result.get() == clearBtn) {
-                saveRecord();
-                questionRows.getChildren().clear();
-                manager.saveTempIncorrect();
-            }
-        }
-
-        manager.resetStats();
     }
 
 

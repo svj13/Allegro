@@ -1,7 +1,7 @@
 package seng302.gui;
 
 import java.util.ArrayList;
-import java.util.Optional;
+import java.util.Date;
 import java.util.Random;
 
 import javafx.event.ActionEvent;
@@ -26,6 +26,7 @@ import seng302.Environment;
 import seng302.data.Term;
 import seng302.utility.MusicalTermsTutorBackEnd;
 import seng302.utility.TutorManager;
+import seng302.utility.TutorRecord;
 
 /**
  * Created by jmw280 on 16/04/16.
@@ -45,9 +46,6 @@ public class MusicalTermsTutorController extends TutorController{
     AnchorPane IntervalRecognitionTab;
 
     @FXML
-    ScrollPane paneQuestions;
-
-    @FXML
     Button btnGo;
 
     MusicalTermsTutorBackEnd dataManager;
@@ -63,6 +61,9 @@ public class MusicalTermsTutorController extends TutorController{
 
     @FXML
     void goAction(ActionEvent event) {
+        paneQuestions.setVisible(true);
+        paneResults.setVisible(false);
+        record = new TutorRecord(new Date(), "Musical Terms");
         manager.questions = Integer.parseInt(txtNumMusicalTerms.getText());
         if (manager.questions >= 1) {
             ArrayList<Term> termArray = dataManager.getTerms();
@@ -125,7 +126,7 @@ public class MusicalTermsTutorController extends TutorController{
     /**
      * Constructs the question panels.
      */
-    private HBox generateQuestionPane(Term term) {
+    public HBox generateQuestionPane(Term term) {
 
         final Term currentTerm = term;
         final HBox rowPane = new HBox();
@@ -248,7 +249,7 @@ public class MusicalTermsTutorController extends TutorController{
             public void handle(ActionEvent event) {
                 rowPane.setStyle("-fx-border-color: grey; -fx-border-width: 2px;");
                 manager.questions -= 1;
-                manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 0);
+                manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 2);
                 rowPane.getChildren().get(2).setDisable(true);
                 rowPane.getChildren().get(4).setDisable(true);
                 rowPane.getChildren().get(6).setDisable(true);
@@ -277,45 +278,4 @@ public class MusicalTermsTutorController extends TutorController{
         return rowPane;
     }
 
-
-    public void allPartsOfQuestionAnswered() {
-
-
-    }
-
-
-    /**
-     * This function is run once a tutoring session has been completed.
-     */
-    public void finished() {
-        super.finished();
-
-        // Sets the finished view
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText("Finished");
-        alert.setContentText(outputText);
-
-        ButtonType retestBtn = new ButtonType("Retest");
-        ButtonType clearBtn = new ButtonType("Clear");
-
-        if (manager.getTempIncorrectResponses().size() > 0) {
-            //Can re-test
-            alert.getButtonTypes().setAll(retestBtn, clearBtn);
-        } else {
-            //Perfect score
-            alert.getButtonTypes().setAll(clearBtn);
-        }
-        Optional<ButtonType> result = alert.showAndWait();
-        questionRows.getChildren().clear();
-
-        if (result.get() == clearBtn) {
-            manager.saveTempIncorrect();
-        } else if (result.get() == retestBtn) {
-            retest();
-        }
-
-        // Clear the current session
-        manager.resetStats();
-
-    }
 }

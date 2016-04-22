@@ -134,4 +134,6 @@ public class TutorManager {
         incorrect = 0;
     }
 
+    public ArrayList<Pair> getCorrectResponses(){return correctResponses;}
+    public ArrayList<Pair> getIncorrectResponses(){return incorrectResponses;}
 }

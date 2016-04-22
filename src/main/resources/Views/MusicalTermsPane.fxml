@@ -6,43 +6,51 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="IntervalRecognitionTab" minWidth="460.0" prefWidth="460.0"
-            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="seng302.gui.MusicalTermsTutorController">
+<AnchorPane fx:id="IntervalRecognitionTab" minWidth="460.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.MusicalTermsTutorController">
    <children>
-      <Label layoutX="104.0" layoutY="14.0" text="Musical Terms Tutor" textAlignment="CENTER"
-             AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
+      <Label layoutX="104.0" layoutY="14.0" text="Musical Terms Tutor" textAlignment="CENTER" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
          <font>
-            <Font name="System Bold" size="21.0"/>
+            <Font name="System Bold" size="21.0" />
          </font>
       </Label>
-      <HBox alignment="CENTER_LEFT" layoutX="-24.0" layoutY="47.0" minWidth="-Infinity"
-            prefHeight="40.0" prefWidth="470.0" spacing="10.0" AnchorPane.leftAnchor="10.0"
-            AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="56.0">
+      <HBox alignment="CENTER_LEFT" layoutX="-24.0" layoutY="47.0" minWidth="-Infinity" prefHeight="40.0" prefWidth="470.0" spacing="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="56.0">
          <children>
-            <Label text="Musical Terms: "/>
-            <TextField id="txtNotes" fx:id="txtNumMusicalTerms" alignment="CENTER" prefHeight="30.0"
-                       prefWidth="40.0" text="1">
+            <Label text="Musical Terms: " />
+            <TextField id="txtNotes" fx:id="txtNumMusicalTerms" alignment="CENTER" prefHeight="30.0" prefWidth="40.0" text="1">
                <font>
-                  <Font size="12.0"/>
+                  <Font size="12.0" />
                </font>
             </TextField>
-            <Button id="btnGo" fx:id="btnGo" mnemonicParsing="false" onAction="#goAction"
-                    prefHeight="30.0" prefWidth="90.0" text="Go" textAlignment="CENTER">
+            <Button id="btnGo" fx:id="btnGo" mnemonicParsing="false" onAction="#goAction" prefHeight="30.0" prefWidth="90.0" text="Go" textAlignment="CENTER">
                <font>
-                  <Font size="14.0"/>
+                  <Font size="14.0" />
                </font>
                <padding>
-                  <Insets left="5.0" right="5.0"/>
+                  <Insets left="5.0" right="5.0" />
                </padding>
             </Button>
          </children>
       </HBox>
-      <ScrollPane fx:id="paneQuestions" fitToWidth="true" layoutY="105.0"
-                  AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0"
-                  AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="120.0">
+      <ScrollPane fx:id="paneQuestions" fitToWidth="true" layoutY="105.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="120.0">
          <content>
             <VBox fx:id="questionRows" prefWidth="470.0" />
+         </content>
+      </ScrollPane>
+      <ScrollPane fx:id="paneResults" fitToWidth="true" layoutX="20.0" layoutY="125.0" visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="120.0">
+         <content>
+            <VBox fx:id="resultsBox" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Text fx:id="resultsTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Musical Terms Tutor">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin></Text>
+                  <Text fx:id="resultsContent" strokeType="OUTSIDE" strokeWidth="0.0" />
+                  <HBox fx:id="buttons" prefHeight="100.0" prefWidth="200.0" />
+               </children>
+            </VBox>
          </content>
       </ScrollPane>
    </children>

@@ -33,28 +33,8 @@ public class IntervalRecognitionTutorController extends TutorController {
     TextField txtNumIntervals;
 
     @FXML
-    VBox questionRows;
-
-    @FXML
     AnchorPane IntervalRecognitionTab;
 
-    @FXML
-    ScrollPane paneQuestions;
-
-    @FXML
-    ScrollPane paneResults;
-
-    @FXML
-    Text resultsTitle;
-
-    @FXML
-    Text resultsContent;
-
-    @FXML
-    VBox resultsBox;
-
-    @FXML
-    HBox buttons;
 
     @FXML
     Button btnGo;
@@ -64,6 +44,8 @@ public class IntervalRecognitionTutorController extends TutorController {
     }
 
     public void goAction(ActionEvent event) {
+        paneQuestions.setVisible(true);
+        paneResults.setVisible(false);
         record = new TutorRecord(new Date(), "Interval Recognition");
         manager.questions = Integer.parseInt(txtNumIntervals.getText());
         if (manager.questions >= 1){
@@ -93,7 +75,7 @@ public class IntervalRecognitionTutorController extends TutorController {
         Interval thisInterval = generateInterval();
         Note firstNote = getStartingNote(thisInterval.getSemitones());
         Pair<Interval, Note> pair = new Pair<Interval, Note>(thisInterval, firstNote);
-        return generateQuestionRow(pair);
+        return generateQuestionPane(pair);
     }
 
 
@@ -101,7 +83,7 @@ public class IntervalRecognitionTutorController extends TutorController {
      * Creates a GUI section for one question.
      * @return a JavaFX HBox containing controls and info about one question.
      */
-    public HBox generateQuestionRow(Pair intervalAndNote) {
+    public HBox generateQuestionPane(Pair intervalAndNote) {
         final HBox questionRow = new HBox();
         formatQuestionRow(questionRow);
 
@@ -178,52 +160,6 @@ public class IntervalRecognitionTutorController extends TutorController {
 
         questionRow.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
         return questionRow;
-    }
-
-
-    /**
-     * This function is run once a tutoring session has been completed.
-     */
-    public void finished() {
-        super.finished();
-
-        // Sets the finished view
-        resultsContent.setText(outputText);
-        paneQuestions.setVisible(false);
-        paneResults.setVisible(true);
-        questionRows.getChildren().clear();
-
-        Button retestBtn = new Button("Retest");
-        Button clearBtn  = new Button("Clear");
-
-        clearBtn.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                saveRecord();
-                manager.saveTempIncorrect();
-                paneResults.setVisible(false);
-                paneQuestions.setVisible(true);
-            }
-        });
-
-        retestBtn.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                record.addRetest();
-                paneResults.setVisible(false);
-                paneQuestions.setVisible(true);
-                retest();
-            }
-        });
-
-        if (manager.getTempIncorrectResponses().size() > 0) {
-            //Can re-test
-            buttons.getChildren().setAll(retestBtn, clearBtn);
-        } else {
-            //Perfect score
-            buttons.getChildren().setAll(clearBtn);
-        }
-
-        // Clear the current session
-        manager.resetStats();
     }
 
     // The following methods are specific to this tutor

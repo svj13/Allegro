@@ -21,7 +21,7 @@ public class MusicalTerm implements Command {
     private static HashMap<String, String> MusicalTermsMap = new HashMap<String, String>();
 
     private  boolean termAdded = false;
-    private Term term;
+    public Term term;
 
 
 
