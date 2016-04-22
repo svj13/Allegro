@@ -65,14 +65,6 @@ public class MusicalTerm implements Command {
     }
 
 
-    /**
-     *
-     * @param muscialTerm CURRENTLY UNUSED
-     */
-    //public void addMusicalTerm(ArrayList<String> muscialTerm) {
-      //  this.input = input;
-    //}
-
 
     /**will add the musical term to the dictionary, or print the relevant defintion if the musical
      * term exists in the transcript manager
@@ -82,6 +74,9 @@ public class MusicalTerm implements Command {
 
         if(termAdded == true){
             env.getMttDataManager().addTerm(term);
+            env.getTranscriptManager().setResult("Added term: " + term.getMusicalTermName() +
+                    "\nOrigin: " + term.getMusicalTermOrigin() + " \nCategory: " +
+                    term.getMusicalTermCategory() + "\nDefinition: " + term.getMusicalTermDefinition());
 
         } else {
 
