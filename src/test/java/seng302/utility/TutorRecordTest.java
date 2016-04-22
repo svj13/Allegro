@@ -5,6 +5,8 @@ import org.junit.Test;
 
 import java.util.Date;
 
+import javafx.util.Pair;
+
 /**
  * Created by emily on 21/04/16.
  */
@@ -42,7 +44,14 @@ public class TutorRecordTest {
 
     @Test
     public void testSetStats() {
-        tutorRecord.setStats(10, 5);
+        TutorManager tm = new TutorManager();
+        tm.correct = 10;
+
+        //Adds five wrong answers
+        for (int i = 0; i < 5; i++) {
+            tm.add(new Pair(new Object(), new Object()), 0);
+        }
+        tutorRecord.setStats(10, 5, tm.getScore());
         assert tutorRecord.lines.contains("Questions answered correctly: 10\n");
         assert tutorRecord.lines.contains("Questions answered incorrectly: 5\n");
         assert tutorRecord.lines.contains("Percentage answered correctly: 66.67%\n");
