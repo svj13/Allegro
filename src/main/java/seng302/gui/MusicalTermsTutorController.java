@@ -192,7 +192,7 @@ public class MusicalTermsTutorController extends TutorController{
                 };
                 record.addQuestionAnswer(question);
 
-                styleAnswer(rowPane, currentTerm, definitionOptions, categoryOptions, originOptions);
+                styleAnswer(rowPane, currentTerm, categoryOptions, definitionOptions, originOptions);
 
                 rowPane.getChildren().get(4).setDisable(true);
 
@@ -220,7 +220,7 @@ public class MusicalTermsTutorController extends TutorController{
                 };
                 record.addQuestionAnswer(question);
 
-                styleAnswer(rowPane, currentTerm, categoryOptions, definitionOptions, originOptions);
+                styleAnswer(rowPane, currentTerm, definitionOptions, categoryOptions, originOptions);
 
                 rowPane.getChildren().get(6).setDisable(true);
 
