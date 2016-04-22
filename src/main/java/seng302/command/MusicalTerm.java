@@ -18,27 +18,11 @@ import seng302.data.Term;
 public class MusicalTerm implements Command {
     private String result;
     private String input;
-    private boolean isSetter;
     private static HashMap<String, String> MusicalTermsMap = new HashMap<String, String>();
 
     private  boolean termAdded = false;
     private Term term;
 
-
-    /**MusicalTerm(String) is a function that takes a musical term as a parameter and returns
-     * the definition of that term along with the origin of the work (e.g. French, Italian).
-     * It will return an error if it is not a recognised musical term
-     */
-    public MusicalTerm () { this.isSetter = false; }
-
-
-    private String createMusicalTermString(ArrayList<String> musicalWords) {
-        String interval = "";
-        for (String word:musicalWords) {
-            interval += (word + " ");
-        }
-        return interval.trim();
-    }
 
 
     /**
@@ -54,44 +38,29 @@ public class MusicalTerm implements Command {
      *
      *
      * @param musicalTermArray
-     * @param input
      */
-    public MusicalTerm( ArrayList<String> musicalTermArray,Boolean input) {
-        String musicalTerm = createMusicalTermString(musicalTermArray);
+    public MusicalTerm(ArrayList<String> musicalTermArray) {
 
-        if(input == true) {
-            musicalTerm = musicalTerm.toLowerCase();
-            String[] parts = musicalTerm.split(" ");
-            String musicalTermName = parts[0];
+        termAdded = true;
+        term = new Term(musicalTermArray.get(0), musicalTermArray.get(2), musicalTermArray.get(1), musicalTermArray.get(3));
 
-            this.isSetter = true; //it has an input
+        String definition = "Origin: " + musicalTermArray.get(1) + "\nCategory: " + musicalTermArray.get(2) +
+                "\nDefinition: " + musicalTermArray.get(3);
 
-            //checks to see if the definition exists in the hashmap
-            if (MusicalTermsMap.get(musicalTermName) != null) {
+        MusicalTermsMap.put(musicalTermArray.get(0), definition);
+    }
 
-                this.result = this.MusicalTermsMap.get(musicalTermName);
+    public MusicalTerm(String termToLookUp) {
+        String musicalTermName = termToLookUp.toLowerCase();
 
-                //if a given term is not in the hash map it will return an error to the user
-            } else {
-                this.result = String.format("%s is not recognised as an existing musical term.",
-                        musicalTermName);
+        //checks to see if the definition exists in the hashmap
+        if (MusicalTermsMap.get(musicalTermName) != null) {
+            this.result = this.MusicalTermsMap.get(musicalTermName);
 
-
-            }
-
-        }
-
-        else{
-            musicalTerm = musicalTerm.toLowerCase();
-            String[] parts = musicalTerm.split(" ");
-            termAdded = true;
-            term = new Term(parts[0],parts[2],parts[1],parts[3]);
-
-            String definition = "Origin: " + parts[1] + "\nCategory: " + parts[2] +
-                    "\nDefinition: " + parts[3];
-
-            MusicalTermsMap.put(parts[0], definition);
-
+            //if a given term is not in the hash map it will return an error to the user
+        } else {
+            this.result = String.format("%s is not recognised as an existing musical term.",
+                    musicalTermName);
         }
     }
 

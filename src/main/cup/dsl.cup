@@ -25,8 +25,10 @@ parser code {:
 
     public void syntax_error(Symbol cur_token) {
         System.out.println(cur_token.value);
+        System.out.println(cur_token);
 
         Symbol prev_token = (Symbol) this.stack.pop();
+        System.out.println(prev_token);
 
 
         String prevTokenName = DslSymbol.terminalNames[prev_token.sym];
@@ -98,6 +100,7 @@ non terminal String positiveNum;
 non terminal HashMap<String, String> interval;
 non terminal HashMap<String, String> intervalWithTonic;
 non terminal String keyword;
+non terminal String singleTerm;
 non terminal String term;
 
 start with command;
@@ -122,8 +125,8 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_CROTCHET_DURATION                   {: RESULT = new CrotchetDuration(); :}
           | COMMAND_PLAY_NOTE note:s                    {: RESULT = new PlayNote(s); :}
           | COMMAND_PLAY_NOTE note:s positiveNum:d      {: RESULT = new PlayNote(s, d); :}
-          | COMMAND_MUSICAL_TERM musicalTerm:s          {: RESULT = new MusicalTerm(s, true); :}
-          | COMMAND_ADD_MUSICAL_TERM musicalDef:s      {: RESULT = new MusicalTerm(s, false); :}
+          | COMMAND_MUSICAL_TERM term:s                 {: RESULT = new MusicalTerm(s); :}
+          | COMMAND_ADD_MUSICAL_TERM musicalDef:s      {: RESULT = new MusicalTerm(s); :}
           | COMMAND_PLAY_SCALE scale:s                  {: RESULT = new Scale(s, "play");:}
           | COMMAND_ALL_ENHARMONICS note:s              {: RESULT = new Enharmonic(s, 3); :}
 
@@ -178,7 +181,7 @@ keyword ::= COMMAND_HELP    {: RESULT = "help"; :}
           | COMMAND_ADD_MUSICAL_TERM {: RESULT = "add musical term"; :}
 ;
 
-term ::= keyword:s {: RESULT = s;:}
+singleTerm ::= keyword:s {: RESULT = s;:}
        | ATOM:s {: RESULT = s;:}
        | note:s {: RESULT = s;:}
        | SCALE_TYPE:s {:RESULT = s;:}
@@ -186,12 +189,12 @@ term ::= keyword:s {: RESULT = s;:}
        | INTERVAL:i    {:RESULT = i;:}
 ;
 
-musicalTerm ::= musicalTerm:list term:n {: list.add(n); RESULT = list; :}
-          | term:n {: RESULT = new ArrayList<String>(); RESULT.add(n); :}
+term ::= singleTerm:s {:RESULT =s;:}
+       | term:s singleTerm:t {:RESULT = s + " " + t; :}
 ;
 
-musicalDef ::= term:a SEMIC term:b SEMIC term:c SEMIC term:d {: RESULT = new ArrayList<String>(); RESULT.add(a);
-                                              RESULT.add(b); RESULT.add(c); RESULT.add(d); :}
+musicalDef ::= term:a SEMIC term:b SEMIC term:c SEMIC term:d {: RESULT = new ArrayList<String>(); RESULT.add(a.toLowerCase());
+                                              RESULT.add(b.toLowerCase()); RESULT.add(c.toLowerCase()); RESULT.add(d.toLowerCase()); :}
 ;
 
 
