@@ -2,7 +2,6 @@ package seng302.gui;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Optional;
 import java.util.Random;
 
 import javafx.event.ActionEvent;
