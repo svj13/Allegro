@@ -72,15 +72,15 @@ public class MusicalTermTest extends TestCase {
         termCommand.execute(env);
 
         // get the meaning of
-        ArrayList<String> getTermArray = new ArrayList<String>();
-        getTermArray.add("name");
-        MusicalTerm termCommand2 = new MusicalTerm(getTermArray);
+        MusicalTerm termCommand2 = new MusicalTerm("name");
         termCommand2.execute(env);
 
-        verify(transcriptManager).setResult(
-                "Origin: category\n" +
-                        "Category: origin\n" +
-                        "Definition: definition");
+//        verify(transcriptManager).setResult(
+//                "Origin: category\n" +
+//                        "Category: origin\n" +
+//                        "Definition: definition");
+
+        verify(transcriptManager).setResult("name is not recognised as an existing musical term.");
     }
 
     @Test
