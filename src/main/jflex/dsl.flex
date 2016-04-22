@@ -1,6 +1,8 @@
 package seng302;
 
 import java_cup.runtime.*;
+import java_cup.runtime.ComplexSymbolFactory.Location;
+
 
 %%
 
@@ -24,21 +26,64 @@ import java_cup.runtime.*;
  * provides the ability to create member variable and methods to use in the
  * action blocks for rules.
 */
-%{   
+%{
+   class MyComplexSymbol extends ComplexSymbolFactory.ComplexSymbol {
+
+      MyComplexSymbol(String name, int type, Location left, Location right, Object val){
+        super(name, type, left,right,val);
+      }
+      MyComplexSymbol(String name, int type, Location left, Location right){
+        super(name, type, left,right);
+      }
+
+      public String toString(){
+          return this.name;
+      }
+   }
+
+   class MyComplexSymbolFactory extends ComplexSymbolFactory{
+        public Symbol newSymbol(String name, int type, Location left, Location right){
+            return new MyComplexSymbol(name, type, left, right);
+        }
+
+        public Symbol newSymbol(String name, int type, Location left, Location right, Object val){
+            return new MyComplexSymbol(name, type, left, right, val);
+        }
+
+   }
+
+   ComplexSymbolFactory csf = new MyComplexSymbolFactory();
+
+   private Symbol symbol(String name, int type, Object value) {
+       Location left = new Location(yyline+1,yycolumn+1,yychar);
+       Location right= new Location(yyline+1,yycolumn+yylength(), yychar+yylength());
+       return csf.newSymbol(name, type, left, right, value);
+   }
+
+   private Symbol symbol(String name, int type) {
+       Location left = new Location(yyline+1,yycolumn+1,yychar);
+       Location right= new Location(yyline+1,yycolumn+yylength(), yychar+yylength());
+       return csf.newSymbol(name, type, left, right);
+   }
+
+
+
     /* To create a new java_cup.runtime.Symbol with information about
        the current token, the token will have no value in this
        case. */
     private Symbol symbol(int type) {
-        //System.err.println("Obtain token " + DslSymbol.terminalNames[type] + " \"" + yytext() + "\"" );
+        System.err.println("Obtain token " + DslSymbol.terminalNames[type] + " \"" + yytext() + "\"" );
         return new Symbol(type, yyline, yycolumn);
     }
     
     /* Also creates a new java_cup.runtime.Symbol with information
        about the current token, but this object has a value. */
     private Symbol symbol(int type, Object value) {
-        //System.err.println("Obtain token " + DslSymbol.terminalNames[type] + " \"" + yytext() + "\"" );
+        System.err.println("Obtain token " + DslSymbol.terminalNames[type] + " \"" + yytext() + "\"" );
         return new Symbol(type, yyline, yycolumn, value);
     }
+
+
 %}
    
 
