@@ -152,8 +152,8 @@ public class TutorController {
      * This function is run once a tutoring session has been completed.
      */
     public void finished() {
-        record.setStats(manager.correct, manager.getTempIncorrectResponses().size());
         userScore = getScore(manager.correct, manager.answered);
+        record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
         outputText = String.format("You have finished the tutor.\n" +
                 "You answered %d questions, and skipped %d questions.\n" +
                 "You answered %d questions correctly, %d questions incorrectly.\n" +

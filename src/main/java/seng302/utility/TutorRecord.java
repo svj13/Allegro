@@ -61,12 +61,10 @@ public class TutorRecord {
      * @param questionsAnsweredCorrectly The number of questions the user answered correctly
      * @param questionsAnsweredIncorrectly The number of questions the user answered incorrectly
      */
-    public void setStats(int questionsAnsweredCorrectly, int questionsAnsweredIncorrectly) {
+    public void setStats(int questionsAnsweredCorrectly, int questionsAnsweredIncorrectly, float score) {
         lines.add("Questions answered correctly: " + questionsAnsweredCorrectly + "\n");
         lines.add("Questions answered incorrectly: " + questionsAnsweredIncorrectly + "\n");
-
-        float percentage = (questionsAnsweredCorrectly * 100) / (questionsAnsweredCorrectly + questionsAnsweredIncorrectly);
-        lines.add("Percentage answered correctly: " + percentage + "%\n");
+        lines.add("Percentage answered correctly: " + String.format("%.2f", score) + "%\n");
         lines.add("\n");
     }
 
