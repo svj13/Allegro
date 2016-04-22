@@ -1,7 +1,6 @@
 package seng302.gui;
 
 
-import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -23,9 +22,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import seng302.Environment;
-import seng302.JSON.jsonHandler;
 import seng302.utility.TranscriptManager;
 
 public class RootController implements Initializable {
