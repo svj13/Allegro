@@ -157,6 +157,14 @@ public class MusicalTermsTutorController extends TutorController{
                     originOptions.setStyle("-fx-background-color: red");
                 }
 
+                // Adds to record
+                String[] question = new String[]{
+                        String.format("Origin of term %s", currentTerm.getMusicalTermOrigin()),
+                        originOptions.getValue(),
+                        Boolean.toString(originOptions.getValue().equals(currentTerm.getMusicalTermOrigin()))
+                };
+                record.addQuestionAnswer(question);
+
                 if(categoryOptions.getValue() != null && definitionOptions.getValue()!= null){
                     if(categoryOptions.getStyle() == "-fx-background-color: red" && definitionOptions.getStyle() == "-fx-background-color: red" && originOptions.getStyle() == "-fx-background-color: red" ){
                         rowPane.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
@@ -189,6 +197,14 @@ public class MusicalTermsTutorController extends TutorController{
                 } else {
                     categoryOptions.setStyle("-fx-background-color: red");;
                 }
+
+                // Adds to record
+                String[] question = new String[]{
+                        String.format("Category of term %s", currentTerm.getMusicalTermCategory()),
+                        originOptions.getValue(),
+                        Boolean.toString(originOptions.getValue().equals(currentTerm.getMusicalTermCategory()))
+                };
+                record.addQuestionAnswer(question);
 
                 if(definitionOptions.getValue() != null && originOptions.getValue()!= null){
                     if(categoryOptions.getStyle() == "-fx-background-color: red" && definitionOptions.getStyle() == "-fx-background-color: red" && originOptions.getStyle() == "-fx-background-color: red" ){
@@ -223,6 +239,14 @@ public class MusicalTermsTutorController extends TutorController{
                     definitionOptions.setStyle("-fx-background-color: red");;
                 }
 
+                // Adds to record
+                String[] question = new String[]{
+                        String.format("Definition of term %s", currentTerm.getMusicalTermDefinition()),
+                        originOptions.getValue(),
+                        Boolean.toString(originOptions.getValue().equals(currentTerm.getMusicalTermDefinition()))
+                };
+                record.addQuestionAnswer(question);
+
                 if(categoryOptions.getValue() != null && originOptions.getValue()!= null){
                     if(categoryOptions.getStyle() == "-fx-background-color: red" && definitionOptions.getStyle() == "-fx-background-color: red" && originOptions.getStyle() == "-fx-background-color: red" ){
                         rowPane.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
@@ -252,6 +276,13 @@ public class MusicalTermsTutorController extends TutorController{
 
         skip.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
+                // Re-write this to be more specific
+                String[] question = new String[]{
+                        String.format("Information about %s", currentTerm.getMusicalTermName()),
+                        currentTerm.getMusicalTermName()
+                };
+                record.addSkippedQuestion(question);
+
                 rowPane.setStyle("-fx-border-color: grey; -fx-border-width: 2px;");
                 manager.questions -= 1;
                 manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 2);
