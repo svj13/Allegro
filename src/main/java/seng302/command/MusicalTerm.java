@@ -21,6 +21,7 @@ public class MusicalTerm implements Command {
     private static HashMap<String, String> MusicalTermsMap = new HashMap<String, String>();
 
     private  boolean termAdded = false;
+    private boolean validAdd = true;
     public Term term;
 
 
@@ -46,8 +47,16 @@ public class MusicalTerm implements Command {
 
         String definition = "Origin: " + musicalTermArray.get(1) + "\nCategory: " + musicalTermArray.get(2) +
                 "\nDefinition: " + musicalTermArray.get(3);
+        if(MusicalTermsMap.get(musicalTermArray.get(0)) != null){
+            validAdd = false;
+            this.result = "Term with the name of " + musicalTermArray.get(0) +  " has already been added";
 
-        MusicalTermsMap.put(musicalTermArray.get(0), definition);
+        }else {
+            this.result = "Added term: " + term.getMusicalTermName() +
+                    "\nOrigin: " + term.getMusicalTermOrigin() + " \nCategory: " +
+                    term.getMusicalTermCategory() + "\nDefinition: " + term.getMusicalTermDefinition();
+            MusicalTermsMap.put(musicalTermArray.get(0), definition);
+        }
     }
 
     public MusicalTerm(String termToLookUp) {
@@ -72,17 +81,12 @@ public class MusicalTerm implements Command {
      */
     public void execute(Environment env) {
 
-        if(termAdded == true){
+        if(termAdded == true && validAdd == true){
             env.getMttDataManager().addTerm(term);
-            env.getTranscriptManager().setResult("Added term: " + term.getMusicalTermName() +
-                    "\nOrigin: " + term.getMusicalTermOrigin() + " \nCategory: " +
-                    term.getMusicalTermCategory() + "\nDefinition: " + term.getMusicalTermDefinition());
-
-        } else {
-
-            env.getTranscriptManager().setResult(result);
-
         }
+
+        env.getTranscriptManager().setResult(result);
+
     }
 
 

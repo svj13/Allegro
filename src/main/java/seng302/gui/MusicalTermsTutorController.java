@@ -50,6 +50,8 @@ public class MusicalTermsTutorController extends TutorController{
 
     Random rand;
 
+    int partialMarks;
+
 
     public void create(Environment env) {
         super.create(env);
@@ -59,10 +61,11 @@ public class MusicalTermsTutorController extends TutorController{
 
     @FXML
     void goAction(ActionEvent event) {
+        partialMarks = 0;
         paneQuestions.setVisible(true);
         paneResults.setVisible(false);
         record = new TutorRecord(new Date(), "Musical Terms");
-        manager.questions = Integer.parseInt(txtNumMusicalTerms.getText());
+        manager.questions = (Integer.parseInt(txtNumMusicalTerms.getText()));
         if (manager.questions >= 1) {
             ArrayList<Term> termArray = dataManager.getTerms();
             // Run the tutor
@@ -149,6 +152,7 @@ public class MusicalTermsTutorController extends TutorController{
             public void handle(ActionEvent event) {
                 if (originOptions.getValue().equals(currentTerm.getMusicalTermOrigin())) {
                     originOptions.setStyle("-fx-background-color: green");
+                    partialMarks+=1;
 
                 } else {
                     originOptions.setStyle("-fx-background-color: red");
@@ -165,7 +169,7 @@ public class MusicalTermsTutorController extends TutorController{
                 styleAnswer(rowPane, currentTerm, originOptions, categoryOptions, definitionOptions);
 
                 rowPane.getChildren().get(2).setDisable(true);
-                if (manager.answered == manager.questions) {
+                if (manager.answered == (manager.questions*3)) {
                     finished();
                 }
 
@@ -177,8 +181,9 @@ public class MusicalTermsTutorController extends TutorController{
             public void handle(ActionEvent event) {
                 if (categoryOptions.getValue().equals(currentTerm.getMusicalTermCategory())) {
                     categoryOptions.setStyle("-fx-background-color: green");
+                    partialMarks+=1;
                 } else {
-                    categoryOptions.setStyle("-fx-background-color: red");;
+                    categoryOptions.setStyle("-fx-background-color: red");
                 }
 
                 // Adds to record
@@ -193,7 +198,7 @@ public class MusicalTermsTutorController extends TutorController{
 
                 rowPane.getChildren().get(4).setDisable(true);
 
-                if (manager.answered == manager.questions) {
+                if (manager.answered == (manager.questions*3)) {
                     finished();
                 }
 
@@ -203,10 +208,12 @@ public class MusicalTermsTutorController extends TutorController{
         definitionOptions.setOnAction(new EventHandler<ActionEvent>() {
             // This handler colors the GUI depending on the user's input
             public void handle(ActionEvent event) {
+
                 if (definitionOptions.getValue().equals(currentTerm.getMusicalTermDefinition())) {
-                    definitionOptions.setStyle("-fx-background-color: green");;
+                    definitionOptions.setStyle("-fx-background-color: green");
+                    partialMarks+=1;
                 } else {
-                    definitionOptions.setStyle("-fx-background-color: red");;
+                    definitionOptions.setStyle("-fx-background-color: red");
                 }
 
                 // Adds to record
@@ -223,7 +230,8 @@ public class MusicalTermsTutorController extends TutorController{
 
 
 
-                if (manager.answered == manager.questions) {
+                if (manager.answered == (manager.questions*3)) {
+                    System.out.println(partialMarks);
                     finished();
                 }
 
@@ -240,7 +248,7 @@ public class MusicalTermsTutorController extends TutorController{
                 record.addSkippedQuestion(question);
 
                 formatSkippedQuestion(rowPane);
-                manager.questions -= 1;
+                manager.questions -= 3;
                 manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 2);
                 rowPane.getChildren().get(2).setDisable(true);
                 rowPane.getChildren().get(4).setDisable(true);
@@ -287,7 +295,7 @@ public class MusicalTermsTutorController extends TutorController{
 
             }
             rowPane.getChildren().get(7).setDisable(true);
-            manager.answered += 1;
+            manager.answered += 3;
         }
     }
 
