@@ -60,9 +60,10 @@ public class TutorController {
     @FXML
     HBox buttons;
 
-    public TutorController() {
-
-    }
+    /**
+     * An empty constructor, required for sub-classes.
+     */
+    public TutorController() {}
 
     /**
      * The method called to initialise a tutor
@@ -226,18 +227,34 @@ public class TutorController {
         }
     }
 
+    /**
+     * Formats a GUI question to indicate it was skipped
+     * @param question The HBox containing info about a question
+     */
     public void formatSkippedQuestion(HBox question) {
         question.setStyle("-fx-border-color: grey; -fx-border-width: 2px;");
     }
 
+    /**
+     * Formats a GUI question to indicate it was answered correctly
+     * @param question The HBox containing info about a question
+     */
     public void formatCorrectQuestion(HBox question) {
         question.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
     }
 
+    /**
+     * Formats a GUI question to indicate it was answered incorrectly
+     * @param question The HBox containing info about a question
+     */
     public void formatIncorrectQuestion(HBox question) {
         question.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
     }
 
+    /**
+     * Formats a GUI question to indicate it was answered partially correctly
+     * @param question The HBox containing info about a question
+     */
     public void formatPartiallyCorrectQuestion(HBox question) {
         question.setStyle("-fx-border-color: yellow; -fx-border-width: 2px;");
     }
