@@ -46,12 +46,10 @@ public class TutorRecordTest {
     public void testSetStats() {
         TutorManager tm = new TutorManager();
         tm.correct = 10;
+        tm.answered = 15;
+        tm.incorrect = 5;
 
-        //Adds five wrong answers
-        for (int i = 0; i < 5; i++) {
-            tm.add(new Pair(new Object(), new Object()), 0);
-        }
-        tutorRecord.setStats(10, 5, tm.getScore());
+        tutorRecord.setStats(tm.correct, tm.incorrect, tm.getScore());
         assert tutorRecord.lines.contains("Questions answered correctly: 10\n");
         assert tutorRecord.lines.contains("Questions answered incorrectly: 5\n");
         assert tutorRecord.lines.contains("Percentage answered correctly: 66.67%\n");
