@@ -34,10 +34,18 @@ public class IntervalRecognitionTutorController extends TutorController {
     @FXML
     Button btnGo;
 
+    /**
+     * A constructor required for superclass to work
+     */
     public IntervalRecognitionTutorController() {
         super();
     }
 
+    /**
+     * Run when the user clicks the "Go" button.
+     * Generates and displays a new set of questions.
+     * @param event The mouse click that initiated the method.
+     */
     public void goAction(ActionEvent event) {
         paneQuestions.setVisible(true);
         paneResults.setVisible(false);
