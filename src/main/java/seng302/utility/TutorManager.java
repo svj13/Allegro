@@ -134,6 +134,19 @@ public class TutorManager {
         incorrect = 0;
     }
 
-    public ArrayList<Pair> getCorrectResponses(){return correctResponses;}
-    public ArrayList<Pair> getIncorrectResponses(){return incorrectResponses;}
+    /**
+     * Getter method for all correct responses
+     * @return the list of correctly answered questions
+     */
+    public ArrayList<Pair> getCorrectResponses(){
+        return correctResponses;
+    }
+
+    /**
+     * Getter method for all incorrect responses
+     * @return the list of incorrectly answered questions
+     */
+    public ArrayList<Pair> getIncorrectResponses(){
+        return incorrectResponses;
+    }
 }
