@@ -70,9 +70,10 @@ public class MusicalTerm implements Command {
             // Returns the correct information
             if (infoToGet.equals("meaning")) {
                 this.result = term.getMusicalTermDefinition();
-            }
-            if (infoToGet.equals("origin")) {
+            } else if (infoToGet.equals("origin")) {
                 this.result = term.getMusicalTermOrigin();
+            } else if (infoToGet.equals("category")) {
+                this.result = term.getMusicalTermCategory();
             }
 
             //if a given term is not in the hash map it will return an error to the user
