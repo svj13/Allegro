@@ -59,13 +59,32 @@ public class MusicalTerm implements Command {
         }
     }
 
+    /**
+     * Displays information about a given musical term.
+     * @param termToLookUp The musical term in question
+     * @param infoToGet Whether we are fetching the musical term's category, origin, or definition.
+     */
     public MusicalTerm(String termToLookUp, String infoToGet) {
         String musicalTermName = termToLookUp.toLowerCase();
         infoToGet = infoToGet.toLowerCase();
 
         //checks to see if the definition exists in the hashmap
         if (MusicalTermsMap.get(musicalTermName) != null) {
-            this.result = this.MusicalTermsMap.get(musicalTermName).getMusicalTermDefinition();
+            Term term = this.MusicalTermsMap.get(musicalTermName);
+
+            // Returns the correct information
+            if (infoToGet.equals("meaning")) {
+                this.result = term.getMusicalTermDefinition();
+            } else if (infoToGet.equals("origin")) {
+                this.result = term.getMusicalTermOrigin();
+            } else if (infoToGet.equals("category")) {
+                this.result = term.getMusicalTermCategory();
+            } else {
+                // What the user is looking for is invalid.
+                // This may never be reachable by the DSL, but is good to have regardless.
+                this.result = String.format("%s is not recognised as part of a musical term.",
+                        infoToGet);
+            }
 
             //if a given term is not in the hash map it will return an error to the user
         } else {
@@ -89,7 +108,6 @@ public class MusicalTerm implements Command {
         env.getTranscriptManager().setResult(result);
 
     }
-
 
 
 
