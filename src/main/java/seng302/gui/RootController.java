@@ -7,8 +7,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -95,27 +94,50 @@ public class RootController implements Initializable {
      */
     @FXML
     private void closeApplication() {
-        if (tm.unsavedChanges == true) {
+        if (tm.unsavedChanges == true || !env.getJson().isSaved()) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("Unsaved changes");
-            alert.setContentText("Are you sure that you would like to quit?");
 
-            ButtonType saveBtn = new ButtonType("Save");
+
+
+            ButtonType btnSaveTranscript = new ButtonType("Save Transcript");
+            ButtonType btnSaveProject = new ButtonType("Save Project");
+
             ButtonType quitBtn = new ButtonType("Quit");
             ButtonType cancelBtn = new ButtonType("Cancel");
+            String contentString = "";
+            alert.getButtonTypes().setAll(quitBtn, cancelBtn);
+            if(tm.unsavedChanges){
+                alert.getButtonTypes().add(0,btnSaveTranscript);
+                contentString += "Unsaved Transcript Changes\n";
+            }
+            if(!env.getJson().isSaved()){
+                alert.getButtonTypes().add(0,btnSaveProject);
+                contentString += "Unsaved Project Changes\n";
+            }
 
-            alert.getButtonTypes().setAll(saveBtn, quitBtn, cancelBtn);
+            contentString += "Are you sure that you would like to quit?";
+
+
+            alert.setContentText(contentString);
+
+
 
             Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == saveBtn) {
+            if (result.get() == btnSaveTranscript) {
                 saveTranscript();
-                if (tm.unsavedChanges == false) {
-                    System.exit(0);
-                }
+                this.closeApplication();
             } else if (result.get() == quitBtn) {
                 System.exit(0);
 
-            } else {
+            }
+            else if(result.get() == btnSaveProject){
+                env.getJson().saveCurrentProject();
+                this.closeApplication();
+
+            }
+
+            else {
                 //do nothing
             }
 

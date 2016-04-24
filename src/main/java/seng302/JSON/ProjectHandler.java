@@ -35,7 +35,7 @@ public class ProjectHandler {
     String currentProjectPath;
 
     String projName; //delete this testing for commit fix.
-
+    boolean saved = true;
     Environment env;
     public ProjectHandler(Environment env){
 
@@ -85,6 +85,7 @@ public class ProjectHandler {
         else{
             env.getRootController().newProject();
         }
+        saved = true;
 
     }
 
@@ -162,6 +163,7 @@ public class ProjectHandler {
             if(projectSettings.containsKey("tempo") && !(projectSettings.get("tempo").equals(String.valueOf(env.getPlayer().getTempo())))){ //If not equal
 
                 env.getRootController().setWindowTitle(saveName + "*");
+                saved = false;
             }
         }
 
@@ -207,6 +209,10 @@ public class ProjectHandler {
         }
     }
 
+
+    public boolean isSaved(){
+        return saved;
+    }
     public JSONArray getProjectList(){
         return this.projectList;
     }
