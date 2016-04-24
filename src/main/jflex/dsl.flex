@@ -129,7 +129,8 @@ Interval = ("unison"|"major second"|"major third"|"perfect fourth"|"perfect fift
     "play"             { return symbol(DslSymbol.COMMAND_PLAY_NOTE);    }
     "interval"          {return symbol(DslSymbol.COMMAND_INTERVAL); }
     "crotchet duration"    { return symbol(DslSymbol.COMMAND_CROTCHET_DURATION); }
-    "meaning of"       { return symbol(DslSymbol.COMMAND_MUSICAL_TERM); }
+    "meaning of"       { return symbol(DslSymbol.COMMAND_MUSICAL_TERM_MEANING); }
+    "origin of"         {return symbol(DslSymbol.COMMAND_MUSICAL_TERM_ORIGIN); }
     "add musical term"  {return symbol(DslSymbol.COMMAND_ADD_MUSICAL_TERM); }
     "all enharmonics"   {return symbol(DslSymbol.COMMAND_ALL_ENHARMONICS); }
     {Note}              {return symbol(DslSymbol.NOTE, new String(yytext()));}
