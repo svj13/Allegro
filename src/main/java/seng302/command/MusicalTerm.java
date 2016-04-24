@@ -18,7 +18,7 @@ import seng302.data.Term;
 public class MusicalTerm implements Command {
     private String result;
     private String input;
-    protected static HashMap<String, String> MusicalTermsMap = new HashMap<String, String>();
+    protected static HashMap<String, Term> MusicalTermsMap = new HashMap<String, Term>();
 
     private  boolean termAdded = false;
     private boolean validAdd = true;
@@ -55,16 +55,17 @@ public class MusicalTerm implements Command {
             this.result = "Added term: " + term.getMusicalTermName() +
                     "\nOrigin: " + term.getMusicalTermOrigin() + " \nCategory: " +
                     term.getMusicalTermCategory() + "\nDefinition: " + term.getMusicalTermDefinition();
-            MusicalTermsMap.put(musicalTermArray.get(0), definition);
+            MusicalTermsMap.put(musicalTermArray.get(0), term);
         }
     }
 
-    public MusicalTerm(String termToLookUp) {
+    public MusicalTerm(String termToLookUp, String infoToGet) {
         String musicalTermName = termToLookUp.toLowerCase();
+        infoToGet = infoToGet.toLowerCase();
 
         //checks to see if the definition exists in the hashmap
         if (MusicalTermsMap.get(musicalTermName) != null) {
-            this.result = this.MusicalTermsMap.get(musicalTermName);
+            this.result = this.MusicalTermsMap.get(musicalTermName).getMusicalTermDefinition();
 
             //if a given term is not in the hash map it will return an error to the user
         } else {
