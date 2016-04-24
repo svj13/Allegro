@@ -39,7 +39,7 @@ public class App extends Application {
 
             primaryStage = new Stage();
             primaryStage.setScene(scene);
-            primaryStage.setTitle("Allegro - Unsaved Project");
+            primaryStage.setTitle("Allegro - New Project");
             primaryStage.setMinHeight(450);
             primaryStage.setMinWidth(450);
 

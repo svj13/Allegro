@@ -24,7 +24,7 @@ import seng302.Environment;
 
 public class ProjectHandler {
 
-    JSONObject projectSettings = new JSONObject();
+    JSONObject projectSettings;
     JSONParser parser = new JSONParser(); //parser for reading project
 
     JSONArray projectList;
@@ -39,6 +39,8 @@ public class ProjectHandler {
     Environment env;
     public ProjectHandler(Environment env){
 
+
+        projectSettings = new JSONObject();
         this.env = env;
         try {
             this.projectsInfo = (JSONObject) parser.parse(new FileReader(userDirectory+"/projects.JSON"));
@@ -156,11 +158,14 @@ public class ProjectHandler {
 
         if(propName.equals("tempo")){
 
-            if(!(projectSettings.get("tempo").equals(String.valueOf(env.getPlayer().getTempo())))){ //If not equal
+
+            if(projectSettings.containsKey("tempo") && !(projectSettings.get("tempo").equals(String.valueOf(env.getPlayer().getTempo())))){ //If not equal
 
                 env.getRootController().setWindowTitle(saveName + "*");
             }
         }
+
+
 
 
 
