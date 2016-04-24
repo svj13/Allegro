@@ -65,7 +65,15 @@ public class MusicalTerm implements Command {
 
         //checks to see if the definition exists in the hashmap
         if (MusicalTermsMap.get(musicalTermName) != null) {
-            this.result = this.MusicalTermsMap.get(musicalTermName).getMusicalTermDefinition();
+            Term term = this.MusicalTermsMap.get(musicalTermName);
+
+            // Returns the correct information
+            if (infoToGet.equals("meaning")) {
+                this.result = term.getMusicalTermDefinition();
+            }
+            if (infoToGet.equals("origin")) {
+                this.result = term.getMusicalTermOrigin();
+            }
 
             //if a given term is not in the hash map it will return an error to the user
         } else {
