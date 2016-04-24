@@ -59,6 +59,11 @@ public class MusicalTerm implements Command {
         }
     }
 
+    /**
+     * Displays information about a given musical term.
+     * @param termToLookUp The musical term in question
+     * @param infoToGet Whether we are fetching the musical term's category, origin, or definition.
+     */
     public MusicalTerm(String termToLookUp, String infoToGet) {
         String musicalTermName = termToLookUp.toLowerCase();
         infoToGet = infoToGet.toLowerCase();
