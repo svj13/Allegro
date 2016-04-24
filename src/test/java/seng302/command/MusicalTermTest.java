@@ -138,6 +138,41 @@ public class MusicalTermTest extends TestCase {
         verify(transcriptManager).setResult("name is not recognised as an existing musical term.");
     }
 
+    @Test
+    public void testCategoryGoodInput() throws Exception {
+        executeGoodInput();
+
+        // get the origin of
+        MusicalTerm termCommand2 = new MusicalTerm("name", "category");
+        termCommand2.execute(env);
+
+        verify(transcriptManager).setResult("category");
+    }
+
+    @Test
+    public void testCategoryDoesntExist() throws Exception {
+        //add new term
+        executeGoodInput();
+
+        MusicalTerm termCommand2 = new MusicalTerm("nonExistantName", "category");
+        termCommand2.execute(env);
+
+        verify(transcriptManager).setResult(
+                "nonexistantname is not recognised as an existing musical term.");
+    }
+
+    @Test
+    public void testCategorySpaceInName() throws Exception{
+        //add new term
+        executeInputWithSpaceInName();
+
+        // get the meaning of
+        MusicalTerm termCommand2 = new MusicalTerm("name", "category");
+        termCommand2.execute(env);
+
+        verify(transcriptManager).setResult("name is not recognised as an existing musical term.");
+    }
+
     public void executeGoodInput() {
         //add new term
         ArrayList<String> musicalTermArray = new ArrayList<String>();
