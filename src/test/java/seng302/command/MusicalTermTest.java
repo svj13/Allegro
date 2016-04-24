@@ -173,6 +173,14 @@ public class MusicalTermTest extends TestCase {
         verify(transcriptManager).setResult("name is not recognised as an existing musical term.");
     }
 
+    @Test
+    public void testGetInvalidAttribute() throws Exception {
+        executeGoodInput();
+
+        new MusicalTerm("name", "test").execute(env);
+        verify(transcriptManager).setResult("test is not recognised as part of a musical term.");
+    }
+
     public void executeGoodInput() {
         //add new term
         ArrayList<String> musicalTermArray = new ArrayList<String>();
