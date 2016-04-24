@@ -98,6 +98,7 @@ public class TranscriptPaneController {
     public void handleKeyPressed(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER) {
             goAction();
+            env.getTranscriptManager().resetHistoryLevel();
         } else if (event.getCode() == KeyCode.UP) {
 
             //handleScrollUp();
