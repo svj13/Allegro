@@ -47,14 +47,7 @@ public class MusicalTermTest extends TestCase {
 
     @Test
     public void testMeaningOfCommandGoodInput() throws Exception {
-        //add new term
-        ArrayList<String> musicalTermArray = new ArrayList<String>();
-        musicalTermArray.add("name");
-        musicalTermArray.add("category");
-        musicalTermArray.add("origin");
-        musicalTermArray.add("definition");
-        MusicalTerm termCommand = new MusicalTerm(musicalTermArray);
-        termCommand.execute(env);
+        executeGoodInput();
 
         // get the meaning of
         MusicalTerm termCommand2 = new MusicalTerm("name", "meaning");
@@ -66,13 +59,7 @@ public class MusicalTermTest extends TestCase {
     @Test
     public void testMeaningOfCommandSpaceInTermName() throws Exception {
         //add new term
-        ArrayList<String> musicalTermArray = new ArrayList<String>();
-        musicalTermArray.add("space name");
-        musicalTermArray.add("category");
-        musicalTermArray.add("origin");
-        musicalTermArray.add("definition");
-        MusicalTerm termCommand = new MusicalTerm(musicalTermArray);
-        termCommand.execute(env);
+        executeInputWithSpaceInName();
 
         // get the meaning of
         MusicalTerm termCommand2 = new MusicalTerm("name", "meaning");
@@ -89,13 +76,7 @@ public class MusicalTermTest extends TestCase {
     @Test
     public void testMeaningOfWhereTermDoesntExist() throws Exception {
         //add new term
-        ArrayList<String> musicalTermArray = new ArrayList<String>();
-        musicalTermArray.add("name");
-        musicalTermArray.add("category");
-        musicalTermArray.add("origin");
-        musicalTermArray.add("definition");
-        MusicalTerm termCommand = new MusicalTerm(musicalTermArray);
-        termCommand.execute(env);
+        executeGoodInput();
 
         MusicalTerm termCommand2 = new MusicalTerm("nonExistantName", "meaning");
         termCommand2.execute(env);
@@ -120,6 +101,62 @@ public class MusicalTermTest extends TestCase {
         ArrayList<Term> terms = new ArrayList<Term>();
         terms.add(termCommand.term);
         //assertEquals(terms,tutorDataManger.getTerms()); ////WHY THE ... DOES THIS NOT WORK
+    }
+
+    @Test
+    public void testOriginGoodInput() throws Exception {
+        executeGoodInput();
+
+        // get the origin of
+        MusicalTerm termCommand2 = new MusicalTerm("name", "origin");
+        termCommand2.execute(env);
+
+        verify(transcriptManager).setResult("origin");
+    }
+
+    @Test
+    public void testOriginDoesntExist() throws Exception {
+        //add new term
+        executeGoodInput();
+
+        MusicalTerm termCommand2 = new MusicalTerm("nonExistantName", "origin");
+        termCommand2.execute(env);
+
+        verify(transcriptManager).setResult(
+                "nonexistantname is not recognised as an existing musical term.");
+    }
+
+    @Test
+    public void testOriginSpaceInName() throws Exception{
+        //add new term
+        executeInputWithSpaceInName();
+
+        // get the meaning of
+        MusicalTerm termCommand2 = new MusicalTerm("name", "origin");
+        termCommand2.execute(env);
+
+        verify(transcriptManager).setResult("name is not recognised as an existing musical term.");
+    }
+
+    public void executeGoodInput() {
+        //add new term
+        ArrayList<String> musicalTermArray = new ArrayList<String>();
+        musicalTermArray.add("name");
+        musicalTermArray.add("origin");
+        musicalTermArray.add("category");
+        musicalTermArray.add("definition");
+        MusicalTerm termCommand = new MusicalTerm(musicalTermArray);
+        termCommand.execute(env);
+    }
+
+    public void executeInputWithSpaceInName() {
+        ArrayList<String> musicalTermArray = new ArrayList<String>();
+        musicalTermArray.add("space name");
+        musicalTermArray.add("category");
+        musicalTermArray.add("origin");
+        musicalTermArray.add("definition");
+        MusicalTerm termCommand = new MusicalTerm(musicalTermArray);
+        termCommand.execute(env);
     }
 
 
