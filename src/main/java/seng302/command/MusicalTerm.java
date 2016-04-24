@@ -74,6 +74,11 @@ public class MusicalTerm implements Command {
                 this.result = term.getMusicalTermOrigin();
             } else if (infoToGet.equals("category")) {
                 this.result = term.getMusicalTermCategory();
+            } else {
+                // What the user is looking for is invalid.
+                // This may never be reachable by the DSL, but is good to have regardless.
+                this.result = String.format("%s is not recognised as part of a musical term.",
+                        infoToGet);
             }
 
             //if a given term is not in the hash map it will return an error to the user
@@ -98,7 +103,6 @@ public class MusicalTerm implements Command {
         env.getTranscriptManager().setResult(result);
 
     }
-
 
 
 
