@@ -57,13 +57,10 @@ public class MusicalTermTest extends TestCase {
         termCommand.execute(env);
 
         // get the meaning of
-        MusicalTerm termCommand2 = new MusicalTerm("name");
+        MusicalTerm termCommand2 = new MusicalTerm("name", "meaning");
         termCommand2.execute(env);
 
-        verify(transcriptManager).setResult(
-                "Origin: category\n" +
-                "Category: origin\n" +
-                "Definition: definition");
+        verify(transcriptManager).setResult("definition");
     }
 
     @Test
@@ -78,7 +75,7 @@ public class MusicalTermTest extends TestCase {
         termCommand.execute(env);
 
         // get the meaning of
-        MusicalTerm termCommand2 = new MusicalTerm("name");
+        MusicalTerm termCommand2 = new MusicalTerm("name", "meaning");
         termCommand2.execute(env);
 
 //        verify(transcriptManager).setResult(
@@ -100,7 +97,7 @@ public class MusicalTermTest extends TestCase {
         MusicalTerm termCommand = new MusicalTerm(musicalTermArray);
         termCommand.execute(env);
 
-        MusicalTerm termCommand2 = new MusicalTerm("nonExistantName");
+        MusicalTerm termCommand2 = new MusicalTerm("nonExistantName", "meaning");
         termCommand2.execute(env);
 
         verify(transcriptManager).setResult(
