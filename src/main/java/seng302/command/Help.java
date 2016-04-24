@@ -21,7 +21,7 @@ public class Help implements Command {
                 "enharmonic. \n" +
                 "enharmonic below : Returns the enharmonic that corresponds to the sam note, a " +
                 "'letter' below the current note. Returns an error should there be no lower" +
-                "enharmonic." +
+                "enharmonic. \n" +
                 "force set tempo : When followed by a tempo, it will set the given tempo, even if it" +
                 " is outside of the appropriate range. \n" +
                 "meaning of : When followed by a musical term, will display the defintion of that" +
