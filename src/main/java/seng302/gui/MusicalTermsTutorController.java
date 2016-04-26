@@ -113,7 +113,10 @@ public class MusicalTermsTutorController extends TutorController{
         ComboBox<String> options = new ComboBox<String>();
         Collections.shuffle(dataManager.getTerms());
         for (Term term : dataManager.getTerms()) {
-            options.getItems().add(term.getMusicalTermOrigin());
+
+            if(!(options.getItems().contains(term.getMusicalTermOrigin()))){
+                options.getItems().add(term.getMusicalTermOrigin());
+            }
         }
         return options;
     }
@@ -126,7 +129,10 @@ public class MusicalTermsTutorController extends TutorController{
         ComboBox<String> options = new ComboBox<String>();
         Collections.shuffle(dataManager.getTerms());
         for (Term term : dataManager.getTerms()) {
-            options.getItems().add(term.getMusicalTermCategory());
+
+            if(!(options.getItems().contains(term.getMusicalTermCategory()))){
+                options.getItems().add(term.getMusicalTermCategory());
+            }
         }
         return options;
     }
@@ -139,7 +145,10 @@ public class MusicalTermsTutorController extends TutorController{
         ComboBox<String> options = new ComboBox<String>();
         Collections.shuffle(dataManager.getTerms());
         for (Term term : dataManager.getTerms()) {
-            options.getItems().add(term.getMusicalTermDefinition());
+
+            if(!(options.getItems().contains(term.getMusicalTermDefinition()))){
+                options.getItems().add(term.getMusicalTermDefinition());
+            }
         }
         return options;
     }
