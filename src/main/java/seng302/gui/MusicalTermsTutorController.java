@@ -1,9 +1,9 @@
 package seng302.gui;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Random;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -94,10 +94,11 @@ public class MusicalTermsTutorController extends TutorController{
     }
 
 
+
     //generate origin combobox
     private ComboBox<String> generateOriginChoices() {
         ComboBox<String> options = new ComboBox<String>();
-
+        Collections.shuffle(dataManager.getTerms());
         for (Term term : dataManager.getTerms()) {
             options.getItems().add(term.getMusicalTermOrigin());
         }
@@ -107,7 +108,7 @@ public class MusicalTermsTutorController extends TutorController{
     //generate category combobox
     private ComboBox<String> generateCategoryChoices() {
         ComboBox<String> options = new ComboBox<String>();
-
+        Collections.shuffle(dataManager.getTerms());
         for (Term term : dataManager.getTerms()) {
             options.getItems().add(term.getMusicalTermCategory());
         }
@@ -117,6 +118,7 @@ public class MusicalTermsTutorController extends TutorController{
     //generate description combobox
     private ComboBox<String> generateDefinitionChoices() {
         ComboBox<String> options = new ComboBox<String>();
+        Collections.shuffle(dataManager.getTerms());
         for (Term term : dataManager.getTerms()) {
             options.getItems().add(term.getMusicalTermDefinition());
         }
