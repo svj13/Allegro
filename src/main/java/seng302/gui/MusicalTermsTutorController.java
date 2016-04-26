@@ -46,19 +46,30 @@ public class MusicalTermsTutorController extends TutorController{
     @FXML
     Button btnGo;
 
+    /**
+    Stores the terms that have been saved
+     */
     MusicalTermsTutorBackEnd dataManager;
 
     Random rand;
 
     int partialMarks;
 
-
+    /**
+     * sets up the class and initialises the main variables
+     * @param env
+     */
     public void create(Environment env) {
         super.create(env);
         dataManager = env.getMttDataManager();
         rand = new Random();
     }
 
+    /**
+     * Run when the user clicks the "Go" button.
+     * Generates and displays a new set of questions.
+     * @param event The mouse click that initiated the method.
+     */
     @FXML
     void goAction(ActionEvent event) {
         partialMarks = 0;
@@ -94,8 +105,10 @@ public class MusicalTermsTutorController extends TutorController{
     }
 
 
-
-    //generate origin combobox
+    /**
+     * Generates and populates The Origin combo box
+     * @return
+     */
     private ComboBox<String> generateOriginChoices() {
         ComboBox<String> options = new ComboBox<String>();
         Collections.shuffle(dataManager.getTerms());
@@ -105,7 +118,10 @@ public class MusicalTermsTutorController extends TutorController{
         return options;
     }
 
-    //generate category combobox
+    /**
+     * Generates and populates The category combo box
+     * @return
+     */
     private ComboBox<String> generateCategoryChoices() {
         ComboBox<String> options = new ComboBox<String>();
         Collections.shuffle(dataManager.getTerms());
@@ -115,7 +131,10 @@ public class MusicalTermsTutorController extends TutorController{
         return options;
     }
 
-    //generate description combobox
+    /**
+     * Generates and populates The definition combo box
+     * @return
+     */
     private ComboBox<String> generateDefinitionChoices() {
         ComboBox<String> options = new ComboBox<String>();
         Collections.shuffle(dataManager.getTerms());
@@ -280,6 +299,9 @@ public class MusicalTermsTutorController extends TutorController{
         return rowPane;
     }
 
+    /**
+     * If all parts of a question has been answered then the border is coloured
+     */
     private void styleAnswer(HBox rowPane, Term currentTerm, ComboBox currentSelection, ComboBox secondBox, ComboBox thirdBox) {
         if(secondBox.getValue() != null && thirdBox.getValue()!= null){
             if(secondBox.getStyle() == "-fx-background-color: red" && thirdBox.getStyle() == "-fx-background-color: red" && currentSelection.getStyle() == "-fx-background-color: red" ){
