@@ -267,12 +267,7 @@ public class PitchComparisonTutorController extends TutorController{
         Note note1 = Note.lookup(m1);
         Note note2 = Note.lookup(m2);
 
-
-        row.getChildren().get(1).setDisable(true);
-        row.getChildren().get(2).setDisable(true);
-        row.getChildren().get(3).setDisable(true);
-        row.getChildren().get(4).setDisable(true);
-
+        disableButtons(row, 1, 5);
 
         int correctChoice = 0;
 

@@ -104,7 +104,7 @@ public class TutorController {
      * For example, disable all inputs but not the play button.
      * @param questionRow the HBox containing children to be disabled
      * @param firstChild the index of the first object to disable
-     * @param lastChild the index of the last object to disable
+     * @param lastChild the index at which to stop disabling items
      */
     public void disableButtons(HBox questionRow, int firstChild, int lastChild) {
         for (int i = firstChild; i < lastChild; i++) {

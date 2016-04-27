@@ -120,8 +120,8 @@ public class IntervalRecognitionTutorController extends TutorController {
 
         skip.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                //Disables inputs
-                disableButtons(questionRow, 1, questionRow.getChildren().size());
+                // Disables only input buttons
+                disableButtons(questionRow, 1, 3);
                 formatSkippedQuestion(questionRow);
                 manager.questions -= 1;
                 manager.add(pair, 2);
@@ -139,7 +139,8 @@ public class IntervalRecognitionTutorController extends TutorController {
         options.setOnAction(new EventHandler<ActionEvent>() {
             // This handler colors the GUI depending on the user's input
             public void handle(ActionEvent event) {
-                disableButtons(questionRow, 1, questionRow.getChildren().size());
+                // Disables only input buttons
+                disableButtons(questionRow, 1, 3);
                 if (options.getValue().equals(thisInterval.getName())) {
                     formatCorrectQuestion(questionRow);
                     manager.add(pair, 1);
@@ -163,10 +164,10 @@ public class IntervalRecognitionTutorController extends TutorController {
             }
         });
 
-        questionRow.getChildren().add(play);
-        questionRow.getChildren().add(options);
-        questionRow.getChildren().add(skip);
-        questionRow.getChildren().add(correctAnswer);
+        questionRow.getChildren().add(0, play);
+        questionRow.getChildren().add(1, options);
+        questionRow.getChildren().add(2, skip);
+        questionRow.getChildren().add(3, correctAnswer);
 
         questionRow.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
         return questionRow;
