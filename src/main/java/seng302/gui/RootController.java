@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -71,6 +72,9 @@ public class RootController implements Initializable {
     private Menu menuOpenProjects;
 
     @FXML
+    private TabPane tabPane;
+
+    @FXML
     private void initialize() {
 
     }
@@ -79,11 +83,20 @@ public class RootController implements Initializable {
 
     }
 
+    @FXML
+    public void tabChanged(){
 
+    }
 
     public void initialize(URL location, ResourceBundle resources) {
 
-        System.out.println("root controller initialize test");
+//        System.out.println("root controller initialize test");
+//        tabPane.setOnMouseReleased(new EventHandler<Event>() {
+//            public void handle(Event event) {
+//                System.out.println("hello");
+//            }
+//        });
+
 //
     }
 
@@ -320,6 +333,7 @@ public class RootController implements Initializable {
 
             }
         });
+
     }
 
     /**

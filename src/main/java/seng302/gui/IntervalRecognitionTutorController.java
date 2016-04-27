@@ -100,13 +100,14 @@ public class IntervalRecognitionTutorController extends TutorController {
         skip.setGraphic(new ImageView(imageSkip));
         final ComboBox<String> options = generateChoices();
         options.setPrefHeight(30);
-        final Label correctAnswer = new Label();
 
         final Pair pair = intervalAndNote;
         final Interval thisInterval = (Interval) pair.getKey();
         final Note firstNote = (Note) pair.getValue();
         final Note secondNote = getFinalNote(firstNote, thisInterval);
         final ArrayList<Note> playNotes = new ArrayList<Note>();
+
+        final Label correctAnswer = correctAnswer(thisInterval.getName());
 
         playNotes.add(firstNote);
         playNotes.add(secondNote);
@@ -143,6 +144,7 @@ public class IntervalRecognitionTutorController extends TutorController {
                     formatCorrectQuestion(questionRow);
                     manager.add(pair, 1);
                 } else {
+                    correctAnswer.setVisible(true);
                     formatIncorrectQuestion(questionRow);
                     manager.add(pair, 0);
                 }
@@ -155,7 +157,6 @@ public class IntervalRecognitionTutorController extends TutorController {
                 };
                 record.addQuestionAnswer(question);
                 // Shows the correct answer
-                correctAnswer.setText(thisInterval.getName());
                 if (manager.answered == manager.questions) {
                     finished();
                 }

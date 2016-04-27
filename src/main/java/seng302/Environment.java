@@ -10,9 +10,6 @@ public class Environment {
 
     private DslExecutor executor;
     private TranscriptManager transcriptManager;
-    private TutorManager pctManager;
-    private TutorManager irtManager;
-    private TutorManager mttManager;
     private MusicalTermsTutorBackEnd mttDataManager; ///////////////////////////////////////
     private MusicPlayer player;
     private String recordLocation;

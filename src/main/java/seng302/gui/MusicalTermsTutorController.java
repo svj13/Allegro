@@ -1,9 +1,9 @@
 package seng302.gui;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Random;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -46,19 +46,30 @@ public class MusicalTermsTutorController extends TutorController{
     @FXML
     Button btnGo;
 
+    /**
+    Stores the terms that have been saved
+     */
     MusicalTermsTutorBackEnd dataManager;
 
     Random rand;
 
     int partialMarks;
 
-
+    /**
+     * sets up the class and initialises the main variables
+     * @param env
+     */
     public void create(Environment env) {
         super.create(env);
         dataManager = env.getMttDataManager();
         rand = new Random();
     }
 
+    /**
+     * Run when the user clicks the "Go" button.
+     * Generates and displays a new set of questions.
+     * @param event The mouse click that initiated the method.
+     */
     @FXML
     void goAction(ActionEvent event) {
         partialMarks = 0;
@@ -94,31 +105,50 @@ public class MusicalTermsTutorController extends TutorController{
     }
 
 
-    //generate origin combobox
+    /**
+     * Generates and populates The Origin combo box
+     * @return
+     */
     private ComboBox<String> generateOriginChoices() {
         ComboBox<String> options = new ComboBox<String>();
-
+        Collections.shuffle(dataManager.getTerms());
         for (Term term : dataManager.getTerms()) {
-            options.getItems().add(term.getMusicalTermOrigin());
+
+            if(!(options.getItems().contains(term.getMusicalTermOrigin()))){
+                options.getItems().add(term.getMusicalTermOrigin());
+            }
         }
         return options;
     }
 
-    //generate category combobox
+    /**
+     * Generates and populates The category combo box
+     * @return
+     */
     private ComboBox<String> generateCategoryChoices() {
         ComboBox<String> options = new ComboBox<String>();
-
+        Collections.shuffle(dataManager.getTerms());
         for (Term term : dataManager.getTerms()) {
-            options.getItems().add(term.getMusicalTermCategory());
+
+            if(!(options.getItems().contains(term.getMusicalTermCategory()))){
+                options.getItems().add(term.getMusicalTermCategory());
+            }
         }
         return options;
     }
 
-    //generate description combobox
+    /**
+     * Generates and populates The definition combo box
+     * @return
+     */
     private ComboBox<String> generateDefinitionChoices() {
         ComboBox<String> options = new ComboBox<String>();
+        Collections.shuffle(dataManager.getTerms());
         for (Term term : dataManager.getTerms()) {
-            options.getItems().add(term.getMusicalTermDefinition());
+
+            if(!(options.getItems().contains(term.getMusicalTermDefinition()))){
+                options.getItems().add(term.getMusicalTermDefinition());
+            }
         }
         return options;
     }
@@ -189,8 +219,8 @@ public class MusicalTermsTutorController extends TutorController{
                 // Adds to record
                 String[] question = new String[]{
                         String.format("Category of term %s", currentTerm.getMusicalTermCategory()),
-                        originOptions.getValue(),
-                        Boolean.toString(originOptions.getValue().equals(currentTerm.getMusicalTermCategory()))
+                        categoryOptions.getValue(),
+                        Boolean.toString(categoryOptions.getValue().equals(currentTerm.getMusicalTermCategory()))
                 };
                 record.addQuestionAnswer(question);
 
@@ -219,8 +249,8 @@ public class MusicalTermsTutorController extends TutorController{
                 // Adds to record
                 String[] question = new String[]{
                         String.format("Definition of term %s", currentTerm.getMusicalTermDefinition()),
-                        originOptions.getValue(),
-                        Boolean.toString(originOptions.getValue().equals(currentTerm.getMusicalTermDefinition()))
+                        definitionOptions.getValue(),
+                        Boolean.toString(definitionOptions.getValue().equals(currentTerm.getMusicalTermDefinition()))
                 };
                 record.addQuestionAnswer(question);
 
@@ -278,6 +308,9 @@ public class MusicalTermsTutorController extends TutorController{
         return rowPane;
     }
 
+    /**
+     * If all parts of a question has been answered then the border is coloured
+     */
     private void styleAnswer(HBox rowPane, Term currentTerm, ComboBox currentSelection, ComboBox secondBox, ComboBox thirdBox) {
         if(secondBox.getValue() != null && thirdBox.getValue()!= null){
             if(secondBox.getStyle() == "-fx-background-color: red" && thirdBox.getStyle() == "-fx-background-color: red" && currentSelection.getStyle() == "-fx-background-color: red" ){

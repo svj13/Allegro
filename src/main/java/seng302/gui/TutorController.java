@@ -2,6 +2,7 @@ package seng302.gui;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -10,6 +11,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -81,6 +83,7 @@ public class TutorController {
     public void retest() {
         ArrayList<Pair> tempIncorrectResponses = new ArrayList<Pair>(manager.getTempIncorrectResponses());
         manager.clearTempIncorrect();
+        Collections.shuffle(tempIncorrectResponses);
         manager.questions = tempIncorrectResponses.size();
         for(Pair pair : tempIncorrectResponses){
             HBox questionRow = generateQuestionPane(pair);
@@ -257,5 +260,12 @@ public class TutorController {
      */
     public void formatPartiallyCorrectQuestion(HBox question) {
         question.setStyle("-fx-border-color: yellow; -fx-border-width: 2px;");
+    }
+
+    public Label correctAnswer(String answerToShow) {
+        Label correctAnswerLabel = new Label(answerToShow);
+        correctAnswerLabel.setVisible(false);
+        return correctAnswerLabel;
+
     }
 }
