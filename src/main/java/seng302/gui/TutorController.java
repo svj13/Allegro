@@ -11,6 +11,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -259,5 +260,12 @@ public class TutorController {
      */
     public void formatPartiallyCorrectQuestion(HBox question) {
         question.setStyle("-fx-border-color: yellow; -fx-border-width: 2px;");
+    }
+
+    public Label correctAnswer(String answerToShow) {
+        Label correctAnswerLabel = new Label(answerToShow);
+        correctAnswerLabel.setVisible(false);
+        return correctAnswerLabel;
+
     }
 }
