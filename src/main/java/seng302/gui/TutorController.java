@@ -2,6 +2,7 @@ package seng302.gui;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -81,6 +82,7 @@ public class TutorController {
     public void retest() {
         ArrayList<Pair> tempIncorrectResponses = new ArrayList<Pair>(manager.getTempIncorrectResponses());
         manager.clearTempIncorrect();
+        Collections.shuffle(tempIncorrectResponses);
         manager.questions = tempIncorrectResponses.size();
         for(Pair pair : tempIncorrectResponses){
             HBox questionRow = generateQuestionPane(pair);
