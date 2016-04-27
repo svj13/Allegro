@@ -262,7 +262,7 @@ public class PitchComparisonTutorController extends TutorController{
     }
 
 
-    private void questionResponse(HBox row, String m1, String m2){
+    private int questionResponse(HBox row, String m1, String m2){
 
         Note note1 = Note.lookup(m1);
         Note note2 = Note.lookup(m2);
@@ -332,7 +332,7 @@ public class PitchComparisonTutorController extends TutorController{
             finished();
         }
 
-
+    return correctChoice;
     }
 
     /**
@@ -345,6 +345,7 @@ public class PitchComparisonTutorController extends TutorController{
         formatQuestionRow(rowPane);
         final String midiOne = midis.getKey().toString();
         final String midiTwo = midis.getValue().toString();
+        final Label correctAnswer = correctAnswer(getAnswer(Note.lookup(midiOne), Note.lookup(midiTwo)));
 
         ToggleGroup group = new ToggleGroup();
         ToggleButton higher = new ToggleButton("Higher");
@@ -366,33 +367,39 @@ public class PitchComparisonTutorController extends TutorController{
 
         higher.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-
-                questionResponse(rowPane, midiOne, midiTwo);
+                int responseValue = questionResponse(rowPane, midiOne, midiTwo);
+                if (responseValue == 0) {
+                    correctAnswer.setVisible(true);
+                }
 
             }
         });
 
         lower.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-
-
-                questionResponse(rowPane, midiOne, midiTwo);
+                int responseValue = questionResponse(rowPane, midiOne, midiTwo);
+                if (responseValue == 0) {
+                    correctAnswer.setVisible(true);
+                }
             }
         });
 
         same.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-
-                questionResponse(rowPane, midiOne, midiTwo);
+                int responseValue = questionResponse(rowPane, midiOne, midiTwo);
+                if (responseValue == 0) {
+                    correctAnswer.setVisible(true);
+                }
             }
         });
 
 
-
         skip.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-
-                questionResponse(rowPane, midiOne, midiTwo);
+                int responseValue = questionResponse(rowPane, midiOne, midiTwo);
+                if (responseValue == 0) {
+                    correctAnswer.setVisible(true);
+                }
             }
         });
 
@@ -420,6 +427,7 @@ public class PitchComparisonTutorController extends TutorController{
         rowPane.getChildren().add(same);
         rowPane.getChildren().add(lower);
         rowPane.getChildren().add(skip);
+        rowPane.getChildren().add(correctAnswer);
 
         rowPane.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
 
@@ -491,8 +499,5 @@ public class PitchComparisonTutorController extends TutorController{
 
 
     }
-
-
-
 
 }
