@@ -262,6 +262,11 @@ public class TutorController {
         question.setStyle("-fx-border-color: yellow; -fx-border-width: 2px;");
     }
 
+    /**
+     * Returns a new, hidden label containing the correct answer to a question.
+     * @param answerToShow The correct answer to the question
+     * @return A new hidden label
+     */
     public Label correctAnswer(String answerToShow) {
         Label correctAnswerLabel = new Label(answerToShow);
         correctAnswerLabel.setVisible(false);
