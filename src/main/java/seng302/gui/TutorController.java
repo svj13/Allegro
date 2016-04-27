@@ -100,11 +100,14 @@ public class TutorController {
     }
 
     /**
-     * A function for disabling the buttons in an HBox
+     * A function for disabling a selection of buttons.
+     * For example, disable all inputs but not the play button.
      * @param questionRow the HBox containing children to be disabled
+     * @param firstChild the index of the first object to disable
+     * @param lastChild the index of the last object to disable
      */
-    public void disableButtons(HBox questionRow) {
-        for (int i = 0; i < questionRow.getChildren().size(); i++) {
+    public void disableButtons(HBox questionRow, int firstChild, int lastChild) {
+        for (int i = firstChild; i < lastChild; i++) {
             questionRow.getChildren().get(i).setDisable(true);
         }
     }
