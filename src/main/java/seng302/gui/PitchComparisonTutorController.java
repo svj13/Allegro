@@ -40,10 +40,8 @@ import seng302.utility.TutorRecord;
 public class PitchComparisonTutorController extends TutorController{
 
     @FXML
-    TextField txtNotePairs;
-
-    @FXML
     ComboBox<MidiNotePair> cbxLower;
+
     @FXML
     AnchorPane pitchTutorAnchor;
 
