@@ -89,7 +89,6 @@ public class PitchComparisonTutorController extends TutorController{
 
         if (lowerSet && upperSet) {
             questionRows.getChildren().clear();
-            //manager.questions = (int) numQuestions.getValue();
             manager.questions = selectedQuestions;
             for (int i = 0; i < manager.questions; i++) {
                 //String noteName1 = Note.lookup(String.valueOf(rand.nextInt(128))).getNote();
@@ -160,16 +159,6 @@ public class PitchComparisonTutorController extends TutorController{
         };
         rangeSlider.lowValueProperty().addListener(updateLabel);
         rangeSlider.highValueProperty().addListener(updateLabel);
-        selectedQuestions = (int) numQuestions.getValue();
-        questions.setText(Integer.toString(selectedQuestions));
-
-        // The listener for the number of questions selected
-        numQuestions.valueProperty().addListener(new ChangeListener<Number>() {
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                selectedQuestions = newValue.intValue();
-                questions.setText(Integer.toString(selectedQuestions));
-            }
-        });
 
         // Set default values to C4 and C5
 //        cbxLower.getSelectionModel().select(60);

@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -83,6 +85,17 @@ public class TutorController {
     public void create(Environment env){
         this.env = env;
         manager = new TutorManager();
+
+        selectedQuestions = (int) numQuestions.getValue();
+        questions.setText(Integer.toString(selectedQuestions));
+
+        // The listener for the number of questions selected
+        numQuestions.valueProperty().addListener(new ChangeListener<Number>() {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                selectedQuestions = newValue.intValue();
+                questions.setText(Integer.toString(selectedQuestions));
+            }
+        });
     }
 
     /**
