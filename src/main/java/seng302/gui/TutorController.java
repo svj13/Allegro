@@ -79,7 +79,9 @@ public class TutorController {
     public TutorController() {}
 
     /**
-     * The method called to initialise a tutor
+     * The method called to initialise a tutor.
+     * Sets up the environment and tutor manager, as well as implementing a number of
+     * questions selector.
      * @param env
      */
     public void create(Environment env){
