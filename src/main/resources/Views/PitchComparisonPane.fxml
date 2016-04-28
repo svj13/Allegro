@@ -49,8 +49,6 @@
                               <Insets left="3.0" />
                            </HBox.margin>
                         </Label>
-                            <Label alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" text="Note Pairs:" />
-                        <Label fx:id="questions" prefWidth="60.0" />
                      </children>
                      <VBox.margin>
                         <Insets top="5.0" />
@@ -58,7 +56,21 @@
                   </HBox>
                </children>
             </VBox>
-            <Slider fx:id="numQuestions" blockIncrement="1.0" majorTickUnit="5.0" max="50.0" min="1.0" minorTickCount="1" prefHeight="38.0" prefWidth="340.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" />
+            <VBox prefHeight="49.0" prefWidth="400.0">
+               <children>
+                  <HBox prefHeight="30.0" prefWidth="200.0">
+                     <children>
+                        <Slider fx:id="numQuestions" blockIncrement="1.0" majorTickUnit="5.0" max="50.0" min="1.0" minorTickCount="1" prefHeight="38.0" prefWidth="340.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                            <Label alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" text="Note Pairs:" />
+                        <Label fx:id="questions" prefHeight="30.0" prefWidth="60.0" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
                 <Button id="btnGo" fx:id="btnGo" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#goAction" prefHeight="30.0" prefWidth="90.0" text="Go" textAlignment="CENTER">
                     <font>
                         <Font size="14.0" />
