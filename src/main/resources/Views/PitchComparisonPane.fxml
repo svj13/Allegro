@@ -49,6 +49,8 @@
                               <Insets left="3.0" />
                            </HBox.margin>
                         </Label>
+                            <Label alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" text="Note Pairs:" />
+                        <Label fx:id="questions" prefWidth="60.0" />
                      </children>
                      <VBox.margin>
                         <Insets top="5.0" />
@@ -56,10 +58,8 @@
                   </HBox>
                </children>
             </VBox>
-                <Label alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="70.0" text="Note Pairs:" />
-                <TextField id="txtNotes" fx:id="txtNotePairs" alignment="CENTER"
-                           minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0"
-                           prefWidth="40.0" text="10">
+            <Slider fx:id="numQuestions" blockIncrement="1.0" majorTickUnit="5.0" max="50.0" min="1.0" minorTickCount="1" prefHeight="38.0" prefWidth="340.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" />
+                <TextField id="txtNotes" fx:id="txtNotePairs" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="40.0" text="10">
                     <font>
                         <Font size="12.0" />
                     </font>

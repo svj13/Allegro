@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -34,6 +35,8 @@ public class TutorController {
     public float userScore;
 
     public String outputText;
+
+    public int selectedQuestions;
 
     Stage stage;
 
@@ -61,6 +64,12 @@ public class TutorController {
 
     @FXML
     HBox buttons;
+
+    @FXML
+    Slider numQuestions;
+
+    @FXML
+    Label questions;
 
     /**
      * An empty constructor, required for sub-classes.
