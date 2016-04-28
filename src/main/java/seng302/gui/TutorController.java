@@ -80,14 +80,18 @@ public class TutorController {
 
     /**
      * The method called to initialise a tutor.
-     * Sets up the environment and tutor manager, as well as implementing a number of
-     * questions selector.
+     * Sets up the environment and tutor manager
      * @param env
      */
     public void create(Environment env){
         this.env = env;
         manager = new TutorManager();
+    }
 
+    /**
+     * Implements the settings of a slider used to select number of questions.
+     */
+    public void initaliseQuestionSelector() {
         selectedQuestions = (int) numQuestions.getValue();
         questions.setText(Integer.toString(selectedQuestions));
 
