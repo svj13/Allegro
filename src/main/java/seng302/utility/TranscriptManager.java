@@ -164,7 +164,7 @@ public class TranscriptManager {
         try {
             FileWriter writer = new FileWriter(path, false);
             for (OutputTuple line : transcriptContent) {
-                writer.write(line.getInput());
+                writer.write(line.getInput() + ",");
             }
             writer.close();
             unsavedChanges = false;
@@ -174,7 +174,6 @@ public class TranscriptManager {
             System.err.println("Problem writing to the selected file " + ex.getMessage());
         }
     }
-
 
 }
 
