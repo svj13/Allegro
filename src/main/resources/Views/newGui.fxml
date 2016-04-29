@@ -30,6 +30,7 @@
                      <items>
                         <MenuItem fx:id="menuSaveProject" accelerator="Shortcut+S" mnemonicParsing="false" onAction="#saveProject" text="Save Project" />
                            <MenuItem fx:id="MenuSave" mnemonicParsing="false" onAction="#saveTranscript" text="Save Transcript" />
+                        <MenuItem fx:id="menuSaveCommands" mnemonicParsing="false" onAction="#saveCommands" text="Save Commands Only" />
                      </items>
                   </Menu>
                </items>

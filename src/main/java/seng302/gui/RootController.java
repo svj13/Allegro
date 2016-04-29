@@ -69,6 +69,9 @@ public class RootController implements Initializable {
     private MenuItem menuSave;
 
     @FXML
+    private MenuItem menuSaveCommands;
+
+    @FXML
     private Menu menuOpenProjects;
 
     @FXML
@@ -165,17 +168,34 @@ public class RootController implements Initializable {
      */
     @FXML
     private void saveTranscript() {
-        FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
-        fileChooser.getExtensionFilters().add(textFilter);
-        fileChooser.setInitialDirectory(fileDir);
-        File file = fileChooser.showSaveDialog(stage);
+        File file = generateFileChooser();
 
         if (file != null) {
             fileDir = file.getParentFile();
             path = file.getAbsolutePath();
             tm.save(path);
         }
+    }
+
+    @FXML
+    private void saveCommands() {
+        File file = generateFileChooser();
+
+        if (file != null) {
+            fileDir = file.getParentFile();
+            path = file.getAbsolutePath();
+            tm.saveCommandsOnly(path);
+        }
+
+    }
+
+    private File generateFileChooser() {
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+        fileChooser.getExtensionFilters().add(textFilter);
+        fileChooser.setInitialDirectory(fileDir);
+        File file = fileChooser.showSaveDialog(stage);
+        return file;
     }
 
     /**
