@@ -156,6 +156,25 @@ public class TranscriptManager {
         return displayText;
     }
 
+    /**
+     * Method to write only the commands to a file, for re-use
+     * @param path the path of the document to save to
+     */
+    public void saveCommandsOnly(String path) {
+        try {
+            FileWriter writer = new FileWriter(path, false);
+            for (OutputTuple line : transcriptContent) {
+                writer.write(line.getInput());
+            }
+            writer.close();
+            unsavedChanges = false;
+
+        } catch (IOException ex) {
+
+            System.err.println("Problem writing to the selected file " + ex.getMessage());
+        }
+    }
+
 
 }
 
