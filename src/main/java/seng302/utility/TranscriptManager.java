@@ -175,6 +175,30 @@ public class TranscriptManager {
         }
     }
 
+    /**
+     * Loads a commands-only text file for execution
+     * @param path the path to the file containing the commands
+     * @return an array list of textual commands
+     */
+    public ArrayList<String> loadCommands(String path) {
+
+        try {
+            FileReader reader = new FileReader(path);
+            BufferedReader input = new BufferedReader(reader);
+            String str;
+            ArrayList<String> commands = new ArrayList<String>();
+            while ((str = input.readLine()) != null) {
+                for (String command:str.split(",")) {
+                    commands.add(command);
+                }
+            }
+            return commands;
+        } catch (IOException ex) {
+            System.out.println("problem Reading from file");
+            return null;
+        }
+    }
+
 }
 
 
