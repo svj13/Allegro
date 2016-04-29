@@ -241,6 +241,12 @@ public class DslExecutorTest {
     }
 
     @Test
+    public void parsesMinorScaleCommand() {
+        Command command = executor.parseCommandString("scale c minor");
+        assertThat(command, instanceOf(seng302.command.Scale.class));
+    }
+
+    @Test
     public void parsesScaleOctaveCommand() {
         Command command = executor.parseCommandString("scale c major 3");
         assertThat(command, instanceOf(seng302.command.Scale.class));
@@ -266,8 +272,8 @@ public class DslExecutorTest {
 
     @Test
     public void logsErrorOnInvalidScaleTypeCommand() {
-        Command command = executor.parseCommandString("scale C minor");
-        verify(env).error("'minor' is not a valid scale type.");
+        Command command = executor.parseCommandString("scale C blah");
+        verify(env).error("'blah' is not a valid scale type.");
     }
 
     @Test

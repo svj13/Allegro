@@ -218,6 +218,46 @@ public class ScaleTest {
 
     }
 
+    // Test minor scales
+
+    @Test
+    public void testMinorScale() {
+        new Scale("C", "minor", "note").execute(env);
+        verify(transcriptManager).setResult("C D Eb F G Ab Bb C");
+    }
+
+    @Test
+    public void testMinorScaleOctave() {
+        new Scale("C4", "minor", "note").execute(env);
+        verify(transcriptManager).setResult("C4 D4 Eb4 F4 G4 Ab4 Bb4 C5");
+    }
+
+    @Test
+    public void testMidiMinorScale() {
+        new Scale("C", "minor", "midi").execute(env);
+        verify(transcriptManager).setResult("60 62 63 65 67 68 70 72");
+    }
+
+    @Test
+    public void testPlayMinorScale() {
+        new Scale("C", "minor", "play").execute(env);
+        verify(transcriptManager).setResult("C D Eb F G Ab Bb C");
+        verify(player).playNotes(Note.lookup("C4").getScale("minor", true));
+    }
+
+    @Test
+    public void testSharpMinorScale() {
+        new Scale("F#", "minor", "note").execute(env);
+        verify(transcriptManager).setResult("F# G# A B C# D E F#");
+    }
+
+    @Test
+    public void correctErrorMessageForDoubleSharpMinorScale() {
+        new Scale("Fx", "minor", "note").execute(env);
+        verify(transcriptManager).setResult("[ERROR] Invalid scale: 'Fx minor'.");
+    }
+
+
 
 
 
