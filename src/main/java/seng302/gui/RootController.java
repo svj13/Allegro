@@ -177,6 +177,9 @@ public class RootController implements Initializable {
         }
     }
 
+    /**
+     * Used to save only the commands to a destination determined by user
+     */
     @FXML
     private void saveCommands() {
         File file = generateFileChooser();
@@ -189,6 +192,10 @@ public class RootController implements Initializable {
 
     }
 
+    /**
+     * Creates and displays a "save file" file chooser
+     * @return The file which the user selects
+     */
     private File generateFileChooser() {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
