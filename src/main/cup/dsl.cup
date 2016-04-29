@@ -106,6 +106,7 @@ non terminal String term;
 start with command;
 
 command ::= COMMAND_HELP                                {: RESULT = new Help(); :}
+          | COMMAND_HELP keyword:n                      {: RESULT = new Help(n); :}
           | COMMAND_NOTE note:n                         {: RESULT = new NoteCommand(n); :}
           | COMMAND_MIDI note:s                         {: RESULT = new Midi(s); :}
           | COMMAND_VERSION                             {: RESULT = new Version(); :}
