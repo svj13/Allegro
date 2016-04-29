@@ -109,14 +109,27 @@ public class MusicalTermsTutorController extends TutorController{
      * Generates and populates The Origin combo box
      * @return
      */
-    private ComboBox<String> generateOriginChoices() {
+    private ComboBox<String> generateOriginChoices(Term currentTerm) {
+        Random rand = new Random();
+        int correctPosition = rand.nextInt(5);
         ComboBox<String> options = new ComboBox<String>();
         Collections.shuffle(dataManager.getTerms());
-        for (Term term : dataManager.getTerms()) {
+        int i = 0;
+        Boolean alreadyAdded = false;
+        while(options.getItems().size() < 5 && i < dataManager.getTerms().size()) {
+            if(correctPosition == i && alreadyAdded == false) {
+                if (!(options.getItems().contains(currentTerm.getMusicalTermOrigin()))) {
+                    options.getItems().add(currentTerm.getMusicalTermOrigin());
+                }
+                i -= 1;
+                alreadyAdded = true;
 
-            if(!(options.getItems().contains(term.getMusicalTermOrigin()))){
-                options.getItems().add(term.getMusicalTermOrigin());
+            }else{
+                if (!(options.getItems().contains(dataManager.getTerms().get(i).getMusicalTermOrigin()))) {
+                    options.getItems().add(dataManager.getTerms().get(i).getMusicalTermOrigin());
+                }
             }
+            i+=1;
         }
         return options;
     }
@@ -125,14 +138,27 @@ public class MusicalTermsTutorController extends TutorController{
      * Generates and populates The category combo box
      * @return
      */
-    private ComboBox<String> generateCategoryChoices() {
+    private ComboBox<String> generateCategoryChoices(Term currentTerm) {
+        Random rand = new Random();
+        int correctPosition = rand.nextInt(5);
         ComboBox<String> options = new ComboBox<String>();
         Collections.shuffle(dataManager.getTerms());
-        for (Term term : dataManager.getTerms()) {
+        int i = 0;
+        Boolean alreadyAdded = false;
+        while(options.getItems().size() < 5 && i < dataManager.getTerms().size()) {
+            if(correctPosition == i && alreadyAdded == false) {
+                if (!(options.getItems().contains(currentTerm.getMusicalTermCategory()))) {
+                    options.getItems().add(currentTerm.getMusicalTermCategory());
+                }
+                i -= 1;
+                alreadyAdded = true;
 
-            if(!(options.getItems().contains(term.getMusicalTermCategory()))){
-                options.getItems().add(term.getMusicalTermCategory());
+            }else{
+                if (!(options.getItems().contains(dataManager.getTerms().get(i).getMusicalTermCategory()))) {
+                    options.getItems().add(dataManager.getTerms().get(i).getMusicalTermCategory());
+                }
             }
+            i+=1;
         }
         return options;
     }
@@ -141,14 +167,27 @@ public class MusicalTermsTutorController extends TutorController{
      * Generates and populates The definition combo box
      * @return
      */
-    private ComboBox<String> generateDefinitionChoices() {
+    private ComboBox<String> generateDefinitionChoices(Term currentTerm) {
+        Random rand = new Random();
+        int correctPosition = rand.nextInt(5);
         ComboBox<String> options = new ComboBox<String>();
         Collections.shuffle(dataManager.getTerms());
-        for (Term term : dataManager.getTerms()) {
+        int i = 0;
+        Boolean alreadyAdded = false;
+        while(options.getItems().size() < 5 && i < dataManager.getTerms().size()) {
+            if(correctPosition == i && alreadyAdded == false) {
+                if (!(options.getItems().contains(currentTerm.getMusicalTermDefinition()))) {
+                    options.getItems().add(currentTerm.getMusicalTermDefinition());
+                }
+                i -= 1;
+                alreadyAdded = true;
 
-            if(!(options.getItems().contains(term.getMusicalTermDefinition()))){
-                options.getItems().add(term.getMusicalTermDefinition());
+            }else{
+                if (!(options.getItems().contains(dataManager.getTerms().get(i).getMusicalTermDefinition()))) {
+                    options.getItems().add(dataManager.getTerms().get(i).getMusicalTermDefinition());
+                }
             }
+            i+=1;
         }
         return options;
     }
@@ -169,11 +208,11 @@ public class MusicalTermsTutorController extends TutorController{
         Image imageSkip = new Image(getClass().getResourceAsStream("/images/right-arrow.png"), 20, 20, true, true);
         skip.setGraphic(new ImageView(imageSkip));
 
-        final ComboBox<String> originOptions = generateOriginChoices();
+        final ComboBox<String> originOptions = generateOriginChoices(currentTerm);
         originOptions.setPrefHeight(30);
-        final ComboBox<String> categoryOptions = generateCategoryChoices();
+        final ComboBox<String> categoryOptions = generateCategoryChoices(currentTerm);
         categoryOptions.setPrefHeight(30);
-        final ComboBox<String> definitionOptions = generateDefinitionChoices();
+        final ComboBox<String> definitionOptions = generateDefinitionChoices(currentTerm);
         definitionOptions.setPrefHeight(30);
 
 
