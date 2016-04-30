@@ -18,14 +18,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Pair;
+import seng302.Environment;
 import seng302.data.Interval;
 import seng302.data.Note;
 import seng302.utility.TutorRecord;
 
 public class IntervalRecognitionTutorController extends TutorController {
-
-    @FXML
-    TextField txtNumIntervals;
 
     @FXML
     AnchorPane IntervalRecognitionTab;
@@ -41,6 +39,11 @@ public class IntervalRecognitionTutorController extends TutorController {
         super();
     }
 
+    public void create(Environment env) {
+        super.create(env);
+        initaliseQuestionSelector();
+    }
+
     /**
      * Run when the user clicks the "Go" button.
      * Generates and displays a new set of questions.
@@ -50,7 +53,7 @@ public class IntervalRecognitionTutorController extends TutorController {
         paneQuestions.setVisible(true);
         paneResults.setVisible(false);
         record = new TutorRecord(new Date(), "Interval Recognition");
-        manager.questions = Integer.parseInt(txtNumIntervals.getText());
+        manager.questions = selectedQuestions;
         if (manager.questions >= 1){
             // Run the tutor
             questionRows.getChildren().clear();
