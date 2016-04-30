@@ -93,7 +93,7 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 
 WhiteSpace = \p{Whitespace}
 Number = \p{Digit}
-Note = [A-G|a-g]([#|b|x]|(bb))?[0-8]?|[D-G|d-g]([#|b|x]|(bb))?[-1]?|[A-F|a-f]([#|b|x]|(bb))?[9]?|[C|c][#|x]?(-1)?|[G|g](b|bb)?[9]?
+Note = [A-G|a-g]([#|b|x]|(bb))?[0-8]?|[A|B|D-G|a|b|d-g]([#|b|x]|(bb))?("-1")?|[C-F|c-f]([#|b|x]|(bb))?[9]?|[C|c][#|x]?(-1)?|[G|g](b|bb)?[9]?
 MidiNote = (0?[0-9]?[0-9]|1[01][0-9]|12[0-7])
 Atom = [^\s|;]+
 SemiColon = ";"
