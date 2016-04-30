@@ -9,6 +9,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -38,7 +39,7 @@ public class ScaleRecognitionTutorController extends TutorController {
         paneResults.setVisible(false);
         questionRows.getChildren().clear();
 
-        int type = rand.nextInt(1);
+        int type = rand.nextInt(2);
         String scaleType;
         if (type == 0) {
             scaleType = "major";
@@ -64,15 +65,27 @@ public class ScaleRecognitionTutorController extends TutorController {
         return scale;
     }
 
+    public void handleQuestionAnswer(String userAnswer, String correctAnswer, HBox questionRow) {
+        disableButtons(questionRow, 1, 4);
+        if (userAnswer.equals(correctAnswer)) {
+            formatCorrectQuestion(questionRow);
+        } else {
+            formatIncorrectQuestion(questionRow);
+            //Shows the correct answer
+            questionRow.getChildren().get(4).setVisible(true);
+        }
+    }
+
     /**
      * Creates a GUI pane for a single question
      * @param scale The array list of notes to be played
      * @param scaleType Whether it is a major or minor scale
      * @return
      */
-    public HBox generateQuestionPane(final ArrayList<Note> scale, String scaleType) {
+    public HBox generateQuestionPane(final ArrayList<Note> scale, final String scaleType) {
         final HBox questionRow = new HBox();
         formatQuestionRow(questionRow);
+        final Label correctAnswer = correctAnswer(scaleType);
 
 
         Button play = new Button();
@@ -86,7 +99,18 @@ public class ScaleRecognitionTutorController extends TutorController {
         });
 
         Button major = new Button("Major");
+        major.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                handleQuestionAnswer("major", scaleType, questionRow);
+            }
+        });
+
         Button minor = new Button("Minor");
+        minor.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                handleQuestionAnswer("minor", scaleType, questionRow);
+            }
+        });
 
         Button skip = new Button("Skip");
         Image imageSkip = new Image(getClass().getResourceAsStream("/images/right-arrow.png"), 20, 20, true, true);
@@ -99,7 +123,11 @@ public class ScaleRecognitionTutorController extends TutorController {
             }
         });
 
-        questionRow.getChildren().addAll(play, major, minor, skip);
+        questionRow.getChildren().add(0, play);
+        questionRow.getChildren().add(1, major);
+        questionRow.getChildren().add(2, minor);
+        questionRow.getChildren().add(3, skip);
+        questionRow.getChildren().add(4, correctAnswer);
 
         questionRow.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
         return questionRow;
