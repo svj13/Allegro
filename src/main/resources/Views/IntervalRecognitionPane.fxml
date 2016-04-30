@@ -15,21 +15,38 @@
       </Label>
       <HBox alignment="CENTER_LEFT" layoutX="-24.0" layoutY="47.0" minWidth="-Infinity" prefHeight="40.0" prefWidth="470.0" spacing="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="56.0">
          <children>
-            <VBox prefHeight="49.0" prefWidth="400.0">
+            <VBox fx:id="range" prefHeight="200.0" prefWidth="300.0" spacing="10.0">
                <children>
-                  <HBox prefHeight="30.0" prefWidth="200.0">
+                  <HBox alignment="TOP_CENTER" prefHeight="49.0" prefWidth="400.0">
                      <children>
-                        <Slider fx:id="numQuestions" blockIncrement="1.0" majorTickUnit="49.0" max="50.0" min="1.0" minorTickCount="1" prefHeight="38.0" prefWidth="340.0" showTickLabels="true" value="5.0" />
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" text="Number of Intervals:" />
-                        <Label fx:id="questions" prefHeight="30.0" prefWidth="60.0" />
+                         <Label text="Note Range: "/>
+                         <Label fx:id="notes"/>
                      </children>
                   </HBox>
                </children>
+               <HBox.margin>
+                   <Insets/>
+               </HBox.margin>
             </VBox>
+             <VBox prefHeight="49.0" prefWidth="200.0">
+                 <children>
+                     <HBox prefHeight="30.0" prefWidth="200.0">
+                         <children>
+                             <Slider fx:id="numQuestions" blockIncrement="1.0" majorTickUnit="49.0"
+                                     max="50.0" min="1.0" minorTickCount="1" prefHeight="38.0"
+                                     prefWidth="200.0" showTickLabels="true" value="5.0"/>
+                         </children>
+                     </HBox>
+                     <HBox prefHeight="100.0" prefWidth="200.0">
+                         <children>
+                             <Label alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity"
+                                    minWidth="-Infinity" prefHeight="30.0"
+                                    text="Number of Intervals: "/>
+                             <Label fx:id="questions" prefHeight="30.0" prefWidth="60.0" />
+                         </children>
+                     </HBox>
+                 </children>
+             </VBox>
             <Button id="btnGo" fx:id="btnGo" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#goAction" prefHeight="30.0" prefWidth="90.0" text="Go" textAlignment="CENTER">
                <font>
                   <Font size="14.0" />

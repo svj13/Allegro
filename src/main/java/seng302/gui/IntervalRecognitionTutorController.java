@@ -1,9 +1,14 @@
 package seng302.gui;
 
+import org.controlsfx.control.RangeSlider;
+import org.controlsfx.control.spreadsheet.StringConverterWithFormat;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -17,6 +22,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 import seng302.Environment;
 import seng302.data.Interval;
@@ -28,9 +34,16 @@ public class IntervalRecognitionTutorController extends TutorController {
     @FXML
     AnchorPane IntervalRecognitionTab;
 
-
     @FXML
     Button btnGo;
+
+    @FXML
+    VBox range;
+
+    @FXML
+    Label notes;
+
+    RangeSlider rangeSlider;
 
     /**
      * A constructor required for superclass to work
@@ -42,6 +55,50 @@ public class IntervalRecognitionTutorController extends TutorController {
     public void create(Environment env) {
         super.create(env);
         initaliseQuestionSelector();
+        initaliseRangeSelector();
+    }
+
+    private void initaliseRangeSelector() {
+        rangeSlider = new RangeSlider(0, 127, 60, 72);
+        rangeSlider.setBlockIncrement(1);
+        rangeSlider.setMajorTickUnit(12);
+        rangeSlider.setPrefWidth(340);
+        rangeSlider.setShowTickLabels(true);
+        rangeSlider.setLabelFormatter(new StringConverterWithFormat<Number>() {
+            @Override
+            public String toString(Number object) {
+                Integer num = object.intValue();
+                return Note.lookup(String.valueOf(num)).getNote();
+            }
+
+            @Override
+            public Number fromString(String string) {
+                return Note.lookup(string).getMidi();
+            }
+        });
+        range.getChildren().add(0, rangeSlider);
+        notes.setText(rangeSlider.getLabelFormatter().toString(rangeSlider.getLowValue()) + " - "
+                + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
+        ChangeListener<Number> updateLabelLower = new ChangeListener<Number>() {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if ((Double) newValue > rangeSlider.getHighValue() - 12) {
+                    rangeSlider.setLowValue(rangeSlider.getHighValue() - 12);
+                }
+                notes.setText(rangeSlider.getLabelFormatter().toString(rangeSlider.getLowValue()) + " - "
+                        + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
+            }
+        };
+        ChangeListener<Number> updateLabelHigher = new ChangeListener<Number>() {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if ((Double) newValue < rangeSlider.getLowValue() + 12) {
+                    rangeSlider.setHighValue(rangeSlider.getLowValue() + 12);
+                }
+                notes.setText(rangeSlider.getLabelFormatter().toString(rangeSlider.getLowValue()) + " - "
+                        + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
+            }
+        };
+        rangeSlider.lowValueProperty().addListener(updateLabelLower);
+        rangeSlider.highValueProperty().addListener(updateLabelHigher);
     }
 
     /**
@@ -79,7 +136,9 @@ public class IntervalRecognitionTutorController extends TutorController {
      */
     private HBox setUpQuestion() {
         Interval thisInterval = generateInterval();
-        Note firstNote = getStartingNote(thisInterval.getSemitones());
+        int lowerPitchBound = ((Double) rangeSlider.getLowValue()).intValue();
+        int upperPitchBound = ((Double) rangeSlider.getHighValue()).intValue();
+        Note firstNote = getStartingNote(thisInterval.getSemitones(), lowerPitchBound, upperPitchBound);
         Pair<Interval, Note> pair = new Pair<Interval, Note>(thisInterval, firstNote);
         return generateQuestionPane(pair);
     }
@@ -183,9 +242,10 @@ public class IntervalRecognitionTutorController extends TutorController {
      * @param numSemitones The generated interval, so the second note is not outside correct range
      * @return A Note object, for playing an interval.
      */
-    private Note getStartingNote(int numSemitones) {
+    private Note getStartingNote(int numSemitones, int lowerPitchRange, int upperPitchRange) {
         Random randNote = new Random();
-        return Note.lookup(String.valueOf(randNote.nextInt(128 - numSemitones)));
+        int note = randNote.nextInt(upperPitchRange - numSemitones - lowerPitchRange + 1) + lowerPitchRange;
+        return Note.lookup(String.valueOf(note));
     }
 
     /**

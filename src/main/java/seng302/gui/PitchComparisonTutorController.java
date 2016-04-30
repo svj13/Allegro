@@ -28,6 +28,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 import seng302.Environment;
 import seng302.utility.MidiNotePair;
@@ -46,7 +47,7 @@ public class PitchComparisonTutorController extends TutorController{
     AnchorPane pitchTutorAnchor;
 
     @FXML
-    HBox sliderBox;
+    VBox sliderBox;
 
     @FXML
     ComboBox<MidiNotePair> cbxUpper;
@@ -152,14 +153,26 @@ public class PitchComparisonTutorController extends TutorController{
         sliderBox.getChildren().add(0, rangeSlider);
         notes.setText(rangeSlider.getLabelFormatter().toString(rangeSlider.getLowValue()) + " - "
                 + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
-        ChangeListener<Number> updateLabel = new ChangeListener<Number>() {
+        ChangeListener<Number> updateLabelLower = new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if ((Double) newValue > rangeSlider.getHighValue() - 12) {
+                    rangeSlider.setLowValue(rangeSlider.getHighValue() - 12);
+                }
                 notes.setText(rangeSlider.getLabelFormatter().toString(rangeSlider.getLowValue()) + " - "
                         + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
             }
         };
-        rangeSlider.lowValueProperty().addListener(updateLabel);
-        rangeSlider.highValueProperty().addListener(updateLabel);
+        ChangeListener<Number> updateLabelHigher = new ChangeListener<Number>() {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if ((Double) newValue < rangeSlider.getLowValue() + 12) {
+                    rangeSlider.setHighValue(rangeSlider.getLowValue() + 12);
+                }
+                notes.setText(rangeSlider.getLabelFormatter().toString(rangeSlider.getLowValue()) + " - "
+                        + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
+            }
+        };
+        rangeSlider.lowValueProperty().addListener(updateLabelLower);
+        rangeSlider.highValueProperty().addListener(updateLabelHigher);
 
         // Set default values to C4 and C5
 //        cbxLower.getSelectionModel().select(60);
