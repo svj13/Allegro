@@ -22,6 +22,8 @@
       </HBox>
       <HBox fx:id="settings" alignment="CENTER_LEFT" layoutY="36.0" minWidth="400.0" prefHeight="10.0" spacing="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="56.0">
          <children>
+            <ComboBox fx:id="direction" prefWidth="150.0" promptText="Up" />
+            <ComboBox fx:id="octaves" prefWidth="150.0" promptText="1" />
             <Button id="btnGo" fx:id="btnGo" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#goAction" prefHeight="30.0" prefWidth="90.0" text="Go" textAlignment="CENTER">
                <font>
                   <Font size="14.0" />

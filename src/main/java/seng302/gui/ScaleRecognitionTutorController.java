@@ -1,6 +1,7 @@
 package seng302.gui;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Random;
 import java.util.StringJoiner;
@@ -34,6 +35,12 @@ public class ScaleRecognitionTutorController extends TutorController {
     @FXML
     Button btnGo;
 
+    @FXML
+    ComboBox<String> direction;
+
+    @FXML
+    ComboBox<Integer> octaves;
+
     private Random rand;
 
     @FXML
@@ -57,6 +64,8 @@ public class ScaleRecognitionTutorController extends TutorController {
     public void create(Environment env) {
         super.create(env);
         rand = new Random();
+        direction.getItems().addAll("Up", "Down", "UpDown");
+        octaves.getItems().addAll(1,2,3,4);
     }
 
     /**
@@ -82,7 +91,19 @@ public class ScaleRecognitionTutorController extends TutorController {
     public ArrayList<Note> getRandomScale(String scaleType) {
         Note startNote = Note.lookup(Integer.toString(rand.nextInt(11) + 60));
         // Add # octaves and up/down selection here.
-        ArrayList<Note> scale = startNote.getOctaveScale(scaleType, 1, true);
+        ArrayList<Note> scale;
+        if (direction.getValue().equals("Up")) {
+            scale = startNote.getOctaveScale(scaleType, octaves.getValue(), true);
+        }
+        if (direction.getValue().equals("UpDown")) {
+            scale = startNote.getOctaveScale(scaleType, octaves.getValue(), true);
+            ArrayList<Note> notes = new ArrayList<Note>(scale);
+            Collections.reverse(notes);
+            scale.addAll(notes);
+        } else {
+            scale = startNote.getOctaveScale(scaleType, octaves.getValue(), false);
+        }
+
         return scale;
     }
 
