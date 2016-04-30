@@ -28,6 +28,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 import seng302.Environment;
 import seng302.utility.MidiNotePair;
@@ -46,7 +47,7 @@ public class PitchComparisonTutorController extends TutorController{
     AnchorPane pitchTutorAnchor;
 
     @FXML
-    HBox sliderBox;
+    VBox sliderBox;
 
     @FXML
     ComboBox<MidiNotePair> cbxUpper;

@@ -1,9 +1,14 @@
 package seng302.gui;
 
+import org.controlsfx.control.RangeSlider;
+import org.controlsfx.control.spreadsheet.StringConverterWithFormat;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -17,7 +22,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.util.Pair;
+import seng302.Environment;
 import seng302.data.Interval;
 import seng302.data.Note;
 import seng302.utility.TutorRecord;
@@ -30,15 +37,59 @@ public class IntervalRecognitionTutorController extends TutorController {
     @FXML
     AnchorPane IntervalRecognitionTab;
 
-
     @FXML
     Button btnGo;
+
+    @FXML
+    VBox range;
+
+    @FXML
+    Label notes;
+
+    RangeSlider rangeSlider;
 
     /**
      * A constructor required for superclass to work
      */
     public IntervalRecognitionTutorController() {
         super();
+    }
+
+    public void create(Environment env) {
+        super.create(env);
+        initaliseRangeSelector();
+    }
+
+
+    private void initaliseRangeSelector() {
+        rangeSlider = new RangeSlider(0, 127, 60, 72);
+        rangeSlider.setBlockIncrement(1);
+        rangeSlider.setMajorTickUnit(12);
+        rangeSlider.setPrefWidth(340);
+        rangeSlider.setShowTickLabels(true);
+        rangeSlider.setLabelFormatter(new StringConverterWithFormat<Number>() {
+            @Override
+            public String toString(Number object) {
+                Integer num = object.intValue();
+                return Note.lookup(String.valueOf(num)).getNote();
+            }
+
+            @Override
+            public Number fromString(String string) {
+                return Note.lookup(string).getMidi();
+            }
+        });
+        range.getChildren().add(0, rangeSlider);
+        notes.setText(rangeSlider.getLabelFormatter().toString(rangeSlider.getLowValue()) + " - "
+                + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
+        ChangeListener<Number> updateLabel = new ChangeListener<Number>() {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                notes.setText(rangeSlider.getLabelFormatter().toString(rangeSlider.getLowValue()) + " - "
+                        + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
+            }
+        };
+        rangeSlider.lowValueProperty().addListener(updateLabel);
+        rangeSlider.highValueProperty().addListener(updateLabel);
     }
 
     /**

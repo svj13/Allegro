@@ -15,6 +15,19 @@
       </Label>
       <HBox alignment="CENTER_LEFT" layoutX="-24.0" layoutY="47.0" minWidth="-Infinity" prefHeight="40.0" prefWidth="470.0" spacing="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="56.0">
          <children>
+            <VBox fx:id="range" prefHeight="200.0" prefWidth="300.0" spacing="10.0">
+               <children>
+                  <HBox alignment="TOP_CENTER" prefHeight="49.0" prefWidth="400.0">
+                     <children>
+                        <Label text="Note Range: "/>
+                        <Label fx:id="notes"/>
+                     </children>
+                  </HBox>
+               </children>
+               <HBox.margin>
+                  <Insets/>
+               </HBox.margin>
+            </VBox>
             <Label alignment="CENTER" text="Intervals:" />
             <TextField id="txtNotes" fx:id="txtNumIntervals" alignment="CENTER" prefHeight="30.0" prefWidth="40.0" text="10">
                <font>

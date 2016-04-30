@@ -32,16 +32,14 @@
               </Label>
          </children>
       </HBox>
-        <HBox fx:id="settings" alignment="CENTER_LEFT" layoutY="36.0" minWidth="400.0" prefHeight="10.0" spacing="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="50.0">
+        <HBox fx:id="settings" alignment="CENTER_LEFT" layoutY="36.0" minWidth="400.0"
+              prefHeight="10.0" spacing="5.0" AnchorPane.leftAnchor="10.0"
+              AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="56.0">
             <children>
-                <VBox alignment="CENTER_LEFT" prefHeight="49.0" prefWidth="400.0" spacing="10.0">
+                <VBox fx:id="sliderBox" alignment="CENTER_LEFT" prefHeight="49.0" prefWidth="300.0"
+                      spacing="10.0">
                <children>
-                    <HBox fx:id="sliderBox" alignment="TOP_CENTER" prefHeight="30.0" prefWidth="700.0" spacing="10.0">
-                     <VBox.margin>
-                        <Insets top="10.0" />
-                     </VBox.margin>
-                    </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                   <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
                               <Label text="Note Range:" />
                               <Label fx:id="notes" prefWidth="60.0">
@@ -56,16 +54,19 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox prefHeight="49.0" prefWidth="400.0">
+                <VBox prefHeight="49.0" prefWidth="200.0">
                <children>
-                  <HBox prefHeight="30.0" prefWidth="200.0">
+                   <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="200.0">
                      <children>
-                        <Slider fx:id="numQuestions" blockIncrement="1.0" majorTickUnit="49.0" max="50.0" min="1.0" minorTickCount="1" prefHeight="38.0" prefWidth="340.0" showTickLabels="true" value="5.0" />
+                         <Slider fx:id="numQuestions" blockIncrement="1.0" majorTickUnit="49.0"
+                                 max="50.0" min="1.0" minorTickCount="1" prefHeight="38.0"
+                                 prefWidth="200.0" showTickLabels="true" value="5.0"/>
                      </children>
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                            <Label alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" text="Note Pairs:" />
+                         <Label alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity"
+                                minWidth="-Infinity" prefHeight="30.0" text="Note Pairs: "/>
                         <Label fx:id="questions" prefHeight="30.0" prefWidth="60.0" />
                      </children>
                   </HBox>
