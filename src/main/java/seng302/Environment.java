@@ -2,6 +2,7 @@ package seng302;
 
 import seng302.JSON.ProjectHandler;
 import seng302.gui.RootController;
+import seng302.utility.EditHistory;
 import seng302.utility.MusicalTermsTutorBackEnd;
 import seng302.utility.TutorManager;
 import seng302.utility.TranscriptManager;
@@ -16,6 +17,7 @@ public class Environment {
     private MusicalTermsTutorBackEnd mttDataManager; ///////////////////////////////////////
     private MusicPlayer player;
     private String recordLocation;
+    private EditHistory em = new EditHistory(this);
 
     public RootController getRootController() {
         return rootController;
@@ -89,6 +91,10 @@ public class Environment {
 
     public void setJson(ProjectHandler json) {
         this.json = json;
+    }
+
+    public EditHistory getEditManager() {
+        return this.em;
     }
 
 

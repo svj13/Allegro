@@ -47,6 +47,7 @@ public class Tempo implements Command {
      */
     public void execute(Environment env) {
         if (isSetter){
+            env.getEditManager().addToHistory("0", String.valueOf(env.getPlayer().getTempo()));
             env.getPlayer().setTempo(tempo);
             env.getTranscriptManager().setResult(result);
             //Update project saved state
