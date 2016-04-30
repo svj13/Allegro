@@ -1,6 +1,7 @@
 package seng302.gui;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 import java.util.StringJoiner;
 
@@ -17,6 +18,7 @@ import javafx.scene.layout.HBox;
 import javafx.util.Pair;
 import seng302.Environment;
 import seng302.data.Note;
+import seng302.utility.TutorRecord;
 
 /**
  * Controller class for the scale recognition tutor.
@@ -35,20 +37,19 @@ public class ScaleRecognitionTutorController extends TutorController {
 
     @FXML
     private void goAction(ActionEvent event) {
+        record = new TutorRecord(new Date(), "Scale Recognition");
         paneQuestions.setVisible(true);
         paneResults.setVisible(false);
-        questionRows.getChildren().clear();
 
-        int type = rand.nextInt(2);
-        String scaleType;
-        if (type == 0) {
-            scaleType = "major";
-        } else {
-            scaleType = "minor";
+        //Alter once a slider has been implemented
+        manager.questions = 5;
+
+        questionRows.getChildren().clear();
+        for (int i = 0; i < manager.questions; i++) {
+            HBox questionRow = setUpQuestion();
+            questionRows.getChildren().add(questionRow);
+            questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
         }
-        HBox questionRow = generateQuestionPane(getRandomScale(scaleType), scaleType);
-        questionRows.getChildren().add(questionRow);
-        questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
     }
 
 
@@ -57,22 +58,53 @@ public class ScaleRecognitionTutorController extends TutorController {
         rand = new Random();
     }
 
+    /**
+     * Prepares a new question
+     * @return a question pane containing the question information
+     */
+    public HBox setUpQuestion() {
+        int type = rand.nextInt(2);
+        String scaleType;
+        if (type == 0) {
+            scaleType = "major";
+        } else {
+            scaleType = "minor";
+        }
+        return generateQuestionPane(getRandomScale(scaleType), scaleType);
+    }
+
+    /**
+     * Given a type of scale (major or minor), returns a list of notes of that scale
+     * @param scaleType Either major or minor
+     * @return Arraylist of notes in a scale
+     */
     public ArrayList<Note> getRandomScale(String scaleType) {
         Note startNote = Note.lookup(Integer.toString(rand.nextInt(11) + 60));
-
         // Add # octaves and up/down selection here.
         ArrayList<Note> scale = startNote.getOctaveScale(scaleType, 1, true);
         return scale;
     }
 
-    public void handleQuestionAnswer(String userAnswer, String correctAnswer, HBox questionRow) {
+    /**
+     * Reacts accordingly to a user's input
+     * @param userAnswer The user's selection, as text
+     * @param correctAnswer A pair containing the starting note and scale type
+     * @param questionRow The HBox containing GUI question data
+     */
+    public void handleQuestionAnswer(String userAnswer, Pair correctAnswer, HBox questionRow) {
+        manager.answered += 1;
         disableButtons(questionRow, 1, 4);
-        if (userAnswer.equals(correctAnswer)) {
+        if (userAnswer.equals(correctAnswer.getValue())) {
+            manager.add(correctAnswer, 1);
             formatCorrectQuestion(questionRow);
         } else {
+            manager.add(correctAnswer, 0);
             formatIncorrectQuestion(questionRow);
             //Shows the correct answer
             questionRow.getChildren().get(4).setVisible(true);
+        }
+        if (manager.answered == manager.questions) {
+            finished();
         }
     }
 
@@ -87,6 +119,8 @@ public class ScaleRecognitionTutorController extends TutorController {
         formatQuestionRow(questionRow);
         final Label correctAnswer = correctAnswer(scaleType);
 
+        //Saves the first note and scale type - C Major, B Minor, etc
+        final Pair<Note, String> noteAndScaleType = new Pair<Note, String>(scale.get(0), scaleType);
 
         Button play = new Button();
         Image imagePlay = new Image(getClass().getResourceAsStream("/images/play-icon.png"), 20, 20, true, true);
@@ -101,14 +135,14 @@ public class ScaleRecognitionTutorController extends TutorController {
         Button major = new Button("Major");
         major.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                handleQuestionAnswer("major", scaleType, questionRow);
+                handleQuestionAnswer("major", noteAndScaleType, questionRow);
             }
         });
 
         Button minor = new Button("Minor");
         minor.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                handleQuestionAnswer("minor", scaleType, questionRow);
+                handleQuestionAnswer("minor", noteAndScaleType, questionRow);
             }
         });
 
@@ -120,6 +154,11 @@ public class ScaleRecognitionTutorController extends TutorController {
                 // Disables only input buttons
                 disableButtons(questionRow, 1, 4);
                 formatSkippedQuestion(questionRow);
+                manager.questions -= 1;
+                manager.add(noteAndScaleType, 2);
+                if (manager.answered == manager.questions) {
+                    finished();
+                }
             }
         });
 
