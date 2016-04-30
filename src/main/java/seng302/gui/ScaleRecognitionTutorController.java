@@ -94,16 +94,29 @@ public class ScaleRecognitionTutorController extends TutorController {
      */
     public void handleQuestionAnswer(String userAnswer, Pair correctAnswer, HBox questionRow) {
         manager.answered += 1;
+        boolean correct;
         disableButtons(questionRow, 1, 3);
         if (userAnswer.equals(correctAnswer.getValue())) {
+            correct = true;
             manager.add(correctAnswer, 1);
             formatCorrectQuestion(questionRow);
         } else {
+            correct = false;
             manager.add(correctAnswer, 0);
             formatIncorrectQuestion(questionRow);
             //Shows the correct answer
             questionRow.getChildren().get(3).setVisible(true);
         }
+        Note startingNote = (Note) correctAnswer.getKey();
+        String[] question = new String[]{
+                String.format("%s scale from %s",
+                        correctAnswer.getValue(),
+                        startingNote.getNote()),
+                userAnswer,
+                Boolean.toString(correct)
+        };
+        record.addQuestionAnswer(question);
+
         if (manager.answered == manager.questions) {
             finished();
         }
@@ -151,6 +164,11 @@ public class ScaleRecognitionTutorController extends TutorController {
                 formatSkippedQuestion(questionRow);
                 manager.questions -= 1;
                 manager.add(noteAndScaleType, 2);
+                String[] question = new String[]{
+                        String.format("%s scale from %s",scaleType, scale.get(0).getNote()),
+                        scaleType
+                };
+                record.addSkippedQuestion(question);
                 if (manager.answered == manager.questions) {
                     finished();
                 }

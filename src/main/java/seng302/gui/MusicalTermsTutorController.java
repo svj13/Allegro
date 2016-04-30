@@ -230,7 +230,7 @@ public class MusicalTermsTutorController extends TutorController{
 
                 // Adds to record
                 String[] question = new String[]{
-                        String.format("Origin of term %s", currentTerm.getMusicalTermOrigin()),
+                        String.format("Origin of term %s", currentTerm.getMusicalTermName()),
                         originOptions.getValue(),
                         Boolean.toString(originOptions.getValue().equals(currentTerm.getMusicalTermOrigin()))
                 };
@@ -258,7 +258,7 @@ public class MusicalTermsTutorController extends TutorController{
 
                 // Adds to record
                 String[] question = new String[]{
-                        String.format("Category of term %s", currentTerm.getMusicalTermCategory()),
+                        String.format("Category of term %s", currentTerm.getMusicalTermName()),
                         categoryOptions.getValue(),
                         Boolean.toString(categoryOptions.getValue().equals(currentTerm.getMusicalTermCategory()))
                 };
@@ -288,7 +288,7 @@ public class MusicalTermsTutorController extends TutorController{
 
                 // Adds to record
                 String[] question = new String[]{
-                        String.format("Definition of term %s", currentTerm.getMusicalTermDefinition()),
+                        String.format("Definition of term %s", currentTerm.getMusicalTermName()),
                         definitionOptions.getValue(),
                         Boolean.toString(definitionOptions.getValue().equals(currentTerm.getMusicalTermDefinition()))
                 };
