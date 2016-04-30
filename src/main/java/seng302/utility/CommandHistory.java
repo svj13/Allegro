@@ -1,5 +1,7 @@
 package seng302.utility;
 
+import seng302.managers.TranscriptManager;
+
 /**
  * Created by Jonty on 28-Mar-16.
  */

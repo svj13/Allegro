@@ -1,4 +1,4 @@
-package seng302.utility;
+package seng302.managers;
 
 
 import java.io.BufferedReader;
@@ -6,6 +6,9 @@ import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import seng302.utility.CommandHistory;
+import seng302.utility.OutputTuple;
 
 /**
  * Maintains command/result output information as well as handling save/open functionality.

@@ -12,9 +12,8 @@ import java.util.Collections;
 import seng302.Environment;
 import seng302.MusicPlayer;
 import seng302.data.Note;
-import seng302.utility.TranscriptManager;
+import seng302.managers.TranscriptManager;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 
 /**

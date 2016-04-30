@@ -1,6 +1,8 @@
-package seng302.utility;
+package seng302.managers;
 
 import javafx.util.Pair;
+import seng302.managers.TutorManager;
+
 import org.junit.Before;
 import org.junit.Test;
 

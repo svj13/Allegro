@@ -10,7 +10,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import seng302.Environment;
-import seng302.utility.TranscriptManager;
+import seng302.managers.TranscriptManager;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PlayNoteTest {

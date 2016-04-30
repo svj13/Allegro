@@ -1,4 +1,4 @@
-package seng302.JSON;
+package seng302.managers;
 
 /**
  *  ProjectHandler
@@ -18,6 +18,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -44,26 +45,38 @@ public class ProjectHandler {
         projectSettings = new JSONObject();
         this.env = env;
         try {
-            this.projectsInfo = (JSONObject) parser.parse(new FileReader(userDirectory+"/projects.JSON"));
+            this.projectsInfo = (JSONObject) parser.parse(new FileReader(userDirectory+"/projects.json"));
             this.projectList = (JSONArray) projectsInfo.get("projects");
 
         } catch (FileNotFoundException e) {
             try {
-                System.err.println("projects.JSON Does not exist! - Creating new one");
+                System.err.println("projects.json Does not exist! - Creating new one");
                 projectList = new JSONArray();
 
 
                 projectsInfo.put("projects",projectList);
 
-                FileWriter file = new FileWriter(userDirectory+"/projects.JSON");
+
+                if(!Files.isDirectory(userDirectory)) {
+                    //Create Projects path doesn't exist.
+                    try {
+                        Files.createDirectories(userDirectory);
+
+
+                    } catch (IOException eIO3) {
+                        //Failed to create the directory.
+                        System.err.println("Well UserData directory failed to create.. lost cause.");
+                    }
+                }
+
+                FileWriter file = new FileWriter(userDirectory+"/projects.json");
                 file.write(projectsInfo.toJSONString());
                 file.flush();
                 file.close();
 
             } catch (IOException e2) {
-                System.out.println(e2.getMessage());
+                System.err.println("Failed to create projects.json file.");
 
-                //e.printStackTrace();
             }
 
 
@@ -92,7 +105,7 @@ public class ProjectHandler {
 
 
     /**
-     * Handles Saving a .JSON Project file, for the specified project address
+     * Handles Saving a .managers Project file, for the specified project address
      * @param projectAddress Project directory address.
      */
 
@@ -105,7 +118,7 @@ public class ProjectHandler {
 
             projectSettings.put("tempo", env.getPlayer().getTempo());
 
-            FileWriter file = new FileWriter(projectAddress+".JSON");
+            FileWriter file = new FileWriter(projectAddress+".managers");
             file.write(projectSettings.toJSONString());
             file.flush();
             file.close();
@@ -116,13 +129,13 @@ public class ProjectHandler {
             currentProjectPath = projectAddress;
             //Check if it isn't an exisiting stored project
             if(!projectList.contains(projectName)){
-                System.out.println("Saved project not found in projects.JSON - adding it");
+                System.out.println("Saved project not found in projects.json - adding it");
                 projectList.add(projectName);
                 System.out.println(projectList.size());
 
                 try {
                     projectsInfo.put("projects", projectList);
-                    FileWriter projectsJson = new FileWriter(userDirectory+"/projects.JSON");
+                    FileWriter projectsJson = new FileWriter(userDirectory+"/projects.json");
                     projectsJson.write(projectsInfo.toJSONString());
                     projectsJson.flush();
                     projectsJson.close();
@@ -184,7 +197,7 @@ public class ProjectHandler {
         try {
 
             String path = userDirectory+"/Projects/"+pName+"/"+pName;
-            projectSettings = (JSONObject) parser.parse(new FileReader(path+".JSON"));
+            projectSettings = (JSONObject) parser.parse(new FileReader(path+".managers"));
             this.projName = pName;
 
             int tempo = ((Long)projectSettings.get("tempo")).intValue();

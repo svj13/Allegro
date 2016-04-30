@@ -1,4 +1,4 @@
-package seng302.utility;
+package seng302.managers;
 
 import org.junit.After;
 import org.junit.Before;

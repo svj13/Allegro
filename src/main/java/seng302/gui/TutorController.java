@@ -23,7 +23,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import seng302.Environment;
-import seng302.utility.TutorManager;
+import seng302.managers.TutorManager;
 import seng302.utility.TutorRecord;
 
 public class TutorController {

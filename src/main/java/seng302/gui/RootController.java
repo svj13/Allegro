@@ -1,19 +1,28 @@
 package seng302.gui;
 
 
+import org.json.simple.JSONArray;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.Optional;
+import java.util.ResourceBundle;
 
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -21,9 +30,8 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import org.json.simple.JSONArray;
 import seng302.Environment;
-import seng302.utility.TranscriptManager;
+import seng302.managers.TranscriptManager;
 
 public class RootController implements Initializable {
     Environment env;
@@ -334,7 +342,7 @@ public class RootController implements Initializable {
             if(folder.isDirectory()){
                 for(File f : folder.listFiles()){
 
-                    if(f.getName().endsWith(".JSON") && f.getName().substring(0, f.getName().length() - 5).equals(folder.getName())){
+                    if(f.getName().endsWith(".managers") && f.getName().substring(0, f.getName().length() - 5).equals(folder.getName())){
 
                         System.out.println("VALID PROJECT");
                         env.getJson().loadProject(folder.getName());

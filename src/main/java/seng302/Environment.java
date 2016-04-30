@@ -1,10 +1,9 @@
 package seng302;
 
-import seng302.JSON.ProjectHandler;
+import seng302.managers.ProjectHandler;
 import seng302.gui.RootController;
 import seng302.utility.MusicalTermsTutorBackEnd;
-import seng302.utility.TutorManager;
-import seng302.utility.TranscriptManager;
+import seng302.managers.TranscriptManager;
 
 public class Environment {
 
