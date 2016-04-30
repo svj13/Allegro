@@ -73,6 +73,11 @@ public class ScaleRecognitionTutorController extends TutorController {
         return generateQuestionPane(getRandomScale(scaleType), scaleType);
     }
 
+    /**
+     * Given a type of scale (major or minor), returns a list of notes of that scale
+     * @param scaleType Either major or minor
+     * @return Arraylist of notes in a scale
+     */
     public ArrayList<Note> getRandomScale(String scaleType) {
         Note startNote = Note.lookup(Integer.toString(rand.nextInt(11) + 60));
         // Add # octaves and up/down selection here.
@@ -80,6 +85,12 @@ public class ScaleRecognitionTutorController extends TutorController {
         return scale;
     }
 
+    /**
+     * Reacts accordingly to a user's input
+     * @param userAnswer The user's selection, as text
+     * @param correctAnswer A pair containing the starting note and scale type
+     * @param questionRow The HBox containing GUI question data
+     */
     public void handleQuestionAnswer(String userAnswer, Pair correctAnswer, HBox questionRow) {
         manager.answered += 1;
         disableButtons(questionRow, 1, 4);
