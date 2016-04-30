@@ -42,7 +42,7 @@
                    <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
                               <Label text="Note Range:" />
-                              <Label fx:id="notes" prefWidth="60.0">
+                         <Label fx:id="notes">
                            <HBox.margin>
                               <Insets left="3.0" />
                            </HBox.margin>
