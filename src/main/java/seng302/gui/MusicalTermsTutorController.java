@@ -33,10 +33,6 @@ import seng302.utility.TutorRecord;
 
 public class MusicalTermsTutorController extends TutorController{
 
-
-    @FXML
-    TextField txtNumMusicalTerms;
-
     @FXML
     VBox questionRows;
 
@@ -55,6 +51,9 @@ public class MusicalTermsTutorController extends TutorController{
 
     int partialMarks;
 
+    //Number of terms to choose from
+    int terms = 0;
+
     /**
      * sets up the class and initialises the main variables
      * @param env
@@ -63,6 +62,7 @@ public class MusicalTermsTutorController extends TutorController{
         super.create(env);
         dataManager = env.getMttDataManager();
         rand = new Random();
+        initaliseQuestionSelector();
     }
 
     /**
@@ -76,7 +76,7 @@ public class MusicalTermsTutorController extends TutorController{
         paneQuestions.setVisible(true);
         paneResults.setVisible(false);
         record = new TutorRecord(new Date(), "Musical Terms");
-        manager.questions = (Integer.parseInt(txtNumMusicalTerms.getText()));
+        manager.questions = selectedQuestions;
         if (manager.questions >= 1) {
             ArrayList<Term> termArray = dataManager.getTerms();
             // Run the tutor
