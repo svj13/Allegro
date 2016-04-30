@@ -390,4 +390,16 @@ public class RootController implements Initializable {
         return env;
     }
 
+    /**
+     * Allows for dynamic updating of the question slider in Musical Terms tutor.
+     * When you load this tab, it checks how many terms are in the current session, and changes
+     * the default accordingly - up to 5.
+     */
+    public void reloadNumberTerms() {
+        MusicalTermsTabController.terms = env.getMttDataManager().getTerms().size();
+        if (MusicalTermsTabController.terms <= 5) {
+            MusicalTermsTabController.numQuestions.setValue(MusicalTermsTabController.terms);
+        }
+    }
+
 }
