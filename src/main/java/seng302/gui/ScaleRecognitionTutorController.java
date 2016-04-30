@@ -10,6 +10,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -93,7 +94,7 @@ public class ScaleRecognitionTutorController extends TutorController {
      */
     public void handleQuestionAnswer(String userAnswer, Pair correctAnswer, HBox questionRow) {
         manager.answered += 1;
-        disableButtons(questionRow, 1, 4);
+        disableButtons(questionRow, 1, 3);
         if (userAnswer.equals(correctAnswer.getValue())) {
             manager.add(correctAnswer, 1);
             formatCorrectQuestion(questionRow);
@@ -101,7 +102,7 @@ public class ScaleRecognitionTutorController extends TutorController {
             manager.add(correctAnswer, 0);
             formatIncorrectQuestion(questionRow);
             //Shows the correct answer
-            questionRow.getChildren().get(4).setVisible(true);
+            questionRow.getChildren().get(3).setVisible(true);
         }
         if (manager.answered == manager.questions) {
             finished();
@@ -132,19 +133,13 @@ public class ScaleRecognitionTutorController extends TutorController {
             }
         });
 
-        Button major = new Button("Major");
-        major.setOnAction(new EventHandler<ActionEvent>() {
+        final ComboBox<String> options = generateChoices();
+        options.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                handleQuestionAnswer("major", noteAndScaleType, questionRow);
+                handleQuestionAnswer(options.getValue().toLowerCase(), noteAndScaleType, questionRow);
             }
         });
 
-        Button minor = new Button("Minor");
-        minor.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                handleQuestionAnswer("minor", noteAndScaleType, questionRow);
-            }
-        });
 
         Button skip = new Button("Skip");
         Image imageSkip = new Image(getClass().getResourceAsStream("/images/right-arrow.png"), 20, 20, true, true);
@@ -152,7 +147,7 @@ public class ScaleRecognitionTutorController extends TutorController {
         skip.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 // Disables only input buttons
-                disableButtons(questionRow, 1, 4);
+                disableButtons(questionRow, 1, 3);
                 formatSkippedQuestion(questionRow);
                 manager.questions -= 1;
                 manager.add(noteAndScaleType, 2);
@@ -163,13 +158,23 @@ public class ScaleRecognitionTutorController extends TutorController {
         });
 
         questionRow.getChildren().add(0, play);
-        questionRow.getChildren().add(1, major);
-        questionRow.getChildren().add(2, minor);
-        questionRow.getChildren().add(3, skip);
-        questionRow.getChildren().add(4, correctAnswer);
+        questionRow.getChildren().add(1, options);
+        questionRow.getChildren().add(2, skip);
+        questionRow.getChildren().add(3, correctAnswer);
 
         questionRow.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
         return questionRow;
+    }
+
+    /**
+     * Creates a JavaFX combo box containing the lexical names of all scales.
+     * @return a combo box of scale options
+     */
+    private ComboBox<String> generateChoices() {
+        ComboBox<String> options = new ComboBox<String>();
+        options.getItems().add("Major");
+        options.getItems().add("Minor");
+        return options;
     }
 
 
