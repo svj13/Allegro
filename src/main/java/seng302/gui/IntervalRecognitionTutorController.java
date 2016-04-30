@@ -32,9 +32,6 @@ import seng302.utility.TutorRecord;
 public class IntervalRecognitionTutorController extends TutorController {
 
     @FXML
-    TextField txtNumIntervals;
-
-    @FXML
     AnchorPane IntervalRecognitionTab;
 
     @FXML
@@ -57,9 +54,9 @@ public class IntervalRecognitionTutorController extends TutorController {
 
     public void create(Environment env) {
         super.create(env);
+        initaliseQuestionSelector();
         initaliseRangeSelector();
     }
-
 
     private void initaliseRangeSelector() {
         rangeSlider = new RangeSlider(0, 127, 60, 72);
@@ -113,7 +110,7 @@ public class IntervalRecognitionTutorController extends TutorController {
         paneQuestions.setVisible(true);
         paneResults.setVisible(false);
         record = new TutorRecord(new Date(), "Interval Recognition");
-        manager.questions = Integer.parseInt(txtNumIntervals.getText());
+        manager.questions = selectedQuestions;
         if (manager.questions >= 1){
             // Run the tutor
             questionRows.getChildren().clear();

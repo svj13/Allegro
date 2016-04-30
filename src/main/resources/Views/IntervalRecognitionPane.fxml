@@ -28,6 +28,21 @@
                   <Insets/>
                </HBox.margin>
             </VBox>
+             <VBox prefHeight="49.0" prefWidth="400.0">
+                 <children>
+                     <HBox prefHeight="30.0" prefWidth="200.0">
+                         <children>
+                             <Slider fx:id="numQuestions" blockIncrement="1.0" majorTickUnit="49.0" max="50.0" min="1.0" minorTickCount="1" prefHeight="38.0" prefWidth="340.0" showTickLabels="true" value="5.0" />
+                         </children>
+                     </HBox>
+                     <HBox prefHeight="100.0" prefWidth="200.0">
+                         <children>
+                             <Label alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" text="Number of Intervals:" />
+                             <Label fx:id="questions" prefHeight="30.0" prefWidth="60.0" />
+                         </children>
+                     </HBox>
+                 </children>
+             </VBox>
             <Label alignment="CENTER" text="Intervals:" />
             <TextField id="txtNotes" fx:id="txtNumIntervals" alignment="CENTER" prefHeight="30.0" prefWidth="40.0" text="10">
                <font>
@@ -49,7 +64,7 @@
             <VBox fx:id="questionRows" prefWidth="470.0" />
          </content>
       </ScrollPane>
-      <ScrollPane fx:id="paneResults" fitToWidth="true" layoutX="10.0" layoutY="115.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="105.0">
+      <ScrollPane fx:id="paneResults" fitToWidth="true" layoutX="10.0" layoutY="115.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="120.0">
          <content>
             <VBox fx:id="resultsBox" prefHeight="200.0" prefWidth="100.0">
                <children>
