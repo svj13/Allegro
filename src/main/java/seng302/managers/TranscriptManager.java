@@ -167,7 +167,7 @@ public class TranscriptManager {
         try {
             FileWriter writer = new FileWriter(path, false);
             for (OutputTuple line : transcriptContent) {
-                writer.write(line.getInput() + ",");
+                writer.write(line.getInput() + "\n");
             }
             writer.close();
             unsavedChanges = false;
@@ -191,7 +191,7 @@ public class TranscriptManager {
             String str;
             ArrayList<String> commands = new ArrayList<String>();
             while ((str = input.readLine()) != null) {
-                for (String command:str.split(",")) {
+                for (String command:str.split("\n")) {
                     commands.add(command);
                 }
             }
