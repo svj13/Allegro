@@ -16,6 +16,8 @@ public class UndoRedo implements Command {
     public void execute(Environment env) {
         if (action == 0) {
             env.getEditManager().undoCommand();
+        } else if (action == 1) {
+            env.getEditManager().redoCommand();
         }
     }
 }

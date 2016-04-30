@@ -69,6 +69,7 @@ public class EditHistory {
                 break;
             case 1:
                 deleteMusicalTerm(commandStack.get(location).get(1));
+                break;
         }
     }
 
@@ -79,10 +80,11 @@ public class EditHistory {
         int type = Integer.parseInt(commandStack.get(location).get(0));
         switch (type) {
             case 0:
-                changeTempo(commandStack.get(location).get(1));
+                changeTempo(commandStack.get(location).get(2));
                 break;
             case 1:
                 addMusicalTerm(commandStack.get(location));
+                break;
         }
     }
 
