@@ -225,6 +225,7 @@ public class MusicalTermsTutorController extends TutorController{
 
                 } else {
                     originOptions.setStyle("-fx-background-color: red");
+                    ((HBox)((VBox)(rowPane.getChildren().get(0))).getChildren().get(1)).getChildren().add(new Label(currentTerm.getMusicalTermOrigin()));
                 }
 
                 // Adds to record
@@ -252,6 +253,7 @@ public class MusicalTermsTutorController extends TutorController{
                     categoryOptions.setStyle("-fx-background-color: green");
                 } else {
                     categoryOptions.setStyle("-fx-background-color: red");
+                    ((HBox)((VBox)(rowPane.getChildren().get(0))).getChildren().get(2)).getChildren().add(new Label(currentTerm.getMusicalTermCategory()));
                 }
 
                 // Adds to record
@@ -281,6 +283,7 @@ public class MusicalTermsTutorController extends TutorController{
                     definitionOptions.setStyle("-fx-background-color: green");
                 } else {
                     definitionOptions.setStyle("-fx-background-color: red");
+                    ((HBox)((VBox)(rowPane.getChildren().get(0))).getChildren().get(3)).getChildren().add(new Label(currentTerm.getMusicalTermDefinition()));
                 }
 
                 // Adds to record
