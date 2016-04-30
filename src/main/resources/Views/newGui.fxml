@@ -61,7 +61,11 @@
                    <fx:include fx:id="MusicalTermsTab" source="MusicalTermsPane.fxml" />
                </content>
            </Tab>
-            <Tab text="Scale Tutor" />
+            <Tab text="Scale Tutor">
+                <content>
+                    <fx:include fx:id="ScaleRecognitionTab" source="ScaleRecognitionPane.fxml" />
+                </content>
+            </Tab>
         </tabs>
       </TabPane>
    </children>
