@@ -9,6 +9,11 @@ package seng302.JSON;
  * Created by Jonty on 12-Apr-16.
  */
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -16,10 +21,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import seng302.Environment;
 
 public class ProjectHandler {
@@ -62,12 +63,12 @@ public class ProjectHandler {
             } catch (IOException e2) {
                 System.out.println(e2.getMessage());
 
-                e.printStackTrace();
+                //e.printStackTrace();
             }
 
 
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
         }
