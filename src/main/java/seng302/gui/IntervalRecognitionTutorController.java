@@ -141,7 +141,7 @@ public class IntervalRecognitionTutorController extends TutorController {
         Interval thisInterval = generateInterval();
         int lowerPitchBound = ((Double) rangeSlider.getLowValue()).intValue();
         int upperPitchBound = ((Double) rangeSlider.getHighValue()).intValue();
-        Note firstNote = getStartingNote(thisInterval.getSemitones());
+        Note firstNote = getStartingNote(thisInterval.getSemitones(), lowerPitchBound, upperPitchBound);
         Pair<Interval, Note> pair = new Pair<Interval, Note>(thisInterval, firstNote);
         return generateQuestionPane(pair);
     }
@@ -245,9 +245,10 @@ public class IntervalRecognitionTutorController extends TutorController {
      * @param numSemitones The generated interval, so the second note is not outside correct range
      * @return A Note object, for playing an interval.
      */
-    private Note getStartingNote(int numSemitones) {
+    private Note getStartingNote(int numSemitones, int lowerPitchRange, int upperPitchRange) {
         Random randNote = new Random();
-        return Note.lookup(String.valueOf(randNote.nextInt(128 - numSemitones)));
+        int note = randNote.nextInt(upperPitchRange - numSemitones - lowerPitchRange + 1) + lowerPitchRange;
+        return Note.lookup(String.valueOf(note));
     }
 
     /**
