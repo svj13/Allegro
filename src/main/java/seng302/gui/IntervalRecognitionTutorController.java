@@ -154,9 +154,9 @@ public class IntervalRecognitionTutorController extends TutorController {
 
         //Add buttons for play and skip
         Button play = new Button();
-        Image imagePlay = new Image(getClass().getResourceAsStream("/images/play-button.png"), 20, 20, true, true);
+        Image imagePlay = new Image(getClass().getResourceAsStream("/images/play-icon.png"), 20, 20, true, true);
         play.setGraphic(new ImageView(imagePlay));
-        play.setStyle("-fx-base: #40a927;");
+        //play.setStyle("-fx-base: #40a927;");
         Button skip = new Button("Skip");
         Image imageSkip = new Image(getClass().getResourceAsStream("/images/right-arrow.png"), 20, 20, true, true);
         skip.setGraphic(new ImageView(imageSkip));
