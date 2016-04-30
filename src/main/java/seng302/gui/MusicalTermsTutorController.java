@@ -19,6 +19,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.util.Pair;
 import seng302.Environment;
 
@@ -203,17 +204,17 @@ public class MusicalTermsTutorController extends TutorController{
         formatQuestionRow(rowPane);
 
         Label termLabel = new Label(currentTerm.getMusicalTermName());
-        termLabel.setFont(Font.font("System Bold", 13));
+        termLabel.setFont(Font.font("System Bold", FontWeight.BOLD, 13));
         Button skip = new Button("Skip");
         Image imageSkip = new Image(getClass().getResourceAsStream("/images/right-arrow.png"), 20, 20, true, true);
         skip.setGraphic(new ImageView(imageSkip));
 
         final ComboBox<String> originOptions = generateOriginChoices(currentTerm);
-        originOptions.setPrefHeight(30);
+        originOptions.setPrefSize(100, 30);
         final ComboBox<String> categoryOptions = generateCategoryChoices(currentTerm);
-        categoryOptions.setPrefHeight(30);
+        categoryOptions.setPrefSize(100, 30);
         final ComboBox<String> definitionOptions = generateDefinitionChoices(currentTerm);
-        definitionOptions.setPrefHeight(30);
+        definitionOptions.setPrefSize(100, 30);
 
 
         originOptions.setOnAction(new EventHandler<ActionEvent>() {
@@ -331,16 +332,31 @@ public class MusicalTermsTutorController extends TutorController{
             }
         });
 
+        VBox qLayout = new VBox();
+        qLayout.setSpacing(5);
+        qLayout.getChildren().add(termLabel);
 
-        rowPane.getChildren().add(termLabel);
-        rowPane.getChildren().add(new Label("Origin:"));
-        rowPane.getChildren().add(originOptions);
-        rowPane.getChildren().add(new Label("Category:"));
-        rowPane.getChildren().add(categoryOptions);
-        rowPane.getChildren().add(new Label("Definition:"));
-        rowPane.getChildren().add(definitionOptions);
-        rowPane.getChildren().add(skip);
+        HBox origin = new HBox();
+        origin.setSpacing(5);
+        origin.getChildren().add(new Label("Origin:"));
+        origin.getChildren().add(originOptions);
 
+        HBox category = new HBox();
+        category.setSpacing(5);
+        category.getChildren().add(new Label("Category:"));
+        category.getChildren().add(categoryOptions);
+
+        HBox def = new HBox();
+        def.setSpacing(5);
+        def.getChildren().add(new Label("Definition:"));
+        def.getChildren().add(definitionOptions);
+
+        qLayout.getChildren().add(origin);
+        qLayout.getChildren().add(category);
+        qLayout.getChildren().add(def);
+        qLayout.getChildren().add(skip);
+
+        rowPane.getChildren().add(qLayout);
         rowPane.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
 
 
