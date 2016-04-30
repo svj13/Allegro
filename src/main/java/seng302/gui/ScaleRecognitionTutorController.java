@@ -65,7 +65,9 @@ public class ScaleRecognitionTutorController extends TutorController {
         super.create(env);
         rand = new Random();
         direction.getItems().addAll("Up", "Down", "UpDown");
+        direction.getSelectionModel().selectFirst();
         octaves.getItems().addAll(1,2,3,4);
+        octaves.getSelectionModel().selectFirst();
     }
 
     /**
