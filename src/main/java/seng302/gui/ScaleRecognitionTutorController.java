@@ -50,7 +50,7 @@ public class ScaleRecognitionTutorController extends TutorController {
         paneResults.setVisible(false);
 
         //Alter once a slider has been implemented
-        manager.questions = 5;
+        manager.questions = selectedQuestions;
 
         questionRows.getChildren().clear();
         for (int i = 0; i < manager.questions; i++) {
@@ -63,11 +63,13 @@ public class ScaleRecognitionTutorController extends TutorController {
 
     public void create(Environment env) {
         super.create(env);
+        initialiseQuestionSelector();
         rand = new Random();
         direction.getItems().addAll("Up", "Down", "UpDown");
         direction.getSelectionModel().selectFirst();
         octaves.getItems().addAll(1,2,3,4);
         octaves.getSelectionModel().selectFirst();
+
     }
 
     /**

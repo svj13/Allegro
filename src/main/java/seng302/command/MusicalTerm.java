@@ -1,3 +1,5 @@
+
+
 package seng302.command;
 
 /**
@@ -114,3 +116,4 @@ public class MusicalTerm implements Command {
 
 
 }
+
