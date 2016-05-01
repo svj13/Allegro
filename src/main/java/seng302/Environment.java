@@ -26,14 +26,14 @@ public class Environment {
 
 
 
-    private ProjectHandler json;
+    private ProjectHandler projectHandler;
 
     public Environment() {
         executor = new DslExecutor(this);
         player = new MusicPlayer();
         transcriptManager = new TranscriptManager();
         mttDataManager = new MusicalTermsTutorBackEnd();
-        json = new ProjectHandler(this);
+        projectHandler = new ProjectHandler(this);
 
     }
 
@@ -79,12 +79,12 @@ public class Environment {
         this.player = m;
     }
 
-    public ProjectHandler getJson() {
-        return json;
+    public ProjectHandler getProjectHandler() {
+        return projectHandler;
     }
 
-    public void setJson(ProjectHandler json) {
-        this.json = json;
+    public void setProjectHandler(ProjectHandler p) {
+        this.projectHandler = p;
     }
 
 

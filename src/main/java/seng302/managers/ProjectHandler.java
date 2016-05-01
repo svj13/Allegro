@@ -218,11 +218,9 @@ public class ProjectHandler {
 
 
             env.getTranscriptManager().setTranscriptContent(transcript);
-            System.out.println(env.getTranscriptManager().convertToText());
+
             env.getRootController().setTranscriptPaneText(env.getTranscriptManager().convertToText());
-            for(OutputTuple t : transcript){
-                System.out.println("command: " + t.getInput() + " res: " + t.getResult());
-            }
+            env.getTranscriptManager().unsavedChanges = false;
 
             //SetTempo
             env.getPlayer().setTempo(tempo);
@@ -246,10 +244,14 @@ public class ProjectHandler {
 
 
     public boolean isSaved(){
-        return saved && !env.getTranscriptManager().unsavedChanges;
+        return saved;
     }
     public JSONArray getProjectList(){
         return this.projectList;
+    }
+
+    public Boolean isProject(){
+        return currentProjectPath != null;
     }
 
 }

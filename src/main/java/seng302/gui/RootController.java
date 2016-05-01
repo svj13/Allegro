@@ -21,7 +21,6 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -120,7 +119,7 @@ public class RootController implements Initializable {
      */
     @FXML
     private void closeApplication() {
-        if (!env.getJson().isSaved()) {
+        if (!env.getProjectHandler().isSaved()) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("Unsaved changes");
 
@@ -139,7 +138,7 @@ public class RootController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
 
             if(result.get() == btnSaveProject){
-                env.getJson().saveCurrentProject();
+                env.getProjectHandler().saveCurrentProject();
                 System.exit(0);
             }
             else if (result.get() == btnQuit) {
@@ -150,7 +149,13 @@ public class RootController implements Initializable {
             }
 
 
-        } else {
+        }
+        else if( env.getProjectHandler().isProject() && env.getTranscriptManager().unsavedChanges){
+            env.getProjectHandler().saveCurrentProject();
+        }
+
+        else {
+
             System.exit(0);
         }
 
@@ -158,7 +163,7 @@ public class RootController implements Initializable {
     }
 
     public Boolean saveChangesDialog(){
-        if (!env.getJson().isSaved()) {
+        if (!env.getProjectHandler().isSaved()) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("Unsaved changes");
 
@@ -176,7 +181,7 @@ public class RootController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
 
             if(result.get() == btnSaveProject){
-                env.getJson().saveCurrentProject();
+                env.getProjectHandler().saveCurrentProject();
 
             }
             else if(result.get() == btnCancel){
@@ -184,6 +189,10 @@ public class RootController implements Initializable {
             }
 
 
+        }
+        else if(env.getProjectHandler().isProject() &&  env.getTranscriptManager().unsavedChanges){
+
+            env.getProjectHandler().saveCurrentProject();
         }
         return true;
     }
@@ -287,7 +296,7 @@ public class RootController implements Initializable {
                 try{
                     Files.createDirectories(path);
 
-                    env.getJson().saveProject(path.toString() + "/"+resultString);
+                    env.getProjectHandler().saveProject(path.toString() + "/"+resultString);
                     //setWindowTitle(resultString);
 
                 }
@@ -311,13 +320,13 @@ public class RootController implements Initializable {
 
     @FXML
     private void saveProject(){
-        env.getJson().saveCurrentProject();
+        env.getProjectHandler().saveCurrentProject();
     }
 
     @FXML
     private void bindOpenObjects(){
 
-        JSONArray projects = env.getJson().getProjectList();
+        JSONArray projects = env.getProjectHandler().getProjectList();
         menuOpenProjects.getItems().clear();
 
         MenuItem selectItem = new MenuItem("Select Project");
@@ -339,7 +348,7 @@ public class RootController implements Initializable {
             MenuItem projectItem = new MenuItem(projectName);
             projectItem.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
                 public void handle(javafx.event.ActionEvent event) {
-                    if(saveChangesDialog())  env.getJson().loadProject(projectName);
+                    if(saveChangesDialog())  env.getProjectHandler().loadProject(projectName);
                 }
 
 
@@ -373,7 +382,7 @@ public class RootController implements Initializable {
                     if(f.getName().endsWith(".managers") && f.getName().substring(0, f.getName().length() - 5).equals(folder.getName())){
 
                         System.out.println("VALID PROJECT");
-                        env.getJson().loadProject(folder.getName());
+                        env.getProjectHandler().loadProject(folder.getName());
                         return;
 
                     }
