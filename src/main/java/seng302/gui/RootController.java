@@ -134,7 +134,6 @@ public class RootController implements Initializable {
 
             String contentString = "Unsaved Project properties\n\nAre you sure that you would like to quit?";
 
-
             alert.setContentText(contentString);
             Optional<ButtonType> result = alert.showAndWait();
 
@@ -211,6 +210,7 @@ public class RootController implements Initializable {
      */
     @FXML
     private void saveTranscript() {
+
         File file = generateFileChooser();
 
         if (file != null) {
@@ -229,6 +229,11 @@ public class RootController implements Initializable {
 
         if (file != null) {
             fileDir = file.getParentFile();
+            if(env.getProjectHandler().isProject()){
+
+                fileDir = Paths.get(env.getProjectHandler().getCurrentProjectPath()).toFile();
+
+            }
             path = file.getAbsolutePath();
             tm.saveCommandsOnly(path);
         }
@@ -243,6 +248,14 @@ public class RootController implements Initializable {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(textFilter);
+
+        if(env.getProjectHandler().isProject()){
+
+            fileDir = Paths.get(env.getProjectHandler().getCurrentProjectPath()).toFile();
+
+        }
+
+
         fileChooser.setInitialDirectory(fileDir);
         File file = fileChooser.showSaveDialog(stage);
         return file;
@@ -256,7 +269,13 @@ public class RootController implements Initializable {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(textFilter);
+        if(env.getProjectHandler().isProject()){
+
+            fileDir = Paths.get(env.getProjectHandler().getCurrentProjectPath()).toFile();
+
+        }
         fileChooser.setInitialDirectory(fileDir);
+
         File file = fileChooser.showOpenDialog(stage);
 
         if (file != null) {
@@ -350,10 +369,10 @@ public class RootController implements Initializable {
         dividor.setText("Recent Projects..");
         menuOpenProjects.getItems().add(selectItem);
         menuOpenProjects.getItems().add(dividor);
-        System.out.println("project loaded");
+
         for(int i = projects.size()-1; i >= 0 ; i--){
             final String projectName = projects.get(i).toString();
-            System.out.println("project x");
+
             MenuItem projectItem = new MenuItem(projectName);
             projectItem.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
                 public void handle(javafx.event.ActionEvent event) {

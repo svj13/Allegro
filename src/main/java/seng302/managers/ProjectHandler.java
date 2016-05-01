@@ -207,8 +207,8 @@ public class ProjectHandler {
     public  void loadProject(String pName){
         try {
 
-            String path = userDirectory+"/Projects/"+pName+"/"+pName;
-            projectSettings = (JSONObject) parser.parse(new FileReader(path+".json"));
+            String path = userDirectory+"/Projects/"+pName+"/";
+            projectSettings = (JSONObject) parser.parse(new FileReader(path+pName+".json"));
             this.projName = pName;
 
             int tempo = ((Long)projectSettings.get("tempo")).intValue();
@@ -252,6 +252,10 @@ public class ProjectHandler {
 
     public Boolean isProject(){
         return currentProjectPath != null;
+    }
+
+    public String getCurrentProjectPath(){
+        return currentProjectPath;
     }
 
 }
