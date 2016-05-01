@@ -149,7 +149,7 @@ public class PitchComparisonTutorController extends TutorController{
             }
         });
 
-        sliderBox.getChildren().add(0, rangeSlider);
+        sliderBox.getChildren().add(1, rangeSlider);
         notes.setText(rangeSlider.getLabelFormatter().toString(rangeSlider.getLowValue()) + " - "
                 + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
         ChangeListener<Number> updateLabelLower = new ChangeListener<Number>() {
