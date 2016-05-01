@@ -40,9 +40,9 @@ public class ProjectHandler {
     JSONObject projectsInfo = new JSONObject();
     Path userDirectory = Paths.get("UserData"); //Default user path for now, before user compatibility is set up.
 
-    String currentProjectPath;
+    private String currentProjectPath, projectName;
 
-    String projName; //delete this testing for commit fix.
+
     boolean saved = true;
     Environment env;
 
@@ -129,15 +129,16 @@ public class ProjectHandler {
             String transcriptString = new Gson().toJson(env.getTranscriptManager().getTranscriptTuples());
             projectSettings.put("transcript", transcriptString);
 
-            FileWriter file = new FileWriter(projectAddress+".json");
+            FileWriter file = new FileWriter(projectAddress+projectName+".json");
             file.write(projectSettings.toJSONString());
             file.flush();
             file.close();
             String projectName = projectAddress.substring(projectAddress.lastIndexOf("/") + 1);
-            this.projName = projectName;
-            env.getRootController().setWindowTitle(projName);
+            this.projectName = projectName;
+            env.getRootController().setWindowTitle(projectName);
             System.out.println("project name" +projectAddress);
             currentProjectPath = projectAddress;
+
             //Check if it isn't an exisiting stored project
             if(!projectList.contains(projectName)){
                 System.out.println("Saved project not found in projects.json - adding it");
@@ -180,7 +181,7 @@ public class ProjectHandler {
     public void checkChanges(String propName){
 
         //Accepted values: tempo
-        String saveName = (propName.length() < 1) ? "New Project" : projName;
+        String saveName = (propName.length() < 1) ? "New Project" : this.projectName;
 
         if(propName.equals("tempo")){
 
@@ -209,7 +210,7 @@ public class ProjectHandler {
 
             String path = userDirectory+"/Projects/"+pName+"/";
             projectSettings = (JSONObject) parser.parse(new FileReader(path+pName+".json"));
-            this.projName = pName;
+            this.projectName = pName;
 
             int tempo = ((Long)projectSettings.get("tempo")).intValue();
             ArrayList<OutputTuple> transcript;
