@@ -12,8 +12,6 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Pair;
@@ -166,8 +164,8 @@ public class ScaleRecognitionTutorController extends TutorController {
         final Pair<Note, String> noteAndScaleType = new Pair<Note, String>(scale.get(0), scaleType);
 
         Button play = new Button();
-        Image imagePlay = new Image(getClass().getResourceAsStream("/images/play-icon.png"), 20, 20, true, true);
-        play.setGraphic(new ImageView(imagePlay));
+        stylePlayButton(play);
+
         play.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 //Play the scale
@@ -184,8 +182,8 @@ public class ScaleRecognitionTutorController extends TutorController {
 
 
         Button skip = new Button("Skip");
-        Image imageSkip = new Image(getClass().getResourceAsStream("/images/right-arrow.png"), 20, 20, true, true);
-        skip.setGraphic(new ImageView(imageSkip));
+        styleSkipButton(skip);
+
         skip.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 // Disables only input buttons

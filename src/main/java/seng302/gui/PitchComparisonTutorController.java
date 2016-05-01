@@ -367,8 +367,7 @@ public class PitchComparisonTutorController extends TutorController{
         lower.setGraphic(new ImageView(imageLower));
         lower.setToggleGroup(group);
         ToggleButton skip = new ToggleButton("Skip");
-        Image imageSkip = new Image(getClass().getResourceAsStream("/images/right-arrow.png"), 20, 20, true, true);
-        skip.setGraphic(new ImageView(imageSkip));
+        styleSkipToggleButton(skip);
         skip.setToggleGroup(group);
 
         higher.setOnAction(new EventHandler<ActionEvent>() {
@@ -411,9 +410,7 @@ public class PitchComparisonTutorController extends TutorController{
 
 
         Button playBtn = new Button();
-        Image imagePlay = new Image(getClass().getResourceAsStream("/images/play-icon.png"), 20, 20, true, true);
-        playBtn.setGraphic(new ImageView(imagePlay));
-        //playBtn.setStyle("-fx-base: #40a927;");
+        stylePlayButton(playBtn);
 
         playBtn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
