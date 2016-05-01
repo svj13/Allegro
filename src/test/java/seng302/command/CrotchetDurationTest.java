@@ -31,7 +31,7 @@ public class CrotchetDurationTest {
     @Test
     public void testGetsDefaultCrotchet() {
         new CrotchetDuration().execute(env);
-        verify(transcriptManager).setResult("The speed of a crotchet at 120 BPM" +
+        verify(transcriptManager).setResult("The duration of a crotchet at 120 BPM" +
                 " is 500.00 milliseconds.");
     }
 
@@ -39,7 +39,7 @@ public class CrotchetDurationTest {
     public void testGetsDifferentCrotchet() {
         //Alter the tempo
         new Tempo("45", true).execute(env);
-        verify(transcriptManager).setResult("The speed of a crotchet at 45 BPM" +
+        verify(transcriptManager).setResult("The duration of a crotchet at 45 BPM" +
                 " is 133.33 milliseconds.");
 
     }
@@ -47,7 +47,7 @@ public class CrotchetDurationTest {
     @Test
     public void testRoundsCorrectly() {
         new Tempo("36", true).execute(env);
-        verify(transcriptManager).setResult("The speed of a crotchet at 36 BPM" +
+        verify(transcriptManager).setResult("The duration of a crotchet at 36 BPM" +
                 " is 166.67 milliseconds.");
     }
 
