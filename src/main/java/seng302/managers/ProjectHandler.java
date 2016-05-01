@@ -9,6 +9,8 @@ package seng302.managers;
  * Created by Jonty on 12-Apr-16.
  */
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -18,13 +20,17 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 import seng302.Environment;
+import seng302.utility.OutputTuple;
 
 public class ProjectHandler {
+    private String[] propertyNames = {"tempo"};
 
     JSONObject projectSettings;
     JSONParser parser = new JSONParser(); //parser for reading project
@@ -39,6 +45,7 @@ public class ProjectHandler {
     String projName; //delete this testing for commit fix.
     boolean saved = true;
     Environment env;
+
     public ProjectHandler(Environment env){
 
 
@@ -105,7 +112,7 @@ public class ProjectHandler {
 
 
     /**
-     * Handles Saving a .managers Project file, for the specified project address
+     * Handles Saving a .json Project file, for the specified project address
      * @param projectAddress Project directory address.
      */
 
@@ -118,7 +125,11 @@ public class ProjectHandler {
 
             projectSettings.put("tempo", env.getPlayer().getTempo());
 
-            FileWriter file = new FileWriter(projectAddress+".managers");
+
+            String transcriptString = new Gson().toJson(env.getTranscriptManager().getTranscriptTuples());
+            projectSettings.put("transcript", transcriptString);
+
+            FileWriter file = new FileWriter(projectAddress+".json");
             file.write(projectSettings.toJSONString());
             file.flush();
             file.close();
@@ -197,11 +208,19 @@ public class ProjectHandler {
         try {
 
             String path = userDirectory+"/Projects/"+pName+"/"+pName;
-            projectSettings = (JSONObject) parser.parse(new FileReader(path+".managers"));
+            projectSettings = (JSONObject) parser.parse(new FileReader(path+".json"));
             this.projName = pName;
 
             int tempo = ((Long)projectSettings.get("tempo")).intValue();
-            System.out.println(tempo);
+            ArrayList<OutputTuple> transcript;
+            Type fooType = new TypeToken<ArrayList<OutputTuple>>() {}.getType();
+            transcript = new Gson().fromJson((String)projectSettings.get("transcript"), fooType);
+
+
+            env.getTranscriptManager().setTranscriptContent(transcript);
+
+            env.getRootController().setTranscriptPaneText(env.getTranscriptManager().convertToText());
+            env.getTranscriptManager().unsavedChanges = false;
 
             //SetTempo
             env.getPlayer().setTempo(tempo);
@@ -229,6 +248,10 @@ public class ProjectHandler {
     }
     public JSONArray getProjectList(){
         return this.projectList;
+    }
+
+    public Boolean isProject(){
+        return currentProjectPath != null;
     }
 
 }

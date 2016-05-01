@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.json.simple.JSONArray;
+import seng302.command.Command;
 import seng302.utility.CommandHistory;
 import seng302.utility.OutputTuple;
 
@@ -16,14 +18,11 @@ import seng302.utility.OutputTuple;
  * Created by team5 on 3/03/2016.
  */
 public class TranscriptManager {
-    CommandHistory historyController;
+    private CommandHistory historyController;
     private OutputTuple lastOutputTuple; // The last command + result fired generated.
     private String output;
     private ArrayList<OutputTuple> transcriptContent = new ArrayList<OutputTuple>();
     public boolean unsavedChanges = false;
-
-
-
 
 
 
@@ -51,7 +50,9 @@ public class TranscriptManager {
     public ArrayList<OutputTuple> getTranscriptTuples() {
         return transcriptContent;
     }
-
+    public void setTranscriptContent(ArrayList<OutputTuple> transcript ) {
+        transcriptContent = transcript;
+    }
 
     /**
      * Saves Called commands/results to a local text file.
@@ -200,6 +201,10 @@ public class TranscriptManager {
             System.out.println("problem Reading from file");
             return null;
         }
+    }
+
+    public CommandHistory getCommandHistory(){
+        return historyController;
     }
 
 }
