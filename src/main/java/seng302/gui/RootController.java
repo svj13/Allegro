@@ -125,7 +125,6 @@ public class RootController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("Unsaved changes");
 
-
             ButtonType btnSaveProject = new ButtonType("Save project");
 
             ButtonType btnQuit = new ButtonType("Quit");
@@ -351,9 +350,10 @@ public class RootController implements Initializable {
         dividor.setText("Recent Projects..");
         menuOpenProjects.getItems().add(selectItem);
         menuOpenProjects.getItems().add(dividor);
+        System.out.println("project loaded");
         for(int i = projects.size()-1; i >= 0 ; i--){
             final String projectName = projects.get(i).toString();
-
+            System.out.println("project x");
             MenuItem projectItem = new MenuItem(projectName);
             projectItem.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
                 public void handle(javafx.event.ActionEvent event) {
