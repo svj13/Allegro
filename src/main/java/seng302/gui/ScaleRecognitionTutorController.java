@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Random;
-import java.util.StringJoiner;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -44,12 +43,13 @@ public class ScaleRecognitionTutorController extends TutorController {
     private Random rand;
 
     @FXML
+    /**
+     * Run when the go button is pressed. Creates a new tutoring session.
+     */
     private void goAction(ActionEvent event) {
         record = new TutorRecord(new Date(), "Scale Recognition");
         paneQuestions.setVisible(true);
         paneResults.setVisible(false);
-
-        //Alter once a slider has been implemented
         manager.questions = selectedQuestions;
 
         questionRows.getChildren().clear();
@@ -61,6 +61,10 @@ public class ScaleRecognitionTutorController extends TutorController {
     }
 
 
+    /**
+     * Initialises certain GUI elements
+     * @param env
+     */
     public void create(Environment env) {
         super.create(env);
         initialiseQuestionSelector();
