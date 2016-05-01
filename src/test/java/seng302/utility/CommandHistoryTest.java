@@ -44,15 +44,15 @@ public class CommandHistoryTest {
          * input: comma
          */
 
-        assertEquals("midi G#0", tm.historyController.handleScrollUp(textInput) ); //Pressing up before any history is added
+        assertEquals("midi G#0", tm.getCommandHistory().handleScrollUp(textInput) ); //Pressing up before any history is added
 
 
-        assertEquals("note 60", tm.historyController.handleScrollUp(textInput) );
+        assertEquals("note 60", tm.getCommandHistory().handleScrollUp(textInput) );
 
         //assertEquals("note 60", tm.inputHistory.handleScrollUp("midi G#0"));
 
 
-        assertEquals("note 60", tm.historyController.handleScrollUp("note 60"));
+        assertEquals("note 60", tm.getCommandHistory().handleScrollUp("note 60"));
 
 
 
@@ -73,12 +73,12 @@ public class CommandHistoryTest {
         tm.setCommand("note 60");
         tm.setResult("C4");
 
-        assertEquals("note 60", tm.historyController.handleScrollUp(textInput) ); //up to history command.
+        assertEquals("note 60", tm.getCommandHistory().handleScrollUp(textInput) ); //up to history command.
         //assertEquals(textInput, tm.historyController.handleScrollDown("note 60"));
 
-        assertEquals(textInput, tm.historyController.handleScrollDown(textInput) ); //Pressing down should go back to initial input
-        assertEquals(textInput, tm.historyController.handleScrollDown(textInput) ); //Pressing down again should (at user input)
-        assertEquals("note 60", tm.historyController.handleScrollUp(textInput) ); //Should go up 1 in history (note 60)
+        assertEquals(textInput, tm.getCommandHistory().handleScrollDown(textInput) ); //Pressing down should go back to initial input
+        assertEquals(textInput, tm.getCommandHistory().handleScrollDown(textInput) ); //Pressing down again should (at user input)
+        assertEquals("note 60", tm.getCommandHistory().handleScrollUp(textInput) ); //Should go up 1 in history (note 60)
 
 
     }

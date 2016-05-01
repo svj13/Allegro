@@ -120,56 +120,74 @@ public class RootController implements Initializable {
      */
     @FXML
     private void closeApplication() {
-        if (tm.unsavedChanges == true || !env.getJson().isSaved()) {
+        if (!env.getJson().isSaved()) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("Unsaved changes");
 
-            ButtonType btnSaveTranscript = new ButtonType("Save Transcript");
-            ButtonType btnSaveProject = new ButtonType("Save Project");
 
-            ButtonType quitBtn = new ButtonType("Quit");
-            ButtonType cancelBtn = new ButtonType("Cancel");
-            String contentString = "";
-            alert.getButtonTypes().setAll(quitBtn, cancelBtn);
-            if(tm.unsavedChanges){
-                alert.getButtonTypes().add(0,btnSaveTranscript);
-                contentString += "Unsaved Transcript Changes\n";
-            }
-            if(!env.getJson().isSaved()){
-                alert.getButtonTypes().add(0,btnSaveProject);
-                contentString += "Unsaved Project Changes\n";
-            }
+            ButtonType btnSaveProject = new ButtonType("Save project");
 
-            contentString += "Are you sure that you would like to quit?";
+            ButtonType btnQuit = new ButtonType("Quit");
+            ButtonType btnCancel = new ButtonType("Cancel");
+
+            alert.getButtonTypes().setAll(btnSaveProject, btnQuit, btnCancel);
+
+            String contentString = "Unsaved Project properties\n\nAre you sure that you would like to quit?";
 
 
             alert.setContentText(contentString);
-
-
-
             Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == btnSaveTranscript) {
-                saveTranscript();
-                this.closeApplication();
-            } else if (result.get() == quitBtn) {
-                System.exit(0);
 
-            }
-            else if(result.get() == btnSaveProject){
+            if(result.get() == btnSaveProject){
                 env.getJson().saveCurrentProject();
-                this.closeApplication();
-
+                System.exit(0);
             }
+            else if (result.get() == btnQuit) {
+                System.exit(0);
+            }
+            else if(result.get() == btnCancel){
 
-            else {
-                //do nothing
             }
 
 
         } else {
             System.exit(0);
         }
+
+
     }
+
+    public Boolean saveChangesDialog(){
+        if (!env.getJson().isSaved()) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setHeaderText("Unsaved changes");
+
+            ButtonType btnSaveProject = new ButtonType("Save");
+
+            ButtonType btnNo = new ButtonType("Don't Save");
+            ButtonType btnCancel = new ButtonType("Cancel");
+
+            alert.getButtonTypes().setAll(btnSaveProject, btnNo, btnCancel);
+
+            String contentString = "Unsaved project properties\n\nSave changes to current project?";
+
+
+            alert.setContentText(contentString);
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if(result.get() == btnSaveProject){
+                env.getJson().saveCurrentProject();
+
+            }
+            else if(result.get() == btnCancel){
+                return false;
+            }
+
+
+        }
+        return true;
+    }
+
 
     /**
      * Used to save the transcript to a destination determined by the user, using a filechooser.
@@ -253,6 +271,8 @@ public class RootController implements Initializable {
     @FXML
     public void newProject(){
 
+
+
         TextInputDialog dialog = new TextInputDialog("");
         dialog.setTitle("New Project");
         dialog.setHeaderText("New Project");
@@ -303,7 +323,8 @@ public class RootController implements Initializable {
         MenuItem selectItem = new MenuItem("Select Project");
         selectItem.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             public void handle(javafx.event.ActionEvent event) {
-                selectProjectDirectory();
+
+                if(saveChangesDialog())  selectProjectDirectory();
             }
 
 
@@ -318,7 +339,7 @@ public class RootController implements Initializable {
             MenuItem projectItem = new MenuItem(projectName);
             projectItem.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
                 public void handle(javafx.event.ActionEvent event) {
-                    env.getJson().loadProject(projectName);
+                    if(saveChangesDialog())  env.getJson().loadProject(projectName);
                 }
 
 
