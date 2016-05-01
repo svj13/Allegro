@@ -9,6 +9,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -31,6 +32,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import seng302.Environment;
 import seng302.managers.TranscriptManager;
+import seng302.utility.OutputTuple;
 
 public class RootController implements Initializable {
     Environment env;
@@ -195,6 +197,13 @@ public class RootController implements Initializable {
             env.getProjectHandler().saveCurrentProject();
         }
         return true;
+    }
+
+    @FXML
+    private void clearTranscript(){
+        tm.setTranscriptContent(new ArrayList<OutputTuple>());
+        transcriptController.setTranscriptPane("");
+        tm.unsavedChanges = true;
     }
 
 
