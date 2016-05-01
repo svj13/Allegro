@@ -42,12 +42,10 @@ public class ProjectHandler {
 
     private String currentProjectPath, projectName;
 
-
     boolean saved = true;
     Environment env;
 
     public ProjectHandler(Environment env){
-
 
         projectSettings = new JSONObject();
         this.env = env;
@@ -62,7 +60,6 @@ public class ProjectHandler {
 
 
                 projectsInfo.put("projects",projectList);
-
 
                 if(!Files.isDirectory(userDirectory)) {
                     //Create Projects path doesn't exist.
@@ -232,8 +229,6 @@ public class ProjectHandler {
             //ignore
 
 
-
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -247,6 +242,8 @@ public class ProjectHandler {
     public boolean isSaved(){
         return saved;
     }
+
+
     public JSONArray getProjectList(){
         return this.projectList;
     }

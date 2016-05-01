@@ -138,6 +138,7 @@ public class RootController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
 
             if(result.get() == btnSaveProject){
+
                 env.getProjectHandler().saveCurrentProject();
                 System.exit(0);
             }
@@ -181,6 +182,7 @@ public class RootController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
 
             if(result.get() == btnSaveProject){
+                checkProjectDirectory();
                 env.getProjectHandler().saveCurrentProject();
 
             }
@@ -250,7 +252,7 @@ public class RootController implements Initializable {
         fileChooser.getExtensionFilters().add(textFilter);
 
         if(env.getProjectHandler().isProject()){
-
+            checkProjectDirectory();
             fileDir = Paths.get(env.getProjectHandler().getCurrentProjectPath()).toFile();
 
         }
@@ -270,7 +272,7 @@ public class RootController implements Initializable {
         FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(textFilter);
         if(env.getProjectHandler().isProject()){
-
+            checkProjectDirectory();
             fileDir = Paths.get(env.getProjectHandler().getCurrentProjectPath()).toFile();
 
         }
@@ -302,7 +304,22 @@ public class RootController implements Initializable {
     }
 
 
+    private void checkProjectDirectory(){
+        Path path = Paths.get("UserData/Projects/");
+        if(!Files.isDirectory(path)){
+            try{
+                Files.createDirectories(path);
 
+            }
+            catch(IOException e){
+                //Failed to create the directory.
+                e.printStackTrace();
+            }
+
+
+        }
+
+    }
 
     @FXML
     public void newProject(){
@@ -389,15 +406,15 @@ public class RootController implements Initializable {
 
     }
 
-
+    /**
+     * Open Project browser.
+     */
     private void selectProjectDirectory(){
         DirectoryChooser dirChooser = new DirectoryChooser();
 
         dirChooser.setTitle("Select a project directory");
         Path path = Paths.get("UserData/Projects/");
-
-
-
+        checkProjectDirectory();
         dirChooser.setInitialDirectory(path.toFile());
 
 
@@ -407,7 +424,7 @@ public class RootController implements Initializable {
             if(folder.isDirectory()){
                 for(File f : folder.listFiles()){
 
-                    if(f.getName().endsWith(".managers") && f.getName().substring(0, f.getName().length() - 5).equals(folder.getName())){
+                    if(f.getName().endsWith(".json") && f.getName().substring(0, f.getName().length() - 5).equals(folder.getName())){
 
                         System.out.println("VALID PROJECT");
                         env.getProjectHandler().loadProject(folder.getName());
