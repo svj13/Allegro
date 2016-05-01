@@ -13,51 +13,76 @@
             <Font name="System Bold" size="21.0" />
          </font>
       </Label>
-      <HBox alignment="CENTER_LEFT" layoutX="-24.0" layoutY="47.0" minWidth="-Infinity" prefHeight="40.0" prefWidth="470.0" spacing="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="56.0">
+       <HBox layoutX="-24.0" layoutY="47.0" minWidth="-Infinity" prefHeight="40.0" prefWidth="470.0"
+             spacing="15.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0"
+             AnchorPane.topAnchor="50.0">
          <children>
             <VBox fx:id="range" prefHeight="200.0" prefWidth="300.0" spacing="10.0">
                <children>
-                  <HBox alignment="TOP_CENTER" prefHeight="49.0" prefWidth="400.0">
+                   <HBox prefHeight="70.0" prefWidth="200.0">
                      <children>
-                         <Label text="Note Range: "/>
-                         <Label fx:id="notes"/>
+                         <Label minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0"
+                                text="Note Range: ">
+                             <HBox.margin>
+                                 <Insets/>
+                             </HBox.margin>
+                         </Label>
+                         <Label fx:id="notes" minHeight="-Infinity" minWidth="-Infinity"
+                                prefHeight="30.0" text=" ">
+                             <font>
+                                 <Font name="System Bold" size="13.0"/>
+                             </font>
+                         </Label>
                      </children>
+                       <VBox.margin>
+                           <Insets bottom="5.0" left="5.0"/>
+                       </VBox.margin>
                   </HBox>
+                   <HBox prefHeight="70.0" prefWidth="200.0">
+                       <children>
+                           <Label alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity"
+                                  minWidth="-Infinity" prefHeight="30.0"
+                                  text="Number of Questions: "/>
+                           <Label fx:id="questions" prefHeight="30.0" prefWidth="60.0">
+                               <font>
+                                   <Font name="System Bold" size="13.0"/>
+                               </font>
+                           </Label>
+                       </children>
+                       <VBox.margin>
+                           <Insets left="5.0"/>
+                       </VBox.margin>
+                   </HBox>
+                   <Slider fx:id="numQuestions" blockIncrement="1.0" majorTickUnit="49.0" max="50.0"
+                           min="1.0" minorTickCount="1" showTickLabels="true" value="5.0"/>
                </children>
                <HBox.margin>
                    <Insets/>
                </HBox.margin>
             </VBox>
-             <VBox prefHeight="49.0" prefWidth="200.0">
-                 <children>
-                     <HBox prefHeight="30.0" prefWidth="200.0">
-                         <children>
-                             <Slider fx:id="numQuestions" blockIncrement="1.0" majorTickUnit="49.0"
-                                     max="50.0" min="1.0" minorTickCount="1" prefHeight="38.0"
-                                     prefWidth="200.0" showTickLabels="true" value="5.0"/>
-                         </children>
-                     </HBox>
-                     <HBox prefHeight="100.0" prefWidth="200.0">
-                         <children>
-                             <Label alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity"
-                                    minWidth="-Infinity" prefHeight="30.0"
-                                    text="Number of Intervals: "/>
-                             <Label fx:id="questions" prefHeight="30.0" prefWidth="60.0" />
-                         </children>
-                     </HBox>
-                 </children>
-             </VBox>
-            <Button id="btnGo" fx:id="btnGo" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#goAction" prefHeight="30.0" prefWidth="90.0" text="Go" textAlignment="CENTER">
-               <font>
-                  <Font size="14.0" />
-               </font>
-               <padding>
-                  <Insets left="5.0" right="5.0" />
-               </padding>
-            </Button>
+             <BorderPane prefHeight="200.0" prefWidth="200.0">
+                 <bottom>
+                     <Button id="btnGo" fx:id="btnGo" alignment="CENTER" contentDisplay="CENTER"
+                             mnemonicParsing="false" onAction="#goAction" prefHeight="30.0"
+                             prefWidth="90.0" text="Go" textAlignment="CENTER"
+                             BorderPane.alignment="BOTTOM_LEFT">
+                         <font>
+                             <Font size="14.0"/>
+                         </font>
+                         <padding>
+                             <Insets left="5.0" right="5.0"/>
+                         </padding>
+                         <BorderPane.margin>
+                             <Insets bottom="10.0" left="20.0"/>
+                         </BorderPane.margin>
+                     </Button>
+                 </bottom>
+             </BorderPane>
          </children>
       </HBox>
-      <ScrollPane fx:id="paneQuestions" fitToWidth="true" layoutY="105.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="120.0">
+       <ScrollPane fx:id="paneQuestions" fitToWidth="true" layoutY="105.0"
+                   AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0"
+                   AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="200.0">
          <content>
             <VBox fx:id="questionRows" prefWidth="470.0" />
          </content>

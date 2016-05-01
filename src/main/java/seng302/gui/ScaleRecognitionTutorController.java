@@ -213,8 +213,9 @@ public class ScaleRecognitionTutorController extends TutorController {
      */
     private ComboBox<String> generateChoices() {
         ComboBox<String> options = new ComboBox<String>();
-        options.getItems().add("Major");
-        options.getItems().add("Minor");
+        options.setPrefHeight(30);
+        options.getItems().add("major");
+        options.getItems().add("minor");
         return options;
     }
 

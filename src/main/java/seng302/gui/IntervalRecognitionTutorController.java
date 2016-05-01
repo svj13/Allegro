@@ -62,7 +62,7 @@ public class IntervalRecognitionTutorController extends TutorController {
         rangeSlider = new RangeSlider(0, 127, 60, 72);
         rangeSlider.setBlockIncrement(1);
         rangeSlider.setMajorTickUnit(12);
-        rangeSlider.setPrefWidth(340);
+
         rangeSlider.setShowTickLabels(true);
         rangeSlider.setLabelFormatter(new StringConverterWithFormat<Number>() {
             @Override
@@ -76,7 +76,7 @@ public class IntervalRecognitionTutorController extends TutorController {
                 return Note.lookup(string).getMidi();
             }
         });
-        range.getChildren().add(0, rangeSlider);
+        range.getChildren().add(1, rangeSlider);
         notes.setText(rangeSlider.getLabelFormatter().toString(rangeSlider.getLowValue()) + " - "
                 + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
         ChangeListener<Number> updateLabelLower = new ChangeListener<Number>() {
