@@ -67,6 +67,7 @@ public class MusicalTerm implements Command {
      * @param infoToGet Whether we are fetching the musical term's category, origin, or definition.
      */
     public MusicalTerm(String termToLookUp, String infoToGet) {
+
         String musicalTermName = termToLookUp.toLowerCase();
         infoToGet = infoToGet.toLowerCase();
 
@@ -97,7 +98,7 @@ public class MusicalTerm implements Command {
 
 
 
-    /**will add the musical term to the dictionary, or print the relevant defintion if the musical
+    /**will add the musical term to the dictionary, or print the relevant definition of the musical
      * term exists in the transcript manager
      * @param env
      */
@@ -106,14 +107,7 @@ public class MusicalTerm implements Command {
         if(termAdded == true && validAdd == true){
             env.getMttDataManager().addTerm(term);
         }
-
         env.getTranscriptManager().setResult(result);
-
     }
-
-
-
-
-
 }
 
