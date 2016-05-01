@@ -132,6 +132,7 @@ public class ProjectHandler {
             file.close();
             String projectName = projectAddress.substring(projectAddress.lastIndexOf("/") + 1);
             this.projectName = projectName;
+            System.out.println(projectName);
             env.getRootController().setWindowTitle(projectName);
             System.out.println("project name" +projectAddress);
             currentProjectPath = projectAddress;
@@ -204,12 +205,22 @@ public class ProjectHandler {
      */
     public  void loadProject(String pName){
         try {
-
-            String path = userDirectory+"/Projects/"+pName+"/";
-            projectSettings = (JSONObject) parser.parse(new FileReader(path+pName+".json"));
+            System.out.println("project name: " + pName);
+            String path = userDirectory + "/Projects/" + pName + "/";
+            try {
+                projectSettings = (JSONObject) parser.parse(new FileReader(path + pName + ".json"));
+            } catch (FileNotFoundException f) {
+                //Project doesn't exist? Create it.
+                System.err.println("Tried to open a project which appears to not exist. Creating a new one.");
+                saveProject(path);
+            }
             this.projectName = pName;
-
-            int tempo = ((Long)projectSettings.get("tempo")).intValue();
+            int tempo;
+            try {
+               tempo = ((Long) projectSettings.get("tempo")).intValue();
+            }catch(Exception e){
+                tempo = 120;
+            }
             ArrayList<OutputTuple> transcript;
             Type fooType = new TypeToken<ArrayList<OutputTuple>>() {}.getType();
             transcript = new Gson().fromJson((String)projectSettings.get("transcript"), fooType);

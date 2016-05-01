@@ -153,6 +153,7 @@ public class RootController implements Initializable {
         }
         else if( env.getProjectHandler().isProject() && env.getTranscriptManager().unsavedChanges){
             env.getProjectHandler().saveCurrentProject();
+            System.exit(0);
         }
 
         else {
