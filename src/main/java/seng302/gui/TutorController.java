@@ -16,6 +16,9 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -303,5 +306,32 @@ public class TutorController {
         correctAnswerLabel.setVisible(false);
         return correctAnswerLabel;
 
+    }
+
+    /**
+     * Consistently styles all play buttons
+     * @param play the button to be styled
+     */
+    public void stylePlayButton(Button play) {
+        Image imagePlay = new Image(getClass().getResourceAsStream("/images/play-icon.png"), 20, 20, true, true);
+        play.setGraphic(new ImageView(imagePlay));
+    }
+
+    /**
+     * Consistently styles all skip buttons
+     * @param skip the button to be styled
+     */
+    public void styleSkipButton(Button skip) {
+        Image imageSkip = new Image(getClass().getResourceAsStream("/images/right-arrow.png"), 20, 20, true, true);
+        skip.setGraphic(new ImageView(imageSkip));
+    }
+
+    /**
+     * Consistently styles all skip toggle buttons
+     * @param skip the toggle button to be styled
+     */
+    public void styleSkipToggleButton(ToggleButton skip) {
+        Image imageSkip = new Image(getClass().getResourceAsStream("/images/right-arrow.png"), 20, 20, true, true);
+        skip.setGraphic(new ImageView(imageSkip));
     }
 }

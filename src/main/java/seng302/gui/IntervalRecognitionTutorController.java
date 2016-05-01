@@ -17,8 +17,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -153,12 +151,11 @@ public class IntervalRecognitionTutorController extends TutorController {
 
         //Add buttons for play and skip
         Button play = new Button();
-        Image imagePlay = new Image(getClass().getResourceAsStream("/images/play-icon.png"), 20, 20, true, true);
-        play.setGraphic(new ImageView(imagePlay));
-        //play.setStyle("-fx-base: #40a927;");
+        stylePlayButton(play);
+
         Button skip = new Button("Skip");
-        Image imageSkip = new Image(getClass().getResourceAsStream("/images/right-arrow.png"), 20, 20, true, true);
-        skip.setGraphic(new ImageView(imageSkip));
+        styleSkipButton(skip);
+
         final ComboBox<String> options = generateChoices();
         options.setPrefHeight(30);
 
