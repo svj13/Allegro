@@ -117,6 +117,10 @@ public class TranscriptPaneController {
 
     }
 
+    public void setTranscriptPane(String text){
+        txtTranscript.setText(text);
+    }
+
 
     public void setStage(Stage stage) {
         this.stage = stage;

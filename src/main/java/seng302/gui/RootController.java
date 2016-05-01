@@ -125,8 +125,6 @@ public class RootController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("Unsaved changes");
 
-
-
             ButtonType btnSaveTranscript = new ButtonType("Save Transcript");
             ButtonType btnSaveProject = new ButtonType("Save Project");
 
@@ -242,6 +240,13 @@ public class RootController implements Initializable {
 
         }
     }
+
+    public void setTranscriptPaneText(String text){
+        txtTranscript.setText(text);
+    }
+
+
+
 
     @FXML
     public void newProject(){

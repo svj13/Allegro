@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.json.simple.JSONArray;
 import seng302.utility.CommandHistory;
 import seng302.utility.OutputTuple;
 
@@ -21,9 +22,6 @@ public class TranscriptManager {
     private String output;
     private ArrayList<OutputTuple> transcriptContent = new ArrayList<OutputTuple>();
     public boolean unsavedChanges = false;
-
-
-
 
 
 
@@ -51,7 +49,9 @@ public class TranscriptManager {
     public ArrayList<OutputTuple> getTranscriptTuples() {
         return transcriptContent;
     }
-
+    public void setTranscriptContent(ArrayList<OutputTuple> transcript ) {
+        transcriptContent = transcript;
+    }
 
     /**
      * Saves Called commands/results to a local text file.
