@@ -30,6 +30,7 @@ import seng302.Environment;
 import seng302.utility.OutputTuple;
 
 public class ProjectHandler {
+    private String[] propertyNames = {"tempo"};
 
     JSONObject projectSettings;
     JSONParser parser = new JSONParser(); //parser for reading project
@@ -44,6 +45,7 @@ public class ProjectHandler {
     String projName; //delete this testing for commit fix.
     boolean saved = true;
     Environment env;
+
     public ProjectHandler(Environment env){
 
 
@@ -244,7 +246,7 @@ public class ProjectHandler {
 
 
     public boolean isSaved(){
-        return saved;
+        return saved && !env.getTranscriptManager().unsavedChanges;
     }
     public JSONArray getProjectList(){
         return this.projectList;

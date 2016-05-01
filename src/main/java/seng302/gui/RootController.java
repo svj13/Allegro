@@ -70,8 +70,7 @@ public class RootController implements Initializable {
     @FXML
     private MenuItem menuQuit;
 
-    @FXML
-    private TextArea txtTranscript;
+
 
     @FXML
     private MenuItem menuOpen;
@@ -218,7 +217,7 @@ public class RootController implements Initializable {
      * Opens a transcript that has been previously saved.
      */
     @FXML
-    private void openTranscript() {
+    private void importTranscript() {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(textFilter);
@@ -230,7 +229,8 @@ public class RootController implements Initializable {
             path = file.getAbsolutePath();
             try {
                 tm.open(path);
-                txtTranscript.setText(tm.convertToText());
+
+                transcriptController.setTranscriptPane(tm.convertToText());
             } catch (Exception ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("This file is not valid");
@@ -242,7 +242,9 @@ public class RootController implements Initializable {
     }
 
     public void setTranscriptPaneText(String text){
-        txtTranscript.setText(text);
+
+        transcriptController.setTranscriptPane(text);
+
     }
 
 

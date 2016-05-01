@@ -118,6 +118,7 @@ public class TranscriptPaneController {
     }
 
     public void setTranscriptPane(String text){
+        System.out.println("txtTranscript text"  +txtTranscript.getText());
         txtTranscript.setText(text);
     }
 
