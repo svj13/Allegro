@@ -272,6 +272,13 @@ public class PitchComparisonTutorController extends TutorController{
     }
 
 
+    /**
+     * Changes the questionPane after the user has answered the question (with response to their answer).
+     * @param row Which questionPane the question is from.
+     * @param m1 The first note being compared.
+     * @param m2 the second note being compared.
+     * @return correctChoice What the answer is.
+     */
     private int questionResponse(HBox row, String m1, String m2){
 
         Note note1 = Note.lookup(m1);
@@ -441,10 +448,10 @@ public class PitchComparisonTutorController extends TutorController{
 
     /**
      * Note comparison
-     * @param isHigher
-     * @param note1
-     * @param note2
-     * @return
+     * @param isHigher whether the user thinks the second note is higher or lower.
+     * @param note1 the first note being compared.
+     * @param note2 the second note being compared.
+     * @return boolean if the user was correct or incorrect.
      */
     private boolean noteComparison(boolean isHigher, Note note1, Note note2) {
         if (isHigher) {
