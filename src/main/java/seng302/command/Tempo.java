@@ -35,10 +35,11 @@ public class Tempo implements Command {
      */
     public Tempo(String tempo, boolean force) {
         this.isSetter = true;
+        this.force = force;
         try {
             this.tempo = Integer.parseInt(tempo);
             if (!inValidRange(this.tempo)) {
-                if (force == false) {
+                if (this.force == false) {
                     this.result = "Tempo outside valid range. Use 'force set tempo' command to " +
                             "override. Use 'help' for more information";
                 } else {
