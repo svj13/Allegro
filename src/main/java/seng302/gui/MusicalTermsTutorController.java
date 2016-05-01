@@ -49,6 +49,8 @@ public class MusicalTermsTutorController extends TutorController{
 
     Random rand;
 
+   ArrayList<Term> termsBeingViewed;
+
 
     //Number of terms to choose from
     int terms = 0;
@@ -60,6 +62,7 @@ public class MusicalTermsTutorController extends TutorController{
     public void create(Environment env) {
         super.create(env);
         dataManager = env.getMttDataManager();
+
         rand = new Random();
         initialiseQuestionSelector();
     }
@@ -76,10 +79,10 @@ public class MusicalTermsTutorController extends TutorController{
         record = new TutorRecord(new Date(), "Musical Terms");
         manager.questions = selectedQuestions;
         if (manager.questions >= 1) {
-            ArrayList<Term> termArray = dataManager.getTerms();
+            termsBeingViewed = new ArrayList<Term>(dataManager.getTerms());
             // Run the tutor
             questionRows.getChildren().clear();
-            if(termArray.size() < 1){
+            if(termsBeingViewed.size() < 1){
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setHeaderText("No Musical Terms Added");
                 alert.setContentText("There are no terms to be tested on. \nTo add them use the 'add musical term' command");
@@ -87,10 +90,16 @@ public class MusicalTermsTutorController extends TutorController{
 
             }else {//if there are terms to display
                 for (int i = 0; i < manager.questions; i++) {
-                    Term term = termArray.get(rand.nextInt(termArray.size()));
-                    HBox questionRow = generateQuestionPane(term);
-                    questionRows.getChildren().add(questionRow);
-                    questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
+                    if (termsBeingViewed.size() < 1){
+                        termsBeingViewed = new ArrayList<Term>(dataManager.getTerms());
+                    }else {
+                        int randomNumber = rand.nextInt(termsBeingViewed.size());
+                        Term term = termsBeingViewed.get(randomNumber);
+                        termsBeingViewed.remove(randomNumber);
+                        HBox questionRow = generateQuestionPane(term);
+                        questionRows.getChildren().add(questionRow);
+                        questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
+                    }
                 }
             }
         } else {
