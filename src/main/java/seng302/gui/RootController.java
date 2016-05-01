@@ -241,6 +241,22 @@ public class RootController implements Initializable {
     }
 
     /**
+     * Will be used to undo commands in the transcript
+     */
+    @FXML
+    private void undo() {
+
+    }
+
+    /**
+     * Will be used to redo commands in the transcript
+     */
+    @FXML
+    private void redo() {
+
+    }
+
+    /**
      * Creates and displays a "save file" file chooser
      * @return The file which the user selects
      */
