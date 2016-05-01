@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Random;
-import java.util.StringJoiner;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -44,13 +43,14 @@ public class ScaleRecognitionTutorController extends TutorController {
     private Random rand;
 
     @FXML
+    /**
+     * Run when the go button is pressed. Creates a new tutoring session.
+     */
     private void goAction(ActionEvent event) {
         record = new TutorRecord(new Date(), "Scale Recognition");
         paneQuestions.setVisible(true);
         paneResults.setVisible(false);
-
-        //Alter once a slider has been implemented
-        manager.questions = 5;
+        manager.questions = selectedQuestions;
 
         questionRows.getChildren().clear();
         for (int i = 0; i < manager.questions; i++) {
@@ -61,13 +61,19 @@ public class ScaleRecognitionTutorController extends TutorController {
     }
 
 
+    /**
+     * Initialises certain GUI elements
+     * @param env
+     */
     public void create(Environment env) {
         super.create(env);
+        initialiseQuestionSelector();
         rand = new Random();
         direction.getItems().addAll("Up", "Down", "UpDown");
         direction.getSelectionModel().selectFirst();
         octaves.getItems().addAll(1,2,3,4);
         octaves.getSelectionModel().selectFirst();
+
     }
 
     /**
@@ -213,8 +219,9 @@ public class ScaleRecognitionTutorController extends TutorController {
      */
     private ComboBox<String> generateChoices() {
         ComboBox<String> options = new ComboBox<String>();
-        options.getItems().add("Major");
-        options.getItems().add("Minor");
+        options.setPrefHeight(30);
+        options.getItems().add("major");
+        options.getItems().add("minor");
         return options;
     }
 

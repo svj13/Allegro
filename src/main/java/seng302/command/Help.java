@@ -85,6 +85,7 @@ public class Help implements Command {
                     "category; definition', will add the musical term to the Musical Term " +
                     "dictionary. \n\n" +
                     "all enharmonics:\nReturns all of the enharmonics of a given note. \n\n" +
+                    "category of:\nWhen followed by a musical term, it returns the category of that term. \n\n" +
                     "crotchet duration:\nReturns the duration of a crotchet in milliseconds at the current tempo.\n\n" +
                     "enharmonic above:\nReturns the enharmonic that corresponds to the same note, a " +
                     "'letter' above the current note. Returns an error should there be no higher " +
@@ -104,7 +105,6 @@ public class Help implements Command {
                     "note:\nWhen followed by a valid midi number (within the range of 0-127), it will" +
                     " return the corresponding note name and its octave e.g. 'note 60' will return C4. \n\n" +
                     "origin of:\nWhen followed by a musical term, it returns the origin of that term. \n\n" +
-                    "category of:\nWhen followed by a musical term, it returns the category of that term. \n\n" +
                     "play note:\nWhen followed by a valid midi number or valid note, the corresponding" +
                     " note will be played. \n\n" +
                     "play scale:\nWhen followed by a valid scale (made up of a note and a scale type) " +
