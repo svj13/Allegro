@@ -128,7 +128,7 @@ public class PitchComparisonTutorController extends TutorController{
      */
     public void create(Environment env) {
         super.create(env);
-        initaliseQuestionSelector();
+        initialiseQuestionSelector();
         //generateComboValues(cbxLower);
         //generateComboValues(cbxUpper);
         rangeSlider = new RangeSlider(0, 127, 60, 72);
