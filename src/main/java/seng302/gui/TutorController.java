@@ -92,7 +92,6 @@ public class TutorController {
      * Implements the settings of a slider used to select number of questions.
      */
     public void initialiseQuestionSelector() {
-        System.out.println("numQuestions: " + numQuestions.getValue());
         selectedQuestions = (int) numQuestions.getValue();
         questions.setText(Integer.toString(selectedQuestions));
 
