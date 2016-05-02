@@ -119,22 +119,20 @@ public class ProjectHandler {
 
         try {
 
-
             projectSettings.put("tempo", env.getPlayer().getTempo());
-
-
             String transcriptString = new Gson().toJson(env.getTranscriptManager().getTranscriptTuples());
             projectSettings.put("transcript", transcriptString);
-
-            FileWriter file = new FileWriter(projectAddress+projectName+".json");
+            projectName = projectAddress.substring(projectAddress.lastIndexOf("/") + 1);
+            System.out.println(projectAddress);
+            System.out.println("project name" +projectName);
+            FileWriter file = new FileWriter(projectAddress+"/"+projectName+".json");
             file.write(projectSettings.toJSONString());
             file.flush();
             file.close();
-            String projectName = projectAddress.substring(projectAddress.lastIndexOf("/") + 1);
-            this.projectName = projectName;
-            System.out.println(projectName);
+
+
             env.getRootController().setWindowTitle(projectName);
-            System.out.println("project name" +projectAddress);
+
             currentProjectPath = projectAddress;
 
             //Check if it isn't an exisiting stored project
@@ -157,9 +155,11 @@ public class ProjectHandler {
 
             }
 
-        } catch (IOException e) {
+
+        }catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     /**
@@ -206,16 +206,31 @@ public class ProjectHandler {
     public  void loadProject(String pName){
         try {
             System.out.println("project name: " + pName);
-            String path = userDirectory + "/Projects/" + pName + "/";
+            String path = userDirectory + "/Projects/" + pName;
             try {
-                projectSettings = (JSONObject) parser.parse(new FileReader(path + pName + ".json"));
+                projectSettings = (JSONObject) parser.parse(new FileReader(path +"/"+ pName + ".json"));
             } catch (FileNotFoundException f) {
                 //Project doesn't exist? Create it.
-                System.err.println("Tried to open a project which appears to not exist. Creating a new one.");
-                saveProject(path);
+
+                if(!Paths.get(path).toFile().isDirectory()){
+                    //If the Project directory folder doesn't exist.
+                    System.err.println("Project directory missing - Might have been moved, renamed or deleted.\n Will remove the project from the projects json");
+                    env.getRootController().errorAlert("Project directory is missing - possibly moved, renamed or deleted.");
+                    projectList.remove(pName);
+                    return;
+                }
+                else{
+                    //Just he .json file properties are corrupt.
+                    saveProject(path);
+                }
+
             }
+
+
+
             this.projectName = pName;
             int tempo;
+
             try {
                tempo = ((Long) projectSettings.get("tempo")).intValue();
             }catch(Exception e){
@@ -241,11 +256,16 @@ public class ProjectHandler {
 
 
         } catch (FileNotFoundException e) {
+            System.err.println("File not found, printing exception..");
             e.printStackTrace();
         } catch (IOException e) {
+            System.err.println("IOException when trying to parse project .json");
             e.printStackTrace();
         } catch (ParseException e) {
-            e.printStackTrace();
+            System.err.println("Parse exception. Project json is corrupt, cannot open.");
+            env.getRootController().errorAlert("Project Corrupt - Cannot open.");
+
+
         }
     }
 

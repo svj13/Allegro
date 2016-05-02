@@ -474,20 +474,6 @@ public class PitchComparisonTutorController extends TutorController{
     }
 
 
-    private void finished2() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText("Finished");
-        int cor = manager.correct;
-        int ques = manager.questions;
-
-
-        ButtonType retestBtn = new ButtonType("Retest");
-        ButtonType clearBtn  = new ButtonType("Clear");
-
-        Panel pnlComplete;
-
-        manager.resetStats();
-    }
 
     /**
      * Key event binder. No functionality at this point.

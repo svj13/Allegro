@@ -375,8 +375,6 @@ public class RootController implements Initializable {
     @FXML
     public void newProject(){
 
-
-
         TextInputDialog dialog = new TextInputDialog("");
         dialog.setTitle("New Project");
         dialog.setHeaderText("New Project");
@@ -391,7 +389,7 @@ public class RootController implements Initializable {
                 try{
                     Files.createDirectories(path);
 
-                    env.getProjectHandler().saveProject(path.toString() + "/"+resultString);
+                    env.getProjectHandler().saveProject(path.toString().replace("\\", "/"));
                     //setWindowTitle(resultString);
 
                 }
@@ -400,15 +398,13 @@ public class RootController implements Initializable {
                     e.printStackTrace();
                 }
 
-
             }
             else{
                 System.out.println("Sorry, the path " + resultString + " already exists.");
+                errorAlert("The project: "  +resultString+" already exists.");
             }
 
         }
-
-    // The Java 8 way to get the response value (with lambda expression).
 
 
     }
@@ -420,18 +416,14 @@ public class RootController implements Initializable {
 
     @FXML
     private void bindOpenObjects(){
-
         JSONArray projects = env.getProjectHandler().getProjectList();
         menuOpenProjects.getItems().clear();
-
         MenuItem selectItem = new MenuItem("Select Project");
         selectItem.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             public void handle(javafx.event.ActionEvent event) {
 
                 if(saveChangesDialog())  selectProjectDirectory();
             }
-
-
         });
         SeparatorMenuItem dividor = new SeparatorMenuItem();
         dividor.setText("Recent Projects..");
@@ -454,6 +446,13 @@ public class RootController implements Initializable {
             if((projects.size()-1) - i >= 5) break; //Only show the 5 latest projects.
 
         }
+
+    }
+
+    public void errorAlert(String errorMessage){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setContentText(errorMessage);
+        alert.showAndWait();
 
     }
 
@@ -481,17 +480,13 @@ public class RootController implements Initializable {
                         System.out.println("VALID PROJECT");
                         env.getProjectHandler().loadProject(folder.getName());
                         return;
-
                     }
-
                 }
                 System.out.println("Not a valid project folder - try again!");
                 selectProjectDirectory();
                 return;
             }
         }
-
-
     }
 
 
@@ -515,8 +510,6 @@ public class RootController implements Initializable {
     public void setEnvironment(Environment env) {
         this.env = env;
         tm = env.getTranscriptManager();
-
-
         transcriptController.setEnv(env);
         PitchComparisonTabController.create(env);
         IntervalRecognitionTabController.create(env);
