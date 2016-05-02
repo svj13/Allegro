@@ -11,12 +11,22 @@
     <!--<children>-->
       <!--<Pane layoutX="-283.0" style="-fx-background-color: brown;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">-->
          <children>
+             <ToolBar maxHeight="-Infinity" minHeight="-Infinity" prefHeight="40.0"
+                      AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                 <items>
+                     <Label text="Command Playback Mode"/>
+                     <Button fx:id="playall" mnemonicParsing="false" text="Play All"/>
+                     <Button fx:id="playnext" mnemonicParsing="false" text="Play Next"/>
+                     <Label fx:id="nextcommand" text="Next Command: "/>
+                     <Button fx:id="stop" mnemonicParsing="false" text="Stop"/>
+                 </items>
+             </ToolBar>
+             <TextArea fx:id="txtTranscript" editable="false" focusTraversable="false"
+                       layoutY="-1.0" prefHeight="278.0" prefWidth="480.0"
+                       promptText="Enter a command in the box below. Type 'help' for more information on the available commands."
+                       wrapText="true" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="0"
+                       AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0.0"/>
               <TextField fx:id="txtCommand" layoutX="11.0" layoutY="286.0" onKeyPressed="#handleKeyPressed" prefHeight="30.0" prefWidth="334.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="110.0" />
-              <TextArea fx:id="txtTranscript" editable="false" focusTraversable="false"
-                        layoutY="-1.0" prefHeight="278.0" prefWidth="480.0"
-                        promptText="Enter a command in the box below. Type 'help' for more information on the available commands."
-                        wrapText="true" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="0"
-                        AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0"/>
               <Button fx:id="btnGo" layoutX="412.0" layoutY="285.0" mnemonicParsing="false" onAction="#goAction" prefHeight="30.0" prefWidth="74.0" text="Go" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="20.0" />
          </children>
       <!--</Pane>-->

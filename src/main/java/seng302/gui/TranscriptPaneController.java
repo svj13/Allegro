@@ -11,6 +11,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import seng302.Environment;
 
@@ -132,6 +133,14 @@ public class TranscriptPaneController {
         this.env = env;
 
 
+    }
+
+    public void beginPlaybackMode() {
+        AnchorPane.setTopAnchor(txtTranscript, 40.0);
+        txtTranscript.setPromptText("");
+        txtTranscript.clear();
+        txtCommand.setDisable(true);
+        btnGo.setDisable(true);
 
     }
 

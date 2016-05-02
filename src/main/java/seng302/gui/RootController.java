@@ -339,6 +339,7 @@ public class RootController implements Initializable {
                 alert.showAndWait();
                 System.err.println("Not a valid file");
             }
+            transcriptController.beginPlaybackMode();
 
         }
     }
@@ -451,6 +452,7 @@ public class RootController implements Initializable {
         }
 
     }
+
 
     /**
      * Open Project browser.

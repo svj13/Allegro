@@ -38,6 +38,9 @@
                                     </Label>
                                     <ComboBox fx:id="octaves" prefWidth="100.0" promptText="1"/>
                                  </children>
+                                 <VBox.margin>
+                                    <Insets left="5.0"/>
+                                 </VBox.margin>
                               </HBox>
                               <HBox prefHeight="100.0" prefWidth="300.0">
                                  <children>

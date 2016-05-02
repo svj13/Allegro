@@ -9,7 +9,7 @@ public class Environment {
 
     private DslExecutor executor;
     private TranscriptManager transcriptManager;
-    private MusicalTermsTutorBackEnd mttDataManager; ///////////////////////////////////////
+    private MusicalTermsTutorBackEnd mttDataManager;
     private MusicPlayer player;
     private String recordLocation;
 
@@ -24,6 +24,7 @@ public class Environment {
     // Root Controller
     private RootController rootController;
 
+    private ProjectHandler json;
 
 
     private ProjectHandler projectHandler;
