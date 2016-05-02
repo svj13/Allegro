@@ -256,6 +256,9 @@ public class TranscriptPaneController {
         txtTranscript.clear();
         txtCommand.setDisable(true);
         btnGo.setDisable(true);
+        playall.setDisable(false);
+        playnext.setDisable(false);
+        stop.setText("Stop");
         commandvalue.setText(firstCommand);
     }
 
