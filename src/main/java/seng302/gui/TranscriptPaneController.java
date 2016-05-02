@@ -18,6 +18,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import seng302.Environment;
+import seng302.command.Command;
 
 /**
  * Created by jat157 on 20/03/16.
@@ -100,8 +101,18 @@ public class TranscriptPaneController {
     private void executeAndPrintToTranscript(String text) {
         if (text.length() > 0) {
             env.getTranscriptManager().setCommand(text);
-            env.getExecutor().executeCommand(text);
+            Command command = env.getExecutor().parseCommandString(text);
+
+            env.getExecutor().executeCommand(command);
             txtTranscript.appendText(env.getTranscriptManager().getLastCommand());
+            try {
+                System.out.println("Waiting" + command.getLength(env));
+                Thread.sleep((long) command.getLength(env));
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.err.println("Thread did not sleep");
+            }
+
 
 
         } else {
@@ -170,12 +181,23 @@ public class TranscriptPaneController {
         playnext.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 try {
+                    // need to wait for commands to complete
                     executeAndPrintToTranscript(commands.get(0));
                     commands.remove(0);
-                    commandvalue.setText(commands.get(0));
+                    if (commands.get(0) != null) {
+                        commandvalue.setText(commands.get(0));
+                    } else {
+                        commandvalue.setText("-");
+                    }
                 } catch (Exception e) {
                     playbackFinished();
                 }
+            }
+        });
+
+        stop.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+
             }
         });
 

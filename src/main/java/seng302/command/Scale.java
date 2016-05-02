@@ -58,6 +58,7 @@ public class Scale implements Command {
     private int octaves;
 
 
+
     public Scale(HashMap<String, String> scale, String outputType) {
         this.startNote = scale.get("note");
         this.type = scale.get("scale_type");
@@ -99,10 +100,7 @@ public class Scale implements Command {
      * @param direction The direction to play the scale.
      */
     public Scale(String a, String b, String outputType, String direction) {
-        this.startNote = a;
-        this.type = b;
-        this.outputType = outputType;
-        currentLetter = Character.toUpperCase(startNote.charAt(0));
+        this(a, b, outputType);
         this.direction = direction;
         octaves = 1;
     }
@@ -116,11 +114,7 @@ public class Scale implements Command {
      * @param octaves The number of octaves of the scale to play.
      */
     public Scale(String a, String b, String outputType, String direction, String octaves) {
-        this.startNote = a;
-        this.type = b;
-        this.outputType = outputType;
-        currentLetter = Character.toUpperCase(startNote.charAt(0));
-        this.direction = direction;
+        this(a, b, outputType, direction);
         this.octaves = Integer.parseInt(octaves);
     }
 
@@ -144,6 +138,19 @@ public class Scale implements Command {
         }
     }
 
+
+    private ArrayList<Note> getScale(String direction) {
+        ArrayList<Note> scale = note.getOctaveScale(type, octaves, true);
+        if (direction.equals("down")) {
+            scale = note.getOctaveScale(type, octaves, false);
+        } else if (direction.equals("updown")){
+            ArrayList<Note> notes = new ArrayList<Note>(scale);
+            Collections.reverse(notes);
+            scale.addAll(notes);
+        }
+        return scale;
+    }
+
     /**
      * The command is executed. The beginning note is found and the scale is looked up.
      * The result is outputted or the scale is played.
@@ -162,10 +169,8 @@ public class Scale implements Command {
                     this.note = Note.lookup(OctaveUtil.addDefaultOctave(startNote));
                 }
                 try {
-                    ArrayList<Note> scale = note.getOctaveScale(type, octaves, true);
-                    if (direction.equals("down")) {
-                        scale = note.getOctaveScale(type, octaves, false);
-                    }
+                    ArrayList<Note> scale = getScale(direction);
+
                     if (scale == null) {
                         env.error("This scale goes beyond the MIDI notes available.");
                     } else {
@@ -174,10 +179,8 @@ public class Scale implements Command {
                         } else if (this.outputType.equals("midi")) {
                             env.getTranscriptManager().setResult(scaleToMidi(scale));
                         } else { // Play scale.
+
                             if (direction.equals("updown")) {
-                                ArrayList<Note> notes = new ArrayList<Note>(scale);
-                                Collections.reverse(notes);
-                                scale.addAll(notes);
                                 env.getPlayer().playNotes(scale);
                                 env.getTranscriptManager().setResult(scaleToStringUpDown(scale));
                             } else if (direction.equals("down")) {
@@ -250,5 +253,15 @@ public class Scale implements Command {
             midiValues += note.getMidi() + " ";
         }
         return midiValues.trim();
+    }
+
+    public float getLength(Environment env) {
+        float milliseconds = 0;
+        ArrayList<Note> scale = getScale(direction);
+        int tempo = env.getPlayer().getTempo();
+        float crotchetLength = 60000 / tempo;
+        milliseconds = scale.size() * crotchetLength;
+
+        return milliseconds;
     }
 }
