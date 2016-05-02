@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -98,8 +99,12 @@ public class RootController implements Initializable {
     }
 
     @FXML
-    public void tabChanged(){
-
+    public void onTranscriptTab(){
+        Platform.runLater(new Runnable() {
+            public void run() {
+                transcriptController.txtCommand.requestFocus();
+            }
+        });
     }
 
     public void initialize(URL location, ResourceBundle resources) {

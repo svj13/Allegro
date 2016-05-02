@@ -38,7 +38,7 @@ public class TranscriptPaneController {
 //    private Pane pane1;
 
     @FXML
-    private TextField txtCommand;
+    public TextField txtCommand;
 
     @FXML
     private Button btnGo;
