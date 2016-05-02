@@ -8,14 +8,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
 import seng302.Environment;
 import seng302.data.Term;
 import seng302.utility.MusicalTermsTutorBackEnd;
 import seng302.managers.TranscriptManager;
-
 import java.util.ArrayList;
-
 import static org.mockito.Mockito.verify;
 
 
@@ -108,7 +105,6 @@ public class MusicalTermTest extends TestCase {
         // get the origin of
         MusicalTerm termCommand2 = new MusicalTerm("name", "origin");
         termCommand2.execute(env);
-
         verify(transcriptManager).setResult("origin");
     }
 
@@ -116,10 +112,8 @@ public class MusicalTermTest extends TestCase {
     public void testOriginDoesntExist() throws Exception {
         //add new term
         executeGoodInput();
-
         MusicalTerm termCommand2 = new MusicalTerm("nonExistantName", "origin");
         termCommand2.execute(env);
-
         verify(transcriptManager).setResult(
                 "nonexistantname is not recognised as an existing musical term.");
     }
@@ -128,7 +122,6 @@ public class MusicalTermTest extends TestCase {
     public void testOriginSpaceInName() throws Exception{
         //add new term
         executeInputWithSpaceInName();
-
         // get the meaning of
         MusicalTerm termCommand2 = new MusicalTerm("name", "origin");
         termCommand2.execute(env);
@@ -139,11 +132,9 @@ public class MusicalTermTest extends TestCase {
     @Test
     public void testCategoryGoodInput() throws Exception {
         executeGoodInput();
-
         // get the origin of
         MusicalTerm termCommand2 = new MusicalTerm("name", "category");
         termCommand2.execute(env);
-
         verify(transcriptManager).setResult("category");
     }
 
@@ -151,10 +142,8 @@ public class MusicalTermTest extends TestCase {
     public void testCategoryDoesntExist() throws Exception {
         //add new term
         executeGoodInput();
-
         MusicalTerm termCommand2 = new MusicalTerm("nonExistantName", "category");
         termCommand2.execute(env);
-
         verify(transcriptManager).setResult(
                 "nonexistantname is not recognised as an existing musical term.");
     }
@@ -163,7 +152,6 @@ public class MusicalTermTest extends TestCase {
     public void testCategorySpaceInName() throws Exception{
         //add new term
         executeInputWithSpaceInName();
-
         // get the meaning of
         MusicalTerm termCommand2 = new MusicalTerm("name", "category");
         termCommand2.execute(env);
@@ -174,7 +162,6 @@ public class MusicalTermTest extends TestCase {
     @Test
     public void testGetInvalidAttribute() throws Exception {
         executeGoodInput();
-
         new MusicalTerm("name", "test").execute(env);
         verify(transcriptManager).setResult("test is not recognised as part of a musical term.");
     }
@@ -199,6 +186,4 @@ public class MusicalTermTest extends TestCase {
         MusicalTerm termCommand = new MusicalTerm(musicalTermArray);
         termCommand.execute(env);
     }
-
-
 }
