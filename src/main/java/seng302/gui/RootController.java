@@ -333,14 +333,13 @@ public class RootController implements Initializable {
             path = file.getAbsolutePath();
             try {
                 ArrayList<String> commands = tm.loadCommands(path);
+                transcriptController.beginPlaybackMode(commands);
             } catch (Exception ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("This file is not valid");
                 alert.showAndWait();
                 System.err.println("Not a valid file");
             }
-            transcriptController.beginPlaybackMode();
-
         }
     }
 
