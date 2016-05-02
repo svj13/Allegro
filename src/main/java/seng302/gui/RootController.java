@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -384,25 +385,36 @@ public class RootController implements Initializable {
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()){
             String resultString = result.get().toString();
-            Path path = Paths.get("UserData/Projects/" + resultString);
-            if(!Files.isDirectory(path)){
-                try{
-                    Files.createDirectories(path);
+            Path path;
+            try{
+                 path = Paths.get("UserData/Projects/" + resultString);
 
-                    env.getProjectHandler().saveProject(path.toString().replace("\\", "/"));
-                    //setWindowTitle(resultString);
+                if(!Files.isDirectory(path)){
+                    try{
+                        Files.createDirectories(path);
+
+                        env.getProjectHandler().saveProject(path.toString().replace("\\", "/"));
+                        //setWindowTitle(resultString);
+
+                    }
+                    catch(IOException e){
+                        //Failed to create the directory.
+                        e.printStackTrace();
+                    }
 
                 }
-                catch(IOException e){
-                    //Failed to create the directory.
-                    e.printStackTrace();
+                else{
+                    System.out.println("Sorry, the path " + resultString + " already exists.");
+                    errorAlert("The project: "  +resultString+" already exists.");
                 }
 
             }
-            else{
-                System.out.println("Sorry, the path " + resultString + " already exists.");
-                errorAlert("The project: "  +resultString+" already exists.");
+            catch(InvalidPathException invPath){
+                //invalid path (Poor project naming)
+                errorAlert("Invalid file name - try again.");
+                newProject();
             }
+
 
         }
 
