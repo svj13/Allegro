@@ -9,11 +9,16 @@
       <!--<children>-->
        <MenuBar minHeight="-Infinity" prefHeight="29.0" prefWidth="500.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
            <menus>
-             <Menu mnemonicParsing="false" text="File" onShowing="#bindOpenObjects" >
+             <Menu mnemonicParsing="false" onShowing="#bindOpenObjects" text="File">
                <items>
                  <MenuItem fx:id="menuQuit" mnemonicParsing="false" onAction="#closeApplication" text="Quit" />
-                  <Menu fx:id="menuOpenProjects" mnemonicParsing="false"   text="Open Project"/>
-                   <MenuItem fx:id="MenuImportTranscript" mnemonicParsing="false" onAction="#importTranscript" text="Import Transcript" />
+                  <Menu fx:id="menuOpenProjects" mnemonicParsing="false" text="Open Project" />
+                  <Menu mnemonicParsing="false" text="Import">
+                    <items>
+                         <MenuItem fx:id="MenuImportTranscript" mnemonicParsing="false" onAction="#importTranscript" text="Import Transcript" />
+                      <MenuItem fx:id="MenuImportCommands" mnemonicParsing="false" onAction="#importCommands" text="Import Commands" />
+                    </items>
+                  </Menu>
                   <Menu mnemonicParsing="false" text="New..">
                     <items>
                         <MenuItem fx:id="menuNewProject" accelerator="Shortcut+N" mnemonicParsing="false" onAction="#newProject" text="Project" />

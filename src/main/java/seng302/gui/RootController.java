@@ -314,6 +314,35 @@ public class RootController implements Initializable {
         }
     }
 
+    @FXML
+    public void importCommands() {
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+        fileChooser.getExtensionFilters().add(textFilter);
+        if(env.getProjectHandler().isProject()){
+            checkProjectDirectory();
+            fileDir = Paths.get(env.getProjectHandler().getCurrentProjectPath()).toFile();
+
+        }
+        fileChooser.setInitialDirectory(fileDir);
+
+        File file = fileChooser.showOpenDialog(stage);
+
+        if (file != null) {
+            fileDir = file.getParentFile();
+            path = file.getAbsolutePath();
+            try {
+                ArrayList<String> commands = tm.loadCommands(path);
+            } catch (Exception ex) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("This file is not valid");
+                alert.showAndWait();
+                System.err.println("Not a valid file");
+            }
+
+        }
+    }
+
     public void setTranscriptPaneText(String text){
 
         transcriptController.setTranscriptPane(text);
