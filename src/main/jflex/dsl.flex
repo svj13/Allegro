@@ -134,6 +134,8 @@ Interval = ("unison"|"major second"|"major third"|"perfect fourth"|"perfect fift
     "category of"       {return symbol(DslSymbol.COMMAND_MUSICAL_TERM_CATEGORY); }
     "add musical term"  {return symbol(DslSymbol.COMMAND_ADD_MUSICAL_TERM); }
     "all enharmonics"   {return symbol(DslSymbol.COMMAND_ALL_ENHARMONICS); }
+    "undo"              {return symbol(DslSymbol.COMMAND_UNDO); }
+    "redo"              {return symbol(DslSymbol.COMMAND_REDO); }
     {Note}              {return symbol(DslSymbol.NOTE, new String(yytext()));}
     {Number}           { return symbol(DslSymbol.NUMBER, new String(yytext())); }
     {MidiNote}          {return symbol(DslSymbol.MIDINOTE, new String(yytext())); }

@@ -132,6 +132,8 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_ADD_MUSICAL_TERM musicalDef:s      {: RESULT = new MusicalTerm(s); :}
           | COMMAND_PLAY_SCALE scale:s                  {: RESULT = new Scale(s, "play");:}
           | COMMAND_ALL_ENHARMONICS note:s              {: RESULT = new Enharmonic(s, 3); :}
+          | COMMAND_UNDO                                {: RESULT = new UndoRedo(0); :}
+          | COMMAND_REDO                                {: RESULT = new UndoRedo(1); :}
 
 ;
 
