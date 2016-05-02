@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -19,6 +20,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import seng302.Environment;
 import seng302.command.Command;
+import seng302.command.NullCommand;
 
 /**
  * Created by jat157 on 20/03/16.
@@ -105,19 +107,26 @@ public class TranscriptPaneController {
 
             env.getExecutor().executeCommand(command);
             txtTranscript.appendText(env.getTranscriptManager().getLastCommand());
-            try {
-                System.out.println("Waiting" + command.getLength(env));
-                Thread.sleep((long) command.getLength(env));
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.err.println("Thread did not sleep");
-            }
-
-
 
         } else {
             txtTranscript.appendText("[ERROR] Cannot submit an empty command.\n");
         }
+    }
+
+    private Command execute(String text) {
+        if (text.length() > 0) {
+            env.getTranscriptManager().setCommand(text);
+            Command command = env.getExecutor().parseCommandString(text);
+            env.getExecutor().executeCommand(command);
+            return command;
+
+        } else {
+            return new NullCommand();
+        }
+    }
+
+    private void printToTranscript() {
+        txtTranscript.appendText(env.getTranscriptManager().getLastCommand());
     }
 
 
@@ -158,7 +167,6 @@ public class TranscriptPaneController {
     }
 
     public void setTranscriptPane(String text){
-        System.out.println("txtTranscript text"  +txtTranscript.getText());
         txtTranscript.setText(text);
     }
 
@@ -178,10 +186,30 @@ public class TranscriptPaneController {
         showPlaybackGui(commands.get(0));
 
         playall.setOnAction(new EventHandler<ActionEvent>() {
+            //Plays commands one by one, with a second's pause in between
             public void handle(ActionEvent event) {
-                for (String command:commands) {
-                    executeAndPrintToTranscript(command);
-                }
+                    Task task = new Task<Void>() {
+                        @Override
+                        public Void call() {
+                            for (final String command : commands) {
+                                Command cmd = execute(command);
+                                printToTranscript();
+                                try {
+                                    Thread.sleep((long) cmd.getLength(env) + 1000);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    System.err.println("Thread did not sleep");
+                                }
+
+                            }
+                            return null;
+                        }
+                    };
+
+                Thread th = new Thread(task);
+                th.setDaemon(true);
+                th.start();
+
                 playbackFinished();
             }
         });
