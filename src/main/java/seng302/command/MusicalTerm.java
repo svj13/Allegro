@@ -19,7 +19,7 @@ public class MusicalTerm implements Command {
     private String result;
     private String input;
     protected static HashMap<String, String> MusicalTermsMap = new HashMap<String, String>();
-
+    private ArrayList<String> inArray;
     private  boolean termAdded = false;
     private boolean validAdd = true;
     public Term term;
@@ -41,7 +41,7 @@ public class MusicalTerm implements Command {
      * @param musicalTermArray
      */
     public MusicalTerm(ArrayList<String> musicalTermArray) {
-
+        this.inArray = musicalTermArray;
         termAdded = true;
         term = new Term(musicalTermArray.get(0), musicalTermArray.get(2), musicalTermArray.get(1), musicalTermArray.get(3));
 
@@ -83,6 +83,7 @@ public class MusicalTerm implements Command {
 
         if(termAdded == true && validAdd == true){
             env.getMttDataManager().addTerm(term);
+            env.getEditManager().addToHistory("1", this.inArray);
         }
 
         env.getTranscriptManager().setResult(result);

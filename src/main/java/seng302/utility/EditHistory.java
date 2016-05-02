@@ -93,11 +93,20 @@ public class EditHistory {
     }
 
     private void deleteMusicalTerm(String termToDelete) {
-
+        System.out.println(termToDelete);
+        env.getMttDataManager().removeTerm(termToDelete);
+        env.getTranscriptManager().setResult(String.format("Musical Term %s has been deleted.",
+                termToDelete));
     }
 
     private void addMusicalTerm(ArrayList<String> termToAdd) {
-        new MusicalTerm(termToAdd).execute(env);
+        ArrayList<String> termArgs = new ArrayList<String>();
+        termArgs.add(termToAdd.get(1));
+        termArgs.add(termToAdd.get(2));
+        termArgs.add(termToAdd.get(3));
+        termArgs.add(termToAdd.get(4));
+
+        new MusicalTerm(termArgs).execute(env);
     }
 
 }
