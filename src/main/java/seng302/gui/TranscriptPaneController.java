@@ -132,9 +132,13 @@ public class TranscriptPaneController {
             goAction();
             env.getTranscriptManager().resetHistoryLevel();
         } else if (event.getCode() == KeyCode.UP) {
-
-            //handleScrollUp();
             txtCommand.setText(env.getTranscriptManager().cycleInputUp(txtCommand.getText()));
+            Platform.runLater(new Runnable() {
+                public void run() {
+                    txtCommand.positionCaret(9999);
+                }
+            });
+
 
         } else if (event.getCode() == KeyCode.DOWN) {
 
@@ -145,7 +149,11 @@ public class TranscriptPaneController {
             // historyLevel = -1;
             //enteredCommand = "";
         }
-
+        Platform.runLater(new Runnable() {
+            public void run() {
+                txtCommand.positionCaret(9999);
+            }
+        });
 
     }
 
