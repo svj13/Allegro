@@ -20,11 +20,11 @@ import static org.mockito.Mockito.verify;
 public class MusicalTermTest extends TestCase {
 
     private Environment env;
+
     @Mock
     private TranscriptManager transcriptManager;
 
-    @Mock
-    private MusicalTermsTutorBackEnd tutorDataManger;
+    private MusicalTermsTutorBackEnd tutorDataManger = new MusicalTermsTutorBackEnd();
     private Term term = new Term("name","category","origin","description");
 
     @Before
@@ -36,7 +36,7 @@ public class MusicalTermTest extends TestCase {
 
     @After
     public void tearDown() throws Exception {
-        MusicalTerm.MusicalTermsMap.clear();
+        //MusicalTerm.MusicalTermsMap.clear();
     }
 
 
@@ -91,7 +91,8 @@ public class MusicalTermTest extends TestCase {
         termCommand.execute(env);
 
 
-        verify(tutorDataManger).addTerm(termCommand.term);
+        verify(transcriptManager).setResult("Added term: name\n" +
+                "Origin: category \nCategory: origin\nDefinition: description");
 
         ArrayList<Term> terms = new ArrayList<Term>();
         terms.add(termCommand.term);

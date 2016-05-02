@@ -21,6 +21,10 @@ public class Version implements Command {
         }
     }
 
+    public float getLength(Environment env) {
+        return 0;
+    };
+
     public String getCurrentVersion() {
         return currentVersion;
     }

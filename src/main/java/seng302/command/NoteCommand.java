@@ -15,6 +15,10 @@ public class NoteCommand implements Command {
         note = s;
     }
 
+    public float getLength(Environment env) {
+        return 0;
+    };
+
     /**
      * Sets the result to the equivalent Note or calls an error message if the MIDI given is not a
      * valid note.

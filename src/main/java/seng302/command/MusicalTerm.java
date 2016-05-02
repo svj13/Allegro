@@ -16,16 +16,28 @@ import java.util.HashMap;
 
 import seng302.Environment;
 import seng302.data.Term;
+import seng302.utility.MusicalTermsTutorBackEnd;
 
 public class MusicalTerm implements Command {
     private String result;
     private String input;
-    protected static HashMap<String, Term> MusicalTermsMap = new HashMap<String, Term>();
+    //protected static HashMap<String, Term> MusicalTermsMap = new HashMap<String, Term>();
 
     private  boolean termAdded = false;
     private boolean validAdd = true;
-    public Term term;
+    public Term term = null;
 
+
+
+
+    private String musicalTermName;
+    private String infoToGet;
+    private boolean lookupTerm = false;
+
+
+
+
+    public ArrayList<Term> terms;
 
 
     /**
@@ -47,18 +59,6 @@ public class MusicalTerm implements Command {
         termAdded = true;
         term = new Term(musicalTermArray.get(0), musicalTermArray.get(2), musicalTermArray.get(1), musicalTermArray.get(3));
 
-        String definition = "Origin: " + musicalTermArray.get(1) + "\nCategory: " + musicalTermArray.get(2) +
-                "\nDefinition: " + musicalTermArray.get(3);
-        if(MusicalTermsMap.get(musicalTermArray.get(0)) != null){
-            validAdd = false;
-            this.result = "Term with the name of " + musicalTermArray.get(0) +  " has already been added";
-
-        }else {
-            this.result = "Added term: " + term.getMusicalTermName() +
-                    "\nOrigin: " + term.getMusicalTermOrigin() + " \nCategory: " +
-                    term.getMusicalTermCategory() + "\nDefinition: " + term.getMusicalTermDefinition();
-            MusicalTermsMap.put(musicalTermArray.get(0), term);
-        }
     }
 
     /**
@@ -67,35 +67,74 @@ public class MusicalTerm implements Command {
      * @param infoToGet Whether we are fetching the musical term's category, origin, or definition.
      */
     public MusicalTerm(String termToLookUp, String infoToGet) {
+        lookupTerm = true;
+        musicalTermName = termToLookUp.toLowerCase();
+        this.infoToGet = infoToGet.toLowerCase();
+    }
 
-        String musicalTermName = termToLookUp.toLowerCase();
-        infoToGet = infoToGet.toLowerCase();
 
-        //checks to see if the definition exists in the hashmap
-        if (MusicalTermsMap.get(musicalTermName) != null) {
-            Term term = this.MusicalTermsMap.get(musicalTermName);
+    private void addTermBool() {
+        boolean resultSet = false;
+        for (Term term : terms) {
+            if (term.getMusicalTermName().equals(this.term.getMusicalTermName())) {
+                validAdd = false;
+                this.result = "Term with the name of " + this.term.getMusicalTermName() + " has already been added";
+                resultSet = true;
 
-            // Returns the correct information
-            if (infoToGet.equals("meaning")) {
-                this.result = term.getMusicalTermDefinition();
-            } else if (infoToGet.equals("origin")) {
-                this.result = term.getMusicalTermOrigin();
-            } else if (infoToGet.equals("category")) {
-                this.result = term.getMusicalTermCategory();
-            } else {
-                // What the user is looking for is invalid.
-                // This may never be reachable by the DSL, but is good to have regardless.
-                this.result = String.format("%s is not recognised as part of a musical term.",
-                        infoToGet);
+            } else if (!resultSet) {
+                this.result = "Added term: " + this.term.getMusicalTermName() +
+                        "\nOrigin: " + this.term.getMusicalTermOrigin() + " \nCategory: " +
+                        this.term.getMusicalTermCategory() + "\nDefinition: "
+                        + this.term.getMusicalTermDefinition();
+            }
+        }
+        if (!resultSet) {
+            this.result = "Added term: " + this.term.getMusicalTermName() +
+                    "\nOrigin: " + this.term.getMusicalTermOrigin() + " \nCategory: " +
+                    this.term.getMusicalTermCategory() + "\nDefinition: "
+                    + this.term.getMusicalTermDefinition();
+        }
+    }
+
+    private void lookupTerm(){
+        boolean resultSet = false;
+        for(Term term : this.terms) {
+            if (term.getMusicalTermName().equals(musicalTermName)) {
+                // Returns the correct information
+                if (infoToGet.equals("meaning")) {
+                    this.result = term.getMusicalTermDefinition();
+                    resultSet = true;
+                } else if (infoToGet.equals("origin")) {
+                    this.result = term.getMusicalTermOrigin();
+                    resultSet = true;
+                } else if (infoToGet.equals("category")) {
+                    this.result = term.getMusicalTermCategory();
+                    resultSet = true;
+                } else {
+                    // What the user is looking for is invalid.
+                    // This may never be reachable by the DSL, but is good to have regardless.
+                    this.result = String.format("%s is not recognised as part of a musical term.",
+                            infoToGet);
+                    resultSet = true;
+                }
+
+                //if a given term is not in the hash map it will return an error to the user
+            } else if (!resultSet) {
+                this.result = String.format("%s is not recognised as an existing musical term.",
+                        musicalTermName);
             }
 
-            //if a given term is not in the hash map it will return an error to the user
-        } else {
+        }
+        if (!resultSet)
+        {
             this.result = String.format("%s is not recognised as an existing musical term.",
                     musicalTermName);
         }
     }
 
+    public float getLength(Environment env) {
+        return 0;
+    };
 
 
     /**will add the musical term to the dictionary, or print the relevant definition of the musical
@@ -103,7 +142,13 @@ public class MusicalTerm implements Command {
      * @param env
      */
     public void execute(Environment env) {
-
+        this.terms = env.getMttDataManager().getTerms();
+        if(lookupTerm) {
+            lookupTerm();
+        }
+        else {
+            addTermBool();
+        }
         if(termAdded == true && validAdd == true){
             env.getMttDataManager().addTerm(term);
         }

@@ -30,6 +30,10 @@ public class PlayNote implements Command {
         this.duration = duration;
     }
 
+    public float getLength(Environment env) {
+        return 60000 / env.getPlayer().getTempo();
+    };
+
     /**
      * Uses the music player class to play a given note.
      * Displays errors if the given note or duration is invalid.

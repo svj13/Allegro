@@ -41,6 +41,10 @@ public class IntervalCommand implements Command {
         this.outputType = outputType;
     }
 
+    public float getLength(Environment env) {
+        return 0;
+    };
+
 
 
     /**

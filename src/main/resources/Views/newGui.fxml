@@ -45,7 +45,7 @@
          </MenuBar>
        <TabPane fx:id="TabPane" layoutY="29.0" prefHeight="428.0" prefWidth="500.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0">
         <tabs>
-          <Tab onSelectionChanged="#tabChanged" text="Transcript">
+          <Tab onSelectionChanged="#onTranscriptTab" text="Transcript">
             <content>
               <fx:include fx:id="transcript" source="TranscriptPane.fxml" />
               <!--<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />-->

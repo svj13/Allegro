@@ -54,6 +54,10 @@ public class Tempo implements Command {
         }
     }
 
+    public float getLength(Environment env) {
+        return 0;
+    };
+
     /**
      * Executes the tempo command. It will return the current set tempo in BPM. If no tempo has
      * been set, it defaults to the value of 120BMP
