@@ -1,19 +1,28 @@
 package seng302.gui;
 
 
+import org.json.simple.JSONArray;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -21,9 +30,9 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import org.json.simple.JSONArray;
 import seng302.Environment;
-import seng302.utility.TranscriptManager;
+import seng302.managers.TranscriptManager;
+import seng302.utility.OutputTuple;
 
 public class RootController implements Initializable {
     Environment env;
@@ -54,13 +63,15 @@ public class RootController implements Initializable {
     private MusicalTermsTutorController MusicalTermsTabController;
 
     @FXML
+    private ScaleRecognitionTutorController ScaleRecognitionTabController;
+
+    @FXML
     private StackPane stackPane1;
 
     @FXML
     private MenuItem menuQuit;
 
-    @FXML
-    private TextArea txtTranscript;
+
 
     @FXML
     private MenuItem menuOpen;
@@ -69,7 +80,13 @@ public class RootController implements Initializable {
     private MenuItem menuSave;
 
     @FXML
+    private MenuItem menuSaveCommands;
+
+    @FXML
     private Menu menuOpenProjects;
+
+    @FXML
+    private TabPane tabPane;
 
     @FXML
     private void initialize() {
@@ -80,11 +97,20 @@ public class RootController implements Initializable {
 
     }
 
+    @FXML
+    public void tabChanged(){
 
+    }
 
     public void initialize(URL location, ResourceBundle resources) {
 
-        System.out.println("root controller initialize test");
+//        System.out.println("root controller initialize test");
+//        tabPane.setOnMouseReleased(new EventHandler<Event>() {
+//            public void handle(Event event) {
+//                System.out.println("hello");
+//            }
+//        });
+
 //
     }
 
@@ -95,46 +121,100 @@ public class RootController implements Initializable {
      */
     @FXML
     private void closeApplication() {
-        if (tm.unsavedChanges == true) {
+        if (!env.getProjectHandler().isSaved()) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("Unsaved changes");
-            alert.setContentText("Are you sure that you would like to quit?");
 
-            ButtonType saveBtn = new ButtonType("Save");
-            ButtonType quitBtn = new ButtonType("Quit");
-            ButtonType cancelBtn = new ButtonType("Cancel");
+            ButtonType btnSaveProject = new ButtonType("Save project");
 
-            alert.getButtonTypes().setAll(saveBtn, quitBtn, cancelBtn);
+            ButtonType btnQuit = new ButtonType("Quit");
+            ButtonType btnCancel = new ButtonType("Cancel");
 
+            alert.getButtonTypes().setAll(btnSaveProject, btnQuit, btnCancel);
+
+            String contentString = "Unsaved Project properties\n\nAre you sure that you would like to quit?";
+
+            alert.setContentText(contentString);
             Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == saveBtn) {
-                saveTranscript();
-                if (tm.unsavedChanges == false) {
-                    System.exit(0);
-                }
-            } else if (result.get() == quitBtn) {
-                System.exit(0);
 
-            } else {
-                //do nothing
+            if(result.get() == btnSaveProject){
+
+                env.getProjectHandler().saveCurrentProject();
+                System.exit(0);
+            }
+            else if (result.get() == btnQuit) {
+                System.exit(0);
+            }
+            else if(result.get() == btnCancel){
+
             }
 
 
-        } else {
+        }
+        else if( env.getProjectHandler().isProject() && env.getTranscriptManager().unsavedChanges){
+            env.getProjectHandler().saveCurrentProject();
             System.exit(0);
         }
+
+        else {
+
+            System.exit(0);
+        }
+
+
     }
+
+    public Boolean saveChangesDialog(){
+        if (!env.getProjectHandler().isSaved()) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setHeaderText("Unsaved changes");
+
+            ButtonType btnSaveProject = new ButtonType("Save");
+
+            ButtonType btnNo = new ButtonType("Don't Save");
+            ButtonType btnCancel = new ButtonType("Cancel");
+
+            alert.getButtonTypes().setAll(btnSaveProject, btnNo, btnCancel);
+
+            String contentString = "Unsaved project properties\n\nSave changes to current project?";
+
+
+            alert.setContentText(contentString);
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if(result.get() == btnSaveProject){
+                checkProjectDirectory();
+                env.getProjectHandler().saveCurrentProject();
+
+            }
+            else if(result.get() == btnCancel){
+                return false;
+            }
+
+
+        }
+        else if(env.getProjectHandler().isProject() &&  env.getTranscriptManager().unsavedChanges){
+
+            env.getProjectHandler().saveCurrentProject();
+        }
+        return true;
+    }
+
+    @FXML
+    private void clearTranscript(){
+        tm.setTranscriptContent(new ArrayList<OutputTuple>());
+        transcriptController.setTranscriptPane("");
+        tm.unsavedChanges = true;
+    }
+
 
     /**
      * Used to save the transcript to a destination determined by the user, using a filechooser.
      */
     @FXML
     private void saveTranscript() {
-        FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
-        fileChooser.getExtensionFilters().add(textFilter);
-        fileChooser.setInitialDirectory(fileDir);
-        File file = fileChooser.showSaveDialog(stage);
+
+        File file = generateFileChooser();
 
         if (file != null) {
             fileDir = file.getParentFile();
@@ -144,14 +224,77 @@ public class RootController implements Initializable {
     }
 
     /**
-     * Opens a transcript that has been previously saved.
+     * Used to save only the commands to a destination determined by user
      */
     @FXML
-    private void openTranscript() {
+    private void saveCommands() {
+        File file = generateFileChooser();
+
+        if (file != null) {
+            fileDir = file.getParentFile();
+            if(env.getProjectHandler().isProject()){
+
+                fileDir = Paths.get(env.getProjectHandler().getCurrentProjectPath()).toFile();
+
+            }
+            path = file.getAbsolutePath();
+            tm.saveCommandsOnly(path);
+        }
+
+    }
+
+    /**
+     * Will be used to undo commands in the transcript
+     */
+    @FXML
+    private void undo() {
+
+    }
+
+    /**
+     * Will be used to redo commands in the transcript
+     */
+    @FXML
+    private void redo() {
+
+    }
+
+    /**
+     * Creates and displays a "save file" file chooser
+     * @return The file which the user selects
+     */
+    private File generateFileChooser() {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(textFilter);
+
+        if(env.getProjectHandler().isProject()){
+            checkProjectDirectory();
+            fileDir = Paths.get(env.getProjectHandler().getCurrentProjectPath()).toFile();
+
+        }
+
+
         fileChooser.setInitialDirectory(fileDir);
+        File file = fileChooser.showSaveDialog(stage);
+        return file;
+    }
+
+    /**
+     * Opens a transcript that has been previously saved.
+     */
+    @FXML
+    private void importTranscript() {
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+        fileChooser.getExtensionFilters().add(textFilter);
+        if(env.getProjectHandler().isProject()){
+            checkProjectDirectory();
+            fileDir = Paths.get(env.getProjectHandler().getCurrentProjectPath()).toFile();
+
+        }
+        fileChooser.setInitialDirectory(fileDir);
+
         File file = fileChooser.showOpenDialog(stage);
 
         if (file != null) {
@@ -159,7 +302,8 @@ public class RootController implements Initializable {
             path = file.getAbsolutePath();
             try {
                 tm.open(path);
-                txtTranscript.setText(tm.convertToText());
+
+                transcriptController.setTranscriptPane(tm.convertToText());
             } catch (Exception ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("This file is not valid");
@@ -170,8 +314,34 @@ public class RootController implements Initializable {
         }
     }
 
+    public void setTranscriptPaneText(String text){
+
+        transcriptController.setTranscriptPane(text);
+
+    }
+
+
+    private void checkProjectDirectory(){
+        Path path = Paths.get("UserData/Projects/");
+        if(!Files.isDirectory(path)){
+            try{
+                Files.createDirectories(path);
+
+            }
+            catch(IOException e){
+                //Failed to create the directory.
+                e.printStackTrace();
+            }
+
+
+        }
+
+    }
+
     @FXML
     public void newProject(){
+
+
 
         TextInputDialog dialog = new TextInputDialog("");
         dialog.setTitle("New Project");
@@ -187,7 +357,7 @@ public class RootController implements Initializable {
                 try{
                     Files.createDirectories(path);
 
-                    env.getJson().saveProject(path.toString() + "/"+resultString);
+                    env.getProjectHandler().saveProject(path.toString() + "/"+resultString);
                     //setWindowTitle(resultString);
 
                 }
@@ -211,19 +381,20 @@ public class RootController implements Initializable {
 
     @FXML
     private void saveProject(){
-        env.getJson().saveCurrentProject();
+        env.getProjectHandler().saveCurrentProject();
     }
 
     @FXML
     private void bindOpenObjects(){
 
-        JSONArray projects = env.getJson().getProjectList();
+        JSONArray projects = env.getProjectHandler().getProjectList();
         menuOpenProjects.getItems().clear();
 
         MenuItem selectItem = new MenuItem("Select Project");
         selectItem.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             public void handle(javafx.event.ActionEvent event) {
-                selectProjectDirectory();
+
+                if(saveChangesDialog())  selectProjectDirectory();
             }
 
 
@@ -232,13 +403,14 @@ public class RootController implements Initializable {
         dividor.setText("Recent Projects..");
         menuOpenProjects.getItems().add(selectItem);
         menuOpenProjects.getItems().add(dividor);
+
         for(int i = projects.size()-1; i >= 0 ; i--){
             final String projectName = projects.get(i).toString();
 
             MenuItem projectItem = new MenuItem(projectName);
             projectItem.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
                 public void handle(javafx.event.ActionEvent event) {
-                    env.getJson().loadProject(projectName);
+                    if(saveChangesDialog())  env.getProjectHandler().loadProject(projectName);
                 }
 
 
@@ -251,15 +423,15 @@ public class RootController implements Initializable {
 
     }
 
-
+    /**
+     * Open Project browser.
+     */
     private void selectProjectDirectory(){
         DirectoryChooser dirChooser = new DirectoryChooser();
 
         dirChooser.setTitle("Select a project directory");
         Path path = Paths.get("UserData/Projects/");
-
-
-
+        checkProjectDirectory();
         dirChooser.setInitialDirectory(path.toFile());
 
 
@@ -269,10 +441,10 @@ public class RootController implements Initializable {
             if(folder.isDirectory()){
                 for(File f : folder.listFiles()){
 
-                    if(f.getName().endsWith(".JSON") && f.getName().substring(0, f.getName().length() - 5).equals(folder.getName())){
+                    if(f.getName().endsWith(".json") && f.getName().substring(0, f.getName().length() - 5).equals(folder.getName())){
 
                         System.out.println("VALID PROJECT");
-                        env.getJson().loadProject(folder.getName());
+                        env.getProjectHandler().loadProject(folder.getName());
                         return;
 
                     }
@@ -298,6 +470,7 @@ public class RootController implements Initializable {
 
             }
         });
+
     }
 
     /**
@@ -313,7 +486,7 @@ public class RootController implements Initializable {
         PitchComparisonTabController.create(env);
         IntervalRecognitionTabController.create(env);
         MusicalTermsTabController.create(env);
-
+        ScaleRecognitionTabController.create(env);
 
         env.setRootController(this);
 
@@ -325,6 +498,18 @@ public class RootController implements Initializable {
 
     public Environment getEnv() {
         return env;
+    }
+
+    /**
+     * Allows for dynamic updating of the question slider in Musical Terms tutor.
+     * When you load this tab, it checks how many terms are in the current session, and changes
+     * the default accordingly - up to 5.
+     */
+    public void reloadNumberTerms() {
+        MusicalTermsTabController.terms = env.getMttDataManager().getTerms().size();
+        if (MusicalTermsTabController.terms <= 5) {
+            MusicalTermsTabController.numQuestions.setValue(MusicalTermsTabController.terms);
+        }
     }
 
 }

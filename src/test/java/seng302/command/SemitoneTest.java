@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import seng302.Environment;
-import seng302.utility.TranscriptManager;
+import seng302.managers.TranscriptManager;
 
 import static org.mockito.Mockito.verify;
 

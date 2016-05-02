@@ -1,8 +1,6 @@
-package seng302.JSON;
+package seng302.managers;
 
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by Jonty on 22-Apr-16.

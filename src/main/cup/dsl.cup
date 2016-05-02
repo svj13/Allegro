@@ -84,9 +84,9 @@ parser code {:
 terminal COMMAND_HELP, COMMAND_NOTE, COMMAND_MIDI, COMMAND_VERSION, COMMAND_SEMITONE_UP,
 COMMAND_SEMITONE_DOWN, COMMAND_SCALE, COMMAND_TEMPO, COMMAND_MIDI_SCALE, COMMAND_ENHARMONIC_LOWER,
 COMMAND_ENHARMONIC_HIGHER, COMMAND_SIMPLE_ENHARMONIC, COMMAND_SET_TEMPO, COMMAND_CROTCHET_DURATION,
-COMMAND_PLAY_NOTE, COMMAND_FORCE_SET_TEMPO, COMMAND_PLAY_SCALE, COMMAND_MUSICAL_TERM, COMMAND_UNDO,
-COMMAND_ADD_MUSICAL_TERM, COMMAND_INTERVAL, COMMAND_PLAY_INTERVAL, COMMAND_ALL_ENHARMONICS,
-COMMAND_REDO, SEMIC;
+COMMAND_PLAY_NOTE, COMMAND_FORCE_SET_TEMPO, COMMAND_PLAY_SCALE, COMMAND_MUSICAL_TERM_MEANING,
+COMMAND_MUSICAL_TERM_ORIGIN, COMMAND_MUSICAL_TERM_CATEGORY, COMMAND_ADD_MUSICAL_TERM,
+COMMAND_INTERVAL, COMMAND_PLAY_INTERVAL,COMMAND_ALL_ENHARMONICS, SEMIC;
 
 terminal String ATOM, NOTE, SCALE_TYPE, DIRECTION, MIDINOTE, NUMBER, POSNUM, INTERVAL;
 
@@ -106,6 +106,7 @@ non terminal String term;
 start with command;
 
 command ::= COMMAND_HELP                                {: RESULT = new Help(); :}
+          | COMMAND_HELP keyword:n                      {: RESULT = new Help(n); :}
           | COMMAND_NOTE note:n                         {: RESULT = new NoteCommand(n); :}
           | COMMAND_MIDI note:s                         {: RESULT = new Midi(s); :}
           | COMMAND_VERSION                             {: RESULT = new Version(); :}
@@ -125,8 +126,10 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_CROTCHET_DURATION                   {: RESULT = new CrotchetDuration(); :}
           | COMMAND_PLAY_NOTE note:s                    {: RESULT = new PlayNote(s); :}
           | COMMAND_PLAY_NOTE note:s positiveNum:d      {: RESULT = new PlayNote(s, d); :}
-          | COMMAND_MUSICAL_TERM term:s                 {: RESULT = new MusicalTerm(s); :}
-          | COMMAND_ADD_MUSICAL_TERM musicalDef:s       {: RESULT = new MusicalTerm(s); :}
+          | COMMAND_MUSICAL_TERM_MEANING term:s         {: RESULT = new MusicalTerm(s, "meaning"); :}
+          | COMMAND_MUSICAL_TERM_ORIGIN term:s          {: RESULT = new MusicalTerm(s, "origin"); :}
+          | COMMAND_MUSICAL_TERM_CATEGORY term:s        {: RESULT = new MusicalTerm(s, "category"); :}
+          | COMMAND_ADD_MUSICAL_TERM musicalDef:s      {: RESULT = new MusicalTerm(s); :}
           | COMMAND_PLAY_SCALE scale:s                  {: RESULT = new Scale(s, "play");:}
           | COMMAND_ALL_ENHARMONICS note:s              {: RESULT = new Enharmonic(s, 3); :}
           | COMMAND_UNDO                                {: RESULT = new UndoRedo(0); :}
@@ -179,7 +182,9 @@ keyword ::= COMMAND_HELP    {: RESULT = "help"; :}
           | COMMAND_SET_TEMPO {: RESULT = "set tempo";:}
           | COMMAND_FORCE_SET_TEMPO {: RESULT = "force set tempo";:}
           | COMMAND_CROTCHET_DURATION {: RESULT = "crotchet duration"; :}
-          | COMMAND_MUSICAL_TERM {: RESULT = "meaning of"; :}
+          | COMMAND_MUSICAL_TERM_MEANING {: RESULT = "meaning of"; :}
+          | COMMAND_MUSICAL_TERM_ORIGIN  {: RESULT = "origin of"; :}
+          | COMMAND_MUSICAL_TERM_CATEGORY {: RESULT = "category of"; :}
           | COMMAND_ADD_MUSICAL_TERM {: RESULT = "add musical term"; :}
 ;
 

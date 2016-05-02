@@ -1,4 +1,4 @@
-package seng302.utility;
+package seng302.managers;
 
 
 import java.io.BufferedReader;
@@ -7,20 +7,22 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.json.simple.JSONArray;
+import seng302.command.Command;
+import seng302.utility.CommandHistory;
+import seng302.utility.OutputTuple;
+
 /**
  * Maintains command/result output information as well as handling save/open functionality.
  *
  * Created by team5 on 3/03/2016.
  */
 public class TranscriptManager {
-    CommandHistory historyController;
+    private CommandHistory historyController;
     private OutputTuple lastOutputTuple; // The last command + result fired generated.
     private String output;
     private ArrayList<OutputTuple> transcriptContent = new ArrayList<OutputTuple>();
     public boolean unsavedChanges = false;
-
-
-
 
 
 
@@ -48,7 +50,9 @@ public class TranscriptManager {
     public ArrayList<OutputTuple> getTranscriptTuples() {
         return transcriptContent;
     }
-
+    public void setTranscriptContent(ArrayList<OutputTuple> transcript ) {
+        transcriptContent = transcript;
+    }
 
     /**
      * Saves Called commands/results to a local text file.
@@ -156,6 +160,52 @@ public class TranscriptManager {
         return displayText;
     }
 
+    /**
+     * Method to write only the commands to a file, for re-use
+     * @param path the path of the document to save to
+     */
+    public void saveCommandsOnly(String path) {
+        try {
+            FileWriter writer = new FileWriter(path, false);
+            for (OutputTuple line : transcriptContent) {
+                writer.write(line.getInput() + "\n");
+            }
+            writer.close();
+            unsavedChanges = false;
+
+        } catch (IOException ex) {
+
+            System.err.println("Problem writing to the selected file " + ex.getMessage());
+        }
+    }
+
+    /**
+     * Loads a commands-only text file for execution
+     * @param path the path to the file containing the commands
+     * @return an array list of textual commands
+     */
+    public ArrayList<String> loadCommands(String path) {
+
+        try {
+            FileReader reader = new FileReader(path);
+            BufferedReader input = new BufferedReader(reader);
+            String str;
+            ArrayList<String> commands = new ArrayList<String>();
+            while ((str = input.readLine()) != null) {
+                for (String command:str.split("\n")) {
+                    commands.add(command);
+                }
+            }
+            return commands;
+        } catch (IOException ex) {
+            System.out.println("problem Reading from file");
+            return null;
+        }
+    }
+
+    public CommandHistory getCommandHistory(){
+        return historyController;
+    }
 
 }
 

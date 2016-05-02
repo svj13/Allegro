@@ -2,9 +2,11 @@ package seng302;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.text.Font;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import seng302.gui.RootController;
 
@@ -39,9 +41,17 @@ public class App extends Application {
 
             primaryStage = new Stage();
             primaryStage.setScene(scene);
-            primaryStage.setTitle("Allegro - Unsaved Project");
+            primaryStage.setTitle("Allegro - No Project");
+            Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+
+            //set Stage boundaries to visible bounds of the main screen
+            primaryStage.setX(primaryScreenBounds.getMinX());
+            primaryStage.setY(primaryScreenBounds.getMinY());
+            primaryStage.setWidth(primaryScreenBounds.getWidth());
+            primaryStage.setHeight(primaryScreenBounds.getHeight());
+
             primaryStage.setMinHeight(450);
-            primaryStage.setMinWidth(450);
+            primaryStage.setMinWidth(700);
 
             RootController controller = loader.getController();
             if (controller == null) System.err.println("Controller is null");

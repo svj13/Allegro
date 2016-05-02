@@ -9,36 +9,38 @@
       <!--<children>-->
        <MenuBar minHeight="-Infinity" prefHeight="29.0" prefWidth="500.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
            <menus>
-             <Menu mnemonicParsing="false" text="File">
+             <Menu mnemonicParsing="false" text="File" onShowing="#bindOpenObjects" >
                <items>
                  <MenuItem fx:id="menuQuit" mnemonicParsing="false" onAction="#closeApplication" text="Quit" />
-                  <Menu fx:id="menuOpen" mnemonicParsing="false" onAction="#bindOpenObjects" onShown="#bindOpenObjects" text="Open...">
-                    <items>
-                        <SeparatorMenuItem mnemonicParsing="false" text="Find.." />
-                        <Menu fx:id="menuOpenProjects" mnemonicParsing="false" text="Project" />
-
-                           <MenuItem fx:id="MenuOpen" mnemonicParsing="false" onAction="#openTranscript" text="Open Transcript" />
-                    </items>
-                  </Menu>
+                  <Menu fx:id="menuOpenProjects" mnemonicParsing="false"   text="Open Project"/>
+                   <MenuItem fx:id="MenuImportTranscript" mnemonicParsing="false" onAction="#importTranscript" text="Import Transcript" />
                   <Menu mnemonicParsing="false" text="New..">
                     <items>
-                        <MenuItem fx:id="menuNewProject" mnemonicParsing="false" onAction="#newProject" text="Project" accelerator="Shortcut+N" />
+                        <MenuItem fx:id="menuNewProject" accelerator="Shortcut+N" mnemonicParsing="false" onAction="#newProject" text="Project" />
 
                     </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Save...">
                      <items>
-                        <MenuItem fx:id="menuSaveProject" mnemonicParsing="false" onAction="#saveProject" text="Save Project" accelerator="Shortcut+S" />
-                           <MenuItem fx:id="MenuSave" mnemonicParsing="false" onAction="#saveTranscript" text="Save Transcript" />
+                        <MenuItem fx:id="menuSaveProject" accelerator="Shortcut+S" mnemonicParsing="false" onAction="#saveProject" text="Save Project" />
+                           <MenuItem fx:id="MenuSave" mnemonicParsing="false" onAction="#saveTranscript" text="Export Transcript" />
+                        <MenuItem fx:id="menuSaveCommands" mnemonicParsing="false" onAction="#saveCommands" text="Export Commands Only" />
                      </items>
                   </Menu>
                </items>
              </Menu>
+           <Menu mnemonicParsing="false" text="Edit">
+                <items>
+                    <MenuItem fx:id="menuClearTranscript" mnemonicParsing="false" onAction="#clearTranscript" text="Clear Transcript" />
+                    <MenuItem fx:id="menuUndo" accelerator="Shortcut+Z" mnemonicParsing="false" onAction="#undo" text="Undo" />
+                    <MenuItem fx:id="menuRedo" accelerator="Shortcut+Y" mnemonicParsing="false" onAction="#redo" text="Redo" />
+                </items>
+           </Menu>
            </menus>
          </MenuBar>
-       <TabPane layoutY="29.0" prefHeight="428.0" prefWidth="500.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0">
+       <TabPane fx:id="TabPane" layoutY="29.0" prefHeight="428.0" prefWidth="500.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0">
         <tabs>
-          <Tab text="Transcript">
+          <Tab onSelectionChanged="#tabChanged" text="Transcript">
             <content>
               <fx:include fx:id="transcript" source="TranscriptPane.fxml" />
               <!--<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />-->
@@ -55,11 +57,16 @@
                   <fx:include fx:id="IntervalRecognitionTab" source="IntervalRecognitionPane.fxml" />
               </content>
             </Tab>
-           <Tab text="Musical Terms Tutor">
+           <Tab onSelectionChanged="#reloadNumberTerms" text="Musical Terms Tutor">
                <content>
                    <fx:include fx:id="MusicalTermsTab" source="MusicalTermsPane.fxml" />
                </content>
            </Tab>
+            <Tab text="Scale Tutor">
+                <content>
+                    <fx:include fx:id="ScaleRecognitionTab" source="ScaleRecognitionPane.fxml" />
+                </content>
+            </Tab>
         </tabs>
       </TabPane>
    </children>

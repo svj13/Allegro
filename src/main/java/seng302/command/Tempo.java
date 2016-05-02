@@ -19,15 +19,29 @@ public class Tempo implements Command {
     }
 
     /**
+     * Given a tempo, checks if it is inside the valid range of 20-300 BPM
+     * @param tempo the value to check
+     * @return whether or not the tempo is inside a valid range
+     */
+    private boolean inValidRange(int tempo) {
+        if (tempo >= 20 && tempo <= 300) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Changes the tempo to the given value. If the value is outside of the appropriate tempo range,
      * an error message will raise and notify the user
      */
     public Tempo(String tempo, boolean force) {
         this.isSetter = true;
+        this.force = force;
         try {
             this.tempo = Integer.parseInt(tempo);
-            if (this.tempo < 20 || this.tempo > 300) {
-                if (force == false) {
+            if (!inValidRange(this.tempo)) {
+                if (this.force == false) {
                     this.result = "Tempo outside valid range. Use 'force set tempo' command to " +
                             "override. Use 'help' for more information";
                 } else {
@@ -49,14 +63,19 @@ public class Tempo implements Command {
      */
     public void execute(Environment env) {
         if (isSetter){
+            // Only change the tempo under valid circumstances
+            if (force || inValidRange(tempo)) {
+                env.getPlayer().setTempo(tempo);
+            }
+
             ArrayList<String> editHistoryArray = new ArrayList<String>();
             editHistoryArray.add(String.valueOf(env.getPlayer().getTempo()));
             editHistoryArray.add(String.valueOf(tempo));
             env.getEditManager().addToHistory("0", editHistoryArray);
-            env.getPlayer().setTempo(tempo);
+
             env.getTranscriptManager().setResult(result);
             //Update project saved state
-            env.getJson().checkChanges("tempo");
+            env.getProjectHandler().checkChanges("tempo");
 
         } else {
             //is getting the tempo

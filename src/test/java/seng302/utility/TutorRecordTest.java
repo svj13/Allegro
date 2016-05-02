@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import java.util.Date;
 
-import javafx.util.Pair;
+import seng302.managers.TutorManager;
 
 /**
  * Created by emily on 21/04/16.

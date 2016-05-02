@@ -93,11 +93,11 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 
 WhiteSpace = \p{Whitespace}
 Number = \p{Digit}
-Note = [A-G|a-g]([#|b|x]|(bb))?[0-8]?|[D-G|d-g]([#|b|x]|(bb))?[-1]?|[A-F|a-f]([#|b|x]|(bb))?[9]?|[C|c][#|x]?(-1)?|[G|g](b|bb)?[9]?
+Note = [A-G|a-g]([#|b|x]|(bb))?[0-8]?|[A|B|D-G|a|b|d-g]([#|b|x]|(bb))?("-1")?|[C-F|c-f]([#|b|x]|(bb))?[9]?|[C|c][#|x]?(-1)?|[G|g](b|bb)?[9]?
 MidiNote = (0?[0-9]?[0-9]|1[01][0-9]|12[0-7])
 Atom = [^\s|;]+
 SemiColon = ";"
-ScaleType = "major"
+ScaleType = "major"|"minor"
 Direction = "updown"|"up"|"down"
 PosNum = \p{Digit}+
 Interval = ("unison"|"major second"|"major third"|"perfect fourth"|"perfect fifth"|"major sixth"|"major seventh"|"octave")
@@ -129,7 +129,9 @@ Interval = ("unison"|"major second"|"major third"|"perfect fourth"|"perfect fift
     "play"             { return symbol(DslSymbol.COMMAND_PLAY_NOTE);    }
     "interval"          {return symbol(DslSymbol.COMMAND_INTERVAL); }
     "crotchet duration"    { return symbol(DslSymbol.COMMAND_CROTCHET_DURATION); }
-    "meaning of"       { return symbol(DslSymbol.COMMAND_MUSICAL_TERM); }
+    "meaning of"       { return symbol(DslSymbol.COMMAND_MUSICAL_TERM_MEANING); }
+    "origin of"         {return symbol(DslSymbol.COMMAND_MUSICAL_TERM_ORIGIN); }
+    "category of"       {return symbol(DslSymbol.COMMAND_MUSICAL_TERM_CATEGORY); }
     "add musical term"  {return symbol(DslSymbol.COMMAND_ADD_MUSICAL_TERM); }
     "all enharmonics"   {return symbol(DslSymbol.COMMAND_ALL_ENHARMONICS); }
     "undo"              {return symbol(DslSymbol.COMMAND_UNDO); }

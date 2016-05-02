@@ -2,7 +2,10 @@ package seng302.gui;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -10,7 +13,12 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Slider;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -18,7 +26,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import seng302.Environment;
-import seng302.utility.TutorManager;
+import seng302.managers.TutorManager;
 import seng302.utility.TutorRecord;
 
 public class TutorController {
@@ -32,6 +40,8 @@ public class TutorController {
     public float userScore;
 
     public String outputText;
+
+    public int selectedQuestions;
 
     Stage stage;
 
@@ -60,18 +70,41 @@ public class TutorController {
     @FXML
     HBox buttons;
 
+    @FXML
+    Slider numQuestions;
+
+    @FXML
+    Label questions;
+
     /**
      * An empty constructor, required for sub-classes.
      */
     public TutorController() {}
 
     /**
-     * The method called to initialise a tutor
+     * The method called to initialise a tutor.
+     * Sets up the environment and tutor manager
      * @param env
      */
     public void create(Environment env){
         this.env = env;
         manager = new TutorManager();
+    }
+
+    /**
+     * Implements the settings of a slider used to select number of questions.
+     */
+    public void initialiseQuestionSelector() {
+        selectedQuestions = (int) numQuestions.getValue();
+        questions.setText(Integer.toString(selectedQuestions));
+
+        // The listener for the number of questions selected
+        numQuestions.valueProperty().addListener(new ChangeListener<Number>() {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                selectedQuestions = newValue.intValue();
+                questions.setText(Integer.toString(selectedQuestions));
+            }
+        });
     }
 
     /**
@@ -81,6 +114,7 @@ public class TutorController {
     public void retest() {
         ArrayList<Pair> tempIncorrectResponses = new ArrayList<Pair>(manager.getTempIncorrectResponses());
         manager.clearTempIncorrect();
+        Collections.shuffle(tempIncorrectResponses);
         manager.questions = tempIncorrectResponses.size();
         for(Pair pair : tempIncorrectResponses){
             HBox questionRow = generateQuestionPane(pair);
@@ -97,11 +131,14 @@ public class TutorController {
     }
 
     /**
-     * A function for disabling the buttons in an HBox
+     * A function for disabling a selection of buttons.
+     * For example, disable all inputs but not the play button.
      * @param questionRow the HBox containing children to be disabled
+     * @param firstChild the index of the first object to disable
+     * @param lastChild the index at which to stop disabling items
      */
-    public void disableButtons(HBox questionRow) {
-        for (int i = 0; i < questionRow.getChildren().size(); i++) {
+    public void disableButtons(HBox questionRow, int firstChild, int lastChild) {
+        for (int i = firstChild; i < lastChild; i++) {
             questionRow.getChildren().get(i).setDisable(true);
         }
     }
@@ -257,5 +294,44 @@ public class TutorController {
      */
     public void formatPartiallyCorrectQuestion(HBox question) {
         question.setStyle("-fx-border-color: yellow; -fx-border-width: 2px;");
+    }
+
+    /**
+     * Returns a new, hidden label containing the correct answer to a question.
+     * @param answerToShow The correct answer to the question
+     * @return A new hidden label
+     */
+    public Label correctAnswer(String answerToShow) {
+        Label correctAnswerLabel = new Label(answerToShow);
+        correctAnswerLabel.setVisible(false);
+        return correctAnswerLabel;
+
+    }
+
+    /**
+     * Consistently styles all play buttons
+     * @param play the button to be styled
+     */
+    public void stylePlayButton(Button play) {
+        Image imagePlay = new Image(getClass().getResourceAsStream("/images/play-icon.png"), 20, 20, true, true);
+        play.setGraphic(new ImageView(imagePlay));
+    }
+
+    /**
+     * Consistently styles all skip buttons
+     * @param skip the button to be styled
+     */
+    public void styleSkipButton(Button skip) {
+        Image imageSkip = new Image(getClass().getResourceAsStream("/images/right-arrow.png"), 20, 20, true, true);
+        skip.setGraphic(new ImageView(imageSkip));
+    }
+
+    /**
+     * Consistently styles all skip toggle buttons
+     * @param skip the toggle button to be styled
+     */
+    public void styleSkipToggleButton(ToggleButton skip) {
+        Image imageSkip = new Image(getClass().getResourceAsStream("/images/right-arrow.png"), 20, 20, true, true);
+        skip.setGraphic(new ImageView(imageSkip));
     }
 }

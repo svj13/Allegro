@@ -1,4 +1,4 @@
-package seng302.JSON;
+package seng302.managers;
 
 /**
  *  ProjectHandler
@@ -9,22 +9,30 @@ package seng302.JSON;
  * Created by Jonty on 12-Apr-16.
  */
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+
 import seng302.Environment;
+import seng302.utility.OutputTuple;
 
 public class ProjectHandler {
+    private String[] propertyNames = {"tempo"};
 
-    JSONObject projectSettings = new JSONObject();
+    JSONObject projectSettings;
     JSONParser parser = new JSONParser(); //parser for reading project
 
     JSONArray projectList;
@@ -32,40 +40,52 @@ public class ProjectHandler {
     JSONObject projectsInfo = new JSONObject();
     Path userDirectory = Paths.get("UserData"); //Default user path for now, before user compatibility is set up.
 
-    String currentProjectPath;
+    private String currentProjectPath, projectName;
 
-    String projName; //delete this testing for commit fix.
-
+    boolean saved = true;
     Environment env;
+
     public ProjectHandler(Environment env){
 
+        projectSettings = new JSONObject();
         this.env = env;
         try {
-            this.projectsInfo = (JSONObject) parser.parse(new FileReader(userDirectory+"/projects.JSON"));
+            this.projectsInfo = (JSONObject) parser.parse(new FileReader(userDirectory+"/projects.json"));
             this.projectList = (JSONArray) projectsInfo.get("projects");
 
         } catch (FileNotFoundException e) {
             try {
-                System.err.println("projects.JSON Does not exist! - Creating new one");
+                System.err.println("projects.json Does not exist! - Creating new one");
                 projectList = new JSONArray();
 
 
                 projectsInfo.put("projects",projectList);
 
-                FileWriter file = new FileWriter(userDirectory+"/projects.JSON");
+                if(!Files.isDirectory(userDirectory)) {
+                    //Create Projects path doesn't exist.
+                    try {
+                        Files.createDirectories(userDirectory);
+
+
+                    } catch (IOException eIO3) {
+                        //Failed to create the directory.
+                        System.err.println("Well UserData directory failed to create.. lost cause.");
+                    }
+                }
+
+                FileWriter file = new FileWriter(userDirectory+"/projects.json");
                 file.write(projectsInfo.toJSONString());
                 file.flush();
                 file.close();
 
             } catch (IOException e2) {
-                System.out.println(e2.getMessage());
+                System.err.println("Failed to create projects.json file.");
 
-                e.printStackTrace();
             }
 
 
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -83,12 +103,13 @@ public class ProjectHandler {
         else{
             env.getRootController().newProject();
         }
+        saved = true;
 
     }
 
 
     /**
-     * Handles Saving a .JSON Project file, for the specified project address
+     * Handles Saving a .json Project file, for the specified project address
      * @param projectAddress Project directory address.
      */
 
@@ -101,24 +122,30 @@ public class ProjectHandler {
 
             projectSettings.put("tempo", env.getPlayer().getTempo());
 
-            FileWriter file = new FileWriter(projectAddress+".JSON");
+
+            String transcriptString = new Gson().toJson(env.getTranscriptManager().getTranscriptTuples());
+            projectSettings.put("transcript", transcriptString);
+
+            FileWriter file = new FileWriter(projectAddress+projectName+".json");
             file.write(projectSettings.toJSONString());
             file.flush();
             file.close();
             String projectName = projectAddress.substring(projectAddress.lastIndexOf("/") + 1);
-            this.projName = projectName;
-            env.getRootController().setWindowTitle(projName);
+            this.projectName = projectName;
+            System.out.println(projectName);
+            env.getRootController().setWindowTitle(projectName);
             System.out.println("project name" +projectAddress);
             currentProjectPath = projectAddress;
+
             //Check if it isn't an exisiting stored project
             if(!projectList.contains(projectName)){
-                System.out.println("Saved project not found in projects.JSON - adding it");
+                System.out.println("Saved project not found in projects.json - adding it");
                 projectList.add(projectName);
                 System.out.println(projectList.size());
 
                 try {
                     projectsInfo.put("projects", projectList);
-                    FileWriter projectsJson = new FileWriter(userDirectory+"/projects.JSON");
+                    FileWriter projectsJson = new FileWriter(userDirectory+"/projects.json");
                     projectsJson.write(projectsInfo.toJSONString());
                     projectsJson.flush();
                     projectsJson.close();
@@ -152,15 +179,19 @@ public class ProjectHandler {
     public void checkChanges(String propName){
 
         //Accepted values: tempo
-        String saveName = (propName.length() < 1) ? "New Project" : projName;
+        String saveName = (propName.length() < 1) ? "New Project" : this.projectName;
 
         if(propName.equals("tempo")){
 
-            if(!(projectSettings.get("tempo").equals(String.valueOf(env.getPlayer().getTempo())))){ //If not equal
+
+            if(projectSettings.containsKey("tempo") && !(projectSettings.get("tempo").equals(String.valueOf(env.getPlayer().getTempo())))){ //If not equal
 
                 env.getRootController().setWindowTitle(saveName + "*");
+                saved = false;
             }
         }
+
+
 
 
 
@@ -174,13 +205,31 @@ public class ProjectHandler {
      */
     public  void loadProject(String pName){
         try {
+            System.out.println("project name: " + pName);
+            String path = userDirectory + "/Projects/" + pName + "/";
+            try {
+                projectSettings = (JSONObject) parser.parse(new FileReader(path + pName + ".json"));
+            } catch (FileNotFoundException f) {
+                //Project doesn't exist? Create it.
+                System.err.println("Tried to open a project which appears to not exist. Creating a new one.");
+                saveProject(path);
+            }
+            this.projectName = pName;
+            int tempo;
+            try {
+               tempo = ((Long) projectSettings.get("tempo")).intValue();
+            }catch(Exception e){
+                tempo = 120;
+            }
+            ArrayList<OutputTuple> transcript;
+            Type fooType = new TypeToken<ArrayList<OutputTuple>>() {}.getType();
+            transcript = new Gson().fromJson((String)projectSettings.get("transcript"), fooType);
 
-            String path = userDirectory+"/Projects/"+pName+"/"+pName;
-            projectSettings = (JSONObject) parser.parse(new FileReader(path+".JSON"));
-            this.projName = pName;
 
-            int tempo = ((Long)projectSettings.get("tempo")).intValue();
-            System.out.println(tempo);
+            env.getTranscriptManager().setTranscriptContent(transcript);
+
+            env.getRootController().setTranscriptPaneText(env.getTranscriptManager().convertToText());
+            env.getTranscriptManager().unsavedChanges = false;
 
             //SetTempo
             env.getPlayer().setTempo(tempo);
@@ -189,8 +238,6 @@ public class ProjectHandler {
 
             env.getRootController().setWindowTitle(pName);
             //ignore
-
-
 
 
         } catch (FileNotFoundException e) {
@@ -202,8 +249,22 @@ public class ProjectHandler {
         }
     }
 
+
+    public boolean isSaved(){
+        return saved;
+    }
+
+
     public JSONArray getProjectList(){
         return this.projectList;
+    }
+
+    public Boolean isProject(){
+        return currentProjectPath != null;
+    }
+
+    public String getCurrentProjectPath(){
+        return currentProjectPath;
     }
 
 }

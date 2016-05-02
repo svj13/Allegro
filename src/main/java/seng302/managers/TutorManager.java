@@ -1,4 +1,4 @@
-package seng302.utility;
+package seng302.managers;
 
 import java.util.ArrayList;
 import java.util.Date;

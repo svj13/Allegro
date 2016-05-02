@@ -41,7 +41,7 @@ public class MusicPlayer {
      */
     public void playNotes(ArrayList<Note> notes, int pause) {
         try {
-            int instrument = 0;
+            int instrument = 1;
             // 16 ticks per crotchet note.
             Sequence sequence = new Sequence(Sequence.PPQ, 16);
             Track track = sequence.createTrack();

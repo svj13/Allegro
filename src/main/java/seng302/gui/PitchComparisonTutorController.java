@@ -19,7 +19,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
@@ -28,10 +27,11 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 import seng302.Environment;
-import seng302.utility.MidiNotePair;
 import seng302.data.Note;
+import seng302.utility.MidiNotePair;
 import seng302.utility.TutorRecord;
 
 /**
@@ -40,15 +40,13 @@ import seng302.utility.TutorRecord;
 public class PitchComparisonTutorController extends TutorController{
 
     @FXML
-    TextField txtNotePairs;
-
-    @FXML
     ComboBox<MidiNotePair> cbxLower;
+
     @FXML
     AnchorPane pitchTutorAnchor;
 
     @FXML
-    HBox sliderBox;
+    VBox sliderBox;
 
     @FXML
     ComboBox<MidiNotePair> cbxUpper;
@@ -72,7 +70,7 @@ public class PitchComparisonTutorController extends TutorController{
 
     @FXML
     private void initialize() {
-        System.out.println("pitch comparison initialized.");
+
         rand = new Random();
 
     }
@@ -91,7 +89,7 @@ public class PitchComparisonTutorController extends TutorController{
 
         if (lowerSet && upperSet) {
             questionRows.getChildren().clear();
-            manager.questions = Integer.parseInt(txtNotePairs.getText());
+            manager.questions = selectedQuestions;
             for (int i = 0; i < manager.questions; i++) {
                 //String noteName1 = Note.lookup(String.valueOf(rand.nextInt(128))).getNote();
                 //String noteName2 = Note.lookup(String.valueOf(rand.nextInt(128))).getNote();
@@ -130,6 +128,7 @@ public class PitchComparisonTutorController extends TutorController{
      */
     public void create(Environment env) {
         super.create(env);
+        initialiseQuestionSelector();
         //generateComboValues(cbxLower);
         //generateComboValues(cbxUpper);
         rangeSlider = new RangeSlider(0, 127, 60, 72);
@@ -150,18 +149,29 @@ public class PitchComparisonTutorController extends TutorController{
             }
         });
 
-        sliderBox.getChildren().add(0, rangeSlider);
+        sliderBox.getChildren().add(1, rangeSlider);
         notes.setText(rangeSlider.getLabelFormatter().toString(rangeSlider.getLowValue()) + " - "
                 + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
-        ChangeListener<Number> updateLabel = new ChangeListener<Number>() {
+        ChangeListener<Number> updateLabelLower = new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if ((Double) newValue > rangeSlider.getHighValue() - 12) {
+                    rangeSlider.setLowValue(rangeSlider.getHighValue() - 12);
+                }
                 notes.setText(rangeSlider.getLabelFormatter().toString(rangeSlider.getLowValue()) + " - "
                         + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
             }
         };
-        rangeSlider.lowValueProperty().addListener(updateLabel);
-        rangeSlider.highValueProperty().addListener(updateLabel);
-
+        ChangeListener<Number> updateLabelHigher = new ChangeListener<Number>() {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if ((Double) newValue < rangeSlider.getLowValue() + 12) {
+                    rangeSlider.setHighValue(rangeSlider.getLowValue() + 12);
+                }
+                notes.setText(rangeSlider.getLabelFormatter().toString(rangeSlider.getLowValue()) + " - "
+                        + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
+            }
+        };
+        rangeSlider.lowValueProperty().addListener(updateLabelLower);
+        rangeSlider.highValueProperty().addListener(updateLabelHigher);
 
         // Set default values to C4 and C5
 //        cbxLower.getSelectionModel().select(60);
@@ -262,23 +272,25 @@ public class PitchComparisonTutorController extends TutorController{
     }
 
 
-    private void questionResponse(HBox row, String m1, String m2){
+    /**
+     * Changes the questionPane after the user has answered the question (with response to their answer).
+     * @param row Which questionPane the question is from.
+     * @param m1 The first note being compared.
+     * @param m2 the second note being compared.
+     * @return correctChoice What the answer is.
+     */
+    private int questionResponse(HBox row, String m1, String m2){
 
         Note note1 = Note.lookup(m1);
         Note note2 = Note.lookup(m2);
 
-
-        row.getChildren().get(1).setDisable(true);
-        row.getChildren().get(2).setDisable(true);
-        row.getChildren().get(3).setDisable(true);
-        row.getChildren().get(4).setDisable(true);
-
+        disableButtons(row, 1, 5);
 
         int correctChoice = 0;
 
 
         if (((ToggleButton) row.getChildren().get(1)).isSelected()) { //Higher\
-            row.getChildren().get(1).setStyle("-fx-text-fill: white;-fx-background-color: blue");
+            row.getChildren().get(1).setStyle("-fx-text-fill: white;-fx-background-color: black");
             if (noteComparison(true, note1, note2)) correctChoice = 1;
             String[] question = new String[]{
                     String.format("Is %s higher or lower than %s", note2.getNote(), note1.getNote()),
@@ -287,7 +299,7 @@ public class PitchComparisonTutorController extends TutorController{
             };
             record.addQuestionAnswer(question);
         } else if (((ToggleButton) row.getChildren().get(2)).isSelected()) { //Same
-            row.getChildren().get(2).setStyle("-fx-text-fill: white;-fx-background-color: blue");
+            row.getChildren().get(2).setStyle("-fx-text-fill: white;-fx-background-color: black");
             if (note1 == note2) correctChoice = 1;
             String[] question = new String[]{
                     String.format("Is %s higher or lower than %s", note2.getNote(), note1.getNote()),
@@ -296,7 +308,7 @@ public class PitchComparisonTutorController extends TutorController{
             };
             record.addQuestionAnswer(question);
         } else if (((ToggleButton) row.getChildren().get(3)).isSelected()) { //Lower
-            row.getChildren().get(3).setStyle("-fx-text-fill: white;-fx-background-color: blue");
+            row.getChildren().get(3).setStyle("-fx-text-fill: white;-fx-background-color: black");
             if (noteComparison(false, note1, note2)) {
                 correctChoice = 1;
             }
@@ -307,7 +319,8 @@ public class PitchComparisonTutorController extends TutorController{
             };
             record.addQuestionAnswer(question);
         } else if (((ToggleButton) row.getChildren().get(4)).isSelected()) { //Skip
-            row.getChildren().get(4).setStyle("-fx-text-fill: white;-fx-background-color: blue");
+            row.getChildren().get(4).setStyle("-fx-text-fill: white;-fx-background-color: black");
+            //row.getChildren().get(4).setStyle("-fx-border-color: black; -fx-border-radius: 2px; -fx-border-width: 2px;");
             correctChoice = 2;
             manager.questions -= 1;
 
@@ -332,7 +345,7 @@ public class PitchComparisonTutorController extends TutorController{
             finished();
         }
 
-
+    return correctChoice;
     }
 
     /**
@@ -345,6 +358,7 @@ public class PitchComparisonTutorController extends TutorController{
         formatQuestionRow(rowPane);
         final String midiOne = midis.getKey().toString();
         final String midiTwo = midis.getValue().toString();
+        final Label correctAnswer = correctAnswer(getAnswer(Note.lookup(midiOne), Note.lookup(midiTwo)));
 
         ToggleGroup group = new ToggleGroup();
         ToggleButton higher = new ToggleButton("Higher");
@@ -360,47 +374,50 @@ public class PitchComparisonTutorController extends TutorController{
         lower.setGraphic(new ImageView(imageLower));
         lower.setToggleGroup(group);
         ToggleButton skip = new ToggleButton("Skip");
-        Image imageSkip = new Image(getClass().getResourceAsStream("/images/right-arrow.png"), 20, 20, true, true);
-        skip.setGraphic(new ImageView(imageSkip));
+        styleSkipToggleButton(skip);
         skip.setToggleGroup(group);
 
         higher.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-
-                questionResponse(rowPane, midiOne, midiTwo);
+                int responseValue = questionResponse(rowPane, midiOne, midiTwo);
+                if (responseValue == 0) {
+                    correctAnswer.setVisible(true);
+                }
 
             }
         });
 
         lower.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-
-
-                questionResponse(rowPane, midiOne, midiTwo);
+                int responseValue = questionResponse(rowPane, midiOne, midiTwo);
+                if (responseValue == 0) {
+                    correctAnswer.setVisible(true);
+                }
             }
         });
 
         same.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-
-                questionResponse(rowPane, midiOne, midiTwo);
+                int responseValue = questionResponse(rowPane, midiOne, midiTwo);
+                if (responseValue == 0) {
+                    correctAnswer.setVisible(true);
+                }
             }
         });
 
 
-
         skip.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-
-                questionResponse(rowPane, midiOne, midiTwo);
+                int responseValue = questionResponse(rowPane, midiOne, midiTwo);
+                if (responseValue == 0) {
+                    correctAnswer.setVisible(true);
+                }
             }
         });
 
 
         Button playBtn = new Button();
-        Image imagePlay = new Image(getClass().getResourceAsStream("/images/play-button.png"), 20, 20, true, true);
-        playBtn.setGraphic(new ImageView(imagePlay));
-        playBtn.setStyle("-fx-base: #40a927;");
+        stylePlayButton(playBtn);
 
         playBtn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
@@ -420,6 +437,7 @@ public class PitchComparisonTutorController extends TutorController{
         rowPane.getChildren().add(same);
         rowPane.getChildren().add(lower);
         rowPane.getChildren().add(skip);
+        rowPane.getChildren().add(correctAnswer);
 
         rowPane.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
 
@@ -430,10 +448,10 @@ public class PitchComparisonTutorController extends TutorController{
 
     /**
      * Note comparison
-     * @param isHigher
-     * @param note1
-     * @param note2
-     * @return
+     * @param isHigher whether the user thinks the second note is higher or lower.
+     * @param note1 the first note being compared.
+     * @param note2 the second note being compared.
+     * @return boolean if the user was correct or incorrect.
      */
     private boolean noteComparison(boolean isHigher, Note note1, Note note2) {
         if (isHigher) {
@@ -491,8 +509,5 @@ public class PitchComparisonTutorController extends TutorController{
 
 
     }
-
-
-
 
 }

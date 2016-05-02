@@ -11,14 +11,14 @@ public class OutputTuple {
     private String result;
 
 
-    OutputTuple() {
+    public OutputTuple() {
     }
 
-    OutputTuple(String commandString) {
+    public OutputTuple(String commandString) {
         input = commandString;
     }
 
-    OutputTuple(String commandString, String resultString) {
+    public OutputTuple(String commandString, String resultString) {
         input = commandString;
         result = resultString;
     }
