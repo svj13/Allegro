@@ -225,7 +225,7 @@ public class ProjectHandler {
     public void checkChanges(String propName){
 
         //Accepted values: tempo
-        String saveName = (projectName.length() < 1) ? "No Project" : this.projectName;
+        String saveName = (projectName == null) ? "No Project" : this.projectName;
 
         if(propName.equals("tempo")){
 
