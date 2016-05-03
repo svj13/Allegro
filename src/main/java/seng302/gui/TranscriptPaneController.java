@@ -178,33 +178,36 @@ public class TranscriptPaneController {
 
     public void beginPlaybackMode(final ArrayList<String> commands) {
         showPlaybackGui(commands.get(0));
+        final Task task = new Task<Void>() {
+            @Override
+            public Void call() {
+                for (final String command : commands) {
+                    if (isCancelled()) {
+                        System.out.println("Cancelled");
+                        updateMessage("Cancelled");
+                        break;
+                    }
+                    Command cmd = execute(command);
+                    printToTranscript();
+                    try {
+                        Thread.sleep((long) cmd.getLength(env) + 1000);
+                    } catch (InterruptedException e) {
+                        System.out.println("Cancelled");
+                        updateMessage("Cancelled");
+                        break;
+                    }
+                }
+                playbackFinished();
+                return null;
+            }
+        };
+        final Thread th = new Thread(task);
+        th.setDaemon(true);
 
         playall.setOnAction(new EventHandler<ActionEvent>() {
             //Plays commands one by one, with a second's pause in between
             public void handle(ActionEvent event) {
-                    Task task = new Task<Void>() {
-                        @Override
-                        public Void call() {
-                            for (final String command : commands) {
-                                Command cmd = execute(command);
-                                printToTranscript();
-                                try {
-                                    Thread.sleep((long) cmd.getLength(env) + 1000);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                    System.err.println("Thread did not sleep");
-                                }
-
-                            }
-                            return null;
-                        }
-                    };
-
-                Thread th = new Thread(task);
-                th.setDaemon(true);
                 th.start();
-
-                playbackFinished();
             }
         });
 
@@ -227,7 +230,9 @@ public class TranscriptPaneController {
 
         stop.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
+                task.cancel();
                 env.getPlayer().stop();
+                hidePlaybackGui();
 
             }
         });
@@ -238,11 +243,11 @@ public class TranscriptPaneController {
         playall.setDisable(true);
         playnext.setDisable(true);
         stop.setText("Exit");
-        stop.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                hidePlaybackGui();
-            }
-        });
+//        stop.setOnAction(new EventHandler<ActionEvent>() {
+//            public void handle(ActionEvent event) {
+//                hidePlaybackGui();
+//            }
+//        });
     }
 
     private void showPlaybackGui(String firstCommand) {
