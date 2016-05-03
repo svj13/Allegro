@@ -180,12 +180,24 @@ public class DslExecutorTest {
     @Test
     public void logsErrorOnAddMusicalTermCommandTooFewArgs() {
         Command command = executor.parseCommandString("add musical term tempo");
-        verify(env).error("Please provide the name, origin, category and definition of the musical term.");
+        verify(env).error("Please provide the name, origin, category and definition of the musical term, separated by semicolons.");
     }
 
     @Test
     public void parsesMusicalTermCommand() {
         Command command = executor.parseCommandString("meaning of lento");
+        assertThat(command, instanceOf(seng302.command.MusicalTerm.class));
+    }
+
+    @Test
+    public void parsesMusicalTermOriginCommand() {
+        Command command = executor.parseCommandString("origin of lento");
+        assertThat(command, instanceOf(seng302.command.MusicalTerm.class));
+    }
+
+    @Test
+    public void parsesMusicalTermCategoryCommand() {
+        Command command = executor.parseCommandString("category of lento");
         assertThat(command, instanceOf(seng302.command.MusicalTerm.class));
     }
 
@@ -232,6 +244,12 @@ public class DslExecutorTest {
     }
 
     @Test
+    public void logsErrorOnPlayBadScale() {
+        Command command = executor.parseCommandString("play scale c major cake");
+        verify(env).error("Invalid input for this command. Please type 'help' and the command you want to use for more information.");
+    }
+
+    @Test
     public void parsesScaleCommand() {
         Command command = executor.parseCommandString("scale c major");
         assertThat(command, instanceOf(seng302.command.Scale.class));
@@ -244,15 +262,15 @@ public class DslExecutorTest {
     }
 
     @Test
-    public void parsesScaleOctaveCommand() {
+    public void logsErrorOnScaleOctaveCommand() {
         Command command = executor.parseCommandString("scale c major 3");
-        assertThat(command, instanceOf(seng302.command.Scale.class));
+        verify(env).error("Invalid input for this command. Please type 'help' and the command you want to use for more information.");
     }
 
     @Test
-    public void parsesScaleOctaveDirectionCommand() {
+    public void logsErrorScaleOctaveDirectionCommand() {
         Command command = executor.parseCommandString("scale c major updown");
-        assertThat(command, instanceOf(seng302.command.Scale.class));
+        verify(env).error("Invalid input for this command. Please type 'help' and the command you want to use for more information.");
     }
 
     @Test
@@ -276,7 +294,7 @@ public class DslExecutorTest {
     @Test
     public void logsErrorOnInvalidScaleExtraCommand() {
         Command command = executor.parseCommandString("scale C major cake");
-        verify(env).error("Invalid input for this command.");
+        verify(env).error("Invalid input for this command. Please type 'help' and the command you want to use for more information.");
     }
 
     @Test
@@ -330,7 +348,7 @@ public class DslExecutorTest {
     @Test
     public void logsErrorOnInvalidTempoCommand() {
         Command command = executor.parseCommandString("tempo cake");
-        verify(env).error("Invalid input for this command.");
+        verify(env).error("Invalid input for this command. Please type 'help' and the command you want to use for more information.");
     }
 
     @Test

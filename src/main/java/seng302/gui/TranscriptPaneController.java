@@ -227,6 +227,7 @@ public class TranscriptPaneController {
 
         stop.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
+                env.getPlayer().stop();
 
             }
         });

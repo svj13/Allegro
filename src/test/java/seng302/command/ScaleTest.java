@@ -186,7 +186,7 @@ public class ScaleTest {
     @Test
     public void testNoteTooHighForScaleUpDown() {
         new Scale("E9", "major", "play", "updown").execute(env);
-        verify(transcriptManager).setResult("[ERROR] This scale goes beyond the MIDI notes available.");
+        verify(transcriptManager).setResult("[ERROR] Note is not contained in the MIDI library.");
     }
 
     @Test
