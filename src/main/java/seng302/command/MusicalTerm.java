@@ -93,6 +93,8 @@ public class MusicalTerm implements Command {
                     "\nOrigin: " + this.term.getMusicalTermOrigin() + " \nCategory: " +
                     this.term.getMusicalTermCategory() + "\nDefinition: "
                     + this.term.getMusicalTermDefinition();
+
+
         }
     }
 
@@ -148,9 +150,11 @@ public class MusicalTerm implements Command {
         }
         else {
             addTermBool();
+
         }
         if(termAdded == true && validAdd == true){
             env.getMttDataManager().addTerm(term);
+            env.getProjectHandler().checkmusicTerms();
         }
         env.getTranscriptManager().setResult(result);
     }

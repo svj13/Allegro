@@ -27,6 +27,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import seng302.Environment;
+import seng302.data.Term;
 import seng302.utility.OutputTuple;
 
 public class ProjectHandler {
@@ -92,6 +93,54 @@ public class ProjectHandler {
 
     }
 
+    private void saveProperties(){
+        projectSettings.put("tempo", env.getPlayer().getTempo());
+        String transcriptString = new Gson().toJson(env.getTranscriptManager().getTranscriptTuples());
+        projectSettings.put("transcript", transcriptString);
+
+        String musicalTermsJSON = new Gson().toJson(env.getMttDataManager().getTerms());
+        projectSettings.put("musicalTerms", musicalTermsJSON);
+
+    }
+
+    private void loadProperties(){
+        int tempo;
+
+        try {
+            tempo = ((Long) projectSettings.get("tempo")).intValue();
+        }catch(Exception e){
+            tempo = 120;
+        }
+        env.getPlayer().setTempo(tempo);
+
+
+        //Transcript
+        ArrayList<OutputTuple> transcript;
+        Type transcriptType = new TypeToken<ArrayList<OutputTuple>>() {}.getType();
+        transcript = new Gson().fromJson((String)projectSettings.get("transcript"), transcriptType);
+
+        env.getTranscriptManager().setTranscriptContent(transcript);
+        env.getRootController().setTranscriptPaneText(env.getTranscriptManager().convertToText());
+
+        //Musical Terms
+        Type termsType = new TypeToken<ArrayList<Term>>() {}.getType();
+        ArrayList<Term> terms = new Gson().fromJson((String)projectSettings.get("musicalTerms"), termsType);
+
+        if(terms != null){
+            for(Term t : terms){
+                System.out.println(t.getMusicalTermName());
+            }
+            env.getMttDataManager().setTerms(terms);
+        }
+
+
+
+        env.getTranscriptManager().unsavedChanges = false;
+
+
+
+    }
+
 
     /**
      * Saves the current project, or if there is no current working project; launches the New project dialog.
@@ -119,12 +168,9 @@ public class ProjectHandler {
 
         try {
 
-            projectSettings.put("tempo", env.getPlayer().getTempo());
-            String transcriptString = new Gson().toJson(env.getTranscriptManager().getTranscriptTuples());
-            projectSettings.put("transcript", transcriptString);
+            saveProperties();
             projectName = projectAddress.substring(projectAddress.lastIndexOf("/") + 1);
-            System.out.println(projectAddress);
-            System.out.println("project name" +projectName);
+
             FileWriter file = new FileWriter(projectAddress+"/"+projectName+".json");
             file.write(projectSettings.toJSONString());
             file.flush();
@@ -136,24 +182,24 @@ public class ProjectHandler {
             currentProjectPath = projectAddress;
 
             //Check if it isn't an exisiting stored project
-            if(!projectList.contains(projectName)){
+            if(!projectList.contains(projectName)) {
                 System.out.println("Saved project not found in projects.json - adding it");
                 projectList.add(projectName);
-                System.out.println(projectList.size());
-
-                try {
-                    projectsInfo.put("projects", projectList);
-                    FileWriter projectsJson = new FileWriter(userDirectory+"/projects.json");
-                    projectsJson.write(projectsInfo.toJSONString());
-                    projectsJson.flush();
-                    projectsJson.close();
-
-
-                } catch (Exception e2) {
-                    e2.printStackTrace();
-                }
-
             }
+
+            try { //Save list of projects.
+                projectsInfo.put("projects", projectList);
+                FileWriter projectsJson = new FileWriter(userDirectory+"/projects.json");
+                projectsJson.write(projectsInfo.toJSONString());
+                projectsJson.flush();
+                projectsJson.close();
+
+
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+
+
 
 
         }catch (IOException e) {
@@ -179,7 +225,7 @@ public class ProjectHandler {
     public void checkChanges(String propName){
 
         //Accepted values: tempo
-        String saveName = (propName.length() < 1) ? "New Project" : this.projectName;
+        String saveName = (projectName.length() < 1) ? "No Project" : this.projectName;
 
         if(propName.equals("tempo")){
 
@@ -191,8 +237,16 @@ public class ProjectHandler {
             }
         }
 
-
-
+    }
+    public void checkmusicTerms(){
+        String saveName = (projectName.length() < 1) ? "No Project" : this.projectName;
+        if(projectSettings.containsKey("musicalTerms")){
+            Type termsType = new TypeToken<ArrayList<Term>>() {}.getType();
+            if(!projectSettings.get("musicalTerms").equals(new Gson().fromJson((String) projectSettings.get("muscalTerms"), termsType))){
+                env.getRootController().setWindowTitle(saveName + "*");
+                saved = false;
+            }
+        }
 
 
     }
@@ -205,7 +259,7 @@ public class ProjectHandler {
      */
     public  void loadProject(String pName){
         try {
-            System.out.println("project name: " + pName);
+
             String path = userDirectory + "/Projects/" + pName;
             try {
                 projectSettings = (JSONObject) parser.parse(new FileReader(path +"/"+ pName + ".json"));
@@ -220,34 +274,16 @@ public class ProjectHandler {
                     return;
                 }
                 else{
-                    //Just he .json file properties are corrupt.
+                    //.json project files are corrupt.
+
                     saveProject(path);
                 }
 
             }
 
-
-
             this.projectName = pName;
-            int tempo;
 
-            try {
-               tempo = ((Long) projectSettings.get("tempo")).intValue();
-            }catch(Exception e){
-                tempo = 120;
-            }
-            ArrayList<OutputTuple> transcript;
-            Type fooType = new TypeToken<ArrayList<OutputTuple>>() {}.getType();
-            transcript = new Gson().fromJson((String)projectSettings.get("transcript"), fooType);
-
-
-            env.getTranscriptManager().setTranscriptContent(transcript);
-
-            env.getRootController().setTranscriptPaneText(env.getTranscriptManager().convertToText());
-            env.getTranscriptManager().unsavedChanges = false;
-
-            //SetTempo
-            env.getPlayer().setTempo(tempo);
+            loadProperties();
 
             currentProjectPath = path;
 
