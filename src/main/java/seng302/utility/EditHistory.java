@@ -20,6 +20,10 @@ public class EditHistory {
     private boolean canUndo = false;
     // Set true when there are actions that can be redone
     private boolean canRedo = false;
+    // Set true when something should be added
+    private boolean ath = true;
+
+
     private Environment env;
 
     public EditHistory(Environment env) {
@@ -27,12 +31,30 @@ public class EditHistory {
     }
 
     public void addToHistory(String type, ArrayList<String> effect) {
-        ArrayList<String> toAdd = new ArrayList<String>();
-        toAdd.add(type);
-        for (String val : effect) {
-            toAdd.add(val);
+        if (location > 0 && ath) {
+            for (int i = 0; i < location; i++) {
+                commandStack.remove(0);
+            }
+            ArrayList<String> toAdd = new ArrayList<String>();
+            toAdd.add(type);
+            for (String val : effect) {
+                toAdd.add(val);
+            }
+            commandStack.add(0, toAdd);
+            canUndo = true;
+            canRedo = false;
+            location = 0;
+        } else if (ath) {
+            ArrayList<String> toAdd = new ArrayList<String>();
+            toAdd.add(type);
+            for (String val : effect) {
+                toAdd.add(val);
+            }
+            commandStack.add(0, toAdd);
+            canUndo = true;
+            canRedo = false;
+            location = 0;
         }
-        commandStack.add(toAdd);
     }
 
     public void addToHistory(String type, String effect) {
@@ -62,14 +84,25 @@ public class EditHistory {
      * Called to undo a command.
      */
     public void undoCommand() {
-        int type = Integer.parseInt(commandStack.get(location).get(0));
-        switch (type) {
-            case 0:
-                changeTempo(commandStack.get(location).get(1));
-                break;
-            case 1:
-                deleteMusicalTerm(commandStack.get(location).get(1));
-                break;
+        if (canUndo) {
+            ath = false;
+            int type = Integer.parseInt(commandStack.get(location).get(0));
+            switch (type) {
+                case 0:
+                    changeTempo(commandStack.get(location).get(1));
+                    break;
+                case 1:
+                    deleteMusicalTerm(commandStack.get(location).get(1));
+                    break;
+            }
+            ath = true;
+            location += 1;
+            if (location > commandStack.size() - 1) {
+                canUndo = false;
+            }
+            canRedo = true;
+        } else {
+            env.error("No command to undo.");
         }
     }
 
@@ -77,14 +110,24 @@ public class EditHistory {
      * called to redo a command.
      */
     public void redoCommand() {
-        int type = Integer.parseInt(commandStack.get(location).get(0));
-        switch (type) {
-            case 0:
-                changeTempo(commandStack.get(location).get(2));
-                break;
-            case 1:
-                addMusicalTerm(commandStack.get(location));
-                break;
+        if (canRedo) {
+            int type = Integer.parseInt(commandStack.get(location - 1).get(0));
+            ath = false;
+            switch (type) {
+                case 0:
+                    changeTempo(commandStack.get(location - 1).get(2));
+                    break;
+                case 1:
+                    addMusicalTerm(commandStack.get(location - 1));
+                    break;
+            }
+            ath = true;
+            location -= 1;
+            if (location == 0) {
+                canRedo = false;
+            }
+        } else {
+            env.error("No command to redo.");
         }
     }
 

@@ -34,6 +34,7 @@ public class MusicalTerm implements Command {
     private String infoToGet;
     private boolean lookupTerm = false;
 
+    private ArrayList<String> rawInput;
 
 
 
@@ -55,7 +56,7 @@ public class MusicalTerm implements Command {
      * @param musicalTermArray
      */
     public MusicalTerm(ArrayList<String> musicalTermArray) {
-
+        rawInput = musicalTermArray;
         termAdded = true;
         term = new Term(musicalTermArray.get(0), musicalTermArray.get(2), musicalTermArray.get(1), musicalTermArray.get(3));
 
@@ -151,6 +152,7 @@ public class MusicalTerm implements Command {
         }
         if(termAdded == true && validAdd == true){
             env.getMttDataManager().addTerm(term);
+            env.getEditManager().addToHistory("1", rawInput);
         }
         env.getTranscriptManager().setResult(result);
     }
