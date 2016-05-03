@@ -40,3 +40,11 @@ And his reply:
 
 
 
+## The decision was made to not count partial marks in the musical terms tutor
+
+The decision was decided on the 27th of april during a meeting with Moffat, when he said that he did not want the user to receive partial marks for questions in the musical terms tutor.
+
+
+
+
+
