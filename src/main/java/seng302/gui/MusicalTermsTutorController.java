@@ -341,12 +341,12 @@ public class MusicalTermsTutorController extends TutorController{
         qLayout.getChildren().add(termLabel);
 
         HBox origin = new HBox();
-        origin.setSpacing(5);
+        origin.setSpacing(24);
         origin.getChildren().add(new Label("Origin:"));
         origin.getChildren().add(originOptions);
 
         HBox category = new HBox();
-        category.setSpacing(5);
+        category.setSpacing(9);
         category.getChildren().add(new Label("Category:"));
         category.getChildren().add(categoryOptions);
 
