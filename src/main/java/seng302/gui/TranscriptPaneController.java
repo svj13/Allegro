@@ -147,22 +147,16 @@ public class TranscriptPaneController {
                     txtCommand.positionCaret(9999);
                 }
             });
-
-
         } else if (event.getCode() == KeyCode.DOWN) {
-
-//            handleScrollDown();
             txtCommand.setText(env.getTranscriptManager().cycleInputDown(txtCommand.getText()));
+            Platform.runLater(new Runnable() {
+                public void run() {
+                    txtCommand.positionCaret(9999);
+                }
+            });
         } else if (event.getCode() == KeyCode.ALPHANUMERIC) {
             env.getTranscriptManager().resetHistoryLevel();
-            // historyLevel = -1;
-            //enteredCommand = "";
         }
-        Platform.runLater(new Runnable() {
-            public void run() {
-                txtCommand.positionCaret(9999);
-            }
-        });
 
     }
 
@@ -233,6 +227,7 @@ public class TranscriptPaneController {
 
         stop.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
+                env.getPlayer().stop();
 
             }
         });
