@@ -248,8 +248,11 @@ public class ProjectHandler {
             }
         }
         else{
-            env.getRootController().setWindowTitle(saveName + "*");
-            saved = false;
+            if(env.getRootController() != null){
+                env.getRootController().setWindowTitle(saveName + "*");
+                saved = false;
+            }
+
         }
 
 
