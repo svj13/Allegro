@@ -390,5 +390,17 @@ public class MusicalTermsTutorController extends TutorController{
             manager.answered += 1;
         }
     }
+    @Override
+    public void retest() {
+        ArrayList<Pair> tempIncorrectResponses = new ArrayList<Pair>(manager.getTempIncorrectResponses());
+        manager.clearTempIncorrect();
+        Collections.shuffle(tempIncorrectResponses);
+        manager.questions = tempIncorrectResponses.size();
+        for(Pair pair : tempIncorrectResponses){
+            HBox questionRow = generateQuestionPane((Term)pair.getValue());
+            questionRows.getChildren().add(questionRow);
+            questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
+        }
+    }
 
 }
