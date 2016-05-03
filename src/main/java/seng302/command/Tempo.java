@@ -1,6 +1,8 @@
 package seng302.command;
 
 
+import java.util.ArrayList;
+
 import seng302.Environment;
 
 /**
@@ -65,10 +67,19 @@ public class Tempo implements Command {
      */
     public void execute(Environment env) {
         if (isSetter){
+
+            // Add Tempo to editHistory
+
+            ArrayList<String> editHistoryArray = new ArrayList<String>();
+            editHistoryArray.add(String.valueOf(env.getPlayer().getTempo()));
+            editHistoryArray.add(String.valueOf(tempo));
+            env.getEditManager().addToHistory("0", editHistoryArray);
+
             // Only change the tempo under valid circumstances
             if (force || inValidRange(tempo)) {
                 env.getPlayer().setTempo(tempo);
             }
+
 
             env.getTranscriptManager().setResult(result);
             //Update project saved state

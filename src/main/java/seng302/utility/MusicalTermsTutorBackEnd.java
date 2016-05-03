@@ -25,4 +25,14 @@ public class MusicalTermsTutorBackEnd {
         this.terms = t;
     }
 
+    public void removeTerm(String termName) {
+        int termToRemove = 0;
+        for (Term term : this.terms) {
+            if (term.getMusicalTermName().equals(termName)) {
+                termToRemove = terms.indexOf(term);
+            }
+        }
+        terms.remove(termToRemove);
+        System.out.println(terms);
+    }
 }

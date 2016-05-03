@@ -2,6 +2,7 @@ package seng302;
 
 import seng302.managers.ProjectHandler;
 import seng302.gui.RootController;
+import seng302.utility.EditHistory;
 import seng302.utility.MusicalTermsTutorBackEnd;
 import seng302.managers.TranscriptManager;
 
@@ -12,6 +13,7 @@ public class Environment {
     private MusicalTermsTutorBackEnd mttDataManager;
     private MusicPlayer player;
     private String recordLocation;
+    private EditHistory em = new EditHistory(this);
 
     public RootController getRootController() {
         return rootController;
@@ -86,6 +88,10 @@ public class Environment {
 
     public void setProjectHandler(ProjectHandler p) {
         this.projectHandler = p;
+    }
+
+    public EditHistory getEditManager() {
+        return this.em;
     }
 
 
