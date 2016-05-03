@@ -239,13 +239,17 @@ public class ProjectHandler {
 
     }
     public void checkmusicTerms(){
-        String saveName = (projectName.length() < 1) ? "No Project" : this.projectName;
+        String saveName = (projectName == null || projectName.length() < 1) ? "No Project" : this.projectName;
         if(projectSettings.containsKey("musicalTerms")){
             Type termsType = new TypeToken<ArrayList<Term>>() {}.getType();
             if(!projectSettings.get("musicalTerms").equals(new Gson().fromJson((String) projectSettings.get("muscalTerms"), termsType))){
                 env.getRootController().setWindowTitle(saveName + "*");
                 saved = false;
             }
+        }
+        else{
+            env.getRootController().setWindowTitle(saveName + "*");
+            saved = false;
         }
 
 
