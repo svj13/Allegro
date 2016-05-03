@@ -29,7 +29,6 @@ public class OctaveUtil {
      * @return Note without an octave specified.
      */
     public static String removeOctaveSpecifier(String s) {
-        System.out.println(s);
         String initial = s.substring(0, s.length() - 1);
         return initial;
     }
