@@ -65,7 +65,7 @@ public class MusicalTermTest extends TestCase {
 //                        "Category: origin\n" +
 //                        "Definition: definition");
 
-        verify(transcriptManager).setResult("name is not recognised as an existing musical term.");
+        verify(transcriptManager).setResult("[ERROR] name is not recognised as an existing musical term.");
     }
 
     @Test
@@ -77,7 +77,7 @@ public class MusicalTermTest extends TestCase {
         termCommand2.execute(env);
 
         verify(transcriptManager).setResult(
-                "nonexistantname is not recognised as an existing musical term.");
+                "[ERROR] nonexistantname is not recognised as an existing musical term.");
     }
 
     @Test
@@ -116,7 +116,7 @@ public class MusicalTermTest extends TestCase {
         MusicalTerm termCommand2 = new MusicalTerm("nonExistantName", "origin");
         termCommand2.execute(env);
         verify(transcriptManager).setResult(
-                "nonexistantname is not recognised as an existing musical term.");
+                "[ERROR] nonexistantname is not recognised as an existing musical term.");
     }
 
     @Test
@@ -127,7 +127,7 @@ public class MusicalTermTest extends TestCase {
         MusicalTerm termCommand2 = new MusicalTerm("name", "origin");
         termCommand2.execute(env);
 
-        verify(transcriptManager).setResult("name is not recognised as an existing musical term.");
+        verify(transcriptManager).setResult("[ERROR] name is not recognised as an existing musical term.");
     }
 
     @Test
@@ -146,7 +146,7 @@ public class MusicalTermTest extends TestCase {
         MusicalTerm termCommand2 = new MusicalTerm("nonExistantName", "category");
         termCommand2.execute(env);
         verify(transcriptManager).setResult(
-                "nonexistantname is not recognised as an existing musical term.");
+                "[ERROR] nonexistantname is not recognised as an existing musical term.");
     }
 
     @Test
@@ -157,14 +157,14 @@ public class MusicalTermTest extends TestCase {
         MusicalTerm termCommand2 = new MusicalTerm("name", "category");
         termCommand2.execute(env);
 
-        verify(transcriptManager).setResult("name is not recognised as an existing musical term.");
+        verify(transcriptManager).setResult("[ERROR] name is not recognised as an existing musical term.");
     }
 
     @Test
     public void testGetInvalidAttribute() throws Exception {
         executeGoodInput();
         new MusicalTerm("name", "test").execute(env);
-        verify(transcriptManager).setResult("test is not recognised as part of a musical term.");
+        verify(transcriptManager).setResult("[ERROR] test is not recognised as part of a musical term.");
     }
 
     public void executeGoodInput() {

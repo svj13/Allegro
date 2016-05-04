@@ -27,6 +27,7 @@ public class MusicalTerm implements Command {
     private String musicalTermName;
     private String infoToGet;
     private boolean lookupTerm = false;
+    private boolean error = false;
 
     private ArrayList<String> rawInput;
 
@@ -72,23 +73,23 @@ public class MusicalTerm implements Command {
         for (Term term : terms) {
             if (term.getMusicalTermName().equals(this.term.getMusicalTermName())) {
                 validAdd = false;
-                this.result = "Term with the name of " + this.term.getMusicalTermName() + " has already been added";
+                this.result = "[ERROR] Term with the name of " + this.term.getMusicalTermName() + " has already been added";
                 resultSet = true;
             } else if (term.getMusicalTermDefinition().length() > 100) {
                 validAdd = false;
-                this.result = "Your musical term definition exceeds 100 characters. Please give a shorter definition.";
+                this.result = "[ERROR] Your musical term definition exceeds 100 characters. Please give a shorter definition.";
                 resultSet = true;
             } else if (term.getMusicalTermCategory().length() > 100) {
                 validAdd = false;
-                this.result = "Your musical term category exceeds 100 characters. Please give a shorter category.";
+                this.result = "[ERROR] Your musical term category exceeds 100 characters. Please give a shorter category.";
                 resultSet = true;
             } else if (term.getMusicalTermOrigin().length() > 100) {
                 validAdd = false;
-                this.result = "Your musical term origin exceeds 100 characters. Please give a shorter origin.";
+                this.result = "[ERROR] Your musical term origin exceeds 100 characters. Please give a shorter origin.";
                 resultSet = true;
             } else if (term.getMusicalTermName().length() > 100) {
                 validAdd = false;
-                this.result = "Your musical term name exceeds 100 characters. Please give a shorter name.";
+                this.result = "[ERROR] Your musical term name exceeds 100 characters. Please give a shorter name.";
                 resultSet = true;
             } else if (!resultSet) {
                 this.result = "Added term: " + this.term.getMusicalTermName() +
@@ -122,21 +123,24 @@ public class MusicalTerm implements Command {
                 } else {
                     // What the user is looking for is invalid.
                     // This may never be reachable by the DSL, but is good to have regardless.
-                    this.result = String.format("%s is not recognised as part of a musical term.",
+                    this.result = String.format("[ERROR] %s is not recognised as part of a musical term.",
                             infoToGet);
                     resultSet = true;
+                    error = true;
                 }
 
                 //if a given term is not in the hash map it will return an error to the user
             } else if (!resultSet) {
-                this.result = String.format("%s is not recognised as an existing musical term.",
+                this.result = String.format("[ERROR] %s is not recognised as an existing musical term.",
                         musicalTermName);
+                error = true;
             }
 
         }
         if (!resultSet) {
-            this.result = String.format("%s is not recognised as an existing musical term.",
+            this.result = String.format("[ERROR] %s is not recognised as an existing musical term.",
                     musicalTermName);
+            error = true;
         }
     }
 
@@ -158,14 +162,12 @@ public class MusicalTerm implements Command {
         } else {
             addTermBool();
         }
-        if (termAdded && validAdd) {
+        if (termAdded == true && validAdd == true) {
             env.getMttDataManager().addTerm(term);
             env.getProjectHandler().checkmusicTerms();
             env.getEditManager().addToHistory("1", rawInput);
-            env.getTranscriptManager().setResult(result);
-        } else {
-            env.error(result);
         }
+        env.getTranscriptManager().setResult(result);
     }
 }
 
