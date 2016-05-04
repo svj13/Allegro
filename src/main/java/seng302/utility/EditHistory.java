@@ -136,7 +136,6 @@ public class EditHistory {
     }
 
     private void deleteMusicalTerm(String termToDelete) {
-        System.out.println(termToDelete);
         env.getMttDataManager().removeTerm(termToDelete);
         env.getTranscriptManager().setResult(String.format("Musical Term %s has been deleted.",
                 termToDelete));

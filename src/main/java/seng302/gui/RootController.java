@@ -404,7 +404,6 @@ public class RootController implements Initializable {
 
                 }
                 else{
-                    System.out.println("Sorry, the path " + resultString + " already exists.");
                     errorAlert("The project: "  +resultString+" already exists.");
                 }
 
@@ -489,12 +488,11 @@ public class RootController implements Initializable {
 
                     if(f.getName().endsWith(".json") && f.getName().substring(0, f.getName().length() - 5).equals(folder.getName())){
 
-                        System.out.println("VALID PROJECT");
                         env.getProjectHandler().loadProject(folder.getName());
                         return;
                     }
                 }
-                System.out.println("Not a valid project folder - try again!");
+                errorAlert("Not a valid Project folder - Try again!");
                 selectProjectDirectory();
                 return;
             }
