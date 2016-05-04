@@ -248,7 +248,11 @@ public class TranscriptPaneController {
                     Thread nextThread = new Thread(playNextTask);
                     nextThread.setDaemon(true);
                     nextThread.start();
-
+                    if (commands.get(1) != null) {
+                        commandvalue.setText(commands.get(1));
+                    } else {
+                        commandvalue.setText("-");
+                    }
 
                 } catch (Exception e) {
                     playbackFinished();
