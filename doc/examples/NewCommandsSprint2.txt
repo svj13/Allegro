@@ -1,6 +1,8 @@
 enharmonic higher C4
 enharmonic lower Eb
 all enharmonics c
+interval perfect fifth
+play interval perfect fifth C4
 scale g major
 midi scale F4 major
 scale F6 minor

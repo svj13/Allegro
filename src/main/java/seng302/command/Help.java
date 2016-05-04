@@ -81,6 +81,12 @@ public class Help implements Command {
             result = "When followed by a valid scale (made up of a note and a scale type)" +
                     " the corresponding scale will be played. Options for the number of octaves and direction" +
                     " can be given. E.g play scale c major [number of octaves] [up|updown|down]";
+        } else if (keyword.equals("interval")) {
+            result = "When followed by an interval name, it returns the number of semitones in that interval." +
+                    " When followed by an interval name and a note, it returns the note that is the specified interval above the given note." +
+                    " e.g interval perfect fifth C4 will return G4.";
+        } else if (keyword.equals("play interval")) {
+            result = "When followed by an interval name and a note, it will play the given note and then the note that is the specified interval above the given note.";
         } else if (keyword.equals("")) {
             result = "" +
                     "\nadd musical term:\nWhen followed by a musical term in the format of 'name; origin; " +
@@ -95,6 +101,9 @@ public class Help implements Command {
                     "'letter' below the current note. \n\n" +
                     "force set tempo:\nWhen followed by a tempo, it will set the given tempo, even if it" +
                     " is outside of the recommended range of 20-300BPM. \n\n" +
+                    "interval:\nWhen followed by an interval name, it returns the number of semitones in that interval." +
+                    " When followed by an interval name and a note, it returns the note that is the specified interval above the given note." +
+                    " e.g interval perfect fifth C4 will return G4. \n\n" +
                     "meaning of:\nWhen followed by a musical term, it returns the definition of that" +
                     " term. \n\n" +
                     "midi:\nWhen followed by a valid note, it will return its corresponding midi number" +
@@ -105,6 +114,8 @@ public class Help implements Command {
                     "note:\nWhen followed by a valid midi number (within the range of 0-127), it will" +
                     " return the corresponding note name and its octave e.g. 'note 60' will return C4. \n\n" +
                     "origin of:\nWhen followed by a musical term, it returns the origin of that term. \n\n" +
+                    "play interval:\nWhen followed by an interval name and a note, it will play the given " +
+                    "note and then the note that is the specified interval above the given note.\n\n" +
                     "play note:\nWhen followed by a valid midi number or valid note, the corresponding" +
                     " note will be played. \n\n" +
                     "play scale:\nWhen followed by a valid scale (made up of a note and a scale type) " +

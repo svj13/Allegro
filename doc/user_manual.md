@@ -18,6 +18,10 @@
 
 **force set tempo**: When followed by a tempo, it will set the given tempo, even if it is outside of the recommended range of 20-300BPM.
 
+**interval**: When followed by an interval name, it returns the number of semitones in that interval.
+              When followed by an interval name and a note, it returns the note that is the specified interval above the given note. 
+              e.g interval perfect fifth C4 will return G4.
+
 **meaning of**: When followed by a musical term, it returns the definition of that term. 
 
 **midi**: Converts the given note into a MIDI value. e.g. midi C4 will result in 60.
@@ -27,6 +31,9 @@
 **note**: Converts the given MIDI value into a note. e.g. midi 60 will result in C4.
 
 **origin of**: When followed by a musical term, it returns the origin of that term.
+
+**play interval**: When followed by an interval name and a note, it will play the given note 
+                   and then the note that is the specified interval above the given note.
 
 **play note**: When followed by a valid midi number or valid note, the corresponding note will be played.
 
