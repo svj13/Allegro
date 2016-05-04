@@ -21,13 +21,23 @@ public class EditHistory {
     // Set true when something should be added
     private boolean ath = true;
 
-
+    // Environment that the edit history is bound to. Essential for running the operations
+    // necessary for undoing/redoing commands.
     private Environment env;
 
+    /**
+     * Constructor for the edit history. Takes the environment as a parameter which allows it to run
+     * commands that have previously been executed.
+     */
     public EditHistory(Environment env) {
         this.env = env;
     }
 
+    /**
+     * Function that allows the addition of commands into the edit history.
+     * @param type Type of command that is being inserted into the history.
+     * @param effect Contains information that can be used to replicate effect - either undo or redo.
+     */
     public void addToHistory(String type, ArrayList<String> effect) {
         if (location > 0 && ath) {
             for (int i = 0; i < location; i++) {
@@ -57,7 +67,9 @@ public class EditHistory {
 
 
     /**
-     * Called to undo a command.
+     * Called to undo a command. Checks the stack of commands to see which one it is required to
+     * execute and then performs the required operation. Prints an error using the environment's
+     * error system if it is unable to print an error.
      */
     public void undoCommand() {
         if (canUndo) {
@@ -83,7 +95,9 @@ public class EditHistory {
     }
 
     /**
-     * called to redo a command.
+     * Called to redo a command. Checks the stack of commands to see which one it is required to
+     * execute and then performs the required operation. Prints an error using the environment's
+     * error system if it is unable to print an error.
      */
     public void redoCommand() {
         if (canRedo) {
@@ -108,16 +122,30 @@ public class EditHistory {
         }
     }
 
+    /**
+     * Helper function called internally by both undoCommand and redoCommand to change the tempo
+     * to the required tempo - either previous or next.
+     * @param newTempo Tempo to change to.
+     */
     private void changeTempo(String newTempo) {
         new Tempo(newTempo, true).execute(env);
     }
 
+    /**
+     * Helper function called by undoCommand to delete a musical term that has been added.
+     * @param termToDelete
+     */
     private void deleteMusicalTerm(String termToDelete) {
         env.getMttDataManager().removeTerm(termToDelete);
         env.getTranscriptManager().setResult(String.format("Musical Term %s has been deleted.",
                 termToDelete));
     }
 
+    /**
+     * Helper function called by the redoCommand function to create a musical term that has been
+     * deleted by the undo command function.
+     * @param termToAdd
+     */
     private void addMusicalTerm(ArrayList<String> termToAdd) {
         ArrayList<String> termArgs = new ArrayList<String>();
         termArgs.add(termToAdd.get(1));

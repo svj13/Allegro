@@ -169,4 +169,37 @@ public class UndoRedoTest {
         verify(transcriptManager).setResult("[ERROR] No command to redo.");
     }
 
+    @Test
+    public void scrollsCorrectlyAfterUndoThenCommand() {
+        // SET UP
+        new Tempo("40", true).execute(env);
+        verify(transcriptManager).setResult("Tempo changed to 40 BPM");
+        new Tempo("30", true).execute(env);
+        verify(transcriptManager).setResult("Tempo changed to 30 BPM");
+        // Actual
+        new UndoRedo(0).execute(env);
+        verify(transcriptManager, times(2)).setResult("Tempo changed to 40 BPM");
+        ArrayList<String> musicalTermArray = new ArrayList<String>();
+        musicalTermArray.add("name");
+        musicalTermArray.add("category");
+        musicalTermArray.add("origin");
+        musicalTermArray.add("description");
+        MusicalTerm termCommand = new MusicalTerm(musicalTermArray);
+        termCommand.execute(env);
+        verify(transcriptManager).setResult("Added term: name\n" +
+                "Origin: category \nCategory: origin\nDefinition: description");
+        new UndoRedo(0).execute(env);
+        verify(transcriptManager).setResult("Musical Term name has been deleted.");
+        new UndoRedo(0).execute(env);
+        verify(transcriptManager).setResult("Tempo changed to 120 BPM");
+        new UndoRedo(0).execute(env);
+        verify(transcriptManager).setResult("[ERROR] No command to undo.");
+        new UndoRedo(1).execute(env);
+        verify(transcriptManager, times(3)).setResult("Tempo changed to 40 BPM");
+        new UndoRedo(1).execute(env);
+        verify(transcriptManager, times(2)).setResult("Added term: name\n" +
+                "Origin: category \nCategory: origin\nDefinition: description");
+        new UndoRedo(1).execute(env);
+        verify(transcriptManager).setResult("[ERROR] No command to redo.");
+    }
 }
