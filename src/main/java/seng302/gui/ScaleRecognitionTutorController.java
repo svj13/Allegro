@@ -86,7 +86,11 @@ public class ScaleRecognitionTutorController extends TutorController {
         } else {
             scaleType = "minor";
         }
-        return generateQuestionPane(getRandomScale(scaleType), scaleType);
+        return generateQuestionPane(new Pair<Note, String>(getRandomNote(), scaleType));
+    }
+
+    public Note getRandomNote() {
+        return Note.lookup(Integer.toString(rand.nextInt(11) + 60));
     }
 
     /**
@@ -94,8 +98,7 @@ public class ScaleRecognitionTutorController extends TutorController {
      * @param scaleType Either major or minor
      * @return Arraylist of notes in a scale
      */
-    public ArrayList<Note> getRandomScale(String scaleType) {
-        Note startNote = Note.lookup(Integer.toString(rand.nextInt(11) + 60));
+    public ArrayList<Note> getScale(Note startNote, String scaleType) {
         // Add # octaves and up/down selection here.
         ArrayList<Note> scale;
         if (direction.getValue().equals("Up")) {
@@ -151,17 +154,17 @@ public class ScaleRecognitionTutorController extends TutorController {
 
     /**
      * Creates a GUI pane for a single question
-     * @param scale The array list of notes to be played
-     * @param scaleType Whether it is a major or minor scale
+     * @param noteAndScale pair containing first note and type of scale to play
      * @return
      */
-    public HBox generateQuestionPane(final ArrayList<Note> scale, final String scaleType) {
+    public HBox generateQuestionPane(Pair noteAndScale) {
+        final Pair<Note, String> noteAndScaleType = noteAndScale;
         final HBox questionRow = new HBox();
         formatQuestionRow(questionRow);
-        final Label correctAnswer = correctAnswer(scaleType);
+        final Label correctAnswer = correctAnswer(noteAndScaleType.getValue());
 
-        //Saves the first note and scale type - C Major, B Minor, etc
-        final Pair<Note, String> noteAndScaleType = new Pair<Note, String>(scale.get(0), scaleType);
+        final Note startNote = noteAndScaleType.getKey();
+        final String scaleType = noteAndScaleType.getValue();
 
         Button play = new Button();
         stylePlayButton(play);
@@ -169,7 +172,7 @@ public class ScaleRecognitionTutorController extends TutorController {
         play.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 //Play the scale
-                env.getPlayer().playNotes(scale);
+                env.getPlayer().playNotes(getScale(startNote, scaleType));
             }
         });
 
@@ -192,7 +195,7 @@ public class ScaleRecognitionTutorController extends TutorController {
                 manager.questions -= 1;
                 manager.add(noteAndScaleType, 2);
                 String[] question = new String[]{
-                        String.format("%s scale from %s",scaleType, scale.get(0).getNote()),
+                        String.format("%s scale from %s",scaleType, startNote.getNote()),
                         scaleType
                 };
                 record.addSkippedQuestion(question);
