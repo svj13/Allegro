@@ -103,8 +103,7 @@ public class ScaleRecognitionTutorController extends TutorController {
         ArrayList<Note> scale;
         if (direction.getValue().equals("Up")) {
             scale = startNote.getOctaveScale(scaleType, octaves.getValue(), true);
-        }
-        if (direction.getValue().equals("UpDown")) {
+        } else if (direction.getValue().equals("UpDown")) {
             scale = startNote.getOctaveScale(scaleType, octaves.getValue(), true);
             ArrayList<Note> notes = new ArrayList<Note>(scale);
             Collections.reverse(notes);
