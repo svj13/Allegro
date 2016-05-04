@@ -89,6 +89,10 @@ public class ScaleRecognitionTutorController extends TutorController {
         return generateQuestionPane(new Pair<Note, String>(getRandomNote(), scaleType));
     }
 
+    /**
+     * Generates a note in the octave of middle C
+     * @return the random note
+     */
     public Note getRandomNote() {
         return Note.lookup(Integer.toString(rand.nextInt(11) + 60));
     }
@@ -225,6 +229,9 @@ public class ScaleRecognitionTutorController extends TutorController {
         return options;
     }
 
+    /**
+     * Returns the option combo boxes to their default states.
+     */
     public void resetInputs() {
         direction.getSelectionModel().selectFirst();
         octaves.getSelectionModel().selectFirst();
