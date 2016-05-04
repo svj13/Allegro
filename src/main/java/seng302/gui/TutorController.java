@@ -1,6 +1,7 @@
 package seng302.gui;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -155,6 +156,11 @@ public class TutorController {
             FileChooser fileChooser = new FileChooser();
             FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
             fileChooser.getExtensionFilters().add(textFilter);
+
+            if(env.getProjectHandler().isProject()) {
+                env.getRootController().checkProjectDirectory();
+                fileChooser.setInitialDirectory(Paths.get(env.getProjectHandler().getCurrentProjectPath()).toFile());
+            }
             File file = fileChooser.showSaveDialog(stage);
 
             if (file != null) {

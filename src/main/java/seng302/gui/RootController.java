@@ -120,6 +120,7 @@ public class RootController implements Initializable {
     }
 
 
+
     /**
      * Closes the application, if There are unsaved changes then it prompts the user to save the
      * file.
@@ -172,7 +173,7 @@ public class RootController implements Initializable {
     public Boolean saveChangesDialog(){
         if (!env.getProjectHandler().isSaved()) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setHeaderText("Unsaved changes");
+            alert.setHeaderText("Unsaved project changes");
 
             ButtonType btnSaveProject = new ButtonType("Save");
 
@@ -356,7 +357,7 @@ public class RootController implements Initializable {
 
 
 
-    private void checkProjectDirectory(){
+    public void checkProjectDirectory(){
         Path path = Paths.get("UserData/Projects/");
         if(!Files.isDirectory(path)){
             try{
@@ -415,10 +416,7 @@ public class RootController implements Initializable {
                 newProject();
             }
 
-
         }
-
-
     }
 
     @FXML
@@ -450,8 +448,6 @@ public class RootController implements Initializable {
                 public void handle(javafx.event.ActionEvent event) {
                     if(saveChangesDialog())  env.getProjectHandler().loadProject(projectName);
                 }
-
-
             });
 
             menuOpenProjects.getItems().add(projectItem); //Add to Open projects menu
