@@ -232,8 +232,6 @@ public class TranscriptPaneController {
                     Task playNextTask = new Task<Void>() {
                         @Override
                         public Void call() {
-                            String name = Thread.currentThread().getName();
-                            System.out.println("Foo " + name);
                             Command cmd = execute(commands.get(0));
                             printToTranscript();
                             try {

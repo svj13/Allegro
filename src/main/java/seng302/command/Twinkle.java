@@ -12,7 +12,9 @@ public class Twinkle implements Command {
 
 
     public float getLength(Environment env) {
-        return 0;
+        int tempo = env.getPlayer().getTempo();
+        float crotchetLength = 60000 / tempo;
+        return 14 * crotchetLength;
     }
 
     public void execute(Environment env) {
@@ -32,6 +34,7 @@ public class Twinkle implements Command {
         song.add(Note.lookup("D4"));
         song.add(Note.lookup("C4"));
         env.getPlayer().playNotes(song);
+        env.getTranscriptManager().setResult("Playing...");
     }
 
 
