@@ -214,6 +214,8 @@ public class ProjectHandler {
 
     }
 
+
+
     /**
      * Compares a specified project property to the saved value
      * If there is a difference, adds an asterix indicator to the project title
@@ -263,6 +265,7 @@ public class ProjectHandler {
      */
     public  void loadProject(String pName){
         try {
+            env.resetEnvironment();
 
             String path = userDirectory + "/Projects/" + pName;
             try {

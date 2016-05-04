@@ -11,7 +11,8 @@
     <!--<children>-->
       <!--<Pane layoutX="-283.0" style="-fx-background-color: brown;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">-->
          <children>
-             <ToolBar maxHeight="-Infinity" minHeight="-Infinity" prefHeight="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+             <ToolBar fx:id="playbackToolbar" maxHeight="-Infinity" minHeight="-Infinity"
+                      prefHeight="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                  <items>
                      <Label text="Command Playback Mode">
                          <padding>
@@ -51,12 +52,12 @@
                              <Insets right="10.0"/>
                          </padding>
                      </Label>
-                     <Button fx:id="stop" mnemonicParsing="false" text="Stop">
+                     <Button fx:id="stop" mnemonicParsing="false" text="Exit Playback Mode">
                          <graphic>
                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true"
                                         preserveRatio="true">
                                  <image>
-                                     <Image url="@../images/stop.png"/>
+                                     <Image url="@../images/letter-x.png"/>
                                  </image>
                              </ImageView>
                          </graphic>
@@ -64,10 +65,10 @@
                  </items>
              </ToolBar>
              <TextArea fx:id="txtTranscript" editable="false" focusTraversable="false"
-                       layoutY="-1.0" prefHeight="279.0" prefWidth="633.0"
+                       prefHeight="278.0" prefWidth="724.0"
                        promptText="Enter a command in the box below. Type 'help' for more information on the available commands."
                        wrapText="true" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="0"
-                       AnchorPane.rightAnchor="0" AnchorPane.topAnchor="-1.0"/>
+                       AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0.0"/>
               <TextField fx:id="txtCommand" layoutX="11.0" layoutY="286.0" onKeyPressed="#handleKeyPressed" prefHeight="30.0" prefWidth="334.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="110.0" />
               <Button fx:id="btnGo" layoutX="412.0" layoutY="285.0" mnemonicParsing="false" onAction="#goAction" prefHeight="30.0" prefWidth="74.0" text="Go" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="20.0" />
          </children>
