@@ -98,7 +98,8 @@ public class ScaleRecognitionTutorController extends TutorController {
     }
 
     /**
-     * Given a type of scale (major or minor), returns a list of notes of that scale
+     * Given a type of scale (major or minor) and a starting note, returns a list of notes of scale
+     * @param startNote The first note in the scale
      * @param scaleType Either major or minor
      * @return Arraylist of notes in a scale
      */
