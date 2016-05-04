@@ -103,6 +103,7 @@ ScaleType = "major"|"minor"
 Direction = "updown"|"up"|"down"
 PosNum = \p{Digit}+
 Interval = ("unison"|"major second"|"major third"|"perfect fourth"|"perfect fifth"|"major sixth"|"major seventh"|"octave")
+Twinkle = "twinkle"
    
 %%
 
@@ -138,6 +139,7 @@ Interval = ("unison"|"major second"|"major third"|"perfect fourth"|"perfect fift
     "all enharmonics"   {return symbol(DslSymbol.COMMAND_ALL_ENHARMONICS); }
     "undo"              {return symbol(DslSymbol.COMMAND_UNDO); }
     "redo"              {return symbol(DslSymbol.COMMAND_REDO); }
+    "twinkle"           {return symbol(DslSymbol.COMMAND_TWINKLE);}
     {Note}              {return symbol(DslSymbol.NOTE, new String(yytext()));}
     {Number}           { return symbol(DslSymbol.NUMBER, new String(yytext())); }
     {MidiNote}          {return symbol(DslSymbol.MIDINOTE, new String(yytext())); }

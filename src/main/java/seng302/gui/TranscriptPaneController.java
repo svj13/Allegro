@@ -2,6 +2,8 @@ package seng302.gui;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -14,9 +16,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToolBar;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import seng302.Environment;
 import seng302.command.Command;
@@ -71,6 +75,9 @@ public class TranscriptPaneController {
 
     @FXML
     Label commandvalue;
+
+    @FXML
+    ToolBar playbackToolbar;
 
 
     @FXML
@@ -178,7 +185,7 @@ public class TranscriptPaneController {
 
     public void beginPlaybackMode(final ArrayList<String> commands) {
         showPlaybackGui(commands.get(0));
-        final Task task = new Task<Void>() {
+        final Task playAllTask = new Task<Void>() {
             @Override
             public Void call() {
                 for (final String command : commands) {
@@ -192,36 +199,59 @@ public class TranscriptPaneController {
                     try {
                         Thread.sleep((long) cmd.getLength(env) + 1000);
                     } catch (InterruptedException e) {
-                        System.out.println("Cancelled");
                         updateMessage("Cancelled");
                         break;
                     }
                 }
-                playbackFinished();
+                Platform.runLater(new Runnable() {
+                    public void run() {
+                        playbackFinished();
+                    }
+                });
                 return null;
             }
         };
-        final Thread th = new Thread(task);
+        final Thread th = new Thread(playAllTask);
         th.setDaemon(true);
 
         playall.setOnAction(new EventHandler<ActionEvent>() {
             //Plays commands one by one, with a second's pause in between
             public void handle(ActionEvent event) {
+                playnext.setDisable(true);
                 th.start();
             }
         });
 
+
         playnext.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
+                env.getPlayer().stop();
+
                 try {
-                    // need to wait for commands to complete
-                    executeAndPrintToTranscript(commands.get(0));
-                    commands.remove(0);
-                    if (commands.get(0) != null) {
-                        commandvalue.setText(commands.get(0));
-                    } else {
-                        commandvalue.setText("-");
-                    }
+
+                    Task playNextTask = new Task<Void>() {
+                        @Override
+                        public Void call() {
+                            String name = Thread.currentThread().getName();
+                            System.out.println("Foo " + name);
+                            Command cmd = execute(commands.get(0));
+                            printToTranscript();
+                            try {
+                                commands.remove(0);
+
+                                Thread.sleep((long) cmd.getLength(env) + 100);
+                            } catch (InterruptedException e) {
+                                System.out.println("cancelled");
+                                updateMessage("Cancelled");
+                            }
+                            return null;
+                        }
+                    };
+                    Thread nextThread = new Thread(playNextTask);
+                    nextThread.setDaemon(true);
+                    nextThread.start();
+
+
                 } catch (Exception e) {
                     playbackFinished();
                 }
@@ -230,7 +260,7 @@ public class TranscriptPaneController {
 
         stop.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                task.cancel();
+                playAllTask.cancel();
                 env.getPlayer().stop();
                 hidePlaybackGui();
 
@@ -242,30 +272,21 @@ public class TranscriptPaneController {
     public void playbackFinished() {
         playall.setDisable(true);
         playnext.setDisable(true);
-        stop.setText("Exit");
-//        stop.setOnAction(new EventHandler<ActionEvent>() {
-//            public void handle(ActionEvent event) {
-//                hidePlaybackGui();
-//            }
-//        });
+
     }
 
     private void showPlaybackGui(String firstCommand) {
         AnchorPane.setTopAnchor(txtTranscript, 40.0);
-        txtTranscript.setPromptText("");
-        txtTranscript.clear();
         txtCommand.setDisable(true);
         btnGo.setDisable(true);
         playall.setDisable(false);
         playnext.setDisable(false);
-        stop.setText("Stop");
         commandvalue.setText(firstCommand);
     }
 
     private void hidePlaybackGui() {
         AnchorPane.setTopAnchor(txtTranscript, 0.0);
         txtTranscript.setPromptText("");
-        txtTranscript.clear();
         txtCommand.setDisable(false);
         btnGo.setDisable(false);
         commandvalue.setText("");
