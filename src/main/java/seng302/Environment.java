@@ -49,6 +49,8 @@ public class Environment {
         transcriptManager = new TranscriptManager();
         mttDataManager = new MusicalTermsTutorBackEnd();
         projectHandler = new ProjectHandler(this);
+        recordLocation = null;
+        em = new EditHistory(this);
     }
 
     /**
