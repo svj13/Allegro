@@ -54,9 +54,13 @@ e.g. semitone down B4 will result in Bb4.
 (Replace Ctrl with Cmd if using a Mac computer)
 
 **Ctrl-O** Open project
+
 **Ctrl-N** New project
+
 **Ctrl-S** Save project
 
 **Ctrl-Q** Quit Program
+
 **Ctrl-Z** Undo
+
 **Ctrl-Y** Redo
