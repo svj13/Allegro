@@ -74,7 +74,6 @@ public class RootController implements Initializable {
     private MenuItem menuQuit;
 
 
-
     @FXML
     private MenuItem menuOpen;
 
@@ -356,6 +355,7 @@ public class RootController implements Initializable {
     }
 
 
+
     private void checkProjectDirectory(){
         Path path = Paths.get("UserData/Projects/");
         if(!Files.isDirectory(path)){
@@ -391,8 +391,9 @@ public class RootController implements Initializable {
 
                 if(!Files.isDirectory(path)){
                     try{
-                        Files.createDirectories(path);
 
+                        Files.createDirectories(path);
+                        env.resetEnvironment();
                         env.getProjectHandler().saveProject(path.toString().replace("\\", "/"));
                         //setWindowTitle(resultString);
 
@@ -549,5 +550,9 @@ public class RootController implements Initializable {
             MusicalTermsTabController.numQuestions.setValue(MusicalTermsTabController.terms);
         }
     }
+
+
+
+
 
 }
