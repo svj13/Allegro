@@ -78,6 +78,7 @@ public class MusicalTermsTutorController extends TutorController{
         paneResults.setVisible(false);
         record = new TutorRecord(new Date(), "Musical Terms");
         manager.questions = selectedQuestions;
+        System.out.println(manager.questions);
         if (manager.questions >= 1) {
             termsBeingViewed = new ArrayList<Term>(dataManager.getTerms());
             // Run the tutor
@@ -92,14 +93,14 @@ public class MusicalTermsTutorController extends TutorController{
                 for (int i = 0; i < manager.questions; i++) {
                     if (termsBeingViewed.size() < 1){
                         termsBeingViewed = new ArrayList<Term>(dataManager.getTerms());
-                    }else {
-                        int randomNumber = rand.nextInt(termsBeingViewed.size());
-                        Term term = termsBeingViewed.get(randomNumber);
-                        termsBeingViewed.remove(randomNumber);
-                        HBox questionRow = generateQuestionPane(term);
-                        questionRows.getChildren().add(questionRow);
-                        questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
                     }
+                    int randomNumber = rand.nextInt(termsBeingViewed.size());
+                    Term term = termsBeingViewed.get(randomNumber);
+                    termsBeingViewed.remove(randomNumber);
+                    HBox questionRow = generateQuestionPane(term);
+                    questionRows.getChildren().add(questionRow);
+                    questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
+
                 }
             }
         } else {
