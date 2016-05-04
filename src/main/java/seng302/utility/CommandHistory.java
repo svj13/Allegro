@@ -29,7 +29,6 @@ public class CommandHistory {
      */
     public String handleScrollUp(String currentText) {
         int size = tm.getTranscriptTuples().size();
-        System.out.println(historyLevel);
 
         if (historyLevel < 1 && size > 0) {
             historyLevel = 1;
@@ -58,7 +57,6 @@ public class CommandHistory {
     //s trsdtrt
     public String handleScrollDown(String currentInput) {
         int size = tm.getTranscriptTuples().size();
-        System.out.println(historyLevel);
         if (historyLevel > 1) {
 
             historyLevel--;
@@ -68,7 +66,6 @@ public class CommandHistory {
             historyLevel--;
 
             if (storedInput == null || storedInput.equals("")) {
-                System.out.println("empty!");
                 historyLevel = -1;
                 return "";
 

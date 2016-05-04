@@ -2,13 +2,11 @@ package seng302.managers;
 
 
 import java.io.BufferedReader;
-import java.io.FileWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.json.simple.JSONArray;
-import seng302.command.Command;
 import seng302.utility.CommandHistory;
 import seng302.utility.OutputTuple;
 
@@ -106,7 +104,7 @@ public class TranscriptManager {
 
 
         } catch (IOException ex) {
-            System.out.println("problem Reading from file");
+            System.err.println("problem Reading from file");
         }
     }
 
@@ -198,7 +196,6 @@ public class TranscriptManager {
             }
             return commands;
         } catch (IOException ex) {
-            System.out.println("problem Reading from file");
             return null;
         }
     }

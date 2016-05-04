@@ -33,6 +33,7 @@ public class MusicalTermsTutorBackEnd {
             }
         }
         terms.remove(termToRemove);
-        System.out.println(terms);
+
+
     }
 }
