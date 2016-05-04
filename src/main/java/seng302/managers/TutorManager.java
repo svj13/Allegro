@@ -134,6 +134,13 @@ public class TutorManager {
         incorrect = 0;
     }
 
+    public void resetEverything() {
+        resetStats();
+        tempIncorrectResponses.clear();
+        correctResponses.clear();
+        incorrectResponses.clear();
+    }
+
     /**
      * Getter method for all correct responses
      * @return the list of correctly answered questions

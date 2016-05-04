@@ -550,4 +550,16 @@ public class RootController implements Initializable {
         }
     }
 
+    // clears the gui
+    public void reset() {
+        clearTranscript();
+
+        //need to destroy the tutors
+        transcriptController.setEnv(env);
+        PitchComparisonTabController.clearTutor();
+        IntervalRecognitionTabController.clearTutor();
+        MusicalTermsTabController.clearTutor();
+        ScaleRecognitionTabController.clearTutor();
+    }
+
 }

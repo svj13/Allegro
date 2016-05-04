@@ -334,4 +334,15 @@ public class TutorController {
         Image imageSkip = new Image(getClass().getResourceAsStream("/images/right-arrow.png"), 20, 20, true, true);
         skip.setGraphic(new ImageView(imageSkip));
     }
+
+    public void resetInputs() {
+
+    }
+
+    public void clearTutor() {
+        numQuestions.setValue(5);
+        questionRows.getChildren().clear();
+        manager.resetEverything();
+        resetInputs();
+    }
 }

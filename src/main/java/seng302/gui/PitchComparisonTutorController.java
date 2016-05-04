@@ -473,6 +473,11 @@ public class PitchComparisonTutorController extends TutorController{
         }
     }
 
+    public void resetInputs() {
+        rangeSlider.setLowValue(60);
+        rangeSlider.setHighValue(72);
+    }
+
 
 
     /**

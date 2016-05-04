@@ -51,6 +51,12 @@ public class Environment {
         projectHandler = new ProjectHandler(this);
         recordLocation = null;
         em = new EditHistory(this);
+
+        if (rootController != null) {
+            //reset this too
+            rootController.reset();
+
+        }
     }
 
     /**

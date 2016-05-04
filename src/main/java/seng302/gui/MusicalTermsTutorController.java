@@ -404,4 +404,8 @@ public class MusicalTermsTutorController extends TutorController{
         }
     }
 
+    public void resetInputs() {
+        numQuestions.setValue(1);
+    }
+
 }

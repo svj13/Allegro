@@ -223,5 +223,10 @@ public class ScaleRecognitionTutorController extends TutorController {
         return options;
     }
 
+    public void resetInputs() {
+        direction.getSelectionModel().selectFirst();
+        octaves.getSelectionModel().selectFirst();
+    }
+
 
 }

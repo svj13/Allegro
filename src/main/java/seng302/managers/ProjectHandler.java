@@ -267,6 +267,7 @@ public class ProjectHandler {
             String path = userDirectory + "/Projects/" + pName;
             try {
                 projectSettings = (JSONObject) parser.parse(new FileReader(path +"/"+ pName + ".json"));
+                env.resetEnvironment();
             } catch (FileNotFoundException f) {
                 //Project doesn't exist? Create it.
 
