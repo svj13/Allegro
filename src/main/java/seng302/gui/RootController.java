@@ -87,7 +87,7 @@ public class RootController implements Initializable {
     private Menu menuOpenProjects;
 
     @FXML
-    private TabPane tabPane;
+    private TabPane TabPane;
 
     @FXML
     private void initialize() {
@@ -337,6 +337,7 @@ public class RootController implements Initializable {
             path = file.getAbsolutePath();
             try {
                 ArrayList<String> commands = tm.loadCommands(path);
+                TabPane.getSelectionModel().selectFirst();
                 transcriptController.beginPlaybackMode(commands);
             } catch (Exception ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -586,7 +587,10 @@ public class RootController implements Initializable {
     public void reset() {
         clearTranscript();
 
+        //need to destroy the tutors
+        transcriptController.hidePlaybackGui();
         transcriptController.setEnv(env);
+
         PitchComparisonTabController.clearTutor();
         IntervalRecognitionTabController.clearTutor();
         MusicalTermsTabController.clearTutor();
