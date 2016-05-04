@@ -10,9 +10,7 @@ import seng302.command.Tempo;
  * Undo/redo history manager for the application Created by team 5 on 24/04/16.
  */
 public class EditHistory {
-    private ArrayList<String> idStack = new ArrayList<String>();
     // Stack of commands to redo operations
-//    private ArrayList<ArrayList<String>> redoStack = new ArrayList<ArrayList<String>>();
     // Stack of commands to undo operations
     private ArrayList<ArrayList<String>> commandStack = new ArrayList<ArrayList<String>>();
     private int location = 0;
@@ -57,28 +55,6 @@ public class EditHistory {
         }
     }
 
-    public void addToHistory(String type, String effect) {
-        ArrayList<String> toAdd = new ArrayList<String>();
-        toAdd.add(type);
-        toAdd.add(effect);
-        commandStack.add(toAdd);
-    }
-
-    public String getUndoId() {
-        if (canUndo) {
-            return idStack.get(location);
-        } else {
-            return null;
-        }
-    }
-
-    public String getRedoId() {
-        if (canRedo) {
-            return idStack.get(location - 1);
-        } else {
-            return null;
-        }
-    }
 
     /**
      * Called to undo a command.
@@ -126,6 +102,7 @@ public class EditHistory {
             if (location == 0) {
                 canRedo = false;
             }
+            canUndo = true;
         } else {
             env.error("No command to redo.");
         }
