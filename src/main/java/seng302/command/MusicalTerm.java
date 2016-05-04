@@ -3,12 +3,8 @@
 package seng302.command;
 
 /**
- *
- * MusicalTerm is used to look up and add musical
- * terms to the musical terms hashmap
- * Created by Sarah on 3/04/2016.
- *
- *
+ * MusicalTerm is used to look up and add musical terms to the musical terms hashmap Created by
+ * Sarah on 3/04/2016.
  */
 
 import java.util.ArrayList;
@@ -23,11 +19,9 @@ public class MusicalTerm implements Command {
     private String input;
     //protected static HashMap<String, Term> MusicalTermsMap = new HashMap<String, Term>();
 
-    private  boolean termAdded = false;
+    private boolean termAdded = false;
     private boolean validAdd = true;
     public Term term = null;
-
-
 
 
     private String musicalTermName;
@@ -35,7 +29,6 @@ public class MusicalTerm implements Command {
     private boolean lookupTerm = false;
 
     private ArrayList<String> rawInput;
-
 
 
     public ArrayList<Term> terms;
@@ -81,7 +74,22 @@ public class MusicalTerm implements Command {
                 validAdd = false;
                 this.result = "Term with the name of " + this.term.getMusicalTermName() + " has already been added";
                 resultSet = true;
-
+            } else if (term.getMusicalTermDefinition().length() > 100) {
+                validAdd = false;
+                this.result = "Your musical term definition exceeds 100 characters. Please give a shorter definition.";
+                resultSet = true;
+            } else if (term.getMusicalTermCategory().length() > 100) {
+                validAdd = false;
+                this.result = "Your musical term category exceeds 100 characters. Please give a shorter category.";
+                resultSet = true;
+            } else if (term.getMusicalTermOrigin().length() > 100) {
+                validAdd = false;
+                this.result = "Your musical term origin exceeds 100 characters. Please give a shorter origin.";
+                resultSet = true;
+            } else if (term.getMusicalTermName().length() > 100) {
+                validAdd = false;
+                this.result = "Your musical term name exceeds 100 characters. Please give a shorter name.";
+                resultSet = true;
             } else if (!resultSet) {
                 this.result = "Added term: " + this.term.getMusicalTermName() +
                         "\nOrigin: " + this.term.getMusicalTermOrigin() + " \nCategory: " +
@@ -97,9 +105,9 @@ public class MusicalTerm implements Command {
         }
     }
 
-    private void lookupTerm(){
+    private void lookupTerm() {
         boolean resultSet = false;
-        for(Term term : this.terms) {
+        for (Term term : this.terms) {
             if (term.getMusicalTermName().equals(musicalTermName)) {
                 // Returns the correct information
                 if (infoToGet.equals("meaning")) {
@@ -126,8 +134,7 @@ public class MusicalTerm implements Command {
             }
 
         }
-        if (!resultSet)
-        {
+        if (!resultSet) {
             this.result = String.format("%s is not recognised as an existing musical term.",
                     musicalTermName);
         }
@@ -135,7 +142,9 @@ public class MusicalTerm implements Command {
 
     public float getLength(Environment env) {
         return 0;
-    };
+    }
+
+    ;
 
 
     /**will add the musical term to the dictionary, or print the relevant definition of the musical
@@ -144,18 +153,19 @@ public class MusicalTerm implements Command {
      */
     public void execute(Environment env) {
         this.terms = env.getMttDataManager().getTerms();
-        if(lookupTerm) {
+        if (lookupTerm) {
             lookupTerm();
-        }
-        else {
+        } else {
             addTermBool();
         }
-        if(termAdded == true && validAdd == true){
+        if (termAdded && validAdd) {
             env.getMttDataManager().addTerm(term);
             env.getProjectHandler().checkmusicTerms();
             env.getEditManager().addToHistory("1", rawInput);
+            env.getTranscriptManager().setResult(result);
+        } else {
+            env.error(result);
         }
-        env.getTranscriptManager().setResult(result);
     }
 }
 
