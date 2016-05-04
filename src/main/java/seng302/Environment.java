@@ -40,8 +40,6 @@ public class Environment {
 
     }
 
-
-
     /**
      * Resets the environment so it clears the existing saved information.
      */
@@ -50,9 +48,9 @@ public class Environment {
         player = new MusicPlayer();
         transcriptManager = new TranscriptManager();
         mttDataManager = new MusicalTermsTutorBackEnd();
-        //projectHandler = new ProjectHandler(this);
 
-
+        recordLocation = null;
+        em = new EditHistory(this);
     }
 
     /**
@@ -108,9 +106,6 @@ public class Environment {
     public EditHistory getEditManager() {
         return this.em;
     }
-
-
-
 
 
 
