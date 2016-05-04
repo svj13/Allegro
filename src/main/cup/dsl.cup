@@ -197,6 +197,7 @@ keyword ::= COMMAND_HELP    {: RESULT = "help"; :}
           | COMMAND_MUSICAL_TERM_ORIGIN  {: RESULT = "origin of"; :}
           | COMMAND_MUSICAL_TERM_CATEGORY {: RESULT = "category of"; :}
           | COMMAND_ADD_MUSICAL_TERM {: RESULT = "add musical term"; :}
+          | COMMAND_TWINKLE {: RESULT = "twinkle"; :}
 ;
 
 singleTerm ::= keyword:s {: RESULT = s;:}
