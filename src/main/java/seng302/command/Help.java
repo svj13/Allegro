@@ -35,15 +35,13 @@ public class Help implements Command {
             result = "Returns the duration of a crotchet in milliseconds at the current tempo.";
         } else if (keyword.equals("enharmonic above")) {
             result = "Returns the enharmonic that corresponds to the same note, a " +
-                    "'letter' above the current note. Returns an error should there be no higher " +
-                    "enharmonic. ";
+                    "'letter' above the current note.";
         } else if (keyword.equals("enharmonic below")) {
-            result = "Returns the enharmonic that corresponds to the sam note, a " +
-                    "'letter' below the current note. Returns an error should there be no lower" +
-                    "enharmonic. ";
+            result = "Returns the enharmonic that corresponds to the same note, a " +
+                    "'letter' below the current note.";
         } else if (keyword.equals("force set tempo")) {
             result = "When followed by a tempo, it will set the given tempo, even if it" +
-                    " is outside of the appropriate range.";
+                    " is outside of the recommended range of 20-300BPM.";
         } else if (keyword.equals("meaning of")) {
             result = "When followed by a musical term, will display the definition of that" +
                     " term.";
@@ -61,9 +59,9 @@ public class Help implements Command {
             result = "semitone down : When followed by a valid note or midi number, it will return" +
                     " the note that is a semitone lower.";
         } else if (keyword.equals("set tempo")) {
-            result = "When followed by a valid tempo will change the tempo to that value.";
+            result = "When followed by a valid tempo (20-300BPM) will change the tempo to that value.";
         } else if (keyword.equals("tempo")) {
-            result = "Returns the current set tempo. When the program is launched, it will have" +
+            result = "Returns the current tempo. When the program is launched, it will have" +
                     " a default value of 120BPM.";
         } else if (keyword.equals("version")) {
             result = "Returns the current version number of the application.";
@@ -92,13 +90,11 @@ public class Help implements Command {
                     "category of:\nWhen followed by a musical term, it returns the category of that term. \n\n" +
                     "crotchet duration:\nReturns the duration of a crotchet in milliseconds at the current tempo.\n\n" +
                     "enharmonic above:\nReturns the enharmonic that corresponds to the same note, a " +
-                    "'letter' above the current note. Returns an error should there be no higher " +
-                    "enharmonic. \n\n" +
-                    "enharmonic below : Returns the enharmonic that corresponds to the sam note, a " +
-                    "'letter' below the current note. Returns an error should there be no lower" +
-                    "enharmonic. \n\n" +
+                    "'letter' above the current note.\n\n" +
+                    "enharmonic below : Returns the enharmonic that corresponds to the same note, a " +
+                    "'letter' below the current note. \n\n" +
                     "force set tempo:\nWhen followed by a tempo, it will set the given tempo, even if it" +
-                    " is outside of the appropriate range. \n\n" +
+                    " is outside of the recommended range of 20-300BPM. \n\n" +
                     "meaning of:\nWhen followed by a musical term, it returns the definition of that" +
                     " term. \n\n" +
                     "midi:\nWhen followed by a valid note, it will return its corresponding midi number" +
@@ -120,8 +116,8 @@ public class Help implements Command {
                     " the note that is a semitone higher.  \n\n" +
                     "semitone down:\nWhen followed by a valid note or midi number, it will return" +
                     " the note that is a semitone lower. \n\n" +
-                    "set tempo:\nWhen followed by a valid tempo will change the tempo to that value. \n\n" +
-                    "tempo:\nReturns the current set tempo. When the program is launched, it will have" +
+                    "set tempo:\nWhen followed by a valid tempo (20-300BPM) will change the tempo to that value. \n\n" +
+                    "tempo:\nReturns the current tempo. When the program is launched, it will have" +
                     " a default value of 120BPM. \n\n" +
                     "version:\nReturns the current version number of the application.";
         }

@@ -25,6 +25,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -33,6 +34,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import seng302.Environment;
+import seng302.command.UndoRedo;
 import seng302.managers.TranscriptManager;
 import seng302.utility.OutputTuple;
 
@@ -254,6 +256,8 @@ public class RootController implements Initializable {
      */
     @FXML
     private void undo() {
+        new UndoRedo(0).execute(env);
+
 
     }
 
@@ -262,6 +266,7 @@ public class RootController implements Initializable {
      */
     @FXML
     private void redo() {
+        new UndoRedo(1).execute(env);
 
     }
 
@@ -437,6 +442,7 @@ public class RootController implements Initializable {
         });
         SeparatorMenuItem dividor = new SeparatorMenuItem();
         dividor.setText("Recent Projects..");
+        selectItem.acceleratorProperty().setValue(KeyCombination.keyCombination("Shortcut+O"));
         menuOpenProjects.getItems().add(selectItem);
         menuOpenProjects.getItems().add(dividor);
 

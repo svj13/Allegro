@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.input.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
@@ -11,8 +12,10 @@
            <menus>
              <Menu mnemonicParsing="false" onShowing="#bindOpenObjects" text="File">
                <items>
-                 <MenuItem fx:id="menuQuit" mnemonicParsing="false" onAction="#closeApplication" text="Quit" />
-                  <Menu fx:id="menuOpenProjects" mnemonicParsing="false" text="Open Project" />
+                   <MenuItem fx:id="menuQuit" mnemonicParsing="false" onAction="#closeApplication"
+                             text="Quit" accelerator="Shortcut+Q"></MenuItem>
+                   <Menu fx:id="menuOpenProjects" mnemonicParsing="false"
+                         text="Open Project"></Menu>
                   <Menu mnemonicParsing="false" text="Import">
                     <items>
                          <MenuItem fx:id="MenuImportTranscript" mnemonicParsing="false" onAction="#importTranscript" text="Import Transcript" />
