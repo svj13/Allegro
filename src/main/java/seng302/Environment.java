@@ -41,6 +41,17 @@ public class Environment {
     }
 
     /**
+     * Resets the environment so it clears the existing saved information.
+     */
+    public void resetEnvironment() {
+        executor = new DslExecutor(this);
+        player = new MusicPlayer();
+        transcriptManager = new TranscriptManager();
+        mttDataManager = new MusicalTermsTutorBackEnd();
+        projectHandler = new ProjectHandler(this);
+    }
+
+    /**
      * All errors are handled through here. They are then passed to the transcriptmanager to be
      * displayed.
      *
