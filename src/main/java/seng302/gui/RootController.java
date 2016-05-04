@@ -107,17 +107,7 @@ public class RootController implements Initializable {
         });
     }
 
-    public void initialize(URL location, ResourceBundle resources) {
-
-//        System.out.println("root controller initialize test");
-//        tabPane.setOnMouseReleased(new EventHandler<Event>() {
-//            public void handle(Event event) {
-//                System.out.println("hello");
-//            }
-//        });
-
-//
-    }
+    public void initialize(URL location, ResourceBundle resources) {}
 
 
 
@@ -170,6 +160,10 @@ public class RootController implements Initializable {
 
     }
 
+    /**
+     * Displays a dialog to ask the user whether or not they want to save project changes.
+     * @return a boolean - true for save, false for cancel
+     */
     public Boolean saveChangesDialog(){
         if (!env.getProjectHandler().isSaved()) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -206,6 +200,9 @@ public class RootController implements Initializable {
         return true;
     }
 
+    /**
+     * Removes all content from the transcript
+     */
     @FXML
     private void clearTranscript(){
         tm.setTranscriptContent(new ArrayList<OutputTuple>());
@@ -220,7 +217,7 @@ public class RootController implements Initializable {
     @FXML
     private void saveTranscript() {
 
-        File file = generateFileChooser();
+        File file = generateSaveFileChooser();
 
         if (file != null) {
             fileDir = file.getParentFile();
@@ -234,7 +231,7 @@ public class RootController implements Initializable {
      */
     @FXML
     private void saveCommands() {
-        File file = generateFileChooser();
+        File file = generateSaveFileChooser();
 
         if (file != null) {
             fileDir = file.getParentFile();
@@ -255,8 +252,6 @@ public class RootController implements Initializable {
     @FXML
     private void undo() {
         new UndoRedo(0).execute(env);
-
-
     }
 
     /**
@@ -265,14 +260,13 @@ public class RootController implements Initializable {
     @FXML
     private void redo() {
         new UndoRedo(1).execute(env);
-
     }
 
     /**
      * Creates and displays a "save file" file chooser
      * @return The file which the user selects
      */
-    private File generateFileChooser() {
+    private File generateSaveFileChooser() {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(textFilter);
@@ -283,17 +277,16 @@ public class RootController implements Initializable {
 
         }
 
-
         fileChooser.setInitialDirectory(fileDir);
         File file = fileChooser.showSaveDialog(stage);
         return file;
     }
 
     /**
-     * Opens a transcript that has been previously saved.
+     * Creates and displays an "open file" file chooser
+     * @return The file the user selects
      */
-    @FXML
-    private void importTranscript() {
+    private File generateOpenFileChooser() {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(textFilter);
@@ -305,6 +298,15 @@ public class RootController implements Initializable {
         fileChooser.setInitialDirectory(fileDir);
 
         File file = fileChooser.showOpenDialog(stage);
+        return file;
+    }
+
+    /**
+     * Opens a transcript that has been previously saved.
+     */
+    @FXML
+    private void importTranscript() {
+        File file = generateOpenFileChooser();
 
         if (file != null) {
             fileDir = file.getParentFile();
@@ -323,19 +325,12 @@ public class RootController implements Initializable {
         }
     }
 
+    /**
+     * Opens a file of commands only.
+     */
     @FXML
     public void importCommands() {
-        FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
-        fileChooser.getExtensionFilters().add(textFilter);
-        if(env.getProjectHandler().isProject()){
-            checkProjectDirectory();
-            fileDir = Paths.get(env.getProjectHandler().getCurrentProjectPath()).toFile();
-
-        }
-        fileChooser.setInitialDirectory(fileDir);
-
-        File file = fileChooser.showOpenDialog(stage);
+        File file = generateOpenFileChooser();
 
         if (file != null) {
             fileDir = file.getParentFile();
@@ -345,7 +340,6 @@ public class RootController implements Initializable {
                 TabPane.getSelectionModel().selectFirst();
                 transcriptController.beginPlaybackMode(commands);
             } catch (Exception ex) {
-                ex.printStackTrace();
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("This file is not valid");
                 alert.showAndWait();
@@ -354,10 +348,9 @@ public class RootController implements Initializable {
         }
     }
 
+
     public void setTranscriptPaneText(String text){
-
         transcriptController.setTranscriptPane(text);
-
     }
 
 
@@ -379,6 +372,9 @@ public class RootController implements Initializable {
 
     }
 
+    /**
+     * Displays a dialog for the user to create a new project
+     */
     @FXML
     public void newProject(){
 
@@ -424,6 +420,9 @@ public class RootController implements Initializable {
         }
     }
 
+    /**
+     * Saves project information
+     */
     @FXML
     private void saveProject(){
         env.getProjectHandler().saveCurrentProject();
@@ -463,6 +462,10 @@ public class RootController implements Initializable {
 
     }
 
+    /**
+     * Displays an error message
+     * @param errorMessage The message to be displayed
+     */
     public void errorAlert(String errorMessage){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setContentText(errorMessage);
@@ -474,6 +477,7 @@ public class RootController implements Initializable {
     private void copyFolder(File sourceFolder, File destinationFolder){
 
     }
+
     /**
      * Open Project browser.
      */
@@ -523,7 +527,10 @@ public class RootController implements Initializable {
     }
 
 
-
+    /**
+     * Sets the stage for root
+     * @param stage
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
         this.stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -574,10 +581,9 @@ public class RootController implements Initializable {
     }
 
 
-
-
-
-    // clears the gui
+    /**
+     * Resets all tutors and the transcript controller to their default state.
+     */
     public void reset() {
         clearTranscript();
 
