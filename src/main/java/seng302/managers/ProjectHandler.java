@@ -127,9 +127,7 @@ public class ProjectHandler {
         ArrayList<Term> terms = new Gson().fromJson((String)projectSettings.get("musicalTerms"), termsType);
 
         if(terms != null){
-            for(Term t : terms){
-                System.out.println(t.getMusicalTermName());
-            }
+
             env.getMttDataManager().setTerms(terms);
         }
 
@@ -183,7 +181,6 @@ public class ProjectHandler {
 
             //Check if it isn't an exisiting stored project
             if(!projectList.contains(projectName)) {
-                System.out.println("Saved project not found in projects.json - adding it");
                 projectList.add(projectName);
             }
 
@@ -216,6 +213,8 @@ public class ProjectHandler {
 
 
     }
+
+
 
     /**
      * Compares a specified project property to the saved value
@@ -266,6 +265,7 @@ public class ProjectHandler {
      */
     public  void loadProject(String pName){
         try {
+            env.resetEnvironment();
 
             String path = userDirectory + "/Projects/" + pName;
             try {

@@ -74,7 +74,6 @@ public class RootController implements Initializable {
     private MenuItem menuQuit;
 
 
-
     @FXML
     private MenuItem menuOpen;
 
@@ -356,6 +355,7 @@ public class RootController implements Initializable {
     }
 
 
+
     private void checkProjectDirectory(){
         Path path = Paths.get("UserData/Projects/");
         if(!Files.isDirectory(path)){
@@ -391,8 +391,9 @@ public class RootController implements Initializable {
 
                 if(!Files.isDirectory(path)){
                     try{
-                        Files.createDirectories(path);
 
+                        Files.createDirectories(path);
+                        env.resetEnvironment();
                         env.getProjectHandler().saveProject(path.toString().replace("\\", "/"));
                         //setWindowTitle(resultString);
 
@@ -404,7 +405,6 @@ public class RootController implements Initializable {
 
                 }
                 else{
-                    System.out.println("Sorry, the path " + resultString + " already exists.");
                     errorAlert("The project: "  +resultString+" already exists.");
                 }
 
@@ -489,12 +489,11 @@ public class RootController implements Initializable {
 
                     if(f.getName().endsWith(".json") && f.getName().substring(0, f.getName().length() - 5).equals(folder.getName())){
 
-                        System.out.println("VALID PROJECT");
                         env.getProjectHandler().loadProject(folder.getName());
                         return;
                     }
                 }
-                System.out.println("Not a valid project folder - try again!");
+                errorAlert("Not a valid Project folder - Try again!");
                 selectProjectDirectory();
                 return;
             }
@@ -551,5 +550,9 @@ public class RootController implements Initializable {
             MusicalTermsTabController.numQuestions.setValue(MusicalTermsTabController.terms);
         }
     }
+
+
+
+
 
 }
