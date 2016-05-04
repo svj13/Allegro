@@ -75,6 +75,11 @@ public class DslExecutorTest {
         assertThat(command, instanceOf(seng302.command.NoteCommand.class));
     }
 
+    public void parseNegativeMidiCommand() {
+        Command command = executor.parseCommandString("midi d-1");
+        assertThat(command, instanceOf(seng302.command.Midi.class));
+    }
+
     @Test
     public void logsErrorOnInvalidMidi() {
         Command command = executor.parseCommandString("note cake");
@@ -204,6 +209,11 @@ public class DslExecutorTest {
     @Test
     public void parsesPlayNoteCommand() {
         Command command = executor.parseCommandString("play G4");
+        assertThat(command, instanceOf(seng302.command.PlayNote.class));
+    }
+
+    public void parsesPlayNegativeNoteCommand() {
+        Command command = executor.parseCommandString("play D-1");
         assertThat(command, instanceOf(seng302.command.PlayNote.class));
     }
 
