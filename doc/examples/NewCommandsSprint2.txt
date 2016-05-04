@@ -1,0 +1,10 @@
+enharmonic higher C4
+enharmonic lower Eb
+all enharmonics c
+scale g major
+midi scale F4 major
+scale F6 minor
+play scale g major
+set tempo 250
+play scale E minor 2 updown
+play f5
