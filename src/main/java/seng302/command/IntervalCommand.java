@@ -23,6 +23,7 @@ public class IntervalCommand implements Command {
     private boolean octaveSpecified;
     private Note note;
     private Interval playingInterval;
+    private float length = 0;
 
 
     /**
@@ -42,7 +43,7 @@ public class IntervalCommand implements Command {
     }
 
     public float getLength(Environment env) {
-        return 0;
+        return length;
     };
 
 
@@ -180,6 +181,9 @@ public class IntervalCommand implements Command {
         } else if (outputType.equals("note")) {
             getCorrespondingNote(env);
         } else if (outputType.equals("play")) {
+            int tempo = env.getPlayer().getTempo();
+            float crotchetLength = 60000 / tempo;
+            length = 5 * crotchetLength;
             playInterval(env);
         } else {
             env.error("Unknown command");
