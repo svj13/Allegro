@@ -265,16 +265,19 @@ public class ProjectHandler {
      */
     public  void loadProject(String pName){
         try {
-            env.resetEnvironment();
 
+            env.resetEnvironment();
             String path = userDirectory + "/Projects/" + pName;
             try {
                 projectSettings = (JSONObject) parser.parse(new FileReader(path +"/"+ pName + ".json"));
-                env.resetEnvironment();
+
             } catch (FileNotFoundException f) {
                 //Project doesn't exist? Create it.
 
                 if(!Paths.get(path).toFile().isDirectory()){
+
+
+
                     //If the Project directory folder doesn't exist.
                     System.err.println("Project directory missing - Might have been moved, renamed or deleted.\n Will remove the project from the projects json");
                     env.getRootController().errorAlert("Project directory is missing - possibly moved, renamed or deleted.");
@@ -283,7 +286,7 @@ public class ProjectHandler {
                 }
                 else{
                     //.json project files are corrupt.
-
+                    env.getRootController().errorAlert("Project properties are corrupt - resetting values.");
                     saveProject(path);
                 }
 

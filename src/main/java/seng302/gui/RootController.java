@@ -6,10 +6,7 @@ import org.json.simple.JSONArray;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.InvalidPathException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -36,6 +33,7 @@ import javafx.stage.WindowEvent;
 import seng302.Environment;
 import seng302.command.UndoRedo;
 import seng302.managers.TranscriptManager;
+import seng302.utility.FileHandler;
 import seng302.utility.OutputTuple;
 
 public class RootController implements Initializable {
@@ -471,6 +469,9 @@ public class RootController implements Initializable {
     }
 
 
+    private void copyFolder(File sourceFolder, File destinationFolder){
+
+    }
     /**
      * Open Project browser.
      */
@@ -490,6 +491,23 @@ public class RootController implements Initializable {
                 for(File f : folder.listFiles()){
 
                     if(f.getName().endsWith(".json") && f.getName().substring(0, f.getName().length() - 5).equals(folder.getName())){
+
+                        if(! new File("userData/Projects/"+folder.getName()).isDirectory()){
+
+                            try{
+
+                                //Copy all files from inside the projects folder.
+                                FileHandler.copyFolder(folder,Paths.get(path.toString()+"/"+folder.getName()).toFile());
+                            }catch (Exception ce){
+                                ce.printStackTrace();
+                                errorAlert("Could not Import the project! Maybe it already exists in the Projects folder?");
+                            }
+
+
+                            //project with said name does not exist in the projects directory.. import it.
+                            //env.getProjectHandler().importProject(folder);
+
+                        }
 
                         env.getProjectHandler().loadProject(folder.getName());
                         return;
