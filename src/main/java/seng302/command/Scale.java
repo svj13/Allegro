@@ -257,10 +257,13 @@ public class Scale implements Command {
 
     public float getLength(Environment env) {
         float milliseconds = 0;
-        ArrayList<Note> scale = getScale(direction);
-        int tempo = env.getPlayer().getTempo();
-        float crotchetLength = 60000 / tempo;
-        milliseconds = scale.size() * crotchetLength;
+
+        if (outputType.equals("play")) {
+            ArrayList<Note> scale = getScale(direction);
+            int tempo = env.getPlayer().getTempo();
+            float crotchetLength = 60000 / tempo;
+            milliseconds = scale.size() * crotchetLength;
+        }
 
         return milliseconds;
     }

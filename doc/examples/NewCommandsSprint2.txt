@@ -8,5 +8,8 @@ midi scale F4 major
 scale F6 minor
 play scale g major
 set tempo 250
+crotchet duration
 play scale E minor 2 updown
+undo
+play scale d5 minor down
 play f5

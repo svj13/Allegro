@@ -49,6 +49,7 @@ public class Environment {
         transcriptManager = new TranscriptManager();
         mttDataManager = new MusicalTermsTutorBackEnd();
 
+
         recordLocation = null;
         em = new EditHistory(this);
 
@@ -57,6 +58,7 @@ public class Environment {
             rootController.reset();
 
         }
+
     }
 
     /**

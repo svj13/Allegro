@@ -280,13 +280,14 @@ public class TranscriptPaneController {
     private void showPlaybackGui(String firstCommand) {
         AnchorPane.setTopAnchor(txtTranscript, 40.0);
         txtCommand.setDisable(true);
+        txtTranscript.setPromptText("");
         btnGo.setDisable(true);
         playall.setDisable(false);
         playnext.setDisable(false);
         commandvalue.setText(firstCommand);
     }
 
-    private void hidePlaybackGui() {
+    public void hidePlaybackGui() {
         AnchorPane.setTopAnchor(txtTranscript, 0.0);
         txtTranscript.setPromptText("");
         txtCommand.setDisable(false);
