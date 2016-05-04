@@ -405,6 +405,7 @@ public class MusicalTermsTutorController extends TutorController{
     }
 
     public void resetInputs() {
+        dataManager = env.getMttDataManager();
         numQuestions.setValue(1);
     }
 
