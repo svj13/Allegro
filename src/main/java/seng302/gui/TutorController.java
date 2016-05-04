@@ -192,6 +192,7 @@ public class TutorController {
      * This function is run once a tutoring session has been completed.
      */
     public void finished() {
+        env.getPlayer().stop();
         userScore = getScore(manager.correct, manager.answered);
         record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
         outputText = String.format("You have finished the tutor.\n" +
