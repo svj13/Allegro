@@ -163,8 +163,8 @@ scale ::= NOTE:s SCALE_TYPE:r       {:RESULT = new HashMap<String,String>(); RES
 playScale ::= scale:s {:RESULT = s;:}
             |   scale:s DIRECTION:a {: s.put("direction", a); RESULT = s;:}
             |   scale:s NUMBER:a {: s.put("octaves", String.valueOf(a)); RESULT = s;:}
-            |   scale:s NUMBER:a DIRECTION:b {: s.put("octaves", String.valueOf(a)); s.put("direction", a); RESULT = s;:}
-            |   scale:s DIRECTION:b NUMBER:a {: s.put("octaves", String.valueOf(a)); s.put("direction", a); RESULT = s;:}
+            |   scale:s NUMBER:a DIRECTION:b {: s.put("octaves", String.valueOf(a)); s.put("direction", b); RESULT = s;:}
+            |   scale:s DIRECTION:b NUMBER:a {: s.put("octaves", String.valueOf(a)); s.put("direction", b); RESULT = s;:}
 ;
 
 interval ::= INTERVAL:i {: RESULT = new HashMap<String,String>(); RESULT.put("interval", i);:}
