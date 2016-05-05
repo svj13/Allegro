@@ -31,7 +31,7 @@ public class Enharmonic implements Command {
             if (OctaveUtil.octaveSpecifierFlag(this.noteval)) {
                 this.note = Note.lookup(noteval);
                 if (comm == 1) {
-                    if (note.flatName().length() == 1) {
+                    if (note.flatName().length() == 0) {
                         env.error("Note does not have a lower enharmonic.");
                     } else {
                         env.getTranscriptManager().setResult(note.flatName());
@@ -43,7 +43,7 @@ public class Enharmonic implements Command {
                         env.getTranscriptManager().setResult(note.simpleEnharmonic());
                     }
                 } else if (comm == 0) {
-                    if (note.sharpName().length() == 1) {
+                    if (note.sharpName().length() == 0) {
                         env.error("Note does not have a higher enharmonic.");
                     } else {
                         env.getTranscriptManager().setResult(note.sharpName());
@@ -63,7 +63,7 @@ public class Enharmonic implements Command {
             } else {
                 this.note = Note.lookup(OctaveUtil.addDefaultOctave(noteval));
                 if (comm == 1) {
-                    if (note.flatName().length() == 1) {
+                    if (note.flatName().length() == 0) {
                         env.error("Note does not have a lower enharmonic.");
                     } else {
                         env.getTranscriptManager().setResult(OctaveUtil.removeOctaveSpecifier(note.flatName()));
@@ -75,7 +75,7 @@ public class Enharmonic implements Command {
                         env.getTranscriptManager().setResult(OctaveUtil.removeOctaveSpecifier(note.simpleEnharmonic()));
                     }
                 } else if (comm == 0) {
-                    if (note.sharpName().length() == 1) {
+                    if (note.sharpName().length() == 0) {
                         env.error("Note does not have a higher enharmonic.");
                     } else {
                         env.getTranscriptManager().setResult(OctaveUtil.removeOctaveSpecifier(note.sharpName()));
