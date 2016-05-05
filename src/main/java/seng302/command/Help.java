@@ -33,10 +33,10 @@ public class Help implements Command {
             result = "Return all the enharmonics of a given note.";
         } else if (keyword.equals("crotchet duration")) {
             result = "Returns the duration of a crotchet in milliseconds at the current tempo.";
-        } else if (keyword.equals("enharmonic above")) {
+        } else if (keyword.equals("enharmonic higher")) {
             result = "Returns the enharmonic that corresponds to the same note, a " +
                     "'letter' above the current note.";
-        } else if (keyword.equals("enharmonic below")) {
+        } else if (keyword.equals("enharmonic lower")) {
             result = "Returns the enharmonic that corresponds to the same note, a " +
                     "'letter' below the current note.";
         } else if (keyword.equals("force set tempo")) {
@@ -95,9 +95,9 @@ public class Help implements Command {
                     "all enharmonics:\nReturns all of the enharmonics of a given note. \n\n" +
                     "category of:\nWhen followed by a musical term, it returns the category of that term. \n\n" +
                     "crotchet duration:\nReturns the duration of a crotchet in milliseconds at the current tempo.\n\n" +
-                    "enharmonic above:\nReturns the enharmonic that corresponds to the same note, a " +
+                    "enharmonic higher:\nReturns the enharmonic that corresponds to the same note, a " +
                     "'letter' above the current note.\n\n" +
-                    "enharmonic below : Returns the enharmonic that corresponds to the same note, a " +
+                    "enharmonic lower:\nReturns the enharmonic that corresponds to the same note, a " +
                     "'letter' below the current note. \n\n" +
                     "force set tempo:\nWhen followed by a tempo, it will set the given tempo, even if it" +
                     " is outside of the recommended range of 20-300BPM. \n\n" +
