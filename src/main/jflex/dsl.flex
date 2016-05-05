@@ -103,7 +103,7 @@ ScaleType = "major"|"minor"
 Direction = "updown"|"up"|"down"
 PosNum = \p{Digit}+
 Interval = ("unison"|"major second"|"major third"|"perfect fourth"|"perfect fifth"|"major sixth"|"major seventh"|"octave")
-Twinkle = "twinkle"
+
    
 %%
 
@@ -151,6 +151,3 @@ Twinkle = "twinkle"
     {Atom}             { return symbol(DslSymbol.ATOM, new String(yytext()));}
     {WhiteSpace}       { /* Ignore whitespace */ }
 }
-
-/* Throw an exception if we have no matches */
-[^]                    { throw new RuntimeException("Illegal character <"+yytext()+">"); }
