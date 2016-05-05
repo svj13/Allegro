@@ -49,12 +49,6 @@ public class MidiTest {
     }
 
     @Test
-    public void setsCorrectErrorResult() {
-        new Midi("Z#").execute(env);
-        verify(transcriptManager).setResult("[ERROR] \'Z#\' is not a valid note.");
-    }
-
-    @Test
     public void caseSensitivity() {
         new Midi("c#").execute(env);
         verify(transcriptManager).setResult("61");
