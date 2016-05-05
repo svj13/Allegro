@@ -68,6 +68,3 @@ e.g. semitone down B4 will result in Bb4.
 
 **Ctrl-Q** Quit Program
 
-**Ctrl-Z** Undo
-
-**Ctrl-Y** Redo
