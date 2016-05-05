@@ -198,7 +198,7 @@ public class Scale implements Command {
                     env.error(i.getMessage());
                 }
             } catch (Exception e) {
-                env.error("This scale is not contained in the MIDI library.");
+                env.error("This scale goes beyond the MIDI notes available.");
             }
         }
     }

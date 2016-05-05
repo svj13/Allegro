@@ -77,11 +77,6 @@ public class ScaleTest {
         verify(transcriptManager).setResult("[ERROR] Invalid scale type: 'cake'.");
     }
 
-    @Test
-    public void setsCorrectErrorMessageBadNote() {
-        new Scale("cake", "major", "note").execute(env);
-        verify(transcriptManager).setResult("[ERROR] Note is not contained in the MIDI library.");
-    }
 
     @Test
     public void correctResultWithCaseInsensitivity() {
@@ -113,12 +108,6 @@ public class ScaleTest {
     public void setsCorrectErrorMessageMidi() {
         new Scale("C4", "cake", "midi").execute(env);
         verify(transcriptManager).setResult("[ERROR] Invalid scale type: 'cake'.");
-    }
-
-    @Test
-    public void setsCorrectErrorMessageBadNoteMidi() {
-        new Scale("cake", "major", "midi").execute(env);
-        verify(transcriptManager).setResult("[ERROR] Note is not contained in the MIDI library.");
     }
 
     @Test
@@ -186,7 +175,7 @@ public class ScaleTest {
     @Test
     public void testNoteTooHighForScaleUpDown() {
         new Scale("E9", "major", "play", "updown").execute(env);
-        verify(transcriptManager).setResult("[ERROR] Note is not contained in the MIDI library.");
+        verify(transcriptManager).setResult("[ERROR] This scale goes beyond the MIDI notes available.");
     }
 
     @Test
