@@ -1,9 +1,11 @@
 package seng302.utility;
 
+import javafx.scene.control.TextInputDialog;
+
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
+import java.util.Optional;
 
 /**
  * Created by Jonty on 04-May-16.
@@ -44,4 +46,8 @@ public class FileHandler {
             //System.out.println("File copied :: " + destinationFolder);
         }
     }
+
+
+
+
 }

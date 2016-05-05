@@ -11,6 +11,7 @@ package seng302.managers;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import javafx.scene.control.TextInputDialog;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -22,9 +23,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import seng302.Environment;
 import seng302.data.Term;
@@ -148,7 +151,7 @@ public class ProjectHandler {
             saveProject(currentProjectPath);
         }
         else{
-            env.getRootController().newProject();
+            createNewProject();
         }
         saved = true;
 
@@ -159,6 +162,8 @@ public class ProjectHandler {
      * Handles Saving a .json Project file, for the specified project address
      * @param projectAddress Project directory address.
      */
+
+
 
     public void saveProject(String projectAddress){
 
@@ -180,30 +185,36 @@ public class ProjectHandler {
             currentProjectPath = projectAddress;
 
             //Check if it isn't an exisiting stored project
-            if(!projectList.contains(projectName)) {
-                projectList.add(projectName);
-            }
-
-            try { //Save list of projects.
-                projectsInfo.put("projects", projectList);
-                FileWriter projectsJson = new FileWriter(userDirectory+"/projects.json");
-                projectsJson.write(projectsInfo.toJSONString());
-                projectsJson.flush();
-                projectsJson.close();
-
-
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            }
-
-
-
+            updateProjectList();
 
         }catch (IOException e) {
             e.printStackTrace();
         }
 
     }
+
+    /**
+     * Updates the json list of project names, used to fill the quick load list.
+     *
+     */
+    private  void updateProjectList(){
+        if(!projectList.contains(projectName)) {
+            projectList.add(projectName);
+        }
+
+        try { //Save list of projects.
+            projectsInfo.put("projects", projectList);
+            FileWriter projectsJson = new FileWriter(userDirectory+"/projects.json");
+            projectsJson.write(projectsInfo.toJSONString());
+            projectsJson.flush();
+            projectsJson.close();
+
+
+        } catch (Exception e2) {
+            e2.printStackTrace();
+        }
+    }
+
 
     /**
      * Compares all current project properties to the saved values
@@ -297,6 +308,7 @@ public class ProjectHandler {
             loadProperties();
 
             currentProjectPath = path;
+            updateProjectList();
 
             env.getRootController().setWindowTitle(pName);
             //ignore
@@ -315,6 +327,51 @@ public class ProjectHandler {
 
         }
     }
+
+
+    public void createNewProject() {
+        TextInputDialog dialog = new TextInputDialog("");
+        dialog.setTitle("New Project");
+        dialog.setHeaderText("New Project");
+        dialog.setContentText("Please enter the project name:");
+
+        // Traditional way to get the response value.
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()){
+            String resultString = result.get().toString();
+            Path path;
+            try{
+                path = Paths.get("UserData/Projects/" + resultString);
+
+                if(!Files.isDirectory(path)){
+                    try{
+
+                        Files.createDirectories(path);
+
+                        env.getProjectHandler().saveProject(path.toString().replace("\\", "/"));
+                        //setWindowTitle(resultString);
+
+                    }
+                    catch(IOException e){
+                        //Failed to create the directory.
+                        e.printStackTrace();
+                    }
+
+                }
+                else{
+                    env.getRootController().errorAlert("The project: "  +resultString+" already exists.");
+                }
+
+            }
+            catch(InvalidPathException invPath){
+                //invalid path (Poor project naming)
+                env.getRootController().errorAlert("Invalid file name - try again.");
+                createNewProject();
+            }
+
+        }
+    }
+
 
 
     public boolean isSaved(){

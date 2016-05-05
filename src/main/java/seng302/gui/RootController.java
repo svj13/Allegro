@@ -252,6 +252,8 @@ public class RootController implements Initializable {
     @FXML
     private void undo() {
         new UndoRedo(0).execute(env);
+
+
     }
 
     /**
@@ -376,49 +378,14 @@ public class RootController implements Initializable {
      * Displays a dialog for the user to create a new project
      */
     @FXML
-    public void newProject(){
-
-        TextInputDialog dialog = new TextInputDialog("");
-        dialog.setTitle("New Project");
-        dialog.setHeaderText("New Project");
-        dialog.setContentText("Please enter the project name:");
-
-    // Traditional way to get the response value.
-        Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()){
-            String resultString = result.get().toString();
-            Path path;
-            try{
-                 path = Paths.get("UserData/Projects/" + resultString);
-
-                if(!Files.isDirectory(path)){
-                    try{
-
-                        Files.createDirectories(path);
-                        env.resetEnvironment();
-                        env.getProjectHandler().saveProject(path.toString().replace("\\", "/"));
-                        //setWindowTitle(resultString);
-
-                    }
-                    catch(IOException e){
-                        //Failed to create the directory.
-                        e.printStackTrace();
-                    }
-
-                }
-                else{
-                    errorAlert("The project: "  +resultString+" already exists.");
-                }
-
-            }
-            catch(InvalidPathException invPath){
-                //invalid path (Poor project naming)
-                errorAlert("Invalid file name - try again.");
-                newProject();
-            }
-
-        }
+    public void newProject() {
+        env.resetEnvironment();
+        env.getProjectHandler().createNewProject();
     }
+
+
+
+
 
     /**
      * Saves project information
