@@ -78,7 +78,6 @@ public class MusicalTermsTutorController extends TutorController{
         paneResults.setVisible(false);
         record = new TutorRecord(new Date(), "Musical Terms");
         manager.questions = selectedQuestions;
-        System.out.println(manager.questions);
         if (manager.questions >= 1) {
             termsBeingViewed = new ArrayList<Term>(dataManager.getTerms());
             // Run the tutor

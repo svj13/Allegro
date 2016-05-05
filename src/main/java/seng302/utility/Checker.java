@@ -42,7 +42,6 @@ public class Checker {
     public static boolean isCommand(String c) {
 
         String[] helpCommands = {"midi", "note", "semitone up", "semitone down", "help"};
-        System.out.println("valid? " + c.toLowerCase());
         return Arrays.asList(helpCommands).contains(c.toLowerCase());
 
     }

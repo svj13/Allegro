@@ -21,7 +21,7 @@ public class FileHandler {
             if (!destinationFolder.exists())
             {
                 destinationFolder.mkdir();
-                System.out.println("Directory created :: " + destinationFolder);
+                //System.out.println("Directory created :: " + destinationFolder);
             }
 
             //Get all files from source directory
@@ -41,7 +41,7 @@ public class FileHandler {
         {
             //Copy the file content from one place to another
             Files.copy(sourceFolder.toPath(), destinationFolder.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            System.out.println("File copied :: " + destinationFolder);
+            //System.out.println("File copied :: " + destinationFolder);
         }
     }
 }

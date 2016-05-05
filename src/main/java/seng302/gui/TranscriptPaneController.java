@@ -190,7 +190,6 @@ public class TranscriptPaneController {
             public Void call() {
                 for (final String command : commands) {
                     if (isCancelled()) {
-                        System.out.println("Cancelled");
                         updateMessage("Cancelled");
                         break;
                     }
@@ -239,7 +238,6 @@ public class TranscriptPaneController {
 
                                 Thread.sleep((long) cmd.getLength(env) + 100);
                             } catch (InterruptedException e) {
-                                System.out.println("cancelled");
                                 updateMessage("Cancelled");
                             }
                             return null;
