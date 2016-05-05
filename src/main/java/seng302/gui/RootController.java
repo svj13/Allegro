@@ -251,7 +251,7 @@ public class RootController implements Initializable {
      */
     @FXML
     private void undo() {
-        new UndoRedo(0).execute(env);
+        transcriptController.executeAndPrintToTranscript("undo");
     }
 
     /**
@@ -259,7 +259,7 @@ public class RootController implements Initializable {
      */
     @FXML
     private void redo() {
-        new UndoRedo(1).execute(env);
+        transcriptController.executeAndPrintToTranscript("redo");
     }
 
     /**
