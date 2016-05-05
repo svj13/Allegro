@@ -112,7 +112,7 @@ public class Note {
                     notes.put(Integer.toString(i), new Note(i, noteName, tempEnharmonics));
                     tempEnharmonics2 = generateEnharmonics(current_octave, "G", "", "G", "G", "Fx"); //Abb
                     notes.put("Abb".concat(Integer.toString(current_octave)), new Note(i, "Abb".concat(Integer.toString(current_octave)), tempEnharmonics2));
-                    tempEnharmonics3 = generateEnharmonics(current_octave, "G", "G", "", "C", "Abb"); // Fx
+                    tempEnharmonics3 = generateEnharmonics(current_octave, "G", "G", "", "G", "Abb"); // Fx
                     notes.put("Fx".concat(Integer.toString(current_octave)), new Note(i, "Fx".concat(Integer.toString(current_octave)), tempEnharmonics3));
                     break;
                 case 8: // G#
@@ -160,15 +160,46 @@ public class Note {
 
     private static HashMap<String, String> generateEnharmonics(Integer octave, String desc, String above, String below, String simple, String other) {
         HashMap<String, String> notesEnharmonics = new HashMap<String, String>();
-        notesEnharmonics.put("descending", desc.concat(Integer.toString(octave)));
-        notesEnharmonics.put("above", above.concat(Integer.toString(octave)));
-        notesEnharmonics.put("below", below.concat(Integer.toString(octave)));
+
+        // Descending enharmonic
+        if (Checker.isValidNormalNote(desc)) {
+            notesEnharmonics.put("descending", desc.concat(Integer.toString(octave)));
+        } else {
+            notesEnharmonics.put("descending", desc);
+        }
+
+        //Enharmonic above
+        if (Checker.isValidNormalNote(above)) {
+            notesEnharmonics.put("above", above.concat(Integer.toString(octave)));
+        } else {
+            notesEnharmonics.put("above", above);
+        }
+
+
+        // Enharmonic Below
+        if (Checker.isValidNormalNote(below)) {
+            notesEnharmonics.put("below", below.concat(Integer.toString(octave)));
+        } else {
+            notesEnharmonics.put("below", below);
+        }
+
+
+        // Simple enharmonics
         if (Checker.isValidNormalNote(simple)) {
             notesEnharmonics.put("simple", simple.concat(Integer.toString(octave)));
         } else {
             notesEnharmonics.put("simple", simple);
         }
-        notesEnharmonics.put("other", other.concat(Integer.toString(octave)));
+
+        // Other enharmonics
+        // notesEnharmonics.put("other", other.concat(Integer.toString(octave)));
+        if (Checker.isValidNormalNote(other)) {
+            notesEnharmonics.put("other", other.concat(Integer.toString(octave)));
+        } else {
+            notesEnharmonics.put("other", other);
+        }
+
+
         return notesEnharmonics;
     }
 

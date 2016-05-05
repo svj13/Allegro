@@ -54,7 +54,6 @@ public class CommandHistory {
      * prompt is showing a previously used command from the history, then a newer command will be
      * shown.
      */
-    //s trsdtrt
     public String handleScrollDown(String currentInput) {
         int size = tm.getTranscriptTuples().size();
         if (historyLevel > 1) {
