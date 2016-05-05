@@ -16,9 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="pitchTutorAnchor" prefHeight="300.0" prefWidth="700.0"
-            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="seng302.gui.PitchComparisonTutorController">
+<AnchorPane fx:id="pitchTutorAnchor" prefHeight="300.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.PitchComparisonTutorController">
     <children>
         <HBox prefHeight="30.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
          <children>
@@ -34,82 +32,66 @@
               </Label>
          </children>
       </HBox>
-        <HBox fx:id="settings" alignment="CENTER_LEFT" layoutY="36.0" minWidth="400.0"
-              prefHeight="10.0" spacing="15.0" AnchorPane.leftAnchor="10.0"
-              AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="50.0">
+        <HBox fx:id="settings" alignment="CENTER_LEFT" layoutY="36.0" minWidth="400.0" prefHeight="10.0" spacing="15.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="50.0">
             <children>
-                <VBox fx:id="sliderBox" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="300.0"
-                      spacing="10.0">
+                <VBox fx:id="sliderBox" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="300.0" spacing="10.0">
                <children>
                    <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                         <Label minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0"
-                                text="Note Range:"/>
-                         <Label fx:id="notes" minHeight="-Infinity" minWidth="-Infinity"
-                                prefHeight="30.0">
+                         <Label minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" text="Note Range:" />
+                         <Label fx:id="notes" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0">
                            <HBox.margin>
                               <Insets left="3.0" />
                            </HBox.margin>
                              <font>
-                                 <Font name="System Bold" size="13.0"/>
+                                 <Font name="System Bold" size="13.0" />
                              </font>
                         </Label>
                      </children>
                      <VBox.margin>
-                         <Insets bottom="5.0" left="5.0"/>
+                         <Insets bottom="5.0" left="5.0" />
                      </VBox.margin>
                   </HBox>
                    <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                         <Label alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity"
-                                minWidth="-Infinity" prefHeight="30.0"
-                                text="Number of Questions: "/>
+                         <Label alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" text="Number of Questions: " />
                          <Label fx:id="questions" prefHeight="30.0" prefWidth="60.0">
                              <font>
-                                 <Font name="System Bold" size="13.0"/>
+                                 <Font name="System Bold" size="13.0" />
                              </font>
                          </Label>
                      </children>
                        <VBox.margin>
-                           <Insets left="5.0"/>
+                           <Insets left="5.0" />
                        </VBox.margin>
                   </HBox>
                    <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="200.0">
                      <children>
-                         <Slider fx:id="numQuestions" blockIncrement="1.0" majorTickUnit="49.0"
-                                 max="50.0" min="1.0" minorTickCount="1" prefHeight="38.0"
-                                 prefWidth="300.0" showTickLabels="true" value="5.0"/>
+                         <Slider fx:id="numQuestions" blockIncrement="1.0" majorTickUnit="49.0" max="50.0" min="1.0" minorTickCount="1" prefHeight="38.0" prefWidth="300.0" showTickLabels="true" value="5.0" />
                      </children>
                   </HBox>
                </children>
             </VBox>
                 <BorderPane prefHeight="200.0" prefWidth="200.0">
                     <bottom>
-                        <Button id="btnGo" fx:id="btnGo" alignment="CENTER" minHeight="-Infinity"
-                                minWidth="-Infinity" mnemonicParsing="false" onAction="#goAction"
-                                prefHeight="30.0" prefWidth="90.0" text="Go" textAlignment="CENTER"
-                                BorderPane.alignment="BOTTOM_LEFT">
+                        <Button id="btnGo" fx:id="btnGo" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#goAction" prefHeight="30.0" prefWidth="90.0" text="Go" textAlignment="CENTER" BorderPane.alignment="BOTTOM_LEFT">
                             <font>
-                                <Font size="14.0"/>
+                                <Font size="14.0" />
                             </font>
                             <BorderPane.margin>
-                                <Insets bottom="10.0" left="20.0"/>
+                                <Insets bottom="10.0" left="20.0" />
                             </BorderPane.margin>
                         </Button>
                     </bottom>
                 </BorderPane>
             </children>
         </HBox>
-        <ScrollPane fx:id="paneQuestions" fitToHeight="true" fitToWidth="true" layoutY="105.0"
-                    minHeight="10.0" minWidth="10.0" prefHeight="100.0" prefViewportHeight="60.0"
-                    prefViewportWidth="680.0" prefWidth="700.0" AnchorPane.bottomAnchor="5.0"
-                    AnchorPane.leftAnchor="5" AnchorPane.rightAnchor="5"
-                    AnchorPane.topAnchor="210.0">
+        <ScrollPane fx:id="paneQuestions" fitToHeight="true" fitToWidth="true" layoutY="105.0" minHeight="10.0" minWidth="10.0" prefHeight="100.0" prefViewportHeight="60.0" prefViewportWidth="680.0" prefWidth="700.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5" AnchorPane.rightAnchor="5" AnchorPane.topAnchor="210.0">
             <content>
                 <VBox fx:id="questionRows" />
             </content>
         </ScrollPane>
-      <ScrollPane fx:id="paneResults" fitToWidth="true" layoutX="20.0" layoutY="125.0" visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="120.0">
+      <ScrollPane fx:id="paneResults" fitToWidth="true" layoutX="20.0" layoutY="210.0" prefHeight="85.0" prefWidth="690.0" visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="210.0">
          <content>
             <VBox fx:id="resultsBox" prefHeight="200.0" prefWidth="100.0">
                <children>
