@@ -40,8 +40,10 @@
            <Menu mnemonicParsing="false" text="Edit">
                 <items>
                     <MenuItem fx:id="menuClearTranscript" mnemonicParsing="false" onAction="#clearTranscript" text="Clear Transcript" />
-                    <MenuItem fx:id="menuUndo" accelerator="Shortcut+Z" mnemonicParsing="false" onAction="#undo" text="Undo" />
-                    <MenuItem fx:id="menuRedo" accelerator="Shortcut+Y" mnemonicParsing="false" onAction="#redo" text="Redo" />
+                    <MenuItem fx:id="menuUndo" mnemonicParsing="false" onAction="#undo"
+                              text="Undo"/>
+                    <MenuItem fx:id="menuRedo" mnemonicParsing="false" onAction="#redo"
+                              text="Redo"/>
                 </items>
            </Menu>
            </menus>
