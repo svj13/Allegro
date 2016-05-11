@@ -128,6 +128,7 @@ Interval = ("unison"|"major second"|"major third"|"perfect fourth"|"perfect fift
     "simple enharmonic" { return symbol(DslSymbol.COMMAND_SIMPLE_ENHARMONIC); }
     "set tempo"        { return symbol(DslSymbol.COMMAND_SET_TEMPO);  }
     "play scale"        {return symbol(DslSymbol.COMMAND_PLAY_SCALE); }
+    "play chord"        {return symbol(DslSymbol.COMMAND_CHORD); }
     "play interval"     {return symbol(DslSymbol.COMMAND_PLAY_INTERVAL); }
     "play"             { return symbol(DslSymbol.COMMAND_PLAY_NOTE);    }
     "interval"          {return symbol(DslSymbol.COMMAND_INTERVAL); }
@@ -140,6 +141,7 @@ Interval = ("unison"|"major second"|"major third"|"perfect fourth"|"perfect fift
     "undo"              {return symbol(DslSymbol.COMMAND_UNDO); }
     "redo"              {return symbol(DslSymbol.COMMAND_REDO); }
     "twinkle"           {return symbol(DslSymbol.COMMAND_TWINKLE);}
+    "chord"
     {Note}              {return symbol(DslSymbol.NOTE, new String(yytext()));}
     {Number}           { return symbol(DslSymbol.NUMBER, new String(yytext())); }
     {MidiNote}          {return symbol(DslSymbol.MIDINOTE, new String(yytext())); }
@@ -150,4 +152,5 @@ Interval = ("unison"|"major second"|"major third"|"perfect fourth"|"perfect fift
     {SemiColon}         {return symbol(DslSymbol.SEMIC);}
     {Atom}             { return symbol(DslSymbol.ATOM, new String(yytext()));}
     {WhiteSpace}       { /* Ignore whitespace */ }
+
 }
