@@ -38,14 +38,14 @@ public class Interval {
 //    }};
 
     public static Interval[] intervals = {
-            new Interval(0, "unison", null),
+            new Interval(0, "unison", ""),
             new Interval(2, "major second", "major 2nd"),
             new Interval(4, "major third", "major 3rd"),
             new Interval(5, "perfect fourth", "perfect 4th"),
             new Interval(7, "perfect fifth", "perfect 5th"),
             new Interval(9, "major sixth", "major 6th"),
             new Interval(11, "major seventh", "major 7th"),
-            new Interval(12, "perfect octave", null)
+            new Interval(12, "perfect octave", "")
     };
 
     public static Set<Integer> acceptedSemitones;
@@ -90,7 +90,8 @@ public class Interval {
 
     public static Interval lookupByName(String name) {
         for (Interval interval:intervals) {
-            if (name != null &&(interval.getName().equals(name) || interval.getAlternateName().equals(name))) {
+            if (interval.getName().equals(name) || interval.getAlternateName().equals(name)) {
+                System.out.println(interval.getName());
                 return interval;
             }
         }
