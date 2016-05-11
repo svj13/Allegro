@@ -116,7 +116,11 @@ public class IntervalCommand implements Command {
         //This section of code gets the number of semitones in a given interval
         try {
             if (semitones == null) {
-                semitones = Integer.toString(Interval.lookupByName(intervalName).getSemitones());
+                if (!intervalName.equals("")) {
+                    semitones = Integer.toString(Interval.lookupByName(intervalName).getSemitones());
+                } else {
+                    throw new NullPointerException();
+                }
             }
             env.getTranscriptManager().setResult(semitones + " semitones");
         } catch (NullPointerException e) {
