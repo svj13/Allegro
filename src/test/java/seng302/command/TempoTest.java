@@ -85,4 +85,11 @@ public class TempoTest {
         assert env.getPlayer().getTempo() == 120;
     }
 
+    @Test
+    public void testForceZero() {
+        new Tempo("0", true).execute(env);
+        assert env.getPlayer().getTempo() == 120;
+        verify(transcriptManager).setResult("Invalid tempo");
+    }
+
 }
