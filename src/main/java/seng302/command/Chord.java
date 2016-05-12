@@ -48,14 +48,20 @@ public class Chord implements Command {
 
 
     public void execute(Environment env) {
-        String chordString = "";
 
-        for (Note i: chord) {
-            String j = i.getNote();
-            chordString += j + ' ';
+        if (Checker.isDoubleFlat(startNote) || Checker.isDoubleSharp(startNote)) {
+            //Disregards double sharps/double flats
+            env.error("Invalid chord: '" + startNote + ' ' + type + "'.");
+        } else {
+            String chordString = "";
+
+            for (Note i : chord) {
+                String j = i.getNote();
+                chordString += j + ' ';
+            }
+
+            env.getTranscriptManager().setResult(chordString);
         }
-
-        env.getTranscriptManager().setResult(chordString);
 
     }
 }
