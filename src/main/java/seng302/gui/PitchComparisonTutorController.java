@@ -89,13 +89,9 @@ public class PitchComparisonTutorController extends TutorController{
 
         if (lowerSet && upperSet) {
             questionRows.getChildren().clear();
+            manager.resetEverything();
             manager.questions = selectedQuestions;
             for (int i = 0; i < manager.questions; i++) {
-                //String noteName1 = Note.lookup(String.valueOf(rand.nextInt(128))).getNote();
-                //String noteName2 = Note.lookup(String.valueOf(rand.nextInt(128))).getNote();
-
-                //int lowerPitchBound = cbxLower.getSelectionModel().getSelectedItem().getMidi();
-                //int upperPitchBound = cbxUpper.getSelectionModel().getSelectedItem().getMidi();
                 int lowerPitchBound = ((Double) rangeSlider.getLowValue()).intValue();
                 int upperPitchBound = ((Double) rangeSlider.getHighValue()).intValue();
                 int pitchRange = upperPitchBound - lowerPitchBound;

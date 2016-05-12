@@ -102,7 +102,7 @@ SemiColon = ";"
 ScaleType = "major"|"minor"
 Direction = "updown"|"up"|"down"
 PosNum = \p{Digit}+
-Interval = ("unison"|"major second"|"major third"|"perfect fourth"|"perfect fifth"|"major sixth"|"major seventh"|"octave")
+Interval = ("unison"|"major second"|"major third"|"perfect fourth"|"perfect fifth"|"major sixth"|"major seventh"|"octave"|"minor second"|"minor third"|"augmented fourth"|"diminished 5th"|"minor sixth"|"diminished seventh"|"minor seventh"|"minor ninth"|"major ninth"|"minor tenth"|"major tenth"|"perfect eleventh"|"augmented eleventh"|"perfect twelfth"|"minor thirteenth"|"major thirteenth"|"minor fourteenth"|"major fourteenth"|"double octave")
 
    
 %%

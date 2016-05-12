@@ -48,6 +48,7 @@ public class ScaleRecognitionTutorController extends TutorController {
         record = new TutorRecord(new Date(), "Scale Recognition");
         paneQuestions.setVisible(true);
         paneResults.setVisible(false);
+        manager.resetEverything();
         manager.questions = selectedQuestions;
 
         questionRows.getChildren().clear();
