@@ -89,6 +89,7 @@ public class PitchComparisonTutorController extends TutorController{
 
         if (lowerSet && upperSet) {
             questionRows.getChildren().clear();
+            manager.resetEverything();
             manager.questions = selectedQuestions;
             for (int i = 0; i < manager.questions; i++) {
                 int lowerPitchBound = ((Double) rangeSlider.getLowValue()).intValue();

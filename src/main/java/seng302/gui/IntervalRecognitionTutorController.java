@@ -109,6 +109,7 @@ public class IntervalRecognitionTutorController extends TutorController {
         paneQuestions.setVisible(true);
         paneResults.setVisible(false);
         record = new TutorRecord(new Date(), "Interval Recognition");
+        manager.resetEverything();
         manager.questions = selectedQuestions;
         if (manager.questions >= 1){
             // Run the tutor
