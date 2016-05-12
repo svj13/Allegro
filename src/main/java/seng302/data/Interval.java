@@ -51,6 +51,20 @@ public class Interval {
             new Interval(8, "minor sixth"),
             new Interval(9, "diminished seventh"),
             new Interval(10, "minor seventh"),
+
+            new Interval(13, "minor ninth"),
+            new Interval(14, "major ninth"),
+            new Interval(15, "minor tenth"),
+            new Interval(16, "major tenth"),
+            new Interval(17, "perfect eleventh"),
+            new Interval(18, "augmented eleventh"),
+            new Interval(19, "perfect twelfth"),
+            new Interval(20, "minor thirteenth"),
+            new Interval(21, "major thirteenth"),
+            new Interval(22, "minor fourteenth"),
+            new Interval(23, "major fourteenth"),
+            new Interval(24, "double octave"), /////////////will this break stuff?
+
     };
 
     public static Set<Integer> acceptedSemitones;
