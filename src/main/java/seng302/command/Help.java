@@ -87,6 +87,12 @@ public class Help implements Command {
                     " e.g interval perfect fifth C4 will return G4.";
         } else if (keyword.equals("play interval")) {
             result = "When followed by an interval name and a note, it will play the given note and then the note that is the specified interval above the given note.";
+        } else if (keyword.equals("chord")) {
+            result = "When followed by a valid chord and a valid chord type (i.e. major, minor), will" +
+                    " return the corresponding notes that make up the given chord";
+        } else if (keyword.equals("play chord")) {
+            result = "When followed by a valid chord and a valid chord type (i.e. major, minor), will" +
+                    " play the given chord";
         } else if (keyword.equals("")) {
             result = "" +
                     "\nadd musical term:\nWhen followed by a musical term in the format of 'name; origin; " +
@@ -130,7 +136,11 @@ public class Help implements Command {
                     "set tempo:\nWhen followed by a valid tempo (20-300BPM) will change the tempo to that value. \n\n" +
                     "tempo:\nReturns the current tempo. When the program is launched, it will have" +
                     " a default value of 120BPM. \n\n" +
-                    "version:\nReturns the current version number of the application.";
+                    "version:\nReturns the current version number of the application. \n\n" +
+                    "chord:\nWhen followed by a valid chord and a valid chord type (i.e. major, minor), will" +
+                    " return the corresponding notes that make up the given chord\n\n" +
+                    "play chord:\nWhen followed by a valid chord and a valid chord type (i.e. major, minor), will " +
+                    "play the given chord\n\n";
         }
 
         env.getTranscriptManager().setResult(result);
