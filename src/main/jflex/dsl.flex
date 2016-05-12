@@ -141,7 +141,8 @@ Interval = ("unison"|"major second"|"major third"|"perfect fourth"|"perfect fift
     "undo"              {return symbol(DslSymbol.COMMAND_UNDO); }
     "redo"              {return symbol(DslSymbol.COMMAND_REDO); }
     "twinkle"           {return symbol(DslSymbol.COMMAND_TWINKLE);}
-    "chord"
+    "chord"             {return symbol(DslSymbol.COMMAND_CHORD);}
+    "play chord"        {return symbol(DslSymbol.COMMAND_PLAY_CHORD);}
     {Note}              {return symbol(DslSymbol.NOTE, new String(yytext()));}
     {Number}           { return symbol(DslSymbol.NUMBER, new String(yytext())); }
     {MidiNote}          {return symbol(DslSymbol.MIDINOTE, new String(yytext())); }

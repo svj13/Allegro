@@ -428,7 +428,7 @@ Created the tempo class and made it so it defaults to 120BMP
              chordNotes.add(currentNote.semitoneUp(3));
              chordNotes.add(currentNote.semitoneUp(7));
         } else {
-            throw new IllegalArgumentException("Invalid scale type: '" + type + "'.");
+            throw new IllegalArgumentException("Invalid chord type: '" + type + "'.");
         }
         return chordNotes;
     }
