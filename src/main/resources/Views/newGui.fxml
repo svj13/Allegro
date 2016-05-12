@@ -7,78 +7,108 @@
 
 <AnchorPane fx:id="paneMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="457.0" minWidth="700.0" prefHeight="457.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.RootController">
    <children>
-      <!--<children>-->
-       <MenuBar minHeight="-Infinity" prefHeight="29.0" prefWidth="500.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-           <menus>
-             <Menu mnemonicParsing="false" onShowing="#bindOpenObjects" text="File">
-               <items>
-                   <MenuItem fx:id="menuQuit" mnemonicParsing="false" onAction="#closeApplication"
-                             text="Quit" accelerator="Shortcut+Q"></MenuItem>
-                   <Menu fx:id="menuOpenProjects" mnemonicParsing="false"
-                         text="Open Project"></Menu>
-                  <Menu mnemonicParsing="false" text="Import">
-                    <items>
-                         <MenuItem fx:id="MenuImportTranscript" mnemonicParsing="false" onAction="#importTranscript" text="Import Transcript" />
-                      <MenuItem fx:id="MenuImportCommands" mnemonicParsing="false" onAction="#importCommands" text="Import Commands" />
-                    </items>
-                  </Menu>
-                  <Menu mnemonicParsing="false" text="New..">
-                    <items>
-                        <MenuItem fx:id="menuNewProject" accelerator="Shortcut+N" mnemonicParsing="false" onAction="#newProject" text="Project" />
-
-                    </items>
-                  </Menu>
-                  <Menu mnemonicParsing="false" text="Save...">
+       <VBox prefHeight="457.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0"
+             AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+           <children>
+               <!--<children>-->
+               <MenuBar minHeight="-Infinity" prefHeight="29.0" prefWidth="500.0"
+                        AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                        AnchorPane.topAnchor="0.0">
+                   <menus>
+                       <Menu mnemonicParsing="false" onShowing="#bindOpenObjects" text="File">
                      <items>
-                        <MenuItem fx:id="menuSaveProject" accelerator="Shortcut+S" mnemonicParsing="false" onAction="#saveProject" text="Save Project" />
-                           <MenuItem fx:id="MenuSave" mnemonicParsing="false" onAction="#saveTranscript" text="Export Transcript" />
-                        <MenuItem fx:id="menuSaveCommands" mnemonicParsing="false" onAction="#saveCommands" text="Export Commands Only" />
-                     </items>
-                  </Menu>
-               </items>
-             </Menu>
-           <Menu mnemonicParsing="false" text="Edit">
-                <items>
-                    <MenuItem fx:id="menuClearTranscript" mnemonicParsing="false" onAction="#clearTranscript" text="Clear Transcript" />
-                    <MenuItem fx:id="menuUndo" mnemonicParsing="false" onAction="#undo"
-                              text="Undo"/>
-                    <MenuItem fx:id="menuRedo" mnemonicParsing="false" onAction="#redo"
-                              text="Redo"/>
-                </items>
-           </Menu>
-           </menus>
-         </MenuBar>
-       <TabPane fx:id="TabPane" layoutY="29.0" prefHeight="428.0" prefWidth="500.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="29.0">
-        <tabs>
-          <Tab onSelectionChanged="#onTranscriptTab" text="Transcript">
-            <content>
-              <fx:include fx:id="transcript" source="TranscriptPane.fxml" />
-              <!--<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />-->
+                         <MenuItem fx:id="menuQuit" accelerator="Shortcut+Q" mnemonicParsing="false"
+                                   onAction="#closeApplication" text="Quit"/>
+                         <Menu fx:id="menuOpenProjects" mnemonicParsing="false"
+                               text="Open Project"/>
+                         <Menu mnemonicParsing="false" text="Import">
+                             <items>
+                                 <MenuItem fx:id="MenuImportTranscript" mnemonicParsing="false"
+                                           onAction="#importTranscript" text="Import Transcript"/>
+                                 <MenuItem fx:id="MenuImportCommands" mnemonicParsing="false"
+                                           onAction="#importCommands" text="Import Commands"/>
+                             </items>
+                         </Menu>
+                         <Menu mnemonicParsing="false" text="New..">
+                             <items>
+                                 <MenuItem fx:id="menuNewProject" accelerator="Shortcut+N"
+                                           mnemonicParsing="false" onAction="#newProject"
+                                           text="Project"/>
 
-                  </content>
-          </Tab>
-          <Tab text="Pitch Tutor">
-            <content>
-                <fx:include fx:id="PitchComparisonTab" source="PitchComparisonPane.fxml" />
-            </content>
-          </Tab>
-            <Tab text="Interval Tutor">
-              <content>
-                  <fx:include fx:id="IntervalRecognitionTab" source="IntervalRecognitionPane.fxml" />
-              </content>
-            </Tab>
-           <Tab onSelectionChanged="#reloadNumberTerms" text="Musical Terms Tutor">
-               <content>
-                   <fx:include fx:id="MusicalTermsTab" source="MusicalTermsPane.fxml" />
-               </content>
-           </Tab>
-            <Tab text="Scale Tutor">
-                <content>
-                    <fx:include fx:id="ScaleRecognitionTab" source="ScaleRecognitionPane.fxml" />
-                </content>
-            </Tab>
-        </tabs>
-      </TabPane>
+                             </items>
+                         </Menu>
+                         <Menu mnemonicParsing="false" text="Save...">
+                             <items>
+                                 <MenuItem fx:id="menuSaveProject" accelerator="Shortcut+S"
+                                           mnemonicParsing="false" onAction="#saveProject"
+                                           text="Save Project"/>
+                                 <MenuItem fx:id="MenuSave" mnemonicParsing="false"
+                                           onAction="#saveTranscript" text="Export Transcript"/>
+                                 <MenuItem fx:id="menuSaveCommands" mnemonicParsing="false"
+                                           onAction="#saveCommands" text="Export Commands Only"/>
+                             </items>
+                         </Menu>
+                     </items>
+                       </Menu>
+                       <Menu mnemonicParsing="false" text="Edit">
+                           <items>
+                               <MenuItem fx:id="menuClearTranscript" mnemonicParsing="false"
+                                         onAction="#clearTranscript" text="Clear Transcript"/>
+                               <MenuItem fx:id="menuUndo" mnemonicParsing="false" onAction="#undo"
+                                         text="Undo"/>
+                               <MenuItem fx:id="menuRedo" mnemonicParsing="false" onAction="#redo"
+                                         text="Redo"/>
+                           </items>
+                       </Menu>
+                   </menus>
+               </MenuBar>
+               <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0"
+                          prefWidth="160.0" VBox.vgrow="ALWAYS">
+                   <items>
+                       <TabPane fx:id="TabPane" maxHeight="1.7976931348623157E308"
+                                maxWidth="1.7976931348623157E308" minHeight="-Infinity"
+                                minWidth="-Infinity" prefWidth="698.0"
+                                tabClosingPolicy="UNAVAILABLE">
+                           <tabs>
+                               <Tab onSelectionChanged="#onTranscriptTab" text="Transcript">
+                                   <content>
+                                       <fx:include fx:id="transcript" source="TranscriptPane.fxml"/>
+                                       <!--<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />-->
+
+                                   </content>
+                               </Tab>
+                               <Tab text="Pitch Tutor">
+                                   <content>
+                                       <fx:include fx:id="PitchComparisonTab"
+                                                   source="PitchComparisonPane.fxml"/>
+                                   </content>
+                               </Tab>
+                               <Tab text="Interval Tutor">
+                                   <content>
+                                       <fx:include fx:id="IntervalRecognitionTab"
+                                                   source="IntervalRecognitionPane.fxml"/>
+                                   </content>
+                               </Tab>
+                               <Tab onSelectionChanged="#reloadNumberTerms"
+                                    text="Musical Terms Tutor">
+                                   <content>
+                                       <fx:include fx:id="MusicalTermsTab"
+                                                   source="MusicalTermsPane.fxml"/>
+                                   </content>
+                               </Tab>
+                               <Tab text="Scale Tutor">
+                                   <content>
+                                       <fx:include fx:id="ScaleRecognitionTab"
+                                                   source="ScaleRecognitionPane.fxml"/>
+                                   </content>
+                               </Tab>
+                           </tabs>
+                       </TabPane>
+                       <fx:include source="KeyboardPane.fxml"/>
+                   </items>
+               </SplitPane>
+           </children>
+       </VBox>
    </children>
    <!--</children>-->
 </AnchorPane>
