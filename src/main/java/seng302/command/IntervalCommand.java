@@ -94,12 +94,15 @@ public class IntervalCommand implements Command {
                 } else {
                     numSemitones = Integer.valueOf(semitones);
                 }
+
                 try {
                     correspondingNote = note.semitoneUp(numSemitones).getNote();
                     setNoteOutput(env);
                 } catch (Exception e) {
                     env.error("Invalid combination of tonic and interval.");
                 }
+
+
             } catch (Exception e) {
                 env.error("Unknown interval: " + intervalName);
             }

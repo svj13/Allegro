@@ -43,7 +43,14 @@ public class Interval {
             new Interval(7, "perfect fifth"),
             new Interval(9, "major sixth"),
             new Interval(11, "major seventh"),
-            new Interval(12, "perfect octave")
+            new Interval(12, "perfect octave"),
+            new Interval(1, "minor second"),
+            new Interval(3, "minor third"),
+            new Interval(6, "augmented fourth"),
+            new Interval(6, "diminished fifth"),
+            new Interval(8, "minor sixth"),
+            new Interval(9, "diminished seventh"),
+            new Interval(10, "minor seventh"),
     };
 
     public static Set<Integer> acceptedSemitones;
@@ -51,11 +58,16 @@ public class Interval {
     static {
         acceptedSemitones = new HashSet<Integer>();
         acceptedSemitones.add(0);
+        acceptedSemitones.add(1);
         acceptedSemitones.add(2);
+        acceptedSemitones.add(3);
         acceptedSemitones.add(4);
         acceptedSemitones.add(5);
+        acceptedSemitones.add(6);
         acceptedSemitones.add(7);
+        acceptedSemitones.add(8);
         acceptedSemitones.add(9);
+        acceptedSemitones.add(10);
         acceptedSemitones.add(11);
         acceptedSemitones.add(12);
     }
