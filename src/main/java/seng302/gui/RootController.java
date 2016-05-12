@@ -68,6 +68,9 @@ public class RootController implements Initializable {
     private ScaleRecognitionTutorController ScaleRecognitionTabController;
 
     @FXML
+    private KeyboardPaneController keyboardPaneController;
+
+    @FXML
     private StackPane stackPane1;
 
     @FXML
@@ -516,6 +519,7 @@ public class RootController implements Initializable {
         IntervalRecognitionTabController.create(env);
         MusicalTermsTabController.create(env);
         ScaleRecognitionTabController.create(env);
+        keyboardPaneController.setEnv(env);
 
         env.setRootController(this);
 
