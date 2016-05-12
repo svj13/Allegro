@@ -1,5 +1,7 @@
 package seng302.data;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -43,7 +45,6 @@ public class Interval {
             new Interval(7, "perfect fifth"),
             new Interval(9, "major sixth"),
             new Interval(11, "major seventh"),
-            new Interval(12, "perfect octave"),
             new Interval(1, "minor second"),
             new Interval(3, "minor third"),
             new Interval(6, "augmented fourth"),
@@ -52,18 +53,20 @@ public class Interval {
             new Interval(9, "diminished seventh"),
             new Interval(10, "minor seventh"),
 
-            new Interval(13, "minor ninth"),
+            new Interval(12, "perfect octave"),
             new Interval(14, "major ninth"),
-            new Interval(15, "minor tenth"),
             new Interval(16, "major tenth"),
-            new Interval(17, "perfect eleventh"),
             new Interval(18, "augmented eleventh"),
-            new Interval(19, "perfect twelfth"),
             new Interval(20, "minor thirteenth"),
-            new Interval(21, "major thirteenth"),
             new Interval(22, "minor fourteenth"),
+            new Interval(24, "double octave"),
+            new Interval(13, "minor ninth"),
+            new Interval(15, "minor tenth"),
+            new Interval(17, "perfect eleventh"),
+            new Interval(19, "perfect twelfth"),
+            new Interval(21, "major thirteenth"),
             new Interval(23, "major fourteenth"),
-            new Interval(24, "double octave"), /////////////will this break stuff?
+ /////////////will this break stuff?
 
     };
 
@@ -120,6 +123,16 @@ public class Interval {
             }
         }
         return null;
+    }
+
+    public static ArrayList<String> findEnharmonics(int semitones, String intervalName) {
+        ArrayList enharmonics = new ArrayList<String>();
+        for (Interval interval:intervals) {
+            if (interval.getSemitones() == semitones && (!interval.getName().equals(intervalName))) {
+                enharmonics.add(interval.getName());
+            }
+        }
+        return enharmonics;
     }
 
 }

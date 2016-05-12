@@ -6,6 +6,7 @@ package seng302.command;
 
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 import seng302.Environment;
@@ -41,6 +42,11 @@ public class IntervalCommand implements Command {
         }
         this.outputType = outputType;
     }
+
+
+//    public EnharmonicCommand() {
+
+//    }
 
     public float getLength(Environment env) {
         return length;
@@ -131,6 +137,43 @@ public class IntervalCommand implements Command {
         }
     }
 
+    private void getEquivalentInterval(Environment env) {
+        ArrayList<String> equivalentIntervals;
+        System.out.println("Got to function");
+        try {
+            try {
+                int numSemitones;
+                if (intervalName != null) {
+                    numSemitones = Interval.lookupByName(intervalName).getSemitones();
+                } else {
+                    numSemitones = Integer.valueOf(semitones);
+                }
+
+
+                    equivalentIntervals = Interval.findEnharmonics(numSemitones, intervalName);
+                    if (!equivalentIntervals.isEmpty()) {
+                        String outputIntervals = "";
+                        for (String interval:equivalentIntervals) {
+                            outputIntervals += (interval + ", ");
+                            System.out.println("Inside Loop");
+                        }
+
+                        outputIntervals = outputIntervals.substring(0, outputIntervals.length() - 2);
+                        env.getTranscriptManager().setResult(outputIntervals);
+                    } else {
+                        env.getTranscriptManager().setResult("Interval has no enharmonics");
+                    }
+
+
+            } catch (Exception e) {
+                env.error("Unknown interval: " + intervalName);
+            }
+        } catch (Exception e) {
+            env.error("\'" + tonic + "\'" + " is not a valid note.");
+        }
+
+    }
+
     /**
      * Plays the two notes of an interval given the interval and starting note
      * @param env
@@ -188,6 +231,8 @@ public class IntervalCommand implements Command {
             float crotchetLength = 60000 / tempo;
             length = 5 * crotchetLength;
             playInterval(env);
+        } else if (outputType.equals("equivalent")) {
+            getEquivalentInterval(env);
         } else {
             env.error("Unknown command");
         }

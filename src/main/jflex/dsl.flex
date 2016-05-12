@@ -102,7 +102,7 @@ SemiColon = ";"
 ScaleType = "major"|"minor"
 Direction = "updown"|"up"|"down"
 PosNum = \p{Digit}+
-Interval = ("unison"|"major second"|"major third"|"perfect fourth"|"perfect fifth"|"major sixth"|"major seventh"|"octave"|"minor second"|"minor third"|"augmented fourth"|"diminished 5th"|"minor sixth"|"diminished seventh"|"minor seventh"|"minor ninth"|"major ninth"|"minor tenth"|"major tenth"|"perfect eleventh"|"augmented eleventh"|"perfect twelfth"|"minor thirteenth"|"major thirteenth"|"minor fourteenth"|"major fourteenth"|"double octave")
+Interval = ("unison"|"major second"|"major third"|"perfect fourth"|"perfect fifth"|"major sixth"|"major seventh"|"octave"|"minor second"|"minor third"|"augmented fourth"|"diminished fifth"|"minor sixth"|"diminished seventh"|"minor seventh"|"minor ninth"|"major ninth"|"minor tenth"|"major tenth"|"perfect eleventh"|"augmented eleventh"|"perfect twelfth"|"minor thirteenth"|"major thirteenth"|"minor fourteenth"|"major fourteenth"|"double octave")
 
    
 %%
@@ -140,6 +140,7 @@ Interval = ("unison"|"major second"|"major third"|"perfect fourth"|"perfect fift
     "undo"              {return symbol(DslSymbol.COMMAND_UNDO); }
     "redo"              {return symbol(DslSymbol.COMMAND_REDO); }
     "twinkle"           {return symbol(DslSymbol.COMMAND_TWINKLE);}
+    "interval enharmonic" {return symbol(DslSymbol.COMMAND_INTERVAL_ENHARMONIC);}
     {Note}              {return symbol(DslSymbol.NOTE, new String(yytext()));}
     {Number}           { return symbol(DslSymbol.NUMBER, new String(yytext())); }
     {MidiNote}          {return symbol(DslSymbol.MIDINOTE, new String(yytext())); }

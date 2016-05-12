@@ -90,7 +90,7 @@ COMMAND_ENHARMONIC_HIGHER, COMMAND_SIMPLE_ENHARMONIC, COMMAND_SET_TEMPO, COMMAND
 COMMAND_PLAY_NOTE, COMMAND_FORCE_SET_TEMPO, COMMAND_PLAY_SCALE, COMMAND_MUSICAL_TERM_MEANING,
 COMMAND_MUSICAL_TERM_ORIGIN, COMMAND_MUSICAL_TERM_CATEGORY, COMMAND_ADD_MUSICAL_TERM,
 COMMAND_INTERVAL, COMMAND_PLAY_INTERVAL,COMMAND_ALL_ENHARMONICS, SEMIC, COMMAND_UNDO,
-COMMAND_REDO, COMMAND_TWINKLE, COMMAND_CHORD;
+COMMAND_REDO, COMMAND_TWINKLE, COMMAND_CHORD, COMMAND_INTERVAL_ENHARMONIC;
 
 terminal String ATOM, NOTE, SCALE_TYPE, DIRECTION, MIDINOTE, NUMBER, POSNUM, INTERVAL;
 
@@ -140,7 +140,8 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_UNDO                                {: RESULT = new UndoRedo(0); :}
           | COMMAND_REDO                                {: RESULT = new UndoRedo(1); :}
           | COMMAND_TWINKLE                             {: RESULT = new Twinkle(); :}
-          | COMMAND_CHORD scale:s                   {: RESULT = new Scale(s, "chord"); :}
+          | COMMAND_CHORD scale:s                       {: RESULT = new Scale(s, "chord"); :}
+          | COMMAND_INTERVAL_ENHARMONIC interval:i      {: RESULT = new IntervalCommand(i,"equivalent"); :}
 ;
 
 
