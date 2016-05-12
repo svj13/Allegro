@@ -58,7 +58,7 @@ public class IntervalRecognitionTutorController extends TutorController {
     }
 
     private void initaliseRangeSelector() {
-        rangeSlider = new RangeSlider(0, 127, 60, 72);
+        rangeSlider = new RangeSlider(0, 127, 60, 84);
         rangeSlider.setBlockIncrement(1);
         rangeSlider.setMajorTickUnit(12);
 
@@ -80,8 +80,8 @@ public class IntervalRecognitionTutorController extends TutorController {
                 + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
         ChangeListener<Number> updateLabelLower = new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if ((Double) newValue > rangeSlider.getHighValue() - 12) {
-                    rangeSlider.setLowValue(rangeSlider.getHighValue() - 12);
+                if ((Double) newValue > rangeSlider.getHighValue() - 24) {
+                    rangeSlider.setLowValue(rangeSlider.getHighValue() - 24);
                 }
                 notes.setText(rangeSlider.getLabelFormatter().toString(rangeSlider.getLowValue()) + " - "
                         + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
@@ -89,8 +89,8 @@ public class IntervalRecognitionTutorController extends TutorController {
         };
         ChangeListener<Number> updateLabelHigher = new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if ((Double) newValue < rangeSlider.getLowValue() + 12) {
-                    rangeSlider.setHighValue(rangeSlider.getLowValue() + 12);
+                if ((Double) newValue < rangeSlider.getLowValue() + 24) {
+                    rangeSlider.setHighValue(rangeSlider.getLowValue() + 24);
                 }
                 notes.setText(rangeSlider.getLabelFormatter().toString(rangeSlider.getLowValue()) + " - "
                         + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
@@ -264,7 +264,7 @@ public class IntervalRecognitionTutorController extends TutorController {
     private Interval generateInterval() {
         Random rand = new Random();
         // There are 15 different intervals
-        return Interval.intervals[rand.nextInt(15)];
+        return Interval.intervals[rand.nextInt(27)];
     }
 
     /**
@@ -314,7 +314,7 @@ public class IntervalRecognitionTutorController extends TutorController {
             i+=1;
         }
 
-        while(options.getItems().size() < 8){ ///make sure that it has 8 options otherwise populate it with random ones that are not alreasy  in the options combo
+        while(options.getItems().size() < 8){ ///make sure that it has 8 options otherwise populate it with random ones that are not already  in the options combo
 
             int intervalIndex = rand.nextInt(Interval.intervals.length-1);
             if (!(options.getItems().contains(Interval.intervals[intervalIndex].getName()))){
