@@ -23,6 +23,7 @@ public class Chord implements Command {
     String outputType; //whether it wants to be played or printed
     String startNote; //the root note
     Note note; //the note the current note should be
+    private Boolean octaveSpecified;
 
 
 
@@ -34,7 +35,15 @@ public class Chord implements Command {
         this.type = chord.get("scale_type");
         this.outputType = outputType;
         currentLetter = Character.toUpperCase(startNote.charAt(0));
-        note = Note.lookup(OctaveUtil.addDefaultOctave(startNote));
+
+        if (OctaveUtil.octaveSpecifierFlag(this.startNote)) {
+            octaveSpecified = true;
+            this.note = Note.lookup(startNote);
+        } else {
+            octaveSpecified = false;
+            this.note = Note.lookup(OctaveUtil.addDefaultOctave(startNote));
+        }
+
         this.chord = note.getChord(type);
 
     }
@@ -56,10 +65,15 @@ public class Chord implements Command {
             String chordString = "";
 
             for (Note i : chord) {
-                String j = i.getNote();
-                chordString += j + ' ';
+                if (octaveSpecified == false) {
+                    String j = i.getNote();
+                    j = OctaveUtil.removeOctaveSpecifier(j);
+                    chordString += j + ' ';
+                } else {
+                    String j = i.getNote();
+                    chordString += j + ' ';
+                }
             }
-
             env.getTranscriptManager().setResult(chordString);
         }
 
