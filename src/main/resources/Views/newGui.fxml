@@ -104,7 +104,7 @@
                                </Tab>
                            </tabs>
                        </TabPane>
-                       <fx:include source="KeyboardPane.fxml" fx:id="keyboardPaneController"/>
+                       <fx:include source="KeyboardPane.fxml" fx:id="keyboardPane"/>
                    </items>
                </SplitPane>
            </children>

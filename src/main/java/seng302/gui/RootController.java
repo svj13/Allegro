@@ -519,7 +519,7 @@ public class RootController implements Initializable {
         IntervalRecognitionTabController.create(env);
         MusicalTermsTabController.create(env);
         ScaleRecognitionTabController.create(env);
-        keyboardPaneController.setEnv(env);
+        keyboardPaneController.create(env);
 
         env.setRootController(this);
 

@@ -27,8 +27,18 @@ public class KeyboardPaneController {
 
     @FXML
     private void initialize() {
-        for (Integer i = 0; i < numberOfKeys; i++) {
-            Pane key = new Pane();
+
+    }
+
+    public void create(Environment env) {
+        this.env = env;
+        setUpKeyboard();
+
+    }
+
+    private void setUpKeyboard() {
+        for (Integer i = 60; i < numberOfKeys + 60; i++) {
+            Pane key = new TouchPane(i, env);
             key.setStyle("-fx-border-color: black; -fx-border-width: 2px;");
             key.setPrefWidth(100);
 //            key.setStyle("-fx-pref-width: " + String.valueOf(100/numberOfKeys) + "%;");
@@ -36,11 +46,6 @@ public class KeyboardPaneController {
             key.setMaxWidth(Double.MAX_VALUE);
             this.keyboardBox.getChildren().add(key);
         }
-
-    }
-
-    public void setEnv(Environment env) {
-        this.env = env;
     }
 
 
