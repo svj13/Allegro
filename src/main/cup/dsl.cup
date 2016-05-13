@@ -90,9 +90,9 @@ COMMAND_ENHARMONIC_HIGHER, COMMAND_SIMPLE_ENHARMONIC, COMMAND_SET_TEMPO, COMMAND
 COMMAND_PLAY_NOTE, COMMAND_FORCE_SET_TEMPO, COMMAND_PLAY_SCALE, COMMAND_MUSICAL_TERM_MEANING,
 COMMAND_MUSICAL_TERM_ORIGIN, COMMAND_MUSICAL_TERM_CATEGORY, COMMAND_ADD_MUSICAL_TERM,
 COMMAND_INTERVAL, COMMAND_PLAY_INTERVAL,COMMAND_ALL_ENHARMONICS, SEMIC, COMMAND_UNDO,
-COMMAND_REDO, COMMAND_TWINKLE, COMMAND_CHORD, COMMAND_PLAY_CHORD;
+COMMAND_REDO, COMMAND_TWINKLE, COMMAND_CHORD, COMMAND_PLAY_CHORD, COMMAND_RHYTHM, COMMAND_SET_RHYTHM;
 
-terminal String ATOM, NOTE, SCALE_TYPE, DIRECTION, MIDINOTE, NUMBER, POSNUM, INTERVAL;
+terminal String ATOM, NOTE, SCALE_TYPE, RHYTHM_TYPE, DIRECTION, MIDINOTE, NUMBER, POSNUM, INTERVAL;
 
 /* Non terminals */
 non terminal Command command;
@@ -107,6 +107,7 @@ non terminal HashMap<String, String> intervalWithTonic;
 non terminal String keyword;
 non terminal String singleTerm;
 non terminal String term;
+non terminal String rhythmStyle;
 
 start with command;
 
@@ -121,12 +122,14 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_SEMITONE_UP note:s                  {: RESULT = new Semitone(s, true); :}
           | COMMAND_SEMITONE_DOWN note:s                {: RESULT = new Semitone(s, false); :}
           | COMMAND_TEMPO                               {: RESULT = new Tempo(); :}
+          | COMMAND_RHYTHM                               {: RESULT = new Rhythm(); :}
           | COMMAND_SCALE scale:s                       {: RESULT = new Scale(s, "note"); :}
           | COMMAND_MIDI_SCALE scale:s                  {: RESULT = new Scale(s, "midi"); :}
           | COMMAND_ENHARMONIC_HIGHER note:s            {: RESULT = new Enharmonic(s, 0); :}
           | COMMAND_ENHARMONIC_LOWER note:s             {: RESULT = new Enharmonic(s, 1); :}
           | COMMAND_SIMPLE_ENHARMONIC note:s            {: RESULT = new Enharmonic(s, 2); :}
           | COMMAND_SET_TEMPO positiveNum:s             {: RESULT = new Tempo(s, false); :}
+          | COMMAND_SET_RHYTHM rhythmStyle:r            {:System.out.println("rhythm called" + r); RESULT = new Rhythm(r, false); :}
           | COMMAND_FORCE_SET_TEMPO positiveNum:s       {: RESULT = new Tempo(s, true); :}
           | COMMAND_CROTCHET_DURATION                   {: RESULT = new CrotchetDuration(); :}
           | COMMAND_PLAY_NOTE note:s                    {: RESULT = new PlayNote(s); :}
@@ -155,6 +158,9 @@ midiNote ::= MIDINOTE:s     {:RESULT = s;:}
 
 positiveNum ::= midiNote:s   {:RESULT = s;:}
               | POSNUM:s     {:RESULT = s;:}
+;
+
+rhythmStyle ::= RHYTHM_TYPE: r {:RESULT = r;:}
 ;
 
 scale ::= NOTE:s SCALE_TYPE:r       {:RESULT = new HashMap<String,String>(); RESULT.put("note", s);
@@ -192,6 +198,7 @@ keyword ::= COMMAND_HELP                                {: RESULT = "help"; :}
           | COMMAND_ENHARMONIC_LOWER                    {: RESULT = "enharmonic lower";:}
           | COMMAND_SIMPLE_ENHARMONIC                   {: RESULT = "simple enharmonic";:}
           | COMMAND_SET_TEMPO                           {: RESULT = "set tempo";:}
+          | COMMAND_SET_RHYTHM                          {: RESULT = "set rhythm";:}
           | COMMAND_FORCE_SET_TEMPO                     {: RESULT = "force set tempo";:}
           | COMMAND_CROTCHET_DURATION                   {: RESULT = "crotchet duration"; :}
           | COMMAND_MUSICAL_TERM_MEANING                {: RESULT = "meaning of"; :}
@@ -207,6 +214,7 @@ singleTerm ::= keyword:s {: RESULT = s;:}
        | ATOM:s {: RESULT = s;:}
        | note:s {: RESULT = s;:}
        | SCALE_TYPE:s {:RESULT = s;:}
+       | RHYTHM_TYPE:r {:RESULT = r;:}
        | DIRECTION:s   {:RESULT = s;:}
        | INTERVAL:i    {:RESULT = i;:}
 ;

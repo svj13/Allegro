@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import javax.sound.midi.*;
 
 import seng302.data.Note;
+import seng302.utility.RhythmHandler;
 
 /**
  * The Music Player class handles all sound that is produced by the program.
  */
 public class MusicPlayer {
     Sequencer seq;
+    RhythmHandler rh;
 
     /**
      * Default tempo is 120 BPM.
@@ -21,6 +23,8 @@ public class MusicPlayer {
      * Music Player constructor opens the sequencers and synthesizer. It also sets the receiver.
      */
     public MusicPlayer() {
+        rh = new RhythmHandler();
+
         try {
             this.seq = MidiSystem.getSequencer();
             seq.open();
@@ -158,5 +162,9 @@ public class MusicPlayer {
     public void stop() {
 
         seq.stop();
+    }
+
+    public RhythmHandler getRhythmHandler(){
+        return rh;
     }
 }

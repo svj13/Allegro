@@ -18,7 +18,7 @@ public class Tempo implements Command {
         this.isSetter = false;
     }
 
-    /**
+    /**a
      * Given a tempo, checks if it is inside the valid range of 20-300 BPM
      * @param tempo the value to check
      * @return whether or not the tempo is inside a valid range
