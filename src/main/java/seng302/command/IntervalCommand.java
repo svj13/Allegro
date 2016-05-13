@@ -139,7 +139,6 @@ public class IntervalCommand implements Command {
 
     private void getEquivalentInterval(Environment env) {
         ArrayList<String> equivalentIntervals;
-        System.out.println("Got to function");
         try {
             try {
                 int numSemitones;
@@ -155,7 +154,6 @@ public class IntervalCommand implements Command {
                         String outputIntervals = "";
                         for (String interval:equivalentIntervals) {
                             outputIntervals += (interval + ", ");
-                            System.out.println("Inside Loop");
                         }
 
                         outputIntervals = outputIntervals.substring(0, outputIntervals.length() - 2);
