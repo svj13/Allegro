@@ -163,6 +163,12 @@ public class RootController implements Initializable {
 
     }
 
+    @FXML
+    private void showHideKeyboard() {
+        keyboardPaneController.toggleHideKeyboard();
+    }
+
+
     /**
      * Displays a dialog to ask the user whether or not they want to save project changes.
      * @return a boolean - true for save, false for cancel

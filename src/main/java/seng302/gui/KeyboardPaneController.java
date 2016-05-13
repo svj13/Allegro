@@ -32,11 +32,13 @@ public class KeyboardPaneController {
     private Integer numberOfKeys = 24;
     private boolean shift;
     ArrayList<Note> multiNotes;
+    private boolean hidden = false;
 
 
     @FXML
     private void initialize() {
-
+        keyboardBox.setMaxHeight(200);
+        keyboardBox.setMinHeight(200);
     }
 
     public void create(Environment env) {
@@ -91,5 +93,16 @@ public class KeyboardPaneController {
 
     }
 
+    public void toggleHideKeyboard() {
+        if (hidden) {
+            keyboardBox.setMaxHeight(200);
+            keyboardBox.setMinHeight(200);
+            hidden = false;
+        } else {
+            keyboardBox.setMaxHeight(0);
+            keyboardBox.setMinHeight(0);
+            hidden = true;
+        }
+    }
 
 }
