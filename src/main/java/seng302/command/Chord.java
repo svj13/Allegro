@@ -23,19 +23,23 @@ public class Chord implements Command {
     String outputType; //whether it wants to be played or printed
     String startNote; //the root note
     Note note; //the note the current note should be
-    private Boolean octaveSpecified;
+    private Boolean octaveSpecified; //whether an octave was specified or not
+    private Boolean arpeggio; //whether the chord was specified to play with arpeggio or not
+
 
 
 
     public Chord(HashMap<String, String> chord, String outputType) {
-        /**this is a total mess. Trying to model off scale and note and I have no idea what I
-         * am doing at all
+        /** Takes a chord and its output type (major or minor) and sets the command
+         * to have all of the right variables so it can be passed to the environment.
+         * Determines whether an octave was determined or not
          */
         this.startNote = chord.get("note");
         this.type = chord.get("scale_type");
         this.outputType = outputType;
         currentLetter = Character.toUpperCase(startNote.charAt(0));
 
+        //Determines whether an octave was specified or not. Will set the default octave if not
         if (OctaveUtil.octaveSpecifierFlag(this.startNote)) {
             octaveSpecified = true;
             this.note = Note.lookup(startNote);
@@ -48,7 +52,17 @@ public class Chord implements Command {
 
     }
 
+    public Chord(HashMap<String, String> chord, String outputType, Boolean arpeggio) {
+        /**
+         * Takes a chord, its output type (major/minor) and a boolean arpeggio or not.
+         * Initializes the chord to have the right variables, determines whether an octave
+         * was specified and whether the chord should be played with arpeggio or not. Sets the
+         * command to have all of the right variables to play the chord
+         */
 
+
+
+    }
 
     public float getLength(Environment env) {
         return 0;
