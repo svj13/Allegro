@@ -39,7 +39,7 @@ public class KeyboardPaneController {
     private void setUpKeyboard() {
         for (Integer i = 60; i < numberOfKeys + 60; i++) {
             Pane key = new TouchPane(i, env);
-            key.setStyle("-fx-border-color: black; -fx-border-width: 2px;");
+
             key.setPrefWidth(100);
 //            key.setStyle("-fx-pref-width: " + String.valueOf(100/numberOfKeys) + "%;");
             keyboardBox.setHgrow(key, Priority.ALWAYS);

@@ -15,10 +15,12 @@ public class TouchPane extends Pane {
     private long touchId = -1;
     double touchx, touchy;
 
+
     public TouchPane(Integer note, Environment env) {
         super();
         final Note noteToPlay = Note.lookup(String.valueOf(note));
         final Environment environment = env;
+        setHighlightOff();
 
         setOnTouchPressed(new EventHandler<TouchEvent>() {
             public void handle(TouchEvent event) {
@@ -56,7 +58,28 @@ public class TouchPane extends Pane {
             public void handle(MouseEvent event) {
                 environment.getPlayer().playNote(noteToPlay);
 
+
             }
         });
+
+        setOnMouseReleased(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent event) {
+                setHighlightOff();
+            }
+        });
+
+        setOnMousePressed(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent event) {
+                setHighlightOn();
+            }
+        });
+    }
+
+    public void setHighlightOn() {
+        this.setStyle("-fx-border-color: black; -fx-border-width: 2px; -fx-background-color: darkblue");
+    }
+
+    public void setHighlightOff() {
+        this.setStyle("-fx-border-color: black; -fx-border-width: 2px; -fx-background-color: white");
     }
 }
