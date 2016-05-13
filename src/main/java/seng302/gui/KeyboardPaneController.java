@@ -1,11 +1,15 @@
 package seng302.gui;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javafx.application.Platform;
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -120,4 +124,30 @@ public class KeyboardPaneController {
         }
     }
 
+    public void toggleShowKeyboardNotesAlways() {
+        ObservableList<Node> keys = keyboardBox.getChildren();
+        for (Node key : keys) {
+            if (key instanceof TouchPane) {
+                ((TouchPane) key).toggleDisplayLabel();
+            }
+        }
+    }
+
+    public void toggleShowKeyboardNotesAction() {
+        ObservableList<Node> keys = keyboardBox.getChildren();
+        for (Node key : keys) {
+            if (key instanceof TouchPane) {
+                ((TouchPane) key).toggleDisplayLabelOnAction();
+            }
+        }
+    }
+
+    public void stopShowingNotesOnKeyboard() {
+        ObservableList<Node> keys = keyboardBox.getChildren();
+        for (Node key : keys) {
+            if (key instanceof TouchPane) {
+                ((TouchPane) key).stopDisplayNotes();
+            }
+        }
+    }
 }

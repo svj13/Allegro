@@ -21,6 +21,9 @@ public class TouchPane extends StackPane {
     double touchx, touchy;
     KeyboardPaneController kpc;
     TouchPane me;
+    private String keyLabel;
+    private boolean displayLabel = false;
+    private boolean displayLabelOnAction = false;
 
 
     public TouchPane(Integer note, Environment env, KeyboardPaneController kpc) {
@@ -30,9 +33,8 @@ public class TouchPane extends StackPane {
         final KeyboardPaneController keyboardPaneController = kpc;
         me = this;
         setHighlightOff();
-
-        this.getChildren().add(new Text(noteToPlay.getNote()));
         this.setAlignment(Pos.BOTTOM_CENTER);
+        this.keyLabel = noteToPlay.getNote();
 
         setOnTouchPressed(new EventHandler<TouchEvent>() {
             public void handle(TouchEvent event) {
@@ -78,7 +80,11 @@ public class TouchPane extends StackPane {
             public void handle(MouseEvent event) {
                 if (keyboardPaneController.getShiftState() == false) {
                     setHighlightOff();
+                    if (displayLabelOnAction) {
+                        getChildren().clear();
+                    }
                 }
+
 
             }
         });
@@ -93,7 +99,9 @@ public class TouchPane extends StackPane {
                     environment.getPlayer().playNote(noteToPlay);
                     setHighlightOn();
                 }
-
+                if (displayLabelOnAction) {
+                    getChildren().add(new Text(keyLabel));
+                }
             }
         });
 
@@ -106,5 +114,45 @@ public class TouchPane extends StackPane {
 
     public void setHighlightOff() {
         this.setStyle("-fx-border-color: black; -fx-border-width: 2px; -fx-background-color: white");
+        if (displayLabelOnAction) {
+            getChildren().clear();
+        }
     }
+
+    public void toggleDisplayLabel() {
+        if (displayLabelOnAction) {
+            toggleDisplayLabelOnAction();
+        }
+        if (displayLabel) {
+            displayLabel = false;
+            this.getChildren().clear();
+        } else {
+            displayLabel = true;
+            this.getChildren().add(new Text(keyLabel));
+        }
+
+    }
+
+    public void toggleDisplayLabelOnAction() {
+        if (displayLabel) {
+            toggleDisplayLabel();
+        }
+        if (displayLabelOnAction) {
+            displayLabelOnAction = false;
+            this.getChildren().clear();
+        } else {
+            displayLabelOnAction = true;
+        }
+    }
+
+    public void stopDisplayNotes() {
+        if (displayLabel) {
+            toggleDisplayLabel();
+        }
+        if (displayLabelOnAction) {
+            toggleDisplayLabelOnAction();
+        }
+    }
+
+
 }
