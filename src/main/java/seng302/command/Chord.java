@@ -29,11 +29,12 @@ public class Chord implements Command {
 
 
     public Chord(HashMap<String, String> chord, String outputType) {
-        /**this is a total mess. Trying to model off scale and note and I have no idea what I
-         * am doing at all
+        /**Takes in a chord comprised of notes and an output type (whether the note is to be
+         * played or printed). Sets up the chord to be passed to the environment to be executed
          */
         this.startNote = chord.get("note");
-        this.type = chord.get("scale_type")p       this.outputType = outputType;
+        this.type = chord.get("scale_type");
+        this.outputType = outputType;
         currentLetter = Character.toUpperCase(startNote.charAt(0));
         System.out.println(chord);
         System.out.println(outputType);
@@ -49,7 +50,6 @@ public class Chord implements Command {
         this.chord = note.getChord(type);
 
         //checks to see if arpeggio was specified or not. Will play simultaneously if not
-
         try {
             if (chord.get("playStyle").equals("arpeggio")) {
                 this.arpeggioFlag = true;
