@@ -24,7 +24,7 @@ public class Chord implements Command {
     String startNote; //the root note
     Note note; //the note the current note should be
     private Boolean octaveSpecified;
-    private Boolean arpeggioFlag;
+    private Boolean arpeggioFlag = false;
 
 
 
@@ -33,10 +33,12 @@ public class Chord implements Command {
          * am doing at all
          */
         this.startNote = chord.get("note");
-        this.type = chord.get("scale_type");
-        this.outputType = outputType;
+        this.type = chord.get("scale_type")p       this.outputType = outputType;
         currentLetter = Character.toUpperCase(startNote.charAt(0));
+        System.out.println(chord);
+        System.out.println(outputType);
 
+        //checks to see if an octave was specified or not. Will use default octave if not
         if (OctaveUtil.octaveSpecifierFlag(this.startNote)) {
             octaveSpecified = true;
             this.note = Note.lookup(startNote);
@@ -46,13 +48,13 @@ public class Chord implements Command {
         }
         this.chord = note.getChord(type);
 
-    }
+        //checks to see if arpeggio was specified or not. Will play simultaneously if not
 
-    public Chord(HashMap<String, String> chord, String outputType, Boolean arpeggio) {
-        this(chord, outputType);
-        if (arpeggio = true) {
-            this.arpeggioFlag = true;
-        } else {
+        try {
+            if (chord.get("playStyle").equals("arpeggio")) {
+                this.arpeggioFlag = true;
+            }
+        } catch (Exception e){
             this.arpeggioFlag = false;
         }
 
@@ -86,8 +88,12 @@ public class Chord implements Command {
                 }
                 env.getTranscriptManager().setResult(chordString);
             } else {
-                env.getPlayer().playSimultaneousNotes(chord);
-                env.getTranscriptManager().setResult("Playing chord " + startNote + type);
+                if (arpeggioFlag == false) {
+                    env.getPlayer().playSimultaneousNotes(chord);
+                } else {
+                    env.getPlayer().playNotes(chord);
+                }
+                env.getTranscriptManager().setResult("Playing chord " + startNote + ' ' + type);
 
             }
 
