@@ -85,7 +85,7 @@ public class KeyboardPaneController {
             public void handle(KeyEvent event) {
                 if (event.getCode() == KeyCode.SHIFT) {
                     System.out.println("lifted shift");
-                    env.getPlayer().playNotes(multiNotes);
+                    env.getPlayer().playSimultaneousNotes(multiNotes);
                     shift = false;
                     multiNotes.clear();
                     for (TouchPane clickedPane : clicked) {
