@@ -24,6 +24,7 @@ public class Chord implements Command {
     String startNote; //the root note
     Note note; //the note the current note should be
     private Boolean octaveSpecified;
+    private Boolean arpeggioFlag;
 
 
 
@@ -43,8 +44,17 @@ public class Chord implements Command {
             octaveSpecified = false;
             this.note = Note.lookup(OctaveUtil.addDefaultOctave(startNote));
         }
-
         this.chord = note.getChord(type);
+
+    }
+
+    public Chord(HashMap<String, String> chord, String outputType, Boolean arpeggio) {
+        this(chord, outputType);
+        if (arpeggio = true) {
+            this.arpeggioFlag = true;
+        } else {
+            this.arpeggioFlag = false;
+        }
 
     }
 
@@ -63,18 +73,24 @@ public class Chord implements Command {
             env.error("Invalid chord: '" + startNote + ' ' + type + "'.");
         } else {
             String chordString = "";
-
-            for (Note i : chord) {
-                if (octaveSpecified == false) {
-                    String j = i.getNote();
-                    j = OctaveUtil.removeOctaveSpecifier(j);
-                    chordString += j + ' ';
-                } else {
-                    String j = i.getNote();
-                    chordString += j + ' ';
+            if (outputType == "chord") {
+                for (Note i : chord) {
+                    if (octaveSpecified == false) {
+                        String j = i.getNote();
+                        j = OctaveUtil.removeOctaveSpecifier(j);
+                        chordString += j + ' ';
+                    } else {
+                        String j = i.getNote();
+                        chordString += j + ' ';
+                    }
                 }
+                env.getTranscriptManager().setResult(chordString);
+            } else {
+                env.getPlayer().playSimultaneousNotes(chord);
+                env.getTranscriptManager().setResult("Playing chord " + startNote + type);
+
             }
-            env.getTranscriptManager().setResult(chordString);
+
         }
 
     }
