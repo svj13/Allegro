@@ -38,14 +38,35 @@ public class Interval {
 //    }};
 
     public static Interval[] intervals = {
-            new Interval(0, "unison", ""),
-            new Interval(2, "major second", "major 2nd"),
-            new Interval(4, "major third", "major 3rd"),
-            new Interval(5, "perfect fourth", "perfect 4th"),
-            new Interval(7, "perfect fifth", "perfect 5th"),
-            new Interval(9, "major sixth", "major 6th"),
-            new Interval(11, "major seventh", "major 7th"),
-            new Interval(12, "perfect octave", "")
+            new Interval(0, "unison"),
+            new Interval(2, "major second"),
+            new Interval(4, "major third"),
+            new Interval(5, "perfect fourth"),
+            new Interval(7, "perfect fifth"),
+            new Interval(9, "major sixth"),
+            new Interval(11, "major seventh"),
+            new Interval(12, "perfect octave"),
+            new Interval(1, "minor second"),
+            new Interval(3, "minor third"),
+            new Interval(6, "augmented fourth"),
+            new Interval(6, "diminished fifth"),
+            new Interval(8, "minor sixth"),
+            new Interval(9, "diminished seventh"),
+            new Interval(10, "minor seventh"),
+
+            new Interval(13, "minor ninth"),
+            new Interval(14, "major ninth"),
+            new Interval(15, "minor tenth"),
+            new Interval(16, "major tenth"),
+            new Interval(17, "perfect eleventh"),
+            new Interval(18, "augmented eleventh"),
+            new Interval(19, "perfect twelfth"),
+            new Interval(20, "minor thirteenth"),
+            new Interval(21, "major thirteenth"),
+            new Interval(22, "minor fourteenth"),
+            new Interval(23, "major fourteenth"),
+            new Interval(24, "double octave"), /////////////will this break stuff?
+
     };
 
     public static Set<Integer> acceptedSemitones;
@@ -53,11 +74,16 @@ public class Interval {
     static {
         acceptedSemitones = new HashSet<Integer>();
         acceptedSemitones.add(0);
+        acceptedSemitones.add(1);
         acceptedSemitones.add(2);
+        acceptedSemitones.add(3);
         acceptedSemitones.add(4);
         acceptedSemitones.add(5);
+        acceptedSemitones.add(6);
         acceptedSemitones.add(7);
+        acceptedSemitones.add(8);
         acceptedSemitones.add(9);
+        acceptedSemitones.add(10);
         acceptedSemitones.add(11);
         acceptedSemitones.add(12);
     }

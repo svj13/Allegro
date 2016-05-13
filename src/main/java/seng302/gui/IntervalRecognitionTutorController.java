@@ -4,6 +4,7 @@ import org.controlsfx.control.RangeSlider;
 import org.controlsfx.control.spreadsheet.StringConverterWithFormat;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Random;
 
@@ -24,6 +25,7 @@ import javafx.util.Pair;
 import seng302.Environment;
 import seng302.data.Interval;
 import seng302.data.Note;
+import seng302.data.Term;
 import seng302.utility.TutorRecord;
 
 public class IntervalRecognitionTutorController extends TutorController {
@@ -56,7 +58,7 @@ public class IntervalRecognitionTutorController extends TutorController {
     }
 
     private void initaliseRangeSelector() {
-        rangeSlider = new RangeSlider(0, 127, 60, 72);
+        rangeSlider = new RangeSlider(0, 127, 60, 84);
         rangeSlider.setBlockIncrement(1);
         rangeSlider.setMajorTickUnit(12);
 
@@ -78,8 +80,8 @@ public class IntervalRecognitionTutorController extends TutorController {
                 + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
         ChangeListener<Number> updateLabelLower = new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if ((Double) newValue > rangeSlider.getHighValue() - 12) {
-                    rangeSlider.setLowValue(rangeSlider.getHighValue() - 12);
+                if ((Double) newValue > rangeSlider.getHighValue() - 24) {
+                    rangeSlider.setLowValue(rangeSlider.getHighValue() - 24);
                 }
                 notes.setText(rangeSlider.getLabelFormatter().toString(rangeSlider.getLowValue()) + " - "
                         + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
@@ -87,8 +89,8 @@ public class IntervalRecognitionTutorController extends TutorController {
         };
         ChangeListener<Number> updateLabelHigher = new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if ((Double) newValue < rangeSlider.getLowValue() + 12) {
-                    rangeSlider.setHighValue(rangeSlider.getLowValue() + 12);
+                if ((Double) newValue < rangeSlider.getLowValue() + 24) {
+                    rangeSlider.setHighValue(rangeSlider.getLowValue() + 24);
                 }
                 notes.setText(rangeSlider.getLabelFormatter().toString(rangeSlider.getLowValue()) + " - "
                         + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
@@ -107,6 +109,7 @@ public class IntervalRecognitionTutorController extends TutorController {
         paneQuestions.setVisible(true);
         paneResults.setVisible(false);
         record = new TutorRecord(new Date(), "Interval Recognition");
+        manager.resetEverything();
         manager.questions = selectedQuestions;
         if (manager.questions >= 1){
             // Run the tutor
@@ -156,7 +159,7 @@ public class IntervalRecognitionTutorController extends TutorController {
         Button skip = new Button("Skip");
         styleSkipButton(skip);
 
-        final ComboBox<String> options = generateChoices();
+        final ComboBox<String> options = generateChoices((Interval) intervalAndNote.getKey());
         options.setPrefHeight(30);
 
         final Pair pair = intervalAndNote;
@@ -260,21 +263,73 @@ public class IntervalRecognitionTutorController extends TutorController {
      */
     private Interval generateInterval() {
         Random rand = new Random();
-        // There are 8 different intervals
-        return Interval.intervals[rand.nextInt(8)];
+        // There are 15 different intervals
+        return Interval.intervals[rand.nextInt(27)];
     }
 
     /**
      * Creates a JavaFX combo box containing the lexical names of all intervals.
      * @return a combo box of interval options
      */
-    private ComboBox<String> generateChoices() {
+    private ComboBox<String> generateChoices1() {
         ComboBox<String> options = new ComboBox<String>();
         for (Interval interval:Interval.intervals) {
             options.getItems().add(interval.getName());
         }
         return options;
     }
+
+
+    /**
+     * Generates and populates The Origin combo box
+     * @return
+     */
+    private ComboBox<String> generateChoices(Interval thisInterval) {
+        Random rand = new Random();
+        int correctPosition = rand.nextInt(5);
+        ComboBox<String> options = new ComboBox<String>();
+
+
+
+        int currentSemitones = thisInterval.getSemitones();
+
+
+        int i = 0;
+
+        Boolean alreadyAdded = false;
+        while(options.getItems().size() < 8 && i < Interval.intervals.length) {
+            int intervalIndex = rand.nextInt(Interval.intervals.length-1);
+            if(correctPosition == i && alreadyAdded == false) {
+                options.getItems().add(thisInterval.getName());
+                i -= 1;
+                alreadyAdded = true;
+
+            }else{
+                if (!(options.getItems().contains(Interval.intervals[intervalIndex].getName())) &&
+                        ((Interval.intervals[intervalIndex].getSemitones()< currentSemitones+ 6) &&
+                                (Interval.intervals[intervalIndex].getSemitones()> currentSemitones - 6))) {
+                    options.getItems().add(Interval.intervals[intervalIndex].getName());
+                }
+            }
+            i+=1;
+        }
+
+        while(options.getItems().size() < 8){ ///make sure that it has 8 options otherwise populate it with random ones that are not already  in the options combo
+
+            int intervalIndex = rand.nextInt(Interval.intervals.length-1);
+            if (!(options.getItems().contains(Interval.intervals[intervalIndex].getName()))){
+                options.getItems().add(Interval.intervals[intervalIndex].getName());
+
+            }
+        }
+        return options;
+    }
+
+
+
+
+
+
 
     public void resetInputs() {
         rangeSlider.setLowValue(60);
