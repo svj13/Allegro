@@ -87,12 +87,12 @@ public class Help implements Command {
                     " e.g interval perfect fifth C4 will return G4.";
         } else if (keyword.equals("play interval")) {
             result = "When followed by an interval name and a note, it will play the given note and then the note that is the specified interval above the given note.";
-        } else if (keyword.equals("chord")) {
-            result = "When followed by a valid chord and a valid chord type (i.e. major, minor), will" +
-                    " return the corresponding notes that make up the given chord";
         } else if (keyword.equals("play chord")) {
             result = "When followed by a valid chord and a valid chord type (i.e. major, minor), will" +
                     " play the given chord";
+        } else if (keyword.equals("chord")) {
+            result = "When followed by a valid chord and a valid chord type (i.e. major, minor), will" +
+                    " return the corresponding notes that make up the given chord";
         } else if (keyword.equals("")) {
             result = "" +
                     "\nadd musical term:\nWhen followed by a musical term in the format of 'name; origin; " +
@@ -100,6 +100,8 @@ public class Help implements Command {
                     "dictionary. \n\n" +
                     "all enharmonics:\nReturns all of the enharmonics of a given note. \n\n" +
                     "category of:\nWhen followed by a musical term, it returns the category of that term. \n\n" +
+                    "chord:\nWhen followed by a valid chord and a valid chord type (i.e. major, minor), will" +
+                    " return the corresponding notes that make up the given chord\n\n" +
                     "crotchet duration:\nReturns the duration of a crotchet in milliseconds at the current tempo.\n\n" +
                     "enharmonic higher:\nReturns the enharmonic that corresponds to the same note, a " +
                     "'letter' above the current note.\n\n" +
@@ -120,6 +122,8 @@ public class Help implements Command {
                     "note:\nWhen followed by a valid midi number (within the range of 0-127), it will" +
                     " return the corresponding note name and its octave e.g. 'note 60' will return C4. \n\n" +
                     "origin of:\nWhen followed by a musical term, it returns the origin of that term. \n\n" +
+                    "play chord:\n When followed by a valid chord and a valid chord type (i.e. major, minor), will" +
+                    " play the given chord\n\n" +
                     "play interval:\nWhen followed by an interval name and a note, it will play the given " +
                     "note and then the note that is the specified interval above the given note.\n\n" +
                     "play note:\nWhen followed by a valid midi number or valid note, the corresponding" +
@@ -136,11 +140,8 @@ public class Help implements Command {
                     "set tempo:\nWhen followed by a valid tempo (20-300BPM) will change the tempo to that value. \n\n" +
                     "tempo:\nReturns the current tempo. When the program is launched, it will have" +
                     " a default value of 120BPM. \n\n" +
-                    "version:\nReturns the current version number of the application. \n\n" +
-                    "chord:\nWhen followed by a valid chord and a valid chord type (i.e. major, minor), will" +
-                    " return the corresponding notes that make up the given chord\n\n" +
-                    "play chord:\nWhen followed by a valid chord and a valid chord type (i.e. major, minor), will " +
-                    "play the given chord\n\n";
+                    "version:\nReturns the current version number of the application. \n\n";
+
         }
 
         env.getTranscriptManager().setResult(result);
