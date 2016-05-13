@@ -293,6 +293,10 @@ public class TranscriptPaneController {
         commandvalue.setText("");
     }
 
+    public void giveFocus() {
+        txtCommand.requestFocus();
+    }
+
 
 
 }
