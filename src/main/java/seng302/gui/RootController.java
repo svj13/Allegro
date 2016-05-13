@@ -568,4 +568,7 @@ public class RootController implements Initializable {
         ScaleRecognitionTabController.clearTutor();
     }
 
+    public TranscriptPaneController getTranscriptController() {
+        return transcriptController;
+    }
 }

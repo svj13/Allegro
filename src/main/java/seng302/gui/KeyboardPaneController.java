@@ -3,6 +3,7 @@ package seng302.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.input.KeyCode;
@@ -32,6 +33,7 @@ public class KeyboardPaneController {
     private Integer numberOfKeys = 24;
     private boolean shift;
     ArrayList<Note> multiNotes;
+    List<TouchPane> clicked;
     private boolean hidden = false;
 
 
@@ -45,6 +47,12 @@ public class KeyboardPaneController {
         this.env = env;
         setUpKeyboard();
         multiNotes = new ArrayList<Note>();
+        clicked = new ArrayList<TouchPane>();
+        Platform.runLater(new Runnable() {
+            public void run() {
+                keyboardBox.requestFocus();
+            }
+        });
 
     }
 
@@ -76,6 +84,10 @@ public class KeyboardPaneController {
                     env.getPlayer().playNotes(multiNotes);
                     shift = false;
                     multiNotes.clear();
+                    for (TouchPane clickedPane : clicked) {
+                        clickedPane.setHighlightOff();
+                    }
+                    clicked.clear();
                 }
 
             }
@@ -88,8 +100,9 @@ public class KeyboardPaneController {
         return shift;
     }
 
-    public void addMultiNote(Note note) {
+    public void addMultiNote(Note note, TouchPane pane) {
         multiNotes.add(note);
+        clicked.add(pane);
 
     }
 
@@ -97,11 +110,13 @@ public class KeyboardPaneController {
         if (hidden) {
             keyboardBox.setMaxHeight(200);
             keyboardBox.setMinHeight(200);
+            keyboardBox.requestFocus();
             hidden = false;
         } else {
             keyboardBox.setMaxHeight(0);
             keyboardBox.setMinHeight(0);
             hidden = true;
+            env.getRootController().getTranscriptController().giveFocus();
         }
     }
 

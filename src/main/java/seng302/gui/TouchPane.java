@@ -18,6 +18,7 @@ public class TouchPane extends StackPane {
     private long touchId = -1;
     double touchx, touchy;
     KeyboardPaneController kpc;
+    TouchPane me;
 
 
     public TouchPane(Integer note, Environment env, KeyboardPaneController kpc) {
@@ -25,6 +26,7 @@ public class TouchPane extends StackPane {
         final Note noteToPlay = Note.lookup(String.valueOf(note));
         final Environment environment = env;
         final KeyboardPaneController keyboardPaneController = kpc;
+        me = this;
         setHighlightOff();
 
         setOnTouchPressed(new EventHandler<TouchEvent>() {
@@ -80,7 +82,7 @@ public class TouchPane extends StackPane {
             public void handle(MouseEvent event) {
                 if (keyboardPaneController.getShiftState() == true) {
                     System.out.println("add note");
-                    keyboardPaneController.addMultiNote(noteToPlay);
+                    keyboardPaneController.addMultiNote(noteToPlay, me);
                     setHighlightOn();
                 } else {
                     environment.getPlayer().playNote(noteToPlay);
