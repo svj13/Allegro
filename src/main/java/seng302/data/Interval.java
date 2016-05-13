@@ -125,6 +125,13 @@ public class Interval {
         return null;
     }
 
+    /**
+     * Finds the enharmonic equivalents for a given interval by searching for intervals with the
+     * same number of semitones but a different name
+     * @param semitones the number of semitones in the interval
+     * @param intervalName the name of the interval to be compared with
+     * @return an arrayList of the enharmonic intervals
+     */
     public static ArrayList<String> findEnharmonics(int semitones, String intervalName) {
         ArrayList enharmonics = new ArrayList<String>();
         for (Interval interval:intervals) {

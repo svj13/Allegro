@@ -119,7 +119,7 @@ public class IntervalCommand implements Command {
 
     /**
      * Gets the number of semitones represented by an interval.
-     * @param env
+     * @param env the display environment
      */
     private void getSemitones(Environment env) {
         //This section of code gets the number of semitones in a given interval
@@ -137,6 +137,11 @@ public class IntervalCommand implements Command {
         }
     }
 
+    /**
+     * Uses the findEnharmonics method to find the enharmonic intervals of a given interval and
+     * prints the result of the command to the transcript
+     * @param env the display environment
+     */
     private void getEquivalentInterval(Environment env) {
         ArrayList<String> equivalentIntervals;
         try {
@@ -174,7 +179,7 @@ public class IntervalCommand implements Command {
 
     /**
      * Plays the two notes of an interval given the interval and starting note
-     * @param env
+     * @param env the display environment
      */
     private void playInterval(Environment env) {
         try {
@@ -217,7 +222,7 @@ public class IntervalCommand implements Command {
 
     /**
      * The execute function decides which function to run.
-     * @param env
+     * @param env the display environment
      */
     public void execute(Environment env) {
         if (outputType.equals("semitones")) {
