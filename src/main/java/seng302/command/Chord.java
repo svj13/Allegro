@@ -39,6 +39,7 @@ public class Chord implements Command {
         this.outputType = outputType;
         currentLetter = Character.toUpperCase(startNote.charAt(0));
 
+        //Determines whether an octave was specified or not. Will set the default octave if not
         if (OctaveUtil.octaveSpecifierFlag(this.startNote)) {
             octaveSpecified = true;
             this.note = Note.lookup(startNote);
