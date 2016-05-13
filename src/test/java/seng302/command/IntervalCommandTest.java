@@ -37,7 +37,8 @@ public class IntervalCommandTest {
     }
 
     /**
-     * Comprehensive testing of interval enharmonics
+     * Comprehensive testing of interval enharmonics including valid and invalid interval
+     * enharmonics
      * @throws Exception
      */
     @Test
