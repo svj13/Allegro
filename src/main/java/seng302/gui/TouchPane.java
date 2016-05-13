@@ -1,9 +1,12 @@
 package seng302.gui;
 
 import javafx.event.EventHandler;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TouchEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import seng302.Environment;
 import seng302.data.Note;
 
@@ -11,15 +14,17 @@ import seng302.data.Note;
  * Created by isabelle on 13/05/16.
  */
 
-public class TouchPane extends Pane {
+public class TouchPane extends StackPane {
     private long touchId = -1;
     double touchx, touchy;
+    KeyboardPaneController kpc;
 
 
-    public TouchPane(Integer note, Environment env) {
+    public TouchPane(Integer note, Environment env, KeyboardPaneController kpc) {
         super();
         final Note noteToPlay = Note.lookup(String.valueOf(note));
         final Environment environment = env;
+        final KeyboardPaneController keyboardPaneController = kpc;
         setHighlightOff();
 
         setOnTouchPressed(new EventHandler<TouchEvent>() {
@@ -56,7 +61,7 @@ public class TouchPane extends Pane {
 
         setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
-                environment.getPlayer().playNote(noteToPlay);
+
 
 
             }
@@ -64,15 +69,28 @@ public class TouchPane extends Pane {
 
         setOnMouseReleased(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
-                setHighlightOff();
+                if (keyboardPaneController.getShiftState() == false) {
+                    setHighlightOff();
+                }
+
             }
         });
 
         setOnMousePressed(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
-                setHighlightOn();
+                if (keyboardPaneController.getShiftState() == true) {
+                    System.out.println("add note");
+                    keyboardPaneController.addMultiNote(noteToPlay);
+                    setHighlightOn();
+                } else {
+                    environment.getPlayer().playNote(noteToPlay);
+                    setHighlightOn();
+                }
+
             }
         });
+
+
     }
 
     public void setHighlightOn() {
