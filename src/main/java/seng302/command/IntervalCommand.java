@@ -184,7 +184,6 @@ public class IntervalCommand implements Command {
                     }
 
                     char last_note = "ABCDEFG".charAt(index);
-                    System.out.println(last_note);
 
                     if(last_note != Character.toUpperCase(correspondingNote.charAt(0))){
                         correspondingNote = note.lookup(correspondingNote).getEnharmonicWithLetter(last_note);
@@ -192,7 +191,7 @@ public class IntervalCommand implements Command {
 
                     setNoteOutput(env);
                 } catch (Exception e) {
-                    env.error("Invalid combination of tonic and interval.");
+                    env.error("The resulting note is higher than the higest note supported by this application.");
                 }
 
 
