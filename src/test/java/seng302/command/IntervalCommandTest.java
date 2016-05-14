@@ -11,6 +11,7 @@ import java.util.HashMap;
 import seng302.Environment;
 import seng302.managers.TranscriptManager;
 
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -33,7 +34,40 @@ public class IntervalCommandTest {
         interval.put("interval", "perfect octave");
         new IntervalCommand(interval, "semitones").execute(env);
         verify(transcriptManager).setResult("12 semitones");
+
+        interval.put("interval", "diminished fifth");
+        new IntervalCommand(interval, "semitones").execute(env);
+        verify(transcriptManager).setResult("6 semitones");
+
+        interval.put("interval", "major ninth");
+        new IntervalCommand(interval, "semitones").execute(env);
+        verify(transcriptManager).setResult("14 semitones");
+
+        interval.put("interval", "double octave");
+        new IntervalCommand(interval, "semitones").execute(env);
+        verify(transcriptManager).setResult("24 semitones");
     }
+
+
+
+    @Test
+    public void setsCorrectSemitonesWihSameNameResult() {
+        interval.put("interval", "minor ninth");
+        new IntervalCommand(interval, "semitones").execute(env);
+
+        interval.put("interval", "minor 9th");
+        new IntervalCommand(interval, "semitones").execute(env);
+        verify(transcriptManager, times(2)).setResult("13 semitones");
+
+        interval.put("interval", "diminished fifth");
+        new IntervalCommand(interval, "semitones").execute(env);
+
+        interval.put("interval", "diminished 5th");
+        new IntervalCommand(interval, "semitones").execute(env);
+        verify(transcriptManager, times(2)).setResult("6 semitones");
+
+    }
+
 
     @Test
     public void setsCorrectErrorResult() {
@@ -57,6 +91,21 @@ public class IntervalCommandTest {
     }
 
     @Test
+    public void setsCorrectNoteResultSameKey() {
+        interval.put("interval", "diminished 7th");
+        interval.put("note", "E");
+        new IntervalCommand(interval, "note").execute(env);
+        verify(transcriptManager).setResult("Db");
+
+        interval.clear();
+        interval.put("interval", "major 6th");
+        interval.put("note", "E");
+        new IntervalCommand(interval, "note").execute(env);
+        verify(transcriptManager).setResult("C#");
+
+    }
+
+    @Test
     public void setsCorrectNoteErrors() {
         interval.put("interval", "perfect fourth");
         interval.put("note", "M");
@@ -68,7 +117,17 @@ public class IntervalCommandTest {
         interval.put("note", "C");
         new IntervalCommand(interval, "note").execute(env);
         verify(transcriptManager).setResult("[ERROR] Unknown interval: blah");
+
+        interval.clear();
+        interval.put("interval", "minor seventh");
+        interval.put("note", "G9");
+        new IntervalCommand(interval, "note").execute(env);
+        verify(transcriptManager).setResult("[ERROR] The resulting note is higher than the highest note supported by this application.");
+
     }
+
+
+
 
     @Test
     public void setsCorrectPlayErrors() {

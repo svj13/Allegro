@@ -191,7 +191,7 @@ public class IntervalCommand implements Command {
 
                     setNoteOutput(env);
                 } catch (Exception e) {
-                    env.error("The resulting note is higher than the higest note supported by this application.");
+                    env.error("The resulting note is higher than the highest note supported by this application.");
                 }
 
 
