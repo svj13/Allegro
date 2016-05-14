@@ -129,7 +129,7 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_ENHARMONIC_LOWER note:s             {: RESULT = new Enharmonic(s, 1); :}
           | COMMAND_SIMPLE_ENHARMONIC note:s            {: RESULT = new Enharmonic(s, 2); :}
           | COMMAND_SET_TEMPO positiveNum:s             {: RESULT = new Tempo(s, false); :}
-          | COMMAND_SET_RHYTHM rhythmStyle:r            {:System.out.println("rhythm called" + r); RESULT = new Rhythm(r, false); :}
+          | COMMAND_SET_RHYTHM rhythmStyle:r            {: RESULT = new Rhythm(r, false); :}
           | COMMAND_FORCE_SET_TEMPO positiveNum:s       {: RESULT = new Tempo(s, true); :}
           | COMMAND_CROTCHET_DURATION                   {: RESULT = new CrotchetDuration(); :}
           | COMMAND_PLAY_NOTE note:s                    {: RESULT = new PlayNote(s); :}

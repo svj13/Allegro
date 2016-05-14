@@ -44,10 +44,12 @@ public class MusicPlayer {
      * @param pause The number of ticks to pause between notes. 16 ticks = 1 crotchet beat.
      */
     public void playNotes(ArrayList<Note> notes, int pause) {
+        //int ticks = 16; //16 (1 crotchet beat)
+        int ticks = rh.getBeatResolution();
         try {
             int instrument = 1;
             // 16 ticks per crotchet note.
-            Sequence sequence = new Sequence(Sequence.PPQ, 16);
+            Sequence sequence = new Sequence(Sequence.PPQ, ticks);
             Track track = sequence.createTrack();
 
             // Set the instrument on channel 0
@@ -56,9 +58,12 @@ public class MusicPlayer {
             track.add(new MidiEvent(sm, 0));
 
             int currenttick = 0;
+            rh.resetIndex(); //Reset rhythm to first crotchet.
             for (Note note : notes) {
-                addNote(track, currenttick, 16, note.getMidi(), 64);
-                currenttick += (16 + pause);
+                int timing = rh.getNextTickTiming();
+
+                addNote(track, currenttick, timing, note.getMidi(), 64); //velocity 64
+                currenttick += (timing + pause);
             }
             playSequence(sequence);
 

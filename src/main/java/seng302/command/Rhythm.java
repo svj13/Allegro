@@ -30,18 +30,14 @@ public class Rhythm implements Command{
         try {
             this.rhythm = swingStyle;
 
-            if(swingStyle.equals("heavy")){
+            if(swingStyle.equals("heavy")) this.result = "Rhythm set to heavy swing timing.";
 
+            else if(swingStyle.equals("medium")) this.result = "Rhythm set to medium swing timing.";
 
-            }else if(swingStyle.equals("medium")){
+            else if(swingStyle.equals("light")) this.result = "Rhythm set to light swing timing.";
 
-                this.result = "Rhythm set to 2/3, 1/3  swing. ";
-            }else if(swingStyle == "light"){
+            else if(swingStyle.equals("straight")) this.result = "Rhythm set to straight, half crotchet duration.";
 
-            }
-            else if(swingStyle.equals("straight")){
-                this.result = "Rhythm set to straight, half crotchet duration.";
-            }
             else{
                 this.result = "Invalid Rhythm setting. Valid styles are: straight, heavy, light, or medium.";
             }
@@ -64,15 +60,21 @@ public class Rhythm implements Command{
      */
     public void execute(Environment env) {
         if (isSetter){
-            System.out.println("executiooooooon");
+
             // Add Tempo to editHistory
 
 //            ArrayList<String> editHistoryArray = new ArrayList<String>();
 //            editHistoryArray.add(String.valueOf(env.getPlayer().getTempo()));
 //            editHistoryArray.add(String.valueOf(rhythm));
 //            env.getEditManager().addToHistory("0", editHistoryArray);
-            if(rhythm == "straight") env.getPlayer().getRhythmHandler().setRhythmTimings(new int[12]);
-            else if(rhythm == "medium") env.getPlayer().getRhythmHandler().setRhythmTimings(new int[12]);
+            if(rhythm.equals("straight")) env.getPlayer().getRhythmHandler().setRhythmTimings(new float[]{0.5f}); //quaver (half beat)
+            else if(rhythm.equals("medium")){
+                env.getPlayer().getRhythmHandler().setRhythmTimings(new float[]{3.0f/2.0f, 1.0f/2.0f} );
+
+            }
+            else if(rhythm.equals("heavy")) env.getPlayer().getRhythmHandler().setRhythmTimings(new float[]{3.0f/4.0f, 1.0f/4.0f});
+            else if(rhythm.equals("light")) env.getPlayer().getRhythmHandler().setRhythmTimings(new float[]{5.0f/8.0f, 3.0f/8.0f});
+
 
             env.getTranscriptManager().setResult(result);
             //Update project saved state

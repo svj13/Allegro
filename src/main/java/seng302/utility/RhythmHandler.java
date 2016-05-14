@@ -27,10 +27,23 @@ public class RhythmHandler {
         }
     }
 
-    public void setRhythmTimings(int[] timings){
+    public void setRhythmTimings(float[] divisions){
+        int[] timings = new int[divisions.length];
+
+        for(int i = 0; i < timings.length;  i++){
+            timings[i] = (int)(beatResolution * divisions[i]);
+            System.out.println(timings[i]);
+        }
         this.rhythmTimings = timings;
+
     }
     public void setBeatResolution(int ticks){
         beatResolution = ticks;
     }
+    public int getBeatResolution(){ return beatResolution;}
+
+    public void resetIndex(){
+        rIndex = 0;
+    }
+
 }
