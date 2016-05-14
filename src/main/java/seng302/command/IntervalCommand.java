@@ -26,6 +26,7 @@ public class IntervalCommand implements Command {
     private Note note;
     private Interval playingInterval;
     private float length = 0;
+    private String possibleIntervalnames = "";
 
     private static HashMap<String,Integer> intervalFullMap = generateHashmap();
 
@@ -239,7 +240,16 @@ public class IntervalCommand implements Command {
                 if (intervalName != null) {
                     playingInterval = Interval.lookupByName(intervalName);
                 } else {
-                    playingInterval = Interval.lookupBySemitones(Integer.valueOf(semitones));
+                    System.out.println("hello");
+
+                    ArrayList<Interval> possibleIntervals = Interval.lookupBySemitones(Integer.valueOf(semitones));
+                    possibleIntervalnames = "";
+                    for(Interval interval: possibleIntervals){
+                        possibleIntervalnames += interval.getName() + "/";
+                    }
+                    possibleIntervalnames = possibleIntervalnames.substring(0, possibleIntervalnames.length()-1);
+
+                    playingInterval = possibleIntervals.get(0);
                 }
                 numSemitones = playingInterval.getSemitones();
                 try {
@@ -252,7 +262,7 @@ public class IntervalCommand implements Command {
                     // Waits for three crotchets
                     env.getPlayer().playNotes(notes, (48));
                     env.getTranscriptManager().setResult("Playing interval "
-                             + playingInterval.getName() + " above " + note.getNote());
+                             + possibleIntervalnames + " above " + note.getNote());
                 } catch (Exception e) {
                     env.error("The resulting note is higher than the highest note supported by this application.");
                 }

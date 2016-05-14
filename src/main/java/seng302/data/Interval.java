@@ -1,5 +1,6 @@
 package seng302.data;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -124,12 +125,27 @@ public class Interval {
         return null;
     }
 
-    public static Interval lookupBySemitones(int semitones) {
+    public static Interval lookupBySemitones1(int semitones) {
         for (Interval interval:intervals) {
             if (interval.getSemitones() == semitones) {
                 return interval;
             }
         }
+        return null;
+    }
+
+
+    public static ArrayList<Interval> lookupBySemitones(int semitones) {
+        ArrayList<Interval> matchingintervals = new ArrayList<Interval>();
+        for (Interval interval:intervals) {
+            if (interval.getSemitones() == semitones) {
+                matchingintervals.add(interval);
+            }
+        }
+        if(!matchingintervals.isEmpty()){
+            return matchingintervals;
+        }
+
         return null;
     }
 
