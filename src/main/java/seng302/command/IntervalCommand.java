@@ -254,7 +254,7 @@ public class IntervalCommand implements Command {
                     env.getTranscriptManager().setResult("Playing interval "
                              + playingInterval.getName() + " above " + note.getNote());
                 } catch (Exception e) {
-                    env.error("Invalid combination of tonic and interval.");
+                    env.error("The resulting note is higher than the highest note supported by this application.");
                 }
             } catch (Exception e) {
                 if (intervalName != null) {
