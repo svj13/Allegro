@@ -37,10 +37,17 @@ public class RhythmHandler {
         this.rhythmTimings = timings;
 
     }
+    public void setRhythmTimings(int[] timings){
+        this.rhythmTimings = timings;
+
+    }
     public void setBeatResolution(int ticks){
         beatResolution = ticks;
     }
     public int getBeatResolution(){ return beatResolution;}
+    public int[] getRhythmTimings(){
+        return rhythmTimings;
+    }
 
     public void resetIndex(){
         rIndex = 0;

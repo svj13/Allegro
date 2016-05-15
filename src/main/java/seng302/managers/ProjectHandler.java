@@ -97,17 +97,21 @@ public class ProjectHandler {
     }
 
     private void saveProperties(){
+        Gson gson = new Gson();
         projectSettings.put("tempo", env.getPlayer().getTempo());
-        String transcriptString = new Gson().toJson(env.getTranscriptManager().getTranscriptTuples());
+        String transcriptString = gson.toJson(env.getTranscriptManager().getTranscriptTuples());
         projectSettings.put("transcript", transcriptString);
 
-        String musicalTermsJSON = new Gson().toJson(env.getMttDataManager().getTerms());
+        String musicalTermsJSON = gson.toJson(env.getMttDataManager().getTerms());
         projectSettings.put("musicalTerms", musicalTermsJSON);
+
+        projectSettings.put("rhythm", gson.toJson(env.getPlayer().getRhythmHandler().getRhythmTimings()));
 
     }
 
     private void loadProperties(){
         int tempo;
+        Gson gson = new Gson();
 
         try {
             tempo = ((Long) projectSettings.get("tempo")).intValue();
@@ -120,19 +124,31 @@ public class ProjectHandler {
         //Transcript
         ArrayList<OutputTuple> transcript;
         Type transcriptType = new TypeToken<ArrayList<OutputTuple>>() {}.getType();
-        transcript = new Gson().fromJson((String)projectSettings.get("transcript"), transcriptType);
+        transcript = gson.fromJson((String)projectSettings.get("transcript"), transcriptType);
 
         env.getTranscriptManager().setTranscriptContent(transcript);
         env.getRootController().setTranscriptPaneText(env.getTranscriptManager().convertToText());
 
         //Musical Terms
         Type termsType = new TypeToken<ArrayList<Term>>() {}.getType();
-        ArrayList<Term> terms = new Gson().fromJson((String)projectSettings.get("musicalTerms"), termsType);
+        ArrayList<Term> terms = gson.fromJson((String)projectSettings.get("musicalTerms"), termsType);
 
         if(terms != null){
 
             env.getMttDataManager().setTerms(terms);
         }
+
+        //Rhythm
+        int[] rhythms;
+
+
+        try {
+            rhythms = ((int[]) gson.fromJson((String)projectSettings.get("rhythm"), int[].class));
+        }catch(Exception e){
+            rhythms = new int[]{12};
+        }
+        env.getPlayer().getRhythmHandler().setRhythmTimings(rhythms);
+
 
 
 
@@ -241,6 +257,15 @@ public class ProjectHandler {
 
 
             if(projectSettings.containsKey("tempo") && !(projectSettings.get("tempo").equals(String.valueOf(env.getPlayer().getTempo())))){ //If not equal
+
+                env.getRootController().setWindowTitle(saveName + "*");
+                saved = false;
+            }
+        }
+        else if(propName.equals("rhythm")){
+
+
+            if(projectSettings.containsKey("rhythm") && !(projectSettings.get("rhythm").equals(env.getPlayer().getRhythmHandler().getRhythmTimings()))){ //If not equal
 
                 env.getRootController().setWindowTitle(saveName + "*");
                 saved = false;

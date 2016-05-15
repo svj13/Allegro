@@ -3,6 +3,7 @@ package seng302.command;
 import seng302.Environment;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by jonty on 5/13/16.
@@ -61,15 +62,17 @@ public class Rhythm implements Command{
     public void execute(Environment env) {
         if (isSetter){
 
-            // Add Tempo to editHistory
+             //Add Rhythm to editHistory
 
 //            ArrayList<String> editHistoryArray = new ArrayList<String>();
 //            editHistoryArray.add(String.valueOf(env.getPlayer().getTempo()));
 //            editHistoryArray.add(String.valueOf(rhythm));
 //            env.getEditManager().addToHistory("0", editHistoryArray);
+
+
             if(rhythm.equals("straight")) env.getPlayer().getRhythmHandler().setRhythmTimings(new float[]{0.5f}); //quaver (half beat)
             else if(rhythm.equals("medium")){
-                env.getPlayer().getRhythmHandler().setRhythmTimings(new float[]{3.0f/2.0f, 1.0f/2.0f} );
+                env.getPlayer().getRhythmHandler().setRhythmTimings(new float[]{2.0f/3.0f, 1.0f/3.0f} );
 
             }
             else if(rhythm.equals("heavy")) env.getPlayer().getRhythmHandler().setRhythmTimings(new float[]{3.0f/4.0f, 1.0f/4.0f});
@@ -78,11 +81,11 @@ public class Rhythm implements Command{
 
             env.getTranscriptManager().setResult(result);
             //Update project saved state
-            //env.getProjectHandler().checkChanges("tempo");
+            env.getProjectHandler().checkChanges("rhythm");
 
         } else {
-            //is getting the tempo
-            env.getTranscriptManager().setResult( "nope");
+            //is getting the rhythm
+            env.getTranscriptManager().setResult(Arrays.toString(env.getPlayer().getRhythmHandler().getRhythmTimings()));
         }
 
     }
