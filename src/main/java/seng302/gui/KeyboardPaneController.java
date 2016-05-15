@@ -57,6 +57,7 @@ public class KeyboardPaneController {
                 keyboardBox.requestFocus();
             }
         });
+        env.getPlayer().initKeyboardTrack();
 
     }
 
@@ -75,7 +76,6 @@ public class KeyboardPaneController {
             public void handle(KeyEvent event) {
                 if (event.getCode() == KeyCode.SHIFT) {
                     shift = true;
-                    System.out.println("pressed shift");
                 }
 
             }
@@ -84,7 +84,6 @@ public class KeyboardPaneController {
         keyboardBox.setOnKeyReleased(new EventHandler<KeyEvent>() {
             public void handle(KeyEvent event) {
                 if (event.getCode() == KeyCode.SHIFT) {
-                    System.out.println("lifted shift");
                     env.getPlayer().playSimultaneousNotes(multiNotes);
                     shift = false;
                     multiNotes.clear();

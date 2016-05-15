@@ -40,9 +40,8 @@ public class TouchPane extends StackPane {
             public void handle(TouchEvent event) {
                 if (touchId == -1) {
                     touchId = event.getTouchPoint().getId();
-                    touchx = event.getTouchPoint().getSceneX() - getTranslateX();
-                    touchy = event.getTouchPoint().getSceneY() - getTranslateY();
-                    environment.getPlayer().playNote(noteToPlay);
+                    environment.getPlayer().noteOn(noteToPlay);
+                    setHighlightOn();
 
                 }
                 event.consume();
@@ -54,27 +53,12 @@ public class TouchPane extends StackPane {
                 if (event.getTouchPoint().getId() == touchId) {
                     touchId = -1;
                 }
+                environment.getPlayer().noteOff(noteToPlay);
                 event.consume();
+                setHighlightOff();
             }
         });
 
-        setOnTouchMoved(new EventHandler<TouchEvent>() {
-            public void handle(TouchEvent event) {
-                if (event.getTouchPoint().getId() == touchId) {
-                    setTranslateX(event.getTouchPoint().getSceneX() - touchx);
-                    setTranslateY(event.getTouchPoint().getSceneY() - touchy);
-                }
-                event.consume();
-            }
-        });
-
-        setOnMouseClicked(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-
-
-
-            }
-        });
 
         setOnMouseReleased(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {

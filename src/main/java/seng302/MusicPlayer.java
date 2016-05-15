@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import javax.sound.midi.*;
 
+import seng302.command.Semitone;
 import seng302.data.Note;
 
 /**
@@ -17,6 +18,9 @@ public class MusicPlayer {
      * Default tempo is 120 BPM.
      */
     private int tempo = 120;
+
+    Track keyboardTrack;
+    Sequence keyboardSequence;
 
     /**
      * Music Player constructor opens the sequencers and synthesizer. It also sets the receiver.
@@ -71,6 +75,41 @@ public class MusicPlayer {
      */
     public void playNotes(ArrayList<Note> notes) {
         playNotes(notes, 0);
+    }
+
+    public void initKeyboardTrack() {
+        try {
+            int instrument = 1;
+            // 16 ticks per crotchet note.
+            keyboardSequence = new Sequence(Sequence.PPQ, 16);
+            keyboardTrack = keyboardSequence.createTrack();
+
+            // Set the instrument on channel 0
+            ShortMessage sm = new ShortMessage();
+            sm.setMessage(ShortMessage.PROGRAM_CHANGE, 0, instrument, 0);
+            keyboardTrack.add(new MidiEvent(sm, 0));
+        } catch (InvalidMidiDataException e) {
+            System.err.println("Can't initialise keyboard track.");
+        }
+
+    }
+
+    public void noteOn(Note note) {
+        try {
+            ShortMessage on = new ShortMessage();
+            on.setMessage(ShortMessage.NOTE_ON, 0, note.getMidi(), 64);
+        } catch (InvalidMidiDataException e) {
+            System.err.println("Note is not valid.");
+        }
+    }
+
+    public void noteOff(Note note) {
+        try {
+            ShortMessage off = new ShortMessage();
+            off.setMessage(ShortMessage.NOTE_OFF, 0, note.getMidi(), 64);
+        } catch (InvalidMidiDataException e) {
+            System.err.println("Note is not valid.");
+        }
     }
 
     /**
