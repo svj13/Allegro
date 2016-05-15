@@ -7,8 +7,6 @@ import java.util.HashMap;
 import seng302.Environment;
 import seng302.data.Note;
 import seng302.utility.Checker;
-import seng302.MusicPlayer;
-import seng302.command.Scale;
 import seng302.utility.OctaveUtil;
 
 /**
@@ -17,7 +15,6 @@ import seng302.utility.OctaveUtil;
  */
 public class Chord implements Command {
     private ArrayList<Note> chord = new ArrayList<Note>();
-    private int octaves; //number of octaves to be played
     private char currentLetter; //the letter the current note should be
     String type; //where it is major or minor
     String outputType; //whether it wants to be played or printed
@@ -88,10 +85,10 @@ public class Chord implements Command {
             env.error("Invalid chord: '" + startNote + ' ' + type + "'.");
         } else {
             String chordString = "";
-            if (outputType == "chord") {
+            if (outputType.equals("chord")) {
                 // showing the chord
                 for (Note i : chord) {
-                    if (octaveSpecified == false) {
+                    if (!octaveSpecified) {
                         String j = i.getEnharmonicWithLetter(currentLetter);
                         j = OctaveUtil.removeOctaveSpecifier(j);
                         chordString += j + ' ';
@@ -104,7 +101,7 @@ public class Chord implements Command {
                 env.getTranscriptManager().setResult(chordString);
             } else {
                 // playing the chord
-                if (arpeggioFlag == false) {
+                if (!arpeggioFlag) {
                     env.getPlayer().playSimultaneousNotes(chord);
                 } else {
                     env.getPlayer().playNotes(chord);
