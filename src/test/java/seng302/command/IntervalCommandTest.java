@@ -116,6 +116,81 @@ public class IntervalCommandTest {
         interval.put("interval", "major seventh");
         new IntervalCommand(interval, "equivalent").execute(env);
         verify(transcriptManager, atLeast(1)).setResult("Interval has no enharmonics");
+
+        interval.put("interval", "perfect octave");
+        new IntervalCommand(interval, "equivalent").execute(env);
+        verify(transcriptManager, atLeast(1)).setResult("Interval has no enharmonics");
+
+        interval.clear();
+        interval.put("interval", "minor ninth");
+        new IntervalCommand(interval, "equivalent").execute(env);
+        verify(transcriptManager, atLeast(1)).setResult("Interval has no enharmonics");
+
+        interval.clear();
+        interval.put("interval", "major ninth");
+        new IntervalCommand(interval, "equivalent").execute(env);
+        verify(transcriptManager, atLeast(1)).setResult("Interval has no enharmonics");
+
+        interval.clear();
+        interval.put("interval", "minor tenth");
+        new IntervalCommand(interval, "equivalent").execute(env);
+        verify(transcriptManager, atLeast(1)).setResult("Interval has no enharmonics");
+
+        interval.clear();
+        interval.put("interval", "major tenth");
+        new IntervalCommand(interval, "equivalent").execute(env);
+        verify(transcriptManager, atLeast(1)).setResult("Interval has no enharmonics");
+
+        interval.clear();
+        interval.put("interval", "perfect eleventh");
+        new IntervalCommand(interval, "equivalent").execute(env);
+        verify(transcriptManager, atLeast(1)).setResult("Interval has no enharmonics");
+
+        interval.clear();
+        interval.put("interval", "augmented eleventh");
+        new IntervalCommand(interval, "equivalent").execute(env);
+        verify(transcriptManager).setResult("diminished twelfth");
+
+        interval.clear();
+        interval.put("interval", "diminished twelfth");
+        new IntervalCommand(interval, "equivalent").execute(env);
+        verify(transcriptManager).setResult("augmented eleventh");
+
+        interval.clear();
+        interval.put("interval", "perfect twelfth");
+        new IntervalCommand(interval, "equivalent").execute(env);
+        verify(transcriptManager, atLeast(1)).setResult("Interval has no enharmonics");
+
+        interval.clear();
+        interval.put("interval", "minor thirteenth");
+        new IntervalCommand(interval, "equivalent").execute(env);
+        verify(transcriptManager, atLeast(1)).setResult("Interval has no enharmonics");
+
+        interval.clear();
+        interval.put("interval", "major thirteenth");
+        new IntervalCommand(interval, "equivalent").execute(env);
+        verify(transcriptManager, atLeast(1)).setResult("diminished fourteenth");
+
+        interval.clear();
+        interval.put("interval", "diminished fourteenth");
+        new IntervalCommand(interval, "equivalent").execute(env);
+        verify(transcriptManager, atLeast(1)).setResult("major thirteenth");
+
+        interval.clear();
+        interval.put("interval", "minor fourteenth");
+        new IntervalCommand(interval, "equivalent").execute(env);
+        verify(transcriptManager, atLeast(1)).setResult("Interval has no enharmonics");
+
+        interval.clear();
+        interval.put("interval", "major fourteenth");
+        new IntervalCommand(interval, "equivalent").execute(env);
+        verify(transcriptManager, atLeast(1)).setResult("Interval has no enharmonics");
+
+        interval.clear();
+        interval.put("interval", "double octave");
+        new IntervalCommand(interval, "equivalent").execute(env);
+        verify(transcriptManager, atLeast(1)).setResult("Interval has no enharmonics");
+
     }
 
     @Test
