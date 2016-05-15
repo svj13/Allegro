@@ -60,12 +60,25 @@ public class Chord implements Command {
 
     }
 
+    /**
+     * Updates by two letters at once, as we are skipping two places ahead in the scale.
+     */
+    private  void updateLetter() {
+        int index = "ABCDEFG".indexOf(currentLetter);
+        if (index == 5) {
+            index = -2;
+        }
+        if (index == 6) {
+            index = -1;
+        }
+        currentLetter = "ABCDEFG".charAt(index + 2);
+    }
+
 
 
     public float getLength(Environment env) {
         return 0;
     };
-
 
 
     public void execute(Environment env) {
@@ -76,18 +89,21 @@ public class Chord implements Command {
         } else {
             String chordString = "";
             if (outputType == "chord") {
+                // showing the chord
                 for (Note i : chord) {
                     if (octaveSpecified == false) {
-                        String j = i.getNote();
+                        String j = i.getEnharmonicWithLetter(currentLetter);
                         j = OctaveUtil.removeOctaveSpecifier(j);
                         chordString += j + ' ';
                     } else {
-                        String j = i.getNote();
+                        String j = i.getEnharmonicWithLetter(currentLetter);
                         chordString += j + ' ';
                     }
+                    updateLetter();
                 }
                 env.getTranscriptManager().setResult(chordString);
             } else {
+                // playing the chord
                 if (arpeggioFlag == false) {
                     env.getPlayer().playSimultaneousNotes(chord);
                 } else {
