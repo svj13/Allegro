@@ -25,30 +25,24 @@ public class Chord implements Command {
     private String result;
 
 
-
+    /**
+     * Creates a chord command.
+     * @param chord A map that contains the chord's starting note and scale type - major or minor.
+     * @param outputType Whether the chord is to be displayed or played.
+     */
     public Chord(HashMap<String, String> chord, String outputType) {
-        /**Takes in a chord comprised of notes and an output type (whether the note is to be
-         * played or printed). Sets up the chord to be passed to the environment to be executed
-         */
         this.startNote = chord.get("note");
         this.type = chord.get("scale_type");
         this.outputType = outputType;
         currentLetter = Character.toUpperCase(startNote.charAt(0));
-        System.out.println(chord);
-        System.out.println(outputType);
-
-
 
         //checks to see if an octave was specified or not. Will use default octave if not
         if (OctaveUtil.octaveSpecifierFlag(this.startNote)) {
             octaveSpecified = true;
             this.note = Note.lookup(startNote);
-            //if note in chord is null
-
         } else {
             octaveSpecified = false;
             this.note = Note.lookup(OctaveUtil.addDefaultOctave(startNote));
-            //if note in chord is null
         }
 
         //getting the chord array
@@ -91,42 +85,50 @@ public class Chord implements Command {
         return 0;
     }
 
+    /**
+     * Prints the chord to the given environment
+     * @param env The environment to print to
+     */
+    private void showChord(Environment env) {
+        String chordString = "";
+        for (Note i : chord) {
+            String j = i.getEnharmonicWithLetter(currentLetter);
+            if (!octaveSpecified) {
+                j = OctaveUtil.removeOctaveSpecifier(j);
+            }
+            chordString += j + ' ';
+            updateLetter();
+        }
+        env.getTranscriptManager().setResult(chordString);
+    }
+
+    /**
+     * Plays the chord and prints a message
+     * @param env The environment to play in
+     */
+    private void playChord(Environment env) {
+        if (!arpeggioFlag) {
+            env.getPlayer().playSimultaneousNotes(chord);
+        } else {
+            env.getPlayer().playNotes(chord);
+        }
+        env.getTranscriptManager().setResult("Playing chord " + startNote + ' ' + type);
+    }
+
 
     public void execute(Environment env) {
 
         if (Checker.isDoubleFlat(startNote) || Checker.isDoubleSharp(startNote)) {
             //Disregards double sharps/double flats
             env.error("Invalid chord: '" + startNote + ' ' + type + "'.");
-        //} else if (this.startNote == null || this.note == null) {
-            //env.getTranscriptManager().setResult("Invalid chord: " + startNote + ' ' + note);
         } else if (result != null) {
             // result has been set as an error
             env.getTranscriptManager().setResult(this.result);
         } else {
-            String chordString = "";
             if (outputType.equals("chord")) {
-                // showing the chord
-        for (Note i : chord) {
-                    if (!octaveSpecified) {
-                        String j = i.getEnharmonicWithLetter(currentLetter);
-                        j = OctaveUtil.removeOctaveSpecifier(j);
-        chordString += j + ' ';
-                    } else {
-                        String j = i.getEnharmonicWithLetter(currentLetter);
-                        chordString += j + ' ';
-                    }
-                    updateLetter();
-                }
-                env.getTranscriptManager().setResult(chordString);
+                showChord(env);
             } else {
-                // playing the chord
-                if (!arpeggioFlag) {
-                    env.getPlayer().playSimultaneousNotes(chord);
-                } else {
-                    env.getPlayer().playNotes(chord);
-                }
-                env.getTranscriptManager().setResult("Playing chord " + startNote + ' ' + type);
-
+                playChord(env);
             }
 
         }
