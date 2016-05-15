@@ -90,7 +90,7 @@ COMMAND_ENHARMONIC_HIGHER, COMMAND_SIMPLE_ENHARMONIC, COMMAND_SET_TEMPO, COMMAND
 COMMAND_PLAY_NOTE, COMMAND_FORCE_SET_TEMPO, COMMAND_PLAY_SCALE, COMMAND_MUSICAL_TERM_MEANING,
 COMMAND_MUSICAL_TERM_ORIGIN, COMMAND_MUSICAL_TERM_CATEGORY, COMMAND_ADD_MUSICAL_TERM,
 COMMAND_INTERVAL, COMMAND_PLAY_INTERVAL,COMMAND_ALL_ENHARMONICS, SEMIC, COMMAND_UNDO,
-COMMAND_REDO, COMMAND_TWINKLE, COMMAND_CHORD, COMMAND_PLAY_CHORD;
+COMMAND_REDO, COMMAND_TWINKLE, COMMAND_CHORD, COMMAND_PLAY_CHORD, COMMAND_INTERVAL_ENHARMONIC;
 
 terminal String ATOM, NOTE, SCALE_TYPE, DIRECTION, MIDINOTE, NUMBER, POSNUM, INTERVAL;
 
@@ -142,6 +142,7 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_TWINKLE                             {: RESULT = new Twinkle(); :}
           | COMMAND_CHORD scale:s                       {: RESULT = new Chord(s, "chord"); :}
           | COMMAND_PLAY_CHORD playScale:s              {: RESULT = new Chord(s, "play");:}
+          | COMMAND_INTERVAL_ENHARMONIC interval:i      {: RESULT = new IntervalCommand(i,"equivalent"); :}
 ;
 
 
@@ -175,32 +176,33 @@ interval ::= INTERVAL:i {: RESULT = new HashMap<String,String>(); RESULT.put("in
 intervalWithTonic ::= interval:i note:a {: i.put("note",a); RESULT = i;:}
 ;
 
-keyword ::= COMMAND_HELP                                {: RESULT = "help"; :}
-          | COMMAND_VERSION                             {: RESULT = "version"; :}
-          | COMMAND_TEMPO                               {: RESULT = "tempo"; :}
-          | COMMAND_NOTE                                {: RESULT = "note"; :}
-          | COMMAND_MIDI                                {: RESULT = "midi"; :}
-          | COMMAND_SCALE                               {: RESULT = "scale"; :}
-          | COMMAND_INTERVAL                            {: RESULT = "interval"; :}
-          | COMMAND_PLAY_NOTE                           {: RESULT = "play"; :}
-          | COMMAND_PLAY_SCALE                          {: RESULT = "play scale"; :}
-          | COMMAND_PLAY_INTERVAL                       {: RESULT = "play interval"; :}
-          | COMMAND_SEMITONE_UP                         {: RESULT = "semitone up"; :}
-          | COMMAND_SEMITONE_DOWN                       {: RESULT = "semitone down"; :}
-          | COMMAND_MIDI_SCALE                          {: RESULT = "midi scale";:}
-          | COMMAND_ENHARMONIC_HIGHER                   {: RESULT = "enharmonic higher";:}
-          | COMMAND_ENHARMONIC_LOWER                    {: RESULT = "enharmonic lower";:}
-          | COMMAND_SIMPLE_ENHARMONIC                   {: RESULT = "simple enharmonic";:}
-          | COMMAND_SET_TEMPO                           {: RESULT = "set tempo";:}
-          | COMMAND_FORCE_SET_TEMPO                     {: RESULT = "force set tempo";:}
-          | COMMAND_CROTCHET_DURATION                   {: RESULT = "crotchet duration"; :}
-          | COMMAND_MUSICAL_TERM_MEANING                {: RESULT = "meaning of"; :}
-          | COMMAND_MUSICAL_TERM_ORIGIN                 {: RESULT = "origin of"; :}
-          | COMMAND_MUSICAL_TERM_CATEGORY               {: RESULT = "category of"; :}
-          | COMMAND_ADD_MUSICAL_TERM                    {: RESULT = "add musical term"; :}
-          | COMMAND_TWINKLE                             {: RESULT = "twinkle"; :}
+keyword ::= COMMAND_HELP    {: RESULT = "help"; :}
+          | COMMAND_VERSION {: RESULT = "version"; :}
+          | COMMAND_TEMPO   {: RESULT = "tempo"; :}
+          | COMMAND_NOTE    {: RESULT = "note"; :}
+          | COMMAND_MIDI    {: RESULT = "midi"; :}
+          | COMMAND_SCALE   {: RESULT = "scale"; :}
+          | COMMAND_INTERVAL {: RESULT = "interval"; :}
+          | COMMAND_PLAY_NOTE {: RESULT = "play"; :}
+          | COMMAND_PLAY_SCALE {: RESULT = "play scale"; :}
+          | COMMAND_PLAY_INTERVAL {: RESULT = "play interval"; :}
+          | COMMAND_SEMITONE_UP {: RESULT = "semitone up"; :}
+          | COMMAND_SEMITONE_DOWN {: RESULT = "semitone down"; :}
+          | COMMAND_MIDI_SCALE {: RESULT = "midi scale";:}
+          | COMMAND_ENHARMONIC_HIGHER {: RESULT = "enharmonic higher";:}
+          | COMMAND_ENHARMONIC_LOWER {: RESULT = "enharmonic lower";:}
+          | COMMAND_SIMPLE_ENHARMONIC {: RESULT = "simple enharmonic";:}
+          | COMMAND_SET_TEMPO {: RESULT = "set tempo";:}
+          | COMMAND_FORCE_SET_TEMPO {: RESULT = "force set tempo";:}
+          | COMMAND_CROTCHET_DURATION {: RESULT = "crotchet duration"; :}
+          | COMMAND_MUSICAL_TERM_MEANING {: RESULT = "meaning of"; :}
+          | COMMAND_MUSICAL_TERM_ORIGIN  {: RESULT = "origin of"; :}
+          | COMMAND_MUSICAL_TERM_CATEGORY {: RESULT = "category of"; :}
+          | COMMAND_ADD_MUSICAL_TERM {: RESULT = "add musical term"; :}
+          | COMMAND_TWINKLE {: RESULT = "twinkle"; :}
           | COMMAND_CHORD                               {: RESULT = "chord"; :}
           | COMMAND_PLAY_CHORD                          {: RESULT = "play chord"; :}
+          | COMMAND_INTERVAL_ENHARMONIC {: RESULT = "interval enharmonic"; :}
 ;
 
 singleTerm ::= keyword:s {: RESULT = s;:}
