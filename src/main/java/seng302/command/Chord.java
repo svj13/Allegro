@@ -22,6 +22,7 @@ public class Chord implements Command {
     Note note; //the note the current note should be
     private Boolean octaveSpecified;
     private Boolean arpeggioFlag = false;
+    private String result;
 
 
 
@@ -36,15 +37,28 @@ public class Chord implements Command {
         System.out.println(chord);
         System.out.println(outputType);
 
+
+
         //checks to see if an octave was specified or not. Will use default octave if not
         if (OctaveUtil.octaveSpecifierFlag(this.startNote)) {
             octaveSpecified = true;
             this.note = Note.lookup(startNote);
+            //if note in chord is null
+
         } else {
             octaveSpecified = false;
             this.note = Note.lookup(OctaveUtil.addDefaultOctave(startNote));
+            //if note in chord is null
         }
+
+        //getting the chord array
         this.chord = note.getChord(type);
+        //checking to see if the array is set to null (i.e notes are invalid)
+        if (this.chord == null) {
+            this.result = "Invalid chord: " + startNote + ' ' + type + ". Exceeds octave range." ;
+        } else {
+            this.result = null;
+        }
 
         //checks to see if arpeggio was specified or not. Will play simultaneously if not
         try {
@@ -75,7 +89,7 @@ public class Chord implements Command {
 
     public float getLength(Environment env) {
         return 0;
-    };
+    }
 
 
     public void execute(Environment env) {
@@ -83,15 +97,20 @@ public class Chord implements Command {
         if (Checker.isDoubleFlat(startNote) || Checker.isDoubleSharp(startNote)) {
             //Disregards double sharps/double flats
             env.error("Invalid chord: '" + startNote + ' ' + type + "'.");
+        //} else if (this.startNote == null || this.note == null) {
+            //env.getTranscriptManager().setResult("Invalid chord: " + startNote + ' ' + note);
+        } else if (result != null) {
+            // result has been set as an error
+            env.getTranscriptManager().setResult(this.result);
         } else {
             String chordString = "";
             if (outputType.equals("chord")) {
                 // showing the chord
-                for (Note i : chord) {
+        for (Note i : chord) {
                     if (!octaveSpecified) {
                         String j = i.getEnharmonicWithLetter(currentLetter);
                         j = OctaveUtil.removeOctaveSpecifier(j);
-                        chordString += j + ' ';
+        chordString += j + ' ';
                     } else {
                         String j = i.getEnharmonicWithLetter(currentLetter);
                         chordString += j + ' ';
