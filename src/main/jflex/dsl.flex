@@ -13,8 +13,8 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 %column
 %unicode
 %caseless
-/* Uncomment for debugging info. */
-%debug
+/* Uncomment for debugging info.
+%debug*/
 
 
 
