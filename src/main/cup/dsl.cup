@@ -69,6 +69,10 @@ parser code {:
                    prevTokenName.equals("INTERVAL") ||
                    prevTokenName.equals("COMMAND_SCALE")) {
             errorMessage = "\'" + cur_token.value + "\'" + " is not a valid note.";
+
+        } else if (prevTokenName.equals("COMMAND_SET_RHYTHM")){
+            errorMessage = "\'" + cur_token.value + "\'" + " is not a valid rhythm setting.  Accepted options: straight, heavy, light or medium.";
+
         } else {
             errorMessage = "Invalid input for this command. Please type 'help' and the command you want to use for more information.";
         }

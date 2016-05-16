@@ -41,7 +41,7 @@ public class RhythmTest {
         new Rhythm("heavy", false).execute(env);
         verify(transcriptManager).setResult("Rhythm set to heavy swing timing (3/2 1/4).");
 
-        new Rhythm("heavy", false).execute(env);
+        new Rhythm("light", false).execute(env);
         verify(transcriptManager).setResult("Rhythm set to light swing timing (5/8 3/8).");
 
         new Rhythm("straight", false).execute(env);
