@@ -11,8 +11,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.HashMap;
 
-import seng302.command.Chord;
 import seng302.Environment;
+import seng302.MusicPlayer;
 import seng302.managers.TranscriptManager;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -21,10 +21,14 @@ public class ChordTest {
     @Mock
     private TranscriptManager transcriptManager;
 
+    @Mock
+    private MusicPlayer player;
+
     @Before
     public void setUp() throws Exception {
         env = new Environment();
         env.setTranscriptManager(transcriptManager);
+        env.setPlayer(player);
     }
 
 
