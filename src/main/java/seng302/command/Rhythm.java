@@ -24,20 +24,20 @@ public class Rhythm implements Command{
      * Changes the tempo to the given value. If the value is outside of the appropriate tempo range,
      * an error message will raise and notify the user
      */
-    public Rhythm(String swingStyle, boolean force) {
+    public Rhythm(String rhythmStyle, boolean force) {
         this.isSetter = true;
-        System.out.println(swingStyle);
+
         this.force = force;
         try {
-            this.rhythm = swingStyle;
+            this.rhythm = rhythmStyle;
 
-            if(swingStyle.equals("heavy")) this.result = "Rhythm set to heavy swing timing (3/2 1/4).";
+            if(rhythmStyle.equals("heavy")) this.result = "Rhythm set to heavy swing timing (3/2 1/4).";
 
-            else if(swingStyle.equals("medium")) this.result = "Rhythm set to medium swing timing (2/3 1/3).";
+            else if(rhythmStyle.equals("medium")) this.result = "Rhythm set to medium swing timing (2/3 1/3).";
 
-            else if(swingStyle.equals("light")) this.result = "Rhythm set to light swing timing (5/8 3/8).";
+            else if(rhythmStyle.equals("light")) this.result = "Rhythm set to light swing timing (5/8 3/8).";
 
-            else if(swingStyle.equals("straight")) this.result = "Rhythm set to straight, half crotchet timing (1/2).";
+            else if(rhythmStyle.equals("straight")) this.result = "Rhythm set to straight, half crotchet timing (1/2).";
 
             else{
                 this.result = "Invalid Rhythm option. Valid swing settings are: straight, heavy, light, or medium.";

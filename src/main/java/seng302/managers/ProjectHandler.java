@@ -109,6 +109,11 @@ public class ProjectHandler {
 
     }
 
+    /**
+     * load all saved project properties from the project json file.
+     * This currently supports Tempo, working transcript, musical terms and rhythm setting.
+     *
+     */
     private void loadProperties(){
         int tempo;
         Gson gson = new Gson();
@@ -144,8 +149,8 @@ public class ProjectHandler {
 
         try {
             rhythms = ((int[]) gson.fromJson((String)projectSettings.get("rhythm"), int[].class));
+            rhythms = rhythms == null ? new int[]{12} : rhythms;
         }catch(Exception e){
-            System.err.println("No rhythm property set, default of 12.");
             rhythms = new int[]{12};
         }
         env.getPlayer().getRhythmHandler().setRhythmTimings(rhythms);
@@ -179,7 +184,6 @@ public class ProjectHandler {
      * Handles Saving a .json Project file, for the specified project address
      * @param projectAddress Project directory address.
      */
-
 
 
     public void saveProject(String projectAddress){
@@ -243,7 +247,6 @@ public class ProjectHandler {
     }
 
 
-
     /**
      * Compares a specified project property to the saved value
      * If there is a difference, adds an asterix indicator to the project title
@@ -274,6 +277,10 @@ public class ProjectHandler {
         }
 
     }
+
+    /**
+     * Checking functionality specifically for musical saved musical terms.
+     */
     public void checkmusicTerms(){
         String saveName = (projectName == null || projectName.length() < 1) ? "No Project" : this.projectName;
         if(projectSettings.containsKey("musicalTerms")){
@@ -354,7 +361,9 @@ public class ProjectHandler {
         }
     }
 
-
+    /**
+     * Creates a new project.
+     */
     public void createNewProject() {
         TextInputDialog dialog = new TextInputDialog("");
         dialog.setTitle("New Project");

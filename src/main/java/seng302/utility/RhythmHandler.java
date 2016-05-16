@@ -4,6 +4,9 @@ import java.util.Arrays;
 
 /**
  * Created by jonty on 5/13/16.
+ *
+ * Handles any rhythm functionality, such as containing information specific to rhythm.
+ *
  */
 public class RhythmHandler {
 
@@ -18,6 +21,11 @@ public class RhythmHandler {
         rIndex = 0;
 
     }
+
+    /**
+     * Returns the next note play duration in respect to the beat resolution.
+     * @return next note play duration.
+     */
     public int getNextTickTiming(){
         if(rIndex < rhythmTimings.length){
             return rhythmTimings[rIndex++];
@@ -29,6 +37,10 @@ public class RhythmHandler {
         }
     }
 
+    /**
+     * Sets rhythm timings using float time division values. such as 0.5f for half timing.
+     * @param divisions timing division array. i.e [1/2] for straight, or [2/3, 1/3] for medium swing.
+     */
     public void setRhythmTimings(float[] divisions){
         int[] timings = new int[divisions.length];
 
@@ -39,6 +51,12 @@ public class RhythmHandler {
         this.rhythmTimings = timings;
 
     }
+
+    /**
+     *  Used to directly set the timings if the beat resolution is known.
+     *  For example, for straight, half timing with a beat resolution of 24, the input will be [12]
+     * @param timings int array of beat timings.
+     */
     public void setRhythmTimings(int[] timings){
         this.rhythmTimings = timings;
 
