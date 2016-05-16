@@ -135,6 +135,12 @@
                                                    source="ScaleRecognitionPane.fxml"/>
                                    </content>
                                </Tab>
+                               <Tab text="Chord Tutor">
+                                   <content>
+                                       <fx:include fx:id="ChordRecognitionTab"
+                                                   source="ChordRecognitionPane.fxml"/>
+                                   </content>
+                               </Tab>
                            </tabs>
                        </TabPane>
                        <fx:include fx:id="keyboardPane" source="KeyboardPane.fxml"/>
