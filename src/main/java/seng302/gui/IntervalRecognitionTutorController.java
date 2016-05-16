@@ -54,6 +54,10 @@ public class IntervalRecognitionTutorController extends TutorController {
         initaliseRangeSelector();
     }
 
+    /**
+     * Creates the Range selector that can be used to select the range of notes that will be played
+     * It has a Minimum range of two octaves.
+     */
     private void initaliseRangeSelector() {
         rangeSlider = new RangeSlider(0, 127, 60, 84);
         rangeSlider.setBlockIncrement(1);
@@ -280,6 +284,7 @@ public class IntervalRecognitionTutorController extends TutorController {
 
     /**
      * Generates and populates The Origin combo box
+     * It generates the options in a range around the correct answer
      * @return
      */
     private ComboBox<String> generateChoices(Interval thisInterval) {
@@ -330,70 +335,9 @@ public class IntervalRecognitionTutorController extends TutorController {
         Collections.shuffle(optionContent);
         for(String interval: optionContent){
             options.getItems().add(interval);
-            System.out.println(Interval.lookupByName(interval).getSemitones());
         }
-        System.out.println("                             ");
         return options;
     }
-
-
-//
-//    /**
-//     * Generates and populates The Origin combo box
-//     * @return
-//     */
-//    private ComboBox<String> generateChoices2(Interval thisInterval) {
-//        Random rand = new Random();
-//        int correctPosition = rand.nextInt(5);
-//        ComboBox<String> options = new ComboBox<String>();
-//
-//
-//
-//        int currentSemitones = thisInterval.getSemitones();
-//
-//
-//        int i = 0;
-//
-//        ArrayList<Integer> usedSemitones = new ArrayList<Integer>();
-//        usedSemitones.add(currentSemitones);
-//
-//        Boolean alreadyAdded = false;
-//        while(options.getItems().size() < 8 && i < Interval.intervals.length) {
-//            int intervalIndex = rand.nextInt(Interval.intervals.length-1);
-//            if(correctPosition == i && alreadyAdded == false) {
-//                options.getItems().add(thisInterval.getName());
-//
-//                i -= 1;
-//                alreadyAdded = true;
-//
-//            }else{
-//                if (!(options.getItems().contains(Interval.intervals[intervalIndex].getName())) && ((Interval.intervals[intervalIndex].getSemitones()< currentSemitones+ 6) && (Interval.intervals[intervalIndex].getSemitones() > currentSemitones - 6)) && !(usedSemitones.contains(Interval.intervals[intervalIndex].getSemitones()))) {
-//                    usedSemitones.add(Interval.intervals[intervalIndex].getSemitones());
-//                    options.getItems().add(Interval.intervals[intervalIndex].getName());
-//                }
-//            }
-//            i+=1;
-//
-//        }
-//
-//
-//        while(options.getItems().size() < 8){ ///make sure that it has 8 options otherwise populate it with random ones that are not already  in the options combo
-//
-//            int intervalIndex = rand.nextInt(Interval.intervals.length-1);
-//            if (!(options.getItems().contains(Interval.intervals[intervalIndex].getName()))){
-//                options.getItems().add(Interval.intervals[intervalIndex].getName());
-//                usedSemitones.add(Interval.intervals[intervalIndex].getSemitones());
-//
-//            }
-//        }
-//        System.out.println(usedSemitones);
-//        return options;
-//    }
-
-
-
-
-
 
 
     public void resetInputs() {

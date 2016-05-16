@@ -30,6 +30,12 @@ public class IntervalCommand implements Command {
 
     private static HashMap<String,Integer> intervalFullMap = generateHashmap();
 
+
+    /**
+     * used to populate the Hashmap that stores the Interval and the number
+     * of letters each interval should go up.
+     * @return
+     */
     private static HashMap generateHashmap(){
 
         intervalFullMap = new HashMap<String, Integer>();

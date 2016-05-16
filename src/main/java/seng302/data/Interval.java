@@ -118,7 +118,6 @@ public class Interval {
     public static Interval lookupByName(String name) {
         for (Interval interval:intervals) {
             if (interval.getName().equals(name) || interval.getAlternateName().equals(name)) {
-                System.out.println(interval.getName());
                 return interval;
             }
         }
