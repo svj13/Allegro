@@ -143,6 +143,7 @@ Interval = ("unison"|(major\s(second|2nd|third|3rd|sixth|6th|seventh|7th|ninth|9
     "redo"              {return symbol(DslSymbol.COMMAND_REDO); }
     "twinkle"           {return symbol(DslSymbol.COMMAND_TWINKLE);}
     "chord"             {return symbol(DslSymbol.COMMAND_CHORD);}
+    "interval enharmonic" {return symbol(DslSymbol.COMMAND_INTERVAL_ENHARMONIC);}
     {PlayStyle}         {return symbol(DslSymbol.PLAY_STYLE, new String(yytext())); }
     {Note}              {return symbol(DslSymbol.NOTE, new String(yytext())); }
     {Number}           { return symbol(DslSymbol.NUMBER, new String(yytext())); }
@@ -154,5 +155,4 @@ Interval = ("unison"|(major\s(second|2nd|third|3rd|sixth|6th|seventh|7th|ninth|9
     {SemiColon}         {return symbol(DslSymbol.SEMIC);}
     {Atom}             { return symbol(DslSymbol.ATOM, new String(yytext()));}
     {WhiteSpace}       { /* Ignore whitespace */ }
-
 }

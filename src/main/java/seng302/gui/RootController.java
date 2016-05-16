@@ -68,6 +68,9 @@ public class RootController implements Initializable {
     private ScaleRecognitionTutorController ScaleRecognitionTabController;
 
     @FXML
+    private KeyboardPaneController keyboardPaneController;
+
+    @FXML
     private StackPane stackPane1;
 
     @FXML
@@ -159,6 +162,30 @@ public class RootController implements Initializable {
 
 
     }
+
+    @FXML
+    private void showHideKeyboard() {
+        keyboardPaneController.toggleHideKeyboard();
+    }
+
+
+    @FXML
+    private void toggleShowKeyboardNotesAlways() {
+        keyboardPaneController.toggleShowKeyboardNotesAlways();
+    }
+
+    @FXML
+    private void toggleShowKeyboardNotesAction() {
+        keyboardPaneController.toggleShowKeyboardNotesAction();
+    }
+
+    @FXML
+    private void stopShowingNotesOnKeyboard() {
+        keyboardPaneController.stopShowingNotesOnKeyboard();
+    }
+
+
+
 
     /**
      * Displays a dialog to ask the user whether or not they want to save project changes.
@@ -516,6 +543,7 @@ public class RootController implements Initializable {
         IntervalRecognitionTabController.create(env);
         MusicalTermsTabController.create(env);
         ScaleRecognitionTabController.create(env);
+        keyboardPaneController.create(env);
 
         env.setRootController(this);
 
@@ -558,4 +586,7 @@ public class RootController implements Initializable {
         ScaleRecognitionTabController.clearTutor();
     }
 
+    public TranscriptPaneController getTranscriptController() {
+        return transcriptController;
+    }
 }
