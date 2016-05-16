@@ -28,11 +28,11 @@ public class ChordTest {
     }
 
 
-    @Test
     /**
      * Checks to see if invalid chords are being handled correctly, namely chords that contain
      * notes that exceed the octave range
      */
+    @Test
     public void catchInvalidChords() {
 
         HashMap<String, String> chordMap1 = new HashMap<String, String>();
@@ -56,7 +56,6 @@ public class ChordTest {
         //verify(transcriptManager).setResult("[ERROR] Invalid command. new Chord(chordMap1, "play").execute(env)//
     }
 
-    @Test
     /**
      * Tests to see if when a valid chord is passed through, that it prints the correct
      * output.
@@ -66,6 +65,7 @@ public class ChordTest {
      * -prints octave specifiers
      *
      */
+    @Test
     public void correctChordPrintOut() {
 
         HashMap<String, String> chordMap1 = new HashMap<String, String>();
@@ -92,10 +92,10 @@ public class ChordTest {
 
 
     }
-    @Test
     /**Check to see if when the chord is playing, it prints the correct message
      *
      */
+    @Test
     public void playChord() {
 
         HashMap<String, String> chordMap1 = new HashMap<String, String>();
