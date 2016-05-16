@@ -145,6 +145,7 @@ public class ProjectHandler {
         try {
             rhythms = ((int[]) gson.fromJson((String)projectSettings.get("rhythm"), int[].class));
         }catch(Exception e){
+            System.err.println("No rhythm property set, default of 12.");
             rhythms = new int[]{12};
         }
         env.getPlayer().getRhythmHandler().setRhythmTimings(rhythms);

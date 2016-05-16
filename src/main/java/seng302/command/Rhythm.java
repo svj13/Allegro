@@ -85,7 +85,7 @@ public class Rhythm implements Command{
 
         } else {
             //is getting the rhythm
-            env.getTranscriptManager().setResult(Arrays.toString(env.getPlayer().getRhythmHandler().getRhythmTimings()));
+            env.getTranscriptManager().setResult(env.getPlayer().getRhythmHandler().toString());
         }
 
     }
