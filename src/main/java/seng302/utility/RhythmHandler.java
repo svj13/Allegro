@@ -51,7 +51,7 @@ public class RhythmHandler {
         return rhythmTimings;
     }
     public String toString(){
-        String retString = "Rhythm beat divisions: ";
+        String retString = "Rhythm beat divisions:";
 
         for(int timing : rhythmTimings){
             retString += " "  + asFraction(timing, beatResolution);

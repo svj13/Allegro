@@ -31,16 +31,16 @@ public class Rhythm implements Command{
         try {
             this.rhythm = swingStyle;
 
-            if(swingStyle.equals("heavy")) this.result = "Rhythm set to heavy swing timing.";
+            if(swingStyle.equals("heavy")) this.result = "Rhythm set to heavy swing timing (3/2 1/4).";
 
-            else if(swingStyle.equals("medium")) this.result = "Rhythm set to medium swing timing.";
+            else if(swingStyle.equals("medium")) this.result = "Rhythm set to medium swing timing (2/3 1/3).";
 
-            else if(swingStyle.equals("light")) this.result = "Rhythm set to light swing timing.";
+            else if(swingStyle.equals("light")) this.result = "Rhythm set to light swing timing (5/8 3/8).";
 
-            else if(swingStyle.equals("straight")) this.result = "Rhythm set to straight, half crotchet duration.";
+            else if(swingStyle.equals("straight")) this.result = "Rhythm set to straight, half crotchet timing (1/2).";
 
             else{
-                this.result = "Invalid Rhythm setting. Valid styles are: straight, heavy, light, or medium.";
+                this.result = "Invalid Rhythm option. Valid swing settings are: straight, heavy, light, or medium.";
             }
 
 
