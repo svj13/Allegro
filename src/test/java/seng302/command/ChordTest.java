@@ -9,6 +9,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.HashMap;
+
+import seng302.command.Chord;
 import seng302.Environment;
 import seng302.managers.TranscriptManager;
 
@@ -24,27 +27,95 @@ public class ChordTest {
         env.setTranscriptManager(transcriptManager);
     }
 
+
     @Test
-    public void catchInvalidNotes() {
-        new PlayNote("M").execute(env);
-        verify(transcriptManager).setResult("[ERROR] 'M' is not a valid chord.");
+    /**
+     * Checks to see if invalid chords are being handled correctly, namely chords that contain
+     * notes that exceed the octave range
+     */
+    public void catchInvalidChords() {
 
-        new PlayNote("400").execute(env);
-        verify(transcriptManager).setResult("[ERROR] '400' is not a valid chord.");
+        HashMap<String, String> chordMap1 = new HashMap<String, String>();
+        chordMap1.put("note", "G9");
+        chordMap1.put("scale_type", "major");
+
+        HashMap<String, String> chordMap2 = new HashMap<String, String>();
+        chordMap2.put("note", "c#9");
+        chordMap2.put("scale_type", "minor");
+
+        /** this error is handled by the DSL */
+        //HashMap<String, String> chordMap3 = new HashMap<String, String>();
+        //chordMap3.put("note", "100");
+        //chordMap3.put("scale_type", "major");
+
+        new Chord(chordMap1, "chord").execute(env);
+        verify(transcriptManager).setResult("Invalid chord: G9 major. Exceeds octave range.");
+        new Chord(chordMap2, "chord").execute(env);
+        verify(transcriptManager).setResult("Invalid chord: c#9 minor. Exceeds octave range.");
+        //new Chord(chordMap3, "chord").execute(env);
+        //verify(transcriptManager).setResult("[ERROR] Invalid command. new Chord(chordMap1, "play").execute(env)//
     }
 
-    public void catchInvalidTriadChords() {
-        new PlayNote("C", "-1").execute(env);
-        verify(transcriptManager).setResult("[ERROR] Invalid duration -500");
+    @Test
+    /**
+     * Tests to see if when a valid chord is passed through, that it prints the correct
+     * output.
+     * -should print notes of chords ascending from root note
+     * -should print correct enharmonic
+     * -should print whether it is playing a chord or not
+     * -prints octave specifiers
+     *
+     */
+    public void correctChordPrintOut() {
 
-        new PlayNote("C", "0").execute(env);
-        verify(transcriptManager).setResult("[ERROR] Invalid duration 0");
+        HashMap<String, String> chordMap1 = new HashMap<String, String>();
+        chordMap1.put("note", "C4");
+        chordMap1.put("scale_type", "major");
 
-        new PlayNote("C", "-500").execute(env);
-        verify(transcriptManager).setResult("[ERROR] Invalid duration -500");
+        HashMap<String, String> chordMap2 = new HashMap<String, String>();
+        chordMap2.put("note", "G");
+        chordMap2.put("scale_type", "minor");
 
-        new PlayNote("C", "test").execute(env);
-        verify(transcriptManager).setResult("[ERROR] Invalid duration test");
+        HashMap<String, String> chordMap3 = new HashMap<String, String>();
+        chordMap3.put("note", "C");
+        chordMap3.put("scale_type", "major");
+
+
+
+        new Chord(chordMap1, "chord").execute(env);
+        verify(transcriptManager).setResult("C4 E4 G4 ");
+        new Chord(chordMap2, "chord").execute(env);
+        verify(transcriptManager).setResult("G Bb D ");
+        new Chord(chordMap3, "chord").execute(env);
+        verify(transcriptManager).setResult("C E G ");
+
+
+
     }
+    @Test
+    /**Check to see if when the chord is playing, it prints the correct message
+     *
+     */
+    public void playChord() {
+
+        HashMap<String, String> chordMap1 = new HashMap<String, String>();
+        chordMap1.put("note", "C");
+        chordMap1.put("scale_type", "major");
+        chordMap1.put("playStyle", "arpeggio");
+
+        HashMap<String, String> chordMap2 = new HashMap<String, String>();
+        chordMap2.put("note", "G");
+        chordMap2.put("scale_type", "major");
+
+
+        new Chord(chordMap1, "play").execute(env);
+        verify(transcriptManager).setResult("Playing chord C major");
+
+        new Chord(chordMap2, "play").execute(env);
+        verify(transcriptManager).setResult("Playing chord G major");
+
+
+    }
+
 
 }
