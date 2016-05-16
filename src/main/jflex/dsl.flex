@@ -143,6 +143,7 @@ Interval = ("unison"|(major\s(second|2nd|third|3rd|sixth|6th|seventh|7th|ninth|9
     "twinkle"           {return symbol(DslSymbol.COMMAND_TWINKLE);}
     "chord"             {return symbol(DslSymbol.COMMAND_CHORD);}
     "scale signature"    {return symbol(DslSymbol.COMMAND_SHOW_KEYSIGNATURE);}
+    "scale signature num"    {return symbol(DslSymbol.COMMAND_SHOW_KEYSIGNATURE_NUM);}
     {Note}              {return symbol(DslSymbol.NOTE, new String(yytext()));}
     {Number}           { return symbol(DslSymbol.NUMBER, new String(yytext())); }
     {MidiNote}          {return symbol(DslSymbol.MIDINOTE, new String(yytext())); }

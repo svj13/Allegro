@@ -13,6 +13,9 @@ public class KeySignature implements Command {
      */
     String startNote;
 
+
+    Character startNoteChar;
+
     /**
      * Type of scale. e.g major, minor
      */
@@ -50,12 +53,11 @@ public class KeySignature implements Command {
 
 
     public KeySignature(HashMap<String, String> scale, String outputType){
-        System.out.println("hello");
-        this.startNote = scale.get("note").toUpperCase();
+        this.startNote = scale.get("note");
+        this.startNoteChar = Character.toUpperCase(startNote.charAt(0));
 
         this.type = scale.get("scale_type");
         this.outputType = outputType;
-        currentLetter = Character.toUpperCase(startNote.charAt(0));
 
         if (scale.get("octaves") != null) {
             this.octaves = Integer.valueOf(scale.get("octaves"));
@@ -68,13 +70,13 @@ public class KeySignature implements Command {
 
     private void displayKeySignature(Environment env){
         String outputString = "";
-
-        if(startNote.equals("C")){
-            outputString += startNote + " has not key signatures";
+        System.out.println(startNoteChar);
+        if(startNoteChar.equals('C') && !(startNote.contains("#") || startNote.contains("b")) ){
+            outputString += startNote + " has no key signatures";
 
         }else {
 
-            List<String> sig = keySignatures.get(startNote);
+            List<String> sig = keySignatures.get(startNote.substring(0, 1).toUpperCase() + startNote.substring(1));
             for (String noteName : sig) {
                 outputString += noteName + ", ";
             }
@@ -88,9 +90,16 @@ public class KeySignature implements Command {
 
     private void displaynumberFlatsOrsharps(Environment env){
 
-        List<String> sig = keySignatures.get(startNote);
-        env.getTranscriptManager().setResult(Integer.toString(sig.size()));
+        System.out.println(startNote);
+        System.out.println(startNoteChar);
 
+        if(startNoteChar.equals('C') && !(startNote.contains("#") || startNote.contains("b")) ){
+            env.getTranscriptManager().setResult(startNote + " has 0# and 0b");
+        }else {
+
+            List<String> sig = keySignatures.get(startNote.substring(0, 1).toUpperCase() + startNote.substring(1));
+            env.getTranscriptManager().setResult(Integer.toString(sig.size())+sig.get(0).charAt(1));
+        }
     }
 
 
@@ -103,7 +112,10 @@ public class KeySignature implements Command {
     public void execute(Environment env){
         if (outputType.equals("notes")) {
             displayKeySignature(env);
-            //displaynumberFlatsOrsharps(env);
+
+        }else if(outputType.equals("number")){
+            displaynumberFlatsOrsharps(env);
+
         }
 
     }
