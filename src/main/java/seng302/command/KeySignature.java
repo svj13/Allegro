@@ -111,22 +111,29 @@ public class KeySignature implements Command {
 
         System.out.println(startNote);
         System.out.println(startNoteChar);
+        List<String> sig;
 
-        if(startNoteChar.equals('C') && !(startNote.contains("#") || startNote.contains("b")) ){
-            env.getTranscriptManager().setResult(startNote + " has 0# and 0b");
-        }else {
-            List<String> sig;
 
-            if(type.toLowerCase().equals("major")){
-                sig = minorKeySignatures.get(startNote.substring(0, 1).toUpperCase() + startNote.substring(1));
+        if (type.toLowerCase().equals("major")) {
+            if(startNoteChar.equals('C') && !(startNote.contains("#") || startNote.contains("b")) ) {
+                env.getTranscriptManager().setResult(startNote + " has 0# and 0b");
+            }else {
+                sig = majorKeySignatures.get(startNote.substring(0, 1).toUpperCase() + startNote.substring(1));
                 env.getTranscriptManager().setResult(Integer.toString(sig.size())+sig.get(0).charAt(1));
-            }else if(type.toLowerCase().equals("minor")){
-                sig = minorKeySignatures.get(startNote.substring(0, 1).toUpperCase() + startNote.substring(1));
-                env.getTranscriptManager().setResult(Integer.toString(sig.size())+sig.get(0).charAt(1));
-            }else{
-                env.getTranscriptManager().setResult(type + " is not a valid scale type");
             }
+
+
+        }else if(type.toLowerCase().equals("minor")){
+            if(startNoteChar.equals('A') && !(startNote.contains("#") || startNote.contains("b")) ) {
+                env.getTranscriptManager().setResult(startNote + " has 0# and 0b");
+            }else {
+                sig = minorKeySignatures.get(startNote.substring(0, 1).toUpperCase() + startNote.substring(1));
+                env.getTranscriptManager().setResult(Integer.toString(sig.size())+sig.get(0).charAt(1));
+            }
+        }else{
+            env.getTranscriptManager().setResult(type + " is not a valid scale type");
         }
+
     }
 
 
