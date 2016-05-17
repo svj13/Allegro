@@ -2,6 +2,7 @@ package seng302.gui;
 
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Random;
 
@@ -16,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Pair;
 import seng302.Environment;
+import seng302.command.Chord;
 import seng302.data.Note;
 import seng302.utility.TutorRecord;
 
@@ -85,13 +87,14 @@ public class ChordRecognitionTutorController extends TutorController{
      */
     public HBox setUpQuestion() {
         int type = rand.nextInt(2);
-        String scaleType;
+        String chordType;
         if (type == 0) {
-            scaleType = "major";
+            chordType = "major";
         } else {
-            scaleType = "minor";
+            chordType = "minor";
         }
-        return generateQuestionPane(new Pair<Note, String>(getRandomNote(), scaleType));
+        Note randNote = getRandomNote();
+        return generateQuestionPane(randNote, chordType);
     }
 
     /**
@@ -108,72 +111,37 @@ public class ChordRecognitionTutorController extends TutorController{
      * @param scaleType Either major or minor
      * @return Arraylist of notes in a scale
      */
-    public ArrayList<Note> getScale(Note startNote, String scaleType) {
-        // Add # octaves and up/down selection here.
-        ArrayList<Note> scale;
-        if (playChords.getValue().equals("Up")) {
-            scale = startNote.getOctaveScale(scaleType, octaves.getValue(), true);
-        } else if (playChords.getValue().equals("UpDown")) {
-            scale = startNote.getOctaveScale(scaleType, octaves.getValue(), true);
-            ArrayList<Note> notes = new ArrayList<Note>(scale);
-            Collections.reverse(notes);
-            scale.addAll(notes);
-        } else {
-            scale = startNote.getOctaveScale(scaleType, octaves.getValue(), false);
-        }
+//    public ArrayList<Note> getScale(Note startNote, String scaleType) {
+//        // Add # octaves and up/down selection here.
+//        ArrayList<Note> scale;
+//        if (playChords.getValue().equals("Up")) {
+//            scale = startNote.getOctaveScale(scaleType, octaves.getValue(), true);
+//        } else if (playChords.getValue().equals("UpDown")) {
+//            scale = startNote.getOctaveScale(scaleType, octaves.getValue(), true);
+//            ArrayList<Note> notes = new ArrayList<Note>(scale);
+//            Collections.reverse(notes);
+//            scale.addAll(notes);
+//        } else {
+//            scale = startNote.getOctaveScale(scaleType, octaves.getValue(), false);
+//        }
+//
+//        return scale;
+//    }
 
-        return scale;
-    }
-
-    /**
-     * Reacts accordingly to a user's input
-     * @param userAnswer The user's selection, as text
-     * @param correctAnswer A pair containing the starting note and scale type
-     * @param questionRow The HBox containing GUI question data
-     */
-    public void handleQuestionAnswer(String userAnswer, Pair correctAnswer, HBox questionRow) {
-        manager.answered += 1;
-        boolean correct;
-        disableButtons(questionRow, 1, 3);
-        if (userAnswer.equals(correctAnswer.getValue())) {
-            correct = true;
-            manager.add(correctAnswer, 1);
-            formatCorrectQuestion(questionRow);
-        } else {
-            correct = false;
-            manager.add(correctAnswer, 0);
-            formatIncorrectQuestion(questionRow);
-            //Shows the correct answer
-            questionRow.getChildren().get(3).setVisible(true);
-        }
-        Note startingNote = (Note) correctAnswer.getKey();
-        String[] question = new String[]{
-                String.format("%s scale from %s",
-                        correctAnswer.getValue(),
-                        startingNote.getNote()),
-                userAnswer,
-                Boolean.toString(correct)
-        };
-        record.addQuestionAnswer(question);
-
-        if (manager.answered == manager.questions) {
-            finished();
-        }
-    }
 
     /**
      * Creates a GUI pane for a single question
-     * @param noteAndScale pair containing first note and type of scale to play
+     * @param startNote the first note in the chord
+     * @param chordType the type of chord, being major or minor
      * @return
      */
-    public HBox generateQuestionPane(Pair noteAndScale) {
-        final Pair<Note, String> noteAndScaleType = noteAndScale;
+    public HBox generateQuestionPane(Note startNote, String chordType) {
         final HBox questionRow = new HBox();
         formatQuestionRow(questionRow);
-        final Label correctAnswer = correctAnswer(noteAndScaleType.getValue());
 
-        final Note startNote = noteAndScaleType.getKey();
-        final String scaleType = noteAndScaleType.getValue();
+        final Collection<Note> theChord = new ArrayList<Note>(startNote.getChord(chordType));
+        final Chord myChord;
+        System.out.println("theChord?: " + theChord);
 
         Button play = new Button();
         stylePlayButton(play);
@@ -181,43 +149,43 @@ public class ChordRecognitionTutorController extends TutorController{
         play.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 //Play the scale
-                env.getPlayer().playNotes(getScale(startNote, scaleType));
+                env.getPlayer().playSimultaneousNotes(theChord);
             }
         });
 
         final ComboBox<String> options = generateChoices();
-        options.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                handleQuestionAnswer(options.getValue().toLowerCase(), noteAndScaleType, questionRow);
-            }
-        });
+//        options.setOnAction(new EventHandler<ActionEvent>() {
+//            public void handle(ActionEvent event) {
+//                handleQuestionAnswer(options.getValue(), theChord, questionRow);
+//            }
+//        });
 
 
         Button skip = new Button("Skip");
         styleSkipButton(skip);
 
-        skip.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                // Disables only input buttons
-                disableButtons(questionRow, 1, 3);
-                formatSkippedQuestion(questionRow);
-                manager.questions -= 1;
-                manager.add(noteAndScaleType, 2);
-                String[] question = new String[]{
-                        String.format("%s scale from %s",scaleType, startNote.getNote()),
-                        scaleType
-                };
-                record.addSkippedQuestion(question);
-                if (manager.answered == manager.questions) {
-                    finished();
-                }
-            }
-        });
+//        skip.setOnAction(new EventHandler<ActionEvent>() {
+//            public void handle(ActionEvent event) {
+//                // Disables only input buttons
+//                disableButtons(questionRow, 1, 3);
+//                formatSkippedQuestion(questionRow);
+//                manager.questions -= 1;
+//                manager.add(noteAndScaleType, 2);
+//                String[] question = new String[]{
+//                        String.format("%s scale from %s",scaleType, startNote.getNote()),
+//                        scaleType
+//                };
+//                record.addSkippedQuestion(question);
+//                if (manager.answered == manager.questions) {
+//                    finished();
+//                }
+//            }
+//        });
 
         questionRow.getChildren().add(0, play);
         questionRow.getChildren().add(1, options);
         questionRow.getChildren().add(2, skip);
-        questionRow.getChildren().add(3, correctAnswer);
+//        questionRow.getChildren().add(3, correctAnswer);
 
         questionRow.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
         return questionRow;
@@ -234,6 +202,42 @@ public class ChordRecognitionTutorController extends TutorController{
         options.getItems().add("minor");
         return options;
     }
+
+    /**
+     * Reacts accordingly to a user's input
+     * @param userAnswer The user's selection, as text
+     * @param correctAnswer A pair containing the starting note and scale type
+     * @param questionRow The HBox containing GUI question data
+     */
+//    public void handleQuestionAnswer(Chord userAnswer, Chord correctAnswer, HBox questionRow) {
+//        manager.answered += 1;
+//        boolean correct;
+//        disableButtons(questionRow, 1, 3);
+//        if (userAnswer.equals(correctAnswer.getValue())) {
+//            correct = true;
+//            manager.add(correctAnswer, 1);
+//            formatCorrectQuestion(questionRow);
+//        } else {
+//            correct = false;
+//            manager.add(correctAnswer, 0);
+//            formatIncorrectQuestion(questionRow);
+//            //Shows the correct answer
+//            questionRow.getChildren().get(3).setVisible(true);
+//        }
+//        Note startingNote = (Note) correctAnswer.getKey();
+//        String[] question = new String[]{
+//                String.format("%s scale from %s",
+//                        correctAnswer.getValue(),
+//                        startingNote.getNote()),
+//                userAnswer,
+//                Boolean.toString(correct)
+//        };
+//        record.addQuestionAnswer(question);
+//
+//        if (manager.answered == manager.questions) {
+//            finished();
+//        }
+//    }
 
     /**
      * Returns the option combo boxes to their default states.
