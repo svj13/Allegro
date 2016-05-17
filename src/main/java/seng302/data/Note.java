@@ -354,6 +354,75 @@ Created the tempo class and made it so it defaults to 120BMP
     }
 
     /**
+     * Makes an array list of the major scale starting on the note.
+     *
+     * @return array list of notes in the scale. If any notes are null, the scale returned will be
+     * null.
+     */
+    public ArrayList<String> getOctaveScaleKeySignatures(String type, int octaves) {
+        ArrayList<String> keySignaturenotes = new ArrayList<String>();
+
+        if (type.toLowerCase().equals("major")) {
+            Note currentNote = this;
+
+            if ((currentNote.note).contains("#") || (currentNote.note).contains("b")){
+                keySignaturenotes.add(currentNote.note);
+            }
+
+
+            ArrayList<Integer> majorNotes = new ArrayList<Integer>();
+            majorNotes.add(2);
+            majorNotes.add(4);
+            majorNotes.add(5);
+            majorNotes.add(7);
+            majorNotes.add(9);
+            majorNotes.add(11);
+            majorNotes.add(12);
+
+
+
+
+
+            for (int i = 0; i < octaves; i++) {
+                for(Integer semitoneUp: majorNotes){
+                    System.out.println(currentNote.semitoneUp(semitoneUp).note);
+                    if ((currentNote.semitoneUp(semitoneUp).note).contains("#") || (currentNote.semitoneUp(semitoneUp).note).contains("b")){
+                        keySignaturenotes.add(currentNote.semitoneUp(semitoneUp).note);
+                    }
+                }
+
+            }
+        } else if (type.toLowerCase().equals("minor")) {
+            Note currentNote = this;
+            ArrayList<Integer> minorNotes = new ArrayList<Integer>();
+            minorNotes.add(2);
+            minorNotes.add(3);
+            minorNotes.add(5);
+            minorNotes.add(7);
+            minorNotes.add(8);
+            minorNotes.add(10);
+            minorNotes.add(12);
+
+            if ((currentNote.note).contains("#") || (currentNote.note).contains("b")){
+                keySignaturenotes.add(currentNote.note);
+            }
+
+
+            for (int i = 0; i < octaves; i++) {
+                for(Integer semitoneUp: minorNotes){
+                    if ((currentNote.semitoneUp(semitoneUp).note).contains("#") || (currentNote.semitoneUp(semitoneUp).note).contains("b")){
+                        keySignaturenotes.add(currentNote.semitoneUp(semitoneUp).note);
+                    }
+                }
+
+            }
+
+
+        }
+        return keySignaturenotes;
+    }
+
+    /**
      * Convenience method for when you only want one octave.
      *
      * @param type Type of scale. major, minor etc.

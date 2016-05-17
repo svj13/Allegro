@@ -2,6 +2,7 @@ package seng302.command;
 import seng302.Environment;
 import seng302.data.Note;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -32,12 +33,6 @@ public class KeySignature implements Command {
     private boolean octaveSpecified;
 
 
-    /**
-     * The letter the current note should be. This is used to find the correct enharmonic of a
-     * note.
-     */
-    private char currentLetter;
-
 
     /**
      * The number of octaves to be played.
@@ -46,8 +41,8 @@ public class KeySignature implements Command {
 
     private float length = 0;
 
-    private static HashMap<String,List> keySignatures = generateKeySignatures();
-
+    private static HashMap<String,List> majorKeySignatures = generateMajorKeySignatures();
+    private static HashMap<String,List> minorKeySignatures = generateMinorKeySignatures();
 
 
 
@@ -64,6 +59,8 @@ public class KeySignature implements Command {
         } else {
             this.octaves = 1;
         }
+//        Note note = Note.lookup(startNote);
+//        System.out.println(note.getOctaveScaleKeySignatures(this.type ,this.octaves));
     }
 
 
@@ -71,22 +68,44 @@ public class KeySignature implements Command {
     private void displayKeySignature(Environment env){
         String outputString = "";
         System.out.println(startNoteChar);
-        if(startNoteChar.equals('C') && !(startNote.contains("#") || startNote.contains("b")) ){
-            outputString += startNote + " has no key signatures";
 
-        }else {
+        List<String> sig;
 
-            List<String> sig = keySignatures.get(startNote.substring(0, 1).toUpperCase() + startNote.substring(1));
-            for (String noteName : sig) {
-                outputString += noteName + ", ";
+
+
+        if (type.toLowerCase().equals("major")) {
+            if(startNoteChar.equals('C') && !(startNote.contains("#") || startNote.contains("b")) ) {
+                outputString += startNote + " has no key signatures";
+                env.getTranscriptManager().setResult(outputString);
+            }else {
+                sig = majorKeySignatures.get(startNote.substring(0, 1).toUpperCase() + startNote.substring(1));
+                env.getTranscriptManager().setResult(generateOutputString(sig));
             }
-            outputString = outputString.substring(0, outputString.length() - 2);
+
+
+        }else if(type.toLowerCase().equals("minor")){
+            if(startNoteChar.equals('A') && !(startNote.contains("#") || startNote.contains("b")) ) {
+                outputString += startNote + " has no key signatures";
+                env.getTranscriptManager().setResult(outputString);
+            }else {
+                sig = minorKeySignatures.get(startNote.substring(0, 1).toUpperCase() + startNote.substring(1));
+                env.getTranscriptManager().setResult(generateOutputString(sig));
+            }
+        }else{
+            env.getTranscriptManager().setResult(type + " is not a valid scale type");
         }
-
-        env.getTranscriptManager().setResult(outputString);
-
     }
 
+    private String generateOutputString(List<String> list){
+        String outputString = "";
+        for (String noteName : list) {
+            outputString += noteName + ", ";
+        }
+
+        outputString = outputString.substring(0, outputString.length() - 2);
+        return outputString;
+
+    }
 
     private void displaynumberFlatsOrsharps(Environment env){
 
@@ -96,9 +115,17 @@ public class KeySignature implements Command {
         if(startNoteChar.equals('C') && !(startNote.contains("#") || startNote.contains("b")) ){
             env.getTranscriptManager().setResult(startNote + " has 0# and 0b");
         }else {
+            List<String> sig;
 
-            List<String> sig = keySignatures.get(startNote.substring(0, 1).toUpperCase() + startNote.substring(1));
-            env.getTranscriptManager().setResult(Integer.toString(sig.size())+sig.get(0).charAt(1));
+            if(type.toLowerCase().equals("major")){
+                sig = minorKeySignatures.get(startNote.substring(0, 1).toUpperCase() + startNote.substring(1));
+                env.getTranscriptManager().setResult(Integer.toString(sig.size())+sig.get(0).charAt(1));
+            }else if(type.toLowerCase().equals("minor")){
+                sig = minorKeySignatures.get(startNote.substring(0, 1).toUpperCase() + startNote.substring(1));
+                env.getTranscriptManager().setResult(Integer.toString(sig.size())+sig.get(0).charAt(1));
+            }else{
+                env.getTranscriptManager().setResult(type + " is not a valid scale type");
+            }
         }
     }
 
@@ -129,26 +156,49 @@ public class KeySignature implements Command {
 
 
 
-    private static HashMap<String,List> generateKeySignatures(){
-        HashMap<String,List> signatures = new HashMap<String, List>();
+    private static HashMap<String,List> generateMajorKeySignatures(){
+        HashMap<String,List>majorKeySignatures = new HashMap<String, List>();
 
-        signatures.put("C", Arrays.asList());
-        signatures.put("G", Arrays.asList("F#"));
-        signatures.put("D", Arrays.asList("F#","C#"));
-        signatures.put("A", Arrays.asList("F#","C#","G#"));
-        signatures.put("E", Arrays.asList("F#","C#","G#","D#"));
-        signatures.put("B", Arrays.asList("F#","C#","G#","D#","A#"));
-        signatures.put("F#", Arrays.asList("F#","C#","G#","D#","A#","E#"));
-        signatures.put("C#", Arrays.asList("F#","C#","G#","D#","A#","E#","B#"));
-        signatures.put("Cb", Arrays.asList("Fb","Cb","Gb","Db","Ab","Eb","Bb"));
-        signatures.put("Gb", Arrays.asList("Cb","Gb","Db","Ab","Eb","Bb"));
-        signatures.put("Db", Arrays.asList("Gb","Db","Ab","Eb","Bb"));
-        signatures.put("Ab", Arrays.asList("Db","Ab","Eb","Bb"));
-        signatures.put("Eb", Arrays.asList("Ab","Eb","Bb"));
-        signatures.put("Bb", Arrays.asList("Eb","Bb"));
-        signatures.put("F", Arrays.asList("Bb"));
+        majorKeySignatures.put("C", Arrays.asList());
+        majorKeySignatures.put("G", Arrays.asList("F#"));
+        majorKeySignatures.put("D", Arrays.asList("F#","C#"));
+        majorKeySignatures.put("A", Arrays.asList("F#","C#","G#"));
+        majorKeySignatures.put("E", Arrays.asList("F#","C#","G#","D#"));
+        majorKeySignatures.put("B", Arrays.asList("F#","C#","G#","D#","A#"));
+        majorKeySignatures.put("F#", Arrays.asList("F#","C#","G#","D#","A#","E#"));
+        majorKeySignatures.put("C#", Arrays.asList("F#","C#","G#","D#","A#","E#","B#"));
+        majorKeySignatures.put("Cb", Arrays.asList("Fb","Cb","Gb","Db","Ab","Eb","Bb"));
+        majorKeySignatures.put("Gb", Arrays.asList("Cb","Gb","Db","Ab","Eb","Bb"));
+        majorKeySignatures.put("Db", Arrays.asList("Gb","Db","Ab","Eb","Bb"));
+        majorKeySignatures.put("Ab", Arrays.asList("Db","Ab","Eb","Bb"));
+        majorKeySignatures.put("Eb", Arrays.asList("Ab","Eb","Bb"));
+        majorKeySignatures.put("Bb", Arrays.asList("Eb","Bb"));
+        majorKeySignatures.put("F", Arrays.asList("Bb"));
 
-        return signatures;
+        return majorKeySignatures;
+
+    }
+
+    private static HashMap<String,List> generateMinorKeySignatures(){
+        HashMap<String,List>minorKeySignatures = new HashMap<String, List>();
+
+        minorKeySignatures.put("A", Arrays.asList());
+        minorKeySignatures.put("E", Arrays.asList("F#"));
+        minorKeySignatures.put("B", Arrays.asList("F#","C#"));
+        minorKeySignatures.put("F#", Arrays.asList("F#","C#","G#"));
+        minorKeySignatures.put("C#", Arrays.asList("F#","C#","G#","D#"));
+        minorKeySignatures.put("G#", Arrays.asList("F#","C#","G#","D#","A#"));
+        minorKeySignatures.put("D#", Arrays.asList("F#","C#","G#","D#","A#","E#"));
+        minorKeySignatures.put("A#", Arrays.asList("F#","C#","G#","D#","A#","E#","B#"));
+        minorKeySignatures.put("Ab", Arrays.asList("Fb","Cb","Gb","Db","Ab","Eb","Bb"));
+        minorKeySignatures.put("Eb", Arrays.asList("Cb","Gb","Db","Ab","Eb","Bb"));
+        minorKeySignatures.put("Bb", Arrays.asList("Gb","Db","Ab","Eb","Bb"));
+        minorKeySignatures.put("F", Arrays.asList("Db","Ab","Eb","Bb"));
+        minorKeySignatures.put("C", Arrays.asList("Ab","Eb","Bb"));
+        minorKeySignatures.put("G", Arrays.asList("Eb","Bb"));
+        minorKeySignatures.put("D", Arrays.asList("Bb"));
+
+        return minorKeySignatures;
 
     }
 
