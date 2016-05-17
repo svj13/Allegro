@@ -1,6 +1,7 @@
 package seng302.command;
 import seng302.Environment;
 import seng302.data.Note;
+import seng302.utility.OctaveUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,6 +51,7 @@ public class KeySignature implements Command {
     public KeySignature(HashMap<String, String> scale, String outputType){
         this.startNote = scale.get("note");
         this.startNoteChar = Character.toUpperCase(startNote.charAt(0));
+        System.out.println(scale);
 
         this.type = scale.get("scale_type");
         this.outputType = outputType;
@@ -59,8 +61,6 @@ public class KeySignature implements Command {
         } else {
             this.octaves = 1;
         }
-//        Note note = Note.lookup(startNote);
-//        System.out.println(note.getOctaveScaleKeySignatures(this.type ,this.octaves));
     }
 
 
@@ -71,35 +71,41 @@ public class KeySignature implements Command {
 
         List<String> sig;
 
+        String octaveSpecifier = "";
+        if(octaveSpecified){
+            octaveSpecifier = startNote.substring(startNote.length() - 1);
+            startNote = startNote.substring(0, startNote.length() - 1); //strip ocave specifier
+        }
+
 
 
         if (type.toLowerCase().equals("major")) {
             if(startNoteChar.equals('C') && !(startNote.contains("#") || startNote.contains("b")) ) {
-                outputString += startNote + " has no key signatures";
+                outputString += startNote + octaveSpecifier+ " " +type + " has no key signatures";
                 env.getTranscriptManager().setResult(outputString);
             }else {
                 sig = majorKeySignatures.get(startNote.substring(0, 1).toUpperCase() + startNote.substring(1));
-                env.getTranscriptManager().setResult(generateOutputString(sig));
+                env.getTranscriptManager().setResult(generateOutputString(sig, octaveSpecifier));
             }
 
 
         }else if(type.toLowerCase().equals("minor")){
             if(startNoteChar.equals('A') && !(startNote.contains("#") || startNote.contains("b")) ) {
-                outputString += startNote + " has no key signatures";
+                outputString += startNote + octaveSpecifier + " " + type + " has no key signatures";
                 env.getTranscriptManager().setResult(outputString);
             }else {
                 sig = minorKeySignatures.get(startNote.substring(0, 1).toUpperCase() + startNote.substring(1));
-                env.getTranscriptManager().setResult(generateOutputString(sig));
+                env.getTranscriptManager().setResult(generateOutputString(sig, octaveSpecifier));
             }
         }else{
             env.getTranscriptManager().setResult(type + " is not a valid scale type");
         }
     }
 
-    private String generateOutputString(List<String> list){
+    private String generateOutputString(List<String> list, String octaveSpecifier){
         String outputString = "";
         for (String noteName : list) {
-            outputString += noteName + ", ";
+            outputString += noteName + octaveSpecifier + ", ";
         }
 
         outputString = outputString.substring(0, outputString.length() - 2);
@@ -113,6 +119,9 @@ public class KeySignature implements Command {
         System.out.println(startNoteChar);
         List<String> sig;
 
+        if(octaveSpecified){
+            startNote = startNote.substring(0, startNote.length() - 1); //strip ocave specifier
+        }
 
         if (type.toLowerCase().equals("major")) {
             if(startNoteChar.equals('C') && !(startNote.contains("#") || startNote.contains("b")) ) {
@@ -144,6 +153,15 @@ public class KeySignature implements Command {
     }
 
     public void execute(Environment env){
+
+
+        if (OctaveUtil.octaveSpecifierFlag(this.startNote)) {
+            octaveSpecified = true;
+        } else {
+            octaveSpecified = false;
+        }
+
+
         if (outputType.equals("notes")) {
             displayKeySignature(env);
 
@@ -153,13 +171,6 @@ public class KeySignature implements Command {
         }
 
     }
-
-
-
-
-
-
-
 
 
 
