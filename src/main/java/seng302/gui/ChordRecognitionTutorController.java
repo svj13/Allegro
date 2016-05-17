@@ -135,13 +135,14 @@ public class ChordRecognitionTutorController extends TutorController{
      * @param chordType the type of chord, being major or minor
      * @return
      */
-    public HBox generateQuestionPane(Note startNote, String chordType) {
+    public HBox generateQuestionPane(Note startNote, final String chordType) {
         final HBox questionRow = new HBox();
         formatQuestionRow(questionRow);
+        final Label correctAnswer = correctAnswer(chordType);
 
         final Collection<Note> theChord = new ArrayList<Note>(startNote.getChord(chordType));
         final Chord myChord;
-        System.out.println("theChord?: " + theChord);
+//        System.out.println("theChord?: " + theChord);
 
         Button play = new Button();
         stylePlayButton(play);
@@ -154,11 +155,13 @@ public class ChordRecognitionTutorController extends TutorController{
         });
 
         final ComboBox<String> options = generateChoices();
-//        options.setOnAction(new EventHandler<ActionEvent>() {
-//            public void handle(ActionEvent event) {
-//                handleQuestionAnswer(options.getValue(), theChord, questionRow);
-//            }
-//        });
+//        final Pair<Chord, String> answer = (theChord, chordType);
+        options.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                System.out.println("Options.getVal: " + options.getValue());
+                handleQuestionAnswer(options.getValue(), new Pair<Collection<Note>, String>(theChord, chordType), questionRow);
+            }
+        });
 
 
         Button skip = new Button("Skip");
@@ -185,7 +188,7 @@ public class ChordRecognitionTutorController extends TutorController{
         questionRow.getChildren().add(0, play);
         questionRow.getChildren().add(1, options);
         questionRow.getChildren().add(2, skip);
-//        questionRow.getChildren().add(3, correctAnswer);
+        questionRow.getChildren().add(3, correctAnswer);
 
         questionRow.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
         return questionRow;
@@ -206,38 +209,39 @@ public class ChordRecognitionTutorController extends TutorController{
     /**
      * Reacts accordingly to a user's input
      * @param userAnswer The user's selection, as text
-     * @param correctAnswer A pair containing the starting note and scale type
+     * @param correctAnswer The correct chord, as text
      * @param questionRow The HBox containing GUI question data
      */
-//    public void handleQuestionAnswer(Chord userAnswer, Chord correctAnswer, HBox questionRow) {
-//        manager.answered += 1;
-//        boolean correct;
-//        disableButtons(questionRow, 1, 3);
-//        if (userAnswer.equals(correctAnswer.getValue())) {
-//            correct = true;
-//            manager.add(correctAnswer, 1);
-//            formatCorrectQuestion(questionRow);
-//        } else {
-//            correct = false;
-//            manager.add(correctAnswer, 0);
-//            formatIncorrectQuestion(questionRow);
-//            //Shows the correct answer
-//            questionRow.getChildren().get(3).setVisible(true);
-//        }
-//        Note startingNote = (Note) correctAnswer.getKey();
-//        String[] question = new String[]{
-//                String.format("%s scale from %s",
-//                        correctAnswer.getValue(),
-//                        startingNote.getNote()),
-//                userAnswer,
-//                Boolean.toString(correct)
-//        };
-//        record.addQuestionAnswer(question);
-//
-//        if (manager.answered == manager.questions) {
-//            finished();
-//        }
-//    }
+    public void handleQuestionAnswer(String userAnswer, Pair<Collection<Note>, String> correctAnswer, HBox questionRow) {
+        manager.answered += 1;
+        boolean correct;
+        disableButtons(questionRow, 1, 3);
+//        System.out.println("User answer and 'correctAnswer': " + userAnswer + " and " + correctAnswer.getValue());
+        if (userAnswer.equals(correctAnswer.getValue())) {
+            correct = true;
+            manager.add(correctAnswer, 1);
+            formatCorrectQuestion(questionRow);
+        } else {
+            correct = false;
+            manager.add(correctAnswer, 0);
+            formatIncorrectQuestion(questionRow);
+            //Shows the correct answer
+            questionRow.getChildren().get(3).setVisible(true);
+        }
+        Note startingNote = (Note) correctAnswer.getKey();
+        String[] question = new String[]{
+                String.format("%s scale from %s",
+                        correctAnswer.getValue(),
+                        startingNote.getNote()),
+                userAnswer,
+                Boolean.toString(correct)
+        };
+        record.addQuestionAnswer(question);
+
+        if (manager.answered == manager.questions) {
+            finished();
+        }
+    }
 
     /**
      * Returns the option combo boxes to their default states.
