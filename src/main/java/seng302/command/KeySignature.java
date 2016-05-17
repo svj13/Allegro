@@ -16,6 +16,9 @@ public class KeySignature implements Command {
     String startNote;
 
 
+    /**
+     * The first character of the starting note
+     */
     Character startNoteChar;
 
     /**
@@ -27,6 +30,8 @@ public class KeySignature implements Command {
      */
     String outputType;
 
+    Integer octaves;
+
     /**
      * Indicates whether an octave was specified in the original command. This decides whether
      * octaves will be shown in the output.
@@ -34,15 +39,17 @@ public class KeySignature implements Command {
     private boolean octaveSpecified;
 
 
-
-    /**
-     * The number of octaves to be played.
-     */
-    private int octaves;
-
     private float length = 0;
 
+
+    /**
+     * map that stores all the major scales and there corresponding key signature
+     */
     private static HashMap<String,List> majorKeySignatures = generateMajorKeySignatures();
+
+    /**
+     * map that stores all the minor scales and there corresponding key signature
+     */
     private static HashMap<String,List> minorKeySignatures = generateMinorKeySignatures();
 
 
@@ -64,7 +71,10 @@ public class KeySignature implements Command {
     }
 
 
-
+    /**
+     * Displays the key signatures in order for a given scale
+     * @param env
+     */
     private void displayKeySignature(Environment env){
         String outputString = "";
         System.out.println(startNoteChar);
@@ -102,6 +112,12 @@ public class KeySignature implements Command {
         }
     }
 
+    /**
+     * Generates a string by concatenating a list and adding on an octave specifier to each item
+     * @param list - list being concatenated
+     * @param octaveSpecifier - the octave specifier that needs to be added to the end of each element in the list.
+     * @return a string that is constructed from the list
+     */
     private String generateOutputString(List<String> list, String octaveSpecifier){
         String outputString = "";
         for (String noteName : list) {
@@ -113,7 +129,12 @@ public class KeySignature implements Command {
 
     }
 
-    private void displaynumberFlatsOrsharps(Environment env){
+
+    /**
+     * Displays the number of flats or sharps in a given scale
+     * @param env
+     */
+    private void displayNumberKeySignatures(Environment env){
 
         System.out.println(startNote);
         System.out.println(startNoteChar);
@@ -152,6 +173,11 @@ public class KeySignature implements Command {
         return length;
     }
 
+
+    /**
+     * Called when the command is made and decides what function needs to be called
+     * @param env
+     */
     public void execute(Environment env){
 
 
@@ -166,14 +192,17 @@ public class KeySignature implements Command {
             displayKeySignature(env);
 
         }else if(outputType.equals("number")){
-            displaynumberFlatsOrsharps(env);
+            displayNumberKeySignatures(env);
 
         }
 
     }
 
 
-
+    /**
+     * Generates a map with all the key signatures for each  major scale
+     * @return
+     */
     private static HashMap<String,List> generateMajorKeySignatures(){
         HashMap<String,List>majorKeySignatures = new HashMap<String, List>();
 
@@ -197,6 +226,11 @@ public class KeySignature implements Command {
 
     }
 
+
+    /**
+     * Generates a map with all the key signatures for each  minor scale
+     * @return
+     */
     private static HashMap<String,List> generateMinorKeySignatures(){
         HashMap<String,List>minorKeySignatures = new HashMap<String, List>();
 
@@ -219,8 +253,5 @@ public class KeySignature implements Command {
         return minorKeySignatures;
 
     }
-
-
-
 
 }
