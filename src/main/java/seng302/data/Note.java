@@ -417,6 +417,7 @@ Created the tempo class and made it so it defaults to 120BMP
 
     public ArrayList<Note> getChord(String type) {
        ArrayList<Note> chordNotes = new ArrayList<Note>();
+        //for major chords (triads)
         if (type.toLowerCase().equals("major")) {
             Note currentNote = this;
             chordNotes.add(currentNote);
@@ -425,6 +426,7 @@ Created the tempo class and made it so it defaults to 120BMP
             if (chordNotes.contains(null)) {
                 return null;
             }
+        //for minor chords (triads)
         } else if (type.toLowerCase().equals("minor")) {
              Note currentNote = this;
              chordNotes.add(currentNote);
@@ -433,6 +435,65 @@ Created the tempo class and made it so it defaults to 120BMP
             if (chordNotes.contains(null)) {
                 return null;
             }
+        //for minor 7th chords (4 note chords)
+        } else if (type.toLowerCase().equals("minor 7th") ||
+                type.toLowerCase().equals("minor seventh")) {
+            Note currentNote = this;
+            chordNotes.add(currentNote);
+            chordNotes.add(currentNote.semitoneUp(3));
+            chordNotes.add(currentNote.semitoneUp(7));
+            chordNotes.add(currentNote.semitoneUp(10));
+            if (chordNotes.contains(null)) {
+                return null;
+            }
+        //for major 7th chords (4 note chords)
+        } else if (type.toLowerCase().equals("major 7th") ||
+                type.toLowerCase().equals("major seventh")) {
+            Note currentNote = this;
+            chordNotes.add(currentNote);
+            chordNotes.add(currentNote.semitoneUp(4));
+            chordNotes.add(currentNote.semitoneUp(7));
+            chordNotes.add(currentNote.semitoneUp(11));
+            if (chordNotes.contains(null)) {
+                return null;
+            }
+        //for 7th chords (4-note chords)
+        } else if (type.toLowerCase().equals("seventh") ||
+                type.toLowerCase().equals("7th") ||
+                type.toLowerCase().equals("7") ||
+                type.toLowerCase().equals("seven"))  {
+            Note currentNote = this;
+            chordNotes.add(currentNote);
+            chordNotes.add(currentNote.semitoneUp(4));
+            chordNotes.add(currentNote.semitoneUp(7));
+            chordNotes.add(currentNote.semitoneUp(10));
+            if (chordNotes.contains(null)) {
+                return null;
+            }
+        //for half diminished chords (triad)
+        } else if (type.toLowerCase().equals("diminished") ||
+                type.toLowerCase().equals("dim")) {
+            Note currentNote = this;
+            chordNotes.add(currentNote);
+            chordNotes.add(currentNote.semitoneUp(3));
+            chordNotes.add(currentNote.semitoneUp(6));
+            if (chordNotes.contains(null)) {
+                return null;
+            }
+            //for half diminished chords (4 note chords)
+        } else if (type.toLowerCase().equals("half diminished seventh") ||
+                type.toLowerCase().equals("half dim seventh") ||
+                type.toLowerCase().equals("half dim 7th") ||
+                type.toLowerCase().equals("half diminished 7th")) {
+            Note currentNote = this;
+            chordNotes.add(currentNote);
+            chordNotes.add(currentNote.semitoneUp(3));
+            chordNotes.add(currentNote.semitoneUp(6));
+            chordNotes.add(currentNote.semitoneUp(10));
+            if (chordNotes.contains(null)) {
+                return null;
+            }
+        //if the string does not match a chord type
         } else {
             throw new IllegalArgumentException("Invalid chord type: '" + type + "'.");
         }
