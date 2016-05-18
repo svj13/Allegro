@@ -64,12 +64,13 @@ public class KeySignature {
         minorKeySignatures.put("G#", new KeySignature("G#", Arrays.asList("F#","C#","G#","D#","A#")));
         minorKeySignatures.put("D#", new KeySignature("D#", Arrays.asList("F#","C#","G#","D#","A#","E#")));
         minorKeySignatures.put("A#", new KeySignature("A#", Arrays.asList("F#","C#","G#","D#","A#","E#","B#")));
-        minorKeySignatures.put("Ab", new KeySignature("Ab", Arrays.asList("Fb","Cb","Gb","Db","Ab","Eb","Bb")));
-        minorKeySignatures.put("Eb", new KeySignature("Eb", Arrays.asList("Cb","Gb","Db","Ab","Eb","Bb")));
-        minorKeySignatures.put("Bb", new KeySignature("Bb", Arrays.asList("Gb","Db","Ab","Eb","Bb")));
-        minorKeySignatures.put("F", new KeySignature("F", Arrays.asList("Db","Ab","Eb","Bb")));
-        minorKeySignatures.put("C", new KeySignature("C", Arrays.asList("Ab","Eb","Bb")));
-        minorKeySignatures.put("G", new KeySignature("G", Arrays.asList("Eb","Bb")));
+
+        minorKeySignatures.put("Ab", new KeySignature("Ab", Arrays.asList("Bb","Eb","Ab","Db","Gb","Cb","Fb")));
+        minorKeySignatures.put("Eb", new KeySignature("Eb", Arrays.asList("Bb","Eb","Ab","Db","Gb","Cb")));
+        minorKeySignatures.put("Bb", new KeySignature("Bb", Arrays.asList("Bb","Eb","Ab","Db","Gb")));
+        minorKeySignatures.put("F", new KeySignature("F", Arrays.asList("Bb","Eb","Ab","Db")));
+        minorKeySignatures.put("C", new KeySignature("C", Arrays.asList("Bb","Eb","Ab")));
+        minorKeySignatures.put("G", new KeySignature("G", Arrays.asList("Bb","Eb")));
         minorKeySignatures.put("D", new KeySignature("D", Arrays.asList("Bb")));
 
         return minorKeySignatures;
@@ -90,12 +91,15 @@ public class KeySignature {
         majorKeySignatures.put("B", new KeySignature("B", Arrays.asList("F#","C#","G#","D#","A#")));
         majorKeySignatures.put("F#", new KeySignature("F#", Arrays.asList("F#","C#","G#","D#","A#","E#")));
         majorKeySignatures.put("C#", new KeySignature("C#", Arrays.asList("F#","C#","G#","D#","A#","E#","B#")));
-        majorKeySignatures.put("Cb", new KeySignature("Cb", Arrays.asList("Fb","Cb","Gb","Db","Ab","Eb","Bb")));
-        majorKeySignatures.put("Gb", new KeySignature("Gb", Arrays.asList("Cb","Gb","Db","Ab","Eb","Bb")));
-        majorKeySignatures.put("Db", new KeySignature("Db", Arrays.asList("Gb","Db","Ab","Eb","Bb")));
-        majorKeySignatures.put("Ab", new KeySignature("Ab", Arrays.asList("Db","Ab","Eb","Bb")));
-        majorKeySignatures.put("Eb", new KeySignature("Eb", Arrays.asList("Ab","Eb","Bb")));
-        majorKeySignatures.put("Bb", new KeySignature("Bb", Arrays.asList("Eb","Bb")));
+
+
+
+        majorKeySignatures.put("Cb", new KeySignature("Cb", Arrays.asList("Bb","Eb","Ab","Db","Gb","Cb","Fb")));
+        majorKeySignatures.put("Gb", new KeySignature("Gb", Arrays.asList("Bb","Eb","Ab","Db","Gb","Cb")));
+        majorKeySignatures.put("Db", new KeySignature("Db", Arrays.asList("Bb","Eb","Ab","Db","Gb")));
+        majorKeySignatures.put("Ab", new KeySignature("Ab", Arrays.asList("Bb","Eb","Ab","Db")));
+        majorKeySignatures.put("Eb", new KeySignature("Eb", Arrays.asList("Bb","Eb","Ab")));
+        majorKeySignatures.put("Bb", new KeySignature("Bb", Arrays.asList("Bb","Eb")));
         majorKeySignatures.put("F", new KeySignature("F", Arrays.asList("Bb")));
 
         return majorKeySignatures;

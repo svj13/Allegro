@@ -87,43 +87,6 @@ public class KeySignature implements Command {
 
 
 
-    private List<String> orderKeySignatures(String startingNote, List<String> list , Boolean keySigIsSharp){
-
-        List<String> outputList = new ArrayList<String>();
-
-        String stringOrder;
-
-        if(keySigIsSharp){
-            stringOrder = "FCGDAEB";    // sharp ordering
-        }else{
-            System.out.println("is flat");
-            stringOrder = "BEADGCF";   // flat ordering
-        }
-
-        int index = stringOrder.indexOf(Character.toUpperCase(startingNote.charAt(0)));
-        int i = 0;
-
-        while(i < list.size()){
-
-            for(String key: list){
-                if(stringOrder.charAt(index) == key.charAt(0)){
-                    outputList.add(key);
-                    i += 1;
-                }
-
-            }
-
-            index +=1;
-
-            if(index >= 7){
-                index = 0;
-            }
-
-        }
-        return outputList;
-
-    }
-
     /**
      * Displays the key signatures in order for a given scale
      * @param env
@@ -148,7 +111,6 @@ public class KeySignature implements Command {
                 env.getTranscriptManager().setResult(outputString);
             }else {
                 sig = majorKeySignatures.get(startNote.substring(0, 1).toUpperCase() + startNote.substring(1)).getNotes();
-                sig = orderKeySignatures(startNote, sig, sig.get(0).contains("#"));
                 env.getTranscriptManager().setResult(generateOutputString(sig, octaveSpecifier));
             }
 
@@ -159,7 +121,6 @@ public class KeySignature implements Command {
                 env.getTranscriptManager().setResult(outputString);
             }else {
                 sig = minorKeySignatures.get(startNote.substring(0, 1).toUpperCase() + startNote.substring(1)).getNotes();
-                sig = orderKeySignatures(startNote, sig, sig.get(0).contains("#"));
                 env.getTranscriptManager().setResult(generateOutputString(sig, octaveSpecifier));
             }
         }else{
