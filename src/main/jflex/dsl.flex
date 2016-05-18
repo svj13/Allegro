@@ -147,6 +147,7 @@ BValue = b
     "scale sig"    {return symbol(DslSymbol.COMMAND_SHOW_KEYSIGNATURE);}
     "scale signature num"    {return symbol(DslSymbol.COMMAND_SHOW_KEYSIGNATURE_NUM);}
     "scale signature with" {return symbol(DslSymbol.COMMAND_SCALE_WITH_KEYSIG);}
+    "scale sig with"    {return symbol(DslSymbol.COMMAND_SCALE_WITH_KEYSIG); }
     {BValue}            {return symbol(DslSymbol.BVALUE, new String(yytext()));}
     {Note}              {return symbol(DslSymbol.NOTE, new String(yytext()));}
     {Number}           { return symbol(DslSymbol.NUMBER, new String(yytext())); }
