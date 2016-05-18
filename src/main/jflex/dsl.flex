@@ -100,13 +100,12 @@ MidiNote = (0?[0-9]?[0-9]|1[01][0-9]|12[0-7])
 Atom = [^\s|;]+
 SemiColon = ";"
 ScaleType = "major"|"minor"
-//RhythmType = "straight"|"medium"|"heavy"|"light"
-RhythmType = (([0-9]+\/[0-9]+)(([ ][0-9]+\/[0-9]+)+)*)|([a-z|A-Z]+)
 PlayStyle = "arpeggio"
 Direction = "updown"|"up"|"down"
 PosNum = \p{Digit}+
 Interval = ("unison"|(major\s(second|2nd|third|3rd|sixth|6th|seventh|7th|ninth|9th|tenth|10th|thirteenth|13th|fourteenth|14th))|(minor\s(second|2nd|third|3rd|sixth|6th|seventh|7th|ninth|9th|tenth|10th|thirteenth|13th|fourteenth|14th))|(augmented\s(fourth|4th|eleventh|11th))|(diminished\s(fifth|5th|seventh|7th))|(perfect\s(fourth|4th|fifth|5th|eleventh|11th|twelfth|12th|octave))|"double octave")
-
+//RhythmType = "straight"|"medium"|"heavy"|"light"
+RhythmType = (([0-9]+\/[0-9]+)(([ ][0-9]+\/[0-9]+)+)*)|([a-z|A-Z]+)
    
 %%
 
