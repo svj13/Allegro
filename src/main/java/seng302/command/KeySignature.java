@@ -189,7 +189,7 @@ public class KeySignature implements Command {
                 //invalid number
                 env.getTranscriptManager().setResult("The provided number was invalid. Must be between 0 and 7.");
             } else {
-                Collection<String> scalesWithThisType;
+                List<String> scalesWithThisType;
                 scalesWithThisType = new ArrayList<String>();
                 //valid number
                 if (this.flatOrSharp.equals("b")) {
@@ -226,7 +226,7 @@ public class KeySignature implements Command {
                         }
                     }
                 }
-                env.getTranscriptManager().setResult(scalesWithThisType.toString());
+                env.getTranscriptManager().setResult(generateOutputString(scalesWithThisType,""));
             }
 
         } catch (Exception e) {
