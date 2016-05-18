@@ -14,8 +14,8 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 %unicode
 %caseless
 /* Uncomment for debugging info.
-%debug
-*/
+%debug*/
+
 
 
 
@@ -102,9 +102,10 @@ SemiColon = ";"
 ScaleType = "major"|"minor"
 //RhythmType = "straight"|"medium"|"heavy"|"light"
 RhythmType = (([0-9]+\/[0-9]+)(([ ][0-9]+\/[0-9]+)+)*)|([a-z|A-Z]+)
+PlayStyle = "arpeggio"
 Direction = "updown"|"up"|"down"
 PosNum = \p{Digit}+
-Interval = ("unison"|"major second"|"major third"|"perfect fourth"|"perfect fifth"|"major sixth"|"major seventh"|"octave"|"minor second"|"minor third"|"augmented fourth"|"diminished 5th"|"minor sixth"|"diminished seventh"|"minor seventh"|"minor ninth"|"major ninth"|"minor tenth"|"major tenth"|"perfect eleventh"|"augmented eleventh"|"perfect twelfth"|"minor thirteenth"|"major thirteenth"|"minor fourteenth"|"major fourteenth"|"double octave")
+Interval = ("unison"|(major\s(second|2nd|third|3rd|sixth|6th|seventh|7th|ninth|9th|tenth|10th|thirteenth|13th|fourteenth|14th))|(minor\s(second|2nd|third|3rd|sixth|6th|seventh|7th|ninth|9th|tenth|10th|thirteenth|13th|fourteenth|14th))|(augmented\s(fourth|4th|eleventh|11th))|(diminished\s(fifth|5th|seventh|7th))|(perfect\s(fourth|4th|fifth|5th|eleventh|11th|twelfth|12th|octave))|"double octave")
 
    
 %%
@@ -146,7 +147,9 @@ Interval = ("unison"|"major second"|"major third"|"perfect fourth"|"perfect fift
     "redo"              {return symbol(DslSymbol.COMMAND_REDO); }
     "twinkle"           {return symbol(DslSymbol.COMMAND_TWINKLE);}
     "chord"             {return symbol(DslSymbol.COMMAND_CHORD);}
-    {Note}              {return symbol(DslSymbol.NOTE, new String(yytext()));}
+    "interval enharmonic" {return symbol(DslSymbol.COMMAND_INTERVAL_ENHARMONIC);}
+    {PlayStyle}         {return symbol(DslSymbol.PLAY_STYLE, new String(yytext())); }
+    {Note}              {return symbol(DslSymbol.NOTE, new String(yytext())); }
     {Number}           { return symbol(DslSymbol.NUMBER, new String(yytext())); }
     {MidiNote}          {return symbol(DslSymbol.MIDINOTE, new String(yytext())); }
     {ScaleType}         {return symbol(DslSymbol.SCALE_TYPE, new String(yytext()));}
@@ -157,5 +160,4 @@ Interval = ("unison"|"major second"|"major third"|"perfect fourth"|"perfect fift
     {SemiColon}         {return symbol(DslSymbol.SEMIC);}
     {Atom}             { return symbol(DslSymbol.ATOM, new String(yytext()));}
     {WhiteSpace}       { /* Ignore whitespace */ }
-
 }

@@ -45,7 +45,13 @@ public class Tempo implements Command {
                     this.result = "Tempo outside valid range. Use 'force set tempo' command to " +
                             "override. Use 'help' for more information";
                 } else {
-                    this.result = String.format("Tempo changed to %d BPM", this.tempo);
+                    if (this.tempo != 0) {
+                        this.result = String.format("Tempo changed to %d BPM", this.tempo);
+                    } else {
+                        // 0 is never a valid tempo, you can't force it
+                        this.force = false;
+                        throw new Exception();
+                    }
                 }
 
             } else {

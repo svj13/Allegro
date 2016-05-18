@@ -1,6 +1,7 @@
 package seng302;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.sound.midi.*;
 
@@ -79,6 +80,33 @@ public class MusicPlayer {
      */
     public void playNotes(ArrayList<Note> notes) {
         playNotes(notes, 0);
+    }
+
+    /**
+     * Plays a collection of notes at the same time.
+     *
+     * @param notes The notes to be played simultaneously - eg a chord.
+     */
+    public void playSimultaneousNotes(Collection<Note> notes) {
+        try {
+            int instrument = 1;
+            Sequence sequence = new Sequence(Sequence.PPQ, 16);
+            Track track = sequence.createTrack();
+
+            ShortMessage sm = new ShortMessage();
+            sm.setMessage(ShortMessage.PROGRAM_CHANGE, 0, instrument, 0);
+            track.add(new MidiEvent(sm, 0));
+
+            // Add all notes to the start of the sequence
+            for (Note note:notes) {
+                addNote(track, 0, 16, note.getMidi(), 64);
+            }
+            playSequence(sequence);
+
+        } catch (InvalidMidiDataException e) {
+            System.err.println("The notes you are trying to play were invalid");
+        }
+
     }
 
     /**

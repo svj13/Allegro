@@ -1,5 +1,7 @@
 package seng302.data;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,15 +14,17 @@ public class Interval {
 
     private int semitones;
     private String name;
+    private String alternateName;
 
     /**
      * Constructs a new Interval object.
      * @param semitones The number of semitones added to an original note
      * @param name The lexical interval name
      */
-    protected Interval(int semitones, String name) {
+    protected Interval(int semitones, String name, String alternateName) {
         this.semitones = semitones;
         this.name = name;
+        this.alternateName = alternateName;
     }
 
     // Creates a hash map of all currently accepted intervals.
@@ -36,34 +40,36 @@ public class Interval {
 //    }};
 
     public static Interval[] intervals = {
-            new Interval(0, "unison"),
-            new Interval(2, "major second"),
-            new Interval(4, "major third"),
-            new Interval(5, "perfect fourth"),
-            new Interval(7, "perfect fifth"),
-            new Interval(9, "major sixth"),
-            new Interval(11, "major seventh"),
-            new Interval(12, "perfect octave"),
-            new Interval(1, "minor second"),
-            new Interval(3, "minor third"),
-            new Interval(6, "augmented fourth"),
-            new Interval(6, "diminished fifth"),
-            new Interval(8, "minor sixth"),
-            new Interval(9, "diminished seventh"),
-            new Interval(10, "minor seventh"),
+            new Interval(0, "unison", ""),
+            new Interval(2, "major second", "major 2nd"),
+            new Interval(4, "major third", "major 3rd"),
+            new Interval(5, "perfect fourth", "perfect 4th"),
+            new Interval(7, "perfect fifth", "perfect 5th"),
+            new Interval(9, "major sixth", "major 6th"),
+            new Interval(11, "major seventh", "major 7th"),
+            new Interval(12, "perfect octave", ""),
+            new Interval(1, "minor second", "minor 2nd"),
+            new Interval(3, "minor third", "minor 3rd"),
+            new Interval(6, "augmented fourth", "augmented 4th"),
+            new Interval(6, "diminished fifth", "diminished 5th"),
+            new Interval(8, "minor sixth", "minor 6th"),
+            new Interval(9, "diminished seventh", "diminished 7th"),
+            new Interval(10, "minor seventh", "minor 7th"),
 
-            new Interval(13, "minor ninth"),
-            new Interval(14, "major ninth"),
-            new Interval(15, "minor tenth"),
-            new Interval(16, "major tenth"),
-            new Interval(17, "perfect eleventh"),
-            new Interval(18, "augmented eleventh"),
-            new Interval(19, "perfect twelfth"),
-            new Interval(20, "minor thirteenth"),
-            new Interval(21, "major thirteenth"),
-            new Interval(22, "minor fourteenth"),
-            new Interval(23, "major fourteenth"),
-            new Interval(24, "double octave"), /////////////will this break stuff?
+            new Interval(13, "minor ninth", "minor 9th"),
+            new Interval(14, "major ninth", "major 9th"),
+            new Interval(15, "minor tenth", "minor 10th"),
+            new Interval(16, "major tenth", "major 10th"),
+            new Interval(17, "perfect eleventh", "perfect 11th"),
+            new Interval(18, "augmented eleventh", "augmented 11th"),
+            new Interval(18, "diminished twelfth", "diminished 12th"),
+            new Interval(19, "perfect twelfth", "perfect 12th"),
+            new Interval(20, "minor thirteenth", "minor 13th"),
+            new Interval(21, "major thirteenth", "major 13th"),
+            new Interval(21, "diminished fourteenth", "diminished 14th"),
+            new Interval(22, "minor fourteenth", "minor 14th"),
+            new Interval(23, "major fourteenth", "major 14th"),
+            new Interval(24, "double octave", ""), /////////////will this break stuff?
 
     };
 
@@ -97,6 +103,14 @@ public class Interval {
     }
 
     /**
+     * Gets the 'alternate' name of an interval
+     * @return Secondary accepted name of an interval
+     */
+    public String getAlternateName(){
+        return this.alternateName;
+    }
+
+    /**
      * Gets the number of semitones an interval represents.
      * @return Number of semitones represented by an interval
      */
@@ -106,7 +120,8 @@ public class Interval {
 
     public static Interval lookupByName(String name) {
         for (Interval interval:intervals) {
-            if (interval.getName().equals(name)) {
+            if (interval.getName().equals(name) || interval.getAlternateName().equals(name)) {
+                System.out.println(interval.getName());
                 return interval;
             }
         }
@@ -120,6 +135,23 @@ public class Interval {
             }
         }
         return null;
+    }
+
+    /**
+     * Finds the enharmonic equivalents for a given interval by searching for intervals with the
+     * same number of semitones but a different name
+     * @param semitones the number of semitones in the interval
+     * @param intervalName the name of the interval to be compared with
+     * @return an arrayList of the enharmonic intervals
+     */
+    public static ArrayList<String> findEnharmonics(int semitones, String intervalName) {
+        ArrayList enharmonics = new ArrayList<String>();
+        for (Interval interval:intervals) {
+            if (interval.getSemitones() == semitones && (!interval.getName().equals(intervalName))) {
+                enharmonics.add(interval.getName());
+            }
+        }
+        return enharmonics;
     }
 
 }

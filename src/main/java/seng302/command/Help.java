@@ -108,6 +108,8 @@ public class Help implements Command {
         } else if (keyword.equals("chord")) {
             result = "When followed by a valid chord and a valid chord type (i.e. major, minor), will" +
                     " return the corresponding notes that make up the given chord";
+        } else if (keyword.equals("interval enharmonic")) {
+            result = "When followed by a valid interval name, it returns any enharmonically equivalent intervals";
         } else if (keyword.equals("")) {
             result = "" +
                     "\nadd musical term:\nWhen followed by a musical term in the format of 'name; origin; " +
@@ -127,6 +129,7 @@ public class Help implements Command {
                     "interval:\nWhen followed by an interval name, it returns the number of semitones in that interval." +
                     " When followed by an interval name and a note, it returns the note that is the specified interval above the given note." +
                     " e.g interval perfect fifth C4 will return G4. \n\n" +
+                    "interval enharmonic:\nWhen followed by a valid interval name, it returns any enharmonically equivalent intervals. \n\n" +
                     "meaning of:\nWhen followed by a musical term, it returns the definition of that" +
                     " term. \n\n" +
                     "midi:\nWhen followed by a valid note, it will return its corresponding midi number" +

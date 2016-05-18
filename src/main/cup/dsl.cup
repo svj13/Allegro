@@ -94,9 +94,9 @@ COMMAND_ENHARMONIC_HIGHER, COMMAND_SIMPLE_ENHARMONIC, COMMAND_SET_TEMPO, COMMAND
 COMMAND_PLAY_NOTE, COMMAND_FORCE_SET_TEMPO, COMMAND_PLAY_SCALE, COMMAND_MUSICAL_TERM_MEANING,
 COMMAND_MUSICAL_TERM_ORIGIN, COMMAND_MUSICAL_TERM_CATEGORY, COMMAND_ADD_MUSICAL_TERM,
 COMMAND_INTERVAL, COMMAND_PLAY_INTERVAL,COMMAND_ALL_ENHARMONICS, SEMIC, COMMAND_UNDO,
-COMMAND_REDO, COMMAND_TWINKLE, COMMAND_CHORD, COMMAND_PLAY_CHORD, COMMAND_RHYTHM, COMMAND_SET_RHYTHM;
+COMMAND_REDO, COMMAND_TWINKLE, COMMAND_CHORD, COMMAND_PLAY_CHORD, COMMAND_RHYTHM, COMMAND_SET_RHYTHMCOMMAND_INTERVAL_ENHARMONIC;
 
-terminal String ATOM, NOTE, SCALE_TYPE, RHYTHM_TYPE, DIRECTION, MIDINOTE, NUMBER, POSNUM, INTERVAL;
+terminal String ATOM, NOTE, SCALE_TYPE, RHYTHM_TYPE, DIRECTION, MIDINOTE, NUMBER, POSNUM, INTERVAL, PLAY_STYLE;
 
 /* Non terminals */
 non terminal Command command;
@@ -112,6 +112,7 @@ non terminal String keyword;
 non terminal String singleTerm;
 non terminal String term;
 non terminal String rhythmStyle;
+non terminal HashMap<String, String> playChord;
 
 start with command;
 
@@ -148,7 +149,8 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_REDO                                {: RESULT = new UndoRedo(1); :}
           | COMMAND_TWINKLE                             {: RESULT = new Twinkle(); :}
           | COMMAND_CHORD scale:s                       {: RESULT = new Chord(s, "chord"); :}
-          | COMMAND_PLAY_CHORD playScale:s              {: RESULT = new Chord(s, "play");:}
+          | COMMAND_PLAY_CHORD playChord:s              {: RESULT = new Chord(s, "play");:}
+          | COMMAND_INTERVAL_ENHARMONIC interval:i      {: RESULT = new IntervalCommand(i,"equivalent"); :}
 ;
 
 
@@ -176,6 +178,10 @@ playScale ::= scale:s {:RESULT = s;:}
             |   scale:s NUMBER:a {: s.put("octaves", String.valueOf(a)); RESULT = s;:}
             |   scale:s NUMBER:a DIRECTION:b {: s.put("octaves", String.valueOf(a)); s.put("direction", b); RESULT = s;:}
             |   scale:s DIRECTION:b NUMBER:a {: s.put("octaves", String.valueOf(a)); s.put("direction", b); RESULT = s;:}
+;
+
+playChord ::= scale:s {:RESULT = s;:}
+            | scale:s PLAY_STYLE:a {: s.put("playStyle", a); RESULT = s;:}
 ;
 
 interval ::= INTERVAL:i {: RESULT = new HashMap<String,String>(); RESULT.put("interval", i);:}
@@ -213,6 +219,7 @@ keyword ::= COMMAND_HELP                                {: RESULT = "help"; :}
           | COMMAND_TWINKLE                             {: RESULT = "twinkle"; :}
           | COMMAND_CHORD                               {: RESULT = "chord"; :}
           | COMMAND_PLAY_CHORD                          {: RESULT = "play chord"; :}
+          | COMMAND_INTERVAL_ENHARMONIC {: RESULT = "interval enharmonic"; :}
 ;
 
 singleTerm ::= keyword:s {: RESULT = s;:}
