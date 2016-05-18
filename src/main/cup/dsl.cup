@@ -90,9 +90,10 @@ COMMAND_ENHARMONIC_HIGHER, COMMAND_SIMPLE_ENHARMONIC, COMMAND_SET_TEMPO, COMMAND
 COMMAND_PLAY_NOTE, COMMAND_FORCE_SET_TEMPO, COMMAND_PLAY_SCALE, COMMAND_MUSICAL_TERM_MEANING,
 COMMAND_MUSICAL_TERM_ORIGIN, COMMAND_MUSICAL_TERM_CATEGORY, COMMAND_ADD_MUSICAL_TERM,
 COMMAND_INTERVAL, COMMAND_PLAY_INTERVAL,COMMAND_ALL_ENHARMONICS, SEMIC, COMMAND_UNDO,
-COMMAND_REDO, COMMAND_TWINKLE, COMMAND_CHORD, COMMAND_PLAY_CHORD, COMMAND_SHOW_KEYSIGNATURE, COMMAND_SHOW_KEYSIGNATURE_NUM;
+COMMAND_REDO, COMMAND_TWINKLE, COMMAND_CHORD, COMMAND_PLAY_CHORD, COMMAND_SHOW_KEYSIGNATURE,
+COMMAND_SHOW_KEYSIGNATURE_NUM, COMMAND_SCALE_WITH_KEYSIG;
 
-terminal String ATOM, NOTE, SCALE_TYPE, DIRECTION, MIDINOTE, NUMBER, POSNUM, INTERVAL;
+terminal String ATOM, NOTE, SCALE_TYPE, DIRECTION, MIDINOTE, NUMBER, POSNUM, INTERVAL, SHARPSFLATS, BVALUE;
 
 /* Non terminals */
 non terminal Command command;
@@ -107,6 +108,7 @@ non terminal HashMap<String, String> intervalWithTonic;
 non terminal String keyword;
 non terminal String singleTerm;
 non terminal String term;
+non terminal String numberAndSharpsFlat;
 
 start with command;
 
@@ -143,12 +145,14 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_CHORD scale:s                       {: RESULT = new Chord(s, "chord"); :}
           | COMMAND_PLAY_CHORD playScale:s              {: RESULT = new Chord(s, "play");:}
           | COMMAND_SHOW_KEYSIGNATURE scale:s           {: RESULT = new KeySignature(s,"notes"); :}
-          | COMMAND_SHOW_KEYSIGNATURE_NUM scale:s           {: RESULT = new KeySignature(s,"number"); :}
+          | COMMAND_SHOW_KEYSIGNATURE_NUM scale:s       {: RESULT = new KeySignature(s,"number"); :}
+          | COMMAND_SCALE_WITH_KEYSIG numberAndSharpsFlat:s     {: RESULT = new KeySignature(s); :}
 ;
 
 
 note ::= NOTE:s             {:RESULT = s;:}
        | midiNote:s         {:RESULT = s;:}
+       | BVALUE:b           {:RESULT = b;:}
 ;
 
 midiNote ::= MIDINOTE:s     {:RESULT = s;:}
@@ -159,7 +163,7 @@ positiveNum ::= midiNote:s   {:RESULT = s;:}
               | POSNUM:s     {:RESULT = s;:}
 ;
 
-scale ::= NOTE:s SCALE_TYPE:r       {:RESULT = new HashMap<String,String>(); RESULT.put("note", s);
+scale ::= note:s SCALE_TYPE:r       {:RESULT = new HashMap<String,String>(); RESULT.put("note", s);
                                                 RESULT.put("scale_type", r);:}
 ;
 
@@ -205,6 +209,7 @@ keyword ::= COMMAND_HELP                                {: RESULT = "help"; :}
           | COMMAND_PLAY_CHORD                          {: RESULT = "play chord"; :}
           | COMMAND_SHOW_KEYSIGNATURE                   {: RESULT = "scale signature"; :}
           | COMMAND_SHOW_KEYSIGNATURE_NUM               {: RESULT = "scale signature num"; :}
+          | COMMAND_SCALE_WITH_KEYSIG                   {: RESULT = "scale signature with"; :}
 ;
 
 singleTerm ::= keyword:s {: RESULT = s;:}
@@ -217,6 +222,10 @@ singleTerm ::= keyword:s {: RESULT = s;:}
 
 term ::= singleTerm:s {:RESULT =s;:}
        | term:s singleTerm:t {:RESULT = s + " " + t; :}
+;
+
+numberAndSharpsFlat ::= NUMBER:s SHARPSFLATS:r {:RESULT = s+r; :}
+                        | NUMBER:s BVALUE:r     {:RESULT = s+r; :}
 ;
 
 musicalDef ::= term:a SEMIC term:b SEMIC term:c SEMIC term:d

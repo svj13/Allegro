@@ -5,8 +5,10 @@ import seng302.utility.OctaveUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class KeySignature implements Command {
 
@@ -41,16 +43,20 @@ public class KeySignature implements Command {
 
     private float length = 0;
 
+    private String numFlatsOrSharps;
+
+    private String flatOrSharp;
+
 
     /**
      * map that stores all the major scales and there corresponding key signature
      */
-    private static HashMap<String,List> majorKeySignatures = generateMajorKeySignatures();
+    private static HashMap<String, seng302.data.KeySignature> majorKeySignatures = seng302.data.KeySignature.getMajorKeySignatures();
 
     /**
      * map that stores all the minor scales and there corresponding key signature
      */
-    private static HashMap<String,List> minorKeySignatures = generateMinorKeySignatures();
+    private static HashMap<String, seng302.data.KeySignature> minorKeySignatures = seng302.data.KeySignature.getMinorKeySignatures();
 
 
 
@@ -68,6 +74,15 @@ public class KeySignature implements Command {
         } else {
             this.octaves = 1;
         }
+    }
+
+    /**
+     * Constructor for getting scales with the given number of sharps/flats in their key sig
+     */
+    public KeySignature(String numSharpsOrFlats){
+        this.numFlatsOrSharps = Character.toString(numSharpsOrFlats.charAt(0));
+        this.flatOrSharp = Character.toString(numSharpsOrFlats.charAt(1));
+        this.outputType = "get";
     }
 
 
@@ -94,7 +109,7 @@ public class KeySignature implements Command {
                 outputString += startNote + octaveSpecifier+ " " +type + " has no key signatures";
                 env.getTranscriptManager().setResult(outputString);
             }else {
-                sig = majorKeySignatures.get(startNote.substring(0, 1).toUpperCase() + startNote.substring(1));
+                sig = majorKeySignatures.get(startNote.substring(0, 1).toUpperCase() + startNote.substring(1)).getNotes();
                 env.getTranscriptManager().setResult(generateOutputString(sig, octaveSpecifier));
             }
 
@@ -104,7 +119,7 @@ public class KeySignature implements Command {
                 outputString += startNote + octaveSpecifier + " " + type + " has no key signatures";
                 env.getTranscriptManager().setResult(outputString);
             }else {
-                sig = minorKeySignatures.get(startNote.substring(0, 1).toUpperCase() + startNote.substring(1));
+                sig = minorKeySignatures.get(startNote.substring(0, 1).toUpperCase() + startNote.substring(1)).getNotes();
                 env.getTranscriptManager().setResult(generateOutputString(sig, octaveSpecifier));
             }
         }else{
@@ -148,7 +163,7 @@ public class KeySignature implements Command {
             if(startNoteChar.equals('C') && !(startNote.contains("#") || startNote.contains("b")) ) {
                 env.getTranscriptManager().setResult(startNote + " has 0# and 0b");
             }else {
-                sig = majorKeySignatures.get(startNote.substring(0, 1).toUpperCase() + startNote.substring(1));
+                sig = majorKeySignatures.get(startNote.substring(0, 1).toUpperCase() + startNote.substring(1)).getNotes();
                 env.getTranscriptManager().setResult(Integer.toString(sig.size())+sig.get(0).charAt(1));
             }
 
@@ -157,13 +172,65 @@ public class KeySignature implements Command {
             if(startNoteChar.equals('A') && !(startNote.contains("#") || startNote.contains("b")) ) {
                 env.getTranscriptManager().setResult(startNote + " has 0# and 0b");
             }else {
-                sig = minorKeySignatures.get(startNote.substring(0, 1).toUpperCase() + startNote.substring(1));
+                sig = minorKeySignatures.get(startNote.substring(0, 1).toUpperCase() + startNote.substring(1)).getNotes();
                 env.getTranscriptManager().setResult(Integer.toString(sig.size())+sig.get(0).charAt(1));
             }
         }else{
             env.getTranscriptManager().setResult(type + " is not a valid scale type");
         }
 
+    }
+
+    private void getScalesOfType(Environment env) {
+        try {
+            int numFlatsOrSharps = Integer.parseInt(this.numFlatsOrSharps);
+            if (numFlatsOrSharps > 7 || numFlatsOrSharps < 0) {
+                //invalid number
+                env.getTranscriptManager().setResult("The provided number was invalid. Must be between 0 and 7.");
+            } else {
+                Collection<String> scalesWithThisType;
+                scalesWithThisType = new ArrayList<String>();
+                //valid number
+                if (this.flatOrSharp.equals("b")) {
+                    //Add the major scales
+                    for(Map.Entry<String, seng302.data.KeySignature> entry : majorKeySignatures.entrySet()) {
+                        seng302.data.KeySignature thisKeySig = entry.getValue();
+                        if (thisKeySig.getNumberOfFlats() == numFlatsOrSharps) {
+                            scalesWithThisType.add(thisKeySig.getStartNote() + " major");
+                        }
+                    }
+
+                    //Add the minor scales
+                    for(Map.Entry<String, seng302.data.KeySignature> entry : minorKeySignatures.entrySet()) {
+                        seng302.data.KeySignature thisKeySig = entry.getValue();
+                        if (thisKeySig.getNumberOfFlats() == numFlatsOrSharps) {
+                            scalesWithThisType.add(thisKeySig.getStartNote() + " minor");
+                        }
+                    }
+                }
+                if (this.flatOrSharp.equals("#")) {
+                    //Add the major scales
+                    for(Map.Entry<String, seng302.data.KeySignature> entry : majorKeySignatures.entrySet()) {
+                        seng302.data.KeySignature thisKeySig = entry.getValue();
+                        if (thisKeySig.getNumberOfSharps() == numFlatsOrSharps) {
+                            scalesWithThisType.add(thisKeySig.getStartNote() + " major");
+                        }
+                    }
+
+                    //Add the minor scales
+                    for(Map.Entry<String, seng302.data.KeySignature> entry : minorKeySignatures.entrySet()) {
+                        seng302.data.KeySignature thisKeySig = entry.getValue();
+                        if (thisKeySig.getNumberOfSharps() == numFlatsOrSharps) {
+                            scalesWithThisType.add(thisKeySig.getStartNote() + " minor");
+                        }
+                    }
+                }
+                env.getTranscriptManager().setResult(scalesWithThisType.toString());
+            }
+
+        } catch (Exception e) {
+            env.getTranscriptManager().setResult("The provided number was invalid.");
+        }
     }
 
 
@@ -194,64 +261,9 @@ public class KeySignature implements Command {
         }else if(outputType.equals("number")){
             displayNumberKeySignatures(env);
 
+        } else if (outputType.equals("get")) {
+            getScalesOfType(env);
         }
 
     }
-
-
-    /**
-     * Generates a map with all the key signatures for each  major scale
-     * @return
-     */
-    private static HashMap<String,List> generateMajorKeySignatures(){
-        HashMap<String,List>majorKeySignatures = new HashMap<String, List>();
-
-        majorKeySignatures.put("C", Arrays.asList());
-        majorKeySignatures.put("G", Arrays.asList("F#"));
-        majorKeySignatures.put("D", Arrays.asList("F#","C#"));
-        majorKeySignatures.put("A", Arrays.asList("F#","C#","G#"));
-        majorKeySignatures.put("E", Arrays.asList("F#","C#","G#","D#"));
-        majorKeySignatures.put("B", Arrays.asList("F#","C#","G#","D#","A#"));
-        majorKeySignatures.put("F#", Arrays.asList("F#","C#","G#","D#","A#","E#"));
-        majorKeySignatures.put("C#", Arrays.asList("F#","C#","G#","D#","A#","E#","B#"));
-        majorKeySignatures.put("Cb", Arrays.asList("Fb","Cb","Gb","Db","Ab","Eb","Bb"));
-        majorKeySignatures.put("Gb", Arrays.asList("Cb","Gb","Db","Ab","Eb","Bb"));
-        majorKeySignatures.put("Db", Arrays.asList("Gb","Db","Ab","Eb","Bb"));
-        majorKeySignatures.put("Ab", Arrays.asList("Db","Ab","Eb","Bb"));
-        majorKeySignatures.put("Eb", Arrays.asList("Ab","Eb","Bb"));
-        majorKeySignatures.put("Bb", Arrays.asList("Eb","Bb"));
-        majorKeySignatures.put("F", Arrays.asList("Bb"));
-
-        return majorKeySignatures;
-
-    }
-
-
-    /**
-     * Generates a map with all the key signatures for each  minor scale
-     * @return
-     */
-    private static HashMap<String,List> generateMinorKeySignatures(){
-        HashMap<String,List>minorKeySignatures = new HashMap<String, List>();
-
-        minorKeySignatures.put("A", Arrays.asList());
-        minorKeySignatures.put("E", Arrays.asList("F#"));
-        minorKeySignatures.put("B", Arrays.asList("F#","C#"));
-        minorKeySignatures.put("F#", Arrays.asList("F#","C#","G#"));
-        minorKeySignatures.put("C#", Arrays.asList("F#","C#","G#","D#"));
-        minorKeySignatures.put("G#", Arrays.asList("F#","C#","G#","D#","A#"));
-        minorKeySignatures.put("D#", Arrays.asList("F#","C#","G#","D#","A#","E#"));
-        minorKeySignatures.put("A#", Arrays.asList("F#","C#","G#","D#","A#","E#","B#"));
-        minorKeySignatures.put("Ab", Arrays.asList("Fb","Cb","Gb","Db","Ab","Eb","Bb"));
-        minorKeySignatures.put("Eb", Arrays.asList("Cb","Gb","Db","Ab","Eb","Bb"));
-        minorKeySignatures.put("Bb", Arrays.asList("Gb","Db","Ab","Eb","Bb"));
-        minorKeySignatures.put("F", Arrays.asList("Db","Ab","Eb","Bb"));
-        minorKeySignatures.put("C", Arrays.asList("Ab","Eb","Bb"));
-        minorKeySignatures.put("G", Arrays.asList("Eb","Bb"));
-        minorKeySignatures.put("D", Arrays.asList("Bb"));
-
-        return minorKeySignatures;
-
-    }
-
 }

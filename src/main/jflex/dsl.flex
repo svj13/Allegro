@@ -103,7 +103,8 @@ ScaleType = "major"|"minor"
 Direction = "updown"|"up"|"down"
 PosNum = \p{Digit}+
 Interval = ("unison"|(major\s(second|2nd|third|3rd|sixth|6th|seventh|7th|ninth|9th|tenth|10th|thirteenth|13th|fourteenth|14th))|(minor\s(second|2nd|third|3rd|sixth|6th|seventh|7th|ninth|9th|tenth|10th|thirteenth|13th|fourteenth|14th))|(augmented\s(fourth|4th|eleventh|11th))|(diminished\s(fifth|5th|seventh|7th))|(perfect\s(fourth|4th|fifth|5th|eleventh|11th|twelfth|12th|octave))|"double octave")
-
+SharpsFlats = (b|#)
+BValue = b
    
 %%
 
@@ -145,6 +146,8 @@ Interval = ("unison"|(major\s(second|2nd|third|3rd|sixth|6th|seventh|7th|ninth|9
     "scale signature"    {return symbol(DslSymbol.COMMAND_SHOW_KEYSIGNATURE);}
     "scale sig"    {return symbol(DslSymbol.COMMAND_SHOW_KEYSIGNATURE);}
     "scale signature num"    {return symbol(DslSymbol.COMMAND_SHOW_KEYSIGNATURE_NUM);}
+    "scale signature with" {return symbol(DslSymbol.COMMAND_SCALE_WITH_KEYSIG);}
+    {BValue}            {return symbol(DslSymbol.BVALUE, new String(yytext()));}
     {Note}              {return symbol(DslSymbol.NOTE, new String(yytext()));}
     {Number}           { return symbol(DslSymbol.NUMBER, new String(yytext())); }
     {MidiNote}          {return symbol(DslSymbol.MIDINOTE, new String(yytext())); }
@@ -152,6 +155,7 @@ Interval = ("unison"|(major\s(second|2nd|third|3rd|sixth|6th|seventh|7th|ninth|9
     {Direction}         {return symbol(DslSymbol.DIRECTION, new String(yytext()));}
     {PosNum}            {return symbol(DslSymbol.POSNUM, new String(yytext()));}
     {Interval}          {return symbol(DslSymbol.INTERVAL, new String(yytext()));}
+    {SharpsFlats}       {return symbol(DslSymbol.SHARPSFLATS, new String(yytext()));}
     {SemiColon}         {return symbol(DslSymbol.SEMIC);}
     {Atom}             { return symbol(DslSymbol.ATOM, new String(yytext()));}
     {WhiteSpace}       { /* Ignore whitespace */ }
