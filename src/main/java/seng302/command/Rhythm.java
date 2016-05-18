@@ -24,8 +24,7 @@ public class Rhythm implements Command{
 
 
     /**
-     * Changes the tempo to the given value. If the value is outside of the appropriate tempo range,
-     * an error message will raise and notify the user
+     * Changes the rhythm to the given value. Accepts common swing timings or custom time division sequences.
      */
     public Rhythm(String rhythmStyle, boolean force) {
         this.isSetter = true;
@@ -58,17 +57,17 @@ public class Rhythm implements Command{
             }
 
             else{
-                this.result = "Invalid Rhythm option. Valid swing settings are: straight, heavy, light, or medium.";
+                this.result = String.format("Invalid Rhythm option '%s'. See 'help set rhythm' for valid rhythm options",
+                        rhythmStyle);
+
+                //Checks if command entry is a custom input of sequence of time divisions.
                 float[] toFloat = rhythmFactory.fractionStringToFloatArray(rhythmStyle);
                 if(toFloat.length > 0){
-                    this.result = String.format("Rhythm divisions set to: ({0})",Arrays.toString(toFloat).replaceAll("\\[\\]",""));
+                    this.result = String.format("Rhythm divisions set to: %s",Arrays.toString(toFloat).replaceAll("\\[\\]",""));
                     this.divisions = toFloat;
                 }
 
-
             }
-
-
 
         } catch (Exception e) {
             this.result = "Invalid rhythm setting.";
@@ -91,9 +90,8 @@ public class Rhythm implements Command{
 
 
     /**
-     * Executes the rhythm command. It will return the current set tempo in BPM. If no tempo has
-     * been set, it defaults to the value of 120BMP
-     *
+     * Executes the rhythm command, adds the rhythm values to the history for undoing/redoing, and indicates the
+     * project handler that the rhythm has been changed.
      */
     public void execute(Environment env) {
         if (isSetter){
@@ -104,14 +102,6 @@ public class Rhythm implements Command{
             editHistoryArray.add(String.valueOf(env.getPlayer().getRhythmHandler().toString()));
 
 
-//            if(rhythm.equals("straight")) env.getPlayer().getRhythmHandler().setRhythmTimings(new float[]{0.5f}); //quaver (half beat)
-//            else if(rhythm.equals("medium")){
-//                env.getPlayer().getRhythmHandler().setRhythmTimings(new float[]{2.0f/3.0f, 1.0f/3.0f} );
-//
-//            }
-//            else if(rhythm.equals("heavy")) env.getPlayer().getRhythmHandler().setRhythmTimings(new float[]{3.0f/4.0f, 1.0f/4.0f});
-//            else if(rhythm.equals("light")) env.getPlayer().getRhythmHandler().setRhythmTimings(new float[]{5.0f/8.0f, 3.0f/8.0f});
-
             env.getPlayer().getRhythmHandler().setRhythmTimings(divisions);
 
 
@@ -119,7 +109,6 @@ public class Rhythm implements Command{
             //Update project saved state
             env.getProjectHandler().checkChanges("rhythm");
 
-            System.out.println(env.getPlayer().getRhythmHandler().toString());
             editHistoryArray.add(String.valueOf(env.getPlayer().getRhythmHandler().toString()));
             env.getEditManager().addToHistory("2", editHistoryArray); //Add Edit history changes after they are made.s
 

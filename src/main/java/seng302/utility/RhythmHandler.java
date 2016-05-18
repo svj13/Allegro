@@ -74,7 +74,6 @@ public class RhythmHandler {
             retString += " "  + rhythmFactory.asFraction(timing, beatResolution);
 
         }
-
         return retString;
     }
 

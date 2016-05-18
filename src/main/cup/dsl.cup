@@ -188,6 +188,7 @@ intervalWithTonic ::= interval:i note:a {: i.put("note",a); RESULT = i;:}
 keyword ::= COMMAND_HELP                                {: RESULT = "help"; :}
           | COMMAND_VERSION                             {: RESULT = "version"; :}
           | COMMAND_TEMPO                               {: RESULT = "tempo"; :}
+          | COMMAND_RHYTHM                               {: RESULT = "rhythm"; :}
           | COMMAND_NOTE                                {: RESULT = "note"; :}
           | COMMAND_MIDI                                {: RESULT = "midi"; :}
           | COMMAND_SCALE                               {: RESULT = "scale"; :}

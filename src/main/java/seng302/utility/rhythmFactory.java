@@ -36,9 +36,13 @@ public  class rhythmFactory {
         return (a / gcm) + "/" + (b / gcm);
     }
 
+    /**
+     * Takes a string which includes a sequence of fractions, and returns an array of decimal floats extracted from
+     * the input string.
+     * @param fracString string contained a sequence of fractions
+     * @return float array of converted fractions
+     */
     public static float[] fractionStringToFloatArray(String fracString){
-        //String[] items = fracString.replaceAll("\\[", "").replaceAll("\\]", "").split(",");
-
 
         int x = 0;
         while (!Character.isDigit(fracString.charAt(x))) x++;

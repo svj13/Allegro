@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import seng302.Environment;
 import seng302.managers.TranscriptManager;
+import seng302.utility.RhythmHandler;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
@@ -21,10 +22,16 @@ public class RhythmTest {
     @Mock
     private TranscriptManager transcriptManager;
 
+    @Mock
+    private RhythmHandler rh;
+
+
     @Before
     public void setUp() throws Exception {
         env = new Environment();
         env.setTranscriptManager(transcriptManager);
+
+        rh = env.getPlayer().getRhythmHandler();
     }
 
     @Test
@@ -62,10 +69,17 @@ public class RhythmTest {
         new Rhythm("bad", false).execute(env);
 
 
-        verify(transcriptManager).setResult("Invalid Rhythm option. Valid swing settings are: straight, heavy, light, or medium.");
+        verify(transcriptManager).setResult("Invalid Rhythm option 'bad'. See 'help set rhythm' for valid rhythm options");
+
         //should still be set to 'straight'
         new Rhythm().execute(env);
         verify(transcriptManager).setResult("Rhythm beat divisions: 1/2");
+    }
+
+    @Test
+    public void testCustomRhythm(){
+        new Rhythm("2/3 1/3", false).execute(env);
+        verify(rh).setRhythmTimings(new float[]{2 / 3, 1 / 3});
     }
 
 
