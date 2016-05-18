@@ -1,5 +1,7 @@
 package seng302.gui;
 
+import org.controlsfx.control.PopOver;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -10,12 +12,16 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import seng302.Environment;
 import seng302.data.Note;
 import seng302.command.Enharmonic;
@@ -25,12 +31,11 @@ import seng302.command.Enharmonic;
  */
 public class KeyboardPaneController {
 
-
-    @FXML
-    private AnchorPane basePane;
-
     @FXML
     private HBox keyboardBox;
+
+    @FXML
+    private StackPane keyboardStack;
 
     Environment env;
 
@@ -66,11 +71,20 @@ public class KeyboardPaneController {
             Pane key = new TouchPane(i, env, this);
 
             key.setPrefWidth(100);
-//            key.setStyle("-fx-pref-width: " + String.valueOf(100/numberOfKeys) + "%;");
             keyboardBox.setHgrow(key, Priority.ALWAYS);
             key.setMaxWidth(Double.MAX_VALUE);
-            this.keyboardBox.getChildren().add(key);
+            keyboardBox.getChildren().add(key);
+
+
+
+
         }
+        ButtonBar bar = new ButtonBar();
+        keyboardStack.getChildren().add(bar);
+        Button show = new Button("show");
+        bar.getButtons().add(show);
+        PopOver pop = new PopOver(new Pane());
+        //pop.show(show);
 
         keyboardBox.setOnKeyPressed(new EventHandler<KeyEvent>() {
             public void handle(KeyEvent event) {
@@ -98,6 +112,7 @@ public class KeyboardPaneController {
 
 
     }
+
 
     public boolean getShiftState() {
         return shift;

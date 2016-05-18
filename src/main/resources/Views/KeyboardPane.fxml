@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
 
-<HBox fx:id="keyboardBox" prefHeight="100.0" xmlns="http://javafx.com/javafx/8"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.KeyboardPaneController"/>
+<StackPane fx:id="keyboardStack" alignment="TOP_LEFT" maxHeight="100.0" prefHeight="0.0"
+           xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="seng302.gui.KeyboardPaneController">
+   <children>
+      <HBox fx:id="keyboardBox" prefHeight="100.0"/>
+   </children>
+</StackPane>
