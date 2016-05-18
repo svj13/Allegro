@@ -33,7 +33,6 @@ public class RhythmHandler {
         else{
 
             return rhythmTimings[rIndex = 0];
-
         }
     }
 
