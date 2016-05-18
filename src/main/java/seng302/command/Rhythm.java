@@ -70,7 +70,8 @@ public class Rhythm implements Command{
             }
 
         } catch (Exception e) {
-            this.result = "Invalid rhythm setting.";
+            this.result = String.format("Invalid Rhythm option '%s'. See 'help set rhythm' for valid rhythm options",
+                    rhythmStyle);
         }
     }
 

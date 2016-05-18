@@ -56,7 +56,7 @@ public  class rhythmFactory {
         for (int i = 0; i < items.length; i++) {
             try {
                 String[] fract =  items[i].split("/");
-                System.out.println(fract);
+
                 results[i] =(float) (Float.parseFloat(fract[0]) / Float.parseFloat(fract[1])) ;
 
             } catch (NumberFormatException nfe) {

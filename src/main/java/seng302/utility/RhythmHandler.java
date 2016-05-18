@@ -27,13 +27,8 @@ public class RhythmHandler {
      * @return next note play duration.
      */
     public int getNextTickTiming(){
-        if(rIndex < rhythmTimings.length){
-            return rhythmTimings[rIndex++];
-        }
-        else{
+        return rIndex < rhythmTimings.length ? rhythmTimings[rIndex++] : rhythmTimings[rIndex = 0];
 
-            return rhythmTimings[rIndex = 0];
-        }
     }
 
     /**
@@ -45,7 +40,7 @@ public class RhythmHandler {
 
         for(int i = 0; i < timings.length;  i++){
             timings[i] = (int)(beatResolution * divisions[i]);
-            System.out.println(timings[i]);
+
         }
         this.rhythmTimings = timings;
 
@@ -58,10 +53,12 @@ public class RhythmHandler {
      */
     public void setRhythmTimings(int[] timings){
         this.rhythmTimings = timings;
+        resetIndex();
 
     }
     public void setBeatResolution(int ticks){
         beatResolution = ticks;
+        resetIndex();
     }
     public int getBeatResolution(){ return beatResolution;}
     public int[] getRhythmTimings(){

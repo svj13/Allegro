@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import seng302.Environment;
 import seng302.managers.TranscriptManager;
@@ -32,6 +33,7 @@ public class RhythmTest {
         env.setTranscriptManager(transcriptManager);
 
         rh = env.getPlayer().getRhythmHandler();
+        Mockito.spy(rh);
     }
 
     @Test
@@ -77,13 +79,26 @@ public class RhythmTest {
     }
 
     @Test
-    public void testCustomRhythm(){
+    public void testCustomRhythmValues() {
+        rh.setBeatResolution(24);
         new Rhythm("2/3 1/3", false).execute(env);
-        verify(rh).setRhythmTimings(new float[]{2 / 3, 1 / 3});
+
+        assertEquals(16, rh.getNextTickTiming());
+        assertEquals(8, rh.getNextTickTiming());
+        assertArrayEquals(new int[]{16, 8}, rh.getRhythmTimings());
+
+
+        new Rhythm("1/4 1/2 1/4", false).execute(env);
+
+        assertEquals(6, rh.getNextTickTiming());
+        assertArrayEquals(new int[]{6, 12, 6}, rh.getRhythmTimings());
+
+        new Rhythm("heavy", false).execute(env);
+
+        assertEquals(18, rh.getNextTickTiming());
+
+        assertArrayEquals(new int[]{18, 6}, rh.getRhythmTimings());
     }
-
-
-
 
 
 }
