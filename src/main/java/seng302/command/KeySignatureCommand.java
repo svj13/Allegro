@@ -1,5 +1,6 @@
 package seng302.command;
 import seng302.Environment;
+import seng302.data.KeySignature;
 import seng302.utility.OctaveUtil;
 
 import java.util.ArrayList;
@@ -7,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class KeySignature implements Command {
+public class KeySignatureCommand implements Command {
 
     /**
      * Note to begin the scale on.
@@ -54,16 +55,16 @@ public class KeySignature implements Command {
     /**
      * map that stores all the major scales and there corresponding key signature
      */
-    private static HashMap<String, seng302.data.KeySignature> majorKeySignatures = seng302.data.KeySignature.getMajorKeySignatures();
+    private static HashMap<String, KeySignature> majorKeySignatures = KeySignature.getMajorKeySignatures();
 
     /**
      * map that stores all the minor scales and there corresponding key signature
      */
-    private static HashMap<String, seng302.data.KeySignature> minorKeySignatures = seng302.data.KeySignature.getMinorKeySignatures();
+    private static HashMap<String, KeySignature> minorKeySignatures = KeySignature.getMinorKeySignatures();
 
 
 
-    public KeySignature(HashMap<String, String> scale, String outputType){
+    public KeySignatureCommand(HashMap<String, String> scale, String outputType){
         this.startNote = scale.get("note");
         this.startNoteChar = Character.toUpperCase(startNote.charAt(0));
         System.out.println(scale);
@@ -81,7 +82,7 @@ public class KeySignature implements Command {
     /**
      * Constructor for getting scales with the given number of sharps/flats in their key sig
      */
-    public KeySignature(String numSharpsOrFlats){
+    public KeySignatureCommand(String numSharpsOrFlats){
         this.numFlatsOrSharps = Character.toString(numSharpsOrFlats.charAt(0));
         this.flatOrSharp = Character.toString(numSharpsOrFlats.charAt(1));
         this.outputType = "get";
@@ -201,16 +202,16 @@ public class KeySignature implements Command {
                 //valid number
                 if (this.flatOrSharp.equals("b")) {
                     //Add the major scales
-                    for(Map.Entry<String, seng302.data.KeySignature> entry : majorKeySignatures.entrySet()) {
-                        seng302.data.KeySignature thisKeySig = entry.getValue();
+                    for(Map.Entry<String, KeySignature> entry : majorKeySignatures.entrySet()) {
+                        KeySignature thisKeySig = entry.getValue();
                         if (thisKeySig.getNumberOfFlats() == numFlatsOrSharps) {
                             scalesWithThisType.add(thisKeySig.getStartNote() + " major");
                         }
                     }
 
                     //Add the minor scales
-                    for(Map.Entry<String, seng302.data.KeySignature> entry : minorKeySignatures.entrySet()) {
-                        seng302.data.KeySignature thisKeySig = entry.getValue();
+                    for(Map.Entry<String, KeySignature> entry : minorKeySignatures.entrySet()) {
+                        KeySignature thisKeySig = entry.getValue();
                         if (thisKeySig.getNumberOfFlats() == numFlatsOrSharps) {
                             scalesWithThisType.add(thisKeySig.getStartNote() + " minor");
                         }
@@ -218,16 +219,16 @@ public class KeySignature implements Command {
                 }
                 if (this.flatOrSharp.equals("#")) {
                     //Add the major scales
-                    for(Map.Entry<String, seng302.data.KeySignature> entry : majorKeySignatures.entrySet()) {
-                        seng302.data.KeySignature thisKeySig = entry.getValue();
+                    for(Map.Entry<String, KeySignature> entry : majorKeySignatures.entrySet()) {
+                        KeySignature thisKeySig = entry.getValue();
                         if (thisKeySig.getNumberOfSharps() == numFlatsOrSharps) {
                             scalesWithThisType.add(thisKeySig.getStartNote() + " major");
                         }
                     }
 
                     //Add the minor scales
-                    for(Map.Entry<String, seng302.data.KeySignature> entry : minorKeySignatures.entrySet()) {
-                        seng302.data.KeySignature thisKeySig = entry.getValue();
+                    for(Map.Entry<String, KeySignature> entry : minorKeySignatures.entrySet()) {
+                        KeySignature thisKeySig = entry.getValue();
                         if (thisKeySig.getNumberOfSharps() == numFlatsOrSharps) {
                             scalesWithThisType.add(thisKeySig.getStartNote() + " minor");
                         }
