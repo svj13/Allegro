@@ -152,8 +152,8 @@ RhythmType = (([0-9]+\/[0-9]+)(([ ][0-9]+\/[0-9]+)+)*)|([a-z|A-Z]+)
     {Number}           { return symbol(DslSymbol.NUMBER, new String(yytext())); }
     {MidiNote}          {return symbol(DslSymbol.MIDINOTE, new String(yytext())); }
     {ScaleType}         {return symbol(DslSymbol.SCALE_TYPE, new String(yytext()));}
-    {RhythmType}         {return symbol(DslSymbol.RHYTHM_TYPE, new String(yytext()));}
     {Direction}         {return symbol(DslSymbol.DIRECTION, new String(yytext()));}
+    {RhythmType}         {return symbol(DslSymbol.RHYTHM_TYPE, new String(yytext()));}
     {PosNum}            {return symbol(DslSymbol.POSNUM, new String(yytext()));}
     {Interval}          {return symbol(DslSymbol.INTERVAL, new String(yytext()));}
     {SemiColon}         {return symbol(DslSymbol.SEMIC);}
