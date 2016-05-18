@@ -1,11 +1,8 @@
 package seng302.command;
 import seng302.Environment;
-import seng302.data.Note;
 import seng302.utility.OctaveUtil;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,8 +40,14 @@ public class KeySignature implements Command {
 
     private float length = 0;
 
+    /**
+     * How many flats/sharps we are looking for in a scale signature
+     */
     private String numFlatsOrSharps;
 
+    /**
+     * Whether we are looking for flats or sharps
+     */
     private String flatOrSharp;
 
 
@@ -57,7 +60,6 @@ public class KeySignature implements Command {
      * map that stores all the minor scales and there corresponding key signature
      */
     private static HashMap<String, seng302.data.KeySignature> minorKeySignatures = seng302.data.KeySignature.getMinorKeySignatures();
-
 
 
 
@@ -182,6 +184,11 @@ public class KeySignature implements Command {
 
     }
 
+    /**
+     * Provided with a number and either sharps or flats, finds all scales whose key signatures
+     * have this number of sharps/flats.
+     * @param env
+     */
     private void getScalesOfType(Environment env) {
         try {
             int numFlatsOrSharps = Integer.parseInt(this.numFlatsOrSharps);
