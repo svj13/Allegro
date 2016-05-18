@@ -21,6 +21,11 @@ public class KeySignature {
     public static HashMap<String, KeySignature> majorKeySignatures = generateMajorKeySignatures();
 
 
+    /**
+     * An object of type key signature
+     * @param note The note that the key signature belongs to
+     * @param notesInSig The notes that are in the given key signature
+     */
     protected KeySignature(String note, List<String> notesInSig) {
         this.startNote = note;
         this.notesInSig = notesInSig;
@@ -53,6 +58,10 @@ public class KeySignature {
         return this.numFlats;
     }
 
+    /**
+     * Generates the key signatures of all accepted minor scales
+     * @return a hash map of key signatures
+     */
     private static HashMap<String, KeySignature> generateMinorKeySignatures() {
         HashMap<String,KeySignature>minorKeySignatures = new HashMap<String, KeySignature>();
 
@@ -80,6 +89,10 @@ public class KeySignature {
         return minorKeySignatures;
     }
 
+    /**
+     * Generates the key signatures of all accepted major scales
+     * @return a hash map of key signatures
+     */
     private static HashMap<String, KeySignature> generateMajorKeySignatures() {
         HashMap<String,KeySignature>majorKeySignatures = new HashMap<String, KeySignature>();
 
