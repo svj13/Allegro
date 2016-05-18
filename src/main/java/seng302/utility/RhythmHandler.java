@@ -72,37 +72,20 @@ public class RhythmHandler {
         String retString = "Rhythm beat divisions:";
 
         for(int timing : rhythmTimings){
-            retString += " "  + asFraction(timing, beatResolution);
+            retString += " "  + rhythmFactory.asFraction(timing, beatResolution);
 
         }
+
         return retString;
     }
+
+
 
     public void resetIndex(){
         rIndex = 0;
     }
 
 
-    /**
-     * Finds the greatest common multiple of two numbers
-     * @param a divident
-     * @param b divisor
-     * @return gcm of a and b
-     */
-    public static long gcm(long a, long b) {
-        return b == 0 ? a : gcm(b, a % b); // Not bad for one line of code :)
-    }
 
-
-    /**
-     * Returns a simplifed fraction string of a divident and divisor.
-     * @param a divident
-     * @param b divisor
-     * @return A string represetitive of fraction in simplist form e.g. a=50, b = 100 returns '1/2'
-     */
-    public static String asFraction(long a, long b) {
-        long gcm = gcm(a, b);
-        return (a / gcm) + "/" + (b / gcm);
-    }
 
 }
