@@ -1,6 +1,7 @@
 package seng302.data;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -61,9 +62,11 @@ public class Interval {
             new Interval(16, "major tenth", "major 10th"),
             new Interval(17, "perfect eleventh", "perfect 11th"),
             new Interval(18, "augmented eleventh", "augmented 11th"),
+            new Interval(18, "diminished twelfth", "diminished 12th"),
             new Interval(19, "perfect twelfth", "perfect 12th"),
             new Interval(20, "minor thirteenth", "minor 13th"),
             new Interval(21, "major thirteenth", "major 13th"),
+            new Interval(21, "diminished fourteenth", "diminished 14th"),
             new Interval(22, "minor fourteenth", "minor 14th"),
             new Interval(23, "major fourteenth", "major 14th"),
             new Interval(24, "double octave", ""), /////////////will this break stuff?
@@ -146,6 +149,23 @@ public class Interval {
         }
 
         return null;
+    }
+
+    /**
+     * Finds the enharmonic equivalents for a given interval by searching for intervals with the
+     * same number of semitones but a different name
+     * @param semitones the number of semitones in the interval
+     * @param intervalName the name of the interval to be compared with
+     * @return an arrayList of the enharmonic intervals
+     */
+    public static ArrayList<String> findEnharmonics(int semitones, String intervalName) {
+        ArrayList enharmonics = new ArrayList<String>();
+        for (Interval interval:intervals) {
+            if (interval.getSemitones() == semitones && (!interval.getName().equals(intervalName))) {
+                enharmonics.add(interval.getName());
+            }
+        }
+        return enharmonics;
     }
 
 }
