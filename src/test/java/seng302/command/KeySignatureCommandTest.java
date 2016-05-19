@@ -53,5 +53,26 @@ public class KeySignatureCommandTest {
 
     }
 
+    @Test
+    public void testGetNumberSharpsFlats() {
+        HashMap<String, String> scale = new HashMap<String, String>();
+        scale.put("scale_type", "minor");
+        scale.put("note", "C");
+        new KeySignatureCommand(scale, "number").execute(env);
+        verify(transcriptManager).setResult("3b");
+
+        scale.clear();
+        scale.put("scale_type", "major");
+        scale.put("note", "C");
+        new KeySignatureCommand(scale, "number").execute(env);
+        verify(transcriptManager).setResult("C major has 0# and 0b");
+
+        scale.clear();
+        scale.put("scale_type", "major");
+        scale.put("note", "C#");
+        new KeySignatureCommand(scale, "number").execute(env);
+        verify(transcriptManager).setResult("7#");
+    }
+
 
 }
