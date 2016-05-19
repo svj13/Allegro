@@ -87,13 +87,30 @@ public class RootController implements Initializable {
     private MenuItem menuSaveCommands;
 
     @FXML
+    private MenuItem menuPCT;
+
+    @FXML
+    private MenuItem menuIRT;
+
+    @FXML
+    private MenuItem menuMTT;
+
+    @FXML
+    private MenuItem menuSRT;
+
+    @FXML
+    private MenuItem menuCRT;
+
+    @FXML
     private Menu menuOpenProjects;
 
     @FXML
     private TabPane TabPane;
 
+
     @FXML
     private void initialize() {
+
 
     }
 
@@ -110,7 +127,8 @@ public class RootController implements Initializable {
         });
     }
 
-    public void initialize(URL location, ResourceBundle resources) {}
+    public void initialize(URL location, ResourceBundle resources) {
+    }
 
 
 
@@ -450,6 +468,44 @@ public class RootController implements Initializable {
 
     }
 
+
+    @FXML
+    private void openPitchTutor(){
+
+
+    }
+
+    @FXML
+    private void openIntervalTutor(){
+
+
+    }
+
+    @FXML
+    private void openMusicalTermTutor(){
+
+
+    }
+
+    @FXML
+    private void openScaleTutor(){
+
+
+    }
+
+    @FXML
+    private void openChordTutor(){
+
+
+    }
+
+
+
+
+
+
+
+
     /**
      * Displays an error message
      * @param errorMessage The message to be displayed
@@ -528,6 +584,7 @@ public class RootController implements Initializable {
 
             }
         });
+        
 
     }
 
