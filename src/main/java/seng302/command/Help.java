@@ -94,9 +94,8 @@ public class Help implements Command {
         } else if (keyword.equals("chord")) {
             result = "When followed by a valid chord and a valid chord type (i.e. major, minor), will" +
                     " return the corresponding notes that make up the given chord. Type 'help " +
-                    "chord types' for more information on valid chord types";
-        } else if (keyword.equals("chord types")) {
-            result = "major: when put after a valid chord, will show/play the chord in major. " +
+                    "chord types' for more information on valid chord types\n\n" + "Valid chords:\n" +
+                    "major: when put after a valid chord, will show/play the chord in major. " +
                     "A major chord that has a root note, a major third above this root, and a perfect " +
                     "fifth above this root note\n" +
                     "minor: when put after a valid chord, will show/play the chord in. A minor" +
@@ -112,9 +111,18 @@ public class Help implements Command {
                     "seventh. A seventh chord is a chord consisting of a triad plus a note " +
                     "forming an interval of a seventh above the chord's root.\n" +
                     "diminished: when put after a valid chord, will show/play the chord in " +
-                    "diminished.\n" +
+                    "diminished. It is a triad chord " +
+                    "consisting of two minor thirds above the root\n" +
+                    "diminished seventh/diminished 7th: when put after a valid chord, will show/" +
+                    "play the chord in diminished 7th. A diminished seventh chord is a four note " +
+                    "chord that comprises a diminished triad plus the interval of a diminished " +
+                    "seventh above the root\n" +
                     "half diminished: when put after a valid chord, will show/play the chord in " +
-                    "half diminished. \n";
+                    "half diminished. the half-diminished seventh chord—also known as a " +
+                    "half-diminished chord or a minor seventh flat five (m7?5)—is formed " +
+                    "by a root note, a minor third, a diminished fifth, and a minor " +
+                    "seventh \n";
+
         } else if (keyword.equals("")) {
             result = "" +
                     "\nadd musical term:\nWhen followed by a musical term in the format of 'name; origin; " +

@@ -214,6 +214,7 @@ keyword ::= COMMAND_HELP                                {: RESULT = "help"; :}
           | COMMAND_TWINKLE                             {: RESULT = "twinkle"; :}
           | COMMAND_CHORD                               {: RESULT = "chord"; :}
           | COMMAND_PLAY_CHORD                          {: RESULT = "play chord"; :}
+
 ;
 
 singleTerm ::= keyword:s {: RESULT = s;:}
