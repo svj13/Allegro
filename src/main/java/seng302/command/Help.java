@@ -89,10 +89,32 @@ public class Help implements Command {
             result = "When followed by an interval name and a note, it will play the given note and then the note that is the specified interval above the given note.";
         } else if (keyword.equals("play chord")) {
             result = "When followed by a valid chord and a valid chord type (i.e. major, minor), will" +
-                    " play the given chord";
+                    " play the given chord. Type 'help chord types' for more information on" +
+                    "valid chord types";
         } else if (keyword.equals("chord")) {
             result = "When followed by a valid chord and a valid chord type (i.e. major, minor), will" +
-                    " return the corresponding notes that make up the given chord";
+                    " return the corresponding notes that make up the given chord. Type 'help " +
+                    "chord types' for more information on valid chord types";
+        } else if (keyword.equals("chord types")) {
+            result = "major: when put after a valid chord, will show/play the chord in major. " +
+                    "A major chord that has a root note, a major third above this root, and a perfect " +
+                    "fifth above this root note\n" +
+                    "minor: when put after a valid chord, will show/play the chord in. A minor" +
+                    " chord is a chord having a root, a minor third, and a perfect fifth. \n" +
+                    "minor 7th/minor seventh: when put after a valid chord, will show/play the chord " +
+                    "in minor seventh. A minor seventh chord is any nondominant seventh chord where " +
+                    "the \"third\" note is a minor third above the root. \n" +
+                    "major 7th/major seventh: when put after a valid chord, will show/play the " +
+                    "chord in major 7th. A major seventh chord is a seventh chord where the" +
+                    " \"third\" note is a major third above the root, and the \"seventh\" note " +
+                    "is a major seventh above the root \n" +
+                    "7th/seventh: when put after a valid chord, will show/play the chord in " +
+                    "seventh. A seventh chord is a chord consisting of a triad plus a note " +
+                    "forming an interval of a seventh above the chord's root.\n" +
+                    "diminished: when put after a valid chord, will show/play the chord in " +
+                    "diminished.\n" +
+                    "half diminished: when put after a valid chord, will show/play the chord in " +
+                    "half diminished. \n";
         } else if (keyword.equals("")) {
             result = "" +
                     "\nadd musical term:\nWhen followed by a musical term in the format of 'name; origin; " +

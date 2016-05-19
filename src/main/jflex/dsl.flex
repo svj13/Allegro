@@ -13,8 +13,8 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 %column
 %unicode
 %caseless
-/* Uncomment for debugging info.
-%debug*/
+/* Uncomment for debugging info. */
+%debug
 
 
 
@@ -101,6 +101,10 @@ Atom = [^\s|;]+
 SemiColon = ";"
 ScaleType = "major"|"minor"
 PlayStyle = "arpeggio"
+ChordType = "seventh"|"7th"|"7"|"seven"|"half dim"|"half diminished"|"major 7th"
+            |"major seventh"|"minor 7th"|"minor 7th"|"half dim"|"half diminished"|
+            "half diminished 7th"|"half diminished seventh"|"half dim seventh"|"half dim 7th"|
+            "diminished seventh"|"diminished 7th"|"dim seventh"|"dim 7th"
 Direction = "updown"|"up"|"down"
 PosNum = \p{Digit}+
 Interval = ("unison"|(major\s(second|2nd|third|3rd|sixth|6th|seventh|7th|ninth|9th|tenth|10th|thirteenth|13th|fourteenth|14th))|(minor\s(second|2nd|third|3rd|sixth|6th|seventh|7th|ninth|9th|tenth|10th|thirteenth|13th|fourteenth|14th))|(augmented\s(fourth|4th|eleventh|11th))|(diminished\s(fifth|5th|seventh|7th))|(perfect\s(fourth|4th|fifth|5th|eleventh|11th|twelfth|12th|octave))|"double octave")
@@ -148,11 +152,13 @@ Interval = ("unison"|(major\s(second|2nd|third|3rd|sixth|6th|seventh|7th|ninth|9
     {Number}           { return symbol(DslSymbol.NUMBER, new String(yytext())); }
     {MidiNote}          {return symbol(DslSymbol.MIDINOTE, new String(yytext())); }
     {ScaleType}         {return symbol(DslSymbol.SCALE_TYPE, new String(yytext()));}
+    {ChordType}         {return symbol(DslSymbol.CHORD_TYPE, new String(yytext()));}
     {Direction}         {return symbol(DslSymbol.DIRECTION, new String(yytext()));}
     {PosNum}            {return symbol(DslSymbol.POSNUM, new String(yytext()));}
     {Interval}          {return symbol(DslSymbol.INTERVAL, new String(yytext()));}
     {SemiColon}         {return symbol(DslSymbol.SEMIC);}
     {Atom}             { return symbol(DslSymbol.ATOM, new String(yytext()));}
     {WhiteSpace}       { /* Ignore whitespace */ }
+
 
 }

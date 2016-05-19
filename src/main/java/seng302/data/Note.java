@@ -484,12 +484,27 @@ Created the tempo class and made it so it defaults to 120BMP
         } else if (type.toLowerCase().equals("half diminished seventh") ||
                 type.toLowerCase().equals("half dim seventh") ||
                 type.toLowerCase().equals("half dim 7th") ||
-                type.toLowerCase().equals("half diminished 7th")) {
+                type.toLowerCase().equals("half diminished 7th") ||
+                type.toLowerCase().equals("half dim") ||
+                type.toLowerCase().equals("half diminished")) {
             Note currentNote = this;
             chordNotes.add(currentNote);
             chordNotes.add(currentNote.semitoneUp(3));
             chordNotes.add(currentNote.semitoneUp(6));
             chordNotes.add(currentNote.semitoneUp(10));
+            if (chordNotes.contains(null)) {
+                return null;
+            }
+        //for diminished chords (4 chords)
+        } else if (type.toLowerCase().equals("diminished seventh") ||
+                type.toLowerCase().equals("dim seventh") ||
+                type.toLowerCase().equals("dim 7th") ||
+                type.toLowerCase().equals("diminished 7th")) {
+            Note currentNote = this;
+            chordNotes.add(currentNote);
+            chordNotes.add(currentNote.semitoneUp(3));
+            chordNotes.add(currentNote.semitoneUp(6));
+            chordNotes.add(currentNote.semitoneUp(9));
             if (chordNotes.contains(null)) {
                 return null;
             }
