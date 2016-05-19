@@ -93,6 +93,15 @@ public class Help implements Command {
         } else if (keyword.equals("chord")) {
             result = "When followed by a valid chord and a valid chord type (i.e. major, minor), will" +
                     " return the corresponding notes that make up the given chord";
+        } else if (keyword.equals("scale signature") || keyword.equals("scale sig")) {
+            result = "When followed by a scale, shows that scale's key signature";
+        } else if (keyword.equals("scale signature num") || keyword.equals("scale sig num")) {
+            result = "When followed by a scale, shows the number of flats and sharps in " +
+                    "that scale's key signature.";
+        } else if (keyword.equals("scale signature with") || keyword.equals("scale sig with")) {
+            result = "When followed by either a number of sharps or flats (i.e. 2#, 7b) or " +
+                    "a specific list of notes (i.e. F#, C#), will return the scales whose " +
+                    "key signatures contain that information";
         } else if (keyword.equals("")) {
             result = "" +
                     "\nadd musical term:\nWhen followed by a musical term in the format of 'name; origin; " +
