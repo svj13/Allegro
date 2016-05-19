@@ -4,6 +4,7 @@ package seng302.gui;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 import javafx.event.ActionEvent;
@@ -94,7 +95,8 @@ public class ChordRecognitionTutorController extends TutorController{
             chordType = "minor";
         }
         Note randNote = getRandomNote();
-        return generateQuestionPane(randNote, chordType);
+//        return generateQuestionPane(randNote, chordType);
+        return generateQuestionPane(new Pair<Note, String>(randNote, chordType));
     }
 
     /**
@@ -131,17 +133,21 @@ public class ChordRecognitionTutorController extends TutorController{
 
     /**
      * Creates a GUI pane for a single question
-     * @param startNote the first note in the chord
-     * @param chordType the type of chord, being major or minor
+     * @param noteAndChord pair containing first note and type of scale to play
      * @return
      */
-    public HBox generateQuestionPane(Note startNote, final String chordType) {
+    public HBox generateQuestionPane(Pair noteAndChord) {
+        final Pair<Note, String> noteAndChordType = noteAndChord;
         final HBox questionRow = new HBox();
         formatQuestionRow(questionRow);
-        final Label correctAnswer = correctAnswer(chordType);
+        final Label correctAnswer = correctAnswer(noteAndChordType.getValue());
+        final Note startNote = noteAndChordType.getKey();
+//        System.out.println("startNote" + startNote);
+        final String chordType = noteAndChordType.getValue();
 
         final Collection<Note> theChord = new ArrayList<Note>(startNote.getChord(chordType));
-        final Chord myChord;
+//        final Pair<Collection<Note>, String> answer = new Pair<Collection<Note>, String>(theChord, chordType);
+//        final Chord myChord;
 //        System.out.println("theChord?: " + theChord);
 
         Button play = new Button();
@@ -154,12 +160,12 @@ public class ChordRecognitionTutorController extends TutorController{
             }
         });
 
+
         final ComboBox<String> options = generateChoices();
-//        final Pair<Chord, String> answer = (theChord, chordType);
         options.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                System.out.println("Options.getVal: " + options.getValue());
-                handleQuestionAnswer(options.getValue(), new Pair<Collection<Note>, String>(theChord, chordType), questionRow);
+//                System.out.println("Options.getVal: " + options.getValue());
+                handleQuestionAnswer(options.getValue().toLowerCase(), noteAndChordType, questionRow);
             }
         });
 
@@ -167,23 +173,23 @@ public class ChordRecognitionTutorController extends TutorController{
         Button skip = new Button("Skip");
         styleSkipButton(skip);
 
-//        skip.setOnAction(new EventHandler<ActionEvent>() {
-//            public void handle(ActionEvent event) {
-//                // Disables only input buttons
-//                disableButtons(questionRow, 1, 3);
-//                formatSkippedQuestion(questionRow);
-//                manager.questions -= 1;
-//                manager.add(noteAndScaleType, 2);
-//                String[] question = new String[]{
-//                        String.format("%s scale from %s",scaleType, startNote.getNote()),
-//                        scaleType
-//                };
-//                record.addSkippedQuestion(question);
-//                if (manager.answered == manager.questions) {
-//                    finished();
-//                }
-//            }
-//        });
+        skip.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                // Disables only input buttons
+                disableButtons(questionRow, 1, 3);
+                formatSkippedQuestion(questionRow);
+                manager.questions -= 1;
+                manager.add(noteAndChordType, 2);
+                String[] question = new String[]{
+                        String.format("%s scale from %s", chordType, startNote.getNote()),
+                        chordType
+                };
+                record.addSkippedQuestion(question);
+                if (manager.answered == manager.questions) {
+                    finished();
+                }
+            }
+        });
 
         questionRow.getChildren().add(0, play);
         questionRow.getChildren().add(1, options);
@@ -212,11 +218,10 @@ public class ChordRecognitionTutorController extends TutorController{
      * @param correctAnswer The correct chord, as text
      * @param questionRow The HBox containing GUI question data
      */
-    public void handleQuestionAnswer(String userAnswer, Pair<Collection<Note>, String> correctAnswer, HBox questionRow) {
+    public void handleQuestionAnswer(String userAnswer, Pair correctAnswer, HBox questionRow) {
         manager.answered += 1;
         boolean correct;
         disableButtons(questionRow, 1, 3);
-//        System.out.println("User answer and 'correctAnswer': " + userAnswer + " and " + correctAnswer.getValue());
         if (userAnswer.equals(correctAnswer.getValue())) {
             correct = true;
             manager.add(correctAnswer, 1);
@@ -230,7 +235,7 @@ public class ChordRecognitionTutorController extends TutorController{
         }
         Note startingNote = (Note) correctAnswer.getKey();
         String[] question = new String[]{
-                String.format("%s scale from %s",
+                String.format("%s chord from %s",
                         correctAnswer.getValue(),
                         startingNote.getNote()),
                 userAnswer,
