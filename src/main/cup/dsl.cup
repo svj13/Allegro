@@ -93,7 +93,7 @@ COMMAND_INTERVAL, COMMAND_PLAY_INTERVAL,COMMAND_ALL_ENHARMONICS, SEMIC, COMMAND_
 COMMAND_REDO, COMMAND_TWINKLE, COMMAND_CHORD, COMMAND_PLAY_CHORD, COMMAND_SHOW_KEYSIGNATURE,
 COMMAND_SHOW_KEYSIGNATURE_NUM, COMMAND_SCALE_WITH_KEYSIG;
 
-terminal String ATOM, NOTE, SCALE_TYPE, DIRECTION, MIDINOTE, NUMBER, POSNUM, INTERVAL, SHARPSFLATS, BVALUE;
+terminal String ATOM, NOTE, SCALE_TYPE, DIRECTION, MIDINOTE, NUMBER, POSNUM, INTERVAL, SHARPSFLATS;
 
 /* Non terminals */
 non terminal Command command;
@@ -147,7 +147,7 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_PLAY_CHORD playScale:s              {: RESULT = new Chord(s, "play");:}
           | COMMAND_SHOW_KEYSIGNATURE scale:s           {: RESULT = new KeySignatureCommand(s,"notes"); :}
           | COMMAND_SHOW_KEYSIGNATURE_NUM scale:s       {: RESULT = new KeySignatureCommand(s,"number"); :}
-          | COMMAND_SCALE_WITH_KEYSIG numberAndSharpsFlat:s     {: RESULT = new KeySignatureCommand(s); :}
+          | COMMAND_SCALE_WITH_KEYSIG SHARPSFLATS:s     {: RESULT = new KeySignatureCommand(s); :}
           | COMMAND_SCALE_WITH_KEYSIG notes:s           {: RESULT = new KeySignatureCommand(s); :}
 ;
 
@@ -229,9 +229,6 @@ term ::= singleTerm:s {:RESULT =s;:}
        | term:s singleTerm:t {:RESULT = s + " " + t; :}
 ;
 
-numberAndSharpsFlat ::= NUMBER:s SHARPSFLATS:r {:RESULT = s+r; :}
-                        | NUMBER:s BVALUE:r     {:RESULT = s+r; :}
-;
 
 musicalDef ::= term:a SEMIC term:b SEMIC term:c SEMIC term:d
                 {: RESULT = new ArrayList<String>(); RESULT.add(a.toLowerCase());
