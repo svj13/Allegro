@@ -1,6 +1,9 @@
 package seng302.gui;
 
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.control.*;
 import org.json.simple.JSONArray;
 
 import java.io.File;
@@ -15,13 +18,6 @@ import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SeparatorMenuItem;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -471,25 +467,85 @@ public class RootController implements Initializable {
 
     @FXML
     private void openPitchTutor(){
+        Tab pitchTab = new Tab("Pitch Comparison Tutor");
 
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/Views/PitchComparisonPane.fxml"));
+
+        try {
+            pitchTab.setContent((Node)loader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        TabPane.getTabs().add(pitchTab);
+        TabPane.getSelectionModel().select(pitchTab);
+        PitchComparisonTabController =  loader.getController();
+        PitchComparisonTabController.create(env);
 
     }
 
     @FXML
     private void openIntervalTutor(){
 
+        Tab intervalTab = new Tab("Interval Recognition Tutor");
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/Views/IntervalRecognitionPane.fxml"));
+
+        try {
+            intervalTab.setContent((Node)loader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        TabPane.getTabs().add(intervalTab);
+        TabPane.getSelectionModel().select(intervalTab);
+        IntervalRecognitionTabController =  loader.getController();
+        IntervalRecognitionTabController.create(env);
 
     }
+
 
     @FXML
     private void openMusicalTermTutor(){
 
+        Tab musicalTermTab = new Tab("Musical Terms Tutor");
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/Views/MusicalTermsPane.fxml"));
+
+        try {
+            musicalTermTab.setContent((Node)loader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        TabPane.getTabs().add(musicalTermTab);
+        TabPane.getSelectionModel().select(musicalTermTab);
+        MusicalTermsTabController =  loader.getController();
+        MusicalTermsTabController.create(env);
 
     }
 
     @FXML
     private void openScaleTutor(){
 
+        Tab ScaleTab = new Tab("Scale Recognition Tutor");
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/Views/ScaleRecognitionPane.fxml"));
+
+        try {
+            ScaleTab.setContent((Node)loader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        TabPane.getTabs().add(ScaleTab);
+        TabPane.getSelectionModel().select(ScaleTab);
+        ScaleRecognitionTabController =  loader.getController();
+        ScaleRecognitionTabController.create(env);
 
     }
 
@@ -596,10 +652,10 @@ public class RootController implements Initializable {
         this.env = env;
         tm = env.getTranscriptManager();
         transcriptController.setEnv(env);
-        PitchComparisonTabController.create(env);
-        IntervalRecognitionTabController.create(env);
-        MusicalTermsTabController.create(env);
-        ScaleRecognitionTabController.create(env);
+        //PitchComparisonTabController.create(env);
+        //IntervalRecognitionTabController.create(env);
+        //MusicalTermsTabController.create(env);
+        //ScaleRecognitionTabController.create(env);
         keyboardPaneController.create(env);
 
         env.setRootController(this);

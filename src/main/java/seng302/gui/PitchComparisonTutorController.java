@@ -85,6 +85,7 @@ public class PitchComparisonTutorController extends TutorController{
         paneQuestions.setVisible(true);
         paneResults.setVisible(false);
         record = new TutorRecord(new Date(), "Pitch Comparison");
+        System.out.println(manager);
         manager.answered = 0;
 
         if (lowerSet && upperSet) {
