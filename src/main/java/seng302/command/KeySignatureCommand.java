@@ -180,7 +180,7 @@ public class KeySignatureCommand implements Command {
 
         if (type.toLowerCase().equals("major")) {
             if(startNoteChar.equals('C') && !(startNote.contains("#") || startNote.contains("b")) ) {
-                env.getTranscriptManager().setResult(startNote + " has 0# and 0b");
+                env.getTranscriptManager().setResult(startNote + " major has 0# and 0b");
             }else {
                 sig = majorKeySignatures.get(startNote.substring(0, 1).toUpperCase() + startNote.substring(1)).getNotes();
                 env.getTranscriptManager().setResult(Integer.toString(sig.size())+sig.get(0).charAt(1));
@@ -189,7 +189,7 @@ public class KeySignatureCommand implements Command {
 
         }else if(type.toLowerCase().equals("minor")){
             if(startNoteChar.equals('A') && !(startNote.contains("#") || startNote.contains("b")) ) {
-                env.getTranscriptManager().setResult(startNote + " has 0# and 0b");
+                env.getTranscriptManager().setResult(startNote + " minor has 0# and 0b");
             }else {
                 sig = minorKeySignatures.get(startNote.substring(0, 1).toUpperCase() + startNote.substring(1)).getNotes();
                 env.getTranscriptManager().setResult(Integer.toString(sig.size())+sig.get(0).charAt(1));
