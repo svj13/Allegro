@@ -299,6 +299,7 @@ public class IntervalRecognitionTutorController extends TutorController {
         boolean tooLow = lowSemi < 0;
         ArrayList<Interval> enharmonic;
         ArrayList<String> optionContent = new ArrayList<String>();
+        optionContent.add(thisInterval.getName());
 
         while(optionContent.size() < 8) {
 
@@ -332,6 +333,7 @@ public class IntervalRecognitionTutorController extends TutorController {
             }
 
         }
+
         Collections.shuffle(optionContent);
         for(String interval: optionContent){
             options.getItems().add(interval);
