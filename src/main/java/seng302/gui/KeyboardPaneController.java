@@ -5,6 +5,7 @@ import org.controlsfx.control.PopOver;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Stack;
 
 import javafx.application.Platform;
 import javafx.collections.ObservableArray;
@@ -14,12 +15,17 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
+import javafx.scene.control.Label;
+import javafx.scene.control.TitledPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import seng302.Environment;
@@ -37,6 +43,9 @@ public class KeyboardPaneController {
     @FXML
     private StackPane keyboardStack;
 
+    @FXML
+    private TitledPane titlePane;
+
     Environment env;
 
     private Integer numberOfKeys = 24;
@@ -53,6 +62,38 @@ public class KeyboardPaneController {
     }
 
     public void create(Environment env) {
+
+//        BorderPane titleAndMenu = new BorderPane();
+//        titleAndMenu.setLeft(new Label("Keyboard"));
+//        Button settingsButton = new Button("Settings");
+//
+//        titleAndMenu.setCenter(new Label(" "));
+//
+//        titleAndMenu.setRight(settingsButton);
+//        titleAndMenu.prefWidthProperty().bind(titlePane.widthProperty());
+//        titleAndMenu.setManaged(true);
+
+//        HBox titleAndMenu = new HBox();
+//        Label keyboardTitle = new Label("Keyboard");
+//        Button settings = new Button("Settings");
+//        Region blankSpace = new Region();
+//        blankSpace.setMaxWidth(Double.MAX_VALUE);
+//        titleAndMenu.getChildren().add(keyboardTitle);
+//        titleAndMenu.getChildren().add(blankSpace);
+//        titleAndMenu.getChildren().add(settings);
+//        titleAndMenu.setHgrow(blankSpace, Priority.ALWAYS);
+//        titlePane.setGraphic(titleAndMenu);
+
+
+
+
+
+
+
+
+
+
+
         this.env = env;
         setUpKeyboard();
         multiNotes = new ArrayList<Note>();
@@ -79,12 +120,6 @@ public class KeyboardPaneController {
 
 
         }
-        ButtonBar bar = new ButtonBar();
-        keyboardStack.getChildren().add(bar);
-        Button show = new Button("show");
-        bar.getButtons().add(show);
-        PopOver pop = new PopOver(new Pane());
-        //pop.show(show);
 
         keyboardBox.setOnKeyPressed(new EventHandler<KeyEvent>() {
             public void handle(KeyEvent event) {
