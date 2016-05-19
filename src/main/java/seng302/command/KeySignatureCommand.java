@@ -51,6 +51,8 @@ public class KeySignatureCommand implements Command {
      */
     private String flatOrSharp;
 
+    private ArrayList<String> notesInSignature;
+
 
     /**
      * map that stores all the major scales and there corresponding key signature
@@ -67,7 +69,6 @@ public class KeySignatureCommand implements Command {
     public KeySignatureCommand(HashMap<String, String> scale, String outputType){
         this.startNote = scale.get("note");
         this.startNoteChar = Character.toUpperCase(startNote.charAt(0));
-        System.out.println(scale);
 
         this.type = scale.get("scale_type");
         this.outputType = outputType;
@@ -88,6 +89,14 @@ public class KeySignatureCommand implements Command {
         this.outputType = "get";
     }
 
+    /**
+     * Constructor for getting scales with the given set of notes in their key signature
+     */
+    public KeySignatureCommand(ArrayList<String> notes) {
+        this.notesInSignature = notes;
+        this.outputType = "getNotes";
+    }
+
 
 
     /**
@@ -96,7 +105,6 @@ public class KeySignatureCommand implements Command {
      */
     private void displayKeySignature(Environment env){
         String outputString = "";
-        System.out.println(startNoteChar);
 
         List<String> sig;
 
@@ -148,6 +156,15 @@ public class KeySignatureCommand implements Command {
 
     }
 
+    private String generateOutputStringScaleNames(List<String> scaleNames) {
+        String outputString = "";
+        for (String scaleName : scaleNames) {
+            outputString += scaleName + ", ";
+        }
+        outputString = outputString.substring(0, outputString.length() - 2);
+        return outputString;
+    }
+
 
     /**
      * Displays the number of flats or sharps in a given scale
@@ -155,8 +172,6 @@ public class KeySignatureCommand implements Command {
      */
     private void displayNumberKeySignatures(Environment env){
 
-        System.out.println(startNote);
-        System.out.println(startNoteChar);
         List<String> sig;
 
         if(octaveSpecified){
@@ -242,6 +257,32 @@ public class KeySignatureCommand implements Command {
         }
     }
 
+    /**
+     * Given a list of notes, finds all scales whose signatures match that list.
+     */
+    private void getScaleWithNotes(Environment env) {
+        ArrayList<String> scales = new ArrayList<String>();
+        for (Map.Entry<String, KeySignature> entry : minorKeySignatures.entrySet()) {
+            KeySignature thisKeySig = entry.getValue();
+            if (thisKeySig.getNotes().equals(this.notesInSignature)) {
+                scales.add(thisKeySig.getStartNote() + " minor");
+            }
+        }
+        for (Map.Entry<String, KeySignature> entry : majorKeySignatures.entrySet()) {
+            KeySignature thisKeySig = entry.getValue();
+            if (thisKeySig.getNotes().equals(this.notesInSignature)) {
+                scales.add(thisKeySig.getStartNote() + " major");
+            }
+        }
+
+        if (scales.size() > 0) {
+            env.getTranscriptManager().setResult(generateOutputStringScaleNames(scales));
+        } else {
+            env.getTranscriptManager().setResult("No scales with this key signature.");
+        }
+
+    }
+
 
 
 
@@ -272,6 +313,8 @@ public class KeySignatureCommand implements Command {
 
         } else if (outputType.equals("get")) {
             getScalesOfType(env);
+        } else if (outputType.equals("getNotes")) {
+            getScaleWithNotes(env);
         }
 
     }

@@ -109,6 +109,7 @@ non terminal String keyword;
 non terminal String singleTerm;
 non terminal String term;
 non terminal String numberAndSharpsFlat;
+non terminal ArrayList<String> notes;
 
 start with command;
 
@@ -147,12 +148,16 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_SHOW_KEYSIGNATURE scale:s           {: RESULT = new KeySignatureCommand(s,"notes"); :}
           | COMMAND_SHOW_KEYSIGNATURE_NUM scale:s       {: RESULT = new KeySignatureCommand(s,"number"); :}
           | COMMAND_SCALE_WITH_KEYSIG numberAndSharpsFlat:s     {: RESULT = new KeySignatureCommand(s); :}
+          | COMMAND_SCALE_WITH_KEYSIG notes:s           {: RESULT = new KeySignatureCommand(s); :}
 ;
 
 
 note ::= NOTE:s             {:RESULT = s;:}
        | midiNote:s         {:RESULT = s;:}
-       | BVALUE:b           {:RESULT = b;:}
+;
+
+notes ::= note:a {: RESULT = new ArrayList<String>(); RESULT.add(a);:}
+         | notes:a note:b {: RESULT = a; RESULT.add(b); :}
 ;
 
 midiNote ::= MIDINOTE:s     {:RESULT = s;:}
@@ -235,8 +240,6 @@ musicalDef ::= term:a SEMIC term:b SEMIC term:c SEMIC term:d
                 {: errorMessage = "Please provide the name, origin, category and definition of the " +
                    "musical term, separated by semicolons.";:}
 ;
-
-
 
 
 
