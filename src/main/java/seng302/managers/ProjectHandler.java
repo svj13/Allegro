@@ -37,6 +37,13 @@ public class ProjectHandler {
     private String[] propertyNames = {"tempo"};
 
     JSONObject projectSettings;
+
+    JSONObject pitchTutorRecords;
+    JSONObject intervalTutorRecords;
+    JSONObject musicalTermsTutorRecords;
+    JSONObject scaleTutorRecords;
+    JSONObject chordTutorRecords;
+
     JSONParser parser = new JSONParser(); //parser for reading project
 
     JSONArray projectList;
@@ -52,6 +59,13 @@ public class ProjectHandler {
     public ProjectHandler(Environment env){
 
         projectSettings = new JSONObject();
+        pitchTutorRecords = new JSONObject();
+        intervalTutorRecords = new JSONObject();
+        musicalTermsTutorRecords = new JSONObject();
+        scaleTutorRecords = new JSONObject();
+        chordTutorRecords = new JSONObject();
+
+
         this.env = env;
         try {
             this.projectsInfo = (JSONObject) parser.parse(new FileReader(userDirectory+"/projects.json"));
@@ -108,6 +122,30 @@ public class ProjectHandler {
         projectSettings.put("rhythm", gson.toJson(env.getPlayer().getRhythmHandler().getRhythmTimings()));
 
     }
+
+    private void saveTutorRecords(String tutorType, String record){
+
+        if(tutorType.equals("pitch")){
+
+            pitchTutorRecords.put("Record", record);
+
+        }else if(tutorType.equals("interval")) {
+
+            intervalTutorRecords.put("Record", record);
+
+        }else if(tutorType.equals("musicalTerm")){
+        musicalTermsTutorRecords.put("Record", record);
+
+        }else if(tutorType.equals("scale")){
+
+        scaleTutorRecords.put("Record", record);
+
+        }else if(tutorType.equals("chord")){
+
+            chordTutorRecords.put("Record", record);
+        }
+    }
+
 
     /**
      * load all saved project properties from the project json file.
