@@ -69,6 +69,10 @@ parser code {:
                    prevTokenName.equals("INTERVAL") ||
                    prevTokenName.equals("COMMAND_SCALE")) {
             errorMessage = "\'" + cur_token.value + "\'" + " is not a valid note.";
+
+        } else if (prevTokenName.equals("COMMAND_SET_RHYTHM")){
+            errorMessage = "\'" + cur_token.value + "\'" + " is not a valid rhythm setting.  Accepted options: straight, heavy, light or medium.";
+
         } else {
             errorMessage = "Invalid input for this command. Please type 'help' and the command you want to use for more information.";
         }
@@ -90,10 +94,11 @@ COMMAND_ENHARMONIC_HIGHER, COMMAND_SIMPLE_ENHARMONIC, COMMAND_SET_TEMPO, COMMAND
 COMMAND_PLAY_NOTE, COMMAND_FORCE_SET_TEMPO, COMMAND_PLAY_SCALE, COMMAND_MUSICAL_TERM_MEANING,
 COMMAND_MUSICAL_TERM_ORIGIN, COMMAND_MUSICAL_TERM_CATEGORY, COMMAND_ADD_MUSICAL_TERM,
 COMMAND_INTERVAL, COMMAND_PLAY_INTERVAL,COMMAND_ALL_ENHARMONICS, SEMIC, COMMAND_UNDO,
-COMMAND_REDO, COMMAND_TWINKLE, COMMAND_CHORD, COMMAND_PLAY_CHORD, COMMAND_SHOW_KEYSIGNATURE,
-COMMAND_SHOW_KEYSIGNATURE_NUM, COMMAND_SCALE_WITH_KEYSIG;
+COMMAND_REDO, COMMAND_TWINKLE, COMMAND_CHORD, COMMAND_PLAY_CHORD,COMMAND_RHYTHM, COMMAND_SET_RHYTHM,
+COMMAND_INTERVAL_ENHARMONIC, COMMAND_SHOW_KEYSIGNATURE,COMMAND_SHOW_KEYSIGNATURE_NUM,
+COMMAND_SCALE_WITH_KEYSIG;
 
-terminal String ATOM, NOTE, SCALE_TYPE, DIRECTION, MIDINOTE, NUMBER, POSNUM, INTERVAL, SHARPSFLATS;
+terminal String ATOM, NOTE, SCALE_TYPE, DIRECTION, MIDINOTE, NUMBER, POSNUM, INTERVAL, SHARPSFLATS, RHYTHM_TYPE, PLAY_STYLE;
 
 /* Non terminals */
 non terminal Command command;
@@ -108,6 +113,8 @@ non terminal HashMap<String, String> intervalWithTonic;
 non terminal String keyword;
 non terminal String singleTerm;
 non terminal String term;
+non terminal String rhythmStyle;
+non terminal HashMap<String, String> playChord;
 non terminal String numberAndSharpsFlat;
 non terminal ArrayList<String> notes;
 
@@ -124,12 +131,14 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_SEMITONE_UP note:s                  {: RESULT = new Semitone(s, true); :}
           | COMMAND_SEMITONE_DOWN note:s                {: RESULT = new Semitone(s, false); :}
           | COMMAND_TEMPO                               {: RESULT = new Tempo(); :}
+          | COMMAND_RHYTHM                               {: RESULT = new Rhythm(); :}
           | COMMAND_SCALE scale:s                       {: RESULT = new Scale(s, "note"); :}
           | COMMAND_MIDI_SCALE scale:s                  {: RESULT = new Scale(s, "midi"); :}
           | COMMAND_ENHARMONIC_HIGHER note:s            {: RESULT = new Enharmonic(s, 0); :}
           | COMMAND_ENHARMONIC_LOWER note:s             {: RESULT = new Enharmonic(s, 1); :}
           | COMMAND_SIMPLE_ENHARMONIC note:s            {: RESULT = new Enharmonic(s, 2); :}
           | COMMAND_SET_TEMPO positiveNum:s             {: RESULT = new Tempo(s, false); :}
+          | COMMAND_SET_RHYTHM rhythmStyle:r            {: RESULT = new Rhythm(r, false); :}
           | COMMAND_FORCE_SET_TEMPO positiveNum:s       {: RESULT = new Tempo(s, true); :}
           | COMMAND_CROTCHET_DURATION                   {: RESULT = new CrotchetDuration(); :}
           | COMMAND_PLAY_NOTE note:s                    {: RESULT = new PlayNote(s); :}
@@ -144,11 +153,12 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_REDO                                {: RESULT = new UndoRedo(1); :}
           | COMMAND_TWINKLE                             {: RESULT = new Twinkle(); :}
           | COMMAND_CHORD scale:s                       {: RESULT = new Chord(s, "chord"); :}
-          | COMMAND_PLAY_CHORD playScale:s              {: RESULT = new Chord(s, "play");:}
           | COMMAND_SHOW_KEYSIGNATURE scale:s           {: RESULT = new KeySignatureCommand(s,"notes"); :}
           | COMMAND_SHOW_KEYSIGNATURE_NUM scale:s       {: RESULT = new KeySignatureCommand(s,"number"); :}
           | COMMAND_SCALE_WITH_KEYSIG SHARPSFLATS:s     {: RESULT = new KeySignatureCommand(s); :}
           | COMMAND_SCALE_WITH_KEYSIG notes:s           {: RESULT = new KeySignatureCommand(s); :}
+          | COMMAND_PLAY_CHORD playChord:s              {: RESULT = new Chord(s, "play");:}
+          | COMMAND_INTERVAL_ENHARMONIC interval:i      {: RESULT = new IntervalCommand(i,"equivalent"); :}
 ;
 
 
@@ -168,7 +178,10 @@ positiveNum ::= midiNote:s   {:RESULT = s;:}
               | POSNUM:s     {:RESULT = s;:}
 ;
 
-scale ::= note:s SCALE_TYPE:r       {:RESULT = new HashMap<String,String>(); RESULT.put("note", s);
+rhythmStyle ::= RHYTHM_TYPE: r {:RESULT = r;:}
+;
+
+scale ::= NOTE:s SCALE_TYPE:r       {:RESULT = new HashMap<String,String>(); RESULT.put("note", s);
                                                 RESULT.put("scale_type", r);:}
 ;
 
@@ -177,6 +190,10 @@ playScale ::= scale:s {:RESULT = s;:}
             |   scale:s NUMBER:a {: s.put("octaves", String.valueOf(a)); RESULT = s;:}
             |   scale:s NUMBER:a DIRECTION:b {: s.put("octaves", String.valueOf(a)); s.put("direction", b); RESULT = s;:}
             |   scale:s DIRECTION:b NUMBER:a {: s.put("octaves", String.valueOf(a)); s.put("direction", b); RESULT = s;:}
+;
+
+playChord ::= scale:s {:RESULT = s;:}
+            | scale:s PLAY_STYLE:a {: s.put("playStyle", a); RESULT = s;:}
 ;
 
 interval ::= INTERVAL:i {: RESULT = new HashMap<String,String>(); RESULT.put("interval", i);:}
@@ -189,6 +206,7 @@ intervalWithTonic ::= interval:i note:a {: i.put("note",a); RESULT = i;:}
 keyword ::= COMMAND_HELP                                {: RESULT = "help"; :}
           | COMMAND_VERSION                             {: RESULT = "version"; :}
           | COMMAND_TEMPO                               {: RESULT = "tempo"; :}
+          | COMMAND_RHYTHM                               {: RESULT = "rhythm"; :}
           | COMMAND_NOTE                                {: RESULT = "note"; :}
           | COMMAND_MIDI                                {: RESULT = "midi"; :}
           | COMMAND_SCALE                               {: RESULT = "scale"; :}
@@ -203,6 +221,7 @@ keyword ::= COMMAND_HELP                                {: RESULT = "help"; :}
           | COMMAND_ENHARMONIC_LOWER                    {: RESULT = "enharmonic lower";:}
           | COMMAND_SIMPLE_ENHARMONIC                   {: RESULT = "simple enharmonic";:}
           | COMMAND_SET_TEMPO                           {: RESULT = "set tempo";:}
+          | COMMAND_SET_RHYTHM                          {: RESULT = "set rhythm";:}
           | COMMAND_FORCE_SET_TEMPO                     {: RESULT = "force set tempo";:}
           | COMMAND_CROTCHET_DURATION                   {: RESULT = "crotchet duration"; :}
           | COMMAND_MUSICAL_TERM_MEANING                {: RESULT = "meaning of"; :}
@@ -212,6 +231,7 @@ keyword ::= COMMAND_HELP                                {: RESULT = "help"; :}
           | COMMAND_TWINKLE                             {: RESULT = "twinkle"; :}
           | COMMAND_CHORD                               {: RESULT = "chord"; :}
           | COMMAND_PLAY_CHORD                          {: RESULT = "play chord"; :}
+          | COMMAND_INTERVAL_ENHARMONIC {: RESULT = "interval enharmonic"; :}
           | COMMAND_SHOW_KEYSIGNATURE                   {: RESULT = "scale signature"; :}
           | COMMAND_SHOW_KEYSIGNATURE_NUM               {: RESULT = "scale signature num"; :}
           | COMMAND_SCALE_WITH_KEYSIG                   {: RESULT = "scale signature with"; :}
@@ -221,6 +241,7 @@ singleTerm ::= keyword:s {: RESULT = s;:}
        | ATOM:s {: RESULT = s;:}
        | note:s {: RESULT = s;:}
        | SCALE_TYPE:s {:RESULT = s;:}
+       | RHYTHM_TYPE:r {:RESULT = r;:}
        | DIRECTION:s   {:RESULT = s;:}
        | INTERVAL:i    {:RESULT = i;:}
 ;

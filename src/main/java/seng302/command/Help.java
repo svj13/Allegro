@@ -63,6 +63,21 @@ public class Help implements Command {
         } else if (keyword.equals("tempo")) {
             result = "Returns the current tempo. When the program is launched, it will have" +
                     " a default value of 120BPM.";
+
+        } else if (keyword.equals("set rhythm")) {
+            result = "Changes the rhythm note timings, syntax: set rhythm 'setting'. \n" +
+                    "Default (no swing, half crotchet duration): 'straight'\n"+
+                    "Preset swing settings:\n" +
+                        "\t'straight' - regular 1/2 crotchet timing.\n\t'light' - swing 5/8 3/8 crotchet timings.\n" +
+                        "\t'medium' - swing 2/3 1/3 crotchet timings.\n\t'heavy' - swing 3/4 1/4 crotchet timings.\n"+
+                    "Custom setting:\n\tCrotchet duration fractions e.g. 'set rhythm 1/4 1/2 1/4' where every fraction" +
+                    "is seperated by a space."
+                    ;
+
+        } else if (keyword.equals("rhythm")) {
+            result = "Returns the current rhythm beat divisions. The default rhythm is set to 1/2," +
+                    " meaning 1/2 crotchet timings.\nFor information changing the rhythm, see 'help set rhythm'";
+
         } else if (keyword.equals("version")) {
             result = "Returns the current version number of the application.";
         } else if (keyword.equals("origin of")) {
@@ -93,6 +108,8 @@ public class Help implements Command {
         } else if (keyword.equals("chord")) {
             result = "When followed by a valid chord and a valid chord type (i.e. major, minor), will" +
                     " return the corresponding notes that make up the given chord";
+        } else if (keyword.equals("interval enharmonic")) {
+            result = "When followed by a valid interval name, it returns any enharmonically equivalent intervals";
         } else if (keyword.equals("scale signature") || keyword.equals("scale sig")) {
             result = "When followed by a scale, shows that scale's key signature";
         } else if (keyword.equals("scale signature num") || keyword.equals("scale sig num")) {
@@ -121,6 +138,7 @@ public class Help implements Command {
                     "interval:\nWhen followed by an interval name, it returns the number of semitones in that interval." +
                     " When followed by an interval name and a note, it returns the note that is the specified interval above the given note." +
                     " e.g interval perfect fifth C4 will return G4. \n\n" +
+                    "interval enharmonic:\nWhen followed by a valid interval name, it returns any enharmonically equivalent intervals. \n\n" +
                     "meaning of:\nWhen followed by a musical term, it returns the definition of that" +
                     " term. \n\n" +
                     "midi:\nWhen followed by a valid note, it will return its corresponding midi number" +
@@ -155,6 +173,9 @@ public class Help implements Command {
                     "set tempo:\nWhen followed by a valid tempo (20-300BPM) will change the tempo to that value. \n\n" +
                     "tempo:\nReturns the current tempo. When the program is launched, it will have" +
                     " a default value of 120BPM. \n\n" +
+                    "rhythm: Returns the current beat timing division. Default timing of 1/2 (half crotchet).\n\n"  +
+                    "set rhythm:\nSets the rhythm timing to the specified beat divisions. " +
+                    "See 'help set rhythm' for more info.\n\n" +
                     "version:\nReturns the current version number of the application. \n\n";
 
         }

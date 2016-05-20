@@ -421,13 +421,19 @@ Created the tempo class and made it so it defaults to 120BMP
         if (type.toLowerCase().equals("major")) {
             Note currentNote = this;
             chordNotes.add(currentNote);
-            chordNotes.add(currentNote.semitoneUp(3));
-            chordNotes.add(currentNote.semitoneUp(5));
+            chordNotes.add(currentNote.semitoneUp(4));
+            chordNotes.add(currentNote.semitoneUp(7));
+            if (chordNotes.contains(null)) {
+                return null;
+            }
         } else if (type.toLowerCase().equals("minor")) {
              Note currentNote = this;
              chordNotes.add(currentNote);
              chordNotes.add(currentNote.semitoneUp(3));
              chordNotes.add(currentNote.semitoneUp(7));
+            if (chordNotes.contains(null)) {
+                return null;
+            }
         } else {
             throw new IllegalArgumentException("Invalid chord type: '" + type + "'.");
         }
