@@ -45,6 +45,11 @@ And his reply:
 The decision was decided on the 27th of april during a meeting with Moffat, when he said that he did not want the user to receive partial marks for questions in the musical terms tutor.
 
 
+## With regards to key signatures, we decided the following:
 
+Assuming the user input is the number of flats or sharps they are looking for (eg, 2#, 7b), we decided to disallow 0# and 0b, instead allowing for a custom command - 0#b.
+This finds the scales whose key signatures have no sharps or flats.
+
+This decision was made Friday 20th May, based on the musical understanding of our team.
 
 

@@ -84,8 +84,13 @@ public class KeySignatureCommand implements Command {
      * Constructor for getting scales with the given number of sharps/flats in their key sig
      */
     public KeySignatureCommand(String numSharpsOrFlats){
-        this.numFlatsOrSharps = Character.toString(numSharpsOrFlats.charAt(0));
-        this.flatOrSharp = Character.toString(numSharpsOrFlats.charAt(1));
+        if (numSharpsOrFlats.equals("0#b")) {
+            this.numFlatsOrSharps = "0";
+            this.flatOrSharp = "x";
+        } else {
+            this.numFlatsOrSharps = Character.toString(numSharpsOrFlats.charAt(0));
+            this.flatOrSharp = Character.toString(numSharpsOrFlats.charAt(1));
+        }
         this.outputType = "get";
     }
 
@@ -245,6 +250,25 @@ public class KeySignatureCommand implements Command {
                     for(Map.Entry<String, KeySignature> entry : minorKeySignatures.entrySet()) {
                         KeySignature thisKeySig = entry.getValue();
                         if (thisKeySig.getNumberOfSharps() == numFlatsOrSharps) {
+                            scalesWithThisType.add(thisKeySig.getStartNote() + " minor");
+                        }
+                    }
+                }
+                if (this.flatOrSharp.equals("x")) {
+                    //Add the major scales
+                    for (Map.Entry<String, KeySignature> entry : majorKeySignatures.entrySet()) {
+                        KeySignature thisKeySig = entry.getValue();
+                        if (thisKeySig.getNumberOfSharps() == numFlatsOrSharps &&
+                                thisKeySig.getNumberOfFlats() == numFlatsOrSharps) {
+                            scalesWithThisType.add(thisKeySig.getStartNote() + " major");
+                        }
+                    }
+
+                    //Add the minor scales
+                    for (Map.Entry<String, KeySignature> entry : minorKeySignatures.entrySet()) {
+                        KeySignature thisKeySig = entry.getValue();
+                        if (thisKeySig.getNumberOfSharps() == numFlatsOrSharps &&
+                                thisKeySig.getNumberOfFlats() == numFlatsOrSharps) {
                             scalesWithThisType.add(thisKeySig.getStartNote() + " minor");
                         }
                     }
