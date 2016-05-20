@@ -81,7 +81,7 @@
                    <items>
                        <TabPane fx:id="TabPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="698.0" tabClosingPolicy="ALL_TABS">
                            <tabs>
-                               <Tab onSelectionChanged="#onTranscriptTab" text="Transcript">
+                               <Tab fx:id="transcriptPane" onSelectionChanged="#onTranscriptTab" text="Transcript">
                                    <content>
                                        <fx:include fx:id="transcript" source="TranscriptPane.fxml" />
                                        <!--<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />-->
