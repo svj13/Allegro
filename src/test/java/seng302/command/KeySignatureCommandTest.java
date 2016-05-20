@@ -74,5 +74,17 @@ public class KeySignatureCommandTest {
         verify(transcriptManager).setResult("7#");
     }
 
+    @Test
+    public void testGetScaleWithNumberSharpsFlats() {
+        new KeySignatureCommand("2#").execute(env);
+        verify(transcriptManager).setResult("D major, B minor");
+
+        new KeySignatureCommand("2b").execute(env);
+        verify(transcriptManager).setResult("Bb major, G minor");
+
+        new KeySignatureCommand("0#b").execute(env);
+        verify(transcriptManager).setResult("C major, A minor");
+    }
+
 
 }
