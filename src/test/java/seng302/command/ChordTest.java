@@ -80,14 +80,35 @@ public class ChordTest {
         chordMap3.put("note", "C");
         chordMap3.put("scale_type", "major");
 
+        HashMap<String, String> chordMap4 = new HashMap<String, String>();
+        chordMap4.put("note", "C4");
+        chordMap4.put("chord_type", "dim 7th");
 
+        HashMap<String, String> chordMap5 = new HashMap<String, String>();
+        chordMap5.put("note", "C");
+        chordMap5.put("chord_type", "diminished seventh");
+
+        HashMap<String, String> chordMap6 = new HashMap<String, String>();
+        chordMap6.put("note", "C");
+        chordMap6.put("chord_type", "major 7th");
 
         new Chord(chordMap1, "chord").execute(env);
         verify(transcriptManager).setResult("C4 E4 G4 ");
+
         new Chord(chordMap2, "chord").execute(env);
         verify(transcriptManager).setResult("G Bb D ");
+
         new Chord(chordMap3, "chord").execute(env);
         verify(transcriptManager).setResult("C E G ");
+
+        new Chord(chordMap4, "chord").execute(env);
+        verify(transcriptManager).setResult("C4 Eb4 Gb4 Bbb4 ");
+
+        new Chord(chordMap5, "chord").execute(env);
+        verify(transcriptManager).setResult("C Eb Gb Bbb ");
+
+        new Chord(chordMap6, "chord").execute(env);
+        verify(transcriptManager).setResult("C E G B ");
 
 
 
@@ -107,12 +128,27 @@ public class ChordTest {
         chordMap2.put("note", "G");
         chordMap2.put("scale_type", "major");
 
+        HashMap<String, String> chordMap3 = new HashMap<String, String>();
+        chordMap2.put("note", "G");
+        chordMap2.put("chord_type", "major 7th");
+
+        HashMap<String, String> chordMap4 = new HashMap<String, String>();
+        chordMap1.put("note", "C");
+        chordMap1.put("chord_type", "half dim");
+        chordMap1.put("playStyle", "arpeggio");
+
 
         new Chord(chordMap1, "play").execute(env);
         verify(transcriptManager).setResult("Playing chord C major");
 
         new Chord(chordMap2, "play").execute(env);
         verify(transcriptManager).setResult("Playing chord G major");
+
+        new Chord(chordMap3, "play").execute(env);
+        verify(transcriptManager).setResult("Playing chord G major 7th");
+
+        new Chord(chordMap4, "play").execute(env);
+        verify(transcriptManager).setResult("Playing chord C half dim");
 
 
     }

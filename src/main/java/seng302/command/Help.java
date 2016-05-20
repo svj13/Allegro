@@ -97,26 +97,26 @@ public class Help implements Command {
                     "chord types' for more information on valid chord types\n\n" + "Valid chords:\n" +
                     "major: when put after a valid chord, will show/play the chord in major. " +
                     "A major chord that has a root note, a major third above this root, and a perfect " +
-                    "fifth above this root note\n" +
+                    "fifth above this root note\n\n" +
                     "minor: when put after a valid chord, will show/play the chord in. A minor" +
-                    " chord is a chord having a root, a minor third, and a perfect fifth. \n" +
+                    " chord is a chord having a root, a minor third, and a perfect fifth. \n\n" +
                     "minor 7th/minor seventh: when put after a valid chord, will show/play the chord " +
                     "in minor seventh. A minor seventh chord is any nondominant seventh chord where " +
-                    "the \"third\" note is a minor third above the root. \n" +
+                    "the \"third\" note is a minor third above the root. \n\n" +
                     "major 7th/major seventh: when put after a valid chord, will show/play the " +
                     "chord in major 7th. A major seventh chord is a seventh chord where the" +
                     " \"third\" note is a major third above the root, and the \"seventh\" note " +
-                    "is a major seventh above the root \n" +
+                    "is a major seventh above the root \n\n" +
                     "7th/seventh: when put after a valid chord, will show/play the chord in " +
                     "seventh. A seventh chord is a chord consisting of a triad plus a note " +
-                    "forming an interval of a seventh above the chord's root.\n" +
+                    "forming an interval of a seventh above the chord's root.\n\n" +
                     "diminished: when put after a valid chord, will show/play the chord in " +
                     "diminished. It is a triad chord " +
-                    "consisting of two minor thirds above the root\n" +
+                    "consisting of two minor thirds above the root\n\n" +
                     "diminished seventh/diminished 7th: when put after a valid chord, will show/" +
                     "play the chord in diminished 7th. A diminished seventh chord is a four note " +
                     "chord that comprises a diminished triad plus the interval of a diminished " +
-                    "seventh above the root\n" +
+                    "seventh above the root\n\n" +
                     "half diminished: when put after a valid chord, will show/play the chord in " +
                     "half diminished. the half-diminished seventh chord—also known as a " +
                     "half-diminished chord or a minor seventh flat five (m7?5)—is formed " +
