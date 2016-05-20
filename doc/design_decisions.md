@@ -45,6 +45,8 @@ And his reply:
 The decision was decided on the 27th of april during a meeting with Moffat, when he said that he did not want the user to receive partial marks for questions in the musical terms tutor.
 
 
+## Rhythm decision. I decided to give the user the ability to be to set custom swing timing divisions.
 
-
-
+The decision was decided to extend the rhythm command, as the functionality to set rhythm based on beat divisions i.e. (0.5, 0.25, 0.25)
+was required to be able to be compatible with undo/redo functionality. So the decision to open up a command to be allow the user meant only slight 
+additions. 

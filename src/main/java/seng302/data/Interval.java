@@ -121,19 +121,33 @@ public class Interval {
     public static Interval lookupByName(String name) {
         for (Interval interval:intervals) {
             if (interval.getName().equals(name) || interval.getAlternateName().equals(name)) {
-                System.out.println(interval.getName());
                 return interval;
             }
         }
         return null;
     }
 
-    public static Interval lookupBySemitones(int semitones) {
+    public static Interval lookupBySemitones1(int semitones) {
         for (Interval interval:intervals) {
             if (interval.getSemitones() == semitones) {
                 return interval;
             }
         }
+        return null;
+    }
+
+
+    public static ArrayList<Interval> lookupBySemitones(int semitones) {
+        ArrayList<Interval> matchingintervals = new ArrayList<Interval>();
+        for (Interval interval:intervals) {
+            if (interval.getSemitones() == semitones) {
+                matchingintervals.add(interval);
+            }
+        }
+        if(!matchingintervals.isEmpty()){
+            return matchingintervals;
+        }
+
         return null;
     }
 
