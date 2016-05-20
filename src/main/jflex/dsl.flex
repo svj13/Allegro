@@ -152,6 +152,7 @@ SharpsFlats = ([1-7](#|b))|0#b
     "scale signature"    {return symbol(DslSymbol.COMMAND_SHOW_KEYSIGNATURE);}
     "scale sig"    {return symbol(DslSymbol.COMMAND_SHOW_KEYSIGNATURE);}
     "scale signature num"    {return symbol(DslSymbol.COMMAND_SHOW_KEYSIGNATURE_NUM);}
+    "scale sig num"     {return symbol(DslSymbol.COMMAND_SHOW_KEYSIGNATURE_NUM);}
     "scale signature with" {return symbol(DslSymbol.COMMAND_SCALE_WITH_KEYSIG);}
     "scale sig with"    {return symbol(DslSymbol.COMMAND_SCALE_WITH_KEYSIG); }
     {SharpsFlats}       {return symbol(DslSymbol.SHARPSFLATS, new String(yytext()));}
