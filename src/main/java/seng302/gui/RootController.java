@@ -236,12 +236,12 @@ public class RootController implements Initializable {
         ArrayList<String> editHistoryArray = new ArrayList<String>();
         env.getTranscriptManager().setBackupTranscript(env.getTranscriptManager().getTranscriptTuples());
         env.getEditManager().addToHistory("3", new ArrayList<String>());
-        tm.setTranscriptContent(new ArrayList<OutputTuple>());
+        env.getTranscriptManager().setTranscriptContent(new ArrayList<OutputTuple>());
 
-        transcriptController.setTranscriptPane("");
+        transcriptController.setTranscriptPane(env.getTranscriptManager().convertToText());
 
 
-        tm.unsavedChanges = true;
+        env.getTranscriptManager().unsavedChanges = true;
     }
 
 
@@ -258,7 +258,7 @@ public class RootController implements Initializable {
         if (file != null) {
             fileDir = file.getParentFile();
             path = file.getAbsolutePath();
-            tm.save(path);
+            env.getTranscriptManager().save(path);
         }
     }
 
@@ -277,7 +277,7 @@ public class RootController implements Initializable {
 
             }
             path = file.getAbsolutePath();
-            tm.saveCommandsOnly(path);
+            env.getTranscriptManager().saveCommandsOnly(path);
         }
 
     }
@@ -348,9 +348,9 @@ public class RootController implements Initializable {
             fileDir = file.getParentFile();
             path = file.getAbsolutePath();
             try {
-                tm.open(path);
+                env.getTranscriptManager().open(path);
 
-                transcriptController.setTranscriptPane(tm.convertToText());
+                transcriptController.setTranscriptPane(env.getTranscriptManager().convertToText());
             } catch (Exception ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("This file is not valid");
@@ -372,7 +372,7 @@ public class RootController implements Initializable {
             fileDir = file.getParentFile();
             path = file.getAbsolutePath();
             try {
-                ArrayList<String> commands = tm.loadCommands(path);
+                ArrayList<String> commands = env.getTranscriptManager().loadCommands(path);
                 TabPane.getSelectionModel().selectFirst();
                 transcriptController.beginPlaybackMode(commands);
             } catch (Exception ex) {

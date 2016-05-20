@@ -100,7 +100,9 @@ public class ProjectHandler {
         Gson gson = new Gson();
         projectSettings.put("tempo", env.getPlayer().getTempo());
         String transcriptString = gson.toJson(env.getTranscriptManager().getTranscriptTuples());
+        System.out.println("saveProperties called! " + env.getTranscriptManager().getTranscriptTuples().size());
         projectSettings.put("transcript", transcriptString);
+
 
         String musicalTermsJSON = gson.toJson(env.getMttDataManager().getTerms());
         projectSettings.put("musicalTerms", musicalTermsJSON);
@@ -130,6 +132,7 @@ public class ProjectHandler {
         ArrayList<OutputTuple> transcript;
         Type transcriptType = new TypeToken<ArrayList<OutputTuple>>() {}.getType();
         transcript = gson.fromJson((String)projectSettings.get("transcript"), transcriptType);
+        System.out.println("Properties loaded!!");
 
         env.getTranscriptManager().setTranscriptContent(transcript);
         env.getRootController().setTranscriptPaneText(env.getTranscriptManager().convertToText());
@@ -275,6 +278,7 @@ public class ProjectHandler {
                 saved = false;
             }
         }
+
 
     }
 
