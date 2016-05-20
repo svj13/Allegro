@@ -48,5 +48,12 @@ The decision was decided on the 27th of april during a meeting with Moffat, when
 ## Rhythm decision. I decided to give the user the ability to be to set custom swing timing divisions.
 
 The decision was decided to extend the rhythm command, as the functionality to set rhythm based on beat divisions i.e. (0.5, 0.25, 0.25)
-was required to be able to be compatible with undo/redo functionality. So the decision to open up a command to be allow the user meant only slight 
-additions. 
+was required to be able to be compatible with undo/redo functionality. So the decision to open up a command to be allow the user meant only slight
+additions.
+
+## With regards to key signatures, we decided the following:
+
+Assuming the user input is the number of flats or sharps they are looking for (eg, 2#, 7b), we decided to disallow 0# and 0b, instead allowing for a custom command - 0#b.
+This finds the scales whose key signatures have no sharps or flats.
+
+This decision was made Friday 20th May, based on the musical understanding of our team.

@@ -110,6 +110,15 @@ public class Help implements Command {
                     " return the corresponding notes that make up the given chord";
         } else if (keyword.equals("interval enharmonic")) {
             result = "When followed by a valid interval name, it returns any enharmonically equivalent intervals";
+        } else if (keyword.equals("scale signature") || keyword.equals("scale sig")) {
+            result = "When followed by a scale, shows that scale's key signature";
+        } else if (keyword.equals("scale signature num") || keyword.equals("scale sig num")) {
+            result = "When followed by a scale, shows the number of flats and sharps in " +
+                    "that scale's key signature.";
+        } else if (keyword.equals("scale signature with") || keyword.equals("scale sig with")) {
+            result = "When followed by either a number of sharps or flats (i.e. 2#, 7b) or " +
+                    "a specific list of notes (i.e. F#, C#), will return the scales whose " +
+                    "key signatures contain that information";
         } else if (keyword.equals("")) {
             result = "" +
                     "\nadd musical term:\nWhen followed by a musical term in the format of 'name; origin; " +
@@ -151,6 +160,12 @@ public class Help implements Command {
                     "can be given. E.g play scale c major [number of octaves] [up|updown|down] \n\n" +
                     "scale:\nWhen followed by a valid scale (made up of a note and a scale type) " +
                     " the corresponding scale notes will be returned. \n\n" +
+                    "scale signature:\nWhen followed by a scale, shows that scale's key signature. \n\n" +
+                    "scale signature num:\nWhen followed by a scale, shows the number of " +
+                    "flats and sharps in that scale's key signature.\n\n" +
+                    "scale signature with:\nWhen followed by either a number of sharps or flats " +
+                    "(i.e. 2#, 7b) or a specific list of notes (i.e. F#, C#), will return the " +
+                    "scales whose key signatures contain that information\n\n" +
                     "semitone up:\nWhen followed by a valid note or midi number, it will return" +
                     " the note that is a semitone higher.  \n\n" +
                     "semitone down:\nWhen followed by a valid note or midi number, it will return" +

@@ -94,9 +94,11 @@ COMMAND_ENHARMONIC_HIGHER, COMMAND_SIMPLE_ENHARMONIC, COMMAND_SET_TEMPO, COMMAND
 COMMAND_PLAY_NOTE, COMMAND_FORCE_SET_TEMPO, COMMAND_PLAY_SCALE, COMMAND_MUSICAL_TERM_MEANING,
 COMMAND_MUSICAL_TERM_ORIGIN, COMMAND_MUSICAL_TERM_CATEGORY, COMMAND_ADD_MUSICAL_TERM,
 COMMAND_INTERVAL, COMMAND_PLAY_INTERVAL,COMMAND_ALL_ENHARMONICS, SEMIC, COMMAND_UNDO,
-COMMAND_REDO, COMMAND_TWINKLE, COMMAND_CHORD, COMMAND_PLAY_CHORD,COMMAND_RHYTHM, COMMAND_SET_RHYTHM, COMMAND_INTERVAL_ENHARMONIC;
+COMMAND_REDO, COMMAND_TWINKLE, COMMAND_CHORD, COMMAND_PLAY_CHORD,COMMAND_RHYTHM, COMMAND_SET_RHYTHM,
+COMMAND_INTERVAL_ENHARMONIC, COMMAND_SHOW_KEYSIGNATURE,COMMAND_SHOW_KEYSIGNATURE_NUM,
+COMMAND_SCALE_WITH_KEYSIG;
 
-terminal String ATOM, NOTE, SCALE_TYPE, RHYTHM_TYPE, DIRECTION, MIDINOTE, NUMBER, POSNUM, INTERVAL, PLAY_STYLE;
+terminal String ATOM, NOTE, SCALE_TYPE, DIRECTION, MIDINOTE, NUMBER, POSNUM, INTERVAL, SHARPSFLATS, RHYTHM_TYPE, PLAY_STYLE;
 
 /* Non terminals */
 non terminal Command command;
@@ -113,6 +115,8 @@ non terminal String singleTerm;
 non terminal String term;
 non terminal String rhythmStyle;
 non terminal HashMap<String, String> playChord;
+non terminal String numberAndSharpsFlat;
+non terminal ArrayList<String> notes;
 
 start with command;
 
@@ -149,6 +153,10 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_REDO                                {: RESULT = new UndoRedo(1); :}
           | COMMAND_TWINKLE                             {: RESULT = new Twinkle(); :}
           | COMMAND_CHORD scale:s                       {: RESULT = new Chord(s, "chord"); :}
+          | COMMAND_SHOW_KEYSIGNATURE scale:s           {: RESULT = new KeySignatureCommand(s,"notes"); :}
+          | COMMAND_SHOW_KEYSIGNATURE_NUM scale:s       {: RESULT = new KeySignatureCommand(s,"number"); :}
+          | COMMAND_SCALE_WITH_KEYSIG SHARPSFLATS:s     {: RESULT = new KeySignatureCommand(s); :}
+          | COMMAND_SCALE_WITH_KEYSIG notes:s           {: RESULT = new KeySignatureCommand(s); :}
           | COMMAND_PLAY_CHORD playChord:s              {: RESULT = new Chord(s, "play");:}
           | COMMAND_INTERVAL_ENHARMONIC interval:i      {: RESULT = new IntervalCommand(i,"equivalent"); :}
 ;
@@ -156,6 +164,10 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
 
 note ::= NOTE:s             {:RESULT = s;:}
        | midiNote:s         {:RESULT = s;:}
+;
+
+notes ::= note:a {: RESULT = new ArrayList<String>(); RESULT.add(a);:}
+         | notes:a note:b {: RESULT = a; RESULT.add(b); :}
 ;
 
 midiNote ::= MIDINOTE:s     {:RESULT = s;:}
@@ -220,6 +232,9 @@ keyword ::= COMMAND_HELP                                {: RESULT = "help"; :}
           | COMMAND_CHORD                               {: RESULT = "chord"; :}
           | COMMAND_PLAY_CHORD                          {: RESULT = "play chord"; :}
           | COMMAND_INTERVAL_ENHARMONIC {: RESULT = "interval enharmonic"; :}
+          | COMMAND_SHOW_KEYSIGNATURE                   {: RESULT = "scale signature"; :}
+          | COMMAND_SHOW_KEYSIGNATURE_NUM               {: RESULT = "scale signature num"; :}
+          | COMMAND_SCALE_WITH_KEYSIG                   {: RESULT = "scale signature with"; :}
 ;
 
 singleTerm ::= keyword:s {: RESULT = s;:}
@@ -235,6 +250,7 @@ term ::= singleTerm:s {:RESULT =s;:}
        | term:s singleTerm:t {:RESULT = s + " " + t; :}
 ;
 
+
 musicalDef ::= term:a SEMIC term:b SEMIC term:c SEMIC term:d
                 {: RESULT = new ArrayList<String>(); RESULT.add(a.toLowerCase());
                    RESULT.add(b.toLowerCase()); RESULT.add(c.toLowerCase()); RESULT.add(d.toLowerCase());:}
@@ -242,8 +258,6 @@ musicalDef ::= term:a SEMIC term:b SEMIC term:c SEMIC term:d
                 {: errorMessage = "Please provide the name, origin, category and definition of the " +
                    "musical term, separated by semicolons.";:}
 ;
-
-
 
 
 

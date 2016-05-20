@@ -353,6 +353,7 @@ Created the tempo class and made it so it defaults to 120BMP
         return scaleNotes;
     }
 
+
     /**
      * Convenience method for when you only want one octave.
      *
