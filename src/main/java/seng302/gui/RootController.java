@@ -231,11 +231,20 @@ public class RootController implements Initializable {
      * Removes all content from the transcript
      */
     @FXML
-    private void clearTranscript(){
+    public void clearTranscript(){
+
+        ArrayList<String> editHistoryArray = new ArrayList<String>();
+        env.getTranscriptManager().setBackupTranscript(env.getTranscriptManager().getTranscriptTuples());
+        env.getEditManager().addToHistory("3", new ArrayList<String>());
         tm.setTranscriptContent(new ArrayList<OutputTuple>());
+
         transcriptController.setTranscriptPane("");
+
+
         tm.unsavedChanges = true;
     }
+
+
 
 
     /**

@@ -86,6 +86,9 @@ public class EditHistory {
 
                 case 2: changeRhythm(commandStack.get(location).get(1));
                     break;
+                case 3:
+                    undoTranscriptClear();
+                    break;
             }
             ath = true;
             location += 1;
@@ -116,6 +119,10 @@ public class EditHistory {
                     break;
 
                 case 2: changeRhythm(commandStack.get(location -1).get(2));
+                    break;
+
+                case 3:
+                    redoTranscriptClear();
                     break;
             }
             ath = true;
@@ -148,6 +155,18 @@ public class EditHistory {
         new Rhythm(newRhythm, false).execute(env);
 
 
+    }
+
+    private void redoTranscriptClear(){
+        env.getRootController().clearTranscript();
+        
+    }
+
+    private void undoTranscriptClear(){
+
+        env.getTranscriptManager().setTranscriptContent(env.getTranscriptManager().getBackUpTranscript());
+        env.getTranscriptManager().setBackupTranscript(new ArrayList<OutputTuple>());
+        env.getRootController().setTranscriptPaneText(env.getTranscriptManager().convertToText());
     }
 
     /**
