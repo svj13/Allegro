@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import seng302.Environment;
@@ -86,5 +87,21 @@ public class KeySignatureCommandTest {
         verify(transcriptManager).setResult("C major, A minor");
     }
 
+    @Test
+    public void testGetScaleWithGivenSignature() {
+        ArrayList<String> notes = new ArrayList<String>();
+        notes.add("F#");
+        notes.add("C#");
+
+        new KeySignatureCommand(notes).execute(env);
+        verify(transcriptManager).setResult("B minor, D major");
+
+        notes.clear();
+        notes.add("C#");
+        notes.add("F#");
+
+        new KeySignatureCommand(notes).execute(env);
+        verify(transcriptManager).setResult("No scales with this key signature.");
+    }
 
 }
