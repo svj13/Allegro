@@ -53,7 +53,7 @@ public class RootController implements Initializable {
 
 
     @FXML
-    private PitchComparisonTutorController PitchComparisonTabController; //pitchController;
+    private PitchComparisonTutorController PitchComparisonTabController;
 
     @FXML
     private IntervalRecognitionTutorController IntervalRecognitionTabController;
@@ -66,6 +66,9 @@ public class RootController implements Initializable {
 
     @FXML
     private ScaleRecognitionTutorController ScaleRecognitionTabController;
+
+    @FXML
+    private ChordRecognitionTutorController ChordRecognitionTabController;
 
     @FXML
     private KeyboardPaneController keyboardPaneController;
@@ -552,6 +555,7 @@ public class RootController implements Initializable {
         IntervalRecognitionTabController.create(env);
         MusicalTermsTabController.create(env);
         ScaleRecognitionTabController.create(env);
+        ChordRecognitionTabController.create(env);
         keyboardPaneController.create(env);
 
         env.setRootController(this);
@@ -593,6 +597,7 @@ public class RootController implements Initializable {
         IntervalRecognitionTabController.clearTutor();
         MusicalTermsTabController.clearTutor();
         ScaleRecognitionTabController.clearTutor();
+        ChordRecognitionTabController.clearTutor();
     }
 
     public TranscriptPaneController getTranscriptController() {
