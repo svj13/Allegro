@@ -32,6 +32,7 @@ import javafx.util.Pair;
 import seng302.Environment;
 import seng302.data.Note;
 import seng302.utility.MidiNotePair;
+import seng302.utility.NoteRangeSlider;
 import seng302.utility.TutorRecord;
 
 /**
@@ -125,148 +126,11 @@ public class PitchComparisonTutorController extends TutorController{
     public void create(Environment env) {
         super.create(env);
         initialiseQuestionSelector();
-        //generateComboValues(cbxLower);
-        //generateComboValues(cbxUpper);
-        rangeSlider = new RangeSlider(0, 127, 60, 72);
-        rangeSlider.setBlockIncrement(1);
-        rangeSlider.setMajorTickUnit(12);
-        rangeSlider.setPrefWidth(340);
-        rangeSlider.setShowTickLabels(true);
-        rangeSlider.setLabelFormatter(new StringConverterWithFormat<Number>() {
-            @Override
-            public String toString(Number object) {
-                Integer num = object.intValue();
-                return Note.lookup(String.valueOf(num)).getNote();
-            }
-
-            @Override
-            public Number fromString(String string) {
-                return Note.lookup(string).getMidi();
-            }
-        });
-
+        rangeSlider = new NoteRangeSlider(notes, 12);
         sliderBox.getChildren().add(1, rangeSlider);
-        notes.setText(rangeSlider.getLabelFormatter().toString(rangeSlider.getLowValue()) + " - "
-                + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
-        ChangeListener<Number> updateLabelLower = new ChangeListener<Number>() {
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if ((Double) newValue > rangeSlider.getHighValue() - 12) {
-                    rangeSlider.setLowValue(rangeSlider.getHighValue() - 12);
-                }
-                notes.setText(rangeSlider.getLabelFormatter().toString(rangeSlider.getLowValue()) + " - "
-                        + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
-            }
-        };
-        ChangeListener<Number> updateLabelHigher = new ChangeListener<Number>() {
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if ((Double) newValue < rangeSlider.getLowValue() + 12) {
-                    rangeSlider.setHighValue(rangeSlider.getLowValue() + 12);
-                }
-                notes.setText(rangeSlider.getLabelFormatter().toString(rangeSlider.getLowValue()) + " - "
-                        + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
-            }
-        };
-        rangeSlider.lowValueProperty().addListener(updateLabelLower);
-        rangeSlider.highValueProperty().addListener(updateLabelHigher);
-
-        // Set default values to C4 and C5
-//        cbxLower.getSelectionModel().select(60);
-//        handleLowerRangeAction();
-//        cbxUpper.getSelectionModel().select(12);
-//        handleUpperRangeAction();
         lowerSet = true;
         upperSet = true;
     }
-
-
-    /**
-     * This function is triggered when the lower range of the pitch changes. If something has been
-     * selected, then the upper selection box is changed to only contain notes greater than or equal
-     * to the selected note.
-     */
-    @FXML
-    private void handleLowerRangeAction() {
-        lowerSet = true;
-        if (!cbxLower.getSelectionModel().isEmpty()) {
-            int selectedMidi = cbxLower.getSelectionModel().getSelectedItem().getMidi();
-
-            if (cbxUpper.getSelectionModel().isEmpty()) {
-                cbxUpper.getItems().clear();
-                for (int i = selectedMidi + 1; i < Note.noteCount; i++) {
-                    cbxUpper.getItems().add(new MidiNotePair(i, Note.lookup(String.valueOf(i)).getNote()));
-                }
-            } else if (cbxUpper.getSelectionModel().getSelectedItem().getMidi() > selectedMidi) {
-                MidiNotePair oldVal = cbxUpper.getSelectionModel().getSelectedItem();
-
-                cbxUpper.getItems().clear();
-                for (int i = selectedMidi; i < Note.noteCount; i++) {
-                    cbxUpper.getItems().add(new MidiNotePair(i, Note.lookup(String.valueOf(i)).getNote()));
-                }
-                cbxUpper.setValue(oldVal);
-            }
-
-        }
-
-
-    }
-
-    /**
-     * Called whenever the upper range pitch is changed. If something has been selected,
-     * Then the lower range selector removes any options that are above the upeer range.
-     */
-    @FXML
-    private void handleUpperRangeAction() {
-        upperSet = true;
-        if (!cbxUpper.getSelectionModel().isEmpty()) {
-            int midiInt = cbxUpper.getSelectionModel().getSelectedItem().getMidi();
-
-            if (cbxLower.getSelectionModel().isEmpty()) {
-                cbxLower.getItems().clear();
-                for (int i = 0; i < midiInt; i++) {
-                    cbxLower.getItems().add(new MidiNotePair(i, Note.lookup(String.valueOf(i)).getNote()));
-                }
-            } else if (cbxLower.getSelectionModel().getSelectedItem().getMidi() < midiInt) {
-                MidiNotePair oldVal = cbxLower.getSelectionModel().getSelectedItem();
-
-                cbxLower.getItems().clear();
-                for (int i = 0; i < midiInt; i++) {
-                    cbxLower.getItems().add(new MidiNotePair(i, Note.lookup(String.valueOf(i)).getNote()));
-                }
-                cbxLower.setValue(oldVal);
-            }
-
-
-        }
-        else{
-
-        }
-
-
-    }
-
-    /**
-     * Generates the lower and upper range combobox values.
-     * @param cbx
-     */
-    private void generateComboValues(ComboBox<MidiNotePair> cbx) {
-
-        for (int i = 0; i < Note.noteCount; i++) {
-
-            String val = i + " : " + Note.lookup(String.valueOf(i)).getNote();
-
-
-            assert cbxLower != null : "cbxLower was not injected, check the fxml";
-
-            cbx.getItems().add(new MidiNotePair(i, Note.lookup(String.valueOf(i)).getNote()));
-            //System.out.println(cbx.getItems().size());
-        }
-        //TODO Make it so it generates everytime a combobox is selected.
-        //So that The upperValues box is generated to contain only values higher than the selected
-        //Lowerbox value
-
-
-    }
-
 
     /**
      * Changes the questionPane after the user has answered the question (with response to their answer).

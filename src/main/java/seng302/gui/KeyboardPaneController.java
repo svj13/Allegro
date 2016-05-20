@@ -39,6 +39,7 @@ import javafx.scene.layout.VBox;
 import seng302.Environment;
 import seng302.data.Note;
 import seng302.command.Enharmonic;
+import seng302.utility.NoteRangeSlider;
 
 /**
  * Created by team 5 on 13/05/16.
@@ -79,7 +80,10 @@ public class KeyboardPaneController {
         Label keyboardRange = new Label("Keyboard Range:");
         rangeHeading.getChildren().add(keyboardRange);
         settings.getChildren().add(rangeHeading);
-        constructRangeSlider(settings, rangeHeading);
+        notes = new Label("");
+        NoteRangeSlider slider = new NoteRangeSlider(notes, 12);
+        settings.getChildren().add(slider);
+        rangeHeading.getChildren().add(notes);
 
         settings.setSpacing(5);
         settings.setPadding(new Insets(10));
@@ -120,62 +124,9 @@ public class KeyboardPaneController {
         settings.getChildren().add(rb2);
         settings.getChildren().add(rb3);
         pop.setTitle("Keyboard Settings");
-        //pop.show(settingsButton, 0, 0);
 
     }
 
-    private void updateText() {
-        notes.setText(rangeSlider.getLabelFormatter().toString(rangeSlider.getLowValue()) + " - "
-                + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
-    }
-
-    ;
-
-    private void constructRangeSlider(Pane settingsBox, Pane headingBox) {
-        rangeSlider = new RangeSlider(0, 127, 60, 72);
-        rangeSlider.setBlockIncrement(1);
-        rangeSlider.setMajorTickUnit(12);
-        rangeSlider.setPrefWidth(340);
-        rangeSlider.setShowTickLabels(true);
-        rangeSlider.setLabelFormatter(new StringConverterWithFormat<Number>() {
-            @Override
-            public String toString(Number object) {
-                Integer num = object.intValue();
-                return Note.lookup(String.valueOf(num)).getNote();
-            }
-
-            @Override
-            public Number fromString(String string) {
-                return Note.lookup(string).getMidi();
-            }
-        });
-
-        settingsBox.getChildren().add(rangeSlider);
-
-        notes = new Label("");
-        updateText();
-
-        ChangeListener<Number> updateLabelLower = new ChangeListener<Number>() {
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if ((Double) newValue > rangeSlider.getHighValue() - 12) {
-                    rangeSlider.setLowValue(rangeSlider.getHighValue() - 12);
-                }
-                updateText();
-            }
-        };
-        ChangeListener<Number> updateLabelHigher = new ChangeListener<Number>() {
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if ((Double) newValue < rangeSlider.getLowValue() + 12) {
-                    rangeSlider.setHighValue(rangeSlider.getLowValue() + 12);
-                }
-                updateText();
-            }
-        };
-        headingBox.getChildren().add(notes);
-        notes.setAlignment(Pos.CENTER);
-        rangeSlider.lowValueProperty().addListener(updateLabelLower);
-        rangeSlider.highValueProperty().addListener(updateLabelHigher);
-    }
 
     @FXML
     private void toggleSettings() {

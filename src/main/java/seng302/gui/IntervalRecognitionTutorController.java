@@ -26,6 +26,7 @@ import seng302.Environment;
 import seng302.data.Interval;
 import seng302.data.Note;
 import seng302.data.Term;
+import seng302.utility.NoteRangeSlider;
 import seng302.utility.TutorRecord;
 
 public class IntervalRecognitionTutorController extends TutorController {
@@ -58,46 +59,8 @@ public class IntervalRecognitionTutorController extends TutorController {
     }
 
     private void initaliseRangeSelector() {
-        rangeSlider = new RangeSlider(0, 127, 60, 84);
-        rangeSlider.setBlockIncrement(1);
-        rangeSlider.setMajorTickUnit(12);
-
-        rangeSlider.setShowTickLabels(true);
-        rangeSlider.setLabelFormatter(new StringConverterWithFormat<Number>() {
-            @Override
-            public String toString(Number object) {
-                Integer num = object.intValue();
-                return Note.lookup(String.valueOf(num)).getNote();
-            }
-
-            @Override
-            public Number fromString(String string) {
-                return Note.lookup(string).getMidi();
-            }
-        });
+        rangeSlider = new NoteRangeSlider(notes, 24);
         range.getChildren().add(1, rangeSlider);
-        notes.setText(rangeSlider.getLabelFormatter().toString(rangeSlider.getLowValue()) + " - "
-                + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
-        ChangeListener<Number> updateLabelLower = new ChangeListener<Number>() {
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if ((Double) newValue > rangeSlider.getHighValue() - 24) {
-                    rangeSlider.setLowValue(rangeSlider.getHighValue() - 24);
-                }
-                notes.setText(rangeSlider.getLabelFormatter().toString(rangeSlider.getLowValue()) + " - "
-                        + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
-            }
-        };
-        ChangeListener<Number> updateLabelHigher = new ChangeListener<Number>() {
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if ((Double) newValue < rangeSlider.getLowValue() + 24) {
-                    rangeSlider.setHighValue(rangeSlider.getLowValue() + 24);
-                }
-                notes.setText(rangeSlider.getLabelFormatter().toString(rangeSlider.getLowValue()) + " - "
-                        + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
-            }
-        };
-        rangeSlider.lowValueProperty().addListener(updateLabelLower);
-        rangeSlider.highValueProperty().addListener(updateLabelHigher);
     }
 
     /**
