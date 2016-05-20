@@ -129,13 +129,13 @@ public class ChordTest {
         chordMap2.put("scale_type", "major");
 
         HashMap<String, String> chordMap3 = new HashMap<String, String>();
-        chordMap2.put("note", "G");
-        chordMap2.put("chord_type", "major 7th");
+        chordMap3.put("note", "G");
+        chordMap3.put("chord_type", "major 7th");
 
         HashMap<String, String> chordMap4 = new HashMap<String, String>();
-        chordMap1.put("note", "C");
-        chordMap1.put("chord_type", "half dim");
-        chordMap1.put("playStyle", "arpeggio");
+        chordMap4.put("note", "C");
+        chordMap4.put("chord_type", "half dim");
+        chordMap4.put("playStyle", "arpeggio");
 
 
         new Chord(chordMap1, "play").execute(env);
