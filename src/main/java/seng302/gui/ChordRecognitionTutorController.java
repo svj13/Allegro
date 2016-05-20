@@ -18,12 +18,16 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Pair;
 import seng302.Environment;
+import seng302.MusicPlayer;
 import seng302.command.Chord;
+import seng302.command.Command;
+import seng302.command.Tempo;
 import seng302.data.Note;
 import seng302.utility.TutorRecord;
 
 
 import java.util.Collections;
+
 
 /**
  * Created by Elliot on 16/05/16
@@ -156,7 +160,22 @@ public class ChordRecognitionTutorController extends TutorController{
         play.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 //Play the scale
-                env.getPlayer().playSimultaneousNotes(theChord);
+                int currentTempo = env.getPlayer().getTempo();
+                if (playChords.getValue().equals("Unison")) {
+                    env.getPlayer().playSimultaneousNotes(theChord);
+                } else if (playChords.getValue().equals("Arpeggio")) {
+                    env.getPlayer().playNotes((ArrayList) theChord);
+                } else {
+                    env.getPlayer().playNotes((ArrayList) theChord);
+                    try {
+                        //Calculates how long three crotchets is at the current tempo
+                        int wait = 1000 * 180 / currentTempo + 50;
+                        Thread.sleep(wait);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    env.getPlayer().playSimultaneousNotes(theChord);
+                }
             }
         });
 
