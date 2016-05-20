@@ -1,6 +1,8 @@
 package seng302.gui;
 
 import org.controlsfx.control.PopOver;
+import org.controlsfx.control.RangeSlider;
+import org.controlsfx.control.spreadsheet.StringConverterWithFormat;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,15 +10,21 @@ import java.util.List;
 import java.util.Stack;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -46,7 +54,13 @@ public class KeyboardPaneController {
     @FXML
     private TitledPane titlePane;
 
+    @FXML
+    private Button settingsButton;
+
     Environment env;
+    PopOver pop;
+    RangeSlider rangeSlider;
+    Label notes;
 
     private Integer numberOfKeys = 24;
     private boolean shift;
@@ -59,39 +73,120 @@ public class KeyboardPaneController {
     private void initialize() {
         keyboardBox.setMaxHeight(200);
         keyboardBox.setMinHeight(200);
+        VBox settings = new VBox();
+        HBox rangeHeading = new HBox();
+        rangeHeading.setSpacing(5);
+        Label keyboardRange = new Label("Keyboard Range:");
+        rangeHeading.getChildren().add(keyboardRange);
+        settings.getChildren().add(rangeHeading);
+        constructRangeSlider(settings, rangeHeading);
+
+        settings.setSpacing(5);
+        settings.setPadding(new Insets(10));
+
+
+        pop = new PopOver(settings);
+        settings.getChildren().add(new Label("Note names:"));
+        ToggleGroup notenames = new ToggleGroup();
+        RadioButton rb1 = new RadioButton("Never show");
+        rb1.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (newValue == true) {
+                    stopShowingNotesOnKeyboard();
+                }
+            }
+        });
+        rb1.setToggleGroup(notenames);
+        rb1.setSelected(true);
+        RadioButton rb2 = new RadioButton("Show on click");
+        rb2.setToggleGroup(notenames);
+        rb2.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (newValue == true) {
+                    toggleShowKeyboardNotesAction();
+                }
+            }
+        });
+        RadioButton rb3 = new RadioButton("Always show");
+        rb3.setToggleGroup(notenames);
+        rb3.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (newValue == true) {
+                    toggleShowKeyboardNotesAlways();
+                }
+            }
+        });
+        settings.getChildren().add(rb1);
+        settings.getChildren().add(rb2);
+        settings.getChildren().add(rb3);
+        pop.setTitle("Keyboard Settings");
+        //pop.show(settingsButton, 0, 0);
+
+    }
+
+    private void updateText() {
+        notes.setText(rangeSlider.getLabelFormatter().toString(rangeSlider.getLowValue()) + " - "
+                + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
+    }
+
+    ;
+
+    private void constructRangeSlider(Pane settingsBox, Pane headingBox) {
+        rangeSlider = new RangeSlider(0, 127, 60, 72);
+        rangeSlider.setBlockIncrement(1);
+        rangeSlider.setMajorTickUnit(12);
+        rangeSlider.setPrefWidth(340);
+        rangeSlider.setShowTickLabels(true);
+        rangeSlider.setLabelFormatter(new StringConverterWithFormat<Number>() {
+            @Override
+            public String toString(Number object) {
+                Integer num = object.intValue();
+                return Note.lookup(String.valueOf(num)).getNote();
+            }
+
+            @Override
+            public Number fromString(String string) {
+                return Note.lookup(string).getMidi();
+            }
+        });
+
+        settingsBox.getChildren().add(rangeSlider);
+
+        notes = new Label("");
+        updateText();
+
+        ChangeListener<Number> updateLabelLower = new ChangeListener<Number>() {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if ((Double) newValue > rangeSlider.getHighValue() - 12) {
+                    rangeSlider.setLowValue(rangeSlider.getHighValue() - 12);
+                }
+                updateText();
+            }
+        };
+        ChangeListener<Number> updateLabelHigher = new ChangeListener<Number>() {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if ((Double) newValue < rangeSlider.getLowValue() + 12) {
+                    rangeSlider.setHighValue(rangeSlider.getLowValue() + 12);
+                }
+                updateText();
+            }
+        };
+        headingBox.getChildren().add(notes);
+        notes.setAlignment(Pos.CENTER);
+        rangeSlider.lowValueProperty().addListener(updateLabelLower);
+        rangeSlider.highValueProperty().addListener(updateLabelHigher);
+    }
+
+    @FXML
+    private void toggleSettings() {
+        if (pop.isShowing()) {
+            pop.hide();
+        } else {
+            pop.show(settingsButton);
+        }
     }
 
     public void create(Environment env) {
-
-//        BorderPane titleAndMenu = new BorderPane();
-//        titleAndMenu.setLeft(new Label("Keyboard"));
-//        Button settingsButton = new Button("Settings");
-//
-//        titleAndMenu.setCenter(new Label(" "));
-//
-//        titleAndMenu.setRight(settingsButton);
-//        titleAndMenu.prefWidthProperty().bind(titlePane.widthProperty());
-//        titleAndMenu.setManaged(true);
-
-//        HBox titleAndMenu = new HBox();
-//        Label keyboardTitle = new Label("Keyboard");
-//        Button settings = new Button("Settings");
-//        Region blankSpace = new Region();
-//        blankSpace.setMaxWidth(Double.MAX_VALUE);
-//        titleAndMenu.getChildren().add(keyboardTitle);
-//        titleAndMenu.getChildren().add(blankSpace);
-//        titleAndMenu.getChildren().add(settings);
-//        titleAndMenu.setHgrow(blankSpace, Priority.ALWAYS);
-//        titlePane.setGraphic(titleAndMenu);
-
-
-
-
-
-
-
-
-
 
 
         this.env = env;
@@ -100,7 +195,9 @@ public class KeyboardPaneController {
         clicked = new ArrayList<TouchPane>();
         Platform.runLater(new Runnable() {
             public void run() {
+
                 keyboardBox.requestFocus();
+
             }
         });
         env.getPlayer().initKeyboardTrack();

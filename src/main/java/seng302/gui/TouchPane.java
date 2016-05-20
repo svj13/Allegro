@@ -36,7 +36,7 @@ public class TouchPane extends StackPane {
         this.setAlignment(Pos.BOTTOM_CENTER);
         this.keyLabel = noteToPlay.getNote();
 
-        setOnTouchPressed(new EventHandler<TouchEvent>() {
+        EventHandler<TouchEvent> touchpress = new EventHandler<TouchEvent>() {
             public void handle(TouchEvent event) {
                 if (touchId == -1) {
                     touchId = event.getTouchPoint().getId();
@@ -46,18 +46,19 @@ public class TouchPane extends StackPane {
                 }
                 event.consume();
             }
-        });
-
-        setOnTouchReleased(new EventHandler<TouchEvent>() {
+        };
+        EventHandler<TouchEvent> touchrelease = new EventHandler<TouchEvent>() {
             public void handle(TouchEvent event) {
                 if (event.getTouchPoint().getId() == touchId) {
                     touchId = -1;
+                    environment.getPlayer().noteOff(noteToPlay);
+                    setHighlightOff();
                 }
-                environment.getPlayer().noteOff(noteToPlay);
                 event.consume();
-                setHighlightOff();
             }
-        });
+        };
+        setOnTouchReleased(touchrelease);
+        setOnTouchPressed(touchpress);
 
 
         setOnMouseReleased(new EventHandler<MouseEvent>() {

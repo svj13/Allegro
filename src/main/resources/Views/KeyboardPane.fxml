@@ -4,7 +4,6 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
 <TitledPane fx:id="titlePane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="seng302.gui.KeyboardPaneController">
    <content>
@@ -24,7 +23,8 @@
             </StackPane>
             <StackPane alignment="CENTER_RIGHT" prefWidth="200.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Button mnemonicParsing="false" text="Settings"/>
+                  <Button fx:id="settingsButton" mnemonicParsing="false" onAction="#toggleSettings"
+                          text="Settings"/>
                </children>
             </StackPane>
          </children>
