@@ -34,7 +34,7 @@ import seng302.data.Term;
 import seng302.utility.OutputTuple;
 
 public class ProjectHandler {
-    private String[] propertyNames = {"tempo"};
+    //private String[] propertyNames = {"tempo"};
 
     JSONObject projectSettings;
     JSONParser parser = new JSONParser(); //parser for reading project
