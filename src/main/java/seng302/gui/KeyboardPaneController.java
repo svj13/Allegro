@@ -68,12 +68,16 @@ public class KeyboardPaneController {
     ArrayList<Note> multiNotes;
     List<TouchPane> clicked;
     private boolean hidden = false;
+    Integer bottomNote;
+    Integer topNote;
 
 
     @FXML
     private void initialize() {
         keyboardBox.setMaxHeight(200);
         keyboardBox.setMinHeight(200);
+        bottomNote = 60;
+        topNote = 72;
         VBox settings = new VBox();
         HBox rangeHeading = new HBox();
         rangeHeading.setSpacing(5);
@@ -83,6 +87,22 @@ public class KeyboardPaneController {
         notes = new Label("");
         NoteRangeSlider slider = new NoteRangeSlider(notes, 12);
         settings.getChildren().add(slider);
+
+        /**
+         * Generate Keyboard notes based on value of range slider.
+         */
+        slider.lowValueProperty().addListener(new ChangeListener<Number>() {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                bottomNote = newValue.intValue();
+                setUpKeyboard();
+            }
+        });
+        slider.highValueProperty().addListener(new ChangeListener<Number>() {
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                topNote = newValue.intValue();
+                setUpKeyboard();
+            }
+        });
         rangeHeading.getChildren().add(notes);
 
         settings.setSpacing(5);
@@ -90,6 +110,8 @@ public class KeyboardPaneController {
 
 
         pop = new PopOver(settings);
+
+
         settings.getChildren().add(new Label("Note names:"));
         ToggleGroup notenames = new ToggleGroup();
         RadioButton rb1 = new RadioButton("Never show");
@@ -156,17 +178,13 @@ public class KeyboardPaneController {
     }
 
     private void setUpKeyboard() {
-        for (Integer i = 60; i < numberOfKeys + 60; i++) {
+        keyboardBox.getChildren().clear();
+        for (Integer i = bottomNote; i <= topNote; i++) {
             Pane key = new TouchPane(i, env, this);
-
             key.setPrefWidth(100);
             keyboardBox.setHgrow(key, Priority.ALWAYS);
             key.setMaxWidth(Double.MAX_VALUE);
             keyboardBox.getChildren().add(key);
-
-
-
-
         }
 
         keyboardBox.setOnKeyPressed(new EventHandler<KeyEvent>() {
