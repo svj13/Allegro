@@ -279,22 +279,23 @@ public class ProjectHandler {
             file.flush();
             file.close();
 
-            FileWriter file1 = new FileWriter(projectAddress+"/PitchComparisonRecords.json");
+            FileWriter file1 = new FileWriter(projectAddress+"/PitchComparisonRecords.json",true);
             projectSettings.put("tempo", env.getPlayer().getTempo());
 
 
-            System.out.print("pitchTutorRecordList: " + pitchTutorRecordsList);
+            //System.out.print("pitchTutorRecordList: " + pitchTutorRecordsList);
             overalSessionObject.put("Questions", pitchTutorRecordsList);
             overalSessionObject.put("SessionStats", pitchTutorRecordStats);
-
-
+            System.out.println(overalSessionObject);
 
 
             overalOveralObject.put("Session_" + new Date().toString(),overalSessionObject);
             file1.write(overalOveralObject.toJSONString());
+            //file1.write(overalSessionObject.toJSONString());
             pitchTutorRecordsList.clear();
             pitchTutorRecordStats = "";
             overalSessionObject.clear();
+            overalOveralObject.clear();
 
             file1.flush();
             file1.close();
