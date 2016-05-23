@@ -151,6 +151,7 @@ public class ScaleRecognitionTutorController extends TutorController {
                 Boolean.toString(correct)
         };
         record.addQuestionAnswer(question);
+        projectHandler.saveTutorRecords("scale", record.addQuestionAnswer(question));
 
         if (manager.answered == manager.questions) {
             finished();
@@ -204,6 +205,7 @@ public class ScaleRecognitionTutorController extends TutorController {
                         scaleType
                 };
                 record.addSkippedQuestion(question);
+                projectHandler.saveTutorRecords("scale", record.addSkippedQuestion(question));
                 if (manager.answered == manager.questions) {
                     finished();
                 }

@@ -192,6 +192,7 @@ public class IntervalRecognitionTutorController extends TutorController {
                         thisInterval.getName()
                 };
                 record.addSkippedQuestion(question);
+                projectHandler.saveTutorRecords("interval", record.addSkippedQuestion(question));
                 if (manager.answered == manager.questions) {
                     finished();
                 }
@@ -219,6 +220,7 @@ public class IntervalRecognitionTutorController extends TutorController {
                         Boolean.toString(options.getValue().equals(thisInterval.getName()))
                 };
                 record.addQuestionAnswer(question);
+                projectHandler.saveTutorRecords("interval", record.addQuestionAnswer(question));
                 // Shows the correct answer
                 if (manager.answered == manager.questions) {
                     finished();

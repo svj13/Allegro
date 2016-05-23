@@ -201,10 +201,11 @@ public class TutorController {
         userScore = getScore(manager.correct, manager.answered);
         record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
         projectHandler.saveSessionStat("pitch",record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
+        projectHandler.saveCurrentProject();
         outputText = String.format("You have finished the tutor.\n" +
                 "You answered %d questions, and skipped %d questions.\n" +
                 "You answered %d questions correctly, %d questions incorrectly.\n" +
-                        "This gives a score of %.2f percent.",
+                        "This gives a score of %.2f percent.\nSession auto saved.",
                 manager.questions, manager.skipped,
                 manager.correct, manager.incorrect, userScore);
         // Sets the finished view

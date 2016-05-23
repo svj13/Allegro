@@ -243,6 +243,7 @@ public class MusicalTermsTutorController extends TutorController{
                         Boolean.toString(originOptions.getValue().equals(currentTerm.getMusicalTermOrigin()))
                 };
                 record.addQuestionAnswer(question);
+                projectHandler.saveTutorRecords("musicalTerm", record.addQuestionAnswer(question));
 
                 styleAnswer(rowPane, currentTerm, originOptions, categoryOptions, definitionOptions);
 
@@ -271,6 +272,7 @@ public class MusicalTermsTutorController extends TutorController{
                         Boolean.toString(categoryOptions.getValue().equals(currentTerm.getMusicalTermCategory()))
                 };
                 record.addQuestionAnswer(question);
+                projectHandler.saveTutorRecords("musicalTerm", record.addQuestionAnswer(question));
 
                 styleAnswer(rowPane, currentTerm, categoryOptions, definitionOptions, originOptions);
 
@@ -301,6 +303,7 @@ public class MusicalTermsTutorController extends TutorController{
                         Boolean.toString(definitionOptions.getValue().equals(currentTerm.getMusicalTermDefinition()))
                 };
                 record.addQuestionAnswer(question);
+                projectHandler.saveTutorRecords("musicalTerm", record.addQuestionAnswer(question));
 
                 styleAnswer(rowPane, currentTerm, definitionOptions, categoryOptions, originOptions);
 
@@ -321,6 +324,7 @@ public class MusicalTermsTutorController extends TutorController{
                         currentTerm.getMusicalTermName()
                 };
                 record.addSkippedQuestion(question);
+                projectHandler.saveTutorRecords("musicalTerm", record.addSkippedQuestion(question));
 
                 formatSkippedQuestion(rowPane);
                 manager.questions -= 1;
