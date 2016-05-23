@@ -32,29 +32,51 @@ public class TutorRecord {
      * Adds a question and answer to the record
      * @param questionSet A list of strings containing information about a single question
      */
-    public void addQuestionAnswer(String[] questionSet) {
+    public String addQuestionAnswer(String[] questionSet) {
+        String line = "";
         lines.add("Question: " + questionSet[0] + "\n");
         lines.add("Answer: " + questionSet[1] + "\n");
         lines.add("Correct: " + questionSet[2] + "\n");
         lines.add("\n");
+
+        line += "Question: " + questionSet[0] + "\n";
+        line += "Answer: " + questionSet[1] + "\n";
+        line += "Correct: " + questionSet[2] + "\n";
+        line += "\n";
+
+        return line;
+
     }
 
     /**
      * Adds a question to the record that the user skipped
      * @param question A list of strings containing the question and correct answer.
      */
-    public void addSkippedQuestion(String[] question) {
+    public String addSkippedQuestion(String[] question) {
+        String line = "";
         lines.add("Skipped Question: " + question[0] + "\n");
         lines.add("Correct Answer: " + question[1] + "\n");
         lines.add("\n");
+
+        line += "Skipped Question: " + question[0] + "\n";
+        line += "Correct Answer: " + question[1] + "\n";
+        line += "\n";
+
+        return line;
     }
 
     /**
      * Adds an indicator that the user is re-testing themself
      */
-    public void addRetest() {
+    public String addRetest() {
+        String line = "";
         lines.add("===== Re-testing =====\n");
         lines.add("\n");
+
+        line+= "===== Re-testing =====\n";
+        line += "\n";
+
+        return line;
     }
 
     /**
@@ -62,11 +84,19 @@ public class TutorRecord {
      * @param questionsAnsweredCorrectly The number of questions the user answered correctly
      * @param questionsAnsweredIncorrectly The number of questions the user answered incorrectly
      */
-    public void setStats(int questionsAnsweredCorrectly, int questionsAnsweredIncorrectly, float score) {
+    public String setStats(int questionsAnsweredCorrectly, int questionsAnsweredIncorrectly, float score) {
+
+        String line = "";
         lines.add("Questions answered correctly: " + questionsAnsweredCorrectly + "\n");
         lines.add("Questions answered incorrectly: " + questionsAnsweredIncorrectly + "\n");
         lines.add("Percentage answered correctly: " + String.format("%.2f", score) + "%\n");
         lines.add("\n");
+
+        line += "Questions answered correctly: " + questionsAnsweredCorrectly + "\n";
+        line += "Questions answered incorrectly: " + questionsAnsweredIncorrectly + "\n";
+        line += "Percentage answered correctly: " + String.format("%.2f", score) + "%\n";
+        line += "\n";
+        return line;
     }
 
     /**

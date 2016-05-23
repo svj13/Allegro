@@ -27,6 +27,8 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 import java.util.Optional;
 
 import seng302.Environment;
@@ -38,7 +40,12 @@ public class ProjectHandler {
 
     JSONObject projectSettings;
 
-    JSONObject pitchTutorRecords;
+
+    JSONObject overalOveralObject;
+    JSONObject overalSessionObject;
+    Collection<JSONObject> pitchTutorRecordsList = new ArrayList<JSONObject>();
+    String pitchTutorRecordStats = "";
+
     JSONObject intervalTutorRecords;
     JSONObject musicalTermsTutorRecords;
     JSONObject scaleTutorRecords;
@@ -59,11 +66,13 @@ public class ProjectHandler {
     public ProjectHandler(Environment env){
 
         projectSettings = new JSONObject();
-        pitchTutorRecords = new JSONObject();
+        //pitchTutorRecords = new JSONObject();
         intervalTutorRecords = new JSONObject();
         musicalTermsTutorRecords = new JSONObject();
         scaleTutorRecords = new JSONObject();
         chordTutorRecords = new JSONObject();
+        overalOveralObject = new JSONObject();
+        overalSessionObject = new JSONObject();
 
 
         this.env = env;
@@ -123,11 +132,42 @@ public class ProjectHandler {
 
     }
 
-    private void saveTutorRecords(String tutorType, String record){
+
+    public void saveSessionStat(String tutorType, String statString){
+        if(tutorType.equals("pitch")) {
+
+            pitchTutorRecordStats += (statString);
+
+        }
+//        }else if(tutorType.equals("interval")) {
+//
+//            intervalTutorRecords.put("Record", record);
+//
+//        }else if(tutorType.equals("musicalTerm")){
+//            musicalTermsTutorRecords.put("Record", record);
+//
+//        }else if(tutorType.equals("scale")){
+//
+//            scaleTutorRecords.put("Record", record);
+//
+//        }else if(tutorType.equals("chord")){
+//
+//            chordTutorRecords.put("Record", record);
+//        }
+
+
+
+    }
+
+    public void saveTutorRecords(String tutorType, String record){
 
         if(tutorType.equals("pitch")){
 
-            pitchTutorRecords.put("Record", record);
+            JSONObject jasonOFQuestion = new JSONObject();
+
+            jasonOFQuestion.put("QuestionInfo", record);
+            pitchTutorRecordsList.add(jasonOFQuestion);
+            System.out.println(pitchTutorRecordsList);
 
         }else if(tutorType.equals("interval")) {
 
@@ -229,6 +269,7 @@ public class ProjectHandler {
         //Add all settings to such as tempo speed to the project here.
 
         try {
+            Gson gson = new Gson();
 
             saveProperties();
             projectName = projectAddress.substring(projectAddress.lastIndexOf("/") + 1);
@@ -237,6 +278,48 @@ public class ProjectHandler {
             file.write(projectSettings.toJSONString());
             file.flush();
             file.close();
+
+            FileWriter file1 = new FileWriter(projectAddress+"/PitchComparisonRecords.json");
+            projectSettings.put("tempo", env.getPlayer().getTempo());
+
+
+            System.out.print("pitchTutorRecordList: " + pitchTutorRecordsList);
+            overalSessionObject.put("Questions", pitchTutorRecordsList);
+            overalSessionObject.put("SessionStats", pitchTutorRecordStats);
+
+
+
+
+            overalOveralObject.put("Session_" + new Date().toString(),overalSessionObject);
+            file1.write(overalOveralObject.toJSONString());
+            pitchTutorRecordsList.clear();
+            pitchTutorRecordStats = "";
+            overalSessionObject.clear();
+
+            file1.flush();
+            file1.close();
+
+            FileWriter file2 = new FileWriter(projectAddress+"/IntervalRecognitionRecords.json");
+            file2.write(intervalTutorRecords.toJSONString());
+            file2.flush();
+            file2.close();
+
+            FileWriter file3 = new FileWriter(projectAddress+"/MusicalTermsRecords.json");
+            file3.write(musicalTermsTutorRecords.toJSONString());
+            file3.flush();
+            file3.close();
+
+            FileWriter file4 = new FileWriter(projectAddress+"/ScaleRecognitionRecords.json");
+            file4.write(scaleTutorRecords.toJSONString());
+            file4.flush();
+            file4.close();
+
+            FileWriter file5 = new FileWriter(projectAddress+"/ChordRecognitionRecords.json");
+            file5.write(chordTutorRecords.toJSONString());
+            file5.flush();
+            file5.close();
+
+
 
 
             env.getRootController().setWindowTitle(projectName);

@@ -27,6 +27,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import seng302.Environment;
+import seng302.managers.ProjectHandler;
 import seng302.managers.TutorManager;
 import seng302.utility.TutorRecord;
 
@@ -43,6 +44,8 @@ public class TutorController {
     public String outputText;
 
     public int selectedQuestions;
+
+    public ProjectHandler projectHandler;
 
     Stage stage;
 
@@ -91,6 +94,7 @@ public class TutorController {
         System.out.println("managerCreated");
         this.env = env;
         manager = new TutorManager();
+        projectHandler = env.getProjectHandler();
     }
 
     /**
@@ -196,6 +200,7 @@ public class TutorController {
         env.getPlayer().stop();
         userScore = getScore(manager.correct, manager.answered);
         record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
+        projectHandler.saveSessionStat("pitch",record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
         outputText = String.format("You have finished the tutor.\n" +
                 "You answered %d questions, and skipped %d questions.\n" +
                 "You answered %d questions correctly, %d questions incorrectly.\n" +
