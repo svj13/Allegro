@@ -1,11 +1,10 @@
 package seng302.command;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 import seng302.Environment;
 import seng302.data.Note;
-import seng302.utility.OctaveUtil;
+import seng302.utility.musicNotation.OctaveUtil;
 
 /**
  * Created by team 5 on 18/03/2016.

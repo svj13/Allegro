@@ -1,4 +1,4 @@
-package seng302.utility;
+package seng302.utility.musicNotation;
 
 /**
  * Created by team-5 on 4/03/16.
@@ -57,5 +57,14 @@ public class OctaveUtil {
      */
     public static String capitalise(final String note) {
         return Character.toUpperCase(note.charAt(0)) + note.substring(1);
+    }
+
+    public static String validateNoteString(String note) {
+        note = capitalise(note);
+        if (Checker.isValidNoteNoOctave(note)) {
+            return OctaveUtil.addDefaultOctave(note);
+        } else {
+            return note;
+        }
     }
 }

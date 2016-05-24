@@ -56,8 +56,8 @@ public class ChordTest {
         verify(transcriptManager).setResult("Invalid chord: G9 major. Exceeds octave range.");
         new Chord(chordMap2, "chord").execute(env);
         verify(transcriptManager).setResult("Invalid chord: c#9 minor. Exceeds octave range.");
-        //new Chord(chordMap3, "chord").execute(env);
-        //verify(transcriptManager).setResult("[ERROR] Invalid command. new Chord(chordMap1, "play").execute(env)//
+        //new ChordUtil(chordMap3, "chord").execute(env);
+        //verify(transcriptManager).setResult("[ERROR] Invalid command. new ChordUtil(chordMap1, "play").execute(env)//
     }
 
     /**

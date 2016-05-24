@@ -2,7 +2,7 @@ package seng302;
 
 import java_cup.runtime.*;
 import seng302.command.*;
-import seng302.utility.OctaveUtil;
+import seng302.utility.musicNotation.OctaveUtil;
 import seng302.data.Note;
 import java.util.ArrayList;
 import java.util.HashMap;
