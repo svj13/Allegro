@@ -750,10 +750,19 @@ public class RootController implements Initializable {
         transcriptController.hidePlaybackGui();
         transcriptController.setEnv(env);
 
-        PitchComparisonTabController.clearTutor();
-        IntervalRecognitionTabController.clearTutor();
-        MusicalTermsTabController.clearTutor();
-        ScaleRecognitionTabController.clearTutor();
+        if(PitchComparisonTabController != null) {
+            PitchComparisonTabController.clearTutor();
+        }
+        if(IntervalRecognitionTabController != null){
+            IntervalRecognitionTabController.clearTutor();
+        }
+        if(MusicalTermsTabController != null){
+            MusicalTermsTabController.clearTutor();
+        }
+        if(ScaleRecognitionTabController != null){
+            ScaleRecognitionTabController.clearTutor();
+        }
+
     }
 
     public TranscriptPaneController getTranscriptController() {
