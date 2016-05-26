@@ -1,6 +1,7 @@
 package seng302.command;
 
 import seng302.Environment;
+import seng302.data.Interval;
 import seng302.data.Note;
 import seng302.utility.musicNotation.ChordUtil;
 import seng302.utility.musicNotation.OctaveUtil;
@@ -17,34 +18,43 @@ public class ChordFinder implements Command {
 
     Boolean all = false; //Return all chords, including inversions.
     String result;
-    HashSet<Note> notes;
+    ArrayList<Integer> midiNotes;
 
 
-    public ChordFinder(HashSet<Note> notes, Boolean all) {
+    public ChordFinder(ArrayList<Note> notes, Boolean all) {
 
         this.all = all;
-        this.notes = notes;
+        this.midiNotes = toMidiSet(notes, true);
+
+        System.out.println(" input -> " + Arrays.toString(this.midiNotes.toArray()));
+
         this.result = "No chords found for given notes.";
         if (!all) {
 
 
-            for (Note n : this.notes) {
+            for (int midi : midiNotes) {
 
-                ArrayList<Note> majorChord = OctaveUtil.setToMiddleOctave(ChordUtil.getChord(n, "major"));
+                ArrayList<Integer> majorChord = ChordUtil.getChordMidi(midi, "major");
+                ArrayList<Integer> minorChord = ChordUtil.getChordMidi(midi, "minor");
+                //Convert all Notes to Octave 4 equivalents.
 
-                ArrayList<Note> minorChord = OctaveUtil.setToMiddleOctave(ChordUtil.getChord(n, "minor"));
-                System.out.println(n.getNote());
-                System.out.println("---CHORD--");
-                for (Note n2 : majorChord) {
-                    System.out.println(n2.getNote());
+                System.out.println(" major ->" + Arrays.toString(majorChord.toArray()));
+
+                for (int i = 0; i < majorChord.size(); i++) {
+                    majorChord.set(i, 60 + (majorChord.get(i) % 12));
+                    minorChord.set(i, 60 + (minorChord.get(i) % 12));
                 }
-                System.out.println("------");
-                if (minorChord != null && minorChord.containsAll(notes)) {
+
+
+                if (minorChord != null && minorChord.containsAll(midiNotes)) {
+                    System.out.println("minor all");
                     //Add all notes to result string.
-                    this.result = "" + ChordUtil.getChordName(minorChord, false);
+                    this.result = "" + ChordUtil.getChordNameMidi(minorChord, false);
                     return;
-                } else if (majorChord != null && majorChord.containsAll(notes)) {
-                    this.result = "" + ChordUtil.getChordName(majorChord, false);
+                } else if (majorChord != null && majorChord.containsAll(midiNotes)) {
+                    System.out.println("major all");
+
+                    this.result = "" + ChordUtil.getChordNameMidi(majorChord, false);
                     return;
                 }
 
@@ -52,6 +62,17 @@ public class ChordFinder implements Command {
             }
         }
 
+
+    }
+
+    private ArrayList<Integer> toMidiSet(ArrayList<Note> notes, Boolean ignoreOctave) {
+
+        ArrayList<Integer> midiNotes = new ArrayList<Integer>();
+        for (Note n : notes) {
+            n = ignoreOctave ? Note.lookup(OctaveUtil.addDefaultOctave(OctaveUtil.removeOctaveSpecifier(n.getNote()))) : n;
+            midiNotes.add(n.getMidi());
+        }
+        return midiNotes;
 
     }
 

@@ -10,6 +10,7 @@ import seng302.data.Note;
 import seng302.managers.TranscriptManager;
 import seng302.utility.musicNotation.OctaveUtil;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import static org.mockito.Mockito.verify;
@@ -40,19 +41,18 @@ public class ChordFinderTest {
     @Test
     public void testValidTrioNotAll() throws Exception {
         //C Major: C E G
-        HashSet<Note> notes = new HashSet<Note>();
-        notes.add(Note.lookup(OctaveUtil.validateNoteString("C")));
-        notes.add(Note.lookup(OctaveUtil.validateNoteString("E")));
-        notes.add(Note.lookup(OctaveUtil.validateNoteString("G")));
-
+        ArrayList<Note> notes = new ArrayList<Note>();
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("C4")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("E4")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("G4")));
 
         new ChordFinder(notes, false).execute(env);
         verify(transcriptManager).setResult("C major");
         //C minor (C Eb G)
         notes.clear();
-        notes.add(Note.lookup(OctaveUtil.validateNoteString("C")));
-        notes.add(Note.lookup(OctaveUtil.validateNoteString("D#")));
-        notes.add(Note.lookup(OctaveUtil.validateNoteString("G")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("C4")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("D#4")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("G4")));
         new ChordFinder(notes, false).execute(env);
         verify(transcriptManager).setResult("C minor");
 
@@ -68,16 +68,16 @@ public class ChordFinderTest {
         //F minor (F Ab C)
         notes.clear();
         notes.add(Note.lookup(OctaveUtil.validateNoteString("F")));
-        notes.add(Note.lookup(OctaveUtil.validateNoteString("A")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("Ab")));
         notes.add(Note.lookup(OctaveUtil.validateNoteString("C")));
         new ChordFinder(notes, false).execute(env);
-        verify(transcriptManager).setResult("F major");
+        verify(transcriptManager).setResult("F minor");
     }
 
     @Test
     public void testValidTrioEnharmonics() throws Exception {
         //C Major: C E G
-        HashSet<Note> notes = new HashSet<Note>();
+        ArrayList<Note> notes = new ArrayList<Note>();
         notes.add(Note.lookup(OctaveUtil.validateNoteString("C")));
         notes.add(Note.lookup(OctaveUtil.validateNoteString("E")));
         notes.add(Note.lookup(OctaveUtil.validateNoteString("G")));
