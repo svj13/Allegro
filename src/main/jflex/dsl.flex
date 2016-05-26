@@ -107,7 +107,7 @@ Interval = ("unison"|(major\s(second|2nd|third|3rd|sixth|6th|seventh|7th|ninth|9
 //RhythmType = "straight"|"medium"|"heavy"|"light"
 RhythmType = (([0-9]+\/[0-9]+)(([ ][0-9]+\/[0-9]+)+)*)|([a-z|A-Z]+)
    
-SharpsFlats = ([1-7](#|b))|0#b
+SharpsFlats = ([1-7](#|b))|0#b|0b#
 
 %%
 
