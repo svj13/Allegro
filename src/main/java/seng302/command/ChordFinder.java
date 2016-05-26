@@ -31,39 +31,62 @@ public class ChordFinder implements Command {
         }
         this.midiNotes = toMidiSet(notes, true);
 
-
-        if (!all) {
-
-
+        if (all) {
+            //Check if input notes in all permutations create a chord.
             for (int midi : midiNotes) {
-
-                ArrayList<Integer> majorChord = ChordUtil.getChordMidi(midi, "major");
-                ArrayList<Integer> minorChord = ChordUtil.getChordMidi(midi, "minor");
-                //Convert all Notes to Octave 4 equivalents.
-
-
-                for (int i = 0; i < majorChord.size(); i++) {
-                    majorChord.set(i, 60 + (majorChord.get(i) % 12));
-                    minorChord.set(i, 60 + (minorChord.get(i) % 12));
-                }
-
-
-                if (minorChord != null && minorChord.containsAll(midiNotes)) {
-
-                    //Add all notes to result string.
-                    this.result = "" + ChordUtil.getChordNameMidi(minorChord, false);
-                    return;
-                } else if (majorChord != null && majorChord.containsAll(midiNotes)) {
-
-
-                    this.result = "" + ChordUtil.getChordNameMidi(majorChord, false);
-                    return;
-                }
-
+                if(findChord(midi)) return;
 
             }
         }
+        else{
+            //Check if input notes in order create a chord.
+            findChord(notes.get(0).getMidi());
+        }
 
+
+    }
+    private Boolean findChord(int midiNote){
+        ArrayList<Integer> majorChord = ChordUtil.getChordMidi(midiNote, "major");
+        ArrayList<Integer> minorChord = ChordUtil.getChordMidi(midiNote, "minor");
+
+
+        for (int i = 0; i < majorChord.size(); i++) {
+            majorChord.set(i, 60 + (majorChord.get(i) % 12));
+            minorChord.set(i, 60 + (minorChord.get(i) % 12));
+        }
+
+        if(all){
+            if (minorChord != null && minorChord.containsAll(midiNotes)) {
+                if(this.all){
+                    //Add all notes to result string.
+                    this.result = "" + ChordUtil.getChordNameMidi(minorChord, false);
+                    return true;
+                }
+
+
+            } else if (majorChord != null && majorChord.containsAll(midiNotes)) {
+
+
+                this.result = "" + ChordUtil.getChordNameMidi(majorChord, false);
+                return true;
+            }
+        }
+        else{
+            if(minorChord != null &&  minorChord == this.midiNotes){
+                this.result = "" + ChordUtil.getChordNameMidi(minorChord, false);
+                return true;
+
+            }
+            else if(majorChord != null && majorChord == this.midiNotes){
+                this.result = "" + ChordUtil.getChordNameMidi(majorChord, false);
+                return true;
+            }
+        }
+
+
+
+
+        return false;
 
     }
 

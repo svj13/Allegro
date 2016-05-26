@@ -134,6 +134,7 @@ SharpsFlats = ([1-7](#|b))|0#b
     "simple enharmonic" { return symbol(DslSymbol.COMMAND_SIMPLE_ENHARMONIC); }
     "set tempo"        { return symbol(DslSymbol.COMMAND_SET_TEMPO);  }
     "find chord"        { return symbol(DslSymbol.COMMAND_FIND_CHORD);  }
+    "find chord all"        { return symbol(DslSymbol.COMMAND_FIND_CHORD_ALL);  }
     "set rhythm"        { return symbol(DslSymbol.COMMAND_SET_RHYTHM);  }
     "play scale"        {return symbol(DslSymbol.COMMAND_PLAY_SCALE); }
     "play chord"        {return symbol(DslSymbol.COMMAND_PLAY_CHORD);}

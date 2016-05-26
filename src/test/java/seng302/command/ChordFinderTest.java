@@ -117,7 +117,7 @@ public class ChordFinderTest {
      * Tests Finding chords in inputted in different orders.
      */
     @Test
-    public void testValidTrioUnOrdered() {
+    public void testValidTrioInversions() {
         //C Major: C E G in order E G C
         ArrayList<Note> notes = new ArrayList<Note>();
 
@@ -125,10 +125,18 @@ public class ChordFinderTest {
         notes.add(Note.lookup(OctaveUtil.validateNoteString("G")));
         notes.add(Note.lookup(OctaveUtil.validateNoteString("C")));
 
-        new ChordFinder(notes, false).execute(env);
+        new ChordFinder(notes, true).execute(env);
         verify(transcriptManager).setResult("C major");
 
+        //Try same combination but without 'all specifier'
+        notes.clear();
 
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("E")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("G")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("C")));
+
+        new ChordFinder(notes, false).execute(env);
+        verify(transcriptManager).setResult("No chords found for given notes.");
 
 
     }
