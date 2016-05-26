@@ -157,6 +157,26 @@ public class ChordFinderTest {
         verify(transcriptManager, times(2)).setResult("No chords found for given notes.");
     }
 
+    /**
+     * tests Note sets of different sizes which should be invalid.
+     */
+    @Test
+    public void testInvalidSizedSets() {
+        // A B C (No valid chord)
+        ArrayList<Note> notes = new ArrayList<Note>();
+
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("A")));
+
+        new ChordFinder(notes, false).execute(env);
+
+        notes.clear();
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("F")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("A")));
+
+        new ChordFinder(notes, false).execute(env);
+        verify(transcriptManager, times(2)).setResult("Not chords found. Must provide either 3 or 4 notes.");
+    }
+
 
 
 

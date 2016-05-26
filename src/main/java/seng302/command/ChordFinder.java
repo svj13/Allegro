@@ -22,12 +22,16 @@ public class ChordFinder implements Command {
 
 
     public ChordFinder(ArrayList<Note> notes, Boolean all) {
-
+        this.result = "No chords found for given notes.";
         this.all = all;
+
+        if(notes.size() != 4 && notes.size() != 3){
+            this.result = "Not chords found. Must provide either 3 or 4 notes.";
+            return;
+        }
         this.midiNotes = toMidiSet(notes, true);
 
 
-        this.result = "No chords found for given notes.";
         if (!all) {
 
 

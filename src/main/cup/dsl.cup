@@ -118,7 +118,7 @@ non terminal String rhythmStyle;
 non terminal HashMap<String, String> playChord;
 non terminal String numberAndSharpsFlat;
 non terminal ArrayList<String> notes;
-non terminal ArrayList<Note> noteList;
+non terminal ArrayList<Note> chordSet;
 
 start with command;
 
@@ -161,7 +161,7 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_SCALE_WITH_KEYSIG notes:s           {: RESULT = new KeySignatureCommand(s); :}
           | COMMAND_PLAY_CHORD playChord:s              {: RESULT = new Chord(s, "play");:}
           | COMMAND_INTERVAL_ENHARMONIC interval:i      {: RESULT = new IntervalCommand(i,"equivalent"); :}
-          | COMMAND_FIND_CHORD noteList:n      {: RESULT = new ChordFinder(n,false); :}
+          | COMMAND_FIND_CHORD chordSet:n      {: RESULT = new ChordFinder(n,false); :}
 ;
 
 
@@ -173,8 +173,8 @@ notes ::= note:a {: RESULT = new ArrayList<String>(); RESULT.add(a);:}
          | notes:a note:b {: RESULT = a; RESULT.add(b); :}
 ;
 
-noteList ::= note:a {: RESULT = new ArrayList<Note>(); RESULT.add(Note.lookup(OctaveUtil.validateNoteString(a))); :}
-            | noteList:a note:b {: RESULT = a; RESULT.add(Note.lookup(OctaveUtil.validateNoteString(b))); :}
+chordSet ::= note:a {: RESULT = new ArrayList<Note>(); RESULT.add(Note.lookup(OctaveUtil.validateNoteString(a))); :}
+            | chordSet:a note:b {: RESULT = a; RESULT.add(Note.lookup(OctaveUtil.validateNoteString(b))); :}
 ;
 
 midiNote ::= MIDINOTE:s     {:RESULT = s;:}

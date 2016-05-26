@@ -165,7 +165,7 @@ SharpsFlats = ([1-7](#|b))|0#b
     {ScaleType}         {return symbol(DslSymbol.SCALE_TYPE, new String(yytext()));}
     {Direction}         {return symbol(DslSymbol.DIRECTION, new String(yytext()));}
     {RhythmType}         {return symbol(DslSymbol.RHYTHM_TYPE, new String(yytext()));}
-    {noteTrio}         {return symbol(DslSymbol.NOTE_TRIO, new String(yytext()));}
+
     {PosNum}            {return symbol(DslSymbol.POSNUM, new String(yytext()));}
     {Interval}          {return symbol(DslSymbol.INTERVAL, new String(yytext()));}
     {SemiColon}         {return symbol(DslSymbol.SEMIC);}
