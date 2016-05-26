@@ -10,21 +10,28 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import seng302.command.Chord;
 import seng302.Environment;
 import seng302.managers.TranscriptManager;
+import seng302.MusicPlayer;
+import seng302.data.Note;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ChordTest {
     private Environment env;
     @Mock
     private TranscriptManager transcriptManager;
+    @Mock
+    private MusicPlayer player;
 
     @Before
     public void setUp() throws Exception {
         env = new Environment();
         env.setTranscriptManager(transcriptManager);
+        env.setPlayer(player);
     }
 
 
@@ -113,43 +120,51 @@ public class ChordTest {
 
 
     }
+
     @Test
-    /**Check to see if when the chord is playing, it prints the correct message
-     *
-     */
     public void playChord() {
+        /**Tests to see if the chord is played along with the right output
+         * with no playStyle specified
+         */
+
+        //For C Major
+        ArrayList<Note> chordList1 = new ArrayList<Note>();
+        Note currentNote1 = Note.lookup("C4");
+        chordList1.add(currentNote1);
+        chordList1.add(currentNote1.semitoneUp(4));
+        chordList1.add(currentNote1.semitoneUp(7));
 
         HashMap<String, String> chordMap1 = new HashMap<String, String>();
         chordMap1.put("note", "C");
         chordMap1.put("scale_type", "major");
-        chordMap1.put("playStyle", "arpeggio");
-
-        HashMap<String, String> chordMap2 = new HashMap<String, String>();
-        chordMap2.put("note", "G");
-        chordMap2.put("scale_type", "major");
-
-        HashMap<String, String> chordMap3 = new HashMap<String, String>();
-        chordMap3.put("note", "G");
-        chordMap3.put("chord_type", "major 7th");
-
-        HashMap<String, String> chordMap4 = new HashMap<String, String>();
-        chordMap4.put("note", "C");
-        chordMap4.put("chord_type", "half dim");
-        chordMap4.put("playStyle", "arpeggio");
-
 
         new Chord(chordMap1, "play").execute(env);
         verify(transcriptManager).setResult("Playing chord C major");
+        verify(player).playSimultaneousNotes(chordList1);
 
-        new Chord(chordMap2, "play").execute(env);
-        verify(transcriptManager).setResult("Playing chord G major");
+    }
 
-        new Chord(chordMap3, "play").execute(env);
-        verify(transcriptManager).setResult("Playing chord G major 7th");
+    @Test
+    public void playChordArpeggio() {
+        /**Tests to see if the chord is played along with the right output
+         * with playStyle Arpeggio specified
+         */
 
-        new Chord(chordMap4, "play").execute(env);
-        verify(transcriptManager).setResult("Playing chord C half dim");
+        //For C Major Arpeggio
+        ArrayList<Note> chordList = new ArrayList<Note>();
+        Note currentNote = Note.lookup("C4");
+        chordList.add(currentNote);
+        chordList.add(currentNote.semitoneUp(4));
+        chordList.add(currentNote.semitoneUp(7));
 
+        HashMap<String, String> chordMap = new HashMap<String, String>();
+        chordMap.put("note", "C");
+        chordMap.put("scale_type", "major");
+        chordMap.put("playStyle", "arpeggio");
+
+        new Chord(chordMap, "play").execute(env);
+        verify(transcriptManager).setResult("Playing chord C major");
+        verify(player).playNotes(chordList);
 
     }
 
