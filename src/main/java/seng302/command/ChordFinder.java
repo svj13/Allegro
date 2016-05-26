@@ -26,7 +26,6 @@ public class ChordFinder implements Command {
         this.all = all;
         this.midiNotes = toMidiSet(notes, true);
 
-        System.out.println(" input -> " + Arrays.toString(this.midiNotes.toArray()));
 
         this.result = "No chords found for given notes.";
         if (!all) {
@@ -38,7 +37,6 @@ public class ChordFinder implements Command {
                 ArrayList<Integer> minorChord = ChordUtil.getChordMidi(midi, "minor");
                 //Convert all Notes to Octave 4 equivalents.
 
-                System.out.println(" major ->" + Arrays.toString(majorChord.toArray()));
 
                 for (int i = 0; i < majorChord.size(); i++) {
                     majorChord.set(i, 60 + (majorChord.get(i) % 12));
@@ -47,12 +45,12 @@ public class ChordFinder implements Command {
 
 
                 if (minorChord != null && minorChord.containsAll(midiNotes)) {
-                    System.out.println("minor all");
+
                     //Add all notes to result string.
                     this.result = "" + ChordUtil.getChordNameMidi(minorChord, false);
                     return;
                 } else if (majorChord != null && majorChord.containsAll(midiNotes)) {
-                    System.out.println("major all");
+
 
                     this.result = "" + ChordUtil.getChordNameMidi(majorChord, false);
                     return;
@@ -81,7 +79,7 @@ public class ChordFinder implements Command {
     }
 
     public void execute(Environment env) {
-        System.out.println(result);
+
         env.getTranscriptManager().setResult(result);
 
     }

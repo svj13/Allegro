@@ -13,6 +13,7 @@ import seng302.utility.musicNotation.OctaveUtil;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -104,21 +105,61 @@ public class ChordFinderTest {
 
         //F mibor (F Ab C)
         notes.clear();
-        notes.add(Note.lookup(OctaveUtil.validateNoteString("F")));
-        notes.add(Note.lookup(OctaveUtil.validateNoteString("A")));
-        notes.add(Note.lookup(OctaveUtil.validateNoteString("C")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("E#")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("G#")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("B#")));
         new ChordFinder(notes, false).execute(env);
-        verify(transcriptManager).setResult("F major");
+        verify(transcriptManager).setResult("F minor");
     }
 
 
-
-
+    /**
+     * Tests Finding chords in inputted in different orders.
+     */
     @Test
     public void testValidTrioUnOrdered() {
+        //C Major: C E G in order E G C
+        ArrayList<Note> notes = new ArrayList<Note>();
+
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("E")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("G")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("C")));
+
+        new ChordFinder(notes, false).execute(env);
+        verify(transcriptManager).setResult("C major");
+
+
 
 
     }
+
+    /**
+     * tests Trios with no valid matching chords
+     */
+    @Test
+    public void testInvalidTrio() {
+        // A B C (No valid chord)
+        ArrayList<Note> notes = new ArrayList<Note>();
+
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("A")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("B")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("C")));
+
+        new ChordFinder(notes, false).execute(env);
+
+
+        notes.clear();
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("F")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("A")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("G")));
+
+        new ChordFinder(notes, false).execute(env);
+        verify(transcriptManager, times(2)).setResult("No chords found for given notes.");
+    }
+
+
+
+
 
 
 }
