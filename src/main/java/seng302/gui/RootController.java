@@ -187,6 +187,44 @@ public class RootController implements Initializable {
         keyboardPaneController.stopShowingNotesOnKeyboard();
     }
 
+    private void setCommandText(String commandText, String commandParams, String commandOptions) {
+        transcriptController.txtCommand.clear();
+        transcriptController.txtCommand.setText(commandText +
+                "Parameters: " + commandParams);
+        if (!commandOptions.equals("")) {
+            transcriptController.txtCommand.appendText("Options: " + commandOptions);
+        }
+    }
+
+    @FXML
+    private void selectPlayNote() {
+        String commandText = "play ";
+        String commandParams = "[note|midi]";
+        setCommandText(commandText, commandParams, "");
+    }
+
+    @FXML
+    private void selectPlayChord() {
+        String commandText = "play chord ";
+        String commandParams = "[note] [type]";
+        String commandOptions = "[arpeggio]";
+        setCommandText(commandText, commandParams, commandOptions);
+    }
+
+    @FXML
+    private void selectPlayScale() {
+        String commandText = "play scale ";
+        String commandParams = "[note] [type]";
+        String commandOptions = "[octaves] [up|down|updown]";
+        setCommandText(commandText, commandParams, commandOptions);
+    }
+
+    @FXML
+    private void selectPlayInterval() {
+        String commandText = "play interval ";
+        String commandParams = "[type] [note]";
+        setCommandText(commandText, commandParams, "");
+    }
 
 
 

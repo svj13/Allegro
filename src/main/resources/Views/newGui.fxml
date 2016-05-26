@@ -94,6 +94,22 @@
                                </Menu>
                            </items>
                        </Menu>
+                       <Menu mnemonicParsing="false" text="Command">
+                           <items>
+                               <Menu mnemonicParsing="false" text="Play">
+                                   <items>
+                                       <MenuItem mnemonicParsing="false" onAction="#selectPlayNote"
+                                                 text="Note"/>
+                                       <MenuItem mnemonicParsing="false" onAction="#selectPlayChord"
+                                                 text="Chord"/>
+                                       <MenuItem mnemonicParsing="false" onAction="#selectPlayScale"
+                                                 text="Scale"/>
+                                       <MenuItem mnemonicParsing="false"
+                                                 onAction="#selectPlayInterval" text="Interval"/>
+                                   </items>
+                               </Menu>
+                           </items>
+                       </Menu>
                    </menus>
                </MenuBar>
                <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0"
