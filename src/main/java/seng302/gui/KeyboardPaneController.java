@@ -60,10 +60,10 @@ public class KeyboardPaneController {
 
     Environment env;
     PopOver pop;
-    RangeSlider rangeSlider;
     Label notes;
+    @FXML
+    AnchorPane blackKeys;
 
-    private Integer numberOfKeys = 24;
     private boolean shift;
     ArrayList<Note> multiNotes;
     List<TouchPane> clicked;
@@ -72,10 +72,16 @@ public class KeyboardPaneController {
     Integer topNote;
 
 
+
     @FXML
     private void initialize() {
         keyboardBox.setMaxHeight(200);
         keyboardBox.setMinHeight(200);
+        //blackKeys = new AnchorPane();
+        blackKeys.setMaxHeight(130);
+
+        //keyboardStack.getChildren().add(blackKeys);
+        keyboardStack.setPickOnBounds(false);
         bottomNote = 60;
         topNote = 72;
         VBox settings = new VBox();
@@ -95,12 +101,14 @@ public class KeyboardPaneController {
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 bottomNote = newValue.intValue();
                 setUpKeyboard();
+                positionBlackKeys();
             }
         });
         slider.highValueProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 topNote = newValue.intValue();
                 setUpKeyboard();
+                positionBlackKeys();
             }
         });
         rangeHeading.getChildren().add(notes);
@@ -147,6 +155,7 @@ public class KeyboardPaneController {
         settings.getChildren().add(rb3);
         pop.setTitle("Keyboard Settings");
 
+
     }
 
 
@@ -163,13 +172,14 @@ public class KeyboardPaneController {
 
 
         this.env = env;
-        setUpKeyboard();
+
         multiNotes = new ArrayList<Note>();
         clicked = new ArrayList<TouchPane>();
         Platform.runLater(new Runnable() {
             public void run() {
-
+                setUpKeyboard();
                 keyboardBox.requestFocus();
+                positionBlackKeys();
 
             }
         });
@@ -179,13 +189,27 @@ public class KeyboardPaneController {
 
     private void setUpKeyboard() {
         keyboardBox.getChildren().clear();
+        blackKeys.getChildren().clear();
+
         for (Integer i = bottomNote; i <= topNote; i++) {
             Pane key = new TouchPane(i, env, this);
-            key.setPrefWidth(100);
-            keyboardBox.setHgrow(key, Priority.ALWAYS);
             key.setMaxWidth(Double.MAX_VALUE);
-            keyboardBox.getChildren().add(key);
+            key.setPrefSize(100, 200);
+            if (Note.lookup(i.toString()).getNote().contains("#")) {
+                System.out.println("found a black key:" + i.toString());
+                key.setStyle("-fx-background-color: black");
+                key.setPrefSize(100, 130);
+                AnchorPane.setLeftAnchor(key, 0.0);
+                blackKeys.getChildren().add(key);
+                System.out.println(blackKeys.getChildren().size());
+            } else {
+                keyboardBox.setHgrow(key, Priority.ALWAYS);
+                keyboardBox.getChildren().add(key);
+            }
+
         }
+        //.out.println(keyboardBox.getWidth());
+        //System.out.println(blackKeys.getWidth());
 
         keyboardBox.setOnKeyPressed(new EventHandler<KeyEvent>() {
             public void handle(KeyEvent event) {
@@ -211,6 +235,51 @@ public class KeyboardPaneController {
             }
         });
 
+
+    }
+
+    private void positionBlackKeys() {
+        System.out.println("positioning");
+
+        Double width = keyboardBox.getWidth();
+        System.out.println("width: " + width);
+        ObservableList<Node> keys = blackKeys.getChildren();
+        Integer numWhiteNotes = topNote - bottomNote - keys.size() + 1;
+        System.out.println(numWhiteNotes);
+        Double whiteWidth = width / numWhiteNotes;
+        System.out.println(whiteWidth);
+        Double blackWidth = whiteWidth * 0.5;
+        Integer prevBlackKey = -1;
+        Double currentPos = 0.0;
+        for (Node key : keys) {
+            TouchPane keyPane = (TouchPane) key;
+            keyPane.setPrefWidth(blackWidth);
+            keyPane.setMinWidth(blackWidth);
+            keyPane.setMaxWidth(blackWidth);
+            if (prevBlackKey == -1) {
+                prevBlackKey = keyPane.getNoteValue().getMidi();
+                if (prevBlackKey - bottomNote == 1) {
+                    AnchorPane.setLeftAnchor(key, whiteWidth * 0.75);
+                    currentPos = whiteWidth * 0.75 + blackWidth;
+                } else if (prevBlackKey - bottomNote == 2) {
+                    AnchorPane.setLeftAnchor(key, whiteWidth * 1.75);
+                    currentPos = whiteWidth * 1.75 + blackWidth;
+                } else {
+                    AnchorPane.setLeftAnchor(key, -blackWidth * 0.5);
+                    currentPos = blackWidth * 0.5;
+                }
+            } else {
+                if (keyPane.getNoteValue().getMidi() - prevBlackKey == 2) {
+                    AnchorPane.setLeftAnchor(key, currentPos + whiteWidth * 0.5);
+                    currentPos = currentPos + whiteWidth * 0.5 + blackWidth;
+                } else if (keyPane.getNoteValue().getMidi() - prevBlackKey == 3) {
+                    AnchorPane.setLeftAnchor(key, currentPos + whiteWidth * 1.5);
+                    currentPos = currentPos + whiteWidth * 1.5 + blackWidth;
+                }
+                prevBlackKey = keyPane.getNoteValue().getMidi();
+            }
+
+        }
 
     }
 

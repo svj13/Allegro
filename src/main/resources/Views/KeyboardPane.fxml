@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
@@ -9,7 +10,13 @@
    <content>
       <StackPane fx:id="keyboardStack" alignment="TOP_LEFT" maxHeight="100.0" prefHeight="0.0">
          <children>
-            <HBox fx:id="keyboardBox" prefHeight="100.0"/>
+            <HBox fx:id="keyboardBox" prefHeight="100.0">
+               <StackPane.margin>
+                  <Insets right="-0.0"/>
+               </StackPane.margin>
+            </HBox>
+            <AnchorPane fx:id="blackKeys" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0"
+                        StackPane.alignment="TOP_CENTER"/>
          </children>
       </StackPane>
    </content>

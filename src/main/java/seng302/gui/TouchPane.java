@@ -24,11 +24,12 @@ public class TouchPane extends StackPane {
     private String keyLabel;
     private boolean displayLabel = false;
     private boolean displayLabelOnAction = false;
+    Note noteToPlay;
 
 
     public TouchPane(Integer note, Environment env, KeyboardPaneController kpc) {
         super();
-        final Note noteToPlay = Note.lookup(String.valueOf(note));
+        noteToPlay = Note.lookup(String.valueOf(note));
         final Environment environment = env;
         final KeyboardPaneController keyboardPaneController = kpc;
         me = this;
@@ -77,7 +78,6 @@ public class TouchPane extends StackPane {
         setOnMousePressed(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
                 if (keyboardPaneController.getShiftState() == true) {
-                    System.out.println("add note");
                     keyboardPaneController.addMultiNote(noteToPlay, me);
                     setHighlightOn();
                 } else {
@@ -137,7 +137,11 @@ public class TouchPane extends StackPane {
         if (displayLabelOnAction) {
             toggleDisplayLabelOnAction();
         }
+
     }
 
+    public Note getNoteValue() {
+        return noteToPlay;
+    }
 
 }
