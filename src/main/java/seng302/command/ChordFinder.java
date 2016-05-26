@@ -3,8 +3,10 @@ package seng302.command;
 import seng302.Environment;
 import seng302.data.Note;
 import seng302.utility.musicNotation.ChordUtil;
+import seng302.utility.musicNotation.OctaveUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 
@@ -25,23 +27,31 @@ public class ChordFinder implements Command {
         this.result = "No chords found for given notes.";
         if (!all) {
 
+
             for (Note n : this.notes) {
 
-                ArrayList<Note> majorChord = ChordUtil.getChord(n, "major");
+                ArrayList<Note> majorChord = OctaveUtil.setToMiddleOctave(ChordUtil.getChord(n, "major"));
 
-                ArrayList<Note> minorChord = ChordUtil.getChord(n, "minor");
+                ArrayList<Note> minorChord = OctaveUtil.setToMiddleOctave(ChordUtil.getChord(n, "minor"));
+                System.out.println(n.getNote());
+                System.out.println("---CHORD--");
+                for (Note n2 : majorChord) {
+                    System.out.println(n2.getNote());
+                }
+                System.out.println("------");
                 if (minorChord != null && minorChord.containsAll(notes)) {
                     //Add all notes to result string.
-                    this.result = "" + ChordUtil.getChordName(minorChord);
+                    this.result = "" + ChordUtil.getChordName(minorChord, false);
                     return;
                 } else if (majorChord != null && majorChord.containsAll(notes)) {
-                    this.result = "" + ChordUtil.getChordName(majorChord);
+                    this.result = "" + ChordUtil.getChordName(majorChord, false);
                     return;
                 }
 
 
             }
         }
+
 
     }
 

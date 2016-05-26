@@ -47,9 +47,72 @@ public class ChordFinderTest {
 
 
         new ChordFinder(notes, false).execute(env);
-        verify(transcriptManager).setResult("C Major");
+        verify(transcriptManager).setResult("C major");
+        //C minor (C Eb G)
+        notes.clear();
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("C")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("D#")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("G")));
+        new ChordFinder(notes, false).execute(env);
+        verify(transcriptManager).setResult("C minor");
 
+        //F major (F A C)
+        notes.clear();
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("F")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("A")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("C")));
+        new ChordFinder(notes, false).execute(env);
+        verify(transcriptManager).setResult("F major");
+
+
+        //F minor (F Ab C)
+        notes.clear();
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("F")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("A")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("C")));
+        new ChordFinder(notes, false).execute(env);
+        verify(transcriptManager).setResult("F major");
     }
+
+    @Test
+    public void testValidTrioEnharmonics() throws Exception {
+        //C Major: C E G
+        HashSet<Note> notes = new HashSet<Note>();
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("C")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("E")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("G")));
+
+
+        new ChordFinder(notes, false).execute(env);
+        verify(transcriptManager).setResult("C major");
+        //C minor (C Eb G)
+        notes.clear();
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("B#")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("Eb")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("Fx")));
+        new ChordFinder(notes, false).execute(env);
+        verify(transcriptManager).setResult("C minor");
+
+        //F major (F A C)
+        notes.clear();
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("F")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("A")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("C")));
+        new ChordFinder(notes, false).execute(env);
+        verify(transcriptManager).setResult("F major");
+
+
+        //F mibor (F Ab C)
+        notes.clear();
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("F")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("A")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("C")));
+        new ChordFinder(notes, false).execute(env);
+        verify(transcriptManager).setResult("F major");
+    }
+
+
+
 
     @Test
     public void testValidTrioUnOrdered() {
