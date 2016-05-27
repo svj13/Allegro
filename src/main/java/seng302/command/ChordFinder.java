@@ -66,18 +66,18 @@ public class ChordFinder implements Command {
 
             } else if (majorChord != null && majorChord.containsAll(midiNotes)) {
 
-
                 this.result = "" + ChordUtil.getChordNameMidi(majorChord, false);
                 return true;
             }
         }
         else{
-            if(minorChord != null &&  minorChord == this.midiNotes){
+            if(minorChord != null &&  minorChord.equals(this.midiNotes)){
                 this.result = "" + ChordUtil.getChordNameMidi(minorChord, false);
                 return true;
 
             }
-            else if(majorChord != null && majorChord == this.midiNotes){
+            else if(majorChord != null && majorChord.equals(this.midiNotes)){
+
                 this.result = "" + ChordUtil.getChordNameMidi(majorChord, false);
                 return true;
             }
