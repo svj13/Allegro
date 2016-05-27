@@ -314,7 +314,7 @@ public class ProjectHandler {
             file.close();
 
             saveTutorRecordsToFile(projectAddress);
-
+            env.getRootController().clearAllIndicators();
 
             projectSettings.put("tempo", env.getPlayer().getTempo());
 
@@ -333,6 +333,8 @@ public class ProjectHandler {
         }
 
     }
+
+
 
     private void saveTutorRecordsToFile(String projectAddress) {
         try {

@@ -746,8 +746,18 @@ public class RootController implements Initializable {
 
             }
         }
+    }
 
+    public void clearAllIndicators(){
+        for(Tab tab:TabPane.getTabs()){
 
+            String currentText = tab.getText();
+            Character firstChar = currentText.charAt(0);
+
+            if(firstChar == '*'){
+                tab.setText(currentText.substring(1));
+            }
+        }
     }
 
     public Environment getEnv() {
