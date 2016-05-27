@@ -467,7 +467,10 @@ public class RootController implements Initializable {
 
     }
 
-
+    /**
+     * opens the pitch tutor when the pitch tutor menu option is pressed
+     * If there is already an open tutor of the same form then it sets focus to the already open tutor
+     */
     @FXML
     private void openPitchTutor(){
         boolean alreadyExists = false;
@@ -502,6 +505,10 @@ public class RootController implements Initializable {
 
     }
 
+    /**
+     * opens the interval tutor when the interval menu option is pressed
+     * If there is already an open tutor of the same form then it sets focus to the already open tutor
+     */
     @FXML
     private void openIntervalTutor(){
 
@@ -536,7 +543,10 @@ public class RootController implements Initializable {
 
     }
 
-
+    /**
+     * opens the musical terms tutor when the musical term tutor menu option is pressed
+     * If there is already an open tutor of the same form then it sets focus to the already open tutor
+     */
     @FXML
     private void openMusicalTermTutor(){
 
@@ -571,6 +581,10 @@ public class RootController implements Initializable {
 
     }
 
+    /**
+     * opens the scale tutor when the scale menu option is pressed
+     * If there is already an open tutor of the same form then it sets focus to the already open tutor
+     */
     @FXML
     private void openScaleTutor(){
 
@@ -605,6 +619,10 @@ public class RootController implements Initializable {
 
     }
 
+    /**
+     * opens the chord tutor when the chord tutor menu option is pressed
+     * If there is already an open tutor of the same form then it sets focus to the already open tutor
+     */
     @FXML
     private void openChordTutor(){
 
@@ -719,11 +737,20 @@ public class RootController implements Initializable {
 
     }
 
+    /**
+     * sets the title of the application to the text input
+     * @param text
+     */
     public void setWindowTitle(String text){
         this.stage.setTitle("Allegro    " + text);
     }
 
 
+    /**
+     * Sets the title of a selected tab depending on if there are unsaved changes
+     * @param tabID
+     * @param unsavedChanges
+     */
     public void setTabTitle(String tabID, Boolean unsavedChanges){
 
         for(Tab tab:TabPane.getTabs()){
@@ -731,14 +758,12 @@ public class RootController implements Initializable {
 
                 String currentText = tab.getText();
                 Character firstChar = currentText.charAt(0);
-                System.out.println(firstChar);
                 if(firstChar == '*'){
                     if(!unsavedChanges){
                         tab.setText(currentText.substring(1));
                     }
 
                 }else{
-                    System.out.println(unsavedChanges);
                     if(unsavedChanges){
                         tab.setText("*"+ currentText);
                     }
@@ -748,6 +773,9 @@ public class RootController implements Initializable {
         }
     }
 
+    /**
+     * clears all the unsaved changes indicators on the tutor tabs
+     */
     public void clearAllIndicators(){
         for(Tab tab:TabPane.getTabs()){
 
