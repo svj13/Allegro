@@ -638,6 +638,34 @@ public class RootController implements Initializable {
     @FXML
     private void openChordTutor(){
 
+        boolean alreadyExists = false;
+        for(Tab tab:TabPane.getTabs()){
+            if(tab.getId().equals("chordTutor")){
+                TabPane.getSelectionModel().select(tab);
+                alreadyExists = true;
+            }
+
+        }
+
+        if(!alreadyExists) {
+
+            Tab ScaleTab = new Tab("Chord Recognition Tutor");
+            ScaleTab.setId("chordTutor");
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/Views/ChordRecognitionPane.fxml"));
+
+            try {
+                ScaleTab.setContent((Node) loader.load());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            TabPane.getTabs().add(ScaleTab);
+            TabPane.getSelectionModel().select(ScaleTab);
+            ChordRecognitionTabController = loader.getController();
+            ChordRecognitionTabController.create(env);
+        }
 
     }
 
@@ -838,18 +866,19 @@ public class RootController implements Initializable {
         transcriptController.hidePlaybackGui();
         transcriptController.setEnv(env);
 
-        if(PitchComparisonTabController != null) {
+        if (PitchComparisonTabController != null) {
             PitchComparisonTabController.clearTutor();
         }
-        if(IntervalRecognitionTabController != null){
+        if (IntervalRecognitionTabController != null) {
             IntervalRecognitionTabController.clearTutor();
         }
-        if(MusicalTermsTabController != null){
+        if (MusicalTermsTabController != null) {
             MusicalTermsTabController.clearTutor();
         }
-        if(ScaleRecognitionTabController != null){
+        if (ScaleRecognitionTabController != null) {
             ScaleRecognitionTabController.clearTutor();
         }
+    }
 
     public TranscriptPaneController getTranscriptController() {
         return transcriptController;

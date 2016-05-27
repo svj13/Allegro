@@ -39,10 +39,9 @@ public class TutorRecord {
         lines.add("Correct: " + questionSet[2] + "\n");
         lines.add("\n");
 
-        line += "Question: " + questionSet[0] + "\n";
-        line += "Answer: " + questionSet[1] + "\n";
-        line += "Correct: " + questionSet[2] + "\n";
-        line += "\n";
+        line += "Question: " + questionSet[0];
+        line += "Answer: " + questionSet[1];
+        line += "Correct: " + questionSet[2];
 
         return line;
 
@@ -58,9 +57,8 @@ public class TutorRecord {
         lines.add("Correct Answer: " + question[1] + "\n");
         lines.add("\n");
 
-        line += "Skipped Question: " + question[0] + "\n";
-        line += "Correct Answer: " + question[1] + "\n";
-        line += "\n";
+        line += "Skipped Question: " + question[0];
+        line += "Correct Answer: " + question[1];
 
         return line;
     }
@@ -92,10 +90,9 @@ public class TutorRecord {
         lines.add("Percentage answered correctly: " + String.format("%.2f", score) + "%\n");
         lines.add("\n");
 
-        line += "Questions answered correctly: " + questionsAnsweredCorrectly + "\n";
-        line += "Questions answered incorrectly: " + questionsAnsweredIncorrectly + "\n";
-        line += "Percentage answered correctly: " + String.format("%.2f", score) + "%\n";
-        line += "\n";
+        line += "Questions answered correctly: " + questionsAnsweredCorrectly;
+        line += "Questions answered incorrectly: " + questionsAnsweredIncorrectly;
+        line += "Percentage answered correctly: " + String.format("%.2f", score) + "%";
         return line;
     }
 

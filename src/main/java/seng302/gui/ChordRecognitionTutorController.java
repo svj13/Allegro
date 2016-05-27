@@ -204,6 +204,8 @@ public class ChordRecognitionTutorController extends TutorController{
                         chordType
                 };
                 record.addSkippedQuestion(question);
+                projectHandler.saveTutorRecords("chord", record.addSkippedQuestion(question));
+                env.getRootController().setTabTitle("chordTutor", true);
                 if (manager.answered == manager.questions) {
                     finished();
                 }
@@ -261,6 +263,8 @@ public class ChordRecognitionTutorController extends TutorController{
                 Boolean.toString(correct)
         };
         record.addQuestionAnswer(question);
+        projectHandler.saveTutorRecords("chord", record.addQuestionAnswer(question));
+        env.getRootController().setTabTitle("chordTutor", true);
 
         if (manager.answered == manager.questions) {
             finished();
@@ -275,5 +279,60 @@ public class ChordRecognitionTutorController extends TutorController{
         octaves.getSelectionModel().selectFirst();
     }
 
+    /**
+     * This function is run once a tutoring session has been completed.
+     */
+    public void finished() {
+        env.getPlayer().stop();
+        userScore = getScore(manager.correct, manager.answered);
+        record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
+        projectHandler.saveSessionStat("chord",record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
+        projectHandler.saveCurrentProject();
+        env.getRootController().setTabTitle("chordTutor", false);
+        outputText = String.format("You have finished the tutor.\n" +
+                        "You answered %d questions, and skipped %d questions.\n" +
+                        "You answered %d questions correctly, %d questions incorrectly.\n" +
+                        "This gives a score of %.2f percent.\nSession auto saved.",
+                manager.questions, manager.skipped,
+                manager.correct, manager.incorrect, userScore);
+        // Sets the finished view
+        resultsContent.setText(outputText);
 
+        paneQuestions.setVisible(false);
+        paneResults.setVisible(true);
+        questionRows.getChildren().clear();
+
+        Button retestBtn = new Button("Retest");
+        Button clearBtn  = new Button("Clear");
+
+        clearBtn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                promptSaveRecord();
+                manager.saveTempIncorrect();
+                paneResults.setVisible(false);
+                paneQuestions.setVisible(true);
+            }
+        });
+        paneResults.setPadding(new Insets(10, 10, 10, 10));
+        retestBtn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                paneResults.setVisible(false);
+                paneQuestions.setVisible(true);
+                retest();
+            }
+        });
+
+        if (manager.getTempIncorrectResponses().size() > 0) {
+            //Can re-test
+            buttons.getChildren().setAll(retestBtn, clearBtn);
+        } else {
+            //Perfect score
+            buttons.getChildren().setAll(clearBtn);
+        }
+
+        buttons.setMargin(retestBtn, new Insets(10,10,10,10));
+        buttons.setMargin(clearBtn, new Insets(10,10,10,10));
+        // Clear the current session
+        manager.resetStats();
+    }
 }
