@@ -8,10 +8,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.*;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -32,6 +34,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import seng302.Environment;
 import seng302.command.UndoRedo;
+import seng302.data.CommandType;
 import seng302.managers.TranscriptManager;
 import seng302.utility.FileHandler;
 import seng302.utility.OutputTuple;
@@ -93,11 +96,13 @@ public class RootController implements Initializable {
     private Menu menuOpenProjects;
 
     @FXML
+    private Menu commandMenu;
+
+    @FXML
     private TabPane TabPane;
 
     @FXML
     private void initialize() {
-
     }
 
     public void RootController() {
@@ -187,45 +192,68 @@ public class RootController implements Initializable {
         keyboardPaneController.stopShowingNotesOnKeyboard();
     }
 
-    private void setCommandText(String commandText, String commandParams, String commandOptions) {
+    private void setCommandText(CommandType command) {
         transcriptController.txtCommand.clear();
-        transcriptController.txtCommand.setText(commandText +
-                "Parameters: " + commandParams);
-        if (!commandOptions.equals("")) {
-            transcriptController.txtCommand.appendText("Options: " + commandOptions);
+        String[] parameters = command.getParams();
+        String[] options = command.getOptions();
+        String parameterString = "";
+        String optionsString = "";
+        for (String parameter : parameters) {
+            parameterString += "[" + parameter + "] ";
+        }
+        for (String option : options) {
+            optionsString += "[" + option + "] ";
+        }
+        transcriptController.txtCommand.setText(command.getName() +
+                " Parameters: " + parameterString);
+        if (!optionsString.equals("[]")) {
+            transcriptController.txtCommand.appendText("Options: " + optionsString);
         }
     }
 
-    @FXML
-    private void selectPlayNote() {
-        String commandText = "play ";
-        String commandParams = "[note|midi]";
-        setCommandText(commandText, commandParams, "");
-    }
+//    @FXML
+//    private void selectPlayNote() {
+//        String commandText = "play ";
+//        String commandParams = "[note|midi]";
+//        setCommandText(commandText, commandParams, "");
+//    }
+//
+//    @FXML
+//    private void selectPlayChord() {
+//        String commandText = "play chord ";
+//        String commandParams = "[note] [type]";
+//        String commandOptions = "[arpeggio]";
+//        setCommandText(commandText, commandParams, commandOptions);
+//    }
+//
+//    @FXML
+//    private void selectPlayScale() {
+//        String commandText = "play scale ";
+//        String commandParams = "[note] [type]";
+//        String commandOptions = "[octaves] [up|down|updown]";
+//        setCommandText(commandText, commandParams, commandOptions);
+//    }
+//
+//    @FXML
+//    private void selectPlayInterval() {
+//        String commandText = "play interval ";
+//        String commandParams = "[type] [note]";
+//        setCommandText(commandText, commandParams, "");
+//    }
 
-    @FXML
-    private void selectPlayChord() {
-        String commandText = "play chord ";
-        String commandParams = "[note] [type]";
-        String commandOptions = "[arpeggio]";
-        setCommandText(commandText, commandParams, commandOptions);
+    public void generateCommandMenu() {
+        for (Map.Entry<String, CommandType> entry : CommandType.allCommands.entrySet()) {
+            String menuText = entry.getKey();
+            final CommandType data = entry.getValue();
+            MenuItem menuItem = new MenuItem(menuText);
+            menuItem.setOnAction(new EventHandler<ActionEvent>() {
+                public void handle(ActionEvent event) {
+                    setCommandText(data);
+                }
+            });
+            commandMenu.getItems().add(menuItem);
+        }
     }
-
-    @FXML
-    private void selectPlayScale() {
-        String commandText = "play scale ";
-        String commandParams = "[note] [type]";
-        String commandOptions = "[octaves] [up|down|updown]";
-        setCommandText(commandText, commandParams, commandOptions);
-    }
-
-    @FXML
-    private void selectPlayInterval() {
-        String commandText = "play interval ";
-        String commandParams = "[type] [note]";
-        setCommandText(commandText, commandParams, "");
-    }
-
 
 
     /**
