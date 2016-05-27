@@ -71,6 +71,9 @@ public class RootController implements Initializable {
     private ChordRecognitionTutorController ChordRecognitionTabController;
 
     @FXML
+    private KeySignaturesTutorController KeySignaturesTabController;
+
+    @FXML
     private KeyboardPaneController keyboardPaneController;
 
     @FXML
