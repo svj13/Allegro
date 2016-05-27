@@ -773,6 +773,18 @@ public class RootController implements Initializable {
         }
     }
 
+
+    public boolean tabSaveCheck(String tabID){
+        for(Tab tab:TabPane.getTabs()){
+            if(tab.getId().equals(tabID)){
+                if(tab.getText().charAt(0) =='*'){
+                    return true;
+                }
+            }
+        }
+        return false;
+
+    }
     /**
      * clears all the unsaved changes indicators on the tutor tabs
      */
