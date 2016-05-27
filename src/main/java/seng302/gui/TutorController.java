@@ -91,7 +91,6 @@ public class TutorController {
      * @param env
      */
     public void create(Environment env){
-        System.out.println("managerCreated");
         this.env = env;
         manager = new TutorManager();
         projectHandler = env.getProjectHandler();

@@ -152,6 +152,7 @@ public class ScaleRecognitionTutorController extends TutorController {
         };
         record.addQuestionAnswer(question);
         projectHandler.saveTutorRecords("scale", record.addQuestionAnswer(question));
+        env.getRootController().setTabTitle("scaleTutor", true);
 
         if (manager.answered == manager.questions) {
             finished();
@@ -206,6 +207,7 @@ public class ScaleRecognitionTutorController extends TutorController {
                 };
                 record.addSkippedQuestion(question);
                 projectHandler.saveTutorRecords("scale", record.addSkippedQuestion(question));
+                env.getRootController().setTabTitle("scaleTutor", true);
                 if (manager.answered == manager.questions) {
                     finished();
                 }
@@ -251,6 +253,7 @@ public class ScaleRecognitionTutorController extends TutorController {
         record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
         projectHandler.saveSessionStat("scale",record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
         projectHandler.saveCurrentProject();
+        env.getRootController().setTabTitle("scaleTutor", false);
         outputText = String.format("You have finished the tutor.\n" +
                         "You answered %d questions, and skipped %d questions.\n" +
                         "You answered %d questions correctly, %d questions incorrectly.\n" +

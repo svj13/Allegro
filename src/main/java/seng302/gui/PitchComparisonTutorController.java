@@ -295,6 +295,7 @@ public class PitchComparisonTutorController extends TutorController{
             };
             record.addQuestionAnswer(question);
             projectHandler.saveTutorRecords("pitch", record.addQuestionAnswer(question));
+            env.getRootController().setTabTitle("pitchTutor", true);
         } else if (((ToggleButton) row.getChildren().get(2)).isSelected()) { //Same
             row.getChildren().get(2).setStyle("-fx-text-fill: white;-fx-background-color: black");
             if (note1 == note2) correctChoice = 1;
@@ -305,6 +306,7 @@ public class PitchComparisonTutorController extends TutorController{
             };
             record.addQuestionAnswer(question);
             projectHandler.saveTutorRecords("pitch", record.addQuestionAnswer(question));
+            env.getRootController().setTabTitle("pitchTutor", true);
         } else if (((ToggleButton) row.getChildren().get(3)).isSelected()) { //Lower
             row.getChildren().get(3).setStyle("-fx-text-fill: white;-fx-background-color: black");
             if (noteComparison(false, note1, note2)) {
@@ -317,6 +319,7 @@ public class PitchComparisonTutorController extends TutorController{
             };
             record.addQuestionAnswer(question);
             projectHandler.saveTutorRecords("pitch", record.addQuestionAnswer(question));
+            env.getRootController().setTabTitle("pitchTutor", true);
         } else if (((ToggleButton) row.getChildren().get(4)).isSelected()) { //Skip
             row.getChildren().get(4).setStyle("-fx-text-fill: white;-fx-background-color: black");
             //row.getChildren().get(4).setStyle("-fx-border-color: black; -fx-border-radius: 2px; -fx-border-width: 2px;");
@@ -329,6 +332,7 @@ public class PitchComparisonTutorController extends TutorController{
             };
             record.addSkippedQuestion(question);
             projectHandler.saveTutorRecords("pitch", record.addSkippedQuestion(question));
+            env.getRootController().setTabTitle("pitchTutor", true);
         }
 
     if(correctChoice == 1) {
@@ -505,11 +509,13 @@ public class PitchComparisonTutorController extends TutorController{
      * This function is run once a tutoring session has been completed.
      */
     public void finished() {
+
         env.getPlayer().stop();
         userScore = getScore(manager.correct, manager.answered);
         record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
         projectHandler.saveSessionStat("pitch",record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
         projectHandler.saveCurrentProject();
+        env.getRootController().setTabTitle("pitchTutor", false);
         outputText = String.format("You have finished the tutor.\n" +
                         "You answered %d questions, and skipped %d questions.\n" +
                         "You answered %d questions correctly, %d questions incorrectly.\n" +

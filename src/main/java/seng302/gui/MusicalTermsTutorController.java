@@ -244,6 +244,7 @@ public class MusicalTermsTutorController extends TutorController{
                 };
                 record.addQuestionAnswer(question);
                 projectHandler.saveTutorRecords("musicalTerm", record.addQuestionAnswer(question));
+                env.getRootController().setTabTitle("musicalTermTutor", true);
 
                 styleAnswer(rowPane, currentTerm, originOptions, categoryOptions, definitionOptions);
 
@@ -273,6 +274,7 @@ public class MusicalTermsTutorController extends TutorController{
                 };
                 record.addQuestionAnswer(question);
                 projectHandler.saveTutorRecords("musicalTerm", record.addQuestionAnswer(question));
+                env.getRootController().setTabTitle("musicalTermTutor", true);
 
                 styleAnswer(rowPane, currentTerm, categoryOptions, definitionOptions, originOptions);
 
@@ -304,6 +306,7 @@ public class MusicalTermsTutorController extends TutorController{
                 };
                 record.addQuestionAnswer(question);
                 projectHandler.saveTutorRecords("musicalTerm", record.addQuestionAnswer(question));
+                env.getRootController().setTabTitle("musicalTermTutor", true);
 
                 styleAnswer(rowPane, currentTerm, definitionOptions, categoryOptions, originOptions);
 
@@ -325,6 +328,7 @@ public class MusicalTermsTutorController extends TutorController{
                 };
                 record.addSkippedQuestion(question);
                 projectHandler.saveTutorRecords("musicalTerm", record.addSkippedQuestion(question));
+                env.getRootController().setTabTitle("musicalTermTutor", true);
 
                 formatSkippedQuestion(rowPane);
                 manager.questions -= 1;
@@ -422,6 +426,7 @@ public class MusicalTermsTutorController extends TutorController{
         record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
         projectHandler.saveSessionStat("musicalTerm",record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
         projectHandler.saveCurrentProject();
+        env.getRootController().setTabTitle("musicalTermTutor", false);
         outputText = String.format("You have finished the tutor.\n" +
                         "You answered %d questions, and skipped %d questions.\n" +
                         "You answered %d questions correctly, %d questions incorrectly.\n" +

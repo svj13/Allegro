@@ -340,7 +340,6 @@ public class ProjectHandler {
         FileWriter pitchFile = new FileWriter(projectAddress + "/PitchComparisonRecords.json", true);
         overalPitchSessionObject.put("Questions", pitchTutorRecordsList);
         overalPitchSessionObject.put("SessionStats", pitchTutorRecordStats);
-        System.out.println(overalPitchSessionObject);
 
 
         overalPitchObject.put("Session_" + new Date().toString(), overalPitchSessionObject);

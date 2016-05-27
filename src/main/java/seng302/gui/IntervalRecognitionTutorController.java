@@ -193,6 +193,7 @@ public class IntervalRecognitionTutorController extends TutorController {
                 };
                 record.addSkippedQuestion(question);
                 projectHandler.saveTutorRecords("interval", record.addSkippedQuestion(question));
+                env.getRootController().setTabTitle("intervalTutor", true);
                 if (manager.answered == manager.questions) {
                     finished();
                 }
@@ -221,6 +222,7 @@ public class IntervalRecognitionTutorController extends TutorController {
                 };
                 record.addQuestionAnswer(question);
                 projectHandler.saveTutorRecords("interval", record.addQuestionAnswer(question));
+                env.getRootController().setTabTitle("intervalTutor", true);
                 // Shows the correct answer
                 if (manager.answered == manager.questions) {
                     finished();
@@ -358,6 +360,7 @@ public class IntervalRecognitionTutorController extends TutorController {
         record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
         projectHandler.saveSessionStat("interval",record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
         projectHandler.saveCurrentProject();
+        env.getRootController().setTabTitle("intervalTutor", false);
         outputText = String.format("You have finished the tutor.\n" +
                         "You answered %d questions, and skipped %d questions.\n" +
                         "You answered %d questions correctly, %d questions incorrectly.\n" +

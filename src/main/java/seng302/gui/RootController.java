@@ -723,6 +723,33 @@ public class RootController implements Initializable {
         this.stage.setTitle("Allegro    " + text);
     }
 
+
+    public void setTabTitle(String tabID, Boolean unsavedChanges){
+
+        for(Tab tab:TabPane.getTabs()){
+            if(tab.getId().equals(tabID)){
+
+                String currentText = tab.getText();
+                Character firstChar = currentText.charAt(0);
+                System.out.println(firstChar);
+                if(firstChar == '*'){
+                    if(!unsavedChanges){
+                        tab.setText(currentText.substring(1));
+                    }
+
+                }else{
+                    System.out.println(unsavedChanges);
+                    if(unsavedChanges){
+                        tab.setText("*"+ currentText);
+                    }
+                }
+
+            }
+        }
+
+
+    }
+
     public Environment getEnv() {
         return env;
     }
