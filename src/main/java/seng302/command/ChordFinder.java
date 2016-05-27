@@ -21,6 +21,12 @@ public class ChordFinder implements Command {
     ArrayList<Integer> midiNotes;
 
 
+    /**
+     * Finds a chord name for specified note values, includes the option of finding a chord from all permutations of
+     * provided notes. e.g. both 'F A C' and 'A C F' would return F major.
+     * @param notes ArrayList of either 3 or 4 notes.
+     * @param all   indicates whether or not inversions are included.
+     */
     public ChordFinder(ArrayList<Note> notes, Boolean all) {
         this.result = "No chords found for given notes.";
         this.all = all;
@@ -39,12 +45,19 @@ public class ChordFinder implements Command {
             }
         }
         else{
-            //Check if input notes in order create a chord.
             findChord(notes.get(0).getMidi());
         }
 
 
     }
+
+    /**
+     * Helper function which checks if global notes array is a major/minor chord of the specified midi note.
+     * This function is dependant of global variables midiNotes and all specifier, which, if true, will find all
+     * permutatations for the given chord.
+     * @param midiNote Note (midi value) to find a chord for. e.g. 60(C4) will get the major/minor chord for C
+     * @return
+     */
     private Boolean findChord(int midiNote){
         ArrayList<Integer> majorChord = ChordUtil.getChordMidi(midiNote, "major");
         ArrayList<Integer> minorChord = ChordUtil.getChordMidi(midiNote, "minor");
@@ -59,38 +72,41 @@ public class ChordFinder implements Command {
             if (minorChord != null && minorChord.containsAll(midiNotes)) {
                 if(this.all){
                     //Add all notes to result string.
-                    this.result = "" + ChordUtil.getChordNameMidi(minorChord, false);
+                    this.result = "" + ChordUtil.getChordName(minorChord, false);
                     return true;
                 }
 
 
             } else if (majorChord != null && majorChord.containsAll(midiNotes)) {
 
-                this.result = "" + ChordUtil.getChordNameMidi(majorChord, false);
+                this.result = "" + ChordUtil.getChordName(majorChord, false);
                 return true;
             }
         }
         else{
             if(minorChord != null &&  minorChord.equals(this.midiNotes)){
-                this.result = "" + ChordUtil.getChordNameMidi(minorChord, false);
+                this.result = "" + ChordUtil.getChordName(minorChord, false);
                 return true;
 
             }
             else if(majorChord != null && majorChord.equals(this.midiNotes)){
 
-                this.result = "" + ChordUtil.getChordNameMidi(majorChord, false);
+                this.result = "" + ChordUtil.getChordName(majorChord, false);
                 return true;
             }
         }
-
-
-
 
         return false;
 
     }
 
-    private ArrayList<Integer> toMidiSet(ArrayList<Note> notes, Boolean ignoreOctave) {
+    /**
+     * Helper function to convert an arraylist of notes to an arraylist of corresponding midi values.
+     * @param notes ArrayList of Note values.
+     * @param ignoreOctave if true, treats all notes as middle Octave.
+     * @return
+     */
+    private static ArrayList<Integer> toMidiSet(ArrayList<Note> notes, Boolean ignoreOctave) {
 
         ArrayList<Integer> midiNotes = new ArrayList<Integer>();
         for (Note n : notes) {
