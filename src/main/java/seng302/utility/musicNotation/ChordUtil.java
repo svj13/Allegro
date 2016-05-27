@@ -74,8 +74,6 @@ public class ChordUtil {
     /**
      * Just like the getChord method except it takes an arrayList of midi values rather than Note values.
      *
-     * @see #getChord(ArrayList, String)
-     * @param note Note note corresponding to the chord.
      * @param type String type of chord (either major or minor)
      * @return ArrayList of Notes corresponding to the chord.
      */

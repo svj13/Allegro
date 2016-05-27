@@ -56,7 +56,7 @@ public class ChordFinder implements Command {
      * This function is dependant of global variables midiNotes and all specifier, which, if true, will find all
      * permutatations for the given chord.
      * @param midiNote Note (midi value) to find a chord for. e.g. 60(C4) will get the major/minor chord for C
-     * @return
+     * @return ..sds
      */
     private Boolean findChord(int midiNote){
         ArrayList<Integer> majorChord = ChordUtil.getChordMidi(midiNote, "major");
