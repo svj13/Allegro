@@ -49,7 +49,7 @@ public class RootController implements Initializable {
 
 
     @FXML
-    private PitchComparisonTutorController PitchComparisonTabController; //pitchController;
+    private PitchComparisonTutorController PitchComparisonTabController;
 
     @FXML
     private IntervalRecognitionTutorController IntervalRecognitionTabController;
@@ -62,6 +62,9 @@ public class RootController implements Initializable {
 
     @FXML
     private ScaleRecognitionTutorController ScaleRecognitionTabController;
+
+    @FXML
+    private ChordRecognitionTutorController ChordRecognitionTabController;
 
     @FXML
     private KeyboardPaneController keyboardPaneController;
@@ -248,11 +251,20 @@ public class RootController implements Initializable {
      * Removes all content from the transcript
      */
     @FXML
-    private void clearTranscript(){
-        tm.setTranscriptContent(new ArrayList<OutputTuple>());
-        transcriptController.setTranscriptPane("");
-        tm.unsavedChanges = true;
+    public void clearTranscript(){
+
+        ArrayList<String> editHistoryArray = new ArrayList<String>();
+        env.getTranscriptManager().setBackupTranscript(env.getTranscriptManager().getTranscriptTuples());
+        env.getEditManager().addToHistory("3", new ArrayList<String>());
+        env.getTranscriptManager().setTranscriptContent(new ArrayList<OutputTuple>());
+
+        transcriptController.setTranscriptPane(env.getTranscriptManager().convertToText());
+
+
+        env.getTranscriptManager().unsavedChanges = true;
     }
+
+
 
 
     /**
@@ -266,7 +278,7 @@ public class RootController implements Initializable {
         if (file != null) {
             fileDir = file.getParentFile();
             path = file.getAbsolutePath();
-            tm.save(path);
+            env.getTranscriptManager().save(path);
         }
     }
 
@@ -285,7 +297,7 @@ public class RootController implements Initializable {
 
             }
             path = file.getAbsolutePath();
-            tm.saveCommandsOnly(path);
+            env.getTranscriptManager().saveCommandsOnly(path);
         }
 
     }
@@ -356,9 +368,9 @@ public class RootController implements Initializable {
             fileDir = file.getParentFile();
             path = file.getAbsolutePath();
             try {
-                tm.open(path);
+                env.getTranscriptManager().open(path);
 
-                transcriptController.setTranscriptPane(tm.convertToText());
+                transcriptController.setTranscriptPane(env.getTranscriptManager().convertToText());
             } catch (Exception ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("This file is not valid");
@@ -380,7 +392,7 @@ public class RootController implements Initializable {
             fileDir = file.getParentFile();
             path = file.getAbsolutePath();
             try {
-                ArrayList<String> commands = tm.loadCommands(path);
+                ArrayList<String> commands = env.getTranscriptManager().loadCommands(path);
                 TabPane.getSelectionModel().selectFirst();
                 transcriptController.beginPlaybackMode(commands);
             } catch (Exception ex) {
@@ -714,7 +726,6 @@ public class RootController implements Initializable {
 
             }
         });
-        
 
     }
 
@@ -839,8 +850,6 @@ public class RootController implements Initializable {
         if(ScaleRecognitionTabController != null){
             ScaleRecognitionTabController.clearTutor();
         }
-
-    }
 
     public TranscriptPaneController getTranscriptController() {
         return transcriptController;

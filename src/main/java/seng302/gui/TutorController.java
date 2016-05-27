@@ -31,7 +31,7 @@ import seng302.managers.ProjectHandler;
 import seng302.managers.TutorManager;
 import seng302.utility.TutorRecord;
 
-public class TutorController {
+public abstract class TutorController {
 
     public Environment env;
 
@@ -131,9 +131,7 @@ public class TutorController {
     /**
      * An empty function which is overridden by each tutor
      */
-    public HBox generateQuestionPane(Pair data) {
-        return new HBox();
-    }
+    abstract HBox generateQuestionPane(Pair data);
 
     /**
      * A function for disabling a selection of buttons.
@@ -293,9 +291,7 @@ public class TutorController {
         skip.setGraphic(new ImageView(imageSkip));
     }
 
-    public void resetInputs() {
-
-    }
+    abstract void resetInputs();
 
     public void clearTutor() {
         numQuestions.setValue(5);
