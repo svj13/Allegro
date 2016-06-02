@@ -2,6 +2,7 @@ package seng302.gui;
 
 
 import org.json.simple.JSONArray;
+import org.controlsfx.control.PopOver;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,8 +27,11 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -47,6 +51,7 @@ public class RootController implements Initializable {
     String path;
     File fileDir;
 
+    PopOver dslRef;
 
     @FXML
     private Pane pane1;
@@ -96,7 +101,10 @@ public class RootController implements Initializable {
     private Menu menuOpenProjects;
 
     @FXML
-    private Menu commandMenu;
+    private Menu helpMenu;
+
+    @FXML
+    private MenuItem dslReferenceMenuItem;
 
     @FXML
     private TabPane TabPane;
@@ -118,7 +126,23 @@ public class RootController implements Initializable {
         });
     }
 
-    public void initialize(URL location, ResourceBundle resources) {}
+    public void initialize(URL location, ResourceBundle resources) {
+        VBox commands = new VBox();
+        for (Map.Entry<String, CommandType> entry : CommandType.allCommands.entrySet()) {
+            final CommandType data = entry.getValue();
+            HBox commandInfo = new HBox();
+            commandInfo.getChildren().add(new Text(entry.getKey()));
+            commands.getChildren().add(commandInfo);
+        }
+        dslRef = new PopOver(commands);
+        dslRef.setTitle("DSL Reference Card");
+
+    }
+
+
+    public void showDslPop() {
+        dslRef.show(TabPane);
+    }
 
 
 
@@ -241,19 +265,6 @@ public class RootController implements Initializable {
 //        setCommandText(commandText, commandParams, "");
 //    }
 
-    public void generateCommandMenu() {
-        for (Map.Entry<String, CommandType> entry : CommandType.allCommands.entrySet()) {
-            String menuText = entry.getKey();
-            final CommandType data = entry.getValue();
-            MenuItem menuItem = new MenuItem(menuText);
-            menuItem.setOnAction(new EventHandler<ActionEvent>() {
-                public void handle(ActionEvent event) {
-                    setCommandText(data);
-                }
-            });
-            commandMenu.getItems().add(menuItem);
-        }
-    }
 
 
     /**

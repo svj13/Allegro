@@ -57,7 +57,6 @@ public class App extends Application {
             if (controller == null) System.err.println("Controller is null");
             controller.setEnvironment(new Environment());
             controller.setStage(primaryStage);
-            controller.generateCommandMenu();
             primaryStage.show();
 
 
