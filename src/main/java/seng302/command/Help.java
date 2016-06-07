@@ -5,7 +5,7 @@ import seng302.Environment;
 
 public class Help implements Command {
 
-    String keyword;
+    private String keyword;
 
     public Help() {
         keyword = "";
@@ -17,7 +17,7 @@ public class Help implements Command {
 
     public float getLength(Environment env) {
         return 0;
-    };
+    }
 
     public void execute(Environment env) {
         String result = "";
