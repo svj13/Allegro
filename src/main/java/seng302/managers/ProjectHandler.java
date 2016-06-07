@@ -34,7 +34,7 @@ import seng302.data.Term;
 import seng302.utility.OutputTuple;
 
 public class ProjectHandler {
-    private String[] propertyNames = {"tempo"};
+    //private String[] propertyNames = {"tempo"};
 
     JSONObject projectSettings;
     JSONParser parser = new JSONParser(); //parser for reading project
@@ -97,17 +97,28 @@ public class ProjectHandler {
     }
 
     private void saveProperties(){
+        Gson gson = new Gson();
         projectSettings.put("tempo", env.getPlayer().getTempo());
-        String transcriptString = new Gson().toJson(env.getTranscriptManager().getTranscriptTuples());
+        String transcriptString = gson.toJson(env.getTranscriptManager().getTranscriptTuples());
+        System.out.println("saveProperties called! " + env.getTranscriptManager().getTranscriptTuples().size());
         projectSettings.put("transcript", transcriptString);
 
-        String musicalTermsJSON = new Gson().toJson(env.getMttDataManager().getTerms());
+
+        String musicalTermsJSON = gson.toJson(env.getMttDataManager().getTerms());
         projectSettings.put("musicalTerms", musicalTermsJSON);
+
+        projectSettings.put("rhythm", gson.toJson(env.getPlayer().getRhythmHandler().getRhythmTimings()));
 
     }
 
+    /**
+     * load all saved project properties from the project json file.
+     * This currently supports Tempo, working transcript, musical terms and rhythm setting.
+     *
+     */
     private void loadProperties(){
         int tempo;
+        Gson gson = new Gson();
 
         try {
             tempo = ((Long) projectSettings.get("tempo")).intValue();
@@ -120,19 +131,33 @@ public class ProjectHandler {
         //Transcript
         ArrayList<OutputTuple> transcript;
         Type transcriptType = new TypeToken<ArrayList<OutputTuple>>() {}.getType();
-        transcript = new Gson().fromJson((String)projectSettings.get("transcript"), transcriptType);
+        transcript = gson.fromJson((String)projectSettings.get("transcript"), transcriptType);
+        System.out.println("Properties loaded!!");
 
         env.getTranscriptManager().setTranscriptContent(transcript);
         env.getRootController().setTranscriptPaneText(env.getTranscriptManager().convertToText());
 
         //Musical Terms
         Type termsType = new TypeToken<ArrayList<Term>>() {}.getType();
-        ArrayList<Term> terms = new Gson().fromJson((String)projectSettings.get("musicalTerms"), termsType);
+        ArrayList<Term> terms = gson.fromJson((String)projectSettings.get("musicalTerms"), termsType);
 
         if(terms != null){
 
             env.getMttDataManager().setTerms(terms);
         }
+
+        //Rhythm
+        int[] rhythms;
+
+
+        try {
+            rhythms = ((int[]) gson.fromJson((String)projectSettings.get("rhythm"), int[].class));
+            rhythms = rhythms == null ? new int[]{12} : rhythms;
+        }catch(Exception e){
+            rhythms = new int[]{12};
+        }
+        env.getPlayer().getRhythmHandler().setRhythmTimings(rhythms);
+
 
 
 
@@ -162,7 +187,6 @@ public class ProjectHandler {
      * Handles Saving a .json Project file, for the specified project address
      * @param projectAddress Project directory address.
      */
-
 
 
     public void saveProject(String projectAddress){
@@ -226,7 +250,6 @@ public class ProjectHandler {
     }
 
 
-
     /**
      * Compares a specified project property to the saved value
      * If there is a difference, adds an asterix indicator to the project title
@@ -246,8 +269,22 @@ public class ProjectHandler {
                 saved = false;
             }
         }
+        else if(propName.equals("rhythm")){
+
+
+            if(projectSettings.containsKey("rhythm") && !(projectSettings.get("rhythm").equals(env.getPlayer().getRhythmHandler().getRhythmTimings()))){ //If not equal
+
+                env.getRootController().setWindowTitle(saveName + "*");
+                saved = false;
+            }
+        }
+
 
     }
+
+    /**
+     * Checking functionality specifically for musical saved musical terms.
+     */
     public void checkmusicTerms(){
         String saveName = (projectName == null || projectName.length() < 1) ? "No Project" : this.projectName;
         if(projectSettings.containsKey("musicalTerms")){
@@ -328,7 +365,9 @@ public class ProjectHandler {
         }
     }
 
-
+    /**
+     * Creates a new project.
+     */
     public void createNewProject() {
         TextInputDialog dialog = new TextInputDialog("");
         dialog.setTitle("New Project");

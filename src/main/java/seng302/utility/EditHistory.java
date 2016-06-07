@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import seng302.Environment;
 import seng302.command.MusicalTerm;
+import seng302.command.Rhythm;
 import seng302.command.Tempo;
 
 /**
@@ -82,6 +83,12 @@ public class EditHistory {
                 case 1:
                     deleteMusicalTerm(commandStack.get(location).get(1));
                     break;
+
+                case 2: changeRhythm(commandStack.get(location).get(1));
+                    break;
+                case 3:
+                    undoTranscriptClear();
+                    break;
             }
             ath = true;
             location += 1;
@@ -110,6 +117,13 @@ public class EditHistory {
                 case 1:
                     addMusicalTerm(commandStack.get(location - 1));
                     break;
+
+                case 2: changeRhythm(commandStack.get(location -1).get(2));
+                    break;
+
+                case 3:
+                    redoTranscriptClear();
+                    break;
             }
             ath = true;
             location -= 1;
@@ -129,6 +143,30 @@ public class EditHistory {
      */
     private void changeTempo(String newTempo) {
         new Tempo(newTempo, true).execute(env);
+    }
+
+    /**
+     * Helper function called internally by both undoCommand and redoCommand to change the rhythm
+     * to the required rhythm - either previous or next.
+     * @param newRhythm Rhythm timings to change to.
+     */
+    private void changeRhythm(String newRhythm) {
+        System.out.println("New rhythm");
+        new Rhythm(newRhythm, false).execute(env);
+
+
+    }
+
+    private void redoTranscriptClear(){
+        env.getRootController().clearTranscript();
+        
+    }
+
+    private void undoTranscriptClear(){
+
+        env.getTranscriptManager().setTranscriptContent(env.getTranscriptManager().getBackUpTranscript());
+        env.getTranscriptManager().setBackupTranscript(new ArrayList<OutputTuple>());
+        env.getRootController().setTranscriptPaneText(env.getTranscriptManager().convertToText());
     }
 
     /**

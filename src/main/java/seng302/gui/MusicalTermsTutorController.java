@@ -97,7 +97,8 @@ public class MusicalTermsTutorController extends TutorController{
                     int randomNumber = rand.nextInt(termsBeingViewed.size());
                     Term term = termsBeingViewed.get(randomNumber);
                     termsBeingViewed.remove(randomNumber);
-                    HBox questionRow = generateQuestionPane(term);
+                    Pair<String, Term> dummyPair = new Pair<String, Term>("", term);
+                    HBox questionRow = generateQuestionPane(dummyPair);
                     questionRows.getChildren().add(questionRow);
                     questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
 
@@ -204,9 +205,9 @@ public class MusicalTermsTutorController extends TutorController{
     /**
      * Constructs the question panels.
      */
-    public HBox generateQuestionPane(Term term) {
+    public HBox generateQuestionPane(Pair dummyPair) {
 
-        final Term currentTerm = term;
+        final Term currentTerm = (Term) dummyPair.getValue();
         final HBox rowPane = new HBox();
 
         formatQuestionRow(rowPane);
@@ -391,18 +392,7 @@ public class MusicalTermsTutorController extends TutorController{
             manager.answered += 1;
         }
     }
-    @Override
-    public void retest() {
-        ArrayList<Pair> tempIncorrectResponses = new ArrayList<Pair>(manager.getTempIncorrectResponses());
-        manager.clearTempIncorrect();
-        Collections.shuffle(tempIncorrectResponses);
-        manager.questions = tempIncorrectResponses.size();
-        for(Pair pair : tempIncorrectResponses){
-            HBox questionRow = generateQuestionPane((Term)pair.getValue());
-            questionRows.getChildren().add(questionRow);
-            questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
-        }
-    }
+
 
     public void resetInputs() {
         dataManager = env.getMttDataManager();

@@ -22,12 +22,24 @@ public class TranscriptManager {
     private ArrayList<OutputTuple> transcriptContent = new ArrayList<OutputTuple>();
     public boolean unsavedChanges = false;
 
+    private ArrayList<OutputTuple> backUpTranscript;
 
 
     public TranscriptManager() {
         lastOutputTuple = new OutputTuple();
         historyController = new CommandHistory(this);
 
+    }
+
+
+
+
+    public void setBackupTranscript(ArrayList<OutputTuple> transcript){
+        backUpTranscript = transcript;
+    }
+
+    public ArrayList<OutputTuple> getBackUpTranscript(){
+        return backUpTranscript;
     }
 
     public String cycleInputUp(String field){

@@ -3,10 +3,7 @@ package seng302.gui;
 import org.controlsfx.control.RangeSlider;
 import org.controlsfx.control.spreadsheet.StringConverterWithFormat;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Random;
+import java.util.*;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -58,6 +55,10 @@ public class IntervalRecognitionTutorController extends TutorController {
         initaliseRangeSelector();
     }
 
+    /**
+     * Creates the Range selector that can be used to select the range of notes that will be played
+     * It has a Minimum range of two octaves.
+     */
     private void initaliseRangeSelector() {
         rangeSlider = new NoteRangeSlider(notes, 24);
         range.getChildren().add(1, rangeSlider);
@@ -243,55 +244,65 @@ public class IntervalRecognitionTutorController extends TutorController {
     }
 
 
+
     /**
      * Generates and populates The Origin combo box
+     * It generates the options in a range around the correct answer
      * @return
      */
     private ComboBox<String> generateChoices(Interval thisInterval) {
         Random rand = new Random();
-        int correctPosition = rand.nextInt(5);
         ComboBox<String> options = new ComboBox<String>();
 
-
-
         int currentSemitones = thisInterval.getSemitones();
+        int lowSemi = currentSemitones - 1;
+        int highSemi = currentSemitones + 1;
+        int higher;
+        boolean tooHigh = highSemi > 24;
+        boolean tooLow = lowSemi < 0;
+        ArrayList<Interval> enharmonic;
+        ArrayList<String> optionContent = new ArrayList<String>();
+        optionContent.add(thisInterval.getName());
 
+        while(optionContent.size() < 8) {
 
-        int i = 0;
+            if(tooHigh == true){
+                higher = 0;
+            }else if(tooLow == true){
+                higher = 1;
+            }else{
 
-        Boolean alreadyAdded = false;
-        while(options.getItems().size() < 8 && i < Interval.intervals.length) {
-            int intervalIndex = rand.nextInt(Interval.intervals.length-1);
-            if(correctPosition == i && alreadyAdded == false) {
-                options.getItems().add(thisInterval.getName());
-                i -= 1;
-                alreadyAdded = true;
+                higher = rand.nextInt(1);
+            }
+
+            if (higher == 1) {
+                if(highSemi <= 24){
+                    enharmonic = Interval.lookupBySemitones(highSemi);
+
+                    optionContent.add(enharmonic.get(rand.nextInt(enharmonic.size())).getName());
+                    highSemi += 1;
+                }else{
+                    tooHigh = true;
+                }
 
             }else{
-                if (!(options.getItems().contains(Interval.intervals[intervalIndex].getName())) &&
-                        ((Interval.intervals[intervalIndex].getSemitones()< currentSemitones+ 6) &&
-                                (Interval.intervals[intervalIndex].getSemitones()> currentSemitones - 6))) {
-                    options.getItems().add(Interval.intervals[intervalIndex].getName());
+                if(lowSemi >= 0){
+                    enharmonic = Interval.lookupBySemitones(lowSemi);
+                    optionContent.add(enharmonic.get(rand.nextInt(enharmonic.size())).getName());
+                    lowSemi -= 1;
+                }else{
+                    tooLow = true;
                 }
             }
-            i+=1;
+
         }
 
-        while(options.getItems().size() < 8){ ///make sure that it has 8 options otherwise populate it with random ones that are not already  in the options combo
-
-            int intervalIndex = rand.nextInt(Interval.intervals.length-1);
-            if (!(options.getItems().contains(Interval.intervals[intervalIndex].getName()))){
-                options.getItems().add(Interval.intervals[intervalIndex].getName());
-
-            }
+        Collections.shuffle(optionContent);
+        for(String interval: optionContent){
+            options.getItems().add(interval);
         }
         return options;
     }
-
-
-
-
-
 
 
     public void resetInputs() {
