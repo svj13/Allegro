@@ -25,6 +25,7 @@ public class TouchPane extends StackPane {
     private boolean displayLabel = false;
     private boolean displayLabelOnAction = false;
     Note noteToPlay;
+    private boolean isblackKey;
 
 
     public TouchPane(Integer note, Environment env, KeyboardPaneController kpc) {
@@ -36,6 +37,7 @@ public class TouchPane extends StackPane {
         setHighlightOff();
         this.setAlignment(Pos.BOTTOM_CENTER);
         this.keyLabel = noteToPlay.getNote();
+        this.isblackKey = false;
 
         EventHandler<TouchEvent> touchpress = new EventHandler<TouchEvent>() {
             public void handle(TouchEvent event) {
@@ -94,11 +96,15 @@ public class TouchPane extends StackPane {
     }
 
     public void setHighlightOn() {
-        this.setStyle("-fx-border-color: black; -fx-border-width: 2px; -fx-background-color: darkblue");
+        this.setStyle("-fx-border-color: black; -fx-border-width: 1px; -fx-background-color: darkblue");
     }
 
     public void setHighlightOff() {
-        this.setStyle("-fx-border-color: black; -fx-border-width: 2px; -fx-background-color: white");
+        if (this.isblackKey) {
+            this.setStyle("-fx-border-color: black; -fx-border-width: 1px; -fx-background-color: black");
+        } else {
+            this.setStyle("-fx-border-color: black; -fx-border-width: 1px; -fx-background-color: white");
+        }
         if (displayLabelOnAction) {
             getChildren().clear();
         }
@@ -142,6 +148,10 @@ public class TouchPane extends StackPane {
 
     public Note getNoteValue() {
         return noteToPlay;
+    }
+
+    public void setBlackKey(boolean value) {
+        this.isblackKey = value;
     }
 
 }

@@ -192,12 +192,13 @@ public class KeyboardPaneController {
         blackKeys.getChildren().clear();
 
         for (Integer i = bottomNote; i <= topNote; i++) {
-            Pane key = new TouchPane(i, env, this);
+            TouchPane key = new TouchPane(i, env, this);
             key.setMaxWidth(Double.MAX_VALUE);
             key.setPrefSize(100, 200);
             if (Note.lookup(i.toString()).getNote().contains("#")) {
+                key.setBlackKey(true);
                 System.out.println("found a black key:" + i.toString());
-                key.setStyle("-fx-background-color: black");
+                key.setHighlightOff();
                 key.setPrefSize(100, 130);
                 AnchorPane.setLeftAnchor(key, 0.0);
                 blackKeys.getChildren().add(key);
