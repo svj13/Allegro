@@ -119,7 +119,14 @@ public class Help implements Command {
             result = "When followed by either a number of sharps or flats (i.e. 2#, 7b) or " +
                     "a specific list of notes (i.e. F#, C#), will return the scales whose " +
                     "key signatures contain that information";
-        } else if (keyword.equals("")) {
+        }
+        else if(keyword.equals("find chord") || keyword.equals("find chords all")){
+            result = "Finds a chord which matches the pattern of 3 or 4 provided notes.\n" +
+                    "Can use 'all' extender to match inversion enharmonic chords.\n" +
+                    " \texample: 'find chord F A C' returns F MAJOR.\n" +
+                    "\t and 'find chord all C F A' also returns F MAJOR";
+        }
+        else if (keyword.equals("")) {
             result = "" +
                     "\nadd musical term:\nWhen followed by a musical term in the format of 'name; origin; " +
                     "category; definition', will add the musical term to the Musical Term " +
@@ -176,7 +183,9 @@ public class Help implements Command {
                     "rhythm: Returns the current beat timing division. Default timing of 1/2 (half crotchet).\n\n"  +
                     "set rhythm:\nSets the rhythm timing to the specified beat divisions. " +
                     "See 'help set rhythm' for more info.\n\n" +
-                    "version:\nReturns the current version number of the application. \n\n";
+                    "version:\nReturns the current version number of the application. \n\n" +
+                    "find chord:\nFinds a chord that matches the provided notes. See 'help find chord' for more.\n\n";
+
 
         }
 
