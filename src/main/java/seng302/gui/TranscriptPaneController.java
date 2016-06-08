@@ -108,7 +108,7 @@ public class TranscriptPaneController {
             commandInfo.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent event) {
                     //copy to input field
-                    System.out.println("selected " + content.getText());
+                    setCommandText(data);
                 }
             });
             commandInfo.getChildren().add(content);
@@ -125,6 +125,31 @@ public class TranscriptPaneController {
                 txtCommand.requestFocus();
             }
         });
+    }
+
+    /**
+     * Given a command, sets the input text field to display information about that command.
+     *
+     * @param command The command to display information about
+     */
+    private void setCommandText(CommandType command) {
+        txtCommand.clear();
+        String[] parameters = command.getParams();
+        String[] options = command.getOptions();
+        String parameterString = "";
+        String optionsString = "";
+        for (String parameter : parameters) {
+            parameterString += "(" + parameter + ") ";
+        }
+        for (String option : options) {
+            if (!option.equals("")) {
+                optionsString += "[" + option + "] ";
+            }
+        }
+        txtCommand.setText(command.getName() + " " + parameterString);
+        if (!optionsString.equals("")) {
+            txtCommand.appendText(optionsString);
+        }
     }
 
     private String enteredCommand;
