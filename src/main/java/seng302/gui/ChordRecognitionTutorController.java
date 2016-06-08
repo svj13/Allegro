@@ -307,6 +307,7 @@ public class ChordRecognitionTutorController extends TutorController{
 
         Button retestBtn = new Button("Retest");
         Button clearBtn  = new Button("Clear");
+        Button saveBtn = new Button("Save");
 
         clearBtn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
@@ -324,17 +325,23 @@ public class ChordRecognitionTutorController extends TutorController{
                 retest();
             }
         });
+        saveBtn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                saveRecord();
+            }
+        });
 
         if (manager.getTempIncorrectResponses().size() > 0) {
             //Can re-test
-            buttons.getChildren().setAll(retestBtn, clearBtn);
+            buttons.getChildren().setAll(retestBtn, clearBtn, saveBtn);
         } else {
             //Perfect score
-            buttons.getChildren().setAll(clearBtn);
+            buttons.getChildren().setAll(clearBtn, saveBtn);
         }
 
         buttons.setMargin(retestBtn, new Insets(10,10,10,10));
         buttons.setMargin(clearBtn, new Insets(10,10,10,10));
+        buttons.setMargin(saveBtn, new Insets(10,10,10,10));
         // Clear the current session
         manager.resetStats();
     }

@@ -535,10 +535,11 @@ public class PitchComparisonTutorController extends TutorController{
 
         Button retestBtn = new Button("Retest");
         Button clearBtn  = new Button("Clear");
+        Button saveBtn = new Button("Save");
 
         clearBtn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                promptSaveRecord();
+                //promptSaveRecord();
                 manager.saveTempIncorrect();
                 paneResults.setVisible(false);
                 paneQuestions.setVisible(true);
@@ -552,17 +553,28 @@ public class PitchComparisonTutorController extends TutorController{
                 retest();
             }
         });
+        saveBtn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                saveTutorSession(record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
+            }
+        });
 
         if (manager.getTempIncorrectResponses().size() > 0) {
             //Can re-test
-            buttons.getChildren().setAll(retestBtn, clearBtn);
+            buttons.getChildren().setAll(retestBtn, clearBtn, saveBtn);
         } else {
             //Perfect score
-            buttons.getChildren().setAll(clearBtn);
+            buttons.getChildren().setAll(clearBtn, saveBtn);
         }
 
         buttons.setMargin(retestBtn, new Insets(10,10,10,10));
         buttons.setMargin(clearBtn, new Insets(10,10,10,10));
+        buttons.setMargin(saveBtn, new Insets(10,10,10,10));
+
+
+
+
+
         // Clear the current session
         manager.resetStats();
     }

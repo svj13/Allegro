@@ -1,9 +1,12 @@
 package seng302.gui;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -26,6 +29,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import org.json.simple.JSONObject;
 import seng302.Environment;
 import seng302.managers.ProjectHandler;
 import seng302.managers.TutorManager;
@@ -174,6 +178,43 @@ public abstract class TutorController {
         }
     }
 
+    public void saveTutorSession(String stats) {
+
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+        fileChooser.getExtensionFilters().add(textFilter);
+
+        if(env.getProjectHandler().isProject()) {
+            env.getRootController().checkProjectDirectory();
+            fileChooser.setInitialDirectory(Paths.get(env.getProjectHandler().getCurrentProjectPath()).toFile());
+        }
+
+        File file = fileChooser.showSaveDialog(stage);
+
+        if (file != null) {
+            fileDir = file.getParentFile();
+            path = file.getAbsolutePath();
+            try {
+                FileWriter tutorFile = new FileWriter(path);
+                JSONObject overalPitchObject = new JSONObject();
+                JSONObject overalPitchSessionObject = new JSONObject();
+                Collection<JSONObject> pitchTutorRecordsList = new ArrayList<JSONObject>();
+
+                overalPitchSessionObject.put("Questions", pitchTutorRecordsList);
+                overalPitchSessionObject.put("SessionStats", stats);
+
+
+                overalPitchObject.put("Session_" + new Date().toString(), overalPitchSessionObject);
+
+                tutorFile.write(overalPitchObject.toJSONString());
+                tutorFile.flush();
+                tutorFile.close();
+            }catch(Exception e){
+
+            }
+
+        }
+    }
     /**
      * Calculates a user's score after a tutoring session
      *
