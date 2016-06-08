@@ -119,7 +119,7 @@ public class Help implements Command {
                     "seventh above the root\n\n" +
                     "half diminished: when put after a valid chord, will show/play the chord in " +
                     "half diminished. the half-diminished seventh chord—also known as a " +
-                    "half-diminished chord or a minor seventh flat five (m7?5)—is formed " +
+                    "half-diminished chord or a minor seventh flat five is formed " +
                     "by a root note, a minor third, a diminished fifth, and a minor " +
                     "seventh \n";
 
