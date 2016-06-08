@@ -13,12 +13,14 @@ import seng302.managers.TranscriptManager;
  */
 
 public class PlayNoteStepDef {
+    Environment env;
+
     @Given("^I am on the transcript pane$")
     public void I_am_on_the_transcript_pane() throws Throwable {
         // Express the Regexp above with the code you wish you had
         env = new Environment();
-        env.setTranscriptManager();
-        throw new PendingException();
+        //env.setTranscriptManager();
+        //throw new PendingException();
     }
 
     @When("^I type the command \"([^\"]*)\"$")
