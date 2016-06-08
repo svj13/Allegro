@@ -14,14 +14,17 @@ import static org.junit.Assert.*;
 import seng302.command.PlayNote;
 import seng302.managers.TranscriptManager;
 
+import static org.mockito.Mockito.verify;
+
+
 /**
  * Created by Elliot on 8/06/2016.
  */
 
 public class PlayNoteSteps {
     Environment env;
-    @Mock
-    private TranscriptManager transcriptManager;
+
+    private TranscriptManager transcriptManager = new TranscriptManager();
 
     @Given("^I am on the transcript pane$")
     public void I_am_on_the_transcript_pane() throws Throwable {
@@ -49,6 +52,8 @@ public class PlayNoteSteps {
     @Then("^The note 'C' should be played$")
     public void theNoteCShouldBePlayed() throws Throwable {
         // Write code here that turns the phrase above into concrete actions
-        assertEquals(transcriptManager.getLastCommand(), "play C");
+        System.out.println(transcriptManager.getCommandHistory());
+        String last_command = transcriptManager.getLastCommand().substring(4);
+        assertEquals(last_command, "Playing C at 120BPM\n");
     }
 }
