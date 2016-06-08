@@ -66,10 +66,6 @@
                                </Menu>
                            </items>
                        </Menu>
-                       <Menu fx:id="helpMenu" mnemonicParsing="false" text="Help">
-                     <items>
-                        <MenuItem fx:id="dslReferenceMenuItem" mnemonicParsing="false" onAction="#showDslPop" text="DSL Reference Card" />
-                     </items></Menu>
                    </menus>
                </MenuBar>
                <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" VBox.vgrow="ALWAYS">

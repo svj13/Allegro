@@ -1,7 +1,10 @@
 package seng302.gui;
 
+import org.controlsfx.control.PopOver;
+
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -14,17 +17,22 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import seng302.Environment;
 import seng302.command.Command;
 import seng302.command.NullCommand;
+import seng302.data.CommandType;
 
 /**
  * Created by jat157 on 20/03/16.
@@ -79,9 +87,38 @@ public class TranscriptPaneController {
     @FXML
     ToolBar playbackToolbar;
 
+    @FXML
+    private Button helpButton;
+
+    PopOver dslRef;
+
 
     @FXML
     private void initialize() {
+        ScrollPane dslRefContainer = new ScrollPane();
+        AnchorPane dslRefContainerAnchor = new AnchorPane();
+
+        dslRefContainer.setContent(dslRefContainerAnchor);
+
+        VBox commands = new VBox();
+        for (Map.Entry<String, CommandType> entry : CommandType.allCommands.entrySet()) {
+            final CommandType data = entry.getValue();
+            HBox commandInfo = new HBox();
+            final Text content = new Text(entry.getKey());
+            commandInfo.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent event) {
+                    //copy to input field
+                    System.out.println("selected " + content.getText());
+                }
+            });
+            commandInfo.getChildren().add(content);
+            commands.getChildren().add(commandInfo);
+        }
+        dslRefContainer.setContent(commands);
+        dslRef = new PopOver();
+        dslRef.setContentNode(dslRefContainer);
+        dslRef.setTitle("DSL Reference Card");
+
         // Text field can only request focus once everything has been loaded.
         Platform.runLater(new Runnable() {
             public void run() {
@@ -134,6 +171,11 @@ public class TranscriptPaneController {
 
     private void printToTranscript() {
         txtTranscript.appendText(env.getTranscriptManager().getLastCommand());
+    }
+
+    @FXML
+    private void showDslRef() {
+        dslRef.show(helpButton);
     }
 
 

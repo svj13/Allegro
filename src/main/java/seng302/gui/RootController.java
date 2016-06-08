@@ -51,8 +51,6 @@ public class RootController implements Initializable {
     String path;
     File fileDir;
 
-    PopOver dslRef;
-
     @FXML
     private Pane pane1;
 
@@ -127,21 +125,7 @@ public class RootController implements Initializable {
     }
 
     public void initialize(URL location, ResourceBundle resources) {
-        VBox commands = new VBox();
-        for (Map.Entry<String, CommandType> entry : CommandType.allCommands.entrySet()) {
-            final CommandType data = entry.getValue();
-            HBox commandInfo = new HBox();
-            commandInfo.getChildren().add(new Text(entry.getKey()));
-            commands.getChildren().add(commandInfo);
-        }
-        dslRef = new PopOver(commands);
-        dslRef.setTitle("DSL Reference Card");
 
-    }
-
-
-    public void showDslPop() {
-        dslRef.show(TabPane);
     }
 
 
