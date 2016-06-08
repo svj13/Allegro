@@ -237,9 +237,12 @@ public class KeyboardPaneController {
         ObservableList<Node> keys = blackKeys.getChildren();
         Integer numWhiteNotes = topNote - bottomNote - keys.size() + 1;
         System.out.println(numWhiteNotes);
-        Double whiteWidth = width / numWhiteNotes;
-        System.out.println(whiteWidth);
-        Double blackWidth = whiteWidth * 0.5;
+        Double whiteWidth = width / (double) numWhiteNotes;
+
+        System.out.println("White width:" + whiteWidth);
+        Double blackWidth = whiteWidth / 2.0;
+        blackWidth = Math.floor(blackWidth * 100) / 100;
+        System.out.println("black Width: " + blackWidth);
         Integer prevBlackKey = -1;
         Double currentPos = 0.0;
         for (Node key : keys) {

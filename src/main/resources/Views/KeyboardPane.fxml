@@ -10,16 +10,16 @@
    <content>
       <StackPane fx:id="keyboardStack" alignment="TOP_LEFT" maxHeight="100.0" prefHeight="0.0">
           <padding>
-              <Insets top="0" right="0" left="0" bottom="0"/>
+              <Insets bottom="0" left="0" right="0" top="0"/>
           </padding>
          <children>
-            <HBox fx:id="keyboardBox" prefHeight="100.0">
+             <HBox fx:id="keyboardBox" prefHeight="100.0" snapToPixel="false">
                <StackPane.margin>
-                  <Insets right="-0.0"/>
+                   <Insets right="-0.0"/>
                </StackPane.margin>
             </HBox>
-            <AnchorPane fx:id="blackKeys" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0"
-                        StackPane.alignment="TOP_CENTER"/>
+             <AnchorPane fx:id="blackKeys" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0"
+                         snapToPixel="false" StackPane.alignment="TOP_CENTER"/>
          </children>
       </StackPane>
    </content>
@@ -28,13 +28,13 @@
          <children>
             <StackPane alignment="CENTER_LEFT" prefWidth="200.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Label text="Keyboard"/>
+                   <Label text="Keyboard"/>
                </children>
             </StackPane>
             <StackPane alignment="CENTER_RIGHT" prefWidth="200.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Button fx:id="settingsButton" mnemonicParsing="false" onAction="#toggleSettings"
-                          text="Settings"/>
+                   <Button fx:id="settingsButton" mnemonicParsing="false" onAction="#toggleSettings"
+                           text="Settings"/>
                </children>
             </StackPane>
          </children>
