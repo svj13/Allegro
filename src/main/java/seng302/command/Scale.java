@@ -7,8 +7,8 @@ import java.util.HashMap;
 
 import seng302.Environment;
 import seng302.data.Note;
-import seng302.utility.Checker;
-import seng302.utility.OctaveUtil;
+import seng302.utility.musicNotation.Checker;
+import seng302.utility.musicNotation.OctaveUtil;
 
 /**
  * This command is invoked when the user wants to play or list the notes of a scale.

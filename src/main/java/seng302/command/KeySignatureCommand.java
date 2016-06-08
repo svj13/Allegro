@@ -1,7 +1,7 @@
 package seng302.command;
 import seng302.Environment;
 import seng302.data.KeySignature;
-import seng302.utility.OctaveUtil;
+import seng302.utility.musicNotation.OctaveUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;

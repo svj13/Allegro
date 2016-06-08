@@ -1,6 +1,4 @@
-package seng302.utility;
-
-import java.util.Arrays;
+package seng302.utility.musicNotation;
 
 /**
  * Created by jonty on 5/13/16.
@@ -68,7 +66,7 @@ public class RhythmHandler {
         String retString = "Rhythm beat divisions:";
 
         for(int timing : rhythmTimings){
-            retString += " "  + rhythmFactory.asFraction(timing, beatResolution);
+            retString += " " + RhythmFactory.asFraction(timing, beatResolution);
 
         }
         return retString;

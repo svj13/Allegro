@@ -6,14 +6,12 @@ package seng302.command;
 
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Map;
 
 import seng302.Environment;
 import seng302.data.Interval;
 import seng302.data.Note;
-import seng302.utility.OctaveUtil;
+import seng302.utility.musicNotation.OctaveUtil;
 
 
 public class IntervalCommand implements Command {
