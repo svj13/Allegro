@@ -2,5 +2,5 @@ Feature: Transcript Pane
 
   Scenario: Play Notes
     Given I am on the transcript pane
-    When I type the command "Play C"
-    Then The note C4 should be played
+    When I type the command 'play C'
+    Then The note 'C' should be played
