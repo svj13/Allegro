@@ -9,6 +9,9 @@
             fx:controller="seng302.gui.KeyboardPaneController">
    <content>
       <StackPane fx:id="keyboardStack" alignment="TOP_LEFT" maxHeight="100.0" prefHeight="0.0">
+          <padding>
+              <Insets top="0" right="0" left="0" bottom="0"/>
+          </padding>
          <children>
             <HBox fx:id="keyboardBox" prefHeight="100.0">
                <StackPane.margin>

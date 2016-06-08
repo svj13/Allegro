@@ -53,23 +53,20 @@ public class KeyboardPaneController {
     private StackPane keyboardStack;
 
     @FXML
-    private TitledPane titlePane;
-
-    @FXML
     private Button settingsButton;
 
-    Environment env;
-    PopOver pop;
-    Label notes;
+    private Environment env;
+    private PopOver pop;
+    private Label notes;
     @FXML
-    AnchorPane blackKeys;
+    private AnchorPane blackKeys;
 
     private boolean shift;
-    ArrayList<Note> multiNotes;
-    List<TouchPane> clicked;
+    private List<Note> multiNotes;
+    private List<TouchPane> clicked;
+    private Integer bottomNote;
+    private Integer topNote;
     private boolean hidden = false;
-    Integer bottomNote;
-    Integer topNote;
 
 
 
@@ -77,10 +74,7 @@ public class KeyboardPaneController {
     private void initialize() {
         keyboardBox.setMaxHeight(200);
         keyboardBox.setMinHeight(200);
-        //blackKeys = new AnchorPane();
         blackKeys.setMaxHeight(130);
-
-        //keyboardStack.getChildren().add(blackKeys);
         keyboardStack.setPickOnBounds(false);
         bottomNote = 60;
         topNote = 72;
@@ -169,8 +163,6 @@ public class KeyboardPaneController {
     }
 
     public void create(Environment env) {
-
-
         this.env = env;
 
         multiNotes = new ArrayList<Note>();
@@ -209,8 +201,6 @@ public class KeyboardPaneController {
             }
 
         }
-        //.out.println(keyboardBox.getWidth());
-        //System.out.println(blackKeys.getWidth());
 
         keyboardBox.setOnKeyPressed(new EventHandler<KeyEvent>() {
             public void handle(KeyEvent event) {
