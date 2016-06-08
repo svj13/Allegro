@@ -67,7 +67,6 @@ public class ProjectHandler {
     String chordTutorRecordStats = "";
 
 
-
     JSONObject intervalTutorRecords;
     JSONObject musicalTermsTutorRecords;
     JSONObject scaleTutorRecords;
@@ -80,7 +79,7 @@ public class ProjectHandler {
     JSONObject projectsInfo = new JSONObject();
     Path userDirectory = Paths.get("UserData"); //Default user path for now, before user compatibility is set up.
 
-    private String currentProjectPath, projectName;
+    public String currentProjectPath, projectName;
 
     boolean saved = true;
     Environment env;
@@ -153,7 +152,7 @@ public class ProjectHandler {
         Gson gson = new Gson();
         projectSettings.put("tempo", env.getPlayer().getTempo());
         String transcriptString = gson.toJson(env.getTranscriptManager().getTranscriptTuples());
-        System.out.println("saveProperties called! " + env.getTranscriptManager().getTranscriptTuples().size());
+        //System.out.println("saveProperties called! " + env.getTranscriptManager().getTranscriptTuples().size());
         projectSettings.put("transcript", transcriptString);
 
 
@@ -332,6 +331,7 @@ public class ProjectHandler {
             updateProjectList();
 
         }catch (IOException e) {
+
             e.printStackTrace();
         }
 
@@ -579,6 +579,7 @@ public class ProjectHandler {
      * Creates a new project.
      */
     public void createNewProject() {
+
         TextInputDialog dialog = new TextInputDialog("");
         dialog.setTitle("New Project");
         dialog.setHeaderText("New Project");
@@ -609,6 +610,7 @@ public class ProjectHandler {
                 }
                 else{
                     env.getRootController().errorAlert("The project: "  +resultString+" already exists.");
+                    createNewProject();
                 }
 
             }

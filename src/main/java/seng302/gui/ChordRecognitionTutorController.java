@@ -285,16 +285,19 @@ public class ChordRecognitionTutorController extends TutorController{
     public void finished() {
         env.getPlayer().stop();
         userScore = getScore(manager.correct, manager.answered);
-        record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
-        projectHandler.saveSessionStat("chord",record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
-        projectHandler.saveCurrentProject();
-        env.getRootController().setTabTitle("chordTutor", false);
         outputText = String.format("You have finished the tutor.\n" +
                         "You answered %d questions, and skipped %d questions.\n" +
                         "You answered %d questions correctly, %d questions incorrectly.\n" +
-                        "This gives a score of %.2f percent.\nSession auto saved.",
+                        "This gives a score of %.2f percent.",
                 manager.questions, manager.skipped,
                 manager.correct, manager.incorrect, userScore);
+        if(projectHandler.currentProjectPath != null) {
+            record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
+            projectHandler.saveSessionStat("chord", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
+            projectHandler.saveCurrentProject();
+            outputText += "\nSession auto saved.";
+        }
+        env.getRootController().setTabTitle("chordTutor", false);
         // Sets the finished view
         resultsContent.setText(outputText);
 
