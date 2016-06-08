@@ -12,7 +12,7 @@ public class CrotchetDuration implements Command {
 
     public float getLength(Environment env) {
         return 0;
-    };
+    }
 
     public void execute(Environment env) {
         int tempo = env.getPlayer().getTempo();

@@ -120,7 +120,7 @@ public class TutorController {
         for(Pair pair : tempIncorrectResponses){
             HBox questionRow = generateQuestionPane(pair);
             questionRows.getChildren().add(questionRow);
-            questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
+            VBox.setMargin(questionRow, new Insets(10, 10, 10, 10));
         }
     }
 
@@ -236,8 +236,8 @@ public class TutorController {
             buttons.getChildren().setAll(clearBtn);
         }
 
-        buttons.setMargin(retestBtn, new Insets(10,10,10,10));
-        buttons.setMargin(clearBtn, new Insets(10,10,10,10));
+        HBox.setMargin(retestBtn, new Insets(10, 10, 10, 10));
+        HBox.setMargin(clearBtn, new Insets(10, 10, 10, 10));
         // Clear the current session
         manager.resetStats();
     }

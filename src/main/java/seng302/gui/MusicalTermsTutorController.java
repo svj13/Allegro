@@ -99,7 +99,7 @@ public class MusicalTermsTutorController extends TutorController{
                     termsBeingViewed.remove(randomNumber);
                     HBox questionRow = generateQuestionPane(term);
                     questionRows.getChildren().add(questionRow);
-                    questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
+                    VBox.setMargin(questionRow, new Insets(10, 10, 10, 10));
 
                 }
             }
@@ -400,7 +400,7 @@ public class MusicalTermsTutorController extends TutorController{
         for(Pair pair : tempIncorrectResponses){
             HBox questionRow = generateQuestionPane((Term)pair.getValue());
             questionRows.getChildren().add(questionRow);
-            questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
+            VBox.setMargin(questionRow, new Insets(10, 10, 10, 10));
         }
     }
 

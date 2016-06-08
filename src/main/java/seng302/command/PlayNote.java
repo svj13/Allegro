@@ -32,7 +32,7 @@ public class PlayNote implements Command {
 
     public float getLength(Environment env) {
         return 60000 / env.getPlayer().getTempo();
-    };
+    }
 
     /**
      * Uses the music player class to play a given note.

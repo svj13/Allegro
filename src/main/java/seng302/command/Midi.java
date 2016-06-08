@@ -24,7 +24,7 @@ public class Midi implements Command {
 
     public float getLength(Environment env) {
         return 0;
-    };
+    }
 
     /**
      * Sets the result to the equivalent MIDI value or calls an error message if the note given is

@@ -24,11 +24,7 @@ public class Tempo implements Command {
      * @return whether or not the tempo is inside a valid range
      */
     private boolean inValidRange(int tempo) {
-        if (tempo >= 20 && tempo <= 300) {
-            return true;
-        } else {
-            return false;
-        }
+        return tempo >= 20 && tempo <= 300;
     }
 
     /**
@@ -64,7 +60,7 @@ public class Tempo implements Command {
 
     public float getLength(Environment env) {
         return 0;
-    };
+    }
 
     /**
      * Executes the tempo command. It will return the current set tempo in BPM. If no tempo has

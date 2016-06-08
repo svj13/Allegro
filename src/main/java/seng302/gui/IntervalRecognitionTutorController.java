@@ -117,7 +117,7 @@ public class IntervalRecognitionTutorController extends TutorController {
             for (int i = 0; i < manager.questions; i++) {
                 HBox questionRow = setUpQuestion();
                 questionRows.getChildren().add(questionRow);
-                questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
+                VBox.setMargin(questionRow, new Insets(10, 10, 10, 10));
             }
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);

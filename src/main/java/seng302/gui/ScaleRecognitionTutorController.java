@@ -14,6 +14,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 import seng302.Environment;
 import seng302.data.Note;
@@ -55,7 +56,7 @@ public class ScaleRecognitionTutorController extends TutorController {
         for (int i = 0; i < manager.questions; i++) {
             HBox questionRow = setUpQuestion();
             questionRows.getChildren().add(questionRow);
-            questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
+            VBox.setMargin(questionRow, new Insets(10, 10, 10, 10));
         }
     }
 

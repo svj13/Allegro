@@ -17,7 +17,7 @@ public class Help implements Command {
 
     public float getLength(Environment env) {
         return 0;
-    };
+    }
 
     public void execute(Environment env) {
         String result = "";

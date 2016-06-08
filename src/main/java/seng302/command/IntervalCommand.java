@@ -44,8 +44,7 @@ public class IntervalCommand implements Command {
 
     public float getLength(Environment env) {
         return length;
-    };
-
+    }
 
 
     /**
@@ -61,11 +60,7 @@ public class IntervalCommand implements Command {
         }
 
         // Provided the note was valid, determines whether or not the tonic was given with an octave
-        if (OctaveUtil.octaveSpecifierFlag(tonic)) {
-            octaveSpecified = true;
-        } else {
-            octaveSpecified = false;
-        }
+        octaveSpecified = OctaveUtil.octaveSpecifierFlag(tonic);
     }
 
     /**

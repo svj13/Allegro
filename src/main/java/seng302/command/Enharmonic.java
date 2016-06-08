@@ -23,7 +23,7 @@ public class Enharmonic implements Command {
 
     public float getLength(Environment env) {
         return 0;
-    };
+    }
 
 
     public void execute(Environment env) {
