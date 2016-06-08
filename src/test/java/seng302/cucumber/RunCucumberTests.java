@@ -6,10 +6,14 @@ package seng302.cucumber;
 
 import org.junit.runner.RunWith;
 
+import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
+import seng302.command.PlayNote;
+
 
 @RunWith(Cucumber.class)
+@CucumberOptions(features = {})
 public class RunCucumberTests {
-
-
+//    PlayNoteStepDef();
+//    someCucumberTest;
 }
