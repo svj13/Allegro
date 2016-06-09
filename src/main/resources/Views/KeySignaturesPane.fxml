@@ -34,15 +34,17 @@
                               spacing="10.0">
                             <children>
                                 <Label text="Scale type:"/>
-                                <ComboBox fx:id="scaleBox" prefWidth="100.0" promptText="Up"/>
+                                <ComboBox fx:id="scaleBox" prefWidth="100.0" promptText="Major"/>
                                 <Label text="Answer form:">
                                     <HBox.margin>
                                         <Insets left="5.0"/>
                                     </HBox.margin>
                                 </Label>
-                                <ComboBox fx:id="answerBox" prefWidth="100.0" promptText="1"/>
+                                <ComboBox fx:id="formBox" prefWidth="100.0"
+                                          promptText="Number of sharps/flats"/>
                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Question type:"/>
-                                <ComboBox fx:id="typeBox" prefWidth="100.0" promptText="1"/>
+                                <ComboBox fx:id="answerBox" prefWidth="100.0"
+                                          promptText="Show Key Signature"/>
                             </children>
                             <VBox.margin>
                                 <Insets left="5.0"/>

@@ -34,10 +34,13 @@ public class KeySignaturesTutorController extends TutorController {
     Button btnGo;
 
     @FXML
-    ComboBox<String> direction;
+    ComboBox<String> scaleBox;
 
     @FXML
-    ComboBox<Integer> octaves;
+    ComboBox<String> formBox;
+
+    @FXML
+    ComboBox<String> answerBox;
 
     private Random rand;
 
@@ -66,13 +69,14 @@ public class KeySignaturesTutorController extends TutorController {
      */
     public void create(Environment env) {
         super.create(env);
-//        initialiseQuestionSelector();
-//        rand = new Random();
-//        direction.getItems().addAll("Up", "Down", "UpDown");
-//        direction.getSelectionModel().selectFirst();
-//        octaves.getItems().addAll(1,2,3,4);
-//        octaves.getSelectionModel().selectFirst();
-
+        initialiseQuestionSelector();
+        rand = new Random();
+        scaleBox.getItems().addAll("Major", "Minor", "Both");
+        scaleBox.getSelectionModel().selectFirst();
+        formBox.getItems().addAll("Number of sharps/flats", "Listing sharps/flats");
+        formBox.getSelectionModel().selectFirst();
+        answerBox.getItems().addAll("Show Key Signature", "Show Name");
+        answerBox.getSelectionModel().selectFirst();
     }
 
     /**
@@ -107,22 +111,22 @@ public class KeySignaturesTutorController extends TutorController {
      * @param scaleType Either major or minor
      * @return Arraylist of notes in a scale
      */
-    public ArrayList<Note> getScale(Note startNote, String scaleType) {
-        // Add # octaves and up/down selection here.
-        ArrayList<Note> scale;
-        if (direction.getValue().equals("Up")) {
-            scale = startNote.getOctaveScale(scaleType, octaves.getValue(), true);
-        } else if (direction.getValue().equals("UpDown")) {
-            scale = startNote.getOctaveScale(scaleType, octaves.getValue(), true);
-            ArrayList<Note> notes = new ArrayList<Note>(scale);
-            Collections.reverse(notes);
-            scale.addAll(notes);
-        } else {
-            scale = startNote.getOctaveScale(scaleType, octaves.getValue(), false);
-        }
-
-        return scale;
-    }
+//    public ArrayList<Note> getScale(Note startNote, String scaleType) {
+//        // Add # octaves and up/down selection here.
+//        ArrayList<Note> scale;
+//        if (scaleBox.getValue().equals("Up")) {
+//            scale = startNote.getOctaveScale(scaleType, formBox.getValue(), true);
+//        } else if (scaleBox.getValue().equals("UpDown")) {
+//            scale = startNote.getOctaveScale(scaleType, formBox.getValue(), true);
+//            ArrayList<Note> notes = new ArrayList<Note>(scale);
+//            Collections.reverse(notes);
+//            scale.addAll(notes);
+//        } else {
+//            scale = startNote.getOctaveScale(scaleType, formBox.getValue(), false);
+//        }
+//
+//        return scale;
+//    }
 
     /**
      * Reacts accordingly to a user's input
@@ -166,62 +170,62 @@ public class KeySignaturesTutorController extends TutorController {
      *
      * @param noteAndScale pair containing first note and type of scale to play
      */
-    public HBox generateQuestionPane(Pair noteAndScale) {
-        final Pair<Note, String> noteAndScaleType = noteAndScale;
-        final HBox questionRow = new HBox();
-        formatQuestionRow(questionRow);
-        final Label correctAnswer = correctAnswer(noteAndScaleType.getValue());
-
-        final Note startNote = noteAndScaleType.getKey();
-        final String scaleType = noteAndScaleType.getValue();
-
-        Button play = new Button();
-        stylePlayButton(play);
-
-        play.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                //Play the scale
-                env.getPlayer().playNotes(getScale(startNote, scaleType));
-            }
-        });
-
-        final ComboBox<String> options = generateChoices();
-        options.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                handleQuestionAnswer(options.getValue().toLowerCase(), noteAndScaleType, questionRow);
-            }
-        });
-
-
-        Button skip = new Button("Skip");
-        styleSkipButton(skip);
-
-        skip.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                // Disables only input buttons
-                disableButtons(questionRow, 1, 3);
-                formatSkippedQuestion(questionRow);
-                manager.questions -= 1;
-                manager.add(noteAndScaleType, 2);
-                String[] question = new String[]{
-                        String.format("%s scale from %s", scaleType, startNote.getNote()),
-                        scaleType
-                };
-                record.addSkippedQuestion(question);
-                if (manager.answered == manager.questions) {
-                    finished();
-                }
-            }
-        });
-
-        questionRow.getChildren().add(0, play);
-        questionRow.getChildren().add(1, options);
-        questionRow.getChildren().add(2, skip);
-        questionRow.getChildren().add(3, correctAnswer);
-
-        questionRow.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
-        return questionRow;
-    }
+//    public HBox generateQuestionPane(Pair noteAndScale) {
+//        final Pair<Note, String> noteAndScaleType = noteAndScale;
+//        final HBox questionRow = new HBox();
+//        formatQuestionRow(questionRow);
+//        final Label correctAnswer = correctAnswer(noteAndScaleType.getValue());
+//
+//        final Note startNote = noteAndScaleType.getKey();
+//        final String scaleType = noteAndScaleType.getValue();
+//
+//        Button play = new Button();
+//        stylePlayButton(play);
+//
+//        play.setOnAction(new EventHandler<ActionEvent>() {
+//            public void handle(ActionEvent event) {
+//                //Play the scale
+//                env.getPlayer().playNotes(getScale(startNote, scaleType));
+//            }
+//        });
+//
+//        final ComboBox<String> options = generateChoices();
+//        options.setOnAction(new EventHandler<ActionEvent>() {
+//            public void handle(ActionEvent event) {
+//                handleQuestionAnswer(options.getValue().toLowerCase(), noteAndScaleType, questionRow);
+//            }
+//        });
+//
+//
+//        Button skip = new Button("Skip");
+//        styleSkipButton(skip);
+//
+//        skip.setOnAction(new EventHandler<ActionEvent>() {
+//            public void handle(ActionEvent event) {
+//                // Disables only input buttons
+//                disableButtons(questionRow, 1, 3);
+//                formatSkippedQuestion(questionRow);
+//                manager.questions -= 1;
+//                manager.add(noteAndScaleType, 2);
+//                String[] question = new String[]{
+//                        String.format("%s scale from %s", scaleType, startNote.getNote()),
+//                        scaleType
+//                };
+//                record.addSkippedQuestion(question);
+//                if (manager.answered == manager.questions) {
+//                    finished();
+//                }
+//            }
+//        });
+//
+//        questionRow.getChildren().add(0, play);
+//        questionRow.getChildren().add(1, options);
+//        questionRow.getChildren().add(2, skip);
+//        questionRow.getChildren().add(3, correctAnswer);
+//
+//        questionRow.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
+//        return questionRow;
+//    }
 
     /**
      * Creates a JavaFX combo box containing the lexical names of all scales.
@@ -240,8 +244,8 @@ public class KeySignaturesTutorController extends TutorController {
      * Returns the option combo boxes to their default states.
      */
     public void resetInputs() {
-        direction.getSelectionModel().selectFirst();
-        octaves.getSelectionModel().selectFirst();
+        scaleBox.getSelectionModel().selectFirst();
+        formBox.getSelectionModel().selectFirst();
     }
 
 

@@ -733,7 +733,6 @@ public class RootController implements Initializable {
         //ScaleRecognitionTabController.create(env);
         keyboardPaneController.create(this.env);
 
-
     }
 
     /**
@@ -824,6 +823,7 @@ public class RootController implements Initializable {
         transcriptController.hidePlaybackGui();
         transcriptController.setEnv(env);
 
+<<<<<<< HEAD
         if (PitchComparisonTabController != null) {
             PitchComparisonTabController.clearTutor();
         }
@@ -836,6 +836,14 @@ public class RootController implements Initializable {
         if (ScaleRecognitionTabController != null) {
             ScaleRecognitionTabController.clearTutor();
         }
+=======
+        PitchComparisonTabController.clearTutor();
+        IntervalRecognitionTabController.clearTutor();
+        MusicalTermsTabController.clearTutor();
+        ScaleRecognitionTabController.clearTutor();
+        ChordRecognitionTabController.clearTutor();
+        KeySignaturesTabController.clearTutor();
+>>>>>>> de1eda0... Setup tutor pane
     }
 
     public TranscriptPaneController getTranscriptController() {
