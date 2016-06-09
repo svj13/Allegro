@@ -2,6 +2,7 @@ package seng302.command;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import seng302.Environment;
@@ -48,12 +49,40 @@ public class Chord implements Command {
 
         //getting the chord array
         this.chord = ChordUtil.getChord(note, type);
+
         //checking to see if the array is set to null (i.e notes are invalid)
         if (this.chord == null) {
             this.result = "Invalid chord: " + startNote + ' ' + type + ". Exceeds octave range." ;
         } else {
             this.result = null;
         }
+
+        if(chord.containsKey("inversion")){
+
+            if(chord.get("inversion").equals("1")){
+                //first inversion
+                this.chord = ChordUtil.invertChord(this.chord);
+            }
+            else if(chord.get("inversion").equals("2")){
+                //Second inversion
+                this.chord = ChordUtil.invertChord(this.chord);
+                this.chord = ChordUtil.invertChord(this.chord);
+            }
+            else if(chord.get("inversion").equals("3") && this.chord.size() > 3 ){
+                //If 3rd inversion and chord has atleast 4 notes.
+                this.chord = ChordUtil.invertChord(this.chord);
+                this.chord = ChordUtil.invertChord(this.chord);
+                this.chord = ChordUtil.invertChord(this.chord);
+            }
+            for(Note n : this.chord){
+                System.out.println("chord: "  +n.getNote());
+            }
+        }
+        this.startNote = this.chord.get(0).getNote();
+        currentLetter = Character.toUpperCase(startNote.charAt(0));
+
+
+
 
         //checks to see if arpeggio was specified or not. Will play simultaneously if not
         try {
@@ -63,6 +92,9 @@ public class Chord implements Command {
         } catch (Exception e){
             this.arpeggioFlag = false;
         }
+
+
+
 
     }
 
@@ -95,11 +127,14 @@ public class Chord implements Command {
         for (Note i : chord) {
             String j = i.getEnharmonicWithLetter(currentLetter);
             if (!octaveSpecified) {
+                System.out.println("j: " + j);
                 j = OctaveUtil.removeOctaveSpecifier(j);
+
             }
             chordString += j + ' ';
             updateLetter();
         }
+
         env.getTranscriptManager().setResult(chordString);
     }
 

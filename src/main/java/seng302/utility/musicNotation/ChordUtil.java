@@ -4,6 +4,7 @@ import seng302.data.Note;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by Jonty on 24-May-16.
@@ -36,6 +37,14 @@ public class ChordUtil {
         }
         throw new IllegalArgumentException("Not a chord");
 
+    }
+
+    public static ArrayList<Note> invertChord(ArrayList<Note> chord){
+
+        Note first = chord.remove(0); //Pop first element
+        chord.add(first); //Append to the end.
+
+        return chord;
     }
 
 
@@ -77,6 +86,8 @@ public class ChordUtil {
      * @param type String type of chord (either major or minor)
      * @return ArrayList of Notes corresponding to the chord.
      */
+
+
 
     public static ArrayList<Integer> getChordMidi(int midi, String type) {
         ArrayList<Integer> chordNotes = new ArrayList<Integer>();

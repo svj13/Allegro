@@ -99,7 +99,7 @@ COMMAND_REDO, COMMAND_TWINKLE, COMMAND_CHORD, COMMAND_PLAY_CHORD,COMMAND_RHYTHM,
 COMMAND_INTERVAL_ENHARMONIC, COMMAND_SHOW_KEYSIGNATURE,COMMAND_SHOW_KEYSIGNATURE_NUM,
 COMMAND_SCALE_WITH_KEYSIG, COMMAND_FIND_CHORD, COMMAND_FIND_CHORD_ALL;
 
-terminal String ATOM, NOTE, SCALE_TYPE, DIRECTION, MIDINOTE, NUMBER, POSNUM, INTERVAL, SHARPSFLATS, RHYTHM_TYPE, PLAY_STYLE, NOTE_TRIO;
+terminal String ATOM, NOTE, SCALE_TYPE,INVERSION_SPECIFIER, DIRECTION, MIDINOTE, NUMBER, POSNUM, INTERVAL, SHARPSFLATS, RHYTHM_TYPE, PLAY_STYLE, NOTE_TRIO;
 
 /* Non terminals */
 non terminal Command command;
@@ -119,6 +119,7 @@ non terminal HashMap<String, String> playChord;
 non terminal String numberAndSharpsFlat;
 non terminal ArrayList<String> notes;
 non terminal ArrayList<Note> chordSet;
+
 
 start with command;
 
@@ -177,6 +178,7 @@ notes ::= note:a {: RESULT = new ArrayList<String>(); RESULT.add(a);:}
 
 chordSet ::= note:a {: RESULT = new ArrayList<Note>(); RESULT.add(Note.lookup(OctaveUtil.validateNoteString(a))); :}
             | chordSet:a note:b {: RESULT = a; RESULT.add(Note.lookup(OctaveUtil.validateNoteString(b))); :}
+
 ;
 
 midiNote ::= MIDINOTE:s     {:RESULT = s;:}
@@ -187,12 +189,23 @@ positiveNum ::= midiNote:s   {:RESULT = s;:}
               | POSNUM:s     {:RESULT = s;:}
 ;
 
+
+
 rhythmStyle ::= RHYTHM_TYPE: r {:RESULT = r;:}
 ;
 
+
+
+
+
 scale ::= NOTE:s SCALE_TYPE:r       {:RESULT = new HashMap<String,String>(); RESULT.put("note", s);
                                                 RESULT.put("scale_type", r);:}
+      |    NOTE:s SCALE_TYPE:r INVERSION_SPECIFIER:i       {:RESULT = new HashMap<String,String>(); RESULT.put("note", s);
+                                                          RESULT.put("scale_type", r); RESULT.put("inversion", "1");:}
+
+
 ;
+
 
 playScale ::= scale:s {:RESULT = s;:}
             |   scale:s DIRECTION:a {: s.put("direction", a); RESULT = s;:}
@@ -254,6 +267,7 @@ singleTerm ::= keyword:s {: RESULT = s;:}
        | RHYTHM_TYPE:r {:RESULT = r;:}
        | DIRECTION:s   {:RESULT = s;:}
        | INTERVAL:i    {:RESULT = i;:}
+       | INVERSION_SPECIFIER:i {:RESULT = i;:}
 ;
 
 term ::= singleTerm:s {:RESULT =s;:}
