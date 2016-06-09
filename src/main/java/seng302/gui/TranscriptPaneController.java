@@ -14,6 +14,8 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -95,30 +97,7 @@ public class TranscriptPaneController {
 
     @FXML
     private void initialize() {
-        ScrollPane dslRefContainer = new ScrollPane();
-        AnchorPane dslRefContainerAnchor = new AnchorPane();
-
-        dslRefContainer.setContent(dslRefContainerAnchor);
-
-        VBox commands = new VBox();
-        for (Map.Entry<String, CommandType> entry : CommandType.allCommands.entrySet()) {
-            final CommandType data = entry.getValue();
-            HBox commandInfo = new HBox();
-            final Text content = new Text(entry.getKey());
-            commandInfo.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                public void handle(MouseEvent event) {
-                    //copy to input field
-                    setCommandText(data);
-                }
-            });
-            commandInfo.getChildren().add(content);
-            commands.getChildren().add(commandInfo);
-        }
-        dslRefContainer.setContent(commands);
-        dslRef = new PopOver();
-        dslRef.setContentNode(dslRefContainer);
-        dslRef.setTitle("DSL Reference Card");
-
+        createDslReference();
         // Text field can only request focus once everything has been loaded.
         Platform.runLater(new Runnable() {
             public void run() {
@@ -128,28 +107,42 @@ public class TranscriptPaneController {
     }
 
     /**
+     * Initialises a popover containing help info about commands. Each command, when clicked, is
+     * copied to the input text field.
+     */
+    private void createDslReference() {
+        VBox commands = new VBox();
+        commands.getChildren().add(new Text("Click a command to copy to input field"));
+        commands.setSpacing(5);
+        commands.setPadding(new Insets(10));
+        for (Map.Entry<String, CommandType> entry : CommandType.allCommands.entrySet()) {
+            final CommandType data = entry.getValue();
+            HBox commandInfo = new HBox();
+            final Text content = new Text("-" + data.getDisplayText());
+            commandInfo.setCursor(Cursor.HAND);
+            commandInfo.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent event) {
+                    //copy to input field
+                    setCommandText(data);
+                }
+            });
+            commandInfo.getChildren().add(content);
+            commands.getChildren().add(commandInfo);
+        }
+        dslRef = new PopOver(commands);
+        dslRef.setHeaderAlwaysVisible(true);
+        dslRef.setArrowLocation(PopOver.ArrowLocation.RIGHT_CENTER);
+        dslRef.setTitle("DSL Reference Card");
+    }
+
+    /**
      * Given a command, sets the input text field to display information about that command.
      *
      * @param command The command to display information about
      */
     private void setCommandText(CommandType command) {
         txtCommand.clear();
-        String[] parameters = command.getParams();
-        String[] options = command.getOptions();
-        String parameterString = "";
-        String optionsString = "";
-        for (String parameter : parameters) {
-            parameterString += "(" + parameter + ") ";
-        }
-        for (String option : options) {
-            if (!option.equals("")) {
-                optionsString += "[" + option + "] ";
-            }
-        }
-        txtCommand.setText(command.getName() + " " + parameterString);
-        if (!optionsString.equals("")) {
-            txtCommand.appendText(optionsString);
-        }
+        txtCommand.setText(command.getDisplayText());
     }
 
     private String enteredCommand;

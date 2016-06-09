@@ -37,4 +37,31 @@ public class CommandType {
     public String getName() {
         return this.name;
     }
+
+    public String getParamText() {
+        String parameterString = "";
+        for (String parameter : params) {
+            parameterString += "(" + parameter + ") ";
+        }
+        return parameterString;
+    }
+
+    public String getOptionText() {
+        String optionsString = "";
+        for (String option : options) {
+            if (!option.equals("")) {
+                optionsString += "[" + option + "] ";
+            }
+        }
+        return optionsString;
+    }
+
+    public String getDisplayText() {
+        String displayText = "";
+        displayText += name + " " + getParamText();
+        if (!getOptionText().equals("")) {
+            displayText += getOptionText();
+        }
+        return displayText;
+    }
 }
