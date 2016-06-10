@@ -10,6 +10,8 @@ import java.util.concurrent.Executors;
 
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -19,9 +21,12 @@ import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -106,12 +111,40 @@ public class TranscriptPaneController {
         });
     }
 
+    private HBox getSortingOptions() {
+        HBox sortButtons = new HBox();
+        final ToggleGroup sortingOptions = new ToggleGroup();
+        final RadioButton sortAlphabetically = new RadioButton("Sort Alphabetically");
+        sortAlphabetically.setToggleGroup(sortingOptions);
+        sortAlphabetically.setSelected(true);
+        RadioButton sortByGroup = new RadioButton("Sort by Group");
+        sortByGroup.setToggleGroup(sortingOptions);
+        sortingOptions.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+            public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
+                if (sortingOptions.getSelectedToggle().equals(sortAlphabetically)) {
+                    System.out.println("Sort alphabetically");
+                } else {
+                    System.out.println("Sort by group");
+                }
+            }
+        });
+
+
+        sortButtons.getChildren().add(sortAlphabetically);
+        sortButtons.getChildren().add(sortByGroup);
+        return sortButtons;
+    }
+
     /**
      * Initialises a popover containing help info about commands. Each command, when clicked, is
      * copied to the input text field.
      */
     private void createDslReference() {
         VBox commands = new VBox();
+
+
+        commands.getChildren().add(getSortingOptions());
+
         commands.getChildren().add(new Text("Click a command to copy to input field"));
         commands.setSpacing(5);
         commands.setPadding(new Insets(10));
