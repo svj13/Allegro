@@ -3,13 +3,17 @@ package seng302.data;
 import java.util.HashMap;
 
 /**
- * Created by emily on 27/05/16.
+ * Stores a static hash map of commands and their relevant data.
+ * This class also implements getter methods, and methods which produce nice strings of the data.
  */
 public class CommandType {
     private String[] params;
     private String[] options;
     private String name;
 
+    /**
+     * Statically stores all available commands.
+     */
     public static HashMap<String, CommandType> allCommands = new HashMap<String, CommandType>() {
         {
             put("Play Chord", new CommandType("play chord", "note,type", "arpeggio"));
@@ -38,6 +42,11 @@ public class CommandType {
         return this.name;
     }
 
+    /**
+     * Turns all the parameters of a command into a pretty string
+     *
+     * @return A string containing all parameters of a command, surrounded in ()
+     */
     public String getParamText() {
         String parameterString = "";
         for (String parameter : params) {
@@ -46,6 +55,10 @@ public class CommandType {
         return parameterString;
     }
 
+    /**
+     * Turns all the options of a command into a pretty string
+     * @return A string containing all options of a command, surrounded in []
+     */
     public String getOptionText() {
         String optionsString = "";
         for (String option : options) {
@@ -56,6 +69,11 @@ public class CommandType {
         return optionsString;
     }
 
+
+    /**
+     * Displays all information of a command in a pretty string
+     * @return A string of the form command name (parameters) [options]
+     */
     public String getDisplayText() {
         String displayText = "";
         displayText += name + " " + getParamText();
