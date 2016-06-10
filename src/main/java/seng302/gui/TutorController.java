@@ -154,67 +154,27 @@ public abstract class TutorController {
      * Saves a record of the tutoring session to a file.
      */
     public void saveRecord() {
-        if (env.getRecordLocation() != null) {
-            // Appends to file already created in this session.
-            record.writeToFile(env.getRecordLocation());
-        } else {
-            //show a file picker
-            FileChooser fileChooser = new FileChooser();
-            FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
-            fileChooser.getExtensionFilters().add(textFilter);
 
-            if(env.getProjectHandler().isProject()) {
-                env.getRootController().checkProjectDirectory();
-                fileChooser.setInitialDirectory(Paths.get(env.getProjectHandler().getCurrentProjectPath()).toFile());
-            }
-            File file = fileChooser.showSaveDialog(stage);
 
-            if (file != null) {
-                fileDir = file.getParentFile();
-                path = file.getAbsolutePath();
-                env.setRecordLocation(path);
-                record.writeToFile(path);
-            }
-        }
-    }
-
-    public void saveTutorSession(String stats) {
-
+        //show a file picker
         FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
-        fileChooser.getExtensionFilters().add(textFilter);
+//            FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+        //fileChooser.getExtensionFilters().add(textFilter);
 
         if(env.getProjectHandler().isProject()) {
             env.getRootController().checkProjectDirectory();
             fileChooser.setInitialDirectory(Paths.get(env.getProjectHandler().getCurrentProjectPath()).toFile());
         }
-
         File file = fileChooser.showSaveDialog(stage);
 
         if (file != null) {
             fileDir = file.getParentFile();
             path = file.getAbsolutePath();
-            try {
-                FileWriter tutorFile = new FileWriter(path);
-                JSONObject overalPitchObject = new JSONObject();
-                JSONObject overalPitchSessionObject = new JSONObject();
-                Collection<JSONObject> pitchTutorRecordsList = new ArrayList<JSONObject>();
-
-                overalPitchSessionObject.put("Questions", pitchTutorRecordsList);
-                overalPitchSessionObject.put("SessionStats", stats);
-
-
-                overalPitchObject.put("Session_" + new Date().toString(), overalPitchSessionObject);
-
-                tutorFile.write(overalPitchObject.toJSONString());
-                tutorFile.flush();
-                tutorFile.close();
-            }catch(Exception e){
-
-            }
-
+            env.setRecordLocation(path);
+            record.writeToFile(path);
         }
     }
+
     /**
      * Calculates a user's score after a tutoring session
      *
@@ -244,22 +204,22 @@ public abstract class TutorController {
     }
 
 
-    /**
-     * Creates an alert to ask the user whether or not to save a record to file.
-     */
-    public void promptSaveRecord() {
-        Alert savePrompt = new Alert(Alert.AlertType.NONE);
-        savePrompt.setContentText("Would you like to save this tutoring session?");
-        savePrompt.setHeaderText("Save Record?");
-        ButtonType save = new ButtonType("Save");
-        ButtonType cancel = new ButtonType("Discard");
-        savePrompt.getButtonTypes().setAll(save, cancel);
-        ButtonType result = savePrompt.showAndWait().get();
-
-        if (result.equals(save)) {
-            saveRecord();
-        }
-    }
+//    /**
+//     * Creates an alert to ask the user whether or not to save a record to file.
+//     */
+//    public void promptSaveRecord() {
+//        Alert savePrompt = new Alert(Alert.AlertType.NONE);
+//        savePrompt.setContentText("Would you like to save this tutoring session?");
+//        savePrompt.setHeaderText("Save Record?");
+//        ButtonType save = new ButtonType("Save");
+//        ButtonType cancel = new ButtonType("Discard");
+//        savePrompt.getButtonTypes().setAll(save, cancel);
+//        ButtonType result = savePrompt.showAndWait().get();
+//
+//        if (result.equals(save)) {
+//            saveRecord();
+//        }
+//    }
 
     /**
      * Formats a GUI question to indicate it was skipped

@@ -3,30 +3,29 @@ package seng302.utility;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
-import javafx.util.Pair;
+import org.json.simple.JSONObject;
 
 /**
  * A record that holds the information of one tutoring session
  */
 public class TutorRecord {
 
+
+    JSONObject overalTutorObject = new JSONObject();
+    JSONObject overalTutorSessionObject = new JSONObject();
+    Collection<JSONObject> tutorRecordList = new ArrayList<JSONObject>();
+    String tutorRecordStats = "";
+
+
+
     /**
      * Stores all the information to save as text
      */
-    protected ArrayList<String> lines = new ArrayList<String>();
+    //protected ArrayList<String> tutorRecordList = new ArrayList<String>();
 
-    /**
-     * Record Constructor
-     * @param startTime The date and time the record was begun
-     * @param tutorType Which tutor created the record
-     */
-    public TutorRecord(Date startTime, String tutorType) {
-        lines.add("Date: " + startTime.toString() + "\n");
-        lines.add("Tutor type: " + tutorType + "\n");
-        lines.add("\n");
-    }
 
     /**
      * Adds a question and answer to the record
@@ -34,14 +33,14 @@ public class TutorRecord {
      */
     public String addQuestionAnswer(String[] questionSet) {
         String line = "";
-        lines.add("Question: " + questionSet[0] + "\n");
-        lines.add("Answer: " + questionSet[1] + "\n");
-        lines.add("Correct: " + questionSet[2] + "\n");
-        lines.add("\n");
 
         line += "Question: " + questionSet[0];
         line += "Answer: " + questionSet[1];
         line += "Correct: " + questionSet[2];
+
+        JSONObject jasonOFQuestion = new JSONObject();
+        jasonOFQuestion.put("QuestionInfo", line);
+        tutorRecordList.add(jasonOFQuestion);
 
         return line;
 
@@ -53,29 +52,18 @@ public class TutorRecord {
      */
     public String addSkippedQuestion(String[] question) {
         String line = "";
-        lines.add("Skipped Question: " + question[0] + "\n");
-        lines.add("Correct Answer: " + question[1] + "\n");
-        lines.add("\n");
 
         line += "Skipped Question: " + question[0];
         line += "Correct Answer: " + question[1];
 
-        return line;
-    }
+        JSONObject jasonOFQuestion = new JSONObject();
+        jasonOFQuestion.put("QuestionInfo", line);
 
-    /**
-     * Adds an indicator that the user is re-testing themself
-     */
-    public String addRetest() {
-        String line = "";
-        lines.add("===== Re-testing =====\n");
-        lines.add("\n");
-
-        line+= "===== Re-testing =====\n";
-        line += "\n";
+        tutorRecordList.add(jasonOFQuestion);
 
         return line;
     }
+
 
     /**
      * Sets the user's score, etc
@@ -84,33 +72,41 @@ public class TutorRecord {
      */
     public String setStats(int questionsAnsweredCorrectly, int questionsAnsweredIncorrectly, float score) {
 
-        String line = "";
-        lines.add("Questions answered correctly: " + questionsAnsweredCorrectly + "\n");
-        lines.add("Questions answered incorrectly: " + questionsAnsweredIncorrectly + "\n");
-        lines.add("Percentage answered correctly: " + String.format("%.2f", score) + "%\n");
-        lines.add("\n");
+        tutorRecordStats = "";
+        tutorRecordStats += "Questions answered correctly: " + questionsAnsweredCorrectly;
+        tutorRecordStats += "Questions answered incorrectly: " + questionsAnsweredIncorrectly;
+        tutorRecordStats += "Percentage answered correctly: " + String.format("%.2f", score) + "%";
 
-        line += "Questions answered correctly: " + questionsAnsweredCorrectly;
-        line += "Questions answered incorrectly: " + questionsAnsweredIncorrectly;
-        line += "Percentage answered correctly: " + String.format("%.2f", score) + "%";
-        return line;
+        return tutorRecordStats;
+    }
+
+
+    private void makeOveralTutorObject(){
+        overalTutorSessionObject.put("Questions", tutorRecordList);
+        overalTutorSessionObject.put("SessionStats", tutorRecordStats);
+        overalTutorObject.put("Session_" + new Date().toString(), overalTutorSessionObject);
+
     }
 
     /**
      * Saves a tutoring record to a text file
      * @param recordLocation Where to save the the record
      */
-    public void writeToFile(String recordLocation) {
+    public JSONObject writeToFile(String recordLocation) {
+        if(overalTutorObject.isEmpty()){
+
+            makeOveralTutorObject();
+        }
+
         try {
             FileWriter writer = new FileWriter(recordLocation, true);
-            for (String line : lines) {
-                writer.write(line);
-
-            }
+            writer.write(overalTutorObject.toJSONString());
+            writer.flush();
             writer.close();
         } catch (IOException ex) {
             System.err.println("Problem writing to the selected file " + ex.getMessage());
         }
+        return overalTutorObject;
 
     }
 }

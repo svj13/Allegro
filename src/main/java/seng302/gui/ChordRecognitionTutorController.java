@@ -56,7 +56,7 @@ public class ChordRecognitionTutorController extends TutorController{
      * Run when the go button is pressed. Creates a new tutoring session.
      */
     private void goAction(ActionEvent event) {
-        record = new TutorRecord(new Date(), "Chord Recognition");
+        record = new TutorRecord();
         paneQuestions.setVisible(true);
         paneResults.setVisible(false);
         manager.resetEverything();
@@ -311,12 +311,12 @@ public class ChordRecognitionTutorController extends TutorController{
 
         clearBtn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                promptSaveRecord();
                 manager.saveTempIncorrect();
                 paneResults.setVisible(false);
                 paneQuestions.setVisible(true);
             }
         });
+
         paneResults.setPadding(new Insets(10, 10, 10, 10));
         retestBtn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {

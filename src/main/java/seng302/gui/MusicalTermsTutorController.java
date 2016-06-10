@@ -76,7 +76,7 @@ public class MusicalTermsTutorController extends TutorController{
     void goAction(ActionEvent event) {
         paneQuestions.setVisible(true);
         paneResults.setVisible(false);
-        record = new TutorRecord(new Date(), "Musical Terms");
+        record = new TutorRecord();
         manager.resetEverything();
         manager.questions = selectedQuestions;
         if (manager.questions >= 1) {
@@ -441,7 +441,6 @@ public class MusicalTermsTutorController extends TutorController{
 
         clearBtn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                promptSaveRecord();
                 manager.saveTempIncorrect();
                 paneResults.setVisible(false);
                 paneQuestions.setVisible(true);

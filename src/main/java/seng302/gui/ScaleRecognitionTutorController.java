@@ -45,7 +45,7 @@ public class ScaleRecognitionTutorController extends TutorController {
      * Run when the go button is pressed. Creates a new tutoring session.
      */
     private void goAction(ActionEvent event) {
-        record = new TutorRecord(new Date(), "Scale Recognition");
+        record = new TutorRecord();
         paneQuestions.setVisible(true);
         paneResults.setVisible(false);
         manager.resetEverything();
@@ -277,7 +277,6 @@ public class ScaleRecognitionTutorController extends TutorController {
 
         clearBtn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                promptSaveRecord();
                 manager.saveTempIncorrect();
                 paneResults.setVisible(false);
                 paneQuestions.setVisible(true);

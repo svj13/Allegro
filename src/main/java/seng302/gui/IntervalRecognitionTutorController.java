@@ -109,7 +109,7 @@ public class IntervalRecognitionTutorController extends TutorController {
     public void goAction(ActionEvent event) {
         paneQuestions.setVisible(true);
         paneResults.setVisible(false);
-        record = new TutorRecord(new Date(), "Interval Recognition");
+        record = new TutorRecord();
         manager.resetEverything();
         manager.questions = selectedQuestions;
         if (manager.questions >= 1){
@@ -384,7 +384,6 @@ public class IntervalRecognitionTutorController extends TutorController {
 
         clearBtn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                promptSaveRecord();
                 manager.saveTempIncorrect();
                 paneResults.setVisible(false);
                 paneQuestions.setVisible(true);

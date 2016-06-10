@@ -1,9 +1,12 @@
 package seng302.gui;
 
+import javafx.stage.FileChooser;
 import org.controlsfx.control.RangeSlider;
 import org.controlsfx.control.spreadsheet.StringConverterWithFormat;
 
 import java.awt.*;
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
@@ -84,7 +87,7 @@ public class PitchComparisonTutorController extends TutorController{
 //        manager.questions = 0;
         paneQuestions.setVisible(true);
         paneResults.setVisible(false);
-        record = new TutorRecord(new Date(), "Pitch Comparison");
+        record = new TutorRecord();
         manager.answered = 0;
 
         if (lowerSet && upperSet) {
@@ -293,7 +296,7 @@ public class PitchComparisonTutorController extends TutorController{
                     "Higher",
                     Boolean.toString(getAnswer(note1, note2).equals("Higher"))
             };
-            record.addQuestionAnswer(question);
+
             projectHandler.saveTutorRecords("pitch", record.addQuestionAnswer(question));
             env.getRootController().setTabTitle("pitchTutor", true);
         } else if (((ToggleButton) row.getChildren().get(2)).isSelected()) { //Same
@@ -304,7 +307,7 @@ public class PitchComparisonTutorController extends TutorController{
                     "Same",
                     Boolean.toString(getAnswer(note1, note2).equals("Same"))
             };
-            record.addQuestionAnswer(question);
+
             projectHandler.saveTutorRecords("pitch", record.addQuestionAnswer(question));
             env.getRootController().setTabTitle("pitchTutor", true);
         } else if (((ToggleButton) row.getChildren().get(3)).isSelected()) { //Lower
@@ -317,7 +320,6 @@ public class PitchComparisonTutorController extends TutorController{
                     "Lower",
                     Boolean.toString(getAnswer(note1, note2).equals("Lower"))
             };
-            record.addQuestionAnswer(question);
             projectHandler.saveTutorRecords("pitch", record.addQuestionAnswer(question));
             env.getRootController().setTabTitle("pitchTutor", true);
         } else if (((ToggleButton) row.getChildren().get(4)).isSelected()) { //Skip
@@ -330,7 +332,6 @@ public class PitchComparisonTutorController extends TutorController{
                     String.format("Is %s higher or lower than %s", note2.getNote(), note1.getNote()),
                     getAnswer(note1, note2)
             };
-            record.addSkippedQuestion(question);
             projectHandler.saveTutorRecords("pitch", record.addSkippedQuestion(question));
             env.getRootController().setTabTitle("pitchTutor", true);
         }
@@ -519,8 +520,10 @@ public class PitchComparisonTutorController extends TutorController{
                 manager.questions, manager.skipped,
                 manager.correct, manager.incorrect, userScore);
 
+        record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
+
         if(projectHandler.currentProjectPath != null) {
-            record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
+
             projectHandler.saveSessionStat("pitch", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
             projectHandler.saveCurrentProject();
             outputText += "\nSession auto saved";
@@ -535,7 +538,7 @@ public class PitchComparisonTutorController extends TutorController{
 
         Button retestBtn = new Button("Retest");
         Button clearBtn  = new Button("Clear");
-        Button saveBtn = new Button("Save");
+        final Button saveBtn = new Button("Save");
 
         clearBtn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
@@ -554,9 +557,11 @@ public class PitchComparisonTutorController extends TutorController{
             }
         });
         saveBtn.setOnAction(new EventHandler<ActionEvent>() {
+
             public void handle(ActionEvent event) {
-                saveTutorSession(record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
+                saveRecord();
             }
+
         });
 
         if (manager.getTempIncorrectResponses().size() > 0) {
