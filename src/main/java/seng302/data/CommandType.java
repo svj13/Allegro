@@ -1,9 +1,10 @@
 package seng302.data;
 
-import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
- * Stores a static hash map of commands and their relevant data.
+ * Stores a static map of commands and their relevant data.
  * This class also implements getter methods, and methods which produce nice strings of the data.
  */
 public class CommandType {
@@ -14,7 +15,7 @@ public class CommandType {
     /**
      * Statically stores all available commands.
      */
-    public static HashMap<String, CommandType> allCommands = new HashMap<String, CommandType>() {
+    public static Map<String, CommandType> allCommands = new TreeMap<String, CommandType>() {
         {
             put("Play Chord", new CommandType("play chord", "note,type", "arpeggio"));
             put("Play Interval", new CommandType("play interval", "name,note", ""));
