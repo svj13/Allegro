@@ -96,6 +96,31 @@ public class ChordTest {
 
 
     }
+
+    @Test
+    public void validInversionNoOctaveOutputTest(){
+        HashMap<String, String> chordMap = new HashMap<String, String>();
+        chordMap.put("note", "G");
+        chordMap.put("scale_type", "major");
+        chordMap.put("inversion", "1");
+        new Chord(chordMap, "chord").execute(env);
+        verify(transcriptManager).setResult("B D G ");
+
+    }
+
+    @Test
+    public void validInversionOctaveOutputTest(){
+        HashMap<String, String> chordMap = new HashMap<String, String>();
+        chordMap.put("note", "G4");
+        chordMap.put("scale_type", "major");
+        chordMap.put("inversion", "1");
+
+        new Chord(chordMap, "chord").execute(env);
+        verify(transcriptManager).setResult("B4 D4 G5 ");
+
+    }
+
+
     /**Check to see if when the chord is playing, it prints the correct message
      *
      */

@@ -13,8 +13,8 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 %column
 %unicode
 %caseless
-/* Uncomment for debugging info.
-%debug*/
+/* Uncomment for debugging info.*/
+%debug
 
 
 
@@ -92,7 +92,7 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 /*
   Macro Declarations
 */
-
+InversionSpecifier = 2nd|1st|"1st inversion"|"2nd inversion"|"3rd inversion"
 WhiteSpace = \p{Whitespace}
 Number = \p{Digit}
 Note = [A-G|a-g]([#|b|x]|(bb))?[0-8]?|[A|B|D|E|F|G|a|b|d|e|f|g]([#|b|x]|(bb))?("-1")?|[C-F|c-f]([#|b|x]|(bb))?[9]?|[C|c][#|x]?(-1)?|[G|g](b|bb)?[9]?
@@ -103,7 +103,7 @@ SemiColon = ";"
 ScaleType = "major"|"minor"
 PlayStyle = "arpeggio"
 Direction = "updown"|"up"|"down"
-InversionSpecifier = "1st inversion"|"2nd inversion"|"3rd inversion"
+
 PosNum = \p{Digit}+
 Interval = ("unison"|(major\s(second|2nd|third|3rd|sixth|6th|seventh|7th|ninth|9th|tenth|10th|thirteenth|13th|fourteenth|14th))|(minor\s(second|2nd|third|3rd|sixth|6th|seventh|7th|ninth|9th|tenth|10th|thirteenth|13th|fourteenth|14th))|(augmented\s(fourth|4th|eleventh|11th))|(diminished\s(fifth|5th|seventh|7th))|(perfect\s(fourth|4th|fifth|5th|eleventh|11th|twelfth|12th|octave))|"double octave")
 //RhythmType = "straight"|"medium"|"heavy"|"light"
@@ -141,6 +141,8 @@ SharpsFlats = ([1-7](#|b))|0#b|0b#
     "play chord"        {return symbol(DslSymbol.COMMAND_PLAY_CHORD);}
     "play interval"     {return symbol(DslSymbol.COMMAND_PLAY_INTERVAL); }
     "play"             { return symbol(DslSymbol.COMMAND_PLAY_NOTE);    }
+    {InversionSpecifier} {return symbol(DslSymbol.INVERSION_SPECIFIER, new String(yytext()));}
+    {ScaleType}         {return symbol(DslSymbol.SCALE_TYPE, new String(yytext()));}
     "interval"          {return symbol(DslSymbol.COMMAND_INTERVAL); }
     "crotchet duration"    { return symbol(DslSymbol.COMMAND_CROTCHET_DURATION); }
     "meaning of"       { return symbol(DslSymbol.COMMAND_MUSICAL_TERM_MEANING); }
@@ -159,13 +161,13 @@ SharpsFlats = ([1-7](#|b))|0#b|0b#
     "scale sig num"     {return symbol(DslSymbol.COMMAND_SHOW_KEYSIGNATURE_NUM);}
     "scale signature with" {return symbol(DslSymbol.COMMAND_SCALE_WITH_KEYSIG);}
     "scale sig with"    {return symbol(DslSymbol.COMMAND_SCALE_WITH_KEYSIG); }
+
     {SharpsFlats}       {return symbol(DslSymbol.SHARPSFLATS, new String(yytext()));}
     {PlayStyle}         {return symbol(DslSymbol.PLAY_STYLE, new String(yytext())); }
     {Note}              {return symbol(DslSymbol.NOTE, new String(yytext())); }
     {Number}           { return symbol(DslSymbol.NUMBER, new String(yytext())); }
     {MidiNote}          {return symbol(DslSymbol.MIDINOTE, new String(yytext())); }
     {ScaleType}         {return symbol(DslSymbol.SCALE_TYPE, new String(yytext()));}
-    {InversionSpecifier} {return symbol(DslSymbol.INVERSION_SPECIFIER, new String(yytext()));}
     {Direction}         {return symbol(DslSymbol.DIRECTION, new String(yytext()));}
     {RhythmType}         {return symbol(DslSymbol.RHYTHM_TYPE, new String(yytext()));}
 
