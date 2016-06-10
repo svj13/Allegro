@@ -13,8 +13,8 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 %column
 %unicode
 %caseless
-/* Uncomment for debugging info.*/
-%debug
+/* Uncomment for debugging info.
+%debug*/
 
 
 
@@ -92,7 +92,7 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 /*
   Macro Declarations
 */
-InversionSpecifier = 2nd|1st|"1st inversion"|"2nd inversion"|"3rd inversion"
+
 WhiteSpace = \p{Whitespace}
 Number = \p{Digit}
 Note = [A-G|a-g]([#|b|x]|(bb))?[0-8]?|[A|B|D|E|F|G|a|b|d|e|f|g]([#|b|x]|(bb))?("-1")?|[C-F|c-f]([#|b|x]|(bb))?[9]?|[C|c][#|x]?(-1)?|[G|g](b|bb)?[9]?
@@ -103,7 +103,7 @@ SemiColon = ";"
 ScaleType = "major"|"minor"
 PlayStyle = "arpeggio"
 Direction = "updown"|"up"|"down"
-
+InversionSpecifier = "inversion 1"|"inversion 2"|"inversion 3"|"inv 1"|"inv 2"|"inv 3"
 PosNum = \p{Digit}+
 Interval = ("unison"|(major\s(second|2nd|third|3rd|sixth|6th|seventh|7th|ninth|9th|tenth|10th|thirteenth|13th|fourteenth|14th))|(minor\s(second|2nd|third|3rd|sixth|6th|seventh|7th|ninth|9th|tenth|10th|thirteenth|13th|fourteenth|14th))|(augmented\s(fourth|4th|eleventh|11th))|(diminished\s(fifth|5th|seventh|7th))|(perfect\s(fourth|4th|fifth|5th|eleventh|11th|twelfth|12th|octave))|"double octave")
 //RhythmType = "straight"|"medium"|"heavy"|"light"
@@ -142,7 +142,7 @@ SharpsFlats = ([1-7](#|b))|0#b|0b#
     "play interval"     {return symbol(DslSymbol.COMMAND_PLAY_INTERVAL); }
     "play"             { return symbol(DslSymbol.COMMAND_PLAY_NOTE);    }
     {InversionSpecifier} {return symbol(DslSymbol.INVERSION_SPECIFIER, new String(yytext()));}
-    {ScaleType}         {return symbol(DslSymbol.SCALE_TYPE, new String(yytext()));}
+
     "interval"          {return symbol(DslSymbol.COMMAND_INTERVAL); }
     "crotchet duration"    { return symbol(DslSymbol.COMMAND_CROTCHET_DURATION); }
     "meaning of"       { return symbol(DslSymbol.COMMAND_MUSICAL_TERM_MEANING); }
@@ -170,9 +170,10 @@ SharpsFlats = ([1-7](#|b))|0#b|0b#
     {ScaleType}         {return symbol(DslSymbol.SCALE_TYPE, new String(yytext()));}
     {Direction}         {return symbol(DslSymbol.DIRECTION, new String(yytext()));}
     {RhythmType}         {return symbol(DslSymbol.RHYTHM_TYPE, new String(yytext()));}
-
+    {ScaleType}         {return symbol(DslSymbol.SCALE_TYPE, new String(yytext()));}
     {PosNum}            {return symbol(DslSymbol.POSNUM, new String(yytext()));}
     {Interval}          {return symbol(DslSymbol.INTERVAL, new String(yytext()));}
+
     {SemiColon}         {return symbol(DslSymbol.SEMIC);}
     {Atom}             { return symbol(DslSymbol.ATOM, new String(yytext()));}
     {WhiteSpace}       { /* Ignore whitespace */ }

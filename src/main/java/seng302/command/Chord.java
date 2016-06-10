@@ -174,10 +174,10 @@ public class Chord implements Command {
     public static String inversionString(String input){
         System.out.println("called; " + input);
         input = input.toLowerCase();
-        if(input.equals("1st") || input.equals("1st inversion")){
+        if(input.equals("inversion 1") || input.equals("inv 1")){
             return "1";
         }
-        else if(input.equals("2nd") || input.equals("2nd inversion")){
+        else if(input.equals("inv 2") || input.equals("inversion 2")){
             return "2";
         }
         else if(input.equals("3rd") || input.equals("3rd inversion")){
