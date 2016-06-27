@@ -243,7 +243,6 @@ public class MusicalTermsTutorController extends TutorController{
                         originOptions.getValue(),
                         Boolean.toString(originOptions.getValue().equals(currentTerm.getMusicalTermOrigin()))
                 };
-                record.addQuestionAnswer(question);
                 projectHandler.saveTutorRecords("musicalTerm", record.addQuestionAnswer(question));
                 env.getRootController().setTabTitle("musicalTermTutor", true);
 
@@ -273,7 +272,6 @@ public class MusicalTermsTutorController extends TutorController{
                         categoryOptions.getValue(),
                         Boolean.toString(categoryOptions.getValue().equals(currentTerm.getMusicalTermCategory()))
                 };
-                record.addQuestionAnswer(question);
                 projectHandler.saveTutorRecords("musicalTerm", record.addQuestionAnswer(question));
                 env.getRootController().setTabTitle("musicalTermTutor", true);
 
@@ -305,7 +303,6 @@ public class MusicalTermsTutorController extends TutorController{
                         definitionOptions.getValue(),
                         Boolean.toString(definitionOptions.getValue().equals(currentTerm.getMusicalTermDefinition()))
                 };
-                record.addQuestionAnswer(question);
                 projectHandler.saveTutorRecords("musicalTerm", record.addQuestionAnswer(question));
                 env.getRootController().setTabTitle("musicalTermTutor", true);
 
@@ -327,7 +324,6 @@ public class MusicalTermsTutorController extends TutorController{
                         String.format("Information about %s", currentTerm.getMusicalTermName()),
                         currentTerm.getMusicalTermName()
                 };
-                record.addSkippedQuestion(question);
                 projectHandler.saveTutorRecords("musicalTerm", record.addSkippedQuestion(question));
                 env.getRootController().setTabTitle("musicalTermTutor", true);
 
@@ -421,7 +417,6 @@ public class MusicalTermsTutorController extends TutorController{
                 manager.correct, manager.incorrect, userScore);
 
         if(projectHandler.currentProjectPath != null) {
-            record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
             projectHandler.saveSessionStat("musicalTerm", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
             projectHandler.saveCurrentProject();
             outputText += "\nSession auto saved";
@@ -436,7 +431,7 @@ public class MusicalTermsTutorController extends TutorController{
 
         Button retestBtn = new Button("Retest");
         Button clearBtn  = new Button("Clear");
-        Button saveBtn = new Button("Save");
+        final Button saveBtn = new Button("Save");
 
 
         clearBtn.setOnAction(new EventHandler<ActionEvent>() {

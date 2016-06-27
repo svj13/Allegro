@@ -191,7 +191,6 @@ public class IntervalRecognitionTutorController extends TutorController {
                         String.format("Interval between %s and %s", firstNote.getNote(), secondNote.getNote()),
                         thisInterval.getName()
                 };
-                record.addSkippedQuestion(question);
                 projectHandler.saveTutorRecords("interval", record.addSkippedQuestion(question));
                 env.getRootController().setTabTitle("intervalTutor", true);
                 if (manager.answered == manager.questions) {
@@ -220,7 +219,6 @@ public class IntervalRecognitionTutorController extends TutorController {
                         options.getValue(),
                         Boolean.toString(options.getValue().equals(thisInterval.getName()))
                 };
-                record.addQuestionAnswer(question);
                 projectHandler.saveTutorRecords("interval", record.addQuestionAnswer(question));
                 env.getRootController().setTabTitle("intervalTutor", true);
                 // Shows the correct answer
@@ -365,7 +363,6 @@ public class IntervalRecognitionTutorController extends TutorController {
                 manager.correct, manager.incorrect, userScore);
 
         if(projectHandler.currentProjectPath != null) {
-            record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
             projectHandler.saveSessionStat("interval", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
             projectHandler.saveCurrentProject();
             outputText += "\nSession auto saved.";
@@ -380,7 +377,7 @@ public class IntervalRecognitionTutorController extends TutorController {
 
         Button retestBtn = new Button("Retest");
         Button clearBtn  = new Button("Clear");
-        Button saveBtn = new Button("Save");
+        final Button saveBtn = new Button("Save");
 
         clearBtn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {

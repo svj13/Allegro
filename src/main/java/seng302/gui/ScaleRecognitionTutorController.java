@@ -150,7 +150,6 @@ public class ScaleRecognitionTutorController extends TutorController {
                 userAnswer,
                 Boolean.toString(correct)
         };
-        record.addQuestionAnswer(question);
         projectHandler.saveTutorRecords("scale", record.addQuestionAnswer(question));
         env.getRootController().setTabTitle("scaleTutor", true);
 
@@ -205,7 +204,6 @@ public class ScaleRecognitionTutorController extends TutorController {
                         String.format("%s scale from %s",scaleType, startNote.getNote()),
                         scaleType
                 };
-                record.addSkippedQuestion(question);
                 projectHandler.saveTutorRecords("scale", record.addSkippedQuestion(question));
                 env.getRootController().setTabTitle("scaleTutor", true);
                 if (manager.answered == manager.questions) {
@@ -258,7 +256,6 @@ public class ScaleRecognitionTutorController extends TutorController {
                 manager.correct, manager.incorrect, userScore);
 
         if(projectHandler.currentProjectPath != null) {
-            record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
             projectHandler.saveSessionStat("scale", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
             projectHandler.saveCurrentProject();
             outputText += "\nSession auto saved";
@@ -273,7 +270,7 @@ public class ScaleRecognitionTutorController extends TutorController {
 
         Button retestBtn = new Button("Retest");
         Button clearBtn  = new Button("Clear");
-        Button saveBtn = new Button("Save");
+        final Button saveBtn = new Button("Save");
 
         clearBtn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {

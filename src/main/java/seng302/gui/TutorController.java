@@ -121,6 +121,7 @@ public abstract class TutorController {
      * sets up the tutoring environment for that.
      */
     public void retest() {
+        record = new TutorRecord();
         ArrayList<Pair> tempIncorrectResponses = new ArrayList<Pair>(manager.getTempIncorrectResponses());
         manager.clearTempIncorrect();
         Collections.shuffle(tempIncorrectResponses);
@@ -158,8 +159,8 @@ public abstract class TutorController {
 
         //show a file picker
         FileChooser fileChooser = new FileChooser();
-//            FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
-        //fileChooser.getExtensionFilters().add(textFilter);
+        FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+        fileChooser.getExtensionFilters().add(textFilter);
 
         if(env.getProjectHandler().isProject()) {
             env.getRootController().checkProjectDirectory();
