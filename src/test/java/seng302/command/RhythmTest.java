@@ -8,7 +8,7 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import seng302.Environment;
 import seng302.managers.TranscriptManager;
-import seng302.utility.RhythmHandler;
+import seng302.utility.musicNotation.RhythmHandler;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;

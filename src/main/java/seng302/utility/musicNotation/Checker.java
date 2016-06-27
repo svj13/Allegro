@@ -1,4 +1,4 @@
-package seng302.utility;
+package seng302.utility.musicNotation;
 
 
 import java.util.ArrayList;

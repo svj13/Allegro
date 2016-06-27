@@ -6,12 +6,13 @@ import java.util.HashMap;
 
 import seng302.Environment;
 import seng302.data.Note;
-import seng302.utility.Checker;
-import seng302.utility.OctaveUtil;
+import seng302.utility.musicNotation.Checker;
+import seng302.utility.musicNotation.ChordUtil;
+import seng302.utility.musicNotation.OctaveUtil;
 
 /**
  * Created by Sarah on 11/05/2016.
- * Chord is used to obtain the notes required to make up a chord
+ * ChordUtil is used to obtain the notes required to make up a chord
  */
 public class Chord implements Command {
     private ArrayList<Note> chord = new ArrayList<Note>();
@@ -46,7 +47,7 @@ public class Chord implements Command {
         }
 
         //getting the chord array
-        this.chord = note.getChord(type);
+        this.chord = ChordUtil.getChord(note, type);
         //checking to see if the array is set to null (i.e notes are invalid)
         if (this.chord == null) {
             this.result = "Invalid chord: " + startNote + ' ' + type + ". Exceeds octave range." ;

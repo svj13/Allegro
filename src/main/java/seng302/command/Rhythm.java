@@ -1,7 +1,7 @@
 package seng302.command;
 
 import seng302.Environment;
-import seng302.utility.rhythmFactory;
+import seng302.utility.musicNotation.RhythmFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,7 +61,7 @@ public class Rhythm implements Command{
                         rhythmStyle);
 
                 //Checks if command entry is a custom input of sequence of time divisions.
-                float[] toFloat = rhythmFactory.fractionStringToFloatArray(rhythmStyle);
+                float[] toFloat = RhythmFactory.fractionStringToFloatArray(rhythmStyle);
                 if(toFloat.length > 0){
                     this.result = String.format("Rhythm divisions set to: %s",Arrays.toString(toFloat).replaceAll("\\[\\]",""));
                     this.divisions = toFloat;

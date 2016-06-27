@@ -24,6 +24,7 @@ import seng302.command.Command;
 import seng302.command.Tempo;
 import seng302.data.Note;
 import seng302.utility.TutorRecord;
+import seng302.utility.musicNotation.ChordUtil;
 
 
 import java.util.Collections;
@@ -149,9 +150,9 @@ public class ChordRecognitionTutorController extends TutorController{
 //        System.out.println("startNote" + startNote);
         final String chordType = noteAndChordType.getValue();
 
-        final Collection<Note> theChord = new ArrayList<Note>(startNote.getChord(chordType));
+        final Collection<Note> theChord = new ArrayList<Note>(ChordUtil.getChord(startNote, chordType));
 //        final Pair<Collection<Note>, String> answer = new Pair<Collection<Note>, String>(theChord, chordType);
-//        final Chord myChord;
+//        final ChordUtil myChord;
 //        System.out.println("theChord?: " + theChord);
 
         Button play = new Button();

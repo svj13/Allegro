@@ -2,7 +2,7 @@ package seng302.command;
 
 import seng302.Environment;
 import seng302.data.Note;
-import seng302.utility.Checker;
+import seng302.utility.musicNotation.Checker;
 
 /**
  * NoteCommand is used to convert from a MIDI value to a Note.

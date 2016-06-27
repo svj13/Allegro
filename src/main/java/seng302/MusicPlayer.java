@@ -6,7 +6,7 @@ import java.util.Collection;
 import javax.sound.midi.*;
 
 import seng302.data.Note;
-import seng302.utility.RhythmHandler;
+import seng302.utility.musicNotation.RhythmHandler;
 
 /**
  * The Music Player class handles all sound that is produced by the program.

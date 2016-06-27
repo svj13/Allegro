@@ -2,7 +2,7 @@ package seng302.command;
 
 import seng302.Environment;
 import seng302.data.Note;
-import seng302.utility.OctaveUtil;
+import seng302.utility.musicNotation.OctaveUtil;
 
 /**
  * Command used to output a semitone either up or down from a provided note string.

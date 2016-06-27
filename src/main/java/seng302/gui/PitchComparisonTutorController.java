@@ -34,7 +34,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 import seng302.Environment;
 import seng302.data.Note;
-import seng302.utility.MidiNotePair;
+import seng302.utility.musicNotation.MidiNotePair;
 import seng302.utility.TutorRecord;
 
 /**
