@@ -145,7 +145,7 @@ public class Help implements Command {
                     "that scale's key signature.";
         } else if (keyword.equals("scale signature with") || keyword.equals("scale sig with")) {
             result = "When followed by either a number of sharps or flats (i.e. 2#, 7b) or " +
-                    "a specific list of notes (i.e. F#, C#), will return the scales whose " +
+                    "a specific list of notes (i.e. F# C#), will return the scales whose " +
                     "key signatures contain that information";
         } else if (keyword.equals("find chord") || keyword.equals("find chords all")) {
             result = "Finds a chord which matches the pattern of 3 or 4 provided notes.\n" +
