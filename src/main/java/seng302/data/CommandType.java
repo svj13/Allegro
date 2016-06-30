@@ -35,6 +35,8 @@ public class CommandType {
             put("Show Scale", new CommandType("scale", "note,type", ""));
             put("Show Semitone Up", new CommandType("semitone up", "note|midi", ""));
             put("Show Semitone Down", new CommandType("semitone down", "note|midi", ""));
+            put("Show Tempo", new CommandType("show tempo", "", ""));
+            put("Show Rhythm", new CommandType("show rhythm", "", ""));
         }
     };
 
@@ -49,17 +51,29 @@ public class CommandType {
 
     public static Map<String, CommandType> termCommands = new TreeMap<String, CommandType>() {
         {
-            //create musical term
-            //get origin
-            //get definition
-            //get category
+            put("Add Musical Term", new CommandType("add musical term", "name; origin; category; definition", ""));
+            put("Get Origin", new CommandType("origin of", "musical term name", ""));
+            put("Get Definition", new CommandType("meaning of", "musical term name", ""));
+            put("Get Category", new CommandType("category of", "musical term name", ""));
 
+        }
+    };
+
+    public static Map<String, CommandType> settingsCommands = new TreeMap<String, CommandType>() {
+        {
+            put("Set Tempo", new CommandType("set tempo", "20-300", ""));
+            put("Set Rhythm Defaults", new CommandType("set rhythm", "straight|light|medium|heavy", ""));
+            put("Set Rhythm Custom", new CommandType("set rhythm", "fraction,fraction,fraction", ""));
+            put("Force Set Tempo", new CommandType("force set tempo", "1 or higher", ""));
         }
     };
 
     public static Map<String, CommandType> specialCommands = new TreeMap<String, CommandType>() {
         {
             put("Help", new CommandType("help", "", "command name"));
+            put("Undo Action", new CommandType("undo", "", ""));
+            put("Redo Action", new CommandType("redo", "", ""));
+            put("Version", new CommandType("version", "", ""));
             put("???", new CommandType("twinkle", "", ""));
         }
     };
@@ -73,6 +87,9 @@ public class CommandType {
             putAll(playCommands);
             putAll(showCommands);
             putAll(specialCommands);
+            putAll(translationCommands);
+            putAll(termCommands);
+            putAll(settingsCommands);
         }
     };
 
