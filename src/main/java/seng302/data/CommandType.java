@@ -12,10 +12,8 @@ public class CommandType {
     private String[] options;
     private String name;
 
-    /**
-     * Statically stores all available commands.
-     */
-    public static Map<String, CommandType> allCommands = new TreeMap<String, CommandType>() {
+
+    public static Map<String, CommandType> playCommands = new TreeMap<String, CommandType>() {
         {
             put("Play Chord", new CommandType("play chord", "note,type", "arpeggio"));
             put("Play Interval", new CommandType("play interval", "name,note", ""));
@@ -24,7 +22,61 @@ public class CommandType {
         }
     };
 
-    protected CommandType(String name, String params, String options) {
+    public static Map<String, CommandType> showCommands = new TreeMap<String, CommandType>() {
+        {
+            put("Show Chord", new CommandType("chord", "note,type", ""));
+            put("Show Crotchet Duration", new CommandType("crotchet duration", "", ""));
+            put("Show All Enharmonics", new CommandType("all enharmonics", "note", ""));
+            put("Show Higher Enharmonic", new CommandType("enharmonic higher", "note", ""));
+            put("Show Lower Enharmonic", new CommandType("enharmonic lower", "note", ""));
+            put("Show Interval", new CommandType("interval", "name", "note"));
+            put("Show Key Signature", new CommandType("scale signature", "note,scale type", ""));
+            put("Show Scales with Key Signature", new CommandType("scale signature with", "number of sharps and flats|list of notes", ""));
+            put("Show Scale", new CommandType("scale", "note,type", ""));
+            put("Show Semitone Up", new CommandType("semitone up", "note|midi", ""));
+            put("Show Semitone Down", new CommandType("semitone down", "note|midi", ""));
+        }
+    };
+
+
+    public static Map<String, CommandType> translationCommands = new TreeMap<String, CommandType>() {
+        {
+            put("Midi to Note", new CommandType("note", "midi number", ""));
+            put("Note to Midi Value", new CommandType("midi", "note", ""));
+
+        }
+    };
+
+    public static Map<String, CommandType> termCommands = new TreeMap<String, CommandType>() {
+        {
+            //create musical term
+            //get origin
+            //get definition
+            //get category
+
+        }
+    };
+
+    public static Map<String, CommandType> specialCommands = new TreeMap<String, CommandType>() {
+        {
+            put("Help", new CommandType("help", "", "command name"));
+            put("???", new CommandType("twinkle", "", ""));
+        }
+    };
+
+
+    /**
+     * Statically stores all available commands.
+     */
+    public static Map<String, CommandType> allCommands = new TreeMap<String, CommandType>() {
+        {
+            putAll(playCommands);
+            putAll(showCommands);
+            putAll(specialCommands);
+        }
+    };
+
+    public CommandType(String name, String params, String options) {
         this.name = name;
         this.params = params.split(",");
         this.options = options.split(",");
@@ -51,7 +103,9 @@ public class CommandType {
     public String getParamText() {
         String parameterString = "";
         for (String parameter : params) {
-            parameterString += "(" + parameter + ") ";
+            if (!parameter.equals("")) {
+                parameterString += "(" + parameter + ") ";
+            }
         }
         return parameterString;
     }
