@@ -97,6 +97,8 @@ public class TranscriptPaneController {
     @FXML
     private Button helpButton;
 
+    private VBox commands = new VBox();
+
     PopOver dslRef;
 
 
@@ -140,14 +142,15 @@ public class TranscriptPaneController {
      * copied to the input text field.
      */
     private void createDslReference() {
-        VBox commands = new VBox();
-
-
         commands.getChildren().add(getSortingOptions());
 
         commands.getChildren().add(new Text("Click a command to copy to input field"));
         commands.setSpacing(5);
         commands.setPadding(new Insets(10));
+
+        ScrollPane commandScrollPane = new ScrollPane();
+        commandScrollPane.setPrefSize(500, 200);
+        commandScrollPane.setContent(commands);
         for (Map.Entry<String, CommandType> entry : CommandType.allCommands.entrySet()) {
             final CommandType data = entry.getValue();
             HBox commandInfo = new HBox();
@@ -162,7 +165,7 @@ public class TranscriptPaneController {
             commandInfo.getChildren().add(content);
             commands.getChildren().add(commandInfo);
         }
-        dslRef = new PopOver(commands);
+        dslRef = new PopOver(commandScrollPane);
         dslRef.setHeaderAlwaysVisible(true);
         dslRef.setArrowLocation(PopOver.ArrowLocation.RIGHT_CENTER);
         dslRef.setTitle("DSL Reference Card");
