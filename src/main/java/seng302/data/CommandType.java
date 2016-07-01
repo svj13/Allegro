@@ -98,6 +98,27 @@ public class CommandType {
         this.options = options.split(",");
     }
 
+    public static Map<String, CommandType> getCommands(String commandsToGet) {
+        if (commandsToGet.equals("Play")) {
+            return playCommands;
+        }
+        if (commandsToGet.equals("Show")) {
+            return showCommands;
+        }
+        if (commandsToGet.equals("Special")) {
+            return specialCommands;
+        }
+        if (commandsToGet.equals("Translation")) {
+            return translationCommands;
+        }
+        if (commandsToGet.equals("Terms")) {
+            return termCommands;
+        }
+        if (commandsToGet.equals("Settings")) {
+            return settingsCommands;
+        }
+        return allCommands;
+    }
 
     public String[] getParams() {
         return this.params;
