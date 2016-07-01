@@ -35,8 +35,8 @@ public class CommandType {
             put("Show Scale", new CommandType("scale", "note,type", ""));
             put("Show Semitone Up", new CommandType("semitone up", "note|midi", ""));
             put("Show Semitone Down", new CommandType("semitone down", "note|midi", ""));
-            put("Show Tempo", new CommandType("show tempo", "", ""));
-            put("Show Rhythm", new CommandType("show rhythm", "", ""));
+            put("Show Tempo", new CommandType("tempo", "", ""));
+            put("Show Rhythm", new CommandType("rhythm", "", ""));
         }
     };
 
