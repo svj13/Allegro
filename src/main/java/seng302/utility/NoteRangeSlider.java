@@ -4,7 +4,6 @@ import org.controlsfx.control.RangeSlider;
 import org.controlsfx.control.spreadsheet.StringConverterWithFormat;
 
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Label;
 import seng302.data.Note;
 
@@ -41,21 +40,17 @@ public class NoteRangeSlider extends RangeSlider {
             }
         });
 
-        ChangeListener<Number> updateLabelLower = new ChangeListener<Number>() {
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if ((Double) newValue > slider.getHighValue() - minNotes) {
-                    slider.setLowValue(slider.getHighValue() - minNotes);
-                }
-                updateText();
+        ChangeListener<Number> updateLabelLower = (observable, oldValue, newValue) -> {
+            if ((Double) newValue > slider.getHighValue() - minNotes) {
+                slider.setLowValue(slider.getHighValue() - minNotes);
             }
+            updateText();
         };
-        ChangeListener<Number> updateLabelHigher = new ChangeListener<Number>() {
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if ((Double) newValue < slider.getLowValue() + minNotes) {
-                    slider.setHighValue(slider.getLowValue() + minNotes);
-                }
-                updateText();
+        ChangeListener<Number> updateLabelHigher = (observable, oldValue, newValue) -> {
+            if ((Double) newValue < slider.getLowValue() + minNotes) {
+                slider.setHighValue(slider.getLowValue() + minNotes);
             }
+            updateText();
         };
 
         slider.lowValueProperty().addListener(updateLabelLower);

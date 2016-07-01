@@ -2,11 +2,7 @@ package seng302.gui;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TouchEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import seng302.Environment;
@@ -18,8 +14,6 @@ import seng302.data.Note;
 
 public class TouchPane extends StackPane {
     private long touchId = -1;
-    double touchx, touchy;
-    KeyboardPaneController kpc;
     TouchPane me;
     private String keyLabel;
     private boolean displayLabel = false;
@@ -35,70 +29,69 @@ public class TouchPane extends StackPane {
         final KeyboardPaneController keyboardPaneController = kpc;
         me = this;
         setHighlightOff();
+        this.setFocusTraversable(false);
         this.setAlignment(Pos.BOTTOM_CENTER);
         this.keyLabel = noteToPlay.getNote();
         this.isblackKey = false;
 
-        EventHandler<TouchEvent> touchpress = new EventHandler<TouchEvent>() {
-            public void handle(TouchEvent event) {
-                if (touchId == -1) {
-                    touchId = event.getTouchPoint().getId();
-                    environment.getPlayer().noteOn(noteToPlay);
-                    setHighlightOn();
+        EventHandler<TouchEvent> touchpress = event -> {
+            if (touchId == -1) {
+                touchId = event.getTouchPoint().getId();
+                environment.getPlayer().noteOn(noteToPlay);
+                setHighlightOn();
 
-                }
-                event.consume();
             }
+            event.consume();
         };
-        EventHandler<TouchEvent> touchrelease = new EventHandler<TouchEvent>() {
-            public void handle(TouchEvent event) {
-                if (event.getTouchPoint().getId() == touchId) {
-                    touchId = -1;
-                    environment.getPlayer().noteOff(noteToPlay);
-                    setHighlightOff();
-                }
-                event.consume();
+
+        EventHandler<TouchEvent> touchrelease = event -> {
+            if (event.getTouchPoint().getId() == touchId) {
+                touchId = -1;
+                environment.getPlayer().noteOff(noteToPlay);
+                setHighlightOff();
             }
+            event.consume();
         };
+
         setOnTouchReleased(touchrelease);
         setOnTouchPressed(touchpress);
 
 
-        setOnMouseReleased(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-                if (keyboardPaneController.getShiftState() == false) {
-                    setHighlightOff();
-                    if (displayLabelOnAction) {
-                        getChildren().clear();
-                    }
-                }
-
-
-            }
-        });
-
-        setOnMousePressed(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-                if (keyboardPaneController.getShiftState() == true) {
-                    keyboardPaneController.addMultiNote(noteToPlay, me);
-                    setHighlightOn();
-                } else {
-                    environment.getPlayer().playNote(noteToPlay);
-                    setHighlightOn();
-                }
+        setOnMouseReleased(event -> {
+            if (!keyboardPaneController.getShiftState()) {
+                setHighlightOff();
                 if (displayLabelOnAction) {
-                    getChildren().add(new Text(keyLabel));
+                    getChildren().clear();
                 }
+            }
+        });
+
+        setOnMousePressed(event -> {
+            if (keyboardPaneController.getShiftState()) {
+                keyboardPaneController.addMultiNote(noteToPlay, me);
+                setHighlightOn();
+            } else {
+                environment.getPlayer().playNote(noteToPlay);
+                setHighlightOn();
+            }
+            if (displayLabelOnAction) {
+                getChildren().add(new Text(keyLabel));
             }
         });
 
 
     }
 
+    /**
+     * Turn click highlight on.
+     */
     public void setHighlightOn() {
-        this.setStyle("-fx-border-color: black; -fx-border-width: 1px; -fx-background-color: darkblue");
+        this.setStyle("-fx-border-color: black; -fx-border-width: 1px; -fx-background-color: #0093ff");
     }
 
+    /**
+     * Turn click highlight off.
+     */
     public void setHighlightOff() {
         if (this.isblackKey) {
             this.setStyle("-fx-border-color: black; -fx-border-width: 1px; -fx-background-color: black");

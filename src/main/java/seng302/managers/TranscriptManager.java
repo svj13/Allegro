@@ -32,25 +32,24 @@ public class TranscriptManager {
     }
 
 
-
-
-    public void setBackupTranscript(ArrayList<OutputTuple> transcript){
+    public void setBackupTranscript(ArrayList<OutputTuple> transcript) {
         backUpTranscript = transcript;
     }
 
-    public ArrayList<OutputTuple> getBackUpTranscript(){
+    public ArrayList<OutputTuple> getBackUpTranscript() {
         return backUpTranscript;
     }
 
-    public String cycleInputUp(String field){
+    public String cycleInputUp(String field) {
         return historyController.handleScrollUp(field);
     }
 
 
-    public String cycleInputDown(String field){
+    public String cycleInputDown(String field) {
         return historyController.handleScrollDown(field);
     }
-    public void resetHistoryLevel(){
+
+    public void resetHistoryLevel() {
         historyController.resetLevel();
     }
 
@@ -60,7 +59,8 @@ public class TranscriptManager {
     public ArrayList<OutputTuple> getTranscriptTuples() {
         return transcriptContent;
     }
-    public void setTranscriptContent(ArrayList<OutputTuple> transcript ) {
+
+    public void setTranscriptContent(ArrayList<OutputTuple> transcript) {
         transcriptContent = transcript;
     }
 
@@ -114,7 +114,6 @@ public class TranscriptManager {
             }
 
 
-
         } catch (IOException ex) {
             System.err.println("problem Reading from file");
         }
@@ -143,10 +142,6 @@ public class TranscriptManager {
         unsavedChanges = true;
 
 
-
-
-
-
     }
 
 
@@ -172,6 +167,7 @@ public class TranscriptManager {
 
     /**
      * Method to write only the commands to a file, for re-use
+     *
      * @param path the path of the document to save to
      */
     public void saveCommandsOnly(String path) {
@@ -191,6 +187,7 @@ public class TranscriptManager {
 
     /**
      * Loads a commands-only text file for execution
+     *
      * @param path the path to the file containing the commands
      * @return an array list of textual commands
      */
@@ -202,7 +199,7 @@ public class TranscriptManager {
             String str;
             ArrayList<String> commands = new ArrayList<String>();
             while ((str = input.readLine()) != null) {
-                for (String command:str.split("\n")) {
+                for (String command : str.split("\n")) {
                     commands.add(command);
                 }
             }
@@ -212,7 +209,7 @@ public class TranscriptManager {
         }
     }
 
-    public CommandHistory getCommandHistory(){
+    public CommandHistory getCommandHistory() {
         return historyController;
     }
 
