@@ -67,6 +67,9 @@ public class RootController implements Initializable {
     private ChordRecognitionTutorController ChordRecognitionTabController;
 
     @FXML
+    private ChordSpellingTutorController ChordSpellingTabController;
+
+    @FXML
     private KeyboardPaneController keyboardPaneController;
 
     @FXML
@@ -678,7 +681,34 @@ public class RootController implements Initializable {
      */
     @FXML
     private void openSpellingTutor() {
+        boolean alreadyExists = false;
+        for (Tab tab : TabPane.getTabs()) {
+            if (tab.getId().equals("spellingTutor")) {
+                TabPane.getSelectionModel().select(tab);
+                alreadyExists = true;
+            }
 
+        }
+
+        if (!alreadyExists) {
+
+            Tab spellingTab = new Tab("Chord Spelling Tutor");
+            spellingTab.setId("spellingTutor");
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/Views/ChordSpellingPane.fxml"));
+
+            try {
+                spellingTab.setContent((Node) loader.load());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            TabPane.getTabs().add(spellingTab);
+            TabPane.getSelectionModel().select(spellingTab);
+            ChordSpellingTabController = loader.getController();
+            ChordSpellingTabController.create(env);
+        }
     }
 
 
