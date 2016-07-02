@@ -1,9 +1,8 @@
 package seng302.utility.musicNotation;
 
-import seng302.data.Note;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+
+import seng302.data.Note;
 
 /**
  * Created by Jonty on 24-May-16.
@@ -11,12 +10,10 @@ import java.util.ArrayList;
 public class ChordUtil {
 
 
-
-
     /**
      * Returns the chord name for the given midi vaue.
      *
-     * @param notes ArrayList of Note values
+     * @param notes  ArrayList of Note values
      * @param octave if true, treats all Notes as their middle octave value.
      * @return Name of the given chord. e.g. C major or C minor.
      */
@@ -40,7 +37,9 @@ public class ChordUtil {
 
 
     /**
-     * Retrieves the Chord notes for a specified Note. e.g. major chord for Note C4 will return Notes C4, E4, G4.
+     * Retrieves the Chord notes for a specified Note. e.g. major chord for Note C4 will return
+     * Notes C4, E4, G4.
+     *
      * @param note Note note corresponding to the chord.
      * @param type String type of chord (either major or minor)
      * @return ArrayList of Notes corresponding to the chord.
@@ -72,7 +71,8 @@ public class ChordUtil {
     }
 
     /**
-     * Just like the getChord method except it takes an arrayList of midi values rather than Note values.
+     * Just like the getChord method except it takes an arrayList of midi values rather than Note
+     * values.
      *
      * @param type String type of chord (either major or minor)
      * @return ArrayList of Notes corresponding to the chord.

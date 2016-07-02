@@ -3,9 +3,16 @@ package seng302;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.sound.midi.*;
+import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiEvent;
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.MidiUnavailableException;
+import javax.sound.midi.Sequence;
+import javax.sound.midi.Sequencer;
+import javax.sound.midi.ShortMessage;
+import javax.sound.midi.Synthesizer;
+import javax.sound.midi.Track;
 
-import seng302.command.Semitone;
 import seng302.data.Note;
 import seng302.utility.musicNotation.RhythmHandler;
 
@@ -137,7 +144,7 @@ public class MusicPlayer {
             track.add(new MidiEvent(sm, 0));
 
             // Add all notes to the start of the sequence
-            for (Note note:notes) {
+            for (Note note : notes) {
                 addNote(track, 0, 16, note.getMidi(), 64);
             }
             playSequence(sequence);
@@ -236,7 +243,7 @@ public class MusicPlayer {
         seq.stop();
     }
 
-    public RhythmHandler getRhythmHandler(){
+    public RhythmHandler getRhythmHandler() {
         return rh;
     }
 }

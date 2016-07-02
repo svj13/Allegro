@@ -12,15 +12,15 @@ public class MusicalTermsTutorBackEnd {
     private ArrayList<Term> terms = new ArrayList<Term>();
 
 
-    public void addTerm(Term term){
+    public void addTerm(Term term) {
         terms.add(term);
     }
 
-    public ArrayList<Term> getTerms(){
+    public ArrayList<Term> getTerms() {
         return terms;
     }
 
-    public void setTerms(ArrayList<Term> t){
+    public void setTerms(ArrayList<Term> t) {
         this.terms = t;
     }
 

@@ -1,10 +1,10 @@
 package seng302;
 
-import seng302.managers.ProjectHandler;
 import seng302.gui.RootController;
+import seng302.managers.ProjectHandler;
+import seng302.managers.TranscriptManager;
 import seng302.utility.EditHistory;
 import seng302.utility.MusicalTermsTutorBackEnd;
-import seng302.managers.TranscriptManager;
 
 public class Environment {
 
@@ -79,13 +79,17 @@ public class Environment {
         return transcriptManager;
     }
 
-    public MusicalTermsTutorBackEnd getMttDataManager(){ return mttDataManager;}
+    public MusicalTermsTutorBackEnd getMttDataManager() {
+        return mttDataManager;
+    }
 
     public void setTranscriptManager(TranscriptManager t) {
         this.transcriptManager = t;
     }
 
-    public void setMttDataManager(MusicalTermsTutorBackEnd t){this.mttDataManager = t;}
+    public void setMttDataManager(MusicalTermsTutorBackEnd t) {
+        this.mttDataManager = t;
+    }
 
     public String getRecordLocation() {
         return recordLocation;
@@ -114,8 +118,6 @@ public class Environment {
     public EditHistory getEditManager() {
         return this.em;
     }
-
-
 
 
 }

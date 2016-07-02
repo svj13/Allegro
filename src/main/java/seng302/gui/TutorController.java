@@ -1,22 +1,15 @@
 package seng302.gui;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
@@ -29,7 +22,6 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import org.json.simple.JSONObject;
 import seng302.Environment;
 import seng302.managers.ProjectHandler;
 import seng302.managers.TutorManager;
@@ -87,14 +79,13 @@ public abstract class TutorController {
     /**
      * An empty constructor, required for sub-classes.
      */
-    public TutorController() {}
+    public TutorController() {
+    }
 
     /**
-     * The method called to initialise a tutor.
-     * Sets up the environment and tutor manager
-     * @param env
+     * The method called to initialise a tutor. Sets up the environment and tutor manager
      */
-    public void create(Environment env){
+    public void create(Environment env) {
         this.env = env;
         manager = new TutorManager();
         projectHandler = env.getProjectHandler();
@@ -117,8 +108,8 @@ public abstract class TutorController {
     }
 
     /**
-     * If the user chooses to re-test their self on their failed questions, this function
-     * sets up the tutoring environment for that.
+     * If the user chooses to re-test their self on their failed questions, this function sets up
+     * the tutoring environment for that.
      */
     public void retest() {
         record = new TutorRecord();
@@ -126,7 +117,7 @@ public abstract class TutorController {
         manager.clearTempIncorrect();
         Collections.shuffle(tempIncorrectResponses);
         manager.questions = tempIncorrectResponses.size();
-        for(Pair pair : tempIncorrectResponses){
+        for (Pair pair : tempIncorrectResponses) {
             HBox questionRow = generateQuestionPane(pair);
             questionRows.getChildren().add(questionRow);
             questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
@@ -139,11 +130,12 @@ public abstract class TutorController {
     abstract HBox generateQuestionPane(Pair data);
 
     /**
-     * A function for disabling a selection of buttons.
-     * For example, disable all inputs but not the play button.
+     * A function for disabling a selection of buttons. For example, disable all inputs but not the
+     * play button.
+     *
      * @param questionRow the HBox containing children to be disabled
-     * @param firstChild the index of the first object to disable
-     * @param lastChild the index at which to stop disabling items
+     * @param firstChild  the index of the first object to disable
+     * @param lastChild   the index at which to stop disabling items
      */
     public void disableButtons(HBox questionRow, int firstChild, int lastChild) {
         for (int i = firstChild; i < lastChild; i++) {
@@ -162,7 +154,7 @@ public abstract class TutorController {
         FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(textFilter);
 
-        if(env.getProjectHandler().isProject()) {
+        if (env.getProjectHandler().isProject()) {
             env.getRootController().checkProjectDirectory();
             fileChooser.setInitialDirectory(Paths.get(env.getProjectHandler().getCurrentProjectPath()).toFile());
         }
@@ -193,9 +185,9 @@ public abstract class TutorController {
     }
 
 
-
     /**
      * Styles a question row consistently
+     *
      * @param questionRow the row being styled
      */
     public void formatQuestionRow(HBox questionRow) {
@@ -224,6 +216,7 @@ public abstract class TutorController {
 
     /**
      * Formats a GUI question to indicate it was skipped
+     *
      * @param question The HBox containing info about a question
      */
     public void formatSkippedQuestion(HBox question) {
@@ -232,6 +225,7 @@ public abstract class TutorController {
 
     /**
      * Formats a GUI question to indicate it was answered correctly
+     *
      * @param question The HBox containing info about a question
      */
     public void formatCorrectQuestion(HBox question) {
@@ -240,6 +234,7 @@ public abstract class TutorController {
 
     /**
      * Formats a GUI question to indicate it was answered incorrectly
+     *
      * @param question The HBox containing info about a question
      */
     public void formatIncorrectQuestion(HBox question) {
@@ -248,6 +243,7 @@ public abstract class TutorController {
 
     /**
      * Formats a GUI question to indicate it was answered partially correctly
+     *
      * @param question The HBox containing info about a question
      */
     public void formatPartiallyCorrectQuestion(HBox question) {
@@ -256,6 +252,7 @@ public abstract class TutorController {
 
     /**
      * Returns a new, hidden label containing the correct answer to a question.
+     *
      * @param answerToShow The correct answer to the question
      * @return A new hidden label
      */
@@ -268,6 +265,7 @@ public abstract class TutorController {
 
     /**
      * Consistently styles all play buttons
+     *
      * @param play the button to be styled
      */
     public void stylePlayButton(Button play) {
@@ -277,6 +275,7 @@ public abstract class TutorController {
 
     /**
      * Consistently styles all skip buttons
+     *
      * @param skip the button to be styled
      */
     public void styleSkipButton(Button skip) {
@@ -286,6 +285,7 @@ public abstract class TutorController {
 
     /**
      * Consistently styles all skip toggle buttons
+     *
      * @param skip the toggle button to be styled
      */
     public void styleSkipToggleButton(ToggleButton skip) {

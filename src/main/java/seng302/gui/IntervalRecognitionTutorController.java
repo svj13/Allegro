@@ -1,12 +1,11 @@
 package seng302.gui;
 
 import org.controlsfx.control.RangeSlider;
-import org.controlsfx.control.spreadsheet.StringConverterWithFormat;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -22,7 +21,6 @@ import javafx.util.Pair;
 import seng302.Environment;
 import seng302.data.Interval;
 import seng302.data.Note;
-import seng302.data.Term;
 import seng302.utility.NoteRangeSlider;
 import seng302.utility.TutorRecord;
 
@@ -65,8 +63,8 @@ public class IntervalRecognitionTutorController extends TutorController {
     }
 
     /**
-     * Run when the user clicks the "Go" button.
-     * Generates and displays a new set of questions.
+     * Run when the user clicks the "Go" button. Generates and displays a new set of questions.
+     *
      * @param event The mouse click that initiated the method.
      */
     public void goAction(ActionEvent event) {
@@ -75,7 +73,7 @@ public class IntervalRecognitionTutorController extends TutorController {
         record = new TutorRecord();
         manager.resetEverything();
         manager.questions = selectedQuestions;
-        if (manager.questions >= 1){
+        if (manager.questions >= 1) {
             // Run the tutor
             questionRows.getChildren().clear();
             for (int i = 0; i < manager.questions; i++) {
@@ -96,6 +94,7 @@ public class IntervalRecognitionTutorController extends TutorController {
 
     /**
      * This function generates information for a new question, and displays it in the GUI
+     *
      * @return an HBox object containing the GUI for one question
      */
     private HBox setUpQuestion() {
@@ -110,6 +109,7 @@ public class IntervalRecognitionTutorController extends TutorController {
 
     /**
      * Creates a GUI section for one question.
+     *
      * @return a JavaFX HBox containing controls and info about one question.
      */
     public HBox generateQuestionPane(Pair intervalAndNote) {
@@ -177,7 +177,7 @@ public class IntervalRecognitionTutorController extends TutorController {
                 }
                 manager.answered += 1;
                 // Sets up the question to be saved to the record
-                String[] question = new String[] {
+                String[] question = new String[]{
                         String.format("Interval between %s and %s", firstNote.getNote(), secondNote.getNote()),
                         options.getValue(),
                         Boolean.toString(options.getValue().equals(thisInterval.getName()))
@@ -204,6 +204,7 @@ public class IntervalRecognitionTutorController extends TutorController {
 
     /**
      * Randomly selects a note for the interval.
+     *
      * @param numSemitones The generated interval, so the second note is not outside correct range
      * @return A Note object, for playing an interval.
      */
@@ -215,8 +216,9 @@ public class IntervalRecognitionTutorController extends TutorController {
 
     /**
      * Calculates the second note of an interval based on the first.
+     *
      * @param startingNote The first note of an interval
-     * @param interval The number of semitones in an interval
+     * @param interval     The number of semitones in an interval
      * @return The second note of the interval
      */
     private Note getFinalNote(Note startingNote, Interval interval) {
@@ -225,6 +227,7 @@ public class IntervalRecognitionTutorController extends TutorController {
 
     /**
      * Randomly selects an interval from the approved list
+     *
      * @return the randomly selected interval
      */
     private Interval generateInterval() {
@@ -235,22 +238,21 @@ public class IntervalRecognitionTutorController extends TutorController {
 
     /**
      * Creates a JavaFX combo box containing the lexical names of all intervals.
+     *
      * @return a combo box of interval options
      */
     private ComboBox<String> generateChoices1() {
         ComboBox<String> options = new ComboBox<String>();
-        for (Interval interval:Interval.intervals) {
+        for (Interval interval : Interval.intervals) {
             options.getItems().add(interval.getName());
         }
         return options;
     }
 
 
-
     /**
-     * Generates and populates The Origin combo box
-     * It generates the options in a range around the correct answer
-     * @return
+     * Generates and populates The Origin combo box It generates the options in a range around the
+     * correct answer
      */
     private ComboBox<String> generateChoices(Interval thisInterval) {
         Random rand = new Random();
@@ -266,33 +268,33 @@ public class IntervalRecognitionTutorController extends TutorController {
         ArrayList<String> optionContent = new ArrayList<String>();
         optionContent.add(thisInterval.getName());
 
-        while(optionContent.size() < 8) {
+        while (optionContent.size() < 8) {
 
-            if(tooHigh == true){
+            if (tooHigh == true) {
                 higher = 0;
-            }else if(tooLow == true){
+            } else if (tooLow == true) {
                 higher = 1;
-            }else{
+            } else {
 
                 higher = rand.nextInt(1);
             }
 
             if (higher == 1) {
-                if(highSemi <= 24){
+                if (highSemi <= 24) {
                     enharmonic = Interval.lookupBySemitones(highSemi);
 
                     optionContent.add(enharmonic.get(rand.nextInt(enharmonic.size())).getName());
                     highSemi += 1;
-                }else{
+                } else {
                     tooHigh = true;
                 }
 
-            }else{
-                if(lowSemi >= 0){
+            } else {
+                if (lowSemi >= 0) {
                     enharmonic = Interval.lookupBySemitones(lowSemi);
                     optionContent.add(enharmonic.get(rand.nextInt(enharmonic.size())).getName());
                     lowSemi -= 1;
-                }else{
+                } else {
                     tooLow = true;
                 }
             }
@@ -300,7 +302,7 @@ public class IntervalRecognitionTutorController extends TutorController {
         }
 
         Collections.shuffle(optionContent);
-        for(String interval: optionContent){
+        for (String interval : optionContent) {
             options.getItems().add(interval);
         }
         return options;
@@ -325,7 +327,7 @@ public class IntervalRecognitionTutorController extends TutorController {
                 manager.questions, manager.skipped,
                 manager.correct, manager.incorrect, userScore);
 
-        if(projectHandler.currentProjectPath != null) {
+        if (projectHandler.currentProjectPath != null) {
             projectHandler.saveSessionStat("interval", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
             projectHandler.saveCurrentProject();
             outputText += "\nSession auto saved.";
@@ -339,7 +341,7 @@ public class IntervalRecognitionTutorController extends TutorController {
         questionRows.getChildren().clear();
 
         Button retestBtn = new Button("Retest");
-        Button clearBtn  = new Button("Clear");
+        Button clearBtn = new Button("Clear");
         final Button saveBtn = new Button("Save");
 
         clearBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -371,9 +373,9 @@ public class IntervalRecognitionTutorController extends TutorController {
             buttons.getChildren().setAll(clearBtn, saveBtn);
         }
 
-        buttons.setMargin(retestBtn, new Insets(10,10,10,10));
-        buttons.setMargin(clearBtn, new Insets(10,10,10,10));
-        buttons.setMargin(saveBtn, new Insets(10,10,10,10));
+        buttons.setMargin(retestBtn, new Insets(10, 10, 10, 10));
+        buttons.setMargin(clearBtn, new Insets(10, 10, 10, 10));
+        buttons.setMargin(saveBtn, new Insets(10, 10, 10, 10));
         // Clear the current session
         manager.resetStats();
     }

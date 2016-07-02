@@ -32,7 +32,7 @@ import seng302.utility.musicNotation.MidiNotePair;
 /**
  * Created by jat157 on 20/03/16.
  */
-public class PitchComparisonTutorController extends TutorController{
+public class PitchComparisonTutorController extends TutorController {
 
     @FXML
     ComboBox<MidiNotePair> cbxLower;
@@ -90,7 +90,7 @@ public class PitchComparisonTutorController extends TutorController{
                 int lowerPitchBound = ((Double) rangeSlider.getLowValue()).intValue();
                 int upperPitchBound = ((Double) rangeSlider.getHighValue()).intValue();
                 int pitchRange = upperPitchBound - lowerPitchBound;
-                String midiOne =  String.valueOf(lowerPitchBound + rand.nextInt(pitchRange + 1));
+                String midiOne = String.valueOf(lowerPitchBound + rand.nextInt(pitchRange + 1));
                 String midiTwo = String.valueOf(lowerPitchBound + rand.nextInt(pitchRange + 1));
 
                 Pair<String, String> midis = new Pair<String, String>(midiOne, midiTwo);
@@ -127,13 +127,15 @@ public class PitchComparisonTutorController extends TutorController{
     }
 
     /**
-     * Changes the questionPane after the user has answered the question (with response to their answer).
+     * Changes the questionPane after the user has answered the question (with response to their
+     * answer).
+     *
      * @param row Which questionPane the question is from.
-     * @param m1 The first note being compared.
-     * @param m2 the second note being compared.
+     * @param m1  The first note being compared.
+     * @param m2  the second note being compared.
      * @return correctChoice What the answer is.
      */
-    private int questionResponse(HBox row, String m1, String m2){
+    private int questionResponse(HBox row, String m1, String m2) {
 
         Note note1 = Note.lookup(m1);
         Note note2 = Note.lookup(m2);
@@ -191,26 +193,25 @@ public class PitchComparisonTutorController extends TutorController{
             env.getRootController().setTabTitle("pitchTutor", true);
         }
 
-    if(correctChoice == 1) {
-        formatCorrectQuestion(row);
-        manager.answered += 1;
-    } else if (correctChoice == 2) formatSkippedQuestion(row);
-    else {
-        formatIncorrectQuestion(row);
-        manager.answered += 1;
-    }
-    manager.add(new Pair<String, String>(note1.getNote(), note2.getNote()), correctChoice);
+        if (correctChoice == 1) {
+            formatCorrectQuestion(row);
+            manager.answered += 1;
+        } else if (correctChoice == 2) formatSkippedQuestion(row);
+        else {
+            formatIncorrectQuestion(row);
+            manager.answered += 1;
+        }
+        manager.add(new Pair<String, String>(note1.getNote(), note2.getNote()), correctChoice);
 
         if (manager.answered == manager.questions) {
             finished();
         }
 
-    return correctChoice;
+        return correctChoice;
     }
 
     /**
      * Constructs the question panels.
-     * @return
      */
     public HBox generateQuestionPane(Pair midis) {
 
@@ -308,9 +309,10 @@ public class PitchComparisonTutorController extends TutorController{
 
     /**
      * Note comparison
+     *
      * @param isHigher whether the user thinks the second note is higher or lower.
-     * @param note1 the first note being compared.
-     * @param note2 the second note being compared.
+     * @param note1    the first note being compared.
+     * @param note2    the second note being compared.
      * @return boolean if the user was correct or incorrect.
      */
     private boolean noteComparison(boolean isHigher, Note note1, Note note2) {
@@ -339,10 +341,8 @@ public class PitchComparisonTutorController extends TutorController{
     }
 
 
-
     /**
      * Key event binder. No functionality at this point.
-     * @param event
      */
     @FXML
     public void handleKeyPressed(KeyEvent event) {
@@ -377,7 +377,7 @@ public class PitchComparisonTutorController extends TutorController{
 
         record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
 
-        if(projectHandler.currentProjectPath != null) {
+        if (projectHandler.currentProjectPath != null) {
 
             projectHandler.saveSessionStat("pitch", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
             projectHandler.saveCurrentProject();
@@ -392,7 +392,7 @@ public class PitchComparisonTutorController extends TutorController{
         questionRows.getChildren().clear();
 
         Button retestBtn = new Button("Retest");
-        Button clearBtn  = new Button("Clear");
+        Button clearBtn = new Button("Clear");
         final Button saveBtn = new Button("Save");
 
         clearBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -427,12 +427,9 @@ public class PitchComparisonTutorController extends TutorController{
             buttons.getChildren().setAll(clearBtn, saveBtn);
         }
 
-        buttons.setMargin(retestBtn, new Insets(10,10,10,10));
-        buttons.setMargin(clearBtn, new Insets(10,10,10,10));
-        buttons.setMargin(saveBtn, new Insets(10,10,10,10));
-
-
-
+        buttons.setMargin(retestBtn, new Insets(10, 10, 10, 10));
+        buttons.setMargin(clearBtn, new Insets(10, 10, 10, 10));
+        buttons.setMargin(saveBtn, new Insets(10, 10, 10, 10));
 
 
         // Clear the current session

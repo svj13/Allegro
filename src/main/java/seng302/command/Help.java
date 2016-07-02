@@ -66,13 +66,13 @@ public class Help implements Command {
 
         } else if (keyword.equals("set rhythm")) {
             result = "Changes the rhythm note timings, syntax: set rhythm 'setting'. \n" +
-                    "Default (no swing, half crotchet duration): 'straight'\n"+
+                    "Default (no swing, half crotchet duration): 'straight'\n" +
                     "Preset swing settings:\n" +
-                        "\t'straight' - regular 1/2 crotchet timing.\n\t'light' - swing 5/8 3/8 crotchet timings.\n" +
-                        "\t'medium' - swing 2/3 1/3 crotchet timings.\n\t'heavy' - swing 3/4 1/4 crotchet timings.\n"+
+                    "\t'straight' - regular 1/2 crotchet timing.\n\t'light' - swing 5/8 3/8 crotchet timings.\n" +
+                    "\t'medium' - swing 2/3 1/3 crotchet timings.\n\t'heavy' - swing 3/4 1/4 crotchet timings.\n" +
                     "Custom setting:\n\tCrotchet duration fractions e.g. 'set rhythm 1/4 1/2 1/4' where every fraction" +
                     "is seperated by a space."
-                    ;
+            ;
 
         } else if (keyword.equals("rhythm")) {
             result = "Returns the current rhythm beat divisions. The default rhythm is set to 1/2," +
@@ -119,14 +119,12 @@ public class Help implements Command {
             result = "When followed by either a number of sharps or flats (i.e. 2#, 7b) or " +
                     "a specific list of notes (i.e. F#, C#), will return the scales whose " +
                     "key signatures contain that information";
-        }
-        else if(keyword.equals("find chord") || keyword.equals("find chords all")){
+        } else if (keyword.equals("find chord") || keyword.equals("find chords all")) {
             result = "Finds a chord which matches the pattern of 3 or 4 provided notes.\n" +
                     "Can use 'all' extender to match inversion enharmonic chords.\n" +
                     " \texample: 'find chord F A C' returns F MAJOR.\n" +
                     "\t and 'find chord all C F A' also returns F MAJOR";
-        }
-        else if (keyword.equals("")) {
+        } else if (keyword.equals("")) {
             result = "" +
                     "\nadd musical term:\nWhen followed by a musical term in the format of 'name; origin; " +
                     "category; definition', will add the musical term to the Musical Term " +
@@ -180,7 +178,7 @@ public class Help implements Command {
                     "set tempo:\nWhen followed by a valid tempo (20-300BPM) will change the tempo to that value. \n\n" +
                     "tempo:\nReturns the current tempo. When the program is launched, it will have" +
                     " a default value of 120BPM. \n\n" +
-                    "rhythm: Returns the current beat timing division. Default timing of 1/2 (half crotchet).\n\n"  +
+                    "rhythm: Returns the current beat timing division. Default timing of 1/2 (half crotchet).\n\n" +
                     "set rhythm:\nSets the rhythm timing to the specified beat divisions. " +
                     "See 'help set rhythm' for more info.\n\n" +
                     "version:\nReturns the current version number of the application. \n\n" +

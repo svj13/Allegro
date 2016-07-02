@@ -1,12 +1,12 @@
 package seng302.utility;
 
+import org.json.simple.JSONObject;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-
-import org.json.simple.JSONObject;
 
 /**
  * A record that holds the information of one tutoring session
@@ -20,7 +20,6 @@ public class TutorRecord {
     String tutorRecordStats = "";
 
 
-
     /**
      * Stores all the information to save as text
      */
@@ -29,6 +28,7 @@ public class TutorRecord {
 
     /**
      * Adds a question and answer to the record
+     *
      * @param questionSet A list of strings containing information about a single question
      */
     public String addQuestionAnswer(String[] questionSet) {
@@ -48,6 +48,7 @@ public class TutorRecord {
 
     /**
      * Adds a question to the record that the user skipped
+     *
      * @param question A list of strings containing the question and correct answer.
      */
     public String addSkippedQuestion(String[] question) {
@@ -67,7 +68,8 @@ public class TutorRecord {
 
     /**
      * Sets the user's score, etc
-     * @param questionsAnsweredCorrectly The number of questions the user answered correctly
+     *
+     * @param questionsAnsweredCorrectly   The number of questions the user answered correctly
      * @param questionsAnsweredIncorrectly The number of questions the user answered incorrectly
      */
     public String setStats(int questionsAnsweredCorrectly, int questionsAnsweredIncorrectly, float score) {
@@ -81,7 +83,7 @@ public class TutorRecord {
     }
 
 
-    private void makeOveralTutorObject(){
+    private void makeOveralTutorObject() {
         overalTutorSessionObject.put("Questions", tutorRecordList);
         overalTutorSessionObject.put("SessionStats", tutorRecordStats);
         overalTutorObject.put("Session_" + new Date().toString(), overalTutorSessionObject);
@@ -90,10 +92,11 @@ public class TutorRecord {
 
     /**
      * Saves a tutoring record to a text file
+     *
      * @param recordLocation Where to save the the record
      */
     public JSONObject writeToFile(String recordLocation) {
-        if(overalTutorObject.isEmpty()){
+        if (overalTutorObject.isEmpty()) {
 
             makeOveralTutorObject();
         }

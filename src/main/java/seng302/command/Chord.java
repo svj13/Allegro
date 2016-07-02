@@ -11,8 +11,8 @@ import seng302.utility.musicNotation.ChordUtil;
 import seng302.utility.musicNotation.OctaveUtil;
 
 /**
- * Created by Sarah on 11/05/2016.
- * ChordUtil is used to obtain the notes required to make up a chord
+ * Created by Sarah on 11/05/2016. ChordUtil is used to obtain the notes required to make up a
+ * chord
  */
 public class Chord implements Command {
     private ArrayList<Note> chord = new ArrayList<Note>();
@@ -28,7 +28,9 @@ public class Chord implements Command {
 
     /**
      * Creates a chord command.
-     * @param chord A map that contains the chord's starting note and scale type - major or minor.
+     *
+     * @param chord      A map that contains the chord's starting note and scale type - major or
+     *                   minor.
      * @param outputType Whether the chord is to be displayed or played.
      */
     public Chord(HashMap<String, String> chord, String outputType) {
@@ -50,7 +52,7 @@ public class Chord implements Command {
         this.chord = ChordUtil.getChord(note, type);
         //checking to see if the array is set to null (i.e notes are invalid)
         if (this.chord == null) {
-            this.result = "Invalid chord: " + startNote + ' ' + type + ". Exceeds octave range." ;
+            this.result = "Invalid chord: " + startNote + ' ' + type + ". Exceeds octave range.";
         } else {
             this.result = null;
         }
@@ -60,7 +62,7 @@ public class Chord implements Command {
             if (chord.get("playStyle").equals("arpeggio")) {
                 this.arpeggioFlag = true;
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             this.arpeggioFlag = false;
         }
 
@@ -69,7 +71,7 @@ public class Chord implements Command {
     /**
      * Updates by two letters at once, as we are skipping two places ahead in the scale.
      */
-    private  void updateLetter() {
+    private void updateLetter() {
         int index = "ABCDEFG".indexOf(currentLetter);
         if (index == 5) {
             index = -2;
@@ -81,13 +83,13 @@ public class Chord implements Command {
     }
 
 
-
     public float getLength(Environment env) {
         return 0;
     }
 
     /**
      * Prints the chord to the given environment
+     *
      * @param env The environment to print to
      */
     private void showChord(Environment env) {
@@ -105,6 +107,7 @@ public class Chord implements Command {
 
     /**
      * Plays the chord and prints a message
+     *
      * @param env The environment to play in
      */
     private void playChord(Environment env) {

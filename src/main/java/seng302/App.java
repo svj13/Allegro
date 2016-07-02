@@ -5,14 +5,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import seng302.gui.RootController;
 
 
 public class App extends Application {
-    Stage primaryStage ;
+    Stage primaryStage;
     Environment env;
 
     public static void main(String[] args) {

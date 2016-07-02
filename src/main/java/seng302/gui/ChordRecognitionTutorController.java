@@ -3,8 +3,6 @@ package seng302.gui;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
-import java.util.List;
 import java.util.Random;
 
 import javafx.event.ActionEvent;
@@ -18,23 +16,15 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Pair;
 import seng302.Environment;
-import seng302.MusicPlayer;
-import seng302.command.Chord;
-import seng302.command.Command;
-import seng302.command.Tempo;
 import seng302.data.Note;
 import seng302.utility.TutorRecord;
 import seng302.utility.musicNotation.ChordUtil;
 
 
-import java.util.Collections;
-
-
 /**
- * Created by Elliot on 16/05/16
- * Controller class for the chord recognition tutor.
+ * Created by Elliot on 16/05/16 Controller class for the chord recognition tutor.
  */
-public class ChordRecognitionTutorController extends TutorController{
+public class ChordRecognitionTutorController extends TutorController {
     @FXML
     HBox settings;
 
@@ -74,7 +64,6 @@ public class ChordRecognitionTutorController extends TutorController{
 
     /**
      * Initialises certain GUI elements
-     * @param env
      */
     public void create(Environment env) {
         super.create(env);
@@ -82,13 +71,14 @@ public class ChordRecognitionTutorController extends TutorController{
         rand = new Random();
         playChords.getItems().addAll("Unison", "Arpeggio", "Both");
         playChords.getSelectionModel().selectFirst();
-        octaves.getItems().addAll(1,2,3,4);
+        octaves.getItems().addAll(1, 2, 3, 4);
         octaves.getSelectionModel().selectFirst();
 
     }
 
     /**
      * Prepares a new question
+     *
      * @return a question pane containing the question information
      */
     public HBox setUpQuestion() {
@@ -106,6 +96,7 @@ public class ChordRecognitionTutorController extends TutorController{
 
     /**
      * Generates a note in the octave of middle C
+     *
      * @return the random note
      */
     public Note getRandomNote() {
@@ -138,8 +129,8 @@ public class ChordRecognitionTutorController extends TutorController{
 
     /**
      * Creates a GUI pane for a single question
+     *
      * @param noteAndChord pair containing first note and type of scale to play
-     * @return
      */
     public HBox generateQuestionPane(Pair noteAndChord) {
         final Pair<Note, String> noteAndChordType = noteAndChord;
@@ -223,6 +214,7 @@ public class ChordRecognitionTutorController extends TutorController{
 
     /**
      * Creates a JavaFX combo box containing the lexical names of all scales.
+     *
      * @return a combo box of scale options
      */
     private ComboBox<String> generateChoices() {
@@ -235,9 +227,10 @@ public class ChordRecognitionTutorController extends TutorController{
 
     /**
      * Reacts accordingly to a user's input
-     * @param userAnswer The user's selection, as text
+     *
+     * @param userAnswer    The user's selection, as text
      * @param correctAnswer The correct chord, as text
-     * @param questionRow The HBox containing GUI question data
+     * @param questionRow   The HBox containing GUI question data
      */
     public void handleQuestionAnswer(String userAnswer, Pair correctAnswer, HBox questionRow) {
         manager.answered += 1;
@@ -290,7 +283,7 @@ public class ChordRecognitionTutorController extends TutorController{
                         "This gives a score of %.2f percent.",
                 manager.questions, manager.skipped,
                 manager.correct, manager.incorrect, userScore);
-        if(projectHandler.currentProjectPath != null) {
+        if (projectHandler.currentProjectPath != null) {
             projectHandler.saveSessionStat("chord", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
             projectHandler.saveCurrentProject();
             outputText += "\nSession auto saved.";
@@ -304,7 +297,7 @@ public class ChordRecognitionTutorController extends TutorController{
         questionRows.getChildren().clear();
 
         Button retestBtn = new Button("Retest");
-        Button clearBtn  = new Button("Clear");
+        Button clearBtn = new Button("Clear");
         Button saveBtn = new Button("Save");
 
         clearBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -338,9 +331,9 @@ public class ChordRecognitionTutorController extends TutorController{
             buttons.getChildren().setAll(clearBtn, saveBtn);
         }
 
-        buttons.setMargin(retestBtn, new Insets(10,10,10,10));
-        buttons.setMargin(clearBtn, new Insets(10,10,10,10));
-        buttons.setMargin(saveBtn, new Insets(10,10,10,10));
+        buttons.setMargin(retestBtn, new Insets(10, 10, 10, 10));
+        buttons.setMargin(clearBtn, new Insets(10, 10, 10, 10));
+        buttons.setMargin(saveBtn, new Insets(10, 10, 10, 10));
         // Clear the current session
         manager.resetStats();
     }

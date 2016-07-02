@@ -2,8 +2,6 @@ package seng302.gui;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -20,7 +18,6 @@ import javafx.scene.control.ToolBar;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import seng302.Environment;
 import seng302.command.Command;
@@ -167,7 +164,7 @@ public class TranscriptPaneController {
 
     }
 
-    public void setTranscriptPane(String text){
+    public void setTranscriptPane(String text) {
         txtTranscript.setText(text);
     }
 
@@ -296,7 +293,6 @@ public class TranscriptPaneController {
     public void giveFocus() {
         txtCommand.requestFocus();
     }
-
 
 
 }

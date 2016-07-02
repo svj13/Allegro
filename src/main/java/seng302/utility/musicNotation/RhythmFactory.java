@@ -1,14 +1,8 @@
 package seng302.utility.musicNotation;
 
-import java.util.Arrays;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
- * Created by Jonty on 18-May-16.
- * <p>
- * Used to perform rhythm related transformations such as converting a float to a fraction, or converting a fraction
- * string back to floating point values.
+ * Created by Jonty on 18-May-16. <p> Used to perform rhythm related transformations such as
+ * converting a float to a fraction, or converting a fraction string back to floating point values.
  */
 
 public class RhythmFactory {
@@ -38,8 +32,8 @@ public class RhythmFactory {
     }
 
     /**
-     * Takes a string which includes a sequence of fractions, and returns an array of decimal floats extracted from
-     * the input string.
+     * Takes a string which includes a sequence of fractions, and returns an array of decimal floats
+     * extracted from the input string.
      *
      * @param fracString string contained a sequence of fractions
      * @return float array of converted fractions

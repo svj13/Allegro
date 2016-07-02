@@ -2,8 +2,8 @@ package seng302.gui;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.Random;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -21,7 +21,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.util.Pair;
 import seng302.Environment;
-
 import seng302.data.Term;
 import seng302.utility.MusicalTermsTutorBackEnd;
 import seng302.utility.TutorRecord;
@@ -31,7 +30,7 @@ import seng302.utility.TutorRecord;
  */
 
 
-public class MusicalTermsTutorController extends TutorController{
+public class MusicalTermsTutorController extends TutorController {
 
     @FXML
     VBox questionRows;
@@ -43,13 +42,13 @@ public class MusicalTermsTutorController extends TutorController{
     Button btnGo;
 
     /**
-    Stores the terms that have been saved
+     * Stores the terms that have been saved
      */
     MusicalTermsTutorBackEnd dataManager;
 
     Random rand;
 
-   ArrayList<Term> termsBeingViewed;
+    ArrayList<Term> termsBeingViewed;
 
 
     //Number of terms to choose from
@@ -57,7 +56,6 @@ public class MusicalTermsTutorController extends TutorController{
 
     /**
      * sets up the class and initialises the main variables
-     * @param env
      */
     public void create(Environment env) {
         super.create(env);
@@ -68,8 +66,8 @@ public class MusicalTermsTutorController extends TutorController{
     }
 
     /**
-     * Run when the user clicks the "Go" button.
-     * Generates and displays a new set of questions.
+     * Run when the user clicks the "Go" button. Generates and displays a new set of questions.
+     *
      * @param event The mouse click that initiated the method.
      */
     @FXML
@@ -83,15 +81,15 @@ public class MusicalTermsTutorController extends TutorController{
             termsBeingViewed = new ArrayList<Term>(dataManager.getTerms());
             // Run the tutor
             questionRows.getChildren().clear();
-            if(termsBeingViewed.size() < 1){
+            if (termsBeingViewed.size() < 1) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setHeaderText("No Musical Terms Added");
                 alert.setContentText("There are no terms to be tested on. \nTo add them use the 'add musical term' command");
                 alert.showAndWait();
 
-            }else {//if there are terms to display
+            } else {//if there are terms to display
                 for (int i = 0; i < manager.questions; i++) {
-                    if (termsBeingViewed.size() < 1){
+                    if (termsBeingViewed.size() < 1) {
                         termsBeingViewed = new ArrayList<Term>(dataManager.getTerms());
                     }
                     int randomNumber = rand.nextInt(termsBeingViewed.size());
@@ -116,7 +114,6 @@ public class MusicalTermsTutorController extends TutorController{
 
     /**
      * Generates and populates The Origin combo box
-     * @return
      */
     private ComboBox<String> generateOriginChoices(Term currentTerm) {
         Random rand = new Random();
@@ -125,27 +122,26 @@ public class MusicalTermsTutorController extends TutorController{
         Collections.shuffle(dataManager.getTerms());
         int i = 0;
         Boolean alreadyAdded = false;
-        while(options.getItems().size() < 5 && i < dataManager.getTerms().size()) {
-            if(correctPosition == i && alreadyAdded == false) {
+        while (options.getItems().size() < 5 && i < dataManager.getTerms().size()) {
+            if (correctPosition == i && alreadyAdded == false) {
                 if (!(options.getItems().contains(currentTerm.getMusicalTermOrigin()))) {
                     options.getItems().add(currentTerm.getMusicalTermOrigin());
                 }
                 i -= 1;
                 alreadyAdded = true;
 
-            }else{
+            } else {
                 if (!(options.getItems().contains(dataManager.getTerms().get(i).getMusicalTermOrigin()))) {
                     options.getItems().add(dataManager.getTerms().get(i).getMusicalTermOrigin());
                 }
             }
-            i+=1;
+            i += 1;
         }
         return options;
     }
 
     /**
      * Generates and populates The category combo box
-     * @return
      */
     private ComboBox<String> generateCategoryChoices(Term currentTerm) {
         Random rand = new Random();
@@ -154,27 +150,26 @@ public class MusicalTermsTutorController extends TutorController{
         Collections.shuffle(dataManager.getTerms());
         int i = 0;
         Boolean alreadyAdded = false;
-        while(options.getItems().size() < 5 && i < dataManager.getTerms().size()) {
-            if(correctPosition == i && alreadyAdded == false) {
+        while (options.getItems().size() < 5 && i < dataManager.getTerms().size()) {
+            if (correctPosition == i && alreadyAdded == false) {
                 if (!(options.getItems().contains(currentTerm.getMusicalTermCategory()))) {
                     options.getItems().add(currentTerm.getMusicalTermCategory());
                 }
                 i -= 1;
                 alreadyAdded = true;
 
-            }else{
+            } else {
                 if (!(options.getItems().contains(dataManager.getTerms().get(i).getMusicalTermCategory()))) {
                     options.getItems().add(dataManager.getTerms().get(i).getMusicalTermCategory());
                 }
             }
-            i+=1;
+            i += 1;
         }
         return options;
     }
 
     /**
      * Generates and populates The definition combo box
-     * @return
      */
     private ComboBox<String> generateDefinitionChoices(Term currentTerm) {
         Random rand = new Random();
@@ -183,20 +178,20 @@ public class MusicalTermsTutorController extends TutorController{
         Collections.shuffle(dataManager.getTerms());
         int i = 0;
         Boolean alreadyAdded = false;
-        while(options.getItems().size() < 5 && i < dataManager.getTerms().size()) {
-            if(correctPosition == i && alreadyAdded == false) {
+        while (options.getItems().size() < 5 && i < dataManager.getTerms().size()) {
+            if (correctPosition == i && alreadyAdded == false) {
                 if (!(options.getItems().contains(currentTerm.getMusicalTermDefinition()))) {
                     options.getItems().add(currentTerm.getMusicalTermDefinition());
                 }
                 i -= 1;
                 alreadyAdded = true;
 
-            }else{
+            } else {
                 if (!(options.getItems().contains(dataManager.getTerms().get(i).getMusicalTermDefinition()))) {
                     options.getItems().add(dataManager.getTerms().get(i).getMusicalTermDefinition());
                 }
             }
-            i+=1;
+            i += 1;
         }
         return options;
     }
@@ -234,7 +229,7 @@ public class MusicalTermsTutorController extends TutorController{
 
                 } else {
                     originOptions.setStyle("-fx-background-color: red");
-                    ((HBox)((VBox)(rowPane.getChildren().get(0))).getChildren().get(1)).getChildren().add(new Label(currentTerm.getMusicalTermOrigin()));
+                    ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(1)).getChildren().add(new Label(currentTerm.getMusicalTermOrigin()));
                 }
 
                 // Adds to record
@@ -248,7 +243,7 @@ public class MusicalTermsTutorController extends TutorController{
 
                 styleAnswer(rowPane, currentTerm, originOptions, categoryOptions, definitionOptions);
 
-                ((HBox)((VBox)(rowPane.getChildren().get(0))).getChildren().get(1)).getChildren().get(1).setDisable(true);
+                ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(1)).getChildren().get(1).setDisable(true);
                 if (manager.answered == manager.questions) {
                     finished();
                 }
@@ -263,7 +258,7 @@ public class MusicalTermsTutorController extends TutorController{
                     categoryOptions.setStyle("-fx-background-color: green");
                 } else {
                     categoryOptions.setStyle("-fx-background-color: red");
-                    ((HBox)((VBox)(rowPane.getChildren().get(0))).getChildren().get(2)).getChildren().add(new Label(currentTerm.getMusicalTermCategory()));
+                    ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(2)).getChildren().add(new Label(currentTerm.getMusicalTermCategory()));
                 }
 
                 // Adds to record
@@ -277,7 +272,7 @@ public class MusicalTermsTutorController extends TutorController{
 
                 styleAnswer(rowPane, currentTerm, categoryOptions, definitionOptions, originOptions);
 
-                ((HBox)((VBox)(rowPane.getChildren().get(0))).getChildren().get(2)).getChildren().get(1).setDisable(true);
+                ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(2)).getChildren().get(1).setDisable(true);
 
                 if (manager.answered == manager.questions) {
                     finished();
@@ -294,7 +289,7 @@ public class MusicalTermsTutorController extends TutorController{
                     definitionOptions.setStyle("-fx-background-color: green");
                 } else {
                     definitionOptions.setStyle("-fx-background-color: red");
-                    ((HBox)((VBox)(rowPane.getChildren().get(0))).getChildren().get(3)).getChildren().add(new Label(currentTerm.getMusicalTermDefinition()));
+                    ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(3)).getChildren().add(new Label(currentTerm.getMusicalTermDefinition()));
                 }
 
                 // Adds to record
@@ -308,7 +303,7 @@ public class MusicalTermsTutorController extends TutorController{
 
                 styleAnswer(rowPane, currentTerm, definitionOptions, categoryOptions, originOptions);
 
-                ((HBox)((VBox)(rowPane.getChildren().get(0))).getChildren().get(3)).getChildren().get(1).setDisable(true);
+                ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(3)).getChildren().get(1).setDisable(true);
 
                 if (manager.answered == manager.questions) {
                     finished();
@@ -329,11 +324,11 @@ public class MusicalTermsTutorController extends TutorController{
 
                 formatSkippedQuestion(rowPane);
                 manager.questions -= 1;
-                manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 2);
-                ((HBox)((VBox)(rowPane.getChildren().get(0))).getChildren().get(1)).getChildren().get(1).setDisable(true);
-                ((HBox)((VBox)(rowPane.getChildren().get(0))).getChildren().get(2)).getChildren().get(1).setDisable(true);
-                ((HBox)((VBox)(rowPane.getChildren().get(0))).getChildren().get(3)).getChildren().get(1).setDisable(true);
-                ((VBox)(rowPane.getChildren().get(0))).getChildren().get(4).setDisable(true); //disable skip
+                manager.add(new Pair(currentTerm.getMusicalTermName(), currentTerm), 2);
+                ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(1)).getChildren().get(1).setDisable(true);
+                ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(2)).getChildren().get(1).setDisable(true);
+                ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(3)).getChildren().get(1).setDisable(true);
+                ((VBox) (rowPane.getChildren().get(0))).getChildren().get(4).setDisable(true); //disable skip
                 if (manager.answered == manager.questions) {
                     finished();
                 }
@@ -377,22 +372,22 @@ public class MusicalTermsTutorController extends TutorController{
      * If all parts of a question has been answered then the border is coloured
      */
     private void styleAnswer(HBox rowPane, Term currentTerm, ComboBox currentSelection, ComboBox secondBox, ComboBox thirdBox) {
-        if(secondBox.getValue() != null && thirdBox.getValue()!= null){
-            if(secondBox.getStyle() == "-fx-background-color: red" && thirdBox.getStyle() == "-fx-background-color: red" && currentSelection.getStyle() == "-fx-background-color: red" ){
+        if (secondBox.getValue() != null && thirdBox.getValue() != null) {
+            if (secondBox.getStyle() == "-fx-background-color: red" && thirdBox.getStyle() == "-fx-background-color: red" && currentSelection.getStyle() == "-fx-background-color: red") {
                 // All parts incorrect
                 formatIncorrectQuestion(rowPane);
-                manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 0);
-            }else if(secondBox.getStyle() == "-fx-background-color: green" && thirdBox.getStyle() == "-fx-background-color: green" && currentSelection.getStyle() == "-fx-background-color: green" ){
+                manager.add(new Pair(currentTerm.getMusicalTermName(), currentTerm), 0);
+            } else if (secondBox.getStyle() == "-fx-background-color: green" && thirdBox.getStyle() == "-fx-background-color: green" && currentSelection.getStyle() == "-fx-background-color: green") {
                 // All parts correct
                 formatCorrectQuestion(rowPane);
-                manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 1);
-            }else{
+                manager.add(new Pair(currentTerm.getMusicalTermName(), currentTerm), 1);
+            } else {
                 // Some parts correct, some parts incorrect
                 formatPartiallyCorrectQuestion(rowPane);
-                manager.add(new Pair(currentTerm.getMusicalTermName(),currentTerm), 0);
+                manager.add(new Pair(currentTerm.getMusicalTermName(), currentTerm), 0);
 
             }
-            ((VBox)(rowPane.getChildren().get(0))).getChildren().get(4).setDisable(true);
+            ((VBox) (rowPane.getChildren().get(0))).getChildren().get(4).setDisable(true);
             manager.answered += 1;
         }
     }
@@ -416,7 +411,7 @@ public class MusicalTermsTutorController extends TutorController{
                 manager.questions, manager.skipped,
                 manager.correct, manager.incorrect, userScore);
 
-        if(projectHandler.currentProjectPath != null) {
+        if (projectHandler.currentProjectPath != null) {
             projectHandler.saveSessionStat("musicalTerm", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
             projectHandler.saveCurrentProject();
             outputText += "\nSession auto saved";
@@ -430,7 +425,7 @@ public class MusicalTermsTutorController extends TutorController{
         questionRows.getChildren().clear();
 
         Button retestBtn = new Button("Retest");
-        Button clearBtn  = new Button("Clear");
+        Button clearBtn = new Button("Clear");
         final Button saveBtn = new Button("Save");
 
 
@@ -464,9 +459,9 @@ public class MusicalTermsTutorController extends TutorController{
             buttons.getChildren().setAll(clearBtn, saveBtn);
         }
 
-        buttons.setMargin(retestBtn, new Insets(10,10,10,10));
-        buttons.setMargin(clearBtn, new Insets(10,10,10,10));
-        buttons.setMargin(saveBtn, new Insets(10,10,10,10));
+        buttons.setMargin(retestBtn, new Insets(10, 10, 10, 10));
+        buttons.setMargin(clearBtn, new Insets(10, 10, 10, 10));
+        buttons.setMargin(saveBtn, new Insets(10, 10, 10, 10));
         // Clear the current session
         manager.resetStats();
     }
