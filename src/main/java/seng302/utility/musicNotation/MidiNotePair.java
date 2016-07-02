@@ -1,4 +1,4 @@
-package seng302.utility;
+package seng302.utility.musicNotation;
 
 /**
  * Created by jat157 on 1/04/16.
