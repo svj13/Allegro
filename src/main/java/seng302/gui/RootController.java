@@ -101,6 +101,9 @@ public class RootController implements Initializable {
     private MenuItem menuCRT;
 
     @FXML
+    private MenuItem menuCST;
+
+    @FXML
     private Menu menuOpenProjects;
 
     @FXML
@@ -670,10 +673,13 @@ public class RootController implements Initializable {
     }
 
 
+    /**
+     * Opens the chord spelling tutor. If this tutor is already open, focus is transferred to it.
+     */
+    @FXML
+    private void openSpellingTutor() {
 
-
-
-
+    }
 
 
     /**
