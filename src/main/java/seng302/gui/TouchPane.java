@@ -34,7 +34,7 @@ public class TouchPane extends StackPane {
         this.keyLabel = noteToPlay.getNote();
         this.isblackKey = false;
 
-        EventHandler<TouchEvent> touchpress = event -> {
+        EventHandler<TouchEvent> touchPress = event -> {
             if (touchId == -1) {
                 touchId = event.getTouchPoint().getId();
                 environment.getPlayer().noteOn(noteToPlay);
@@ -44,7 +44,7 @@ public class TouchPane extends StackPane {
             event.consume();
         };
 
-        EventHandler<TouchEvent> touchrelease = event -> {
+        EventHandler<TouchEvent> touchRelease = event -> {
             if (event.getTouchPoint().getId() == touchId) {
                 touchId = -1;
                 environment.getPlayer().noteOff(noteToPlay);
@@ -53,8 +53,8 @@ public class TouchPane extends StackPane {
             event.consume();
         };
 
-        setOnTouchReleased(touchrelease);
-        setOnTouchPressed(touchpress);
+        setOnTouchReleased(touchRelease);
+        setOnTouchPressed(touchPress);
 
 
         setOnMouseReleased(event -> {

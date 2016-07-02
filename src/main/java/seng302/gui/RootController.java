@@ -6,7 +6,9 @@ import org.json.simple.JSONArray;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -21,7 +23,6 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -31,7 +32,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import seng302.Environment;
-import seng302.command.UndoRedo;
 import seng302.managers.TranscriptManager;
 import seng302.utility.FileHandler;
 import seng302.utility.OutputTuple;
@@ -549,6 +549,7 @@ public class RootController implements Initializable {
      */
     public void setEnvironment(Environment env) {
         this.env = env;
+        env.setRootController(this);
         tm = env.getTranscriptManager();
         transcriptController.setEnv(env);
         PitchComparisonTabController.create(env);
@@ -558,7 +559,6 @@ public class RootController implements Initializable {
         ChordRecognitionTabController.create(env);
         keyboardPaneController.create(env);
 
-        env.setRootController(this);
 
     }
 

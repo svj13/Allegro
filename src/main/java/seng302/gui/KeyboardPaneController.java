@@ -4,8 +4,12 @@ import org.controlsfx.control.PopOver;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -38,22 +42,25 @@ public class KeyboardPaneController {
     private StackPane keyboardStack;
 
     /**
-     * Contains the white keys (TouchPanes)
+     * Contains the white keys (TouchPanes).
      */
     @FXML
     private HBox keyboardBox;
 
     /**
-     * Contains the black keys (TouchPanes)
+     * Contains the black keys (TouchPanes).
      */
     @FXML
     private AnchorPane blackKeys;
 
+    /**
+     * Button to show settings pop over.
+     */
     @FXML
     private Button settingsButton;
 
     /**
-     * Current Environment (to access music player etc.)
+     * Current Environment (to access music player etc.).
      */
     private Environment env;
 
@@ -78,10 +85,18 @@ public class KeyboardPaneController {
     private boolean hidden = false;
 
     /**
-     * Note labels radio buttons.
+     * Radio button to always show note labels.
      */
     private RadioButton noteLabelsAlways;
+
+    /**
+     * Radio button to show note labels on click.
+     */
     private RadioButton noteLabelsClick;
+
+    /**
+     * Radio button to turn off note labels.
+     */
     private RadioButton noteLabelsOff;
 
     /**
@@ -108,8 +123,8 @@ public class KeyboardPaneController {
         keyboardBox.setMinHeight(200);
         blackKeys.setMaxHeight(130);
 
-        // Picking is computed by intersecting with the geometric shape of the node,
-        // instead of the bounds.
+        // Picking is computed by intersecting with the geometric
+        // shape of the node, instead of the bounds.
         keyboardStack.setPickOnBounds(false);
 
         // Default note range when keyboard opens.
@@ -117,6 +132,7 @@ public class KeyboardPaneController {
         topNote = 72;
 
         createSettingsPop();
+
 
     }
 
@@ -146,7 +162,8 @@ public class KeyboardPaneController {
         settings.getChildren().add(slider);
 
         // Style settings button.
-        Image cog = new Image(getClass().getResourceAsStream("/images/gear-1119298_960_720.png"), 20, 20, true, true);
+        Image cog = new Image(getClass().getResourceAsStream
+                ("/images/gear-1119298_960_720.png"), 20, 20, true, true);
         settingsButton.setGraphic(new ImageView(cog));
         settingsButton.setText(null);
 
@@ -221,6 +238,8 @@ public class KeyboardPaneController {
 
     /**
      * Sets environment and initialises things.
+     *
+     * @param env Environment of the application.
      */
     public void create(Environment env) {
         this.env = env;
@@ -228,11 +247,42 @@ public class KeyboardPaneController {
         clicked = new ArrayList<>();
         Platform.runLater(() -> {
             setUpKeyboard();
-                keyboardStack.requestFocus();
+            keyboardStack.requestFocus();
             positionBlackKeys();
-            }
-        );
+        });
         env.getPlayer().initKeyboardTrack();
+
+
+        // This change listener is registered to the width property of the application.
+        // The task and timer scheduling is required because calling positionBlackKeys() for every
+        // change to the widthProperty caused the resizing to lag, and be inaccurate.
+        // Now it only repositions the black keys if the width has not changed in the last 50
+        // milliseconds.
+        final ChangeListener<Number> listener = new ChangeListener<Number>() {
+            final Timer timer = new Timer(); // uses a timer to call the resize method
+            TimerTask task = null; // task to execute after defined delay
+            final long delayTime = 50; // delay that has to pass in order to consider an operation done
+
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, final Number newValue) {
+                if (task != null) { // there was already a task scheduled from the previous operation ...
+                    task.cancel(); // cancel it, we have a new size to consider
+                }
+
+                task = new TimerTask() // create new task that calls the resize operation
+                {
+                    @Override
+                    public void run() {
+                        positionBlackKeys();
+                    }
+                };
+                // schedule new task
+                timer.schedule(task, delayTime);
+            }
+        };
+
+        // Register the listener.
+        env.getRootController().paneMain.widthProperty().addListener(listener);
 
     }
 
@@ -327,15 +377,17 @@ public class KeyboardPaneController {
 
 
     /**
-     * Whether shift is currently pressed
-     * @return
+     * Whether shift is currently pressed.
+     *
+     * @return The value of shift.
      */
     public boolean getShiftState() {
         return shift;
     }
 
     /**
-     * Add a note to the current set of notes pressed, while shift is pressed
+     * Add a note to the current set of notes pressed, while shift is pressed.
+     *
      * @param note The note
      * @param pane The key
      */
