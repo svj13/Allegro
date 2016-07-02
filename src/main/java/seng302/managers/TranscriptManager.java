@@ -160,7 +160,7 @@ public class TranscriptManager {
     /**
      * Generates a string containing the history of command/result outputs.
      *
-     * @return String containing output history; commands and their results separated by lines.
+     * @return String containing output history; commands and their results separated by tutorRecordList.
      */
     public String convertToText() {
         String displayText = "";

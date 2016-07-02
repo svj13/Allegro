@@ -1,9 +1,12 @@
 package seng302.gui;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -26,7 +29,9 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import org.json.simple.JSONObject;
 import seng302.Environment;
+import seng302.managers.ProjectHandler;
 import seng302.managers.TutorManager;
 import seng302.utility.TutorRecord;
 
@@ -43,6 +48,8 @@ public abstract class TutorController {
     public String outputText;
 
     public int selectedQuestions;
+
+    public ProjectHandler projectHandler;
 
     Stage stage;
 
@@ -90,6 +97,7 @@ public abstract class TutorController {
     public void create(Environment env){
         this.env = env;
         manager = new TutorManager();
+        projectHandler = env.getProjectHandler();
     }
 
     /**
@@ -113,6 +121,7 @@ public abstract class TutorController {
      * sets up the tutoring environment for that.
      */
     public void retest() {
+        record = new TutorRecord();
         ArrayList<Pair> tempIncorrectResponses = new ArrayList<Pair>(manager.getTempIncorrectResponses());
         manager.clearTempIncorrect();
         Collections.shuffle(tempIncorrectResponses);
@@ -146,27 +155,24 @@ public abstract class TutorController {
      * Saves a record of the tutoring session to a file.
      */
     public void saveRecord() {
-        if (env.getRecordLocation() != null) {
-            // Appends to file already created in this session.
-            record.writeToFile(env.getRecordLocation());
-        } else {
-            //show a file picker
-            FileChooser fileChooser = new FileChooser();
-            FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
-            fileChooser.getExtensionFilters().add(textFilter);
 
-            if(env.getProjectHandler().isProject()) {
-                env.getRootController().checkProjectDirectory();
-                fileChooser.setInitialDirectory(Paths.get(env.getProjectHandler().getCurrentProjectPath()).toFile());
-            }
-            File file = fileChooser.showSaveDialog(stage);
 
-            if (file != null) {
-                fileDir = file.getParentFile();
-                path = file.getAbsolutePath();
-                env.setRecordLocation(path);
-                record.writeToFile(path);
-            }
+        //show a file picker
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+        fileChooser.getExtensionFilters().add(textFilter);
+
+        if(env.getProjectHandler().isProject()) {
+            env.getRootController().checkProjectDirectory();
+            fileChooser.setInitialDirectory(Paths.get(env.getProjectHandler().getCurrentProjectPath()).toFile());
+        }
+        File file = fileChooser.showSaveDialog(stage);
+
+        if (file != null) {
+            fileDir = file.getParentFile();
+            path = file.getAbsolutePath();
+            env.setRecordLocation(path);
+            record.writeToFile(path);
         }
     }
 
@@ -186,59 +192,6 @@ public abstract class TutorController {
 
     }
 
-    /**
-     * This function is run once a tutoring session has been completed.
-     */
-    public void finished() {
-        env.getPlayer().stop();
-        userScore = getScore(manager.correct, manager.answered);
-        record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
-        outputText = String.format("You have finished the tutor.\n" +
-                "You answered %d questions, and skipped %d questions.\n" +
-                "You answered %d questions correctly, %d questions incorrectly.\n" +
-                        "This gives a score of %.2f percent.",
-                manager.questions, manager.skipped,
-                manager.correct, manager.incorrect, userScore);
-        // Sets the finished view
-        resultsContent.setText(outputText);
-
-        paneQuestions.setVisible(false);
-        paneResults.setVisible(true);
-        questionRows.getChildren().clear();
-
-        Button retestBtn = new Button("Retest");
-        Button clearBtn  = new Button("Clear");
-
-        clearBtn.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                promptSaveRecord();
-                manager.saveTempIncorrect();
-                paneResults.setVisible(false);
-                paneQuestions.setVisible(true);
-            }
-        });
-        paneResults.setPadding(new Insets(10, 10, 10, 10));
-        retestBtn.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                paneResults.setVisible(false);
-                paneQuestions.setVisible(true);
-                retest();
-            }
-        });
-
-        if (manager.getTempIncorrectResponses().size() > 0) {
-            //Can re-test
-            buttons.getChildren().setAll(retestBtn, clearBtn);
-        } else {
-            //Perfect score
-            buttons.getChildren().setAll(clearBtn);
-        }
-
-        buttons.setMargin(retestBtn, new Insets(10,10,10,10));
-        buttons.setMargin(clearBtn, new Insets(10,10,10,10));
-        // Clear the current session
-        manager.resetStats();
-    }
 
 
     /**
@@ -252,22 +205,22 @@ public abstract class TutorController {
     }
 
 
-    /**
-     * Creates an alert to ask the user whether or not to save a record to file.
-     */
-    public void promptSaveRecord() {
-        Alert savePrompt = new Alert(Alert.AlertType.NONE);
-        savePrompt.setContentText("Would you like to save this tutoring session?");
-        savePrompt.setHeaderText("Save Record?");
-        ButtonType save = new ButtonType("Save");
-        ButtonType cancel = new ButtonType("Discard");
-        savePrompt.getButtonTypes().setAll(save, cancel);
-        ButtonType result = savePrompt.showAndWait().get();
-
-        if (result.equals(save)) {
-            saveRecord();
-        }
-    }
+//    /**
+//     * Creates an alert to ask the user whether or not to save a record to file.
+//     */
+//    public void promptSaveRecord() {
+//        Alert savePrompt = new Alert(Alert.AlertType.NONE);
+//        savePrompt.setContentText("Would you like to save this tutoring session?");
+//        savePrompt.setHeaderText("Save Record?");
+//        ButtonType save = new ButtonType("Save");
+//        ButtonType cancel = new ButtonType("Discard");
+//        savePrompt.getButtonTypes().setAll(save, cancel);
+//        ButtonType result = savePrompt.showAndWait().get();
+//
+//        if (result.equals(save)) {
+//            saveRecord();
+//        }
+//    }
 
     /**
      * Formats a GUI question to indicate it was skipped

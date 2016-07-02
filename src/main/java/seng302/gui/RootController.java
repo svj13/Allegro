@@ -1,6 +1,9 @@
 package seng302.gui;
 
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.control.*;
 import org.json.simple.JSONArray;
 
 import java.io.File;
@@ -15,13 +18,6 @@ import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SeparatorMenuItem;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -90,13 +86,33 @@ public class RootController implements Initializable {
     private MenuItem menuSaveCommands;
 
     @FXML
+    private MenuItem menuPCT;
+
+    @FXML
+    private MenuItem menuIRT;
+
+    @FXML
+    private MenuItem menuMTT;
+
+    @FXML
+    private MenuItem menuSRT;
+
+    @FXML
+    private MenuItem menuCRT;
+
+    @FXML
     private Menu menuOpenProjects;
 
     @FXML
     private TabPane TabPane;
 
     @FXML
+    private Tab transcriptPane;
+
+
+    @FXML
     private void initialize() {
+
 
     }
 
@@ -113,7 +129,8 @@ public class RootController implements Initializable {
         });
     }
 
-    public void initialize(URL location, ResourceBundle resources) {}
+    public void initialize(URL location, ResourceBundle resources) {
+    }
 
 
 
@@ -463,6 +480,203 @@ public class RootController implements Initializable {
     }
 
     /**
+     * opens the pitch tutor when the pitch tutor menu option is pressed
+     * If there is already an open tutor of the same form then it sets focus to the already open tutor
+     */
+    @FXML
+    private void openPitchTutor(){
+        boolean alreadyExists = false;
+        for(Tab tab:TabPane.getTabs()){
+            if(tab.getId().equals("pitchTutor")){
+                TabPane.getSelectionModel().select(tab);
+                alreadyExists = true;
+            }
+
+        }
+
+        if(!alreadyExists){
+
+            //System.out.println(TabPane.getTabs().get(0).getId());
+            Tab pitchTab = new Tab("Pitch Comparison Tutor");
+            pitchTab.setId("pitchTutor");
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/Views/PitchComparisonPane.fxml"));
+
+            try {
+                pitchTab.setContent((Node) loader.load());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            TabPane.getTabs().add(pitchTab);
+            TabPane.getSelectionModel().select(pitchTab);
+            PitchComparisonTabController = loader.getController();
+            PitchComparisonTabController.create(env);
+        }
+
+    }
+
+    /**
+     * opens the interval tutor when the interval menu option is pressed
+     * If there is already an open tutor of the same form then it sets focus to the already open tutor
+     */
+    @FXML
+    private void openIntervalTutor(){
+
+        boolean alreadyExists = false;
+        for(Tab tab:TabPane.getTabs()){
+            if(tab.getId().equals("intervalTutor")){
+                TabPane.getSelectionModel().select(tab);
+                alreadyExists = true;
+            }
+
+        }
+
+        if(!alreadyExists) {
+
+            Tab intervalTab = new Tab("Interval Recognition Tutor");
+            intervalTab.setId("intervalTutor");
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/Views/IntervalRecognitionPane.fxml"));
+
+            try {
+                intervalTab.setContent((Node) loader.load());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            TabPane.getTabs().add(intervalTab);
+            TabPane.getSelectionModel().select(intervalTab);
+            IntervalRecognitionTabController = loader.getController();
+            IntervalRecognitionTabController.create(env);
+        }
+
+    }
+
+    /**
+     * opens the musical terms tutor when the musical term tutor menu option is pressed
+     * If there is already an open tutor of the same form then it sets focus to the already open tutor
+     */
+    @FXML
+    private void openMusicalTermTutor(){
+
+        boolean alreadyExists = false;
+        for(Tab tab:TabPane.getTabs()){
+            if(tab.getId().equals("musicalTermTutor")){
+                TabPane.getSelectionModel().select(tab);
+                alreadyExists = true;
+            }
+
+        }
+
+        if(!alreadyExists) {
+
+            Tab musicalTermTab = new Tab("Musical Terms Tutor");
+            musicalTermTab.setId("musicalTermTutor");
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/Views/MusicalTermsPane.fxml"));
+
+            try {
+                musicalTermTab.setContent((Node) loader.load());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            TabPane.getTabs().add(musicalTermTab);
+            TabPane.getSelectionModel().select(musicalTermTab);
+            MusicalTermsTabController = loader.getController();
+            MusicalTermsTabController.create(env);
+        }
+
+    }
+
+    /**
+     * opens the scale tutor when the scale menu option is pressed
+     * If there is already an open tutor of the same form then it sets focus to the already open tutor
+     */
+    @FXML
+    private void openScaleTutor(){
+
+        boolean alreadyExists = false;
+        for(Tab tab:TabPane.getTabs()){
+            if(tab.getId().equals("scaleTutor")){
+                TabPane.getSelectionModel().select(tab);
+                alreadyExists = true;
+            }
+
+        }
+
+        if(!alreadyExists) {
+
+            Tab ScaleTab = new Tab("Scale Recognition Tutor");
+            ScaleTab.setId("scaleTutor");
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/Views/ScaleRecognitionPane.fxml"));
+
+            try {
+                ScaleTab.setContent((Node) loader.load());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            TabPane.getTabs().add(ScaleTab);
+            TabPane.getSelectionModel().select(ScaleTab);
+            ScaleRecognitionTabController = loader.getController();
+            ScaleRecognitionTabController.create(env);
+        }
+
+    }
+
+    /**
+     * opens the chord tutor when the chord tutor menu option is pressed
+     * If there is already an open tutor of the same form then it sets focus to the already open tutor
+     */
+    @FXML
+    private void openChordTutor(){
+
+        boolean alreadyExists = false;
+        for(Tab tab:TabPane.getTabs()){
+            if(tab.getId().equals("chordTutor")){
+                TabPane.getSelectionModel().select(tab);
+                alreadyExists = true;
+            }
+
+        }
+
+        if(!alreadyExists) {
+
+            Tab ScaleTab = new Tab("Chord Recognition Tutor");
+            ScaleTab.setId("chordTutor");
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/Views/ChordRecognitionPane.fxml"));
+
+            try {
+                ScaleTab.setContent((Node) loader.load());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            TabPane.getTabs().add(ScaleTab);
+            TabPane.getSelectionModel().select(ScaleTab);
+            ChordRecognitionTabController = loader.getController();
+            ChordRecognitionTabController.create(env);
+        }
+
+    }
+
+
+
+
+
+
+
+
+    /**
      * Displays an error message
      * @param errorMessage The message to be displayed
      */
@@ -551,19 +765,78 @@ public class RootController implements Initializable {
         this.env = env;
         tm = env.getTranscriptManager();
         transcriptController.setEnv(env);
-        PitchComparisonTabController.create(env);
-        IntervalRecognitionTabController.create(env);
-        MusicalTermsTabController.create(env);
-        ScaleRecognitionTabController.create(env);
-        ChordRecognitionTabController.create(env);
+        transcriptPane.setClosable(false);
+        //PitchComparisonTabController.create(env);
+        //IntervalRecognitionTabController.create(env);
+        //MusicalTermsTabController.create(env);
+        //ScaleRecognitionTabController.create(env);
         keyboardPaneController.create(env);
 
         env.setRootController(this);
 
     }
 
+    /**
+     * sets the title of the application to the text input
+     * @param text
+     */
     public void setWindowTitle(String text){
         this.stage.setTitle("Allegro    " + text);
+    }
+
+
+    /**
+     * Sets the title of a selected tab depending on if there are unsaved changes
+     * @param tabID
+     * @param unsavedChanges
+     */
+    public void setTabTitle(String tabID, Boolean unsavedChanges){
+
+        for(Tab tab:TabPane.getTabs()){
+            if(tab.getId().equals(tabID)){
+
+                String currentText = tab.getText();
+                Character firstChar = currentText.charAt(0);
+                if(firstChar == '*'){
+                    if(!unsavedChanges){
+                        tab.setText(currentText.substring(1));
+                    }
+
+                }else{
+                    if(unsavedChanges){
+                        tab.setText("*"+ currentText);
+                    }
+                }
+
+            }
+        }
+    }
+
+
+    public boolean tabSaveCheck(String tabID){
+        for(Tab tab:TabPane.getTabs()){
+            if(tab.getId().equals(tabID)){
+                if(tab.getText().charAt(0) =='*'){
+                    return true;
+                }
+            }
+        }
+        return false;
+
+    }
+    /**
+     * clears all the unsaved changes indicators on the tutor tabs
+     */
+    public void clearAllIndicators(){
+        for(Tab tab:TabPane.getTabs()){
+
+            String currentText = tab.getText();
+            Character firstChar = currentText.charAt(0);
+
+            if(firstChar == '*'){
+                tab.setText(currentText.substring(1));
+            }
+        }
     }
 
     public Environment getEnv() {
@@ -593,11 +866,18 @@ public class RootController implements Initializable {
         transcriptController.hidePlaybackGui();
         transcriptController.setEnv(env);
 
-        PitchComparisonTabController.clearTutor();
-        IntervalRecognitionTabController.clearTutor();
-        MusicalTermsTabController.clearTutor();
-        ScaleRecognitionTabController.clearTutor();
-        ChordRecognitionTabController.clearTutor();
+        if (PitchComparisonTabController != null) {
+            PitchComparisonTabController.clearTutor();
+        }
+        if (IntervalRecognitionTabController != null) {
+            IntervalRecognitionTabController.clearTutor();
+        }
+        if (MusicalTermsTabController != null) {
+            MusicalTermsTabController.clearTutor();
+        }
+        if (ScaleRecognitionTabController != null) {
+            ScaleRecognitionTabController.clearTutor();
+        }
     }
 
     public TranscriptPaneController getTranscriptController() {

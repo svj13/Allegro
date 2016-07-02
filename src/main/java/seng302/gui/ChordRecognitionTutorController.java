@@ -57,7 +57,7 @@ public class ChordRecognitionTutorController extends TutorController{
      * Run when the go button is pressed. Creates a new tutoring session.
      */
     private void goAction(ActionEvent event) {
-        record = new TutorRecord(new Date(), "ChordUtil Recognition");
+        record = new TutorRecord();
         paneQuestions.setVisible(true);
         paneResults.setVisible(false);
         manager.resetEverything();
@@ -204,7 +204,8 @@ public class ChordRecognitionTutorController extends TutorController{
                         String.format("%s scale from %s", chordType, startNote.getNote()),
                         chordType
                 };
-                record.addSkippedQuestion(question);
+                projectHandler.saveTutorRecords("chord", record.addSkippedQuestion(question));
+                env.getRootController().setTabTitle("chordTutor", true);
                 if (manager.answered == manager.questions) {
                     finished();
                 }
@@ -261,7 +262,8 @@ public class ChordRecognitionTutorController extends TutorController{
                 userAnswer,
                 Boolean.toString(correct)
         };
-        record.addQuestionAnswer(question);
+        projectHandler.saveTutorRecords("chord", record.addQuestionAnswer(question));
+        env.getRootController().setTabTitle("chordTutor", true);
 
         if (manager.answered == manager.questions) {
             finished();
@@ -276,5 +278,70 @@ public class ChordRecognitionTutorController extends TutorController{
         octaves.getSelectionModel().selectFirst();
     }
 
+    /**
+     * This function is run once a tutoring session has been completed.
+     */
+    public void finished() {
+        env.getPlayer().stop();
+        userScore = getScore(manager.correct, manager.answered);
+        outputText = String.format("You have finished the tutor.\n" +
+                        "You answered %d questions, and skipped %d questions.\n" +
+                        "You answered %d questions correctly, %d questions incorrectly.\n" +
+                        "This gives a score of %.2f percent.",
+                manager.questions, manager.skipped,
+                manager.correct, manager.incorrect, userScore);
+        if(projectHandler.currentProjectPath != null) {
+            projectHandler.saveSessionStat("chord", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
+            projectHandler.saveCurrentProject();
+            outputText += "\nSession auto saved.";
+        }
+        env.getRootController().setTabTitle("chordTutor", false);
+        // Sets the finished view
+        resultsContent.setText(outputText);
 
+        paneQuestions.setVisible(false);
+        paneResults.setVisible(true);
+        questionRows.getChildren().clear();
+
+        Button retestBtn = new Button("Retest");
+        Button clearBtn  = new Button("Clear");
+        Button saveBtn = new Button("Save");
+
+        clearBtn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                manager.saveTempIncorrect();
+                paneResults.setVisible(false);
+                paneQuestions.setVisible(true);
+            }
+        });
+
+        paneResults.setPadding(new Insets(10, 10, 10, 10));
+        retestBtn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                paneResults.setVisible(false);
+                paneQuestions.setVisible(true);
+                retest();
+
+            }
+        });
+        saveBtn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                saveRecord();
+            }
+        });
+
+        if (manager.getTempIncorrectResponses().size() > 0) {
+            //Can re-test
+            buttons.getChildren().setAll(retestBtn, clearBtn, saveBtn);
+        } else {
+            //Perfect score
+            buttons.getChildren().setAll(clearBtn, saveBtn);
+        }
+
+        buttons.setMargin(retestBtn, new Insets(10,10,10,10));
+        buttons.setMargin(clearBtn, new Insets(10,10,10,10));
+        buttons.setMargin(saveBtn, new Insets(10,10,10,10));
+        // Clear the current session
+        manager.resetStats();
+    }
 }

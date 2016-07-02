@@ -76,7 +76,7 @@ public class MusicalTermsTutorController extends TutorController{
     void goAction(ActionEvent event) {
         paneQuestions.setVisible(true);
         paneResults.setVisible(false);
-        record = new TutorRecord(new Date(), "Musical Terms");
+        record = new TutorRecord();
         manager.resetEverything();
         manager.questions = selectedQuestions;
         if (manager.questions >= 1) {
@@ -243,7 +243,8 @@ public class MusicalTermsTutorController extends TutorController{
                         originOptions.getValue(),
                         Boolean.toString(originOptions.getValue().equals(currentTerm.getMusicalTermOrigin()))
                 };
-                record.addQuestionAnswer(question);
+                projectHandler.saveTutorRecords("musicalTerm", record.addQuestionAnswer(question));
+                env.getRootController().setTabTitle("musicalTermTutor", true);
 
                 styleAnswer(rowPane, currentTerm, originOptions, categoryOptions, definitionOptions);
 
@@ -271,7 +272,8 @@ public class MusicalTermsTutorController extends TutorController{
                         categoryOptions.getValue(),
                         Boolean.toString(categoryOptions.getValue().equals(currentTerm.getMusicalTermCategory()))
                 };
-                record.addQuestionAnswer(question);
+                projectHandler.saveTutorRecords("musicalTerm", record.addQuestionAnswer(question));
+                env.getRootController().setTabTitle("musicalTermTutor", true);
 
                 styleAnswer(rowPane, currentTerm, categoryOptions, definitionOptions, originOptions);
 
@@ -301,7 +303,8 @@ public class MusicalTermsTutorController extends TutorController{
                         definitionOptions.getValue(),
                         Boolean.toString(definitionOptions.getValue().equals(currentTerm.getMusicalTermDefinition()))
                 };
-                record.addQuestionAnswer(question);
+                projectHandler.saveTutorRecords("musicalTerm", record.addQuestionAnswer(question));
+                env.getRootController().setTabTitle("musicalTermTutor", true);
 
                 styleAnswer(rowPane, currentTerm, definitionOptions, categoryOptions, originOptions);
 
@@ -321,7 +324,8 @@ public class MusicalTermsTutorController extends TutorController{
                         String.format("Information about %s", currentTerm.getMusicalTermName()),
                         currentTerm.getMusicalTermName()
                 };
-                record.addSkippedQuestion(question);
+                projectHandler.saveTutorRecords("musicalTerm", record.addSkippedQuestion(question));
+                env.getRootController().setTabTitle("musicalTermTutor", true);
 
                 formatSkippedQuestion(rowPane);
                 manager.questions -= 1;
@@ -397,6 +401,74 @@ public class MusicalTermsTutorController extends TutorController{
     public void resetInputs() {
         dataManager = env.getMttDataManager();
         numQuestions.setValue(1);
+    }
+
+    /**
+     * This function is run once a tutoring session has been completed.
+     */
+    public void finished() {
+        env.getPlayer().stop();
+        userScore = getScore(manager.correct, manager.answered);
+        outputText = String.format("You have finished the tutor.\n" +
+                        "You answered %d questions, and skipped %d questions.\n" +
+                        "You answered %d questions correctly, %d questions incorrectly.\n" +
+                        "This gives a score of %.2f percent.",
+                manager.questions, manager.skipped,
+                manager.correct, manager.incorrect, userScore);
+
+        if(projectHandler.currentProjectPath != null) {
+            projectHandler.saveSessionStat("musicalTerm", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
+            projectHandler.saveCurrentProject();
+            outputText += "\nSession auto saved";
+        }
+        env.getRootController().setTabTitle("musicalTermTutor", false);
+        // Sets the finished view
+        resultsContent.setText(outputText);
+
+        paneQuestions.setVisible(false);
+        paneResults.setVisible(true);
+        questionRows.getChildren().clear();
+
+        Button retestBtn = new Button("Retest");
+        Button clearBtn  = new Button("Clear");
+        final Button saveBtn = new Button("Save");
+
+
+        clearBtn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                manager.saveTempIncorrect();
+                paneResults.setVisible(false);
+                paneQuestions.setVisible(true);
+            }
+        });
+        paneResults.setPadding(new Insets(10, 10, 10, 10));
+        retestBtn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                paneResults.setVisible(false);
+                paneQuestions.setVisible(true);
+                retest();
+            }
+        });
+        saveBtn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                saveRecord();
+            }
+        });
+
+
+        if (manager.getTempIncorrectResponses().size() > 0) {
+            //Can re-test
+            buttons.getChildren().setAll(retestBtn, clearBtn, saveBtn);
+        } else {
+            //Perfect score
+            buttons.getChildren().setAll(clearBtn, saveBtn);
+        }
+
+        buttons.setMargin(retestBtn, new Insets(10,10,10,10));
+        buttons.setMargin(clearBtn, new Insets(10,10,10,10));
+        buttons.setMargin(saveBtn, new Insets(10,10,10,10));
+        // Clear the current session
+        manager.resetStats();
     }
 
 }

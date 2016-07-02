@@ -1,8 +1,12 @@
 package seng302.gui;
 
+import javafx.stage.FileChooser;
 import org.controlsfx.control.RangeSlider;
 import org.controlsfx.control.spreadsheet.StringConverterWithFormat;
 
+import java.awt.*;
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
@@ -15,6 +19,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
@@ -82,7 +87,7 @@ public class PitchComparisonTutorController extends TutorController{
 //        manager.questions = 0;
         paneQuestions.setVisible(true);
         paneResults.setVisible(false);
-        record = new TutorRecord(new Date(), "Pitch Comparison");
+        record = new TutorRecord();
         manager.answered = 0;
 
         if (lowerSet && upperSet) {
@@ -291,7 +296,9 @@ public class PitchComparisonTutorController extends TutorController{
                     "Higher",
                     Boolean.toString(getAnswer(note1, note2).equals("Higher"))
             };
-            record.addQuestionAnswer(question);
+
+            projectHandler.saveTutorRecords("pitch", record.addQuestionAnswer(question));
+            env.getRootController().setTabTitle("pitchTutor", true);
         } else if (((ToggleButton) row.getChildren().get(2)).isSelected()) { //Same
             row.getChildren().get(2).setStyle("-fx-text-fill: white;-fx-background-color: black");
             if (note1 == note2) correctChoice = 1;
@@ -300,7 +307,9 @@ public class PitchComparisonTutorController extends TutorController{
                     "Same",
                     Boolean.toString(getAnswer(note1, note2).equals("Same"))
             };
-            record.addQuestionAnswer(question);
+
+            projectHandler.saveTutorRecords("pitch", record.addQuestionAnswer(question));
+            env.getRootController().setTabTitle("pitchTutor", true);
         } else if (((ToggleButton) row.getChildren().get(3)).isSelected()) { //Lower
             row.getChildren().get(3).setStyle("-fx-text-fill: white;-fx-background-color: black");
             if (noteComparison(false, note1, note2)) {
@@ -311,7 +320,8 @@ public class PitchComparisonTutorController extends TutorController{
                     "Lower",
                     Boolean.toString(getAnswer(note1, note2).equals("Lower"))
             };
-            record.addQuestionAnswer(question);
+            projectHandler.saveTutorRecords("pitch", record.addQuestionAnswer(question));
+            env.getRootController().setTabTitle("pitchTutor", true);
         } else if (((ToggleButton) row.getChildren().get(4)).isSelected()) { //Skip
             row.getChildren().get(4).setStyle("-fx-text-fill: white;-fx-background-color: black");
             //row.getChildren().get(4).setStyle("-fx-border-color: black; -fx-border-radius: 2px; -fx-border-width: 2px;");
@@ -322,7 +332,8 @@ public class PitchComparisonTutorController extends TutorController{
                     String.format("Is %s higher or lower than %s", note2.getNote(), note1.getNote()),
                     getAnswer(note1, note2)
             };
-            record.addSkippedQuestion(question);
+            projectHandler.saveTutorRecords("pitch", record.addSkippedQuestion(question));
+            env.getRootController().setTabTitle("pitchTutor", true);
         }
 
     if(correctChoice == 1) {
@@ -493,6 +504,84 @@ public class PitchComparisonTutorController extends TutorController{
         }
 
 
+    }
+
+    /**
+     * This function is run once a tutoring session has been completed.
+     */
+    public void finished() {
+
+        env.getPlayer().stop();
+        userScore = getScore(manager.correct, manager.answered);
+        outputText = String.format("You have finished the tutor.\n" +
+                        "You answered %d questions, and skipped %d questions.\n" +
+                        "You answered %d questions correctly, %d questions incorrectly.\n" +
+                        "This gives a score of %.2f percent.",
+                manager.questions, manager.skipped,
+                manager.correct, manager.incorrect, userScore);
+
+        record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
+
+        if(projectHandler.currentProjectPath != null) {
+
+            projectHandler.saveSessionStat("pitch", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
+            projectHandler.saveCurrentProject();
+            outputText += "\nSession auto saved";
+        }
+        env.getRootController().setTabTitle("pitchTutor", false);
+        // Sets the finished view
+        resultsContent.setText(outputText);
+
+        paneQuestions.setVisible(false);
+        paneResults.setVisible(true);
+        questionRows.getChildren().clear();
+
+        Button retestBtn = new Button("Retest");
+        Button clearBtn  = new Button("Clear");
+        final Button saveBtn = new Button("Save");
+
+        clearBtn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                //promptSaveRecord();
+                manager.saveTempIncorrect();
+                paneResults.setVisible(false);
+                paneQuestions.setVisible(true);
+            }
+        });
+        paneResults.setPadding(new Insets(10, 10, 10, 10));
+        retestBtn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                paneResults.setVisible(false);
+                paneQuestions.setVisible(true);
+                retest();
+            }
+        });
+        saveBtn.setOnAction(new EventHandler<ActionEvent>() {
+
+            public void handle(ActionEvent event) {
+                saveRecord();
+            }
+
+        });
+
+        if (manager.getTempIncorrectResponses().size() > 0) {
+            //Can re-test
+            buttons.getChildren().setAll(retestBtn, clearBtn, saveBtn);
+        } else {
+            //Perfect score
+            buttons.getChildren().setAll(clearBtn, saveBtn);
+        }
+
+        buttons.setMargin(retestBtn, new Insets(10,10,10,10));
+        buttons.setMargin(clearBtn, new Insets(10,10,10,10));
+        buttons.setMargin(saveBtn, new Insets(10,10,10,10));
+
+
+
+
+
+        // Clear the current session
+        manager.resetStats();
     }
 
 }
