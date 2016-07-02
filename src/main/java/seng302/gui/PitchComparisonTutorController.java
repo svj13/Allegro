@@ -1,25 +1,16 @@
 package seng302.gui;
 
-import javafx.stage.FileChooser;
 import org.controlsfx.control.RangeSlider;
-import org.controlsfx.control.spreadsheet.StringConverterWithFormat;
 
-import java.awt.*;
-import java.io.File;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Random;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
@@ -34,8 +25,9 @@ import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 import seng302.Environment;
 import seng302.data.Note;
-import seng302.utility.musicNotation.MidiNotePair;
+import seng302.utility.NoteRangeSlider;
 import seng302.utility.TutorRecord;
+import seng302.utility.musicNotation.MidiNotePair;
 
 /**
  * Created by jat157 on 20/03/16.

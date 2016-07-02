@@ -1,9 +1,6 @@
 package seng302.gui;
 
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.control.*;
 import org.json.simple.JSONArray;
 
 import java.io.File;
@@ -19,12 +16,15 @@ import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.AnchorPane;
@@ -788,7 +788,7 @@ public class RootController implements Initializable {
      * @param text
      */
     public void setWindowTitle(String text){
-        this.stage.setTitle("Allegro    " + text);
+        this.stage.setTitle("Allegro - " + text);
     }
 
 
