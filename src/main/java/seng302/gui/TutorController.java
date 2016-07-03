@@ -5,8 +5,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -99,11 +97,9 @@ public abstract class TutorController {
         questions.setText(Integer.toString(selectedQuestions));
 
         // The listener for the number of questions selected
-        numQuestions.valueProperty().addListener(new ChangeListener<Number>() {
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                selectedQuestions = newValue.intValue();
-                questions.setText(Integer.toString(selectedQuestions));
-            }
+        numQuestions.valueProperty().addListener((observable, newValue, oldValue) -> {
+            selectedQuestions = newValue.intValue();
+            questions.setText(Integer.toString(selectedQuestions));
         });
     }
 
@@ -113,14 +109,14 @@ public abstract class TutorController {
      */
     public void retest() {
         record = new TutorRecord();
-        ArrayList<Pair> tempIncorrectResponses = new ArrayList<Pair>(manager.getTempIncorrectResponses());
+        ArrayList<Pair> tempIncorrectResponses = new ArrayList<>(manager.getTempIncorrectResponses());
         manager.clearTempIncorrect();
         Collections.shuffle(tempIncorrectResponses);
         manager.questions = tempIncorrectResponses.size();
         for (Pair pair : tempIncorrectResponses) {
             HBox questionRow = generateQuestionPane(pair);
             questionRows.getChildren().add(questionRow);
-            questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
+            VBox.setMargin(questionRow, new Insets(10, 10, 10, 10));
         }
     }
 

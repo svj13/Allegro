@@ -57,25 +57,25 @@ public class App extends Application {
             primaryStage.setMinWidth(700);
 
             RootController controller = loader.getController();
-            if (controller == null) System.err.println("Controller is null");
-            controller.setEnvironment(env);
+            try {
+                controller.setEnvironment(env);
+                scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+                    if (event.getCode().equals(KeyCode.SHIFT)) {
+                        env.setShiftPressed(true);
+                    }
+                });
 
-            scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-                if (event.getCode().equals(KeyCode.SHIFT)) {
-                    env.setShiftPressed(true);
-                }
-            });
+                scene.addEventFilter(KeyEvent.KEY_RELEASED, event -> {
+                    if (event.getCode().equals(KeyCode.SHIFT)) {
+                        env.setShiftPressed(false);
+                    }
+                });
 
-            scene.addEventFilter(KeyEvent.KEY_RELEASED, event -> {
-                if (event.getCode().equals(KeyCode.SHIFT)) {
-                    env.setShiftPressed(false);
-                }
-            });
-
-            controller.setStage(primaryStage);
-            primaryStage.show();
-
-
+                controller.setStage(primaryStage);
+                primaryStage.show();
+            } catch (NullPointerException e) {
+                System.err.println("Controller is null");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

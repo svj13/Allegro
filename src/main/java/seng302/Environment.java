@@ -41,12 +41,6 @@ public class Environment {
         mttDataManager = new MusicalTermsTutorBackEnd();
         projectHandler = new ProjectHandler(this);
         shiftPressed = new SimpleBooleanProperty(false);
-
-//        shiftPressed.addListener((observable, oldValue, newValue) -> {
-//            System.out.println(newValue);
-//            System.out.println("changed");
-//        });
-
     }
 
     /**
@@ -65,7 +59,6 @@ public class Environment {
         if (rootController != null) {
             //reset this too
             rootController.reset();
-
         }
 
     }

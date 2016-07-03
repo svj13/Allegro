@@ -14,11 +14,9 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Menu;
@@ -33,7 +31,6 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import seng302.Environment;
 import seng302.managers.TranscriptManager;
 import seng302.utility.FileHandler;
@@ -118,22 +115,8 @@ public class RootController implements Initializable {
 
 
     @FXML
-    private void initialize() {
-
-
-    }
-
-    public void RootController() {
-
-    }
-
-    @FXML
     public void onTranscriptTab() {
-        Platform.runLater(new Runnable() {
-            public void run() {
-                transcriptController.txtCommand.requestFocus();
-            }
-        });
+        Platform.runLater(() -> transcriptController.txtCommand.requestFocus());
     }
 
     public void initialize(URL location, ResourceBundle resources) {
@@ -163,13 +146,10 @@ public class RootController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.get() == btnSaveProject) {
-
                 env.getProjectHandler().saveCurrentProject();
                 System.exit(0);
             } else if (result.get() == btnQuit) {
                 System.exit(0);
-            } else if (result.get() == btnCancel) {
-
             }
 
 
@@ -367,7 +347,6 @@ public class RootController implements Initializable {
             path = file.getAbsolutePath();
             try {
                 env.getTranscriptManager().open(path);
-
                 transcriptController.setTranscriptPane(env.getTranscriptManager().convertToText());
             } catch (Exception ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -446,26 +425,21 @@ public class RootController implements Initializable {
         JSONArray projects = env.getProjectHandler().getProjectList();
         menuOpenProjects.getItems().clear();
         MenuItem selectItem = new MenuItem("Select Project");
-        selectItem.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
-            public void handle(javafx.event.ActionEvent event) {
-
-                if (saveChangesDialog()) selectProjectDirectory();
-            }
+        selectItem.setOnAction(event -> {
+            if (saveChangesDialog()) selectProjectDirectory();
         });
-        SeparatorMenuItem dividor = new SeparatorMenuItem();
-        dividor.setText("Recent Projects..");
+        SeparatorMenuItem divider = new SeparatorMenuItem();
+        divider.setText("Recent Projects..");
         selectItem.acceleratorProperty().setValue(KeyCombination.keyCombination("Shortcut+O"));
         menuOpenProjects.getItems().add(selectItem);
-        menuOpenProjects.getItems().add(dividor);
+        menuOpenProjects.getItems().add(divider);
 
         for (int i = projects.size() - 1; i >= 0; i--) {
             final String projectName = projects.get(i).toString();
 
             MenuItem projectItem = new MenuItem(projectName);
-            projectItem.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
-                public void handle(javafx.event.ActionEvent event) {
-                    if (saveChangesDialog()) env.getProjectHandler().loadProject(projectName);
-                }
+            projectItem.setOnAction(event -> {
+                if (saveChangesDialog()) env.getProjectHandler().loadProject(projectName);
             });
 
             menuOpenProjects.getItems().add(projectItem); //Add to Open projects menu
@@ -491,8 +465,6 @@ public class RootController implements Initializable {
         }
 
         if (!alreadyExists) {
-
-            //System.out.println(TabPane.getTabs().get(0).getId());
             Tab pitchTab = new Tab("Pitch Comparison Tutor");
             pitchTab.setId("pitchTutor");
 
@@ -500,7 +472,7 @@ public class RootController implements Initializable {
             loader.setLocation(getClass().getResource("/Views/PitchComparisonPane.fxml"));
 
             try {
-                pitchTab.setContent((Node) loader.load());
+                pitchTab.setContent(loader.load());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -538,7 +510,7 @@ public class RootController implements Initializable {
             loader.setLocation(getClass().getResource("/Views/IntervalRecognitionPane.fxml"));
 
             try {
-                intervalTab.setContent((Node) loader.load());
+                intervalTab.setContent(loader.load());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -576,7 +548,7 @@ public class RootController implements Initializable {
             loader.setLocation(getClass().getResource("/Views/MusicalTermsPane.fxml"));
 
             try {
-                musicalTermTab.setContent((Node) loader.load());
+                musicalTermTab.setContent(loader.load());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -614,7 +586,7 @@ public class RootController implements Initializable {
             loader.setLocation(getClass().getResource("/Views/ScaleRecognitionPane.fxml"));
 
             try {
-                ScaleTab.setContent((Node) loader.load());
+                ScaleTab.setContent(loader.load());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -652,7 +624,7 @@ public class RootController implements Initializable {
             loader.setLocation(getClass().getResource("/Views/ChordRecognitionPane.fxml"));
 
             try {
-                ScaleTab.setContent((Node) loader.load());
+                ScaleTab.setContent(loader.load());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -737,14 +709,10 @@ public class RootController implements Initializable {
      */
     public void setStage(Stage stage) {
         this.stage = stage;
-        this.stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            public void handle(WindowEvent event) {
-                closeApplication();
-                event.consume();
-
-            }
+        this.stage.setOnCloseRequest(event -> {
+            closeApplication();
+            event.consume();
         });
-
     }
 
     /**
@@ -752,7 +720,7 @@ public class RootController implements Initializable {
      */
     public void setEnvironment(Environment env) {
         this.env = env;
-        env.setRootController(this);
+        this.env.setRootController(this);
         tm = env.getTranscriptManager();
         transcriptController.setEnv(this.env);
         transcriptPane.setClosable(false);

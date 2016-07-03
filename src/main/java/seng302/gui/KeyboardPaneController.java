@@ -152,7 +152,7 @@ public class KeyboardPaneController {
         Label notes = new Label("");
 
         // Slider to select note range to show.
-        NoteRangeSlider slider = new NoteRangeSlider(notes, 12);
+        NoteRangeSlider slider = new NoteRangeSlider(notes, 12, bottomNote, topNote);
 
         // Add to the settings VBox
         settings.getChildren().add(slider);

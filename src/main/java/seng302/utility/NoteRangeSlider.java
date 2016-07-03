@@ -16,8 +16,8 @@ public class NoteRangeSlider extends RangeSlider {
     Label notes;
     Integer minNotes;
 
-    public NoteRangeSlider(Label noteLabel, Integer minNotesInterval) {
-        super(0, 127, 60, 72);
+    public NoteRangeSlider(Label noteLabel, Integer minNotesInterval, Integer bottomDefaultNote, Integer topDefaultNote) {
+        super(0, 127, bottomDefaultNote, topDefaultNote);
         slider = this;
         notes = noteLabel;
         minNotes = minNotesInterval;

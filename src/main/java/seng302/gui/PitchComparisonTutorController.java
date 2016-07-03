@@ -5,8 +5,6 @@ import org.controlsfx.control.RangeSlider;
 import java.util.ArrayList;
 import java.util.Random;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
@@ -17,8 +15,6 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -120,7 +116,7 @@ public class PitchComparisonTutorController extends TutorController {
     public void create(Environment env) {
         super.create(env);
         initialiseQuestionSelector();
-        rangeSlider = new NoteRangeSlider(notes, 12);
+        rangeSlider = new NoteRangeSlider(notes, 12, 60, 72);
         sliderBox.getChildren().add(1, rangeSlider);
         lowerSet = true;
         upperSet = true;
@@ -201,7 +197,7 @@ public class PitchComparisonTutorController extends TutorController {
             formatIncorrectQuestion(row);
             manager.answered += 1;
         }
-        manager.add(new Pair<String, String>(note1.getNote(), note2.getNote()), correctChoice);
+        manager.add(new Pair<>(note1.getNote(), note2.getNote()), correctChoice);
 
         if (manager.answered == manager.questions) {
             finished();
@@ -238,41 +234,34 @@ public class PitchComparisonTutorController extends TutorController {
         styleSkipToggleButton(skip);
         skip.setToggleGroup(group);
 
-        higher.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                int responseValue = questionResponse(rowPane, midiOne, midiTwo);
-                if (responseValue == 0) {
-                    correctAnswer.setVisible(true);
-                }
+        higher.setOnAction(event -> {
+            int responseValue = questionResponse(rowPane, midiOne, midiTwo);
+            if (responseValue == 0) {
+                correctAnswer.setVisible(true);
+            }
 
+
+        });
+
+        lower.setOnAction(event -> {
+            int responseValue = questionResponse(rowPane, midiOne, midiTwo);
+            if (responseValue == 0) {
+                correctAnswer.setVisible(true);
             }
         });
 
-        lower.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                int responseValue = questionResponse(rowPane, midiOne, midiTwo);
-                if (responseValue == 0) {
-                    correctAnswer.setVisible(true);
-                }
-            }
-        });
-
-        same.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                int responseValue = questionResponse(rowPane, midiOne, midiTwo);
-                if (responseValue == 0) {
-                    correctAnswer.setVisible(true);
-                }
+        same.setOnAction(event -> {
+            int responseValue = questionResponse(rowPane, midiOne, midiTwo);
+            if (responseValue == 0) {
+                correctAnswer.setVisible(true);
             }
         });
 
 
-        skip.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                int responseValue = questionResponse(rowPane, midiOne, midiTwo);
-                if (responseValue == 0) {
-                    correctAnswer.setVisible(true);
-                }
+        skip.setOnAction(event -> {
+            int responseValue = questionResponse(rowPane, midiOne, midiTwo);
+            if (responseValue == 0) {
+                correctAnswer.setVisible(true);
             }
         });
 
@@ -280,17 +269,13 @@ public class PitchComparisonTutorController extends TutorController {
         Button playBtn = new Button();
         stylePlayButton(playBtn);
 
-        playBtn.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                Note note1 = Note.lookup(midiOne);
-                Note note2 = Note.lookup(midiTwo);
-                ArrayList<Note> notes = new ArrayList<Note>();
-                notes.add(note1);
-                notes.add(note2);
-                env.getPlayer().playNotes(notes, 48);
-            }
-
-
+        playBtn.setOnAction(event -> {
+            Note note1 = Note.lookup(midiOne);
+            Note note2 = Note.lookup(midiTwo);
+            ArrayList<Note> notes = new ArrayList<>();
+            notes.add(note1);
+            notes.add(note2);
+            env.getPlayer().playNotes(notes, 48);
         });
 
         rowPane.getChildren().add(playBtn);
@@ -301,7 +286,6 @@ public class PitchComparisonTutorController extends TutorController {
         rowPane.getChildren().add(correctAnswer);
 
         rowPane.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
-
 
         return rowPane;
     }
@@ -326,7 +310,7 @@ public class PitchComparisonTutorController extends TutorController {
     }
 
     private String getAnswer(Note note1, Note note2) {
-        if (note1.getMidi() == note2.getMidi()) {
+        if (note1.getMidi().equals(note2.getMidi())) {
             return "Same";
         } else if (note1.getMidi() < note2.getMidi()) {
             return "Higher";
@@ -340,26 +324,6 @@ public class PitchComparisonTutorController extends TutorController {
         rangeSlider.setHighValue(72);
     }
 
-
-    /**
-     * Key event binder. No functionality at this point.
-     */
-    @FXML
-    public void handleKeyPressed(KeyEvent event) {
-        if (event.getCode() == KeyCode.ENTER) {
-
-        } else if (event.getCode() == KeyCode.UP) {
-
-
-        } else if (event.getCode() == KeyCode.DOWN) {
-
-
-        } else if (event.getCode() == KeyCode.ALPHANUMERIC) {
-
-        }
-
-
-    }
 
     /**
      * This function is run once a tutoring session has been completed.
@@ -395,29 +359,19 @@ public class PitchComparisonTutorController extends TutorController {
         Button clearBtn = new Button("Clear");
         final Button saveBtn = new Button("Save");
 
-        clearBtn.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                //promptSaveRecord();
-                manager.saveTempIncorrect();
-                paneResults.setVisible(false);
-                paneQuestions.setVisible(true);
-            }
+        clearBtn.setOnAction(event -> {
+            //promptSaveRecord();
+            manager.saveTempIncorrect();
+            paneResults.setVisible(false);
+            paneQuestions.setVisible(true);
         });
         paneResults.setPadding(new Insets(10, 10, 10, 10));
-        retestBtn.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                paneResults.setVisible(false);
-                paneQuestions.setVisible(true);
-                retest();
-            }
+        retestBtn.setOnAction(event -> {
+            paneResults.setVisible(false);
+            paneQuestions.setVisible(true);
+            retest();
         });
-        saveBtn.setOnAction(new EventHandler<ActionEvent>() {
-
-            public void handle(ActionEvent event) {
-                saveRecord();
-            }
-
-        });
+        saveBtn.setOnAction(event -> saveRecord());
 
         if (manager.getTempIncorrectResponses().size() > 0) {
             //Can re-test
@@ -427,9 +381,9 @@ public class PitchComparisonTutorController extends TutorController {
             buttons.getChildren().setAll(clearBtn, saveBtn);
         }
 
-        buttons.setMargin(retestBtn, new Insets(10, 10, 10, 10));
-        buttons.setMargin(clearBtn, new Insets(10, 10, 10, 10));
-        buttons.setMargin(saveBtn, new Insets(10, 10, 10, 10));
+        HBox.setMargin(retestBtn, new Insets(10, 10, 10, 10));
+        HBox.setMargin(clearBtn, new Insets(10, 10, 10, 10));
+        HBox.setMargin(saveBtn, new Insets(10, 10, 10, 10));
 
 
         // Clear the current session
