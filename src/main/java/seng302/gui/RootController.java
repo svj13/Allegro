@@ -108,6 +108,9 @@ public class RootController implements Initializable {
     private MenuItem menuCRT;
 
     @FXML
+    private MenuItem menuKST;
+
+    @FXML
     private Menu menuOpenProjects;
 
     @FXML
@@ -640,6 +643,49 @@ public class RootController implements Initializable {
 
     }
 
+    /**
+     * opens the keySignatures tutor when the key signatures tutor menu option is pressed
+     * If there is already an open tutor of the same form then it sets focus to the already open tutor
+     */
+    @FXML
+    private void openKeySignatureTutor(){
+
+        boolean alreadyExists = false;
+        for(Tab tab:TabPane.getTabs()){
+            if(tab.getId().equals("keySignatureTutor")){
+                TabPane.getSelectionModel().select(tab);
+                alreadyExists = true;
+            }
+
+        }
+
+        if(!alreadyExists) {
+
+            Tab ScaleTab = new Tab("Key Signature Tutor");
+            ScaleTab.setId("keySignatureTutor");
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/Views/KeySignaturesPane.fxml"));
+
+            try {
+                ScaleTab.setContent((Node) loader.load());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            TabPane.getTabs().add(ScaleTab);
+            TabPane.getSelectionModel().select(ScaleTab);
+            KeySignaturesTabController = loader.getController();
+            KeySignaturesTabController.create(env);
+        }
+
+    }
+
+
+
+
+
+
 
     /**
      * Displays an error message
@@ -836,14 +882,14 @@ public class RootController implements Initializable {
         if (ScaleRecognitionTabController != null) {
             ScaleRecognitionTabController.clearTutor();
         }
-=======
-        PitchComparisonTabController.clearTutor();
-        IntervalRecognitionTabController.clearTutor();
-        MusicalTermsTabController.clearTutor();
-        ScaleRecognitionTabController.clearTutor();
-        ChordRecognitionTabController.clearTutor();
-        KeySignaturesTabController.clearTutor();
->>>>>>> de1eda0... Setup tutor pane
+        if (ChordRecognitionTabController != null){
+            ChordRecognitionTabController.clearTutor();
+        }
+        if(KeySignaturesTabController != null){
+            KeySignaturesTabController.clearTutor();
+
+        }
+        
     }
 
     public TranscriptPaneController getTranscriptController() {

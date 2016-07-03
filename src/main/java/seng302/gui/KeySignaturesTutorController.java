@@ -50,7 +50,7 @@ public class KeySignaturesTutorController extends TutorController {
      * Run when the go button is pressed. Creates a new tutoring session.
      */
     private void goAction(ActionEvent event) {
-        record = new TutorRecord(new Date(), "Scale Recognition");
+        record = new TutorRecord();
         paneQuestions.setVisible(true);
         paneResults.setVisible(false);
         manager.resetEverything();
