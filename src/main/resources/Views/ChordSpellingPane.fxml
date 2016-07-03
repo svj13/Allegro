@@ -28,6 +28,12 @@
                             <VBox.margin>
                                 <Insets left="5.0" />
                             </VBox.margin>
+                     <children>
+                        <Label text="Chord Types" />
+                        <ComboBox fx:id="chordTypes" prefWidth="100.0" promptText="All" />
+                        <Label text="Enharmonics" />
+                        <ComboBox fx:id="numEnharmonics" prefWidth="100.0" promptText="1" />
+                     </children>
                         </HBox>
                         <HBox prefHeight="100.0" prefWidth="300.0">
                             <children>

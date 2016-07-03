@@ -3,6 +3,7 @@ package seng302.gui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Pair;
@@ -19,11 +20,21 @@ public class ChordSpellingTutorController extends TutorController {
     AnchorPane chordSpellingAnchor;
 
     @FXML
+    ComboBox chordTypes;
+
+    @FXML
+    ComboBox numEnharmonics;
+
+    @FXML
     Button btnGo;
 
     public void create(Environment env) {
         super.create(env);
         initialiseQuestionSelector();
+        chordTypes.getItems().addAll("all", "major", "minor");
+        chordTypes.getSelectionModel().selectFirst();
+        numEnharmonics.getItems().addAll("only one", "all");
+        numEnharmonics.getSelectionModel().selectFirst();
     }
 
     @FXML
