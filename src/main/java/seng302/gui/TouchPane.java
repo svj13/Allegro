@@ -58,7 +58,7 @@ public class TouchPane extends StackPane {
 
 
         setOnMouseReleased(event -> {
-            if (!keyboardPaneController.getShiftState()) {
+            if (environment.isShiftPressed()) {
                 setHighlightOff();
                 if (displayLabelOnAction) {
                     getChildren().clear();
@@ -67,7 +67,8 @@ public class TouchPane extends StackPane {
         });
 
         setOnMousePressed(event -> {
-            if (keyboardPaneController.getShiftState()) {
+            if (!environment.isShiftPressed()) {
+                System.out.println("here");
                 keyboardPaneController.addMultiNote(noteToPlay, me);
                 setHighlightOn();
             } else {

@@ -20,7 +20,6 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -99,10 +98,6 @@ public class KeyboardPaneController {
      */
     private RadioButton noteLabelsOff;
 
-    /**
-     * Is the shift key currently down?
-     */
-    private boolean shift;
 
     /**
      * Current notes that have been clicked, since shift key was held.
@@ -283,6 +278,17 @@ public class KeyboardPaneController {
 
         // Register the listener.
         env.getRootController().paneMain.widthProperty().addListener(listener);
+        env.shiftPressedProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println("changed");
+            if (newValue) {
+                env.getPlayer().playSimultaneousNotes(multiNotes);
+                multiNotes.clear();
+                for (TouchPane clickedPane : clicked) {
+                    clickedPane.setHighlightOff();
+                }
+                clicked.clear();
+            }
+        });
 
     }
 
@@ -312,24 +318,8 @@ public class KeyboardPaneController {
 
         }
 
-        keyboardStack.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.SHIFT) {
-                shift = true;
-            }
-        });
-
-        keyboardStack.setOnKeyReleased(event -> {
-            if (event.getCode() == KeyCode.SHIFT) {
-                env.getPlayer().playSimultaneousNotes(multiNotes);
-                shift = false;
-                multiNotes.clear();
-                for (TouchPane clickedPane : clicked) {
-                    clickedPane.setHighlightOff();
-                }
-                clicked.clear();
-            }
-        });
     }
+
 
     /**
      * Position black keys dynamically according to the width of the white keys.
@@ -375,15 +365,6 @@ public class KeyboardPaneController {
 
     }
 
-
-    /**
-     * Whether shift is currently pressed.
-     *
-     * @return The value of shift.
-     */
-    public boolean getShiftState() {
-        return shift;
-    }
 
     /**
      * Add a note to the current set of notes pressed, while shift is pressed.

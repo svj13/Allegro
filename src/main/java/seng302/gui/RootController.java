@@ -754,13 +754,13 @@ public class RootController implements Initializable {
         this.env = env;
         env.setRootController(this);
         tm = env.getTranscriptManager();
-        transcriptController.setEnv(env);
+        transcriptController.setEnv(this.env);
         transcriptPane.setClosable(false);
         //PitchComparisonTabController.create(env);
         //IntervalRecognitionTabController.create(env);
         //MusicalTermsTabController.create(env);
         //ScaleRecognitionTabController.create(env);
-        keyboardPaneController.create(env);
+        keyboardPaneController.create(this.env);
 
 
     }
