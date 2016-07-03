@@ -1,5 +1,6 @@
 package seng302;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import seng302.gui.RootController;
 import seng302.managers.ProjectHandler;
@@ -15,7 +16,7 @@ public class Environment {
     private MusicPlayer player;
     private String recordLocation;
     private EditHistory em = new EditHistory(this);
-    public SimpleBooleanProperty shiftPressed;
+    private BooleanProperty shiftPressed;
 
     public RootController getRootController() {
         return rootController;
@@ -40,6 +41,11 @@ public class Environment {
         mttDataManager = new MusicalTermsTutorBackEnd();
         projectHandler = new ProjectHandler(this);
         shiftPressed = new SimpleBooleanProperty(false);
+
+//        shiftPressed.addListener((observable, oldValue, newValue) -> {
+//            System.out.println(newValue);
+//            System.out.println("changed");
+//        });
 
     }
 
@@ -124,14 +130,14 @@ public class Environment {
 
 
     public Boolean isShiftPressed() {
-        return shiftPressed.getValue();
+        return this.shiftPressed.getValue();
     }
 
-    public SimpleBooleanProperty shiftPressedProperty() {
-        return shiftPressed;
+    public BooleanProperty shiftPressedProperty() {
+        return this.shiftPressed;
     }
 
-    public void setShiftPressed(Boolean shiftPressed) {
+    public void setShiftPressed(boolean shiftPressed) {
         this.shiftPressed.setValue(shiftPressed);
     }
 }

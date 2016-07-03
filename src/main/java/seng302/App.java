@@ -58,18 +58,16 @@ public class App extends Application {
 
             RootController controller = loader.getController();
             if (controller == null) System.err.println("Controller is null");
-            controller.setEnvironment(new Environment());
+            controller.setEnvironment(env);
 
             scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
                 if (event.getCode().equals(KeyCode.SHIFT)) {
-                    System.out.println("shift down");
                     env.setShiftPressed(true);
                 }
             });
 
             scene.addEventFilter(KeyEvent.KEY_RELEASED, event -> {
                 if (event.getCode().equals(KeyCode.SHIFT)) {
-                    System.out.println("shift up");
                     env.setShiftPressed(false);
                 }
             });

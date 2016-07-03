@@ -109,6 +109,7 @@ public class KeyboardPaneController {
      */
     private List<TouchPane> clicked;
 
+
     /**
      * Set up keyboard, by creating settings popOver and TouchPanes(keys) for the keyboard.
      */
@@ -245,7 +246,7 @@ public class KeyboardPaneController {
             keyboardStack.requestFocus();
             positionBlackKeys();
         });
-        env.getPlayer().initKeyboardTrack();
+        this.env.getPlayer().initKeyboardTrack();
 
 
         // This change listener is registered to the width property of the application.
@@ -277,10 +278,9 @@ public class KeyboardPaneController {
         };
 
         // Register the listener.
-        env.getRootController().paneMain.widthProperty().addListener(listener);
-        env.shiftPressedProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("changed");
-            if (newValue) {
+        this.env.getRootController().paneMain.widthProperty().addListener(listener);
+        this.env.shiftPressedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
                 env.getPlayer().playSimultaneousNotes(multiNotes);
                 multiNotes.clear();
                 for (TouchPane clickedPane : clicked) {
