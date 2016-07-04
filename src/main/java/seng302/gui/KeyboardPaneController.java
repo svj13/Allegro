@@ -17,6 +17,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -85,7 +86,7 @@ public class KeyboardPaneController {
     /**
      * Is the keyboard currently hidden?
      */
-    private boolean hidden = false;
+    private boolean hidden = true;
 
     /**
      * Radio button to always show note labels.
@@ -112,6 +113,9 @@ public class KeyboardPaneController {
      * Current keys that have been clicked, since the shift key was held.
      */
     private List<TouchPane> clicked;
+
+    @FXML
+    private TitledPane keyPane;
 
 
     /**
@@ -244,6 +248,7 @@ public class KeyboardPaneController {
      */
     public void create(Environment env) {
         this.env = env;
+        toggleHideKeyboard();
         multiNotes = new ArrayList<>();
         clicked = new ArrayList<>();
         Platform.runLater(() -> {
@@ -387,13 +392,11 @@ public class KeyboardPaneController {
      */
     public void toggleHideKeyboard() {
         if (hidden) {
-            keyboardBox.setMaxHeight(200);
-            keyboardBox.setMinHeight(200);
+            keyPane.setExpanded(false);
             keyboardBox.requestFocus();
             hidden = false;
         } else {
-            keyboardBox.setMaxHeight(0);
-            keyboardBox.setMinHeight(0);
+            keyPane.setExpanded(true);
             hidden = true;
             env.getRootController().getTranscriptController().giveFocus();
         }
