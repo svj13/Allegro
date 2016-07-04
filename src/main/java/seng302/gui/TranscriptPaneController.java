@@ -2,14 +2,10 @@ package seng302.gui;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -20,7 +16,6 @@ import javafx.scene.control.ToolBar;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import seng302.Environment;
 import seng302.command.Command;
@@ -38,10 +33,6 @@ public class TranscriptPaneController {
 
     String path;
     File fileDir;
-
-
-//    @FXML
-//    private Pane pane1;
 
     @FXML
     public TextField txtCommand;
@@ -83,11 +74,7 @@ public class TranscriptPaneController {
     @FXML
     private void initialize() {
         // Text field can only request focus once everything has been loaded.
-        Platform.runLater(new Runnable() {
-            public void run() {
-                txtCommand.requestFocus();
-            }
-        });
+        Platform.runLater(() -> txtCommand.requestFocus());
     }
 
     private String enteredCommand;
@@ -149,25 +136,17 @@ public class TranscriptPaneController {
             env.getTranscriptManager().resetHistoryLevel();
         } else if (event.getCode() == KeyCode.UP) {
             txtCommand.setText(env.getTranscriptManager().cycleInputUp(txtCommand.getText()));
-            Platform.runLater(new Runnable() {
-                public void run() {
-                    txtCommand.positionCaret(9999);
-                }
-            });
+            Platform.runLater(() -> txtCommand.positionCaret(9999));
         } else if (event.getCode() == KeyCode.DOWN) {
             txtCommand.setText(env.getTranscriptManager().cycleInputDown(txtCommand.getText()));
-            Platform.runLater(new Runnable() {
-                public void run() {
-                    txtCommand.positionCaret(9999);
-                }
-            });
+            Platform.runLater(() -> txtCommand.positionCaret(9999));
         } else if (event.getCode() == KeyCode.ALPHANUMERIC) {
             env.getTranscriptManager().resetHistoryLevel();
         }
 
     }
 
-    public void setTranscriptPane(String text){
+    public void setTranscriptPane(String text) {
         txtTranscript.setText(text);
     }
 
@@ -202,69 +181,57 @@ public class TranscriptPaneController {
                         break;
                     }
                 }
-                Platform.runLater(new Runnable() {
-                    public void run() {
-                        playbackFinished();
-                    }
-                });
+                Platform.runLater(() -> playbackFinished());
                 return null;
             }
         };
         final Thread th = new Thread(playAllTask);
         th.setDaemon(true);
 
-        playall.setOnAction(new EventHandler<ActionEvent>() {
+        playall.setOnAction(event -> {
             //Plays commands one by one, with a second's pause in between
-            public void handle(ActionEvent event) {
-                playnext.setDisable(true);
-                th.start();
-            }
+            playnext.setDisable(true);
+            th.start();
         });
 
 
-        playnext.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                env.getPlayer().stop();
+        playnext.setOnAction(event -> {
+            env.getPlayer().stop();
 
-                try {
+            try {
+                Task playNextTask = new Task<Void>() {
+                    @Override
+                    public Void call() {
+                        Command cmd = execute(commands.get(0));
+                        printToTranscript();
+                        try {
+                            commands.remove(0);
 
-                    Task playNextTask = new Task<Void>() {
-                        @Override
-                        public Void call() {
-                            Command cmd = execute(commands.get(0));
-                            printToTranscript();
-                            try {
-                                commands.remove(0);
-
-                                Thread.sleep((long) cmd.getLength(env) + 100);
-                            } catch (InterruptedException e) {
-                                updateMessage("Cancelled");
-                            }
-                            return null;
+                            Thread.sleep((long) cmd.getLength(env) + 100);
+                        } catch (InterruptedException e) {
+                            updateMessage("Cancelled");
                         }
-                    };
-                    Thread nextThread = new Thread(playNextTask);
-                    nextThread.setDaemon(true);
-                    nextThread.start();
-                    if (commands.get(1) != null) {
-                        commandvalue.setText(commands.get(1));
-                    } else {
-                        commandvalue.setText("-");
+                        return null;
                     }
-
-                } catch (Exception e) {
-                    playbackFinished();
+                };
+                Thread nextThread = new Thread(playNextTask);
+                nextThread.setDaemon(true);
+                nextThread.start();
+                if (commands.get(1) != null) {
+                    commandvalue.setText(commands.get(1));
+                } else {
+                    commandvalue.setText("-");
                 }
+
+            } catch (Exception e) {
+                playbackFinished();
             }
         });
 
-        stop.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                playAllTask.cancel();
-                env.getPlayer().stop();
-                hidePlaybackGui();
-
-            }
+        stop.setOnAction(event -> {
+            playAllTask.cancel();
+            env.getPlayer().stop();
+            hidePlaybackGui();
         });
 
     }
@@ -296,7 +263,6 @@ public class TranscriptPaneController {
     public void giveFocus() {
         txtCommand.requestFocus();
     }
-
 
 
 }

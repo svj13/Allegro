@@ -1,12 +1,13 @@
 package seng302.command;
-import seng302.Environment;
-import seng302.data.KeySignature;
-import seng302.utility.musicNotation.OctaveUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import seng302.Environment;
+import seng302.data.KeySignature;
+import seng302.utility.musicNotation.OctaveUtil;
 
 public class KeySignatureCommand implements Command {
 
@@ -65,8 +66,7 @@ public class KeySignatureCommand implements Command {
     private static HashMap<String, KeySignature> minorKeySignatures = KeySignature.getMinorKeySignatures();
 
 
-
-    public KeySignatureCommand(HashMap<String, String> scale, String outputType){
+    public KeySignatureCommand(HashMap<String, String> scale, String outputType) {
         this.startNote = scale.get("note");
         this.startNoteChar = Character.toUpperCase(startNote.charAt(0));
 
@@ -83,7 +83,7 @@ public class KeySignatureCommand implements Command {
     /**
      * Constructor for getting scales with the given number of sharps/flats in their key sig
      */
-    public KeySignatureCommand(String numSharpsOrFlats){
+    public KeySignatureCommand(String numSharpsOrFlats) {
         if (numSharpsOrFlats.equals("0#b")) {
             this.numFlatsOrSharps = "0";
             this.flatOrSharp = "x";
@@ -103,54 +103,53 @@ public class KeySignatureCommand implements Command {
     }
 
 
-
     /**
      * Displays the key signatures in order for a given scale
-     * @param env
      */
-    private void displayKeySignature(Environment env){
+    private void displayKeySignature(Environment env) {
         String outputString = "";
 
         List<String> sig;
 
         String octaveSpecifier = "";
-        if(octaveSpecified){
+        if (octaveSpecified) {
             octaveSpecifier = startNote.substring(startNote.length() - 1);
             startNote = startNote.substring(0, startNote.length() - 1); //strip ocave specifier
         }
 
 
-
         if (type.toLowerCase().equals("major")) {
-            if(startNoteChar.equals('C') && !(startNote.contains("#") || startNote.contains("b")) ) {
-                outputString += startNote + octaveSpecifier+ " " +type + " has no key signatures";
+            if (startNoteChar.equals('C') && !(startNote.contains("#") || startNote.contains("b"))) {
+                outputString += startNote + octaveSpecifier + " " + type + " has no key signatures";
                 env.getTranscriptManager().setResult(outputString);
-            }else {
+            } else {
                 sig = majorKeySignatures.get(startNote.substring(0, 1).toUpperCase() + startNote.substring(1)).getNotes();
                 env.getTranscriptManager().setResult(generateOutputString(sig, octaveSpecifier));
             }
 
 
-        }else if(type.toLowerCase().equals("minor")){
-            if(startNoteChar.equals('A') && !(startNote.contains("#") || startNote.contains("b")) ) {
+        } else if (type.toLowerCase().equals("minor")) {
+            if (startNoteChar.equals('A') && !(startNote.contains("#") || startNote.contains("b"))) {
                 outputString += startNote + octaveSpecifier + " " + type + " has no key signatures";
                 env.getTranscriptManager().setResult(outputString);
-            }else {
+            } else {
                 sig = minorKeySignatures.get(startNote.substring(0, 1).toUpperCase() + startNote.substring(1)).getNotes();
                 env.getTranscriptManager().setResult(generateOutputString(sig, octaveSpecifier));
             }
-        }else{
+        } else {
             env.getTranscriptManager().setResult(type + " is not a valid scale type");
         }
     }
 
     /**
      * Generates a string by concatenating a list and adding on an octave specifier to each item
-     * @param list - list being concatenated
-     * @param octaveSpecifier - the octave specifier that needs to be added to the end of each element in the list.
+     *
+     * @param list            - list being concatenated
+     * @param octaveSpecifier - the octave specifier that needs to be added to the end of each
+     *                        element in the list.
      * @return a string that is constructed from the list
      */
-    private String generateOutputString(List<String> list, String octaveSpecifier){
+    private String generateOutputString(List<String> list, String octaveSpecifier) {
         String outputString = "";
         for (String noteName : list) {
             outputString += noteName + octaveSpecifier + ", ";
@@ -173,42 +172,40 @@ public class KeySignatureCommand implements Command {
 
     /**
      * Displays the number of flats or sharps in a given scale
-     * @param env
      */
-    private void displayNumberKeySignatures(Environment env){
+    private void displayNumberKeySignatures(Environment env) {
 
         List<String> sig;
 
-        if(octaveSpecified){
+        if (octaveSpecified) {
             startNote = startNote.substring(0, startNote.length() - 1); //strip ocave specifier
         }
 
         if (type.toLowerCase().equals("major")) {
-            if(startNoteChar.equals('C') && !(startNote.contains("#") || startNote.contains("b")) ) {
+            if (startNoteChar.equals('C') && !(startNote.contains("#") || startNote.contains("b"))) {
                 env.getTranscriptManager().setResult(startNote + " major has 0# and 0b");
-            }else {
+            } else {
                 sig = majorKeySignatures.get(startNote.substring(0, 1).toUpperCase() + startNote.substring(1)).getNotes();
-                env.getTranscriptManager().setResult(Integer.toString(sig.size())+sig.get(0).charAt(1));
+                env.getTranscriptManager().setResult(Integer.toString(sig.size()) + sig.get(0).charAt(1));
             }
 
 
-        }else if(type.toLowerCase().equals("minor")){
-            if(startNoteChar.equals('A') && !(startNote.contains("#") || startNote.contains("b")) ) {
+        } else if (type.toLowerCase().equals("minor")) {
+            if (startNoteChar.equals('A') && !(startNote.contains("#") || startNote.contains("b"))) {
                 env.getTranscriptManager().setResult(startNote + " minor has 0# and 0b");
-            }else {
+            } else {
                 sig = minorKeySignatures.get(startNote.substring(0, 1).toUpperCase() + startNote.substring(1)).getNotes();
-                env.getTranscriptManager().setResult(Integer.toString(sig.size())+sig.get(0).charAt(1));
+                env.getTranscriptManager().setResult(Integer.toString(sig.size()) + sig.get(0).charAt(1));
             }
-        }else{
+        } else {
             env.getTranscriptManager().setResult(type + " is not a valid scale type");
         }
 
     }
 
     /**
-     * Provided with a number and either sharps or flats, finds all scales whose key signatures
-     * have this number of sharps/flats.
-     * @param env
+     * Provided with a number and either sharps or flats, finds all scales whose key signatures have
+     * this number of sharps/flats.
      */
     private void getScalesOfType(Environment env) {
         try {
@@ -222,7 +219,7 @@ public class KeySignatureCommand implements Command {
                 //valid number
                 if (this.flatOrSharp.equals("b")) {
                     //Add the major scales
-                    for(Map.Entry<String, KeySignature> entry : majorKeySignatures.entrySet()) {
+                    for (Map.Entry<String, KeySignature> entry : majorKeySignatures.entrySet()) {
                         KeySignature thisKeySig = entry.getValue();
                         if (thisKeySig.getNumberOfFlats() == numFlatsOrSharps) {
                             scalesWithThisType.add(thisKeySig.getStartNote() + " major");
@@ -230,7 +227,7 @@ public class KeySignatureCommand implements Command {
                     }
 
                     //Add the minor scales
-                    for(Map.Entry<String, KeySignature> entry : minorKeySignatures.entrySet()) {
+                    for (Map.Entry<String, KeySignature> entry : minorKeySignatures.entrySet()) {
                         KeySignature thisKeySig = entry.getValue();
                         if (thisKeySig.getNumberOfFlats() == numFlatsOrSharps) {
                             scalesWithThisType.add(thisKeySig.getStartNote() + " minor");
@@ -239,7 +236,7 @@ public class KeySignatureCommand implements Command {
                 }
                 if (this.flatOrSharp.equals("#")) {
                     //Add the major scales
-                    for(Map.Entry<String, KeySignature> entry : majorKeySignatures.entrySet()) {
+                    for (Map.Entry<String, KeySignature> entry : majorKeySignatures.entrySet()) {
                         KeySignature thisKeySig = entry.getValue();
                         if (thisKeySig.getNumberOfSharps() == numFlatsOrSharps) {
                             scalesWithThisType.add(thisKeySig.getStartNote() + " major");
@@ -247,7 +244,7 @@ public class KeySignatureCommand implements Command {
                     }
 
                     //Add the minor scales
-                    for(Map.Entry<String, KeySignature> entry : minorKeySignatures.entrySet()) {
+                    for (Map.Entry<String, KeySignature> entry : minorKeySignatures.entrySet()) {
                         KeySignature thisKeySig = entry.getValue();
                         if (thisKeySig.getNumberOfSharps() == numFlatsOrSharps) {
                             scalesWithThisType.add(thisKeySig.getStartNote() + " minor");
@@ -273,7 +270,7 @@ public class KeySignatureCommand implements Command {
                         }
                     }
                 }
-                env.getTranscriptManager().setResult(generateOutputString(scalesWithThisType,""));
+                env.getTranscriptManager().setResult(generateOutputString(scalesWithThisType, ""));
             }
 
         } catch (Exception e) {
@@ -308,18 +305,15 @@ public class KeySignatureCommand implements Command {
     }
 
 
-
-
-    public float getLength(Environment env){
+    public float getLength(Environment env) {
         return length;
     }
 
 
     /**
      * Called when the command is made and decides what function needs to be called
-     * @param env
      */
-    public void execute(Environment env){
+    public void execute(Environment env) {
 
 
         if (OctaveUtil.octaveSpecifierFlag(this.startNote)) {
@@ -332,7 +326,7 @@ public class KeySignatureCommand implements Command {
         if (outputType.equals("notes")) {
             displayKeySignature(env);
 
-        }else if(outputType.equals("number")){
+        } else if (outputType.equals("number")) {
             displayNumberKeySignatures(env);
 
         } else if (outputType.equals("get")) {

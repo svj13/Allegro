@@ -1,10 +1,12 @@
 package seng302;
 
-import seng302.managers.ProjectHandler;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import seng302.gui.RootController;
+import seng302.managers.ProjectHandler;
+import seng302.managers.TranscriptManager;
 import seng302.utility.EditHistory;
 import seng302.utility.MusicalTermsTutorBackEnd;
-import seng302.managers.TranscriptManager;
 
 public class Environment {
 
@@ -14,6 +16,7 @@ public class Environment {
     private MusicPlayer player;
     private String recordLocation;
     private EditHistory em = new EditHistory(this);
+    private BooleanProperty shiftPressed;
 
     public RootController getRootController() {
         return rootController;
@@ -37,7 +40,7 @@ public class Environment {
         transcriptManager = new TranscriptManager();
         mttDataManager = new MusicalTermsTutorBackEnd();
         projectHandler = new ProjectHandler(this);
-
+        shiftPressed = new SimpleBooleanProperty(false);
     }
 
     /**
@@ -56,7 +59,6 @@ public class Environment {
         if (rootController != null) {
             //reset this too
             rootController.reset();
-
         }
 
     }
@@ -79,13 +81,17 @@ public class Environment {
         return transcriptManager;
     }
 
-    public MusicalTermsTutorBackEnd getMttDataManager(){ return mttDataManager;}
+    public MusicalTermsTutorBackEnd getMttDataManager() {
+        return mttDataManager;
+    }
 
     public void setTranscriptManager(TranscriptManager t) {
         this.transcriptManager = t;
     }
 
-    public void setMttDataManager(MusicalTermsTutorBackEnd t){this.mttDataManager = t;}
+    public void setMttDataManager(MusicalTermsTutorBackEnd t) {
+        this.mttDataManager = t;
+    }
 
     public String getRecordLocation() {
         return recordLocation;
@@ -116,6 +122,15 @@ public class Environment {
     }
 
 
+    public Boolean isShiftPressed() {
+        return this.shiftPressed.getValue();
+    }
 
+    public BooleanProperty shiftPressedProperty() {
+        return this.shiftPressed;
+    }
 
+    public void setShiftPressed(boolean shiftPressed) {
+        this.shiftPressed.setValue(shiftPressed);
+    }
 }
