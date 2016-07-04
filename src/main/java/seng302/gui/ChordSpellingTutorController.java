@@ -123,16 +123,16 @@ public class ChordSpellingTutorController extends TutorController {
             correctAnswer = correctAnswer(chordAsString(chordNotes));
             question.setText(chordName);
 
-            //either 3 or 4 notes in the chord
             ComboBox<String> note1 = new ComboBox<String>();
+            note1.getItems().addAll(generateOptions(chordNotes.get(0)));
             ComboBox<String> note2 = new ComboBox<String>();
+            note2.getItems().addAll(generateOptions(chordNotes.get(1)));
             ComboBox<String> note3 = new ComboBox<String>();
-            ComboBox<String> note4 = new ComboBox<String>();
+            note3.getItems().addAll(generateOptions(chordNotes.get(2)));
 
             inputs.getChildren().add(note1);
             inputs.getChildren().add(note2);
             inputs.getChildren().add(note3);
-            inputs.getChildren().add(note4);
 
 
         } else {
@@ -205,6 +205,35 @@ public class ChordSpellingTutorController extends TutorController {
         }
 
         return new Pair<String, ArrayList<Note>>(chordName, chordNotes);
+    }
+
+    private ArrayList<String> generateOptions(Note correctNote) {
+        ArrayList<String> surroundingNotes = new ArrayList<String>();
+        int correctNoteMidi = correctNote.getMidi();
+
+        //Generates a starting point in the range -7 to +7
+        int randomStartingDifference = rand.nextInt(15) - 7;
+
+        String startingNoteMidi = Integer.toString(correctNoteMidi + randomStartingDifference);
+
+        Note startingNote = Note.lookup(startingNoteMidi);
+
+        if (randomStartingDifference > 0) {
+            //goes to above the note
+            //example, if you're +7 above the note, you take that one and go down 7 semitones?
+            for (int i = 0; i < 8; i++) {
+                surroundingNotes.add(OctaveUtil.removeOctaveSpecifier(startingNote.semitoneDown(i).getNote()));
+            }
+        } else {
+            //goes to below the note
+            //so, if you're -7 below the note, you take that and go up 7 semitones
+            for (int i = 0; i < 8; i++) {
+                surroundingNotes.add(OctaveUtil.removeOctaveSpecifier(startingNote.semitoneUp(i).getNote()));
+            }
+        }
+
+        return surroundingNotes;
+
     }
 
 
