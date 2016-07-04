@@ -207,7 +207,14 @@ public class ChordSpellingTutorController extends TutorController {
         return new Pair<String, ArrayList<Note>>(chordName, chordNotes);
     }
 
+    /**
+     * Given a note to include, generates a set of 8 notes around it.
+     *
+     * @param correctNote The note that must be included
+     * @return A list of 8 notes, with the required note included somewhere.
+     */
     private ArrayList<String> generateOptions(Note correctNote) {
+        //to do: make some of these flats, some sharps, etc.
         ArrayList<String> surroundingNotes = new ArrayList<String>();
         int correctNoteMidi = correctNote.getMidi();
 
