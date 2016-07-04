@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Pair;
@@ -94,11 +96,11 @@ public class ChordSpellingTutorController extends TutorController {
 
                 }
             }
-
-            return generateQuestionA(chordName, chordNotes);
+            Pair<String, ArrayList<Note>> randomChord = new Pair<String, ArrayList<Note>>(chordName, chordNotes);
+            return generateQuestionPane(randomChord);
         } else {
             //Second type of question
-            return generateQuestionB();
+            return new HBox();
         }
 
     }
@@ -113,21 +115,74 @@ public class ChordSpellingTutorController extends TutorController {
     }
 
     @Override
-    HBox generateQuestionPane(Pair data) {
-        return null;
-    }
+    HBox generateQuestionPane(final Pair data) {
+        final HBox questionRow = new HBox();
+        formatQuestionRow(questionRow);
+        Label correctAnswer = new Label();
+        Label question = new Label();
 
-    HBox generateQuestionA(String chordName, ArrayList<Note> chordNotes) {
-        System.out.println("Given the chord name " + chordName + ", the expected notes are");
-        for (Note note : chordNotes) {
-            System.out.println(OctaveUtil.removeOctaveSpecifier(note.getNote()));
+        final HBox inputs = new HBox();
+
+
+        Button skip = new Button("Skip");
+        styleSkipButton(skip);
+
+
+        if (data.getValue() instanceof ArrayList) {
+            //Type A question
+            final String chordName = (String) data.getKey();
+            final ArrayList<Note> chordNotes = (ArrayList<Note>) data.getValue();
+            correctAnswer = correctAnswer(chordAsString(chordNotes));
+            question.setText(chordName);
+
+            //either 3 or 4 notes in the chord
+            ComboBox<String> note1 = new ComboBox<String>();
+            ComboBox<String> note2 = new ComboBox<String>();
+            ComboBox<String> note3 = new ComboBox<String>();
+            ComboBox<String> note4 = new ComboBox<String>();
+
+            inputs.getChildren().add(note1);
+            inputs.getChildren().add(note2);
+            inputs.getChildren().add(note3);
+            inputs.getChildren().add(note4);
+
+
+            skip.setOnAction(new EventHandler<ActionEvent>() {
+                public void handle(ActionEvent event) {
+                    // Disables only input buttons
+                    disableButtons(questionRow, 1, 3);
+                    formatSkippedQuestion(questionRow);
+                    manager.questions -= 1;
+                    manager.add(data, 2);
+                    env.getRootController().setTabTitle("chordSpellingTutor", true);
+                    if (manager.answered == manager.questions) {
+                        //finished();
+                    }
+                }
+            });
+
+        } else {
+            //Type B question
         }
-        return new HBox();
+
+        questionRow.getChildren().add(0, question);
+        questionRow.getChildren().add(1, inputs);
+        questionRow.getChildren().add(2, skip);
+        questionRow.getChildren().add(3, correctAnswer);
+
+        questionRow.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
+        return questionRow;
     }
 
-    HBox generateQuestionB() {
-        return new HBox();
+
+    private String chordAsString(ArrayList<Note> chord) {
+        String chordAsText = "";
+        for (Note note : chord) {
+            chordAsText += OctaveUtil.removeOctaveSpecifier(note.getNote());
+        }
+        return chordAsText;
     }
+
 
     @Override
     void resetInputs() {
