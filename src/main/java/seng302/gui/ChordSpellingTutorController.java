@@ -155,14 +155,26 @@ public class ChordSpellingTutorController extends TutorController {
     }
 
 
+    /**
+     * Turns a chord (array list of notes) into a pretty string.
+     *
+     * @param chord An Array List of Notes
+     * @return the provided notes in a readable format
+     */
     private String chordAsString(ArrayList<Note> chord) {
         String chordAsText = "";
+
         for (Note note : chord) {
-            chordAsText += OctaveUtil.removeOctaveSpecifier(note.getNote());
+            chordAsText += OctaveUtil.removeOctaveSpecifier(note.getNote()) + " ";
         }
         return chordAsText;
     }
 
+    /**
+     * Randomly decides whether the chord will be major or minor.
+     * Will be extended for further chord types
+     * @return either "major" or "minor" as a string
+     */
     private String generateRandomChordType() {
         int majorOrMinor = rand.nextInt(2);
         if (majorOrMinor == 0) {
@@ -172,6 +184,10 @@ public class ChordSpellingTutorController extends TutorController {
         }
     }
 
+    /**
+     * Generates a "valid chord". That is, its name is valid and its notes match its name.
+     * @return A Pair object of Chord Name, Notes in Chord
+     */
     private Pair<String, ArrayList<Note>> generateValidChord() {
         String chordType = generateRandomChordType();
 
