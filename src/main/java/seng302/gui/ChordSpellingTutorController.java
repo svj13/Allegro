@@ -72,37 +72,9 @@ public class ChordSpellingTutorController extends TutorController {
      * @return a question pane containing the question information
      */
     public HBox setUpQuestion() {
-        int type = rand.nextInt(2);
-        if (type == 0) {
-            //First type of question
-            int majorOrMinor = rand.nextInt(2);
-            String chordType;
-            if (majorOrMinor == 0) {
-                chordType = "major";
-            } else {
-                chordType = "minor";
-            }
-
-            boolean validChord = false;
-            String chordName = "";
-            ArrayList<Note> chordNotes = null;
-
-            while (!validChord) {
-                Note startNote = getRandomNote();
-                if (ChordUtil.getChord(startNote, chordType) != null) {
-                    validChord = true;
-                    chordNotes = ChordUtil.getChord(startNote, chordType);
-                    chordName = OctaveUtil.removeOctaveSpecifier(startNote.getNote()) + " " + chordType;
-
-                }
-            }
-            Pair<String, ArrayList<Note>> randomChord = new Pair<String, ArrayList<Note>>(chordName, chordNotes);
-            return generateQuestionPane(randomChord);
-        } else {
-            //Second type of question
-            return new HBox();
-        }
-
+        //Both questions just need a chord
+        Pair<String, ArrayList<Note>> randomChord = generateValidChord();
+        return generateQuestionPane(randomChord);
     }
 
     /**
@@ -127,11 +99,27 @@ public class ChordSpellingTutorController extends TutorController {
         Button skip = new Button("Skip");
         styleSkipButton(skip);
 
+        skip.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                // Disables only input buttons
+                disableButtons(questionRow, 1, 3);
+                formatSkippedQuestion(questionRow);
+                manager.questions -= 1;
+                manager.add(data, 2);
+                env.getRootController().setTabTitle("chordSpellingTutor", true);
+                if (manager.answered == manager.questions) {
+                    //finished();
+                }
+            }
+        });
 
-        if (data.getValue() instanceof ArrayList) {
+        final String chordName = (String) data.getKey();
+        final ArrayList<Note> chordNotes = (ArrayList<Note>) data.getValue();
+
+        int questionType = rand.nextInt(2);
+
+        if (questionType == 0) {
             //Type A question
-            final String chordName = (String) data.getKey();
-            final ArrayList<Note> chordNotes = (ArrayList<Note>) data.getValue();
             correctAnswer = correctAnswer(chordAsString(chordNotes));
             question.setText(chordName);
 
@@ -147,22 +135,14 @@ public class ChordSpellingTutorController extends TutorController {
             inputs.getChildren().add(note4);
 
 
-            skip.setOnAction(new EventHandler<ActionEvent>() {
-                public void handle(ActionEvent event) {
-                    // Disables only input buttons
-                    disableButtons(questionRow, 1, 3);
-                    formatSkippedQuestion(questionRow);
-                    manager.questions -= 1;
-                    manager.add(data, 2);
-                    env.getRootController().setTabTitle("chordSpellingTutor", true);
-                    if (manager.answered == manager.questions) {
-                        //finished();
-                    }
-                }
-            });
-
         } else {
             //Type B question
+            correctAnswer = correctAnswer(chordName);
+            question.setText(chordAsString(chordNotes));
+
+            ComboBox<String> possibleNames = new ComboBox<String>();
+            inputs.getChildren().add(possibleNames);
+
         }
 
         questionRow.getChildren().add(0, question);
@@ -181,6 +161,34 @@ public class ChordSpellingTutorController extends TutorController {
             chordAsText += OctaveUtil.removeOctaveSpecifier(note.getNote());
         }
         return chordAsText;
+    }
+
+    private String generateRandomChordType() {
+        int majorOrMinor = rand.nextInt(2);
+        if (majorOrMinor == 0) {
+            return "major";
+        } else {
+            return "minor";
+        }
+    }
+
+    private Pair<String, ArrayList<Note>> generateValidChord() {
+        String chordType = generateRandomChordType();
+
+        boolean validChord = false;
+        String chordName = "";
+        ArrayList<Note> chordNotes = null;
+
+        while (!validChord) {
+            Note startNote = getRandomNote();
+            if (ChordUtil.getChord(startNote, chordType) != null) {
+                validChord = true;
+                chordNotes = ChordUtil.getChord(startNote, chordType);
+                chordName = OctaveUtil.removeOctaveSpecifier(startNote.getNote()) + " " + chordType;
+            }
+        }
+
+        return new Pair<String, ArrayList<Note>>(chordName, chordNotes);
     }
 
 
