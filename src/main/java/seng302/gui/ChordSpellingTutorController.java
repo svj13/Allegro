@@ -214,7 +214,6 @@ public class ChordSpellingTutorController extends TutorController {
      * @return A list of 8 notes, with the required note included somewhere.
      */
     private ArrayList<String> generateOptions(Note correctNote) {
-        //to do: make some of these flats, some sharps, etc.
         ArrayList<String> surroundingNotes = new ArrayList<String>();
         int correctNoteMidi = correctNote.getMidi();
 
@@ -229,18 +228,32 @@ public class ChordSpellingTutorController extends TutorController {
             //goes to above the note
             //example, if you're +7 above the note, you take that one and go down 7 semitones?
             for (int i = 0; i < 8; i++) {
-                surroundingNotes.add(OctaveUtil.removeOctaveSpecifier(startingNote.semitoneDown(i).getNote()));
+                Note thisNote = startingNote.semitoneDown(i);
+                surroundingNotes.add(randomiseNoteName(thisNote, correctNote));
             }
         } else {
             //goes to below the note
             //so, if you're -7 below the note, you take that and go up 7 semitones
             for (int i = 0; i < 8; i++) {
-                surroundingNotes.add(OctaveUtil.removeOctaveSpecifier(startingNote.semitoneUp(i).getNote()));
+                Note thisNote = startingNote.semitoneUp(i);
+                surroundingNotes.add(randomiseNoteName(thisNote, correctNote));
             }
         }
 
         return surroundingNotes;
 
+    }
+
+    private String randomiseNoteName(Note noteToRandomise, Note correctNote) {
+        String noteName = OctaveUtil.removeOctaveSpecifier(noteToRandomise.getNote());
+
+        //As the default is sharp, we randomise to get some flats
+        if (!noteToRandomise.equals(correctNote) && rand.nextInt(2) != 0) {
+            if (!noteToRandomise.simpleEnharmonic().equals("")) {
+                noteName = OctaveUtil.removeOctaveSpecifier(noteToRandomise.simpleEnharmonic());
+            }
+        }
+        return noteName;
     }
 
 
