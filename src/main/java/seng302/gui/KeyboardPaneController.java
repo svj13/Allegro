@@ -58,6 +58,10 @@ public class KeyboardPaneController {
     @FXML
     private Button settingsButton;
 
+
+    @FXML
+    private StackPane rightStack;
+
     /**
      * Current Environment (to access music player etc.).
      */
@@ -118,6 +122,7 @@ public class KeyboardPaneController {
         keyboardBox.setMaxHeight(200);
         keyboardBox.setMinHeight(200);
         blackKeys.setMaxHeight(130);
+        HBox.setHgrow(rightStack, Priority.ALWAYS);
 
         // Picking is computed by intersecting with the geometric
         // shape of the node, instead of the bounds.
@@ -159,7 +164,7 @@ public class KeyboardPaneController {
 
         // Style settings button.
         Image cog = new Image(getClass().getResourceAsStream
-                ("/images/gear-1119298_960_720.png"), 20, 20, true, true);
+                ("/images/gear-1119298_960_720.png"), 10, 10, true, true);
         settingsButton.setGraphic(new ImageView(cog));
         settingsButton.setText(null);
 
