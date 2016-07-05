@@ -256,6 +256,14 @@ public class ChordSpellingTutorController extends TutorController {
 
     }
 
+    /**
+     * Using random numbers, "randomises" whether a note will display with a sharp or flat. Only
+     * uses sharps/flats when applicable.
+     *
+     * @param noteToRandomise A Note which is being "randomised"
+     * @param correctNote     A note we don't want to randomise, ever
+     * @return A 'randomised' string representation of a note.
+     */
     private String randomiseNoteName(Note noteToRandomise, Note correctNote) {
         String noteName = OctaveUtil.removeOctaveSpecifier(noteToRandomise.getNote());
 
@@ -268,10 +276,23 @@ public class ChordSpellingTutorController extends TutorController {
         return noteName;
     }
 
+    /**
+     * Checks if the note a user has selected is the correct note.
+     * Essentially just a nice comparison function.
+     * @param correctNote The correct value
+     * @param selectedNote The value the user has selected
+     * @return True if the user selected the right note, False otherwise
+     */
     private Boolean isNoteCorrect(String correctNote, String selectedNote) {
         return correctNote.equals(selectedNote);
     }
 
+    /**
+     * Once a user has selected a note (type 1 questions), it is styled.
+     * The relevant combo box is styled green if the answer was correct, red if it was incorrect.
+     * @param note The combo box a note was selected from
+     * @param correctNote The value that should have been selected
+     */
     private void styleNoteInput(ComboBox<String> note, String correctNote) {
         //check if the note is correct, style accordingly
         String selectedNote = note.getValue();
