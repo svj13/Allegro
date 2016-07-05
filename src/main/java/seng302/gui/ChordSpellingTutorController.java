@@ -324,6 +324,12 @@ public class ChordSpellingTutorController extends TutorController {
         note.setDisable(true);
     }
 
+    /**
+     * Checks that all parts of a question have been answered.
+     *
+     * @param inputs The HBox containing the question parts
+     * @return True if all parts are answered, false otherwise.
+     */
     private boolean isQuestionCompletelyAnswered(HBox inputs) {
         boolean isAnswered = true;
         for (Object input : inputs.getChildren()) {
@@ -335,6 +341,11 @@ public class ChordSpellingTutorController extends TutorController {
         return isAnswered;
     }
 
+    /**
+     * Checks if all inputs to a type 1 question were correct.
+     * @param inputs The HBox containing the combo box inputs
+     * @return True if all inputs were correct, false otherwise
+     */
     private boolean isTypeOneQuestionCorrect(HBox inputs) {
         int correctParts = 0;
         for (Object input : inputs.getChildren()) {
@@ -353,6 +364,12 @@ public class ChordSpellingTutorController extends TutorController {
 
     }
 
+    /**
+     * Gives visual feedback of a question.
+     * Does so by styling the border etc based on whether or not the user was correct
+     * @param completedQuestion The HBox question to style
+     * @param questionType whether it was a type 1 or type 2 question.
+     */
     private void styleCompletedQuestion(HBox completedQuestion, int questionType) {
 
         HBox inputs = (HBox) completedQuestion.getChildren().get(1);
