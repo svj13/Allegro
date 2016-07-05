@@ -21,6 +21,7 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ZoomEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -190,18 +191,14 @@ public class KeyboardPaneController {
         slider.lowValueProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     bottomNote = newValue.intValue();
-                    setUpKeyboard();
-                    positionBlackKeys();
-                    checkLabelStatusForNewNotes();
+                    resetKeyboard();
                 }
         );
 
         slider.highValueProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     topNote = newValue.intValue();
-                    setUpKeyboard();
-                    positionBlackKeys();
-                    checkLabelStatusForNewNotes();
+                    resetKeyboard();
                 }
         );
 
@@ -218,6 +215,11 @@ public class KeyboardPaneController {
         settings.getChildren().add(noteLabelsAlways);
     }
 
+    private void resetKeyboard() {
+        setUpKeyboard();
+        positionBlackKeys();
+        checkLabelStatusForNewNotes();
+    }
     /**
      * When a note is created, check if it should be showing a label and toggle as needed.
      */
@@ -312,6 +314,28 @@ public class KeyboardPaneController {
 
         for (Integer i = bottomNote; i <= topNote; i++) {
             TouchPane key = new TouchPane(i, env, this);
+            key.setOnZoom(event -> {
+                System.out.println(event.getZoomFactor());
+
+                Integer newTop = Double.valueOf(topNote * event.getZoomFactor()).intValue();
+                if (topNote.equals(0) && event.getZoomFactor() > 1) {
+                    newTop = 2;
+                }
+                System.out.println("newTop: " + newTop.toString());
+                Integer newBottom = Double.valueOf(bottomNote * event.getZoomFactor()).intValue();
+                if (bottomNote.equals(0) && event.getZoomFactor() < 1) {
+                    newBottom = 2;
+                }
+                System.out.println("newBottom: " + newBottom.toString());
+
+                topNote = Integer.min(newTop, 127);
+                bottomNote = Integer.max(0, newBottom);
+                System.out.println(topNote);
+                System.out.println(bottomNote);
+
+                resetKeyboard();
+                event.consume();
+            });
             key.setMaxWidth(Double.MAX_VALUE);
             key.setPrefSize(100, 200);
             if (Note.lookup(i.toString()).getNote().contains("#")) {
