@@ -46,6 +46,13 @@ public class KeySignaturesTutorController extends TutorController {
 
     private Random rand;
 
+    private ArrayList<String> majorSharps = new ArrayList<String>(Arrays.asList("C","G","D","A","E","B","F#","C#"));
+    private ArrayList<String> majorFlats = new ArrayList<String>(Arrays.asList("Cb","Gb","Db","Ab","Eb","Bb","F","C"));
+    private ArrayList<String> minorSharps = new ArrayList<String>(Arrays.asList("A","E","B","F#","C#","G#","D#","A#"));
+    private ArrayList<String> minorFlats = new ArrayList<String>(Arrays.asList("Ab","Eb","Bb","F","C","G","D","A"));
+
+
+
     @FXML
     /**
      * Run when the go button is pressed. Creates a new tutoring session.
@@ -136,35 +143,36 @@ public class KeySignaturesTutorController extends TutorController {
     public HBox generateQuestionPane(Pair pair) {
         final HBox questionRow = new HBox();
         formatQuestionRow(questionRow);
-
+        final ComboBox<String> options;
         Random rand = new Random();
 
         Button skip = new Button("Skip");
         styleSkipButton(skip);
         Label questionText = new Label();
         List<String> keysAsArray;
+        String question;
 
         if(pair.getKey().equals("major")) {
             keysAsArray = new ArrayList<String>(KeySignature.getMajorKeySignatures().keySet());
             questionText.setText(" Major");
+            question = keysAsArray.get(rand.nextInt(keysAsArray.size()));
+            options = generateMajorChoices(question,true);
 
         }else if(pair.getKey().equals("minor")) {
             keysAsArray = new ArrayList<String>(KeySignature.getMinorKeySignatures().keySet());
+            question = keysAsArray.get(rand.nextInt(keysAsArray.size()));
             questionText.setText(" Minor");
+            options = generateMinorChoices(question,true);
 
         }else{
 
             /// random generation from both
             keysAsArray = new ArrayList<String>(KeySignature.getMinorKeySignatures().keySet());
-
+            question = keysAsArray.get(rand.nextInt(keysAsArray.size()));
+            options = generateMajorChoices(question,true);
         }
-        String question = keysAsArray.get(rand.nextInt(keysAsArray.size()));
+
         questionText.setText(question.concat(questionText.getText()));
-
-
-
-
-        final ComboBox<String> options = generateChoices("specific scale",true);
         options.setPrefHeight(30);
 
 
@@ -191,20 +199,53 @@ public class KeySignaturesTutorController extends TutorController {
     }
 
 
-    /**
-     * Creates a JavaFX combo box containing the lexical names of all scales.
-     *
-     * @return a combo box of scale options
-     */
-    private ComboBox<String> generateChoices(String scale, Boolean keysignature) {
+
+    private ComboBox<String> generateMajorChoices(String scale, Boolean keysignature) {
         ComboBox<String> options = new ComboBox<String>();
         options.setPrefHeight(30);
 
+        ArrayList<List> optionsList = new ArrayList<List>();
+        if((KeySignature.getMajorKeySignatures().get(scale)).getNotes().get(0).contains("#")){
+
+            for(String keySig : majorSharps){
+                optionsList.add((KeySignature.getMajorKeySignatures().get(keySig)).getNotes());
+            }
+        }else{
+            for(String keySig : majorFlats){
+                optionsList.add((KeySignature.getMajorKeySignatures().get(keySig)).getNotes());
+            }
+        }
+
+        Collections.shuffle(optionsList);
+        for(List option:optionsList){
+            options.getItems().add(option.toString());
+        }
+
+        return options;
+    }
 
 
-        //TODO add randomly generated choices
-        //if keysignature = true then generate options with key signatures
-        //else display names
+    private ComboBox<String> generateMinorChoices(String scale, Boolean keysignature) {
+        ComboBox<String> options = new ComboBox<String>();
+        options.setPrefHeight(30);
+
+        ArrayList<List> optionsList = new ArrayList<List>();
+        if((KeySignature.getMinorKeySignatures().get(scale)).getNotes().get(0).contains("#")){
+
+            for(String keySig : minorSharps){
+                optionsList.add((KeySignature.getMinorKeySignatures().get(keySig)).getNotes());
+            }
+        }else{
+            for(String keySig : minorFlats){
+                optionsList.add((KeySignature.getMinorKeySignatures().get(keySig)).getNotes());
+            }
+        }
+
+        Collections.shuffle(optionsList);
+        for(List option:optionsList){
+            options.getItems().add(option.toString());
+        }
+
         return options;
     }
 
