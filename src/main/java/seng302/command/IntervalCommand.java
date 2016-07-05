@@ -290,7 +290,6 @@ public class IntervalCommand implements Command {
                 if (intervalName != null) {
                     playingInterval = Interval.lookupByName(intervalName);
                 } else {
-                    System.out.println("hello");
 
                     ArrayList<Interval> possibleIntervals = Interval.lookupBySemitones(Integer.valueOf(semitones));
                     possibleIntervalnames = "";
