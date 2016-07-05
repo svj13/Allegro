@@ -1,6 +1,6 @@
 package seng302.gui;
 
-//import com.sun.xml.internal.bind.v2.TODO;
+
 import org.controlsfx.control.RangeSlider;
 import org.controlsfx.control.spreadsheet.StringConverterWithFormat;
 
@@ -22,6 +22,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 import seng302.Environment;
 import seng302.data.Interval;
+import seng302.data.KeySignature;
 import seng302.data.Note;
 import seng302.data.Term;
 import seng302.utility.TutorRecord;
@@ -87,7 +88,6 @@ public class KeySignaturesTutorController extends TutorController {
      */
     public HBox setUpQuestion() {
         String scaletype;
-        int answerForm;
         int questionType;
 
 
@@ -107,17 +107,11 @@ public class KeySignaturesTutorController extends TutorController {
             questionType = 1;
         }
 
-//        //figure out the type of answer wanted
-//        if(answerBox.getValue().equals("Number of sharps/flats")){
-//            answerForm = 0;
-//        }else{
-//            answerForm = 1;
-//        }
 
 
 
 
-        return generateQuestionPane(new Pair<String, String>("", ""));
+        return generateQuestionPane(new Pair<String, Integer>(scaletype, questionType));
     }
 
 
@@ -143,9 +137,32 @@ public class KeySignaturesTutorController extends TutorController {
         final HBox questionRow = new HBox();
         formatQuestionRow(questionRow);
 
+        Random rand = new Random();
 
         Button skip = new Button("Skip");
         styleSkipButton(skip);
+        Label questionText = new Label();
+        List<String> keysAsArray;
+
+        if(pair.getKey().equals("major")) {
+            keysAsArray = new ArrayList<String>(KeySignature.getMajorKeySignatures().keySet());
+            questionText.setText(" Major");
+
+        }else if(pair.getKey().equals("minor")) {
+            keysAsArray = new ArrayList<String>(KeySignature.getMinorKeySignatures().keySet());
+            questionText.setText(" Minor");
+
+        }else{
+
+            /// random generation from both
+            keysAsArray = new ArrayList<String>(KeySignature.getMinorKeySignatures().keySet());
+
+        }
+        String question = keysAsArray.get(rand.nextInt(keysAsArray.size()));
+        questionText.setText(question.concat(questionText.getText()));
+
+
+
 
         final ComboBox<String> options = generateChoices("specific scale",true);
         options.setPrefHeight(30);
@@ -165,8 +182,9 @@ public class KeySignaturesTutorController extends TutorController {
             }
         });
 
-        questionRow.getChildren().add(0, options);
-        questionRow.getChildren().add(1, skip);
+        questionRow.getChildren().add(0,questionText);
+        questionRow.getChildren().add(1, options);
+        questionRow.getChildren().add(2, skip);
 
         questionRow.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
         return questionRow;
@@ -188,6 +206,18 @@ public class KeySignaturesTutorController extends TutorController {
         //if keysignature = true then generate options with key signatures
         //else display names
         return options;
+    }
+
+    private void generateScaleOptions(){
+
+
+    }
+
+    private void generateKeySignatureOptions(){
+//        if(startNote.contains("#")){
+//
+//        }
+
     }
 
     /**
