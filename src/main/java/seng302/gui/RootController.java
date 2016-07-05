@@ -776,6 +776,7 @@ public class RootController implements Initializable {
      */
     public void setEnvironment(Environment env) {
         this.env = env;
+        this.env.setRootController(this);
         tm = env.getTranscriptManager();
         transcriptController.setEnv(env);
         transcriptPane.setClosable(false);
@@ -784,9 +785,6 @@ public class RootController implements Initializable {
         //MusicalTermsTabController.create(env);
         //ScaleRecognitionTabController.create(env);
         keyboardPaneController.create(env);
-
-        env.setRootController(this);
-
     }
 
     /**
