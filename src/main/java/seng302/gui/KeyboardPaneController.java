@@ -256,7 +256,6 @@ public class KeyboardPaneController {
             keyboardStack.requestFocus();
             positionBlackKeys();
         });
-        this.env.getPlayer().initKeyboardTrack();
 
 
         // This change listener is registered to the width property of the application.
