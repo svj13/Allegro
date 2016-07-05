@@ -127,19 +127,37 @@ public class ChordSpellingTutorController extends TutorController {
             note1.getItems().addAll(generateOptions(chordNotes.get(0)));
             note1.setOnAction(event -> {
                 String correctNote = OctaveUtil.removeOctaveSpecifier(chordNotes.get(0).getNote());
-                styleNoteInput(note1, correctNote);
+                boolean answeredCorrectly = isNoteCorrect(correctNote, note1.getValue());
+                styleNoteInput(note1, answeredCorrectly);
+                //check entire question
+                if (isQuestionCompletelyAnswered(inputs)) {
+                    //Style whole question as done
+                    styleCompletedQuestion(questionRow, 1);
+                }
             });
             ComboBox<String> note2 = new ComboBox<String>();
             note2.getItems().addAll(generateOptions(chordNotes.get(1)));
             note2.setOnAction(event -> {
                 String correctNote = OctaveUtil.removeOctaveSpecifier(chordNotes.get(1).getNote());
-                styleNoteInput(note2, correctNote);
+                boolean answeredCorrectly = isNoteCorrect(correctNote, note2.getValue());
+                styleNoteInput(note2, answeredCorrectly);
+                //check entire question
+                if (isQuestionCompletelyAnswered(inputs)) {
+                    //Style whole question as done
+                    styleCompletedQuestion(questionRow, 1);
+                }
             });
             ComboBox<String> note3 = new ComboBox<String>();
             note3.getItems().addAll(generateOptions(chordNotes.get(2)));
             note3.setOnAction(event -> {
                 String correctNote = OctaveUtil.removeOctaveSpecifier(chordNotes.get(2).getNote());
-                styleNoteInput(note3, correctNote);
+                boolean answeredCorrectly = isNoteCorrect(correctNote, note3.getValue());
+                styleNoteInput(note3, answeredCorrectly);
+                //check entire question
+                if (isQuestionCompletelyAnswered(inputs)) {
+                    //Style whole question as done
+                    styleCompletedQuestion(questionRow, 1);
+                }
             });
 
             inputs.getChildren().add(note1);
@@ -291,21 +309,75 @@ public class ChordSpellingTutorController extends TutorController {
      * Once a user has selected a note (type 1 questions), it is styled.
      * The relevant combo box is styled green if the answer was correct, red if it was incorrect.
      * @param note The combo box a note was selected from
-     * @param correctNote The value that should have been selected
+     * @param isCorrect Whether or not the correct answer was selected
      */
-    private void styleNoteInput(ComboBox<String> note, String correctNote) {
+    private void styleNoteInput(ComboBox<String> note, boolean isCorrect) {
         //check if the note is correct, style accordingly
         String selectedNote = note.getValue();
-        if (isNoteCorrect(correctNote, selectedNote)) {
+        if (isCorrect) {
             //style green
             note.setStyle("-fx-background-color: green");
-            note.setDisable(true);
         } else {
             //style red
             note.setStyle("-fx-background-color: red");
-            note.setDisable(true);
+        }
+        note.setDisable(true);
+    }
+
+    private boolean isQuestionCompletelyAnswered(HBox inputs) {
+        boolean isAnswered = true;
+        for (Object input : inputs.getChildren()) {
+            ComboBox<String> inputCombo = (ComboBox<String>) input;
+            if (inputCombo.getValue() == null) {
+                isAnswered = false;
+            }
+        }
+        return isAnswered;
+    }
+
+    private boolean isTypeOneQuestionCorrect(HBox inputs) {
+        int correctParts = 0;
+        for (Object input : inputs.getChildren()) {
+            ComboBox<String> thisInput = (ComboBox<String>) input;
+            if (thisInput.getStyle().contains("green")) {
+                //this part was correct
+                correctParts += 1;
+            }
+
+        }
+        if (correctParts == 3) {
+            return true;
+        } else {
+            return false;
         }
 
+    }
+
+    private void styleCompletedQuestion(HBox completedQuestion, int questionType) {
+
+        HBox inputs = (HBox) completedQuestion.getChildren().get(1);
+        Boolean wasAnsweredCorrectly;
+        if (questionType == 1) {
+            //check question of type 1
+            wasAnsweredCorrectly = isTypeOneQuestionCorrect(inputs);
+        } else {
+            //check question of type 2
+            //Placeholder, currently.
+            wasAnsweredCorrectly = true;
+        }
+
+        //perhaps implement a yellow border here, if it was partially correct?
+        if (wasAnsweredCorrectly) {
+            formatCorrectQuestion(completedQuestion);
+        } else {
+            formatIncorrectQuestion(completedQuestion);
+
+            //Shows the correct answer
+            completedQuestion.getChildren().get(3).setVisible(true);
+        }
+
+        //Disables skip button
+        completedQuestion.getChildren().get(2).setDisable(true);
     }
 
 
