@@ -125,10 +125,22 @@ public class ChordSpellingTutorController extends TutorController {
 
             ComboBox<String> note1 = new ComboBox<String>();
             note1.getItems().addAll(generateOptions(chordNotes.get(0)));
+            note1.setOnAction(event -> {
+                String correctNote = OctaveUtil.removeOctaveSpecifier(chordNotes.get(0).getNote());
+                styleNoteInput(note1, correctNote);
+            });
             ComboBox<String> note2 = new ComboBox<String>();
             note2.getItems().addAll(generateOptions(chordNotes.get(1)));
+            note2.setOnAction(event -> {
+                String correctNote = OctaveUtil.removeOctaveSpecifier(chordNotes.get(1).getNote());
+                styleNoteInput(note2, correctNote);
+            });
             ComboBox<String> note3 = new ComboBox<String>();
             note3.getItems().addAll(generateOptions(chordNotes.get(2)));
+            note3.setOnAction(event -> {
+                String correctNote = OctaveUtil.removeOctaveSpecifier(chordNotes.get(2).getNote());
+                styleNoteInput(note3, correctNote);
+            });
 
             inputs.getChildren().add(note1);
             inputs.getChildren().add(note2);
@@ -254,6 +266,25 @@ public class ChordSpellingTutorController extends TutorController {
             }
         }
         return noteName;
+    }
+
+    private Boolean isNoteCorrect(String correctNote, String selectedNote) {
+        return correctNote.equals(selectedNote);
+    }
+
+    private void styleNoteInput(ComboBox<String> note, String correctNote) {
+        //check if the note is correct, style accordingly
+        String selectedNote = note.getValue();
+        if (isNoteCorrect(correctNote, selectedNote)) {
+            //style green
+            note.setStyle("-fx-background-color: green");
+            note.setDisable(true);
+        } else {
+            //style red
+            note.setStyle("-fx-background-color: red");
+            note.setDisable(true);
+        }
+
     }
 
 
