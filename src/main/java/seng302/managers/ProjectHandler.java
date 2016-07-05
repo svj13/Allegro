@@ -1,17 +1,17 @@
 package seng302.managers;
 
 /**
- *  ProjectHandler
+ * ProjectHandler
  *
- *  In charge of handling user project data, including saving, loading and validating.
-
+ * In charge of handling user project data, including saving, loading and validating.
+ *
  *
  * Created by Jonty on 12-Apr-16.
  */
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import javafx.scene.control.TextInputDialog;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -31,6 +31,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
 
+import javafx.scene.control.TextInputDialog;
 import seng302.Environment;
 import seng302.data.Term;
 import seng302.utility.OutputTuple;
@@ -84,7 +85,7 @@ public class ProjectHandler {
     boolean saved = true;
     Environment env;
 
-    public ProjectHandler(Environment env){
+    public ProjectHandler(Environment env) {
 
         projectSettings = new JSONObject();
         //pitchTutorRecords = new JSONObject();
@@ -106,7 +107,7 @@ public class ProjectHandler {
 
         this.env = env;
         try {
-            this.projectsInfo = (JSONObject) parser.parse(new FileReader(userDirectory+"/projects.json"));
+            this.projectsInfo = (JSONObject) parser.parse(new FileReader(userDirectory + "/projects.json"));
             this.projectList = (JSONArray) projectsInfo.get("projects");
 
         } catch (FileNotFoundException e) {
@@ -115,9 +116,9 @@ public class ProjectHandler {
                 projectList = new JSONArray();
 
 
-                projectsInfo.put("projects",projectList);
+                projectsInfo.put("projects", projectList);
 
-                if(!Files.isDirectory(userDirectory)) {
+                if (!Files.isDirectory(userDirectory)) {
                     //Create Projects path doesn't exist.
                     try {
                         Files.createDirectories(userDirectory);
@@ -129,7 +130,7 @@ public class ProjectHandler {
                     }
                 }
 
-                FileWriter file = new FileWriter(userDirectory+"/projects.json");
+                FileWriter file = new FileWriter(userDirectory + "/projects.json");
                 file.write(projectsInfo.toJSONString());
                 file.flush();
                 file.close();
@@ -148,7 +149,7 @@ public class ProjectHandler {
 
     }
 
-    private void saveProperties(){
+    private void saveProperties() {
         Gson gson = new Gson();
         projectSettings.put("tempo", env.getPlayer().getTempo());
         String transcriptString = gson.toJson(env.getTranscriptManager().getTranscriptTuples());
@@ -164,57 +165,56 @@ public class ProjectHandler {
     }
 
 
-    public void saveSessionStat(String tutorType, String statString){
-        if(tutorType.equals("pitch")) {
+    public void saveSessionStat(String tutorType, String statString) {
+        if (tutorType.equals("pitch")) {
 
             pitchTutorRecordStats += (statString);
 
-        }
-        else if(tutorType.equals("interval")) {
+        } else if (tutorType.equals("interval")) {
 
             intervalTutorRecordStats += (statString);
 
-        }else if(tutorType.equals("musicalTerm")){
+        } else if (tutorType.equals("musicalTerm")) {
             musicalTermTutorRecordStats += (statString);
 
-        }else if(tutorType.equals("scale")){
+        } else if (tutorType.equals("scale")) {
 
             scaleTutorRecordStats += (statString);
 
-        }else if(tutorType.equals("chord")){
+        } else if (tutorType.equals("chord")) {
 
             chordTutorRecordStats += (statString);
         }
 
 
-
     }
 
-    public void saveTutorRecords(String tutorType, String record){
+    public void saveTutorRecords(String tutorType, String record) {
         JSONObject jasonOFQuestion = new JSONObject();
 
-        if(tutorType.equals("pitch")){
+        if (tutorType.equals("pitch")) {
 
             jasonOFQuestion.put("QuestionInfo", record);
             pitchTutorRecordsList.add(jasonOFQuestion);
             //System.out.println(pitchTutorRecordsList);
 
-        }else if(tutorType.equals("interval")) {
+        } else if (tutorType.equals("interval")) {
 
             jasonOFQuestion.put("QuestionInfo", record);
             intervalTutorRecordsList.add(jasonOFQuestion);
 
 
-        }else if(tutorType.equals("musicalTerm")){
+        } else if (tutorType.equals("musicalTerm")) {
             jasonOFQuestion.put("QuestionInfo", record);
-            musicalTermTutorRecordsList.add(jasonOFQuestion);;
+            musicalTermTutorRecordsList.add(jasonOFQuestion);
+            ;
 
-        }else if(tutorType.equals("scale")){
+        } else if (tutorType.equals("scale")) {
             jasonOFQuestion.put("QuestionInfo", record);
             scaleTutorRecordsList.add(jasonOFQuestion);
 
 
-        }else if(tutorType.equals("chord")){
+        } else if (tutorType.equals("chord")) {
 
             jasonOFQuestion.put("QuestionInfo", record);
             chordTutorRecordsList.add(jasonOFQuestion);
@@ -227,13 +227,13 @@ public class ProjectHandler {
      * This currently supports Tempo, working transcript, musical terms and rhythm setting.
      *
      */
-    private void loadProperties(){
+    private void loadProperties() {
         int tempo;
         Gson gson = new Gson();
 
         try {
             tempo = ((Long) projectSettings.get("tempo")).intValue();
-        }catch(Exception e){
+        } catch (Exception e) {
             tempo = 120;
         }
         env.getPlayer().setTempo(tempo);
@@ -241,18 +241,20 @@ public class ProjectHandler {
 
         //Transcript
         ArrayList<OutputTuple> transcript;
-        Type transcriptType = new TypeToken<ArrayList<OutputTuple>>() {}.getType();
-        transcript = gson.fromJson((String)projectSettings.get("transcript"), transcriptType);
+        Type transcriptType = new TypeToken<ArrayList<OutputTuple>>() {
+        }.getType();
+        transcript = gson.fromJson((String) projectSettings.get("transcript"), transcriptType);
         System.out.println("Properties loaded!!");
 
         env.getTranscriptManager().setTranscriptContent(transcript);
         env.getRootController().setTranscriptPaneText(env.getTranscriptManager().convertToText());
 
         //Musical Terms
-        Type termsType = new TypeToken<ArrayList<Term>>() {}.getType();
-        ArrayList<Term> terms = gson.fromJson((String)projectSettings.get("musicalTerms"), termsType);
+        Type termsType = new TypeToken<ArrayList<Term>>() {
+        }.getType();
+        ArrayList<Term> terms = gson.fromJson((String) projectSettings.get("musicalTerms"), termsType);
 
-        if(terms != null){
+        if (terms != null) {
 
             env.getMttDataManager().setTerms(terms);
         }
@@ -262,18 +264,15 @@ public class ProjectHandler {
 
 
         try {
-            rhythms = ((int[]) gson.fromJson((String)projectSettings.get("rhythm"), int[].class));
+            rhythms = ((int[]) gson.fromJson((String) projectSettings.get("rhythm"), int[].class));
             rhythms = rhythms == null ? new int[]{12} : rhythms;
-        }catch(Exception e){
+        } catch (Exception e) {
             rhythms = new int[]{12};
         }
         env.getPlayer().getRhythmHandler().setRhythmTimings(rhythms);
 
 
-
-
         env.getTranscriptManager().unsavedChanges = false;
-
 
 
     }
@@ -282,11 +281,10 @@ public class ProjectHandler {
     /**
      * Saves the current project, or if there is no current working project; launches the New project dialog.
      */
-    public void saveCurrentProject(){
-        if(currentProjectPath != null){
+    public void saveCurrentProject() {
+        if (currentProjectPath != null) {
             saveProject(currentProjectPath);
-        }
-        else{
+        } else {
             createNewProject();
         }
         saved = true;
@@ -300,7 +298,7 @@ public class ProjectHandler {
      */
 
 
-    public void saveProject(String projectAddress){
+    public void saveProject(String projectAddress) {
 
         //Add all settings to such as tempo speed to the project here.
 
@@ -310,7 +308,7 @@ public class ProjectHandler {
             saveProperties();
             projectName = projectAddress.substring(projectAddress.lastIndexOf("/") + 1);
 
-            FileWriter file = new FileWriter(projectAddress+"/"+projectName+".json");
+            FileWriter file = new FileWriter(projectAddress + "/" + projectName + ".json");
             file.write(projectSettings.toJSONString());
             file.flush();
             file.close();
@@ -330,7 +328,7 @@ public class ProjectHandler {
             //Check if it isn't an exisiting stored project
             updateProjectList();
 
-        }catch (IOException e) {
+        } catch (IOException e) {
 
             e.printStackTrace();
         }
@@ -338,11 +336,10 @@ public class ProjectHandler {
     }
 
 
-
     private void saveTutorRecordsToFile(String projectAddress) {
         try {
 
-            if(env.getRootController().tabSaveCheck("pitchTutor")) {
+            if (env.getRootController().tabSaveCheck("pitchTutor")) {
                 FileWriter pitchFile = new FileWriter(projectAddress + "/PitchComparisonRecords.json", true);
                 overalPitchSessionObject.put("Questions", pitchTutorRecordsList);
                 overalPitchSessionObject.put("SessionStats", pitchTutorRecordStats);
@@ -360,7 +357,7 @@ public class ProjectHandler {
                 pitchFile.close();
             }
 
-            if(env.getRootController().tabSaveCheck("intervalTutor")) {
+            if (env.getRootController().tabSaveCheck("intervalTutor")) {
 
                 FileWriter intervalFile = new FileWriter(projectAddress + "/IntervalRecognitionRecords.json", true);
                 overalIntervalSessionObject.put("Questions", intervalTutorRecordsList);
@@ -375,7 +372,7 @@ public class ProjectHandler {
                 intervalFile.close();
             }
 
-            if(env.getRootController().tabSaveCheck("musicalTermTutor")) {
+            if (env.getRootController().tabSaveCheck("musicalTermTutor")) {
 
                 FileWriter MusicalTermFile = new FileWriter(projectAddress + "/MusicalTermsRecords.json", true);
                 overalMusicalTermSessionObject.put("Questions", musicalTermTutorRecordsList);
@@ -389,9 +386,9 @@ public class ProjectHandler {
                 MusicalTermFile.flush();
                 MusicalTermFile.close();
             }
-            if(env.getRootController().tabSaveCheck("scaleTutor")) {
+            if (env.getRootController().tabSaveCheck("scaleTutor")) {
 
-                FileWriter scaleFile = new FileWriter(projectAddress + "/ScaleRecognitionRecords.json",true);
+                FileWriter scaleFile = new FileWriter(projectAddress + "/ScaleRecognitionRecords.json", true);
                 overalScaleSessionObject.put("Questions", scaleTutorRecordsList);
                 overalScaleSessionObject.put("SessionStats", scaleTutorRecordStats);
                 overalScaleObject.put("Session_" + new Date().toString(), overalScaleSessionObject);
@@ -405,7 +402,7 @@ public class ProjectHandler {
 
             }
 
-            if(env.getRootController().tabSaveCheck("chordTutor")) {
+            if (env.getRootController().tabSaveCheck("chordTutor")) {
                 FileWriter chordFile = new FileWriter(projectAddress + "/ChordRecognitionRecords.json", true);
                 overalChordSessionObject.put("Questions", chordTutorRecordsList);
                 overalChordSessionObject.put("SessionStats", chordTutorRecordStats);
@@ -419,7 +416,7 @@ public class ProjectHandler {
                 chordFile.close();
             }
 
-    }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
 
         }
@@ -431,14 +428,14 @@ public class ProjectHandler {
      * Updates the json list of project names, used to fill the quick load list.
      *
      */
-    private  void updateProjectList(){
-        if(!projectList.contains(projectName)) {
+    private void updateProjectList() {
+        if (!projectList.contains(projectName)) {
             projectList.add(projectName);
         }
 
         try { //Save list of projects.
             projectsInfo.put("projects", projectList);
-            FileWriter projectsJson = new FileWriter(userDirectory+"/projects.json");
+            FileWriter projectsJson = new FileWriter(userDirectory + "/projects.json");
             projectsJson.write(projectsInfo.toJSONString());
             projectsJson.flush();
             projectsJson.close();
@@ -454,7 +451,7 @@ public class ProjectHandler {
      * Compares all current project properties to the saved values
      * If there are any differences, adds an asterix indicator to the project title
      */
-    public void checkChanges(){
+    public void checkChanges() {
 
 
     }
@@ -465,24 +462,23 @@ public class ProjectHandler {
      * If there is a difference, adds an asterix indicator to the project title
      * @param propName property id which is stored in the Json project file.
      */
-    public void checkChanges(String propName){
+    public void checkChanges(String propName) {
 
         //Accepted values: tempo
         String saveName = (projectName == null) ? "No Project" : this.projectName;
 
-        if(propName.equals("tempo")){
+        if (propName.equals("tempo")) {
 
 
-            if(projectSettings.containsKey("tempo") && !(projectSettings.get("tempo").equals(String.valueOf(env.getPlayer().getTempo())))){ //If not equal
+            if (projectSettings.containsKey("tempo") && !(projectSettings.get("tempo").equals(String.valueOf(env.getPlayer().getTempo())))) { //If not equal
 
                 env.getRootController().setWindowTitle(saveName + "*");
                 saved = false;
             }
-        }
-        else if(propName.equals("rhythm")){
+        } else if (propName.equals("rhythm")) {
 
 
-            if(projectSettings.containsKey("rhythm") && !(projectSettings.get("rhythm").equals(env.getPlayer().getRhythmHandler().getRhythmTimings()))){ //If not equal
+            if (projectSettings.containsKey("rhythm") && !(projectSettings.get("rhythm").equals(env.getPlayer().getRhythmHandler().getRhythmTimings()))) { //If not equal
 
                 env.getRootController().setWindowTitle(saveName + "*");
                 saved = false;
@@ -495,17 +491,17 @@ public class ProjectHandler {
     /**
      * Checking functionality specifically for musical saved musical terms.
      */
-    public void checkmusicTerms(){
+    public void checkmusicTerms() {
         String saveName = (projectName == null || projectName.length() < 1) ? "No Project" : this.projectName;
-        if(projectSettings.containsKey("musicalTerms")){
-            Type termsType = new TypeToken<ArrayList<Term>>() {}.getType();
-            if(!projectSettings.get("musicalTerms").equals(new Gson().fromJson((String) projectSettings.get("muscalTerms"), termsType))){
+        if (projectSettings.containsKey("musicalTerms")) {
+            Type termsType = new TypeToken<ArrayList<Term>>() {
+            }.getType();
+            if (!projectSettings.get("musicalTerms").equals(new Gson().fromJson((String) projectSettings.get("muscalTerms"), termsType))) {
                 env.getRootController().setWindowTitle(saveName + "*");
                 saved = false;
             }
-        }
-        else{
-            if(env.getRootController() != null){
+        } else {
+            if (env.getRootController() != null) {
                 env.getRootController().setWindowTitle(saveName + "*");
                 saved = false;
             }
@@ -521,19 +517,18 @@ public class ProjectHandler {
      * All projects must be located in the user's projects directory to be correctly loaded.
      * @param pName project name string
      */
-    public  void loadProject(String pName){
+    public void loadProject(String pName) {
         try {
 
             env.resetEnvironment();
             String path = userDirectory + "/Projects/" + pName;
             try {
-                projectSettings = (JSONObject) parser.parse(new FileReader(path +"/"+ pName + ".json"));
+                projectSettings = (JSONObject) parser.parse(new FileReader(path + "/" + pName + ".json"));
 
             } catch (FileNotFoundException f) {
                 //Project doesn't exist? Create it.
 
-                if(!Paths.get(path).toFile().isDirectory()){
-
+                if (!Paths.get(path).toFile().isDirectory()) {
 
 
                     //If the Project directory folder doesn't exist.
@@ -541,8 +536,7 @@ public class ProjectHandler {
                     env.getRootController().errorAlert("Project directory is missing - possibly moved, renamed or deleted.");
                     projectList.remove(pName);
                     return;
-                }
-                else{
+                } else {
                     //.json project files are corrupt.
                     env.getRootController().errorAlert("Project properties are corrupt - resetting values.");
                     saveProject(path);
@@ -587,34 +581,31 @@ public class ProjectHandler {
 
         // Traditional way to get the response value.
         Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()){
+        if (result.isPresent()) {
             String resultString = result.get().toString();
             Path path;
-            try{
+            try {
                 path = Paths.get("UserData/Projects/" + resultString);
 
-                if(!Files.isDirectory(path)){
-                    try{
+                if (!Files.isDirectory(path)) {
+                    try {
 
                         Files.createDirectories(path);
 
                         env.getProjectHandler().saveProject(path.toString().replace("\\", "/"));
                         //setWindowTitle(resultString);
 
-                    }
-                    catch(IOException e){
+                    } catch (IOException e) {
                         //Failed to create the directory.
                         e.printStackTrace();
                     }
 
-                }
-                else{
-                    env.getRootController().errorAlert("The project: "  +resultString+" already exists.");
+                } else {
+                    env.getRootController().errorAlert("The project: " + resultString + " already exists.");
                     createNewProject();
                 }
 
-            }
-            catch(InvalidPathException invPath){
+            } catch (InvalidPathException invPath) {
                 //invalid path (Poor project naming)
                 env.getRootController().errorAlert("Invalid file name - try again.");
                 createNewProject();
@@ -624,21 +615,20 @@ public class ProjectHandler {
     }
 
 
-
-    public boolean isSaved(){
+    public boolean isSaved() {
         return saved;
     }
 
 
-    public JSONArray getProjectList(){
+    public JSONArray getProjectList() {
         return this.projectList;
     }
 
-    public Boolean isProject(){
+    public Boolean isProject() {
         return currentProjectPath != null;
     }
 
-    public String getCurrentProjectPath(){
+    public String getCurrentProjectPath() {
         return currentProjectPath;
     }
 
