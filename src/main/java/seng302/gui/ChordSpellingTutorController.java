@@ -280,6 +280,12 @@ public class ChordSpellingTutorController extends TutorController {
 
     }
 
+    /**
+     * Randomly selects 7 chord names, and creates a list of them along with the real chord name.
+     *
+     * @param correctAnswer The correct chord name, to be included in the list
+     * @return An arraylist of chord names
+     */
     private ArrayList<String> generateTypeTwoOptions(String correctAnswer) {
         ArrayList<String> chordNames = new ArrayList<String>();
         chordNames.add(correctAnswer);
