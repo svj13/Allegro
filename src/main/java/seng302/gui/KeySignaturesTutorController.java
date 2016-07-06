@@ -46,11 +46,10 @@ public class KeySignaturesTutorController extends TutorController {
 
     private Random rand;
 
-    private ArrayList<String> majorSharps = new ArrayList<String>(Arrays.asList("C","G","D","A","E","B","F#","C#"));
-    private ArrayList<String> majorFlats = new ArrayList<String>(Arrays.asList("Cb","Gb","Db","Ab","Eb","Bb","F","C"));
-    private ArrayList<String> minorSharps = new ArrayList<String>(Arrays.asList("A","E","B","F#","C#","G#","D#","A#"));
-    private ArrayList<String> minorFlats = new ArrayList<String>(Arrays.asList("Ab","Eb","Bb","F","C","G","D","A"));
-
+    private ArrayList<String> majorSharps = new ArrayList<String>(Arrays.asList("C", "G", "D", "A", "E", "B", "F#", "C#"));
+    private ArrayList<String> majorFlats = new ArrayList<String>(Arrays.asList("Cb", "Gb", "Db", "Ab", "Eb", "Bb", "F", "C"));
+    private ArrayList<String> minorSharps = new ArrayList<String>(Arrays.asList("A", "E", "B", "F#", "C#", "G#", "D#", "A#"));
+    private ArrayList<String> minorFlats = new ArrayList<String>(Arrays.asList("Ab", "Eb", "Bb", "F", "C", "G", "D", "A"));
 
 
     @FXML
@@ -82,7 +81,7 @@ public class KeySignaturesTutorController extends TutorController {
         rand = new Random();
         scaleBox.getItems().addAll("Major", "Minor", "Both");
         scaleBox.getSelectionModel().selectFirst();
-        formBox.getItems().addAll("Number of sharps/flats", "Listing sharps/flats");
+        formBox.getItems().addAll("Listing sharps/flats", "Number of sharps/flats");
         formBox.getSelectionModel().selectFirst();
         answerBox.getItems().addAll("Show Key Signature", "Show Name");
         answerBox.getSelectionModel().selectFirst();
@@ -96,31 +95,35 @@ public class KeySignaturesTutorController extends TutorController {
     public HBox setUpQuestion() {
         String scaletype;
         int questionType;
+        boolean answerType;
 
 
         //figure out the scale is wanted to be tested
-        if(scaleBox.getValue().equals("Major")){
+        if (scaleBox.getValue().equals("Major")) {
             scaletype = "major";
-        }else if(scaleBox.getValue().equals("Minor")){
+        } else if (scaleBox.getValue().equals("Minor")) {
             scaletype = "minor";
-        }else{
+        } else {
             scaletype = "both";
         }
 
         //figure out the type of question wanted
-        if(formBox.getValue().equals("Show Key Signature")){
+        if (answerBox.getValue().equals("Show Key Signature")) {
             questionType = 0;
-        }else{
+        } else {
             questionType = 1;
         }
 
+        if (formBox.getValue().equals("Listing sharps/flats")) {
+            answerType = true;
+
+        } else {
+            answerType = false;
+        }
 
 
-
-
-        return generateQuestionPane(new Pair<String, Integer>(scaletype, questionType));
+        return generateQuestionPane(new Pair<String, Pair>(scaletype, new Pair<Integer, Boolean>(questionType, answerType)));
     }
-
 
 
     /**
@@ -137,7 +140,7 @@ public class KeySignaturesTutorController extends TutorController {
 
     /**
      * Creates a GUI pane for a single question
-     *y
+     * y
      */
     //@Override
     public HBox generateQuestionPane(Pair pair) {
@@ -152,29 +155,30 @@ public class KeySignaturesTutorController extends TutorController {
         List<String> keysAsArray;
         String question;
 
-        if(pair.getKey().equals("major")) {
+        System.out.println(((Pair) pair.getValue()).getValue());
+
+        if (pair.getKey().equals("major")) {
             keysAsArray = new ArrayList<String>(KeySignature.getMajorKeySignatures().keySet());
             questionText.setText(" Major");
             question = keysAsArray.get(rand.nextInt(keysAsArray.size()));
-            options = generateMajorChoices(question,true);
+            options = generateMajorChoices(question, (Boolean) (((Pair) pair.getValue()).getValue()));
 
-        }else if(pair.getKey().equals("minor")) {
+        } else if (pair.getKey().equals("minor")) {
             keysAsArray = new ArrayList<String>(KeySignature.getMinorKeySignatures().keySet());
             question = keysAsArray.get(rand.nextInt(keysAsArray.size()));
             questionText.setText(" Minor");
-            options = generateMinorChoices(question,true);
+            options = generateMinorChoices(question, (Boolean) (((Pair) pair.getValue()).getValue()));
 
-        }else{
+        } else {
 
             /// random generation from both
             keysAsArray = new ArrayList<String>(KeySignature.getMinorKeySignatures().keySet());
             question = keysAsArray.get(rand.nextInt(keysAsArray.size()));
-            options = generateMajorChoices(question,true);
+            options = generateMajorChoices(question, true);
         }
 
         questionText.setText(question.concat(questionText.getText()));
         options.setPrefHeight(30);
-
 
 
         skip.setOnAction(new EventHandler<ActionEvent>() {
@@ -190,7 +194,7 @@ public class KeySignaturesTutorController extends TutorController {
             }
         });
 
-        questionRow.getChildren().add(0,questionText);
+        questionRow.getChildren().add(0, questionText);
         questionRow.getChildren().add(1, options);
         questionRow.getChildren().add(2, skip);
 
@@ -199,30 +203,49 @@ public class KeySignaturesTutorController extends TutorController {
     }
 
 
-
     private ComboBox<String> generateMajorChoices(String scale, Boolean keysignature) {
         ComboBox<String> options = new ComboBox<String>();
         options.setPrefHeight(30);
 
         ArrayList<List> optionsList = new ArrayList<List>();
-        if((KeySignature.getMajorKeySignatures().get(scale)).getNotes().get(0).contains("#")){
+        ArrayList<String> optionsListNum = new ArrayList<String>();
+        if ((KeySignature.getMajorKeySignatures().get(scale)).getNotes().get(0).contains("#")) {
 
-            for(String keySig : majorSharps){
-                optionsList.add((KeySignature.getMajorKeySignatures().get(keySig)).getNotes());
+            for (String keySig : majorSharps) {
+                if (keysignature == true) {
+                    optionsList.add((KeySignature.getMajorKeySignatures().get(keySig)).getNotes());
+                } else {
+                    optionsListNum.add((KeySignature.getMajorKeySignatures().get(keySig)).getNumberOfSharps() + "#");
+                }
+
             }
-        }else{
-            for(String keySig : majorFlats){
-                optionsList.add((KeySignature.getMajorKeySignatures().get(keySig)).getNotes());
+        } else {
+            for (String keySig : majorFlats) {
+                if (keysignature == true) {
+                    optionsList.add((KeySignature.getMajorKeySignatures().get(keySig)).getNotes());
+                } else {
+                    optionsListNum.add((KeySignature.getMajorKeySignatures().get(keySig)).getNumberOfFlats() + "b");
+                }
             }
         }
 
-        Collections.shuffle(optionsList);
-        for(List option:optionsList){
-            options.getItems().add(option.toString());
+
+        if (keysignature == true) {
+            Collections.shuffle(optionsList);
+            for (List option : optionsList) {
+                options.getItems().add(option.toString());
+            }
+        } else {
+            Collections.shuffle(optionsListNum);
+            for (String option : optionsListNum) {
+                options.getItems().add(option);
+            }
         }
 
         return options;
     }
+
+
 
 
     private ComboBox<String> generateMinorChoices(String scale, Boolean keysignature) {
@@ -230,36 +253,43 @@ public class KeySignaturesTutorController extends TutorController {
         options.setPrefHeight(30);
 
         ArrayList<List> optionsList = new ArrayList<List>();
+        ArrayList<String> optionsListNum = new ArrayList<String>();
         if((KeySignature.getMinorKeySignatures().get(scale)).getNotes().get(0).contains("#")){
 
             for(String keySig : minorSharps){
-                optionsList.add((KeySignature.getMinorKeySignatures().get(keySig)).getNotes());
+                if(keysignature == true) {
+                    optionsList.add((KeySignature.getMinorKeySignatures().get(keySig)).getNotes());
+                }else{
+                    optionsListNum.add((KeySignature.getMinorKeySignatures().get(keySig)).getNumberOfSharps() + "#");
+                }
             }
         }else{
             for(String keySig : minorFlats){
-                optionsList.add((KeySignature.getMinorKeySignatures().get(keySig)).getNotes());
+                if(keysignature == true) {
+                    optionsList.add((KeySignature.getMinorKeySignatures().get(keySig)).getNotes());
+                }else{
+                    optionsListNum.add((KeySignature.getMinorKeySignatures().get(keySig)).getNumberOfFlats() + "b");
+                }
             }
         }
 
-        Collections.shuffle(optionsList);
-        for(List option:optionsList){
-            options.getItems().add(option.toString());
+        if(keysignature == true) {
+            Collections.shuffle(optionsList);
+            for (List option : optionsList) {
+                options.getItems().add(option.toString());
+            }
+        }else{
+            Collections.shuffle(optionsListNum);
+            for (String option : optionsListNum) {
+                options.getItems().add(option);
+            }
         }
 
         return options;
     }
 
-    private void generateScaleOptions(){
 
 
-    }
-
-    private void generateKeySignatureOptions(){
-//        if(startNote.contains("#")){
-//
-//        }
-
-    }
 
     /**
      * Returns the option combo boxes to their default states.
