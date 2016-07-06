@@ -96,7 +96,7 @@ public class ChordSpellingTutorController extends TutorController {
     }
 
     @Override
-    HBox generateQuestionPane(final Pair data) {
+    HBox generateQuestionPane(Pair data) {
         final HBox questionRow = new HBox();
         formatQuestionRow(questionRow);
         Label correctAnswer = new Label();
@@ -104,6 +104,24 @@ public class ChordSpellingTutorController extends TutorController {
 
         final HBox inputs = new HBox();
 
+        int questionType = rand.nextInt(2);
+
+        if (questionType == 1) {
+            //Use 'fake chords' with a ~0.25 probability
+            if (rand.nextInt(4) == 0) {
+                System.out.println("random chord!");
+                ArrayList<Note> randomNotes = new ArrayList<>();
+                for (int i = 0; i < 3; i++) {
+                    randomNotes.add(getRandomNote());
+                }
+                //have to somehow ensure that the generated notes are not a real chord
+                data = new Pair("No Chord", randomNotes);
+            }
+        }
+
+        final Pair finalData = data;
+        final String chordName = (String) finalData.getKey();
+        final ArrayList<Note> chordNotes = (ArrayList<Note>) finalData.getValue();
 
         Button skip = new Button("Skip");
         styleSkipButton(skip);
@@ -114,18 +132,13 @@ public class ChordSpellingTutorController extends TutorController {
                 disableButtons(questionRow, 1, 3);
                 formatSkippedQuestion(questionRow);
                 manager.questions -= 1;
-                manager.add(data, 2);
+                manager.add(finalData, 2);
                 env.getRootController().setTabTitle("chordSpellingTutor", true);
                 if (manager.answered == manager.questions) {
                     finished();
                 }
             }
         });
-
-        final String chordName = (String) data.getKey();
-        final ArrayList<Note> chordNotes = (ArrayList<Note>) data.getValue();
-
-        int questionType = rand.nextInt(2);
 
         if (questionType == 0) {
             //Type A question
@@ -141,7 +154,7 @@ public class ChordSpellingTutorController extends TutorController {
                 //check entire question
                 if (isQuestionCompletelyAnswered(inputs)) {
                     //Style whole question as done
-                    handleCompletedQuestion(questionRow, 1, data);
+                    handleCompletedQuestion(questionRow, 1, finalData);
                 }
             });
             ComboBox<String> note2 = new ComboBox<String>();
@@ -153,7 +166,7 @@ public class ChordSpellingTutorController extends TutorController {
                 //check entire question
                 if (isQuestionCompletelyAnswered(inputs)) {
                     //Style whole question as done
-                    handleCompletedQuestion(questionRow, 1, data);
+                    handleCompletedQuestion(questionRow, 1, finalData);
                 }
             });
             ComboBox<String> note3 = new ComboBox<String>();
@@ -165,7 +178,7 @@ public class ChordSpellingTutorController extends TutorController {
                 //check entire question
                 if (isQuestionCompletelyAnswered(inputs)) {
                     //Style whole question as done
-                    handleCompletedQuestion(questionRow, 1, data);
+                    handleCompletedQuestion(questionRow, 1, finalData);
                 }
             });
 
@@ -179,6 +192,13 @@ public class ChordSpellingTutorController extends TutorController {
             correctAnswer = correctAnswer(chordName);
             question.setText(chordAsString(chordNotes));
 
+            //Use 'fake chords' with a ~0.25 probability
+            if (rand.nextInt(4) == 0) {
+                ArrayList<Note> randomNotes = new ArrayList<>();
+                randomNotes.add(getRandomNote());
+                data = new Pair("No Chord", randomNotes);
+            }
+
             ComboBox<String> possibleNames = new ComboBox<String>();
 
             for (String chord : generateTypeTwoOptions(chordName)) {
@@ -189,7 +209,7 @@ public class ChordSpellingTutorController extends TutorController {
                 //Check if the answer is correct
                 boolean answeredCorrectly = possibleNames.getValue().equals(chordName);
                 styleNoteInput(possibleNames, answeredCorrectly);
-                handleCompletedQuestion(questionRow, 2, data);
+                handleCompletedQuestion(questionRow, 2, finalData);
             });
 
             inputs.getChildren().add(possibleNames);
