@@ -477,6 +477,9 @@ public class ChordSpellingTutorController extends TutorController {
         } else if (wasPartiallyCorrect) {
             manager.add(data, 2);
             formatPartiallyCorrectQuestion(completedQuestion);
+
+            //Shows the correct answer
+            completedQuestion.getChildren().get(3).setVisible(true);
         } else {
             manager.add(data, 0);
             formatIncorrectQuestion(completedQuestion);
