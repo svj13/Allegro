@@ -44,6 +44,10 @@ public class ChordSpellingTutorController extends TutorController {
 
     private Random rand;
 
+    private final String typeOneText = "Spell the chord with the name %s";
+
+    private final String typeTwoText = "Name the chord with the notes %s";
+
     /**
      * What type the generated chords are, i.e. major, minor
      */
@@ -135,17 +139,25 @@ public class ChordSpellingTutorController extends TutorController {
         Button skip = new Button("Skip");
         styleSkipButton(skip);
 
-
         if (questionType == 0) {
+            String[] selectedNotes = new String[3];
+            String[] correctNotes = new String[3];
+
+            for (int i = 0; i < 3; i++) {
+                correctNotes[i] = OctaveUtil.removeOctaveSpecifier(chordNotes.get(i).getNote());
+            }
+
+
             skip.setOnAction(event -> {
                 String[] questionInfo = new String[]{
-                        String.format("Spell the chord with the name %s", chordName),
+                        String.format(typeOneText, chordName),
                         chordAsString(chordNotes)
 
                 };
 
                 handleSkippedQuestion(questionInfo, questionRow, finalData);
             });
+
 
             //Type A question
             correctAnswer = correctAnswer(chordAsString(chordNotes));
@@ -154,37 +166,55 @@ public class ChordSpellingTutorController extends TutorController {
             ComboBox<String> note1 = new ComboBox<String>();
             note1.getItems().addAll(generateOptions(chordNotes.get(0)));
             note1.setOnAction(event -> {
-                String correctNote = OctaveUtil.removeOctaveSpecifier(chordNotes.get(0).getNote());
-                boolean answeredCorrectly = isNoteCorrect(correctNote, note1.getValue());
+                //Store the answer
+                String selectedNote = note1.getValue();
+                selectedNotes[0] = selectedNote;
+
+                //Check if it's correct and style appropriately
+                boolean answeredCorrectly = isNoteCorrect(correctNotes[0], selectedNote);
                 styleNoteInput(note1, answeredCorrectly);
+
                 //check entire question
                 if (isQuestionCompletelyAnswered(inputs)) {
                     //Style whole question as done
-                    handleCompletedQuestion(questionRow, 1, finalData);
+                    String selection = String.join(" ", selectedNotes);
+                    handleCompletedQuestion(questionRow, 1, finalData, selection);
                 }
             });
             ComboBox<String> note2 = new ComboBox<String>();
             note2.getItems().addAll(generateOptions(chordNotes.get(1)));
             note2.setOnAction(event -> {
-                String correctNote = OctaveUtil.removeOctaveSpecifier(chordNotes.get(1).getNote());
-                boolean answeredCorrectly = isNoteCorrect(correctNote, note2.getValue());
+                //Store the answer
+                String selectedNote = note2.getValue();
+                selectedNotes[1] = selectedNote;
+
+                //Check if it's correct and style appropriately
+                boolean answeredCorrectly = isNoteCorrect(correctNotes[1], selectedNote);
                 styleNoteInput(note2, answeredCorrectly);
+
                 //check entire question
                 if (isQuestionCompletelyAnswered(inputs)) {
                     //Style whole question as done
-                    handleCompletedQuestion(questionRow, 1, finalData);
+                    String selection = String.join(" ", selectedNotes);
+                    handleCompletedQuestion(questionRow, 1, finalData, selection);
                 }
             });
             ComboBox<String> note3 = new ComboBox<String>();
             note3.getItems().addAll(generateOptions(chordNotes.get(2)));
             note3.setOnAction(event -> {
-                String correctNote = OctaveUtil.removeOctaveSpecifier(chordNotes.get(2).getNote());
-                boolean answeredCorrectly = isNoteCorrect(correctNote, note3.getValue());
+                //Store the answer
+                String selectedNote = note3.getValue();
+                selectedNotes[2] = selectedNote;
+
+                //Check if it's correct and style appropriately
+                boolean answeredCorrectly = isNoteCorrect(correctNotes[2], selectedNote);
                 styleNoteInput(note3, answeredCorrectly);
+
                 //check entire question
                 if (isQuestionCompletelyAnswered(inputs)) {
                     //Style whole question as done
-                    handleCompletedQuestion(questionRow, 1, finalData);
+                    String selection = String.join(" ", selectedNotes);
+                    handleCompletedQuestion(questionRow, 1, finalData, selection);
                 }
             });
 
@@ -197,7 +227,7 @@ public class ChordSpellingTutorController extends TutorController {
             //Type B question
             skip.setOnAction(event -> {
                 String[] questionInfo = new String[]{
-                        String.format("Name the chord with the notes %s", chordAsString(chordNotes)),
+                        String.format(typeTwoText, chordAsString(chordNotes)),
                         chordName
 
                 };
@@ -215,9 +245,10 @@ public class ChordSpellingTutorController extends TutorController {
 
             possibleNames.setOnAction(event -> {
                 //Check if the answer is correct
-                boolean answeredCorrectly = possibleNames.getValue().equals(chordName);
+                String selection = possibleNames.getValue();
+                boolean answeredCorrectly = selection.equals(chordName);
                 styleNoteInput(possibleNames, answeredCorrectly);
-                handleCompletedQuestion(questionRow, 2, finalData);
+                handleCompletedQuestion(questionRow, 2, finalData, selection);
             });
 
             inputs.getChildren().add(possibleNames);
@@ -451,10 +482,12 @@ public class ChordSpellingTutorController extends TutorController {
         return inputs.getChildren().get(0).getStyle().contains("green");
     }
 
-    private void handleCompletedQuestion(HBox completedQuestion, int questionType, Pair data) {
+    private void handleCompletedQuestion(HBox completedQuestion, int questionType, Pair data, String selectedAnswer) {
         HBox inputs = (HBox) completedQuestion.getChildren().get(1);
         Boolean wasAnsweredCorrectly = false;
         Boolean wasPartiallyCorrect = false;
+        String questionText;
+
         if (questionType == 1) {
             //check question of type 1
             if (typeOneQuestionCorrectness(inputs) == 0) {
@@ -463,14 +496,13 @@ public class ChordSpellingTutorController extends TutorController {
             if (typeOneQuestionCorrectness(inputs) == 2) {
                 wasPartiallyCorrect = true;
             }
-
+            questionText = String.format(typeOneText, data.getKey());
         } else {
             //check question of type 2
-            //Placeholder, currently.
             wasAnsweredCorrectly = isTypeTwoQuestionCorrect(inputs);
+            questionText = String.format(typeTwoText, chordAsString((ArrayList<Note>) data.getValue()));
         }
 
-        //We need to somehow save whether it was a type 1 question or a type 2 question.
         if (wasAnsweredCorrectly) {
             manager.add(data, 1);
             formatCorrectQuestion(completedQuestion);
@@ -494,6 +526,12 @@ public class ChordSpellingTutorController extends TutorController {
             finished();
         }
 
+        String[] question = new String[]{
+                questionText,
+                selectedAnswer,
+                wasAnsweredCorrectly.toString()
+        };
+        projectHandler.saveTutorRecords("spelling", record.addQuestionAnswer(question));
     }
 
     private void finished() {
