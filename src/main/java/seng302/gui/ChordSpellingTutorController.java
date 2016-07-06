@@ -551,6 +551,14 @@ public class ChordSpellingTutorController extends TutorController {
         manager.resetStats();
     }
 
+    /**
+     * Run when a user elects to skip a question. Saves that question to the manager as skipped, and
+     * writes it to the project.
+     *
+     * @param questionInfo The textual representation of the skipped question
+     * @param questionRow  The GUI element of the question, to be styled
+     * @param finalData    The information about the question, to be stored.
+     */
     private void handleSkippedQuestion(String[] questionInfo, HBox questionRow, Pair finalData) {
         // Disables only input buttons
         disableButtons(questionRow, 1, 3);
