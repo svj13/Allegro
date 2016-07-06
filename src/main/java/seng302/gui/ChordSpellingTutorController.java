@@ -411,9 +411,9 @@ public class ChordSpellingTutorController extends TutorController {
     /**
      * Checks if all inputs to a type 1 question were correct.
      * @param inputs The HBox containing the combo box inputs
-     * @return True if all inputs were correct, false otherwise
+     * @return 0 if all inputs are correct, 1 if all are incorrect, and 2 if some inputs are correct
      */
-    private boolean isTypeOneQuestionCorrect(HBox inputs) {
+    private int typeOneQuestionCorrectness(HBox inputs) {
         int correctParts = 0;
         for (Object input : inputs.getChildren()) {
             ComboBox<String> thisInput = (ComboBox<String>) input;
@@ -424,9 +424,14 @@ public class ChordSpellingTutorController extends TutorController {
 
         }
         if (correctParts == 3) {
-            return true;
+            //All correct
+            return 0;
+        } else if (correctParts == 0) {
+            //All incorrect
+            return 1;
         } else {
-            return false;
+            //Some correct
+            return 2;
         }
 
     }
@@ -437,10 +442,17 @@ public class ChordSpellingTutorController extends TutorController {
 
     private void handleCompletedQuestion(HBox completedQuestion, int questionType, Pair data) {
         HBox inputs = (HBox) completedQuestion.getChildren().get(1);
-        Boolean wasAnsweredCorrectly;
+        Boolean wasAnsweredCorrectly = false;
+        Boolean wasPartiallyCorrect = false;
         if (questionType == 1) {
             //check question of type 1
-            wasAnsweredCorrectly = isTypeOneQuestionCorrect(inputs);
+            if (typeOneQuestionCorrectness(inputs) == 0) {
+                wasAnsweredCorrectly = true;
+            }
+            if (typeOneQuestionCorrectness(inputs) == 2) {
+                wasPartiallyCorrect = true;
+            }
+
         } else {
             //check question of type 2
             //Placeholder, currently.
@@ -450,6 +462,9 @@ public class ChordSpellingTutorController extends TutorController {
         if (wasAnsweredCorrectly) {
             manager.add(data, 1);
             formatCorrectQuestion(completedQuestion);
+        } else if (wasPartiallyCorrect) {
+            manager.add(data, 2);
+            formatPartiallyCorrectQuestion(completedQuestion);
         } else {
             manager.add(data, 0);
             formatIncorrectQuestion(completedQuestion);
