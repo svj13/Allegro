@@ -455,6 +455,10 @@ public class ChordSpellingTutorController extends TutorController {
 
 
     @Override
+    /**
+     * Resets the settings input combo boxes
+     * To be implemented
+     */
     void resetInputs() {
 
     }

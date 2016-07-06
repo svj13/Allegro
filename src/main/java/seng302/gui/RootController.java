@@ -889,6 +889,9 @@ public class RootController implements Initializable {
         if (ScaleRecognitionTabController != null) {
             ScaleRecognitionTabController.clearTutor();
         }
+        if (ChordSpellingTabController != null) {
+            ChordSpellingTabController.clearTutor();
+        }
     }
 
     public TranscriptPaneController getTranscriptController() {
