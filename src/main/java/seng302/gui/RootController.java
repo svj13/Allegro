@@ -659,7 +659,7 @@ public class RootController implements Initializable {
     private void openSpellingTutor() {
         boolean alreadyExists = false;
         for (Tab tab : TabPane.getTabs()) {
-            if (tab.getId().equals("spellingTutor")) {
+            if (tab.getId().equals("chordSpellingTutor")) {
                 TabPane.getSelectionModel().select(tab);
                 alreadyExists = true;
             }
@@ -669,7 +669,7 @@ public class RootController implements Initializable {
         if (!alreadyExists) {
 
             Tab spellingTab = new Tab("Chord Spelling Tutor");
-            spellingTab.setId("spellingTutor");
+            spellingTab.setId("chordSpellingTutor");
 
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/Views/ChordSpellingPane.fxml"));

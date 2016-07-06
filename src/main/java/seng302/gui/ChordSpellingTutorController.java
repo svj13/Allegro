@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Random;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -136,21 +135,18 @@ public class ChordSpellingTutorController extends TutorController {
         Button skip = new Button("Skip");
         styleSkipButton(skip);
 
-        skip.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                // Disables only input buttons
-                disableButtons(questionRow, 1, 3);
-                formatSkippedQuestion(questionRow);
-                manager.questions -= 1;
-                manager.add(finalData, 2);
-                env.getRootController().setTabTitle("chordSpellingTutor", true);
-                if (manager.answered == manager.questions) {
-                    finished();
-                }
-            }
-        });
 
         if (questionType == 0) {
+            skip.setOnAction(event -> {
+                String[] questionInfo = new String[]{
+                        String.format("Spell the chord with the name %s", chordName),
+                        chordAsString(chordNotes)
+
+                };
+
+                handleSkippedQuestion(questionInfo, questionRow, finalData);
+            });
+
             //Type A question
             correctAnswer = correctAnswer(chordAsString(chordNotes));
             question.setText(chordName);
@@ -199,6 +195,15 @@ public class ChordSpellingTutorController extends TutorController {
 
         } else {
             //Type B question
+            skip.setOnAction(event -> {
+                String[] questionInfo = new String[]{
+                        String.format("Name the chord with the notes %s", chordAsString(chordNotes)),
+                        chordName
+
+                };
+                handleSkippedQuestion(questionInfo, questionRow, finalData);
+            });
+
             correctAnswer = correctAnswer(chordName);
             question.setText(chordAsString(chordNotes));
 
@@ -465,6 +470,7 @@ public class ChordSpellingTutorController extends TutorController {
             wasAnsweredCorrectly = isTypeTwoQuestionCorrect(inputs);
         }
 
+        //We need to somehow save whether it was a type 1 question or a type 2 question.
         if (wasAnsweredCorrectly) {
             manager.add(data, 1);
             formatCorrectQuestion(completedQuestion);
@@ -497,7 +503,7 @@ public class ChordSpellingTutorController extends TutorController {
                 manager.correct, manager.incorrect, userScore);
 
         if (projectHandler.currentProjectPath != null) {
-            projectHandler.saveSessionStat("chordSpelling", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
+            projectHandler.saveSessionStat("spelling", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
             projectHandler.saveCurrentProject();
             outputText += "\nSession auto saved";
         }
@@ -543,6 +549,21 @@ public class ChordSpellingTutorController extends TutorController {
         HBox.setMargin(saveBtn, new Insets(10, 10, 10, 10));
         // Clear the current session
         manager.resetStats();
+    }
+
+    private void handleSkippedQuestion(String[] questionInfo, HBox questionRow, Pair finalData) {
+        // Disables only input buttons
+        disableButtons(questionRow, 1, 3);
+        formatSkippedQuestion(questionRow);
+        manager.questions -= 1;
+        manager.add(finalData, 2);
+
+        projectHandler.saveTutorRecords("spelling", record.addSkippedQuestion(questionInfo));
+
+        env.getRootController().setTabTitle("chordSpellingTutor", true);
+        if (manager.answered == manager.questions) {
+            finished();
+        }
     }
 
 
