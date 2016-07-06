@@ -453,7 +453,7 @@ public class ChordSpellingTutorController extends TutorController {
     /**
      * Checks if all inputs to a type 1 question were correct.
      * @param inputs The HBox containing the combo box inputs
-     * @return 0 if all inputs are correct, 1 if all are incorrect, and 2 if some inputs are correct
+     * @return 0 if all inputs are wrong, 1 if all are correct, and 2 if some inputs are correct
      */
     private int typeOneQuestionCorrectness(HBox inputs) {
         int correctParts = 0;
@@ -467,10 +467,10 @@ public class ChordSpellingTutorController extends TutorController {
         }
         if (correctParts == 3) {
             //All correct
-            return 0;
+            return 1;
         } else if (correctParts == 0) {
             //All incorrect
-            return 1;
+            return 0;
         } else {
             //Some correct
             return 2;
@@ -482,56 +482,84 @@ public class ChordSpellingTutorController extends TutorController {
         return inputs.getChildren().get(0).getStyle().contains("green");
     }
 
+
     private void handleCompletedQuestion(HBox completedQuestion, int questionType, Pair data, String selectedAnswer) {
         HBox inputs = (HBox) completedQuestion.getChildren().get(1);
-        Boolean wasAnsweredCorrectly = false;
-        Boolean wasPartiallyCorrect = false;
         String questionText;
+        Boolean answeredCorrectly = false;
+
+        //0 for wrong, 1 for right, 2 for partially correct
+        int correctnessValue;
 
         if (questionType == 1) {
             //check question of type 1
-            if (typeOneQuestionCorrectness(inputs) == 0) {
-                wasAnsweredCorrectly = true;
-            }
-            if (typeOneQuestionCorrectness(inputs) == 2) {
-                wasPartiallyCorrect = true;
-            }
+            correctnessValue = typeOneQuestionCorrectness(inputs);
             questionText = String.format(typeOneText, data.getKey());
         } else {
             //check question of type 2
-            wasAnsweredCorrectly = isTypeTwoQuestionCorrect(inputs);
+            if (isTypeTwoQuestionCorrect(inputs)) {
+                correctnessValue = 1;
+            } else {
+                correctnessValue = 0;
+            }
             questionText = String.format(typeTwoText, chordAsString((ArrayList<Note>) data.getValue()));
         }
 
-        if (wasAnsweredCorrectly) {
-            manager.add(data, 1);
-            formatCorrectQuestion(completedQuestion);
-        } else if (wasPartiallyCorrect) {
-            manager.add(data, 2);
-            formatPartiallyCorrectQuestion(completedQuestion);
+        applyFormatting(completedQuestion, correctnessValue);
 
-            //Shows the correct answer
-            completedQuestion.getChildren().get(3).setVisible(true);
-        } else {
+        if (correctnessValue == 0 || correctnessValue == 2) {
             manager.add(data, 0);
-            formatIncorrectQuestion(completedQuestion);
 
             //Shows the correct answer
             completedQuestion.getChildren().get(3).setVisible(true);
         }
-        manager.answered += 1;
+
+        if (correctnessValue == 1) {
+            answeredCorrectly = true;
+            manager.add(data, 1);
+        }
+
         //Disables skip button
         completedQuestion.getChildren().get(2).setDisable(true);
-        if (manager.answered == manager.questions) {
-            finished();
-        }
 
         String[] question = new String[]{
                 questionText,
                 selectedAnswer,
-                wasAnsweredCorrectly.toString()
+                answeredCorrectly.toString()
         };
         projectHandler.saveTutorRecords("spelling", record.addQuestionAnswer(question));
+
+        updateManagerCompletedQuestion(data, correctnessValue);
+    }
+
+    /**
+     * @param question    The HBox to be styled
+     * @param formatStyle 0 for wrong, 1 for right, 2 for partially correct
+     */
+    private void applyFormatting(HBox question, int formatStyle) {
+        switch (formatStyle) {
+            case 0:
+                formatIncorrectQuestion(question);
+                break;
+            case 1:
+                formatCorrectQuestion(question);
+                break;
+            case 2:
+                formatPartiallyCorrectQuestion(question);
+                break;
+        }
+
+    }
+
+    /**
+     * Once a question has been completely answered, the question manager is updated.
+     */
+    private void updateManagerCompletedQuestion(Pair data, int correctOrNot) {
+        manager.answered += 1;
+
+        if (manager.answered == manager.questions) {
+            finished();
+        }
     }
 
     private void finished() {
