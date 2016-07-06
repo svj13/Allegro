@@ -108,7 +108,7 @@ public class ChordSpellingTutorController extends TutorController {
                 manager.add(data, 2);
                 env.getRootController().setTabTitle("chordSpellingTutor", true);
                 if (manager.answered == manager.questions) {
-                    //finished();
+                    finished();
                 }
             }
         });
@@ -132,7 +132,7 @@ public class ChordSpellingTutorController extends TutorController {
                 //check entire question
                 if (isQuestionCompletelyAnswered(inputs)) {
                     //Style whole question as done
-                    styleCompletedQuestion(questionRow, 1);
+                    handleCompletedQuestion(questionRow, 1, data);
                 }
             });
             ComboBox<String> note2 = new ComboBox<String>();
@@ -144,7 +144,7 @@ public class ChordSpellingTutorController extends TutorController {
                 //check entire question
                 if (isQuestionCompletelyAnswered(inputs)) {
                     //Style whole question as done
-                    styleCompletedQuestion(questionRow, 1);
+                    handleCompletedQuestion(questionRow, 1, data);
                 }
             });
             ComboBox<String> note3 = new ComboBox<String>();
@@ -156,7 +156,7 @@ public class ChordSpellingTutorController extends TutorController {
                 //check entire question
                 if (isQuestionCompletelyAnswered(inputs)) {
                     //Style whole question as done
-                    styleCompletedQuestion(questionRow, 1);
+                    handleCompletedQuestion(questionRow, 1, data);
                 }
             });
 
@@ -364,14 +364,7 @@ public class ChordSpellingTutorController extends TutorController {
 
     }
 
-    /**
-     * Gives visual feedback of a question.
-     * Does so by styling the border etc based on whether or not the user was correct
-     * @param completedQuestion The HBox question to style
-     * @param questionType whether it was a type 1 or type 2 question.
-     */
-    private void styleCompletedQuestion(HBox completedQuestion, int questionType) {
-
+    private void handleCompletedQuestion(HBox completedQuestion, int questionType, Pair data) {
         HBox inputs = (HBox) completedQuestion.getChildren().get(1);
         Boolean wasAnsweredCorrectly;
         if (questionType == 1) {
@@ -383,18 +376,81 @@ public class ChordSpellingTutorController extends TutorController {
             wasAnsweredCorrectly = true;
         }
 
-        //perhaps implement a yellow border here, if it was partially correct?
         if (wasAnsweredCorrectly) {
+            manager.add(data, 1);
             formatCorrectQuestion(completedQuestion);
         } else {
+            manager.add(data, 0);
             formatIncorrectQuestion(completedQuestion);
 
             //Shows the correct answer
             completedQuestion.getChildren().get(3).setVisible(true);
         }
-
+        manager.answered += 1;
         //Disables skip button
         completedQuestion.getChildren().get(2).setDisable(true);
+        if (manager.answered == manager.questions) {
+            finished();
+        }
+
+    }
+
+    private void finished() {
+        userScore = getScore(manager.correct, manager.answered);
+        outputText = String.format("You have finished the tutor.\n" +
+                        "You answered %d questions, and skipped %d questions.\n" +
+                        "You answered %d questions correctly, %d questions incorrectly.\n" +
+                        "This gives a score of %.2f percent.",
+                manager.questions, manager.skipped,
+                manager.correct, manager.incorrect, userScore);
+
+        if (projectHandler.currentProjectPath != null) {
+            projectHandler.saveSessionStat("chordSpelling", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
+            projectHandler.saveCurrentProject();
+            outputText += "\nSession auto saved";
+        }
+        env.getRootController().setTabTitle("chordSpellingTutor", false);
+        // Sets the finished view
+        resultsContent.setText(outputText);
+
+        paneQuestions.setVisible(false);
+        paneResults.setVisible(true);
+        questionRows.getChildren().clear();
+
+        Button retestBtn = new Button("Retest");
+        Button clearBtn = new Button("Clear");
+        final Button saveBtn = new Button("Save");
+
+
+        clearBtn.setOnAction(event -> {
+            manager.saveTempIncorrect();
+            paneResults.setVisible(false);
+            paneQuestions.setVisible(true);
+
+        });
+        paneResults.setPadding(new Insets(10, 10, 10, 10));
+        retestBtn.setOnAction(event -> {
+            paneResults.setVisible(false);
+            paneQuestions.setVisible(true);
+            retest();
+
+        });
+        saveBtn.setOnAction(event -> saveRecord());
+
+
+        if (manager.getTempIncorrectResponses().size() > 0) {
+            //Can re-test
+            buttons.getChildren().setAll(retestBtn, clearBtn, saveBtn);
+        } else {
+            //Perfect score
+            buttons.getChildren().setAll(clearBtn, saveBtn);
+        }
+
+        HBox.setMargin(retestBtn, new Insets(10, 10, 10, 10));
+        HBox.setMargin(clearBtn, new Insets(10, 10, 10, 10));
+        HBox.setMargin(saveBtn, new Insets(10, 10, 10, 10));
+        // Clear the current session
+        manager.resetStats();
     }
 
 
