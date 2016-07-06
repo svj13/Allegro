@@ -527,10 +527,11 @@ public class ChordSpellingTutorController extends TutorController {
 
     @Override
     /**
-     * Resets the settings input combo boxes
-     * To be implemented
+     * Resets the settings inputs
      */
     void resetInputs() {
-
+        chordTypes.getSelectionModel().selectFirst();
+        numEnharmonics.getSelectionModel().selectFirst();
+        allowFalseChords.setSelected(false);
     }
 }
