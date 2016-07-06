@@ -109,13 +109,19 @@ public class ChordSpellingTutorController extends TutorController {
         if (questionType == 1) {
             //Use 'fake chords' with a ~0.25 probability
             if (rand.nextInt(4) == 0) {
-                System.out.println("random chord!");
                 ArrayList<Note> randomNotes = new ArrayList<>();
+                ArrayList<Integer> noteMidis = new ArrayList<>();
                 for (int i = 0; i < 3; i++) {
-                    randomNotes.add(getRandomNote());
+                    Note randomNote = getRandomNote();
+                    randomNotes.add(randomNote);
+                    noteMidis.add(randomNote.getMidi());
                 }
-                //have to somehow ensure that the generated notes are not a real chord
-                data = new Pair("No Chord", randomNotes);
+                try {
+                    ChordUtil.getChordName(noteMidis, true);
+                } catch (IllegalArgumentException notAChord) {
+                    //Only use it if it's not a valid chord
+                    data = new Pair("No Chord", randomNotes);
+                }
             }
         }
 
