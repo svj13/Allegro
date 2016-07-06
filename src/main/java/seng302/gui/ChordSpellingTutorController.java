@@ -512,9 +512,7 @@ public class ChordSpellingTutorController extends TutorController {
 
             //Shows the correct answer
             completedQuestion.getChildren().get(3).setVisible(true);
-        }
-
-        if (correctnessValue == 1) {
+        } else {
             answeredCorrectly = true;
             manager.add(data, 1);
         }
@@ -529,7 +527,7 @@ public class ChordSpellingTutorController extends TutorController {
         };
         projectHandler.saveTutorRecords("spelling", record.addQuestionAnswer(question));
 
-        updateManagerCompletedQuestion(data, correctnessValue);
+        updateManagerCompletedQuestion();
     }
 
     /**
@@ -554,7 +552,7 @@ public class ChordSpellingTutorController extends TutorController {
     /**
      * Once a question has been completely answered, the question manager is updated.
      */
-    private void updateManagerCompletedQuestion(Pair data, int correctOrNot) {
+    private void updateManagerCompletedQuestion() {
         manager.answered += 1;
 
         if (manager.answered == manager.questions) {
