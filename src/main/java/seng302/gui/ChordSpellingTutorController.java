@@ -41,10 +41,18 @@ public class ChordSpellingTutorController extends TutorController {
 
     private Random rand;
 
+    /**
+     * What type the generated chords are, i.e. major, minor
+     */
+    private String validChords = "all";
+
     public void create(Environment env) {
         super.create(env);
         initialiseQuestionSelector();
         chordTypes.getItems().addAll("all", "major", "minor");
+        chordTypes.setOnAction(event -> {
+            validChords = (String) chordTypes.getValue();
+        });
         chordTypes.getSelectionModel().selectFirst();
         numEnharmonics.getItems().addAll("only one", "all");
         numEnharmonics.getSelectionModel().selectFirst();
@@ -219,11 +227,15 @@ public class ChordSpellingTutorController extends TutorController {
      * @return either "major" or "minor" as a string
      */
     private String generateRandomChordType() {
-        int majorOrMinor = rand.nextInt(2);
-        if (majorOrMinor == 0) {
-            return "major";
+        if (validChords.equals("all")) {
+            int majorOrMinor = rand.nextInt(2);
+            if (majorOrMinor == 0) {
+                return "major";
+            } else {
+                return "minor";
+            }
         } else {
-            return "minor";
+            return validChords;
         }
     }
 
