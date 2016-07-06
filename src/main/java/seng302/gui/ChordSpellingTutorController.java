@@ -331,6 +331,12 @@ public class ChordSpellingTutorController extends TutorController {
     private ArrayList<String> generateTypeTwoOptions(String correctAnswer) {
         ArrayList<String> chordNames = new ArrayList<String>();
         chordNames.add(correctAnswer);
+
+        //"No Chord" is always an option, if false chords is 'turned on'.
+        if (allowFalseChords.isSelected()) {
+            chordNames.add("No Chord");
+        }
+
         while (chordNames.size() < 8) {
             String chordName = generateValidChord().getKey();
             if (!chordNames.contains(chordName)) {
