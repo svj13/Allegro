@@ -1,6 +1,7 @@
 package seng302.gui;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 import javafx.event.ActionEvent;
@@ -171,6 +172,11 @@ public class ChordSpellingTutorController extends TutorController {
             question.setText(chordAsString(chordNotes));
 
             ComboBox<String> possibleNames = new ComboBox<String>();
+
+            for (String chord : generateTypeTwoOptions(chordName)) {
+                possibleNames.getItems().add(chord);
+            }
+
             inputs.getChildren().add(possibleNames);
 
         }
@@ -272,6 +278,19 @@ public class ChordSpellingTutorController extends TutorController {
 
         return surroundingNotes;
 
+    }
+
+    private ArrayList<String> generateTypeTwoOptions(String correctAnswer) {
+        ArrayList<String> chordNames = new ArrayList<String>();
+        chordNames.add(correctAnswer);
+        while (chordNames.size() < 8) {
+            String chordName = generateValidChord().getKey();
+            if (!chordNames.contains(chordName)) {
+                chordNames.add(chordName);
+            }
+        }
+        Collections.shuffle(chordNames);
+        return chordNames;
     }
 
     /**
