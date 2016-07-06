@@ -177,6 +177,13 @@ public class ChordSpellingTutorController extends TutorController {
                 possibleNames.getItems().add(chord);
             }
 
+            possibleNames.setOnAction(event -> {
+                //Check if the answer is correct
+                boolean answeredCorrectly = possibleNames.getValue().equals(chordName);
+                styleNoteInput(possibleNames, answeredCorrectly);
+                handleCompletedQuestion(questionRow, 2, data);
+            });
+
             inputs.getChildren().add(possibleNames);
 
         }
@@ -389,6 +396,10 @@ public class ChordSpellingTutorController extends TutorController {
 
     }
 
+    private boolean isTypeTwoQuestionCorrect(HBox inputs) {
+        return inputs.getChildren().get(0).getStyle().contains("green");
+    }
+
     private void handleCompletedQuestion(HBox completedQuestion, int questionType, Pair data) {
         HBox inputs = (HBox) completedQuestion.getChildren().get(1);
         Boolean wasAnsweredCorrectly;
@@ -398,7 +409,7 @@ public class ChordSpellingTutorController extends TutorController {
         } else {
             //check question of type 2
             //Placeholder, currently.
-            wasAnsweredCorrectly = true;
+            wasAnsweredCorrectly = isTypeTwoQuestionCorrect(inputs);
         }
 
         if (wasAnsweredCorrectly) {
