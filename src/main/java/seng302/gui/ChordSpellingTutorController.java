@@ -9,6 +9,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -38,6 +39,9 @@ public class ChordSpellingTutorController extends TutorController {
 
     @FXML
     Button btnGo;
+
+    @FXML
+    CheckBox allowFalseChords;
 
     private Random rand;
 
@@ -108,7 +112,7 @@ public class ChordSpellingTutorController extends TutorController {
 
         if (questionType == 1) {
             //Use 'fake chords' with a ~0.25 probability
-            if (rand.nextInt(4) == 0) {
+            if (allowFalseChords.isSelected() && rand.nextInt(4) == 0) {
                 ArrayList<Note> randomNotes = new ArrayList<>();
                 ArrayList<Integer> noteMidis = new ArrayList<>();
                 for (int i = 0; i < 3; i++) {
@@ -197,13 +201,6 @@ public class ChordSpellingTutorController extends TutorController {
             //Type B question
             correctAnswer = correctAnswer(chordName);
             question.setText(chordAsString(chordNotes));
-
-            //Use 'fake chords' with a ~0.25 probability
-            if (rand.nextInt(4) == 0) {
-                ArrayList<Note> randomNotes = new ArrayList<>();
-                randomNotes.add(getRandomNote());
-                data = new Pair("No Chord", randomNotes);
-            }
 
             ComboBox<String> possibleNames = new ComboBox<String>();
 
