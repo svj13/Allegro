@@ -21,7 +21,8 @@ import seng302.utility.musicNotation.ChordUtil;
 import seng302.utility.musicNotation.OctaveUtil;
 
 /**
- * Created by emily on 2/07/16.
+ * This class is responsible for the GUI and logic of the Chord Spelling Tutor.
+ * It works similarly to all other tutors, and is based off the abstract TutorController class.
  */
 public class ChordSpellingTutorController extends TutorController {
     @FXML
@@ -53,6 +54,11 @@ public class ChordSpellingTutorController extends TutorController {
      */
     private String validChords = "all";
 
+    /**
+     * Sets up the tutoring environment
+     *
+     * @param env The environment the tutor is being run in
+     */
     public void create(Environment env) {
         super.create(env);
         initialiseQuestionSelector();
@@ -67,6 +73,9 @@ public class ChordSpellingTutorController extends TutorController {
     }
 
     @FXML
+    /**
+     * When the go button is pressed, a new tutoring session is launched
+     */
     private void goAction(ActionEvent event) {
         record = new TutorRecord();
         paneQuestions.setVisible(true);
@@ -103,6 +112,10 @@ public class ChordSpellingTutorController extends TutorController {
     }
 
     @Override
+    /**
+     * Generates a GUI containing question data.
+     * Needs to be broken up into parts - currently 160 lines long
+     */
     HBox generateQuestionPane(Pair data) {
         final HBox questionRow = new HBox();
         formatQuestionRow(questionRow);
@@ -478,11 +491,25 @@ public class ChordSpellingTutorController extends TutorController {
 
     }
 
+    /**
+     * Checks whether the user correctly answered a type 2 question or not
+     * @param inputs The HBox containing the user's input
+     * @return true if the user was correct, false otherwise
+     */
     private boolean isTypeTwoQuestionCorrect(HBox inputs) {
         return inputs.getChildren().get(0).getStyle().contains("green");
     }
 
 
+    /**
+     * This method is called when a question is completed.
+     * It styles the GUI based on the correctness of the question, and also saves the question's
+     * information.
+     * @param completedQuestion The HBox containing the GUI of the question
+     * @param questionType Whether it was a type 1 or type 2 question
+     * @param data The question data - chord name and notes
+     * @param selectedAnswer - The answer that the user input. For saving
+     */
     private void handleCompletedQuestion(HBox completedQuestion, int questionType, Pair data, String selectedAnswer) {
         HBox inputs = (HBox) completedQuestion.getChildren().get(1);
         String questionText;
@@ -560,6 +587,10 @@ public class ChordSpellingTutorController extends TutorController {
         }
     }
 
+    /**
+     * Runs once the tutoring session has finished.
+     * Shows the statistics of the session, and saves information.
+     */
     private void finished() {
         userScore = getScore(manager.correct, manager.answered);
         outputText = String.format("You have finished the tutor.\n" +
