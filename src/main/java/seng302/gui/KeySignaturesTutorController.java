@@ -134,7 +134,6 @@ public class KeySignaturesTutorController extends TutorController {
     //@Override
     public HBox generateQuestionPane( final Pair pair) {
         Boolean isMajor = false;
-        Boolean isMinor = false;
 
         final HBox questionRow = new HBox();
         formatQuestionRow(questionRow);
@@ -148,16 +147,19 @@ public class KeySignaturesTutorController extends TutorController {
         final String question;
 
         System.out.println(((Pair) pair.getValue()).getValue());
+        Random bRand = new Random();
 
-        if (pair.getKey().equals("major")) {
+        int random;
+        random = bRand.nextInt(2);
+
+        if ((pair.getKey().equals("major")) || (random == 0) ) {
             isMajor = true;
             keysAsArray = new ArrayList<String>(KeySignature.getMajorKeySignatures().keySet());
             questionText.setText(" Major");
             question = keysAsArray.get(rand.nextInt(keysAsArray.size()));
             options = generateMajorChoices(question, (Boolean) (((Pair) pair.getValue()).getValue()));
 
-        } else if (pair.getKey().equals("minor")) {
-            isMinor = true;
+        } else if ((pair.getKey().equals("minor")) || (random == 1)) {
             keysAsArray = new ArrayList<String>(KeySignature.getMinorKeySignatures().keySet());
             question = keysAsArray.get(rand.nextInt(keysAsArray.size()));
             questionText.setText(" Minor");
@@ -165,10 +167,9 @@ public class KeySignaturesTutorController extends TutorController {
 
         } else {
 
-            /// random generation from both
-            keysAsArray = new ArrayList<String>(KeySignature.getMinorKeySignatures().keySet());
-            question = keysAsArray.get(rand.nextInt(keysAsArray.size()));
-            options = generateMajorChoices(question, true);
+            System.err.println("something is broken");
+            options = null;
+            question = null;
         }
 
         questionText.setText(question.concat(questionText.getText()));
@@ -176,7 +177,6 @@ public class KeySignaturesTutorController extends TutorController {
 
 
         final Boolean fIsMajor = isMajor;
-        final Boolean fIsMinor = isMinor;
 
         skip.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
@@ -189,9 +189,13 @@ public class KeySignaturesTutorController extends TutorController {
 
                 if(fIsMajor){
                     correctAnswer = KeySignature.getMajorKeySignatures().get(question).getNotes().toString();
-                }else{
+
+                }else {
                     correctAnswer = KeySignature.getMinorKeySignatures().get(question).getNotes().toString();
                 }
+
+
+
 
                 String[] recordQuestion = new String[]{
                         String.format("Keys signature of %s %s", question, pair.getKey()),
@@ -211,7 +215,6 @@ public class KeySignaturesTutorController extends TutorController {
                 disableButtons(questionRow, 1, 3);
                 boolean isCorrect = false;
                 System.out.println(question);
-                System.out.println(KeySignature.getMajorKeySignatures().get(question).getNotes());
                 if(fIsMajor) {
                     if (options.getValue().equals(KeySignature.getMajorKeySignatures().get(question).getNotes().toString())) {
                         isCorrect = true;
@@ -222,7 +225,7 @@ public class KeySignaturesTutorController extends TutorController {
                         formatIncorrectQuestion(questionRow);
                         manager.add(pair, 0);
                     }
-                }else if(fIsMinor){
+                }else{
                     if (options.getValue().equals(KeySignature.getMinorKeySignatures().get(question).getNotes().toString())) {
                         isCorrect = true;
                         formatCorrectQuestion(questionRow);
