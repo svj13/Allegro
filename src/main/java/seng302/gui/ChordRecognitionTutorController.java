@@ -51,7 +51,7 @@ public class ChordRecognitionTutorController extends TutorController {
         paneResults.setVisible(false);
         manager.resetEverything();
         manager.questions = selectedQuestions;
-    
+
         questionRows.getChildren().clear();
         for (int i = 0; i < manager.questions; i++) {
             HBox questionRow = setUpQuestion();
