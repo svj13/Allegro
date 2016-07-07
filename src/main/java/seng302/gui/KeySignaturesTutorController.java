@@ -126,24 +126,16 @@ public class KeySignaturesTutorController extends TutorController {
     }
 
 
-    /**
-     * Reacts accordingly to a user's input
-     *
-     * @param userAnswer    The user's selection, as text
-     * @param correctAnswer A pair containing the starting note and scale type
-     * @param questionRow   The HBox containing GUI question data
-     */
-    public void handleQuestionAnswer(String userAnswer, Pair correctAnswer, HBox questionRow) {
-
-
-    }
 
     /**
      * Creates a GUI pane for a single question
      * y
      */
     //@Override
-    public HBox generateQuestionPane(Pair pair) {
+    public HBox generateQuestionPane( final Pair pair) {
+        Boolean isMajor = false;
+        Boolean isMinor = false;
+
         final HBox questionRow = new HBox();
         formatQuestionRow(questionRow);
         final ComboBox<String> options;
@@ -153,17 +145,19 @@ public class KeySignaturesTutorController extends TutorController {
         styleSkipButton(skip);
         Label questionText = new Label();
         List<String> keysAsArray;
-        String question;
+        final String question;
 
         System.out.println(((Pair) pair.getValue()).getValue());
 
         if (pair.getKey().equals("major")) {
+            isMajor = true;
             keysAsArray = new ArrayList<String>(KeySignature.getMajorKeySignatures().keySet());
             questionText.setText(" Major");
             question = keysAsArray.get(rand.nextInt(keysAsArray.size()));
             options = generateMajorChoices(question, (Boolean) (((Pair) pair.getValue()).getValue()));
 
         } else if (pair.getKey().equals("minor")) {
+            isMinor = true;
             keysAsArray = new ArrayList<String>(KeySignature.getMinorKeySignatures().keySet());
             question = keysAsArray.get(rand.nextInt(keysAsArray.size()));
             questionText.setText(" Minor");
@@ -181,16 +175,78 @@ public class KeySignaturesTutorController extends TutorController {
         options.setPrefHeight(30);
 
 
+        final Boolean fIsMajor = isMajor;
+        final Boolean fIsMinor = isMinor;
+
         skip.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
+                // Disables only input buttons
+                disableButtons(questionRow, 1, 3);
+                formatSkippedQuestion(questionRow);
+                manager.questions -= 1;
+                manager.add(pair, 2);
+                String correctAnswer;
 
+                if(fIsMajor){
+                    correctAnswer = KeySignature.getMajorKeySignatures().get(question).getNotes().toString();
+                }else{
+                    correctAnswer = KeySignature.getMinorKeySignatures().get(question).getNotes().toString();
+                }
+
+                String[] recordQuestion = new String[]{
+                        String.format("Keys signature of %s %s", question, pair.getKey()),
+                        correctAnswer
+                };
+                projectHandler.saveTutorRecords("keySignature", record.addSkippedQuestion(recordQuestion));
+                env.getRootController().setTabTitle("keySignatureTutor", true);
+                if (manager.answered == manager.questions) {
+                    finished();
+                }
             }
         });
 
         options.setOnAction(new EventHandler<ActionEvent>() {
             // This handler colors the GUI depending on the user's input
             public void handle(ActionEvent event) {
+                disableButtons(questionRow, 1, 3);
+                boolean isCorrect = false;
+                System.out.println(question);
+                System.out.println(KeySignature.getMajorKeySignatures().get(question).getNotes());
+                if(fIsMajor) {
+                    if (options.getValue().equals(KeySignature.getMajorKeySignatures().get(question).getNotes().toString())) {
+                        isCorrect = true;
+                        formatCorrectQuestion(questionRow);
+                        manager.add(pair, 1);
+                    }else{
+                        //correctAnswer.setVisible(true);
+                        formatIncorrectQuestion(questionRow);
+                        manager.add(pair, 0);
+                    }
+                }else if(fIsMinor){
+                    if (options.getValue().equals(KeySignature.getMinorKeySignatures().get(question).getNotes().toString())) {
+                        isCorrect = true;
+                        formatCorrectQuestion(questionRow);
+                        manager.add(pair, 1);
+                    }else{
+                        //correctAnswer.setVisible(true);
+                        formatIncorrectQuestion(questionRow);
+                        manager.add(pair, 0);
+                    }
+                }
 
+                manager.answered += 1;
+                // Sets up the question to be saved to the record
+                String[] recordQuestion = new String[] {
+                        String.format("Key signature of %s %s", question, pair.getKey()),
+                        options.getValue(),
+                        String.valueOf(isCorrect)
+                };
+                projectHandler.saveTutorRecords("keySignature", record.addQuestionAnswer(recordQuestion));
+                env.getRootController().setTabTitle("keySignatureTutor", true);
+                // Shows the correct answer
+                if (manager.answered == manager.questions) {
+                    finished();
+                }
             }
         });
 
@@ -289,7 +345,72 @@ public class KeySignaturesTutorController extends TutorController {
     }
 
 
+    /**
+     * This function is run once a tutoring session has been completed.
+     */
+    public void finished() {
+        env.getPlayer().stop();
+        userScore = getScore(manager.correct, manager.answered);
+        outputText = String.format("You have finished the tutor.\n" +
+                        "You answered %d questions, and skipped %d questions.\n" +
+                        "You answered %d questions correctly, %d questions incorrectly.\n" +
+                        "This gives a score of %.2f percent.",
+                manager.questions, manager.skipped,
+                manager.correct, manager.incorrect, userScore);
+        if(projectHandler.currentProjectPath != null) {
+            projectHandler.saveSessionStat("keySignature", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
+            projectHandler.saveCurrentProject();
+            outputText += "\nSession auto saved.";
+        }
+        env.getRootController().setTabTitle("keySignatureTutor", false);
+        // Sets the finished view
+        resultsContent.setText(outputText);
 
+        paneQuestions.setVisible(false);
+        paneResults.setVisible(true);
+        questionRows.getChildren().clear();
+
+        Button retestBtn = new Button("Retest");
+        Button clearBtn  = new Button("Clear");
+        Button saveBtn = new Button("Save");
+
+        clearBtn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                manager.saveTempIncorrect();
+                paneResults.setVisible(false);
+                paneQuestions.setVisible(true);
+            }
+        });
+
+        paneResults.setPadding(new Insets(10, 10, 10, 10));
+        retestBtn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                paneResults.setVisible(false);
+                paneQuestions.setVisible(true);
+                retest();
+
+            }
+        });
+        saveBtn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                saveRecord();
+            }
+        });
+
+        if (manager.getTempIncorrectResponses().size() > 0) {
+            //Can re-test
+            buttons.getChildren().setAll(retestBtn, clearBtn, saveBtn);
+        } else {
+            //Perfect score
+            buttons.getChildren().setAll(clearBtn, saveBtn);
+        }
+
+        buttons.setMargin(retestBtn, new Insets(10,10,10,10));
+        buttons.setMargin(clearBtn, new Insets(10,10,10,10));
+        buttons.setMargin(saveBtn, new Insets(10,10,10,10));
+        // Clear the current session
+        manager.resetStats();
+    }
 
     /**
      * Returns the option combo boxes to their default states.
@@ -297,6 +418,7 @@ public class KeySignaturesTutorController extends TutorController {
     public void resetInputs() {
         scaleBox.getSelectionModel().selectFirst();
         formBox.getSelectionModel().selectFirst();
+        answerBox.getSelectionModel().selectFirst();
     }
 
 
