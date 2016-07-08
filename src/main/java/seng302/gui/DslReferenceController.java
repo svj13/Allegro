@@ -18,7 +18,7 @@ import javafx.scene.text.Text;
 import seng302.data.CommandType;
 
 /**
- * Created by emily on 8/07/16.
+ * This class contains the logic for a popover containing help info of all commands.
  */
 public class DslReferenceController {
 
