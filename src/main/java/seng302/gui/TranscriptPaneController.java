@@ -89,143 +89,21 @@ public class TranscriptPaneController {
     @FXML
     private Button helpButton;
 
-    private VBox popoverContent = new VBox();
-
-    PopOver dslRef;
+    private DslReferenceController dslRefControl;
 
 
     @FXML
     private void initialize() {
-        createDslReference();
+        dslRefControl = new DslReferenceController(this);
         // Text field can only request focus once everything has been loaded.
         Platform.runLater(() -> txtCommand.requestFocus());
     }
 
     /**
-     * Creates two radio buttons, for sorting the DSL reference popup.
-     *
-     * @return A javafx HBox containing the radio buttons
+     * Getter method for the input text field
      */
-    private HBox getSortingOptions() {
-        HBox sortButtons = new HBox();
-        final ToggleGroup sortingOptions = new ToggleGroup();
-        final RadioButton sortAlphabetically = new RadioButton("Sort Alphabetically");
-        sortAlphabetically.setToggleGroup(sortingOptions);
-        sortAlphabetically.setSelected(true);
-        RadioButton sortByGroup = new RadioButton("Sort by Group");
-        sortByGroup.setToggleGroup(sortingOptions);
-        sortingOptions.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
-            public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
-                if (sortingOptions.getSelectedToggle().equals(sortAlphabetically)) {
-                    alphabetiseCommands();
-                } else {
-                    sortCommands();
-                }
-            }
-        });
-
-
-        sortButtons.getChildren().add(sortAlphabetically);
-        sortButtons.getChildren().add(sortByGroup);
-        return sortButtons;
-    }
-
-    /**
-     * Initialises a popover containing help info about popoverContent. Each command, when clicked, is
-     * copied to the input text field.
-     */
-    private void createDslReference() {
-        VBox scrollContent = new VBox();
-        HBox sortingOptions = getSortingOptions();
-        sortingOptions.setSpacing(5);
-        sortingOptions.setPadding(new Insets(10));
-        scrollContent.getChildren().add(sortingOptions);
-        scrollContent.getChildren().add(popoverContent);
-
-        popoverContent.getChildren().add(new Text("Click a command to copy to input field"));
-        popoverContent.setSpacing(5);
-        popoverContent.setPadding(new Insets(10));
-
-        ScrollPane commandScrollPane = new ScrollPane();
-        commandScrollPane.setPrefSize(500, 200);
-        commandScrollPane.setContent(scrollContent);
-        alphabetiseCommands();
-        dslRef = new PopOver(commandScrollPane);
-        dslRef.setHeaderAlwaysVisible(true);
-        dslRef.setArrowLocation(PopOver.ArrowLocation.RIGHT_CENTER);
-        dslRef.setTitle("DSL Reference Card");
-    }
-
-    /**
-     * Displays all commands in the popover, in alphabetical order.
-     */
-    private void alphabetiseCommands() {
-        popoverContent.getChildren().clear();
-        VBox allCommands = new VBox();
-        popoverContent.getChildren().add(allCommands);
-
-        for (Map.Entry<String, CommandType> entry : CommandType.allCommands.entrySet()) {
-            prepareCommand(entry, allCommands);
-        }
-    }
-
-    /**
-     * Displays all commands in the popover, sorted by category.
-     */
-    private void sortCommands() {
-        popoverContent.getChildren().clear();
-        final VBox categories = new VBox();
-        final VBox categoryContent = new VBox();
-        final HBox categorisedCommands = new HBox();
-        categorisedCommands.getChildren().add(categories);
-        categorisedCommands.getChildren().add(categoryContent);
-
-        String[] categoryNames = {"Play", "Show", "Special", "Translation", "Terms", "Settings"};
-
-        for (final String categoryName : categoryNames) {
-            Text category = new Text(categoryName + " >");
-            category.setCursor(Cursor.HAND);
-            categories.getChildren().add(category);
-            category.setOnMouseClicked(event -> {
-                categoryContent.getChildren().clear();
-                for (Map.Entry<String, CommandType> entry : CommandType.getCommands(categoryName).entrySet()) {
-                    prepareCommand(entry, categoryContent);
-                }
-            });
-
-        }
-
-        popoverContent.getChildren().add(categorisedCommands);
-    }
-
-    /**
-     * Creates a text object that contains a single command. When clicked, the command is copied to
-     * the input text field.
-     *
-     * @param entry     A single command
-     * @param container Where the command text box will display
-     */
-    private void prepareCommand(Map.Entry<String, CommandType> entry, VBox container) {
-        final CommandType data = entry.getValue();
-        HBox commandInfo = new HBox();
-        final Text content = new Text("-" + data.getDisplayText());
-        commandInfo.setCursor(Cursor.HAND);
-        commandInfo.setOnMouseClicked(event -> {
-                //copy to input field
-                setCommandText(data);
-        });
-        commandInfo.getChildren().add(content);
-        container.getChildren().add(commandInfo);
-    }
-
-    /**
-     * Given a command, sets the input text field to display information about that command.
-     *
-     * @param command The command to display information about
-     */
-    private void setCommandText(CommandType command) {
-        txtCommand.clear();
-        txtCommand.setText(command.getDisplayText());
+    public TextField getTxtCommand() {
+        return txtCommand;
     }
 
     private String enteredCommand;
@@ -276,7 +154,7 @@ public class TranscriptPaneController {
 
     @FXML
     private void showDslRef() {
-        dslRef.show(helpButton);
+        dslRefControl.getPopover().show(helpButton);
     }
 
 
