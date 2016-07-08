@@ -186,12 +186,10 @@ public class TranscriptPaneController {
             Text category = new Text(categoryName + " >");
             category.setCursor(Cursor.HAND);
             categories.getChildren().add(category);
-            category.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                public void handle(MouseEvent event) {
-                    categoryContent.getChildren().clear();
-                    for (Map.Entry<String, CommandType> entry : CommandType.getCommands(categoryName).entrySet()) {
-                        prepareCommand(entry, categoryContent);
-                    }
+            category.setOnMouseClicked(event -> {
+                categoryContent.getChildren().clear();
+                for (Map.Entry<String, CommandType> entry : CommandType.getCommands(categoryName).entrySet()) {
+                    prepareCommand(entry, categoryContent);
                 }
             });
 
@@ -212,11 +210,9 @@ public class TranscriptPaneController {
         HBox commandInfo = new HBox();
         final Text content = new Text("-" + data.getDisplayText());
         commandInfo.setCursor(Cursor.HAND);
-        commandInfo.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
+        commandInfo.setOnMouseClicked(event -> {
                 //copy to input field
                 setCommandText(data);
-            }
         });
         commandInfo.getChildren().add(content);
         container.getChildren().add(commandInfo);
