@@ -2,6 +2,7 @@ package seng302.utility;
 
 import org.junit.Before;
 import org.junit.Test;
+import seng302.utility.musicNotation.Checker;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

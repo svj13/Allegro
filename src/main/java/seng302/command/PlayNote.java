@@ -2,7 +2,7 @@ package seng302.command;
 
 import seng302.Environment;
 import seng302.data.Note;
-import seng302.utility.OctaveUtil;
+import seng302.utility.musicNotation.OctaveUtil;
 
 /**
  * Plays a note using the midi library, given a note/midi value, and an optional duration.
@@ -14,6 +14,7 @@ public class PlayNote implements Command {
 
     /**
      * Constructor for PlayNote
+     *
      * @param note Either the note or midi representation of note to be played
      */
     public PlayNote(String note) {
@@ -22,7 +23,8 @@ public class PlayNote implements Command {
 
     /**
      * Constructor for PlayNote with custom duration
-     * @param note Either the note or midi representation of note to be played
+     *
+     * @param note     Either the note or midi representation of note to be played
      * @param duration A custom duration to play the note for
      */
     public PlayNote(String note, String duration) {
@@ -32,11 +34,14 @@ public class PlayNote implements Command {
 
     public float getLength(Environment env) {
         return 60000 / env.getPlayer().getTempo();
-    };
+    }
+
+    ;
 
     /**
-     * Uses the music player class to play a given note.
-     * Displays errors if the given note or duration is invalid.
+     * Uses the music player class to play a given note. Displays errors if the given note or
+     * duration is invalid.
+     *
      * @param env The environment in which to function.
      */
     public void execute(Environment env) {

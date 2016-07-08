@@ -1,14 +1,16 @@
 package seng302.data;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
-import javax.sound.midi.MidiSystem;
-import javax.sound.midi.Receiver;
-import javax.sound.midi.ShortMessage;
-import javax.sound.midi.Synthesizer;
-
-import seng302.utility.Checker;
-import seng302.utility.OctaveUtil;
+import seng302.utility.musicNotation.Checker;
+import seng302.utility.musicNotation.OctaveUtil;
 
 /**
  * This Note class contains a static HashMap of all notes as well as the lookup method and
@@ -205,10 +207,10 @@ public class Note {
 
 
     /**
-     * Returns the note object from the HashMap of notes.
-     *Created the tempo class
-
-Created the tempo class and made it so it defaults to 120BMP
+     * Returns the note object from the HashMap of notes. Created the tempo class
+     *
+     * Created the tempo class and made it so it defaults to 120BMP
+     *
      * @param s The note or MIDI value to lookup.
      * @return Note object that matches the String supplied.
      */
@@ -414,30 +416,6 @@ Created the tempo class and made it so it defaults to 120BMP
         Note note1 = (Note) o;
         return midi == note1.midi &&
                 Objects.equals(note, note1.note);
-    }
-
-    public ArrayList<Note> getChord(String type) {
-       ArrayList<Note> chordNotes = new ArrayList<Note>();
-        if (type.toLowerCase().equals("major")) {
-            Note currentNote = this;
-            chordNotes.add(currentNote);
-            chordNotes.add(currentNote.semitoneUp(4));
-            chordNotes.add(currentNote.semitoneUp(7));
-            if (chordNotes.contains(null)) {
-                return null;
-            }
-        } else if (type.toLowerCase().equals("minor")) {
-             Note currentNote = this;
-             chordNotes.add(currentNote);
-             chordNotes.add(currentNote.semitoneUp(3));
-             chordNotes.add(currentNote.semitoneUp(7));
-            if (chordNotes.contains(null)) {
-                return null;
-            }
-        } else {
-            throw new IllegalArgumentException("Invalid chord type: '" + type + "'.");
-        }
-        return chordNotes;
     }
 
 

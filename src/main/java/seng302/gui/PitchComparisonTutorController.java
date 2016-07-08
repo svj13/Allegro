@@ -1,43 +1,34 @@
 package seng302.gui;
 
 import org.controlsfx.control.RangeSlider;
-import org.controlsfx.control.spreadsheet.StringConverterWithFormat;
 
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Random;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 import seng302.Environment;
 import seng302.data.Note;
-import seng302.utility.MidiNotePair;
+import seng302.utility.NoteRangeSlider;
 import seng302.utility.TutorRecord;
+import seng302.utility.musicNotation.MidiNotePair;
 
 /**
  * Created by jat157 on 20/03/16.
  */
-public class PitchComparisonTutorController extends TutorController{
+public class PitchComparisonTutorController extends TutorController {
 
     @FXML
     ComboBox<MidiNotePair> cbxLower;
@@ -84,7 +75,7 @@ public class PitchComparisonTutorController extends TutorController{
 //        manager.questions = 0;
         paneQuestions.setVisible(true);
         paneResults.setVisible(false);
-        record = new TutorRecord(new Date(), "Pitch Comparison");
+        record = new TutorRecord();
         manager.answered = 0;
 
         if (lowerSet && upperSet) {
@@ -95,7 +86,7 @@ public class PitchComparisonTutorController extends TutorController{
                 int lowerPitchBound = ((Double) rangeSlider.getLowValue()).intValue();
                 int upperPitchBound = ((Double) rangeSlider.getHighValue()).intValue();
                 int pitchRange = upperPitchBound - lowerPitchBound;
-                String midiOne =  String.valueOf(lowerPitchBound + rand.nextInt(pitchRange + 1));
+                String midiOne = String.valueOf(lowerPitchBound + rand.nextInt(pitchRange + 1));
                 String midiTwo = String.valueOf(lowerPitchBound + rand.nextInt(pitchRange + 1));
 
                 Pair<String, String> midis = new Pair<String, String>(midiOne, midiTwo);
@@ -125,157 +116,22 @@ public class PitchComparisonTutorController extends TutorController{
     public void create(Environment env) {
         super.create(env);
         initialiseQuestionSelector();
-        //generateComboValues(cbxLower);
-        //generateComboValues(cbxUpper);
-        rangeSlider = new RangeSlider(0, 127, 60, 72);
-        rangeSlider.setBlockIncrement(1);
-        rangeSlider.setMajorTickUnit(12);
-        rangeSlider.setPrefWidth(340);
-        rangeSlider.setShowTickLabels(true);
-        rangeSlider.setLabelFormatter(new StringConverterWithFormat<Number>() {
-            @Override
-            public String toString(Number object) {
-                Integer num = object.intValue();
-                return Note.lookup(String.valueOf(num)).getNote();
-            }
-
-            @Override
-            public Number fromString(String string) {
-                return Note.lookup(string).getMidi();
-            }
-        });
-
+        rangeSlider = new NoteRangeSlider(notes, 12, 60, 72);
         sliderBox.getChildren().add(1, rangeSlider);
-        notes.setText(rangeSlider.getLabelFormatter().toString(rangeSlider.getLowValue()) + " - "
-                + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
-        ChangeListener<Number> updateLabelLower = new ChangeListener<Number>() {
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if ((Double) newValue > rangeSlider.getHighValue() - 12) {
-                    rangeSlider.setLowValue(rangeSlider.getHighValue() - 12);
-                }
-                notes.setText(rangeSlider.getLabelFormatter().toString(rangeSlider.getLowValue()) + " - "
-                        + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
-            }
-        };
-        ChangeListener<Number> updateLabelHigher = new ChangeListener<Number>() {
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if ((Double) newValue < rangeSlider.getLowValue() + 12) {
-                    rangeSlider.setHighValue(rangeSlider.getLowValue() + 12);
-                }
-                notes.setText(rangeSlider.getLabelFormatter().toString(rangeSlider.getLowValue()) + " - "
-                        + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
-            }
-        };
-        rangeSlider.lowValueProperty().addListener(updateLabelLower);
-        rangeSlider.highValueProperty().addListener(updateLabelHigher);
-
-        // Set default values to C4 and C5
-//        cbxLower.getSelectionModel().select(60);
-//        handleLowerRangeAction();
-//        cbxUpper.getSelectionModel().select(12);
-//        handleUpperRangeAction();
         lowerSet = true;
         upperSet = true;
     }
 
-
     /**
-     * This function is triggered when the lower range of the pitch changes. If something has been
-     * selected, then the upper selection box is changed to only contain notes greater than or equal
-     * to the selected note.
-     */
-    @FXML
-    private void handleLowerRangeAction() {
-        lowerSet = true;
-        if (!cbxLower.getSelectionModel().isEmpty()) {
-            int selectedMidi = cbxLower.getSelectionModel().getSelectedItem().getMidi();
-
-            if (cbxUpper.getSelectionModel().isEmpty()) {
-                cbxUpper.getItems().clear();
-                for (int i = selectedMidi + 1; i < Note.noteCount; i++) {
-                    cbxUpper.getItems().add(new MidiNotePair(i, Note.lookup(String.valueOf(i)).getNote()));
-                }
-            } else if (cbxUpper.getSelectionModel().getSelectedItem().getMidi() > selectedMidi) {
-                MidiNotePair oldVal = cbxUpper.getSelectionModel().getSelectedItem();
-
-                cbxUpper.getItems().clear();
-                for (int i = selectedMidi; i < Note.noteCount; i++) {
-                    cbxUpper.getItems().add(new MidiNotePair(i, Note.lookup(String.valueOf(i)).getNote()));
-                }
-                cbxUpper.setValue(oldVal);
-            }
-
-        }
-
-
-    }
-
-    /**
-     * Called whenever the upper range pitch is changed. If something has been selected,
-     * Then the lower range selector removes any options that are above the upeer range.
-     */
-    @FXML
-    private void handleUpperRangeAction() {
-        upperSet = true;
-        if (!cbxUpper.getSelectionModel().isEmpty()) {
-            int midiInt = cbxUpper.getSelectionModel().getSelectedItem().getMidi();
-
-            if (cbxLower.getSelectionModel().isEmpty()) {
-                cbxLower.getItems().clear();
-                for (int i = 0; i < midiInt; i++) {
-                    cbxLower.getItems().add(new MidiNotePair(i, Note.lookup(String.valueOf(i)).getNote()));
-                }
-            } else if (cbxLower.getSelectionModel().getSelectedItem().getMidi() < midiInt) {
-                MidiNotePair oldVal = cbxLower.getSelectionModel().getSelectedItem();
-
-                cbxLower.getItems().clear();
-                for (int i = 0; i < midiInt; i++) {
-                    cbxLower.getItems().add(new MidiNotePair(i, Note.lookup(String.valueOf(i)).getNote()));
-                }
-                cbxLower.setValue(oldVal);
-            }
-
-
-        }
-        else{
-
-        }
-
-
-    }
-
-    /**
-     * Generates the lower and upper range combobox values.
-     * @param cbx
-     */
-    private void generateComboValues(ComboBox<MidiNotePair> cbx) {
-
-        for (int i = 0; i < Note.noteCount; i++) {
-
-            String val = i + " : " + Note.lookup(String.valueOf(i)).getNote();
-
-
-            assert cbxLower != null : "cbxLower was not injected, check the fxml";
-
-            cbx.getItems().add(new MidiNotePair(i, Note.lookup(String.valueOf(i)).getNote()));
-            //System.out.println(cbx.getItems().size());
-        }
-        //TODO Make it so it generates everytime a combobox is selected.
-        //So that The upperValues box is generated to contain only values higher than the selected
-        //Lowerbox value
-
-
-    }
-
-
-    /**
-     * Changes the questionPane after the user has answered the question (with response to their answer).
+     * Changes the questionPane after the user has answered the question (with response to their
+     * answer).
+     *
      * @param row Which questionPane the question is from.
-     * @param m1 The first note being compared.
-     * @param m2 the second note being compared.
+     * @param m1  The first note being compared.
+     * @param m2  the second note being compared.
      * @return correctChoice What the answer is.
      */
-    private int questionResponse(HBox row, String m1, String m2){
+    private int questionResponse(HBox row, String m1, String m2) {
 
         Note note1 = Note.lookup(m1);
         Note note2 = Note.lookup(m2);
@@ -293,7 +149,9 @@ public class PitchComparisonTutorController extends TutorController{
                     "Higher",
                     Boolean.toString(getAnswer(note1, note2).equals("Higher"))
             };
-            record.addQuestionAnswer(question);
+
+            projectHandler.saveTutorRecords("pitch", record.addQuestionAnswer(question));
+            env.getRootController().setTabTitle("pitchTutor", true);
         } else if (((ToggleButton) row.getChildren().get(2)).isSelected()) { //Same
             row.getChildren().get(2).setStyle("-fx-text-fill: white;-fx-background-color: black");
             if (note1 == note2) correctChoice = 1;
@@ -302,7 +160,9 @@ public class PitchComparisonTutorController extends TutorController{
                     "Same",
                     Boolean.toString(getAnswer(note1, note2).equals("Same"))
             };
-            record.addQuestionAnswer(question);
+
+            projectHandler.saveTutorRecords("pitch", record.addQuestionAnswer(question));
+            env.getRootController().setTabTitle("pitchTutor", true);
         } else if (((ToggleButton) row.getChildren().get(3)).isSelected()) { //Lower
             row.getChildren().get(3).setStyle("-fx-text-fill: white;-fx-background-color: black");
             if (noteComparison(false, note1, note2)) {
@@ -313,7 +173,8 @@ public class PitchComparisonTutorController extends TutorController{
                     "Lower",
                     Boolean.toString(getAnswer(note1, note2).equals("Lower"))
             };
-            record.addQuestionAnswer(question);
+            projectHandler.saveTutorRecords("pitch", record.addQuestionAnswer(question));
+            env.getRootController().setTabTitle("pitchTutor", true);
         } else if (((ToggleButton) row.getChildren().get(4)).isSelected()) { //Skip
             row.getChildren().get(4).setStyle("-fx-text-fill: white;-fx-background-color: black");
             //row.getChildren().get(4).setStyle("-fx-border-color: black; -fx-border-radius: 2px; -fx-border-width: 2px;");
@@ -324,29 +185,29 @@ public class PitchComparisonTutorController extends TutorController{
                     String.format("Is %s higher or lower than %s", note2.getNote(), note1.getNote()),
                     getAnswer(note1, note2)
             };
-            record.addSkippedQuestion(question);
+            projectHandler.saveTutorRecords("pitch", record.addSkippedQuestion(question));
+            env.getRootController().setTabTitle("pitchTutor", true);
         }
 
-    if(correctChoice == 1) {
-        formatCorrectQuestion(row);
-        manager.answered += 1;
-    } else if (correctChoice == 2) formatSkippedQuestion(row);
-    else {
-        formatIncorrectQuestion(row);
-        manager.answered += 1;
-    }
-    manager.add(new Pair<String, String>(note1.getNote(), note2.getNote()), correctChoice);
+        if (correctChoice == 1) {
+            formatCorrectQuestion(row);
+            manager.answered += 1;
+        } else if (correctChoice == 2) formatSkippedQuestion(row);
+        else {
+            formatIncorrectQuestion(row);
+            manager.answered += 1;
+        }
+        manager.add(new Pair<>(note1.getNote(), note2.getNote()), correctChoice);
 
         if (manager.answered == manager.questions) {
             finished();
         }
 
-    return correctChoice;
+        return correctChoice;
     }
 
     /**
      * Constructs the question panels.
-     * @return
      */
     public HBox generateQuestionPane(Pair midis) {
 
@@ -373,41 +234,34 @@ public class PitchComparisonTutorController extends TutorController{
         styleSkipToggleButton(skip);
         skip.setToggleGroup(group);
 
-        higher.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                int responseValue = questionResponse(rowPane, midiOne, midiTwo);
-                if (responseValue == 0) {
-                    correctAnswer.setVisible(true);
-                }
+        higher.setOnAction(event -> {
+            int responseValue = questionResponse(rowPane, midiOne, midiTwo);
+            if (responseValue == 0) {
+                correctAnswer.setVisible(true);
+            }
 
+
+        });
+
+        lower.setOnAction(event -> {
+            int responseValue = questionResponse(rowPane, midiOne, midiTwo);
+            if (responseValue == 0) {
+                correctAnswer.setVisible(true);
             }
         });
 
-        lower.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                int responseValue = questionResponse(rowPane, midiOne, midiTwo);
-                if (responseValue == 0) {
-                    correctAnswer.setVisible(true);
-                }
-            }
-        });
-
-        same.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                int responseValue = questionResponse(rowPane, midiOne, midiTwo);
-                if (responseValue == 0) {
-                    correctAnswer.setVisible(true);
-                }
+        same.setOnAction(event -> {
+            int responseValue = questionResponse(rowPane, midiOne, midiTwo);
+            if (responseValue == 0) {
+                correctAnswer.setVisible(true);
             }
         });
 
 
-        skip.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                int responseValue = questionResponse(rowPane, midiOne, midiTwo);
-                if (responseValue == 0) {
-                    correctAnswer.setVisible(true);
-                }
+        skip.setOnAction(event -> {
+            int responseValue = questionResponse(rowPane, midiOne, midiTwo);
+            if (responseValue == 0) {
+                correctAnswer.setVisible(true);
             }
         });
 
@@ -415,17 +269,13 @@ public class PitchComparisonTutorController extends TutorController{
         Button playBtn = new Button();
         stylePlayButton(playBtn);
 
-        playBtn.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                Note note1 = Note.lookup(midiOne);
-                Note note2 = Note.lookup(midiTwo);
-                ArrayList<Note> notes = new ArrayList<Note>();
-                notes.add(note1);
-                notes.add(note2);
-                env.getPlayer().playNotes(notes, 48);
-            }
-
-
+        playBtn.setOnAction(event -> {
+            Note note1 = Note.lookup(midiOne);
+            Note note2 = Note.lookup(midiTwo);
+            ArrayList<Note> notes = new ArrayList<>();
+            notes.add(note1);
+            notes.add(note2);
+            env.getPlayer().playNotes(notes, 48);
         });
 
         rowPane.getChildren().add(playBtn);
@@ -437,16 +287,16 @@ public class PitchComparisonTutorController extends TutorController{
 
         rowPane.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
 
-
         return rowPane;
     }
 
 
     /**
      * Note comparison
+     *
      * @param isHigher whether the user thinks the second note is higher or lower.
-     * @param note1 the first note being compared.
-     * @param note2 the second note being compared.
+     * @param note1    the first note being compared.
+     * @param note2    the second note being compared.
      * @return boolean if the user was correct or incorrect.
      */
     private boolean noteComparison(boolean isHigher, Note note1, Note note2) {
@@ -460,7 +310,7 @@ public class PitchComparisonTutorController extends TutorController{
     }
 
     private String getAnswer(Note note1, Note note2) {
-        if (note1.getMidi() == note2.getMidi()) {
+        if (note1.getMidi().equals(note2.getMidi())) {
             return "Same";
         } else if (note1.getMidi() < note2.getMidi()) {
             return "Higher";
@@ -475,26 +325,69 @@ public class PitchComparisonTutorController extends TutorController{
     }
 
 
-
     /**
-     * Key event binder. No functionality at this point.
-     * @param event
+     * This function is run once a tutoring session has been completed.
      */
-    @FXML
-    public void handleKeyPressed(KeyEvent event) {
-        if (event.getCode() == KeyCode.ENTER) {
+    public void finished() {
 
-        } else if (event.getCode() == KeyCode.UP) {
+        env.getPlayer().stop();
+        userScore = getScore(manager.correct, manager.answered);
+        outputText = String.format("You have finished the tutor.\n" +
+                        "You answered %d questions, and skipped %d questions.\n" +
+                        "You answered %d questions correctly, %d questions incorrectly.\n" +
+                        "This gives a score of %.2f percent.",
+                manager.questions, manager.skipped,
+                manager.correct, manager.incorrect, userScore);
 
+        record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
 
-        } else if (event.getCode() == KeyCode.DOWN) {
+        if (projectHandler.currentProjectPath != null) {
 
+            projectHandler.saveSessionStat("pitch", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
+            projectHandler.saveCurrentProject();
+            outputText += "\nSession auto saved";
+        }
+        env.getRootController().setTabTitle("pitchTutor", false);
+        // Sets the finished view
+        resultsContent.setText(outputText);
 
-        } else if (event.getCode() == KeyCode.ALPHANUMERIC) {
+        paneQuestions.setVisible(false);
+        paneResults.setVisible(true);
+        questionRows.getChildren().clear();
 
+        Button retestBtn = new Button("Retest");
+        Button clearBtn = new Button("Clear");
+        final Button saveBtn = new Button("Save");
+
+        clearBtn.setOnAction(event -> {
+            //promptSaveRecord();
+            manager.saveTempIncorrect();
+            paneResults.setVisible(false);
+            paneQuestions.setVisible(true);
+        });
+        paneResults.setPadding(new Insets(10, 10, 10, 10));
+        retestBtn.setOnAction(event -> {
+            paneResults.setVisible(false);
+            paneQuestions.setVisible(true);
+            retest();
+        });
+        saveBtn.setOnAction(event -> saveRecord());
+
+        if (manager.getTempIncorrectResponses().size() > 0) {
+            //Can re-test
+            buttons.getChildren().setAll(retestBtn, clearBtn, saveBtn);
+        } else {
+            //Perfect score
+            buttons.getChildren().setAll(clearBtn, saveBtn);
         }
 
+        HBox.setMargin(retestBtn, new Insets(10, 10, 10, 10));
+        HBox.setMargin(clearBtn, new Insets(10, 10, 10, 10));
+        HBox.setMargin(saveBtn, new Insets(10, 10, 10, 10));
 
+
+        // Clear the current session
+        manager.resetStats();
     }
 
 }

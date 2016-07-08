@@ -97,6 +97,7 @@ WhiteSpace = \p{Whitespace}
 Number = \p{Digit}
 Note = [A-G|a-g]([#|b|x]|(bb))?[0-8]?|[A|B|D|E|F|G|a|b|d|e|f|g]([#|b|x]|(bb))?("-1")?|[C-F|c-f]([#|b|x]|(bb))?[9]?|[C|c][#|x]?(-1)?|[G|g](b|bb)?[9]?
 MidiNote = (0?[0-9]?[0-9]|1[01][0-9]|12[0-7])
+noteTrio = ({Note} {Note} {Note})
 Atom = [^\s|;]+
 SemiColon = ";"
 ScaleType = "major"|"minor"
@@ -107,7 +108,7 @@ Interval = ("unison"|(major\s(second|2nd|third|3rd|sixth|6th|seventh|7th|ninth|9
 //RhythmType = "straight"|"medium"|"heavy"|"light"
 RhythmType = (([0-9]+\/[0-9]+)(([ ][0-9]+\/[0-9]+)+)*)|([a-z|A-Z]+)
    
-SharpsFlats = ([1-7](#|b))|0#b
+SharpsFlats = ([1-7](#|b))|0#b|0b#
 
 %%
 
@@ -132,6 +133,8 @@ SharpsFlats = ([1-7](#|b))|0#b
     "force set tempo"  { return symbol(DslSymbol.COMMAND_FORCE_SET_TEMPO); }
     "simple enharmonic" { return symbol(DslSymbol.COMMAND_SIMPLE_ENHARMONIC); }
     "set tempo"        { return symbol(DslSymbol.COMMAND_SET_TEMPO);  }
+    "find chord"        { return symbol(DslSymbol.COMMAND_FIND_CHORD);  }
+    "find chord all"        { return symbol(DslSymbol.COMMAND_FIND_CHORD_ALL);  }
     "set rhythm"        { return symbol(DslSymbol.COMMAND_SET_RHYTHM);  }
     "play scale"        {return symbol(DslSymbol.COMMAND_PLAY_SCALE); }
     "play chord"        {return symbol(DslSymbol.COMMAND_PLAY_CHORD);}
@@ -163,6 +166,7 @@ SharpsFlats = ([1-7](#|b))|0#b
     {ScaleType}         {return symbol(DslSymbol.SCALE_TYPE, new String(yytext()));}
     {Direction}         {return symbol(DslSymbol.DIRECTION, new String(yytext()));}
     {RhythmType}         {return symbol(DslSymbol.RHYTHM_TYPE, new String(yytext()));}
+
     {PosNum}            {return symbol(DslSymbol.POSNUM, new String(yytext()));}
     {Interval}          {return symbol(DslSymbol.INTERVAL, new String(yytext()));}
     {SemiColon}         {return symbol(DslSymbol.SEMIC);}

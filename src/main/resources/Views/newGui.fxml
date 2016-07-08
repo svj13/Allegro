@@ -66,44 +66,48 @@
                                </Menu>
                            </items>
                        </Menu>
+                  <Menu mnemonicParsing="false" onShowing="#bindOpenObjects" text="Tutors">
+                     <items>
+                        <MenuItem fx:id="menuPCT" mnemonicParsing="false" onAction="#openPitchTutor" text="Pitch Comparison " />
+                        <MenuItem fx:id="menuIRT" mnemonicParsing="false" onAction="#openIntervalTutor" text="Interval Recognition" />
+                        <MenuItem fx:id="menuMTT" mnemonicParsing="false" onAction="#openMusicalTermTutor" text="Musical Terms" />
+                        <MenuItem fx:id="menuSCT" mnemonicParsing="false" onAction="#openScaleTutor" text="Scale Recognition" />
+                        <MenuItem fx:id="menuCRT" mnemonicParsing="false" onAction="#openChordTutor" text="Chord Recognition" />
+                     </items>
+                  </Menu>
                    </menus>
                </MenuBar>
                <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" VBox.vgrow="ALWAYS">
                    <items>
-                       <TabPane fx:id="TabPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="698.0" tabClosingPolicy="UNAVAILABLE">
+                       <TabPane fx:id="TabPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="698.0" tabClosingPolicy="ALL_TABS">
                            <tabs>
-                               <Tab onSelectionChanged="#onTranscriptTab" text="Transcript">
+                               <Tab fx:id="transcriptPane" onSelectionChanged="#onTranscriptTab" text="Transcript">
                                    <content>
                                        <fx:include fx:id="transcript" source="TranscriptPane.fxml" />
                                        <!--<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />-->
 
                                    </content>
                                </Tab>
-                               <Tab text="Pitch Tutor">
-                                   <content>
-                                       <fx:include fx:id="PitchComparisonTab" source="PitchComparisonPane.fxml" />
-                                   </content>
-                               </Tab>
-                               <Tab text="Interval Tutor">
-                                   <content>
-                                       <fx:include fx:id="IntervalRecognitionTab" source="IntervalRecognitionPane.fxml" />
-                                   </content>
-                               </Tab>
-                               <Tab onSelectionChanged="#reloadNumberTerms" text="Musical Terms Tutor">
-                                   <content>
-                                       <fx:include fx:id="MusicalTermsTab" source="MusicalTermsPane.fxml" />
-                                   </content>
-                               </Tab>
-                               <Tab text="Scale Tutor">
-                                   <content>
-                                       <fx:include fx:id="ScaleRecognitionTab" source="ScaleRecognitionPane.fxml" />
-                                   </content>
-                               </Tab>
-                               <Tab text="Chord Tutor">
-                                   <content>
-                                       <fx:include fx:id="ChordRecognitionTab" source="ChordRecognitionPane.fxml" />
-                                   </content>
-                               </Tab>
+                               <!--<Tab text="Pitch Tutor">-->
+                                   <!--<content>-->
+                                       <!--<fx:include fx:id="PitchComparisonTab" source="PitchComparisonPane.fxml" />-->
+                                   <!--</content>-->
+                               <!--</Tab>-->
+                               <!--<Tab text="Interval Tutor">-->
+                                   <!--<content>-->
+                                       <!--<fx:include fx:id="IntervalRecognitionTab" source="IntervalRecognitionPane.fxml" />-->
+                                   <!--</content>-->
+                               <!--</Tab>-->
+                               <!--<Tab onSelectionChanged="#reloadNumberTerms" text="Musical Terms Tutor">-->
+                                   <!--<content>-->
+                                       <!--<fx:include fx:id="MusicalTermsTab" source="MusicalTermsPane.fxml" />-->
+                                   <!--</content>-->
+                               <!--</Tab>-->
+                               <!--<Tab text="Scale Tutor">-->
+                                   <!--<content>-->
+                                       <!--<fx:include fx:id="ScaleRecognitionTab" source="ScaleRecognitionPane.fxml" />-->
+                                   <!--</content>-->
+                               <!--</Tab>-->
                            </tabs>
                        </TabPane>
                        <fx:include fx:id="keyboardPane" source="KeyboardPane.fxml" />

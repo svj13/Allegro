@@ -5,14 +5,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.text.Font;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import seng302.gui.RootController;
 
 
 public class App extends Application {
-    Stage primaryStage ;
+    Stage primaryStage;
     Environment env;
 
     public static void main(String[] args) {
@@ -36,6 +37,8 @@ public class App extends Application {
             //Parent root = loader;
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+
+
             //Font.loadFont(ClassLoader.getSystemResource("/css/fonts/Roboto-Medium.tff").toExternalForm(), 24);
 
 
@@ -54,12 +57,25 @@ public class App extends Application {
             primaryStage.setMinWidth(700);
 
             RootController controller = loader.getController();
-            if (controller == null) System.err.println("Controller is null");
-            controller.setEnvironment(new Environment());
-            controller.setStage(primaryStage);
-            primaryStage.show();
+            try {
+                controller.setEnvironment(env);
+                scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+                    if (event.getCode().equals(KeyCode.SHIFT)) {
+                        env.setShiftPressed(true);
+                    }
+                });
 
+                scene.addEventFilter(KeyEvent.KEY_RELEASED, event -> {
+                    if (event.getCode().equals(KeyCode.SHIFT)) {
+                        env.setShiftPressed(false);
+                    }
+                });
 
+                controller.setStage(primaryStage);
+                primaryStage.show();
+            } catch (NullPointerException e) {
+                System.err.println("Controller is null");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

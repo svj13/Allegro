@@ -2,7 +2,7 @@ package seng302.command;
 
 import seng302.Environment;
 import seng302.data.Note;
-import seng302.utility.Checker;
+import seng302.utility.musicNotation.Checker;
 
 /**
  * NoteCommand is used to convert from a MIDI value to a Note.
@@ -17,7 +17,9 @@ public class NoteCommand implements Command {
 
     public float getLength(Environment env) {
         return 0;
-    };
+    }
+
+    ;
 
     /**
      * Sets the result to the equivalent Note or calls an error message if the MIDI given is not a

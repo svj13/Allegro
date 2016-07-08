@@ -1,14 +1,12 @@
 package seng302.gui;
 
 import org.controlsfx.control.RangeSlider;
-import org.controlsfx.control.spreadsheet.StringConverterWithFormat;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
@@ -22,7 +20,7 @@ import javafx.util.Pair;
 import seng302.Environment;
 import seng302.data.Interval;
 import seng302.data.Note;
-import seng302.data.Term;
+import seng302.utility.NoteRangeSlider;
 import seng302.utility.TutorRecord;
 
 public class IntervalRecognitionTutorController extends TutorController {
@@ -59,60 +57,22 @@ public class IntervalRecognitionTutorController extends TutorController {
      * It has a Minimum range of two octaves.
      */
     private void initaliseRangeSelector() {
-        rangeSlider = new RangeSlider(0, 127, 60, 84);
-        rangeSlider.setBlockIncrement(1);
-        rangeSlider.setMajorTickUnit(12);
-
-        rangeSlider.setShowTickLabels(true);
-        rangeSlider.setLabelFormatter(new StringConverterWithFormat<Number>() {
-            @Override
-            public String toString(Number object) {
-                Integer num = object.intValue();
-                return Note.lookup(String.valueOf(num)).getNote();
-            }
-
-            @Override
-            public Number fromString(String string) {
-                return Note.lookup(string).getMidi();
-            }
-        });
+        rangeSlider = new NoteRangeSlider(notes, 24, 48, 72);
         range.getChildren().add(1, rangeSlider);
-        notes.setText(rangeSlider.getLabelFormatter().toString(rangeSlider.getLowValue()) + " - "
-                + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
-        ChangeListener<Number> updateLabelLower = new ChangeListener<Number>() {
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if ((Double) newValue > rangeSlider.getHighValue() - 24) {
-                    rangeSlider.setLowValue(rangeSlider.getHighValue() - 24);
-                }
-                notes.setText(rangeSlider.getLabelFormatter().toString(rangeSlider.getLowValue()) + " - "
-                        + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
-            }
-        };
-        ChangeListener<Number> updateLabelHigher = new ChangeListener<Number>() {
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if ((Double) newValue < rangeSlider.getLowValue() + 24) {
-                    rangeSlider.setHighValue(rangeSlider.getLowValue() + 24);
-                }
-                notes.setText(rangeSlider.getLabelFormatter().toString(rangeSlider.getLowValue()) + " - "
-                        + rangeSlider.getLabelFormatter().toString(rangeSlider.getHighValue()));
-            }
-        };
-        rangeSlider.lowValueProperty().addListener(updateLabelLower);
-        rangeSlider.highValueProperty().addListener(updateLabelHigher);
     }
 
     /**
-     * Run when the user clicks the "Go" button.
-     * Generates and displays a new set of questions.
+     * Run when the user clicks the "Go" button. Generates and displays a new set of questions.
+     *
      * @param event The mouse click that initiated the method.
      */
     public void goAction(ActionEvent event) {
         paneQuestions.setVisible(true);
         paneResults.setVisible(false);
-        record = new TutorRecord(new Date(), "Interval Recognition");
+        record = new TutorRecord();
         manager.resetEverything();
         manager.questions = selectedQuestions;
-        if (manager.questions >= 1){
+        if (manager.questions >= 1) {
             // Run the tutor
             questionRows.getChildren().clear();
             for (int i = 0; i < manager.questions; i++) {
@@ -133,6 +93,7 @@ public class IntervalRecognitionTutorController extends TutorController {
 
     /**
      * This function generates information for a new question, and displays it in the GUI
+     *
      * @return an HBox object containing the GUI for one question
      */
     private HBox setUpQuestion() {
@@ -140,13 +101,14 @@ public class IntervalRecognitionTutorController extends TutorController {
         int lowerPitchBound = ((Double) rangeSlider.getLowValue()).intValue();
         int upperPitchBound = ((Double) rangeSlider.getHighValue()).intValue();
         Note firstNote = getStartingNote(thisInterval.getSemitones(), lowerPitchBound, upperPitchBound);
-        Pair<Interval, Note> pair = new Pair<Interval, Note>(thisInterval, firstNote);
+        Pair<Interval, Note> pair = new Pair<>(thisInterval, firstNote);
         return generateQuestionPane(pair);
     }
 
 
     /**
      * Creates a GUI section for one question.
+     *
      * @return a JavaFX HBox containing controls and info about one question.
      */
     public HBox generateQuestionPane(Pair intervalAndNote) {
@@ -167,62 +129,58 @@ public class IntervalRecognitionTutorController extends TutorController {
         final Interval thisInterval = (Interval) pair.getKey();
         final Note firstNote = (Note) pair.getValue();
         final Note secondNote = getFinalNote(firstNote, thisInterval);
-        final ArrayList<Note> playNotes = new ArrayList<Note>();
+        final ArrayList<Note> playNotes = new ArrayList<>();
 
         final Label correctAnswer = correctAnswer(thisInterval.getName());
 
         playNotes.add(firstNote);
         playNotes.add(secondNote);
 
-        play.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                env.getPlayer().playNotes(playNotes, 48);
+        play.setOnAction(event -> {
+            env.getPlayer().playNotes(playNotes, 48);
+        });
+
+        skip.setOnAction(event -> {
+            // Disables only input buttons
+            disableButtons(questionRow, 1, 3);
+            formatSkippedQuestion(questionRow);
+            manager.questions -= 1;
+            manager.add(pair, 2);
+            String[] question = new String[]{
+                    String.format("Interval between %s and %s", firstNote.getNote(), secondNote.getNote()),
+                    thisInterval.getName()
+            };
+            projectHandler.saveTutorRecords("interval", record.addSkippedQuestion(question));
+            env.getRootController().setTabTitle("intervalTutor", true);
+            if (manager.answered == manager.questions) {
+                finished();
             }
         });
 
-        skip.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                // Disables only input buttons
-                disableButtons(questionRow, 1, 3);
-                formatSkippedQuestion(questionRow);
-                manager.questions -= 1;
-                manager.add(pair, 2);
-                String[] question = new String[]{
-                        String.format("Interval between %s and %s", firstNote.getNote(), secondNote.getNote()),
-                        thisInterval.getName()
-                };
-                record.addSkippedQuestion(question);
-                if (manager.answered == manager.questions) {
-                    finished();
-                }
-            }
-        });
-
-        options.setOnAction(new EventHandler<ActionEvent>() {
+        options.setOnAction(event -> {
             // This handler colors the GUI depending on the user's input
-            public void handle(ActionEvent event) {
-                // Disables only input buttons
-                disableButtons(questionRow, 1, 3);
-                if (options.getValue().equals(thisInterval.getName())) {
-                    formatCorrectQuestion(questionRow);
-                    manager.add(pair, 1);
-                } else {
-                    correctAnswer.setVisible(true);
-                    formatIncorrectQuestion(questionRow);
-                    manager.add(pair, 0);
-                }
-                manager.answered += 1;
-                // Sets up the question to be saved to the record
-                String[] question = new String[] {
-                        String.format("Interval between %s and %s", firstNote.getNote(), secondNote.getNote()),
-                        options.getValue(),
-                        Boolean.toString(options.getValue().equals(thisInterval.getName()))
-                };
-                record.addQuestionAnswer(question);
-                // Shows the correct answer
-                if (manager.answered == manager.questions) {
-                    finished();
-                }
+            // Disables only input buttons
+            disableButtons(questionRow, 1, 3);
+            if (options.getValue().equals(thisInterval.getName())) {
+                formatCorrectQuestion(questionRow);
+                manager.add(pair, 1);
+            } else {
+                correctAnswer.setVisible(true);
+                formatIncorrectQuestion(questionRow);
+                manager.add(pair, 0);
+            }
+            manager.answered += 1;
+            // Sets up the question to be saved to the record
+            String[] question = new String[]{
+                    String.format("Interval between %s and %s", firstNote.getNote(), secondNote.getNote()),
+                    options.getValue(),
+                    Boolean.toString(options.getValue().equals(thisInterval.getName()))
+            };
+            projectHandler.saveTutorRecords("interval", record.addQuestionAnswer(question));
+            env.getRootController().setTabTitle("intervalTutor", true);
+            // Shows the correct answer
+            if (manager.answered == manager.questions) {
+                finished();
             }
         });
 
@@ -239,6 +197,7 @@ public class IntervalRecognitionTutorController extends TutorController {
 
     /**
      * Randomly selects a note for the interval.
+     *
      * @param numSemitones The generated interval, so the second note is not outside correct range
      * @return A Note object, for playing an interval.
      */
@@ -250,8 +209,9 @@ public class IntervalRecognitionTutorController extends TutorController {
 
     /**
      * Calculates the second note of an interval based on the first.
+     *
      * @param startingNote The first note of an interval
-     * @param interval The number of semitones in an interval
+     * @param interval     The number of semitones in an interval
      * @return The second note of the interval
      */
     private Note getFinalNote(Note startingNote, Interval interval) {
@@ -260,6 +220,7 @@ public class IntervalRecognitionTutorController extends TutorController {
 
     /**
      * Randomly selects an interval from the approved list
+     *
      * @return the randomly selected interval
      */
     private Interval generateInterval() {
@@ -270,26 +231,25 @@ public class IntervalRecognitionTutorController extends TutorController {
 
     /**
      * Creates a JavaFX combo box containing the lexical names of all intervals.
+     *
      * @return a combo box of interval options
      */
     private ComboBox<String> generateChoices1() {
-        ComboBox<String> options = new ComboBox<String>();
-        for (Interval interval:Interval.intervals) {
+        ComboBox<String> options = new ComboBox<>();
+        for (Interval interval : Interval.intervals) {
             options.getItems().add(interval.getName());
         }
         return options;
     }
 
 
-
     /**
-     * Generates and populates The Origin combo box
-     * It generates the options in a range around the correct answer
-     * @return
+     * Generates and populates The Origin combo box It generates the options in a range around the
+     * correct answer
      */
     private ComboBox<String> generateChoices(Interval thisInterval) {
         Random rand = new Random();
-        ComboBox<String> options = new ComboBox<String>();
+        ComboBox<String> options = new ComboBox<>();
 
         int currentSemitones = thisInterval.getSemitones();
         int lowSemi = currentSemitones - 1;
@@ -298,36 +258,36 @@ public class IntervalRecognitionTutorController extends TutorController {
         boolean tooHigh = highSemi > 24;
         boolean tooLow = lowSemi < 0;
         ArrayList<Interval> enharmonic;
-        ArrayList<String> optionContent = new ArrayList<String>();
+        ArrayList<String> optionContent = new ArrayList<>();
         optionContent.add(thisInterval.getName());
 
-        while(optionContent.size() < 8) {
+        while (optionContent.size() < 8) {
 
-            if(tooHigh == true){
+            if (tooHigh) {
                 higher = 0;
-            }else if(tooLow == true){
+            } else if (tooLow) {
                 higher = 1;
-            }else{
+            } else {
 
                 higher = rand.nextInt(1);
             }
 
             if (higher == 1) {
-                if(highSemi <= 24){
+                if (highSemi <= 24) {
                     enharmonic = Interval.lookupBySemitones(highSemi);
 
                     optionContent.add(enharmonic.get(rand.nextInt(enharmonic.size())).getName());
                     highSemi += 1;
-                }else{
+                } else {
                     tooHigh = true;
                 }
 
-            }else{
-                if(lowSemi >= 0){
+            } else {
+                if (lowSemi >= 0) {
                     enharmonic = Interval.lookupBySemitones(lowSemi);
                     optionContent.add(enharmonic.get(rand.nextInt(enharmonic.size())).getName());
                     lowSemi -= 1;
-                }else{
+                } else {
                     tooLow = true;
                 }
             }
@@ -335,7 +295,7 @@ public class IntervalRecognitionTutorController extends TutorController {
         }
 
         Collections.shuffle(optionContent);
-        for(String interval: optionContent){
+        for (String interval : optionContent) {
             options.getItems().add(interval);
         }
         return options;
@@ -345,6 +305,64 @@ public class IntervalRecognitionTutorController extends TutorController {
     public void resetInputs() {
         rangeSlider.setLowValue(60);
         rangeSlider.setHighValue(72);
+    }
+
+    /**
+     * This function is run once a tutoring session has been completed.
+     */
+    public void finished() {
+        env.getPlayer().stop();
+        userScore = getScore(manager.correct, manager.answered);
+        outputText = String.format("You have finished the tutor.\n" +
+                        "You answered %d questions, and skipped %d questions.\n" +
+                        "You answered %d questions correctly, %d questions incorrectly.\n" +
+                        "This gives a score of %.2f percent.",
+                manager.questions, manager.skipped,
+                manager.correct, manager.incorrect, userScore);
+
+        if (projectHandler.currentProjectPath != null) {
+            projectHandler.saveSessionStat("interval", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
+            projectHandler.saveCurrentProject();
+            outputText += "\nSession auto saved.";
+        }
+        env.getRootController().setTabTitle("intervalTutor", false);
+
+        resultsContent.setText(outputText);
+
+        paneQuestions.setVisible(false);
+        paneResults.setVisible(true);
+        questionRows.getChildren().clear();
+
+        Button retestBtn = new Button("Retest");
+        Button clearBtn = new Button("Clear");
+        final Button saveBtn = new Button("Save");
+
+        clearBtn.setOnAction(event -> {
+            manager.saveTempIncorrect();
+            paneResults.setVisible(false);
+            paneQuestions.setVisible(true);
+        });
+        paneResults.setPadding(new Insets(10, 10, 10, 10));
+        retestBtn.setOnAction(event -> {
+            paneResults.setVisible(false);
+            paneQuestions.setVisible(true);
+            retest();
+        });
+        saveBtn.setOnAction(event -> saveRecord());
+
+        if (manager.getTempIncorrectResponses().size() > 0) {
+            //Can re-test
+            buttons.getChildren().setAll(retestBtn, clearBtn, saveBtn);
+        } else {
+            //Perfect score
+            buttons.getChildren().setAll(clearBtn, saveBtn);
+        }
+
+        HBox.setMargin(retestBtn, new Insets(10, 10, 10, 10));
+        HBox.setMargin(clearBtn, new Insets(10, 10, 10, 10));
+        HBox.setMargin(saveBtn, new Insets(10, 10, 10, 10));
+        // Clear the current session
+        manager.resetStats();
     }
 
 }
