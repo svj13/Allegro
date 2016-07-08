@@ -7,8 +7,8 @@ import java.util.HashMap;
 
 import seng302.Environment;
 import seng302.data.Note;
-import seng302.utility.Checker;
-import seng302.utility.OctaveUtil;
+import seng302.utility.musicNotation.Checker;
+import seng302.utility.musicNotation.OctaveUtil;
 
 /**
  * This command is invoked when the user wants to play or list the notes of a scale.
@@ -58,7 +58,6 @@ public class Scale implements Command {
     private int octaves;
 
 
-
     public Scale(HashMap<String, String> scale, String outputType) {
         this.startNote = scale.get("note");
         this.type = scale.get("scale_type");
@@ -75,6 +74,7 @@ public class Scale implements Command {
             this.octaves = 1;
         }
     }
+
     /**
      * This constructor does not specify a direction so it defaults to 'up'.
      *
@@ -94,10 +94,11 @@ public class Scale implements Command {
 
     /**
      * This constructor specifies the direction to play the scale.
-     * @param a The start Note.
-     * @param b The scale type.
+     *
+     * @param a          The start Note.
+     * @param b          The scale type.
      * @param outputType The way the scale should be outputted.
-     * @param direction The direction to play the scale.
+     * @param direction  The direction to play the scale.
      */
     public Scale(String a, String b, String outputType, String direction) {
         this(a, b, outputType);
@@ -107,11 +108,12 @@ public class Scale implements Command {
 
     /**
      * A constructor that takes in the number of octaves to play.
-     * @param a The start note.
-     * @param b The scale type.
+     *
+     * @param a          The start note.
+     * @param b          The scale type.
      * @param outputType The way the scale is outputted.
-     * @param direction The direction to play the scale.
-     * @param octaves The number of octaves of the scale to play.
+     * @param direction  The direction to play the scale.
+     * @param octaves    The number of octaves of the scale to play.
      */
     public Scale(String a, String b, String outputType, String direction, String octaves) {
         this(a, b, outputType, direction);
@@ -119,9 +121,8 @@ public class Scale implements Command {
     }
 
     /**
-     * Moves the current letter to the next letter. If the letter is G,
-     * the next letter will be A. This method is used to ensure one of each letter name
-     * is in each scale.
+     * Moves the current letter to the next letter. If the letter is G, the next letter will be A.
+     * This method is used to ensure one of each letter name is in each scale.
      */
     private void updateLetter(boolean switchBack) {
         int index = "ABCDEFG".indexOf(currentLetter);
@@ -143,7 +144,7 @@ public class Scale implements Command {
         ArrayList<Note> scale = note.getOctaveScale(type, octaves, true);
         if (direction.equals("down")) {
             scale = note.getOctaveScale(type, octaves, false);
-        } else if (direction.equals("updown")){
+        } else if (direction.equals("updown")) {
             ArrayList<Note> notes = new ArrayList<Note>(scale);
             Collections.reverse(notes);
             scale.addAll(notes);
@@ -152,8 +153,9 @@ public class Scale implements Command {
     }
 
     /**
-     * The command is executed. The beginning note is found and the scale is looked up.
-     * The result is outputted or the scale is played.
+     * The command is executed. The beginning note is found and the scale is looked up. The result
+     * is outputted or the scale is played.
+     *
      * @param env The environment of the program.
      */
     public void execute(Environment env) {
@@ -205,6 +207,7 @@ public class Scale implements Command {
 
     /**
      * Converts an ArrayList of Notes into a String of note names.
+     *
      * @param scaleNotes The notes to display.
      * @return The note names as a String.
      */
@@ -243,6 +246,7 @@ public class Scale implements Command {
 
     /**
      * Converts an ArrayList of Notes into a String of Midi numbers.
+     *
      * @param scaleNotes The notes to display.
      * @return The note Midi numbers as a String.
      */

@@ -14,6 +14,8 @@ public class CrotchetDuration implements Command {
         return 0;
     }
 
+    ;
+
     public void execute(Environment env) {
         int tempo = env.getPlayer().getTempo();
         float speed = (float) 60000 / tempo;

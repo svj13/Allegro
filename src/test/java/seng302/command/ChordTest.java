@@ -15,6 +15,7 @@ import java.util.Collections;
 
 import seng302.command.Chord;
 import seng302.Environment;
+import seng302.MusicPlayer;
 import seng302.managers.TranscriptManager;
 import seng302.MusicPlayer;
 import seng302.data.Note;
@@ -24,6 +25,9 @@ public class ChordTest {
     private Environment env;
     @Mock
     private TranscriptManager transcriptManager;
+    @Mock
+    private MusicPlayer player;
+
     @Mock
     private MusicPlayer player;
 
@@ -40,6 +44,7 @@ public class ChordTest {
      * Checks to see if invalid chords are being handled correctly, namely chords that contain
      * notes that exceed the octave range
      */
+    @Test
     public void catchInvalidChords() {
 
         HashMap<String, String> chordMap1 = new HashMap<String, String>();
@@ -59,11 +64,10 @@ public class ChordTest {
         verify(transcriptManager).setResult("Invalid chord: G9 major. Exceeds octave range.");
         new Chord(chordMap2, "chord").execute(env);
         verify(transcriptManager).setResult("Invalid chord: c#9 minor. Exceeds octave range.");
-        //new Chord(chordMap3, "chord").execute(env);
-        //verify(transcriptManager).setResult("[ERROR] Invalid command. new Chord(chordMap1, "play").execute(env)//
+        //new ChordUtil(chordMap3, "chord").execute(env);
+        //verify(transcriptManager).setResult("[ERROR] Invalid command. new ChordUtil(chordMap1, "play").execute(env)//
     }
 
-    @Test
     /**
      * Tests to see if when a valid chord is passed through, that it prints the correct
      * output.
@@ -73,6 +77,7 @@ public class ChordTest {
      * -prints octave specifiers
      *
      */
+    @Test
     public void correctChordPrintOut() {
 
         HashMap<String, String> chordMap1 = new HashMap<String, String>();
@@ -120,7 +125,9 @@ public class ChordTest {
 
 
     }
-
+    /**Check to see if when the chord is playing, it prints the correct message
+     *
+     */
     @Test
     public void playChord() {
         /**Tests to see if the chord is played along with the right output
@@ -137,12 +144,19 @@ public class ChordTest {
         HashMap<String, String> chordMap1 = new HashMap<String, String>();
         chordMap1.put("note", "C");
         chordMap1.put("scale_type", "major");
+        chordMap1.put("playStyle", "arpeggio");
+
+        HashMap<String, String> chordMap2 = new HashMap<String, String>();
+        chordMap2.put("note", "G");
+        chordMap2.put("scale_type", "major");
+
 
         new Chord(chordMap1, "play").execute(env);
         verify(transcriptManager).setResult("Playing chord C major");
         verify(player).playSimultaneousNotes(chordList1);
 
-    }
+        new Chord(chordMap2, "play").execute(env);
+        verify(transcriptManager).setResult("Playing chord G major");
 
     @Test
     public void playChordArpeggio() {

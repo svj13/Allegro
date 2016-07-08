@@ -1,8 +1,9 @@
 package seng302.command;
 
 
-import seng302.Environment;
 import java.util.Properties;
+
+import seng302.Environment;
 
 public class Version implements Command {
 

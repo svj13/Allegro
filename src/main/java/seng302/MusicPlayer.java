@@ -3,25 +3,40 @@ package seng302;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.sound.midi.*;
+import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiEvent;
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.MidiUnavailableException;
+import javax.sound.midi.Sequence;
+import javax.sound.midi.Sequencer;
+import javax.sound.midi.ShortMessage;
+import javax.sound.midi.Synthesizer;
+import javax.sound.midi.Track;
 
 import seng302.data.Note;
+import seng302.utility.musicNotation.RhythmHandler;
 
 /**
  * The Music Player class handles all sound that is produced by the program.
  */
 public class MusicPlayer {
     Sequencer seq;
+    RhythmHandler rh;
 
     /**
      * Default tempo is 120 BPM.
      */
     private int tempo = 120;
 
+    Track keyboardTrack;
+    Sequence keyboardSequence;
+
     /**
      * Music Player constructor opens the sequencers and synthesizer. It also sets the receiver.
      */
     public MusicPlayer() {
+        rh = new RhythmHandler();
+
         try {
             this.seq = MidiSystem.getSequencer();
             seq.open();
@@ -41,10 +56,12 @@ public class MusicPlayer {
      * @param pause The number of ticks to pause between notes. 16 ticks = 1 crotchet beat.
      */
     public void playNotes(ArrayList<Note> notes, int pause) {
+        //int ticks = 16; //16 (1 crotchet beat)
+        int ticks = rh.getBeatResolution();
         try {
             int instrument = 1;
             // 16 ticks per crotchet note.
-            Sequence sequence = new Sequence(Sequence.PPQ, 16);
+            Sequence sequence = new Sequence(Sequence.PPQ, ticks);
             Track track = sequence.createTrack();
 
             // Set the instrument on channel 0
@@ -53,9 +70,12 @@ public class MusicPlayer {
             track.add(new MidiEvent(sm, 0));
 
             int currenttick = 0;
+            rh.resetIndex(); //Reset rhythm to first crotchet.
             for (Note note : notes) {
-                addNote(track, currenttick, 16, note.getMidi(), 64);
-                currenttick += (16 + pause);
+                int timing = rh.getNextTickTiming();
+
+                addNote(track, currenttick, timing, note.getMidi(), 64); //velocity 64
+                currenttick += (timing + pause);
             }
             playSequence(sequence);
 
@@ -71,6 +91,41 @@ public class MusicPlayer {
      */
     public void playNotes(ArrayList<Note> notes) {
         playNotes(notes, 0);
+    }
+
+    public void initKeyboardTrack() {
+        try {
+            int instrument = 1;
+            // 16 ticks per crotchet note.
+            keyboardSequence = new Sequence(Sequence.PPQ, 16);
+            keyboardTrack = keyboardSequence.createTrack();
+
+            // Set the instrument on channel 0
+            ShortMessage sm = new ShortMessage();
+            sm.setMessage(ShortMessage.PROGRAM_CHANGE, 0, instrument, 0);
+            keyboardTrack.add(new MidiEvent(sm, 0));
+        } catch (InvalidMidiDataException e) {
+            System.err.println("Can't initialise keyboard track.");
+        }
+
+    }
+
+    public void noteOn(Note note) {
+        try {
+            ShortMessage on = new ShortMessage();
+            on.setMessage(ShortMessage.NOTE_ON, 0, note.getMidi(), 64);
+        } catch (InvalidMidiDataException e) {
+            System.err.println("Note is not valid.");
+        }
+    }
+
+    public void noteOff(Note note) {
+        try {
+            ShortMessage off = new ShortMessage();
+            off.setMessage(ShortMessage.NOTE_OFF, 0, note.getMidi(), 64);
+        } catch (InvalidMidiDataException e) {
+            System.err.println("Note is not valid.");
+        }
     }
 
     /**
@@ -89,7 +144,7 @@ public class MusicPlayer {
             track.add(new MidiEvent(sm, 0));
 
             // Add all notes to the start of the sequence
-            for (Note note:notes) {
+            for (Note note : notes) {
                 addNote(track, 0, 16, note.getMidi(), 64);
             }
             playSequence(sequence);
@@ -186,5 +241,9 @@ public class MusicPlayer {
     public void stop() {
 
         seq.stop();
+    }
+
+    public RhythmHandler getRhythmHandler() {
+        return rh;
     }
 }

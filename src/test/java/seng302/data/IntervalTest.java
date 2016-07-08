@@ -32,18 +32,17 @@ public class IntervalTest {
     // Tests that the lookup by semitone method gets the correct object.
     @Test
     public void testLookupBySemitones() throws Exception {
-        assertEquals(0, Interval.lookupBySemitones(0).getSemitones());
-        assertEquals("unison", Interval.lookupBySemitones(0).getName());
-        assertEquals(2, Interval.lookupBySemitones(2).getSemitones());
-        assertEquals("major second", Interval.lookupBySemitones(2).getName());
-        assertEquals(12, Interval.lookupBySemitones(12).getSemitones());
-        assertEquals("perfect octave", Interval.lookupBySemitones(12).getName());
+        assertEquals(0, Interval.lookupBySemitones(0).get(0).getSemitones());
+        assertEquals("unison", Interval.lookupBySemitones(0).get(0).getName());
+        assertEquals(2, Interval.lookupBySemitones(2).get(0).getSemitones());
+        assertEquals("major second", Interval.lookupBySemitones(2).get(0).getName());
+        assertEquals(12, Interval.lookupBySemitones(12).get(0).getSemitones());
+        assertEquals("perfect octave", Interval.lookupBySemitones(12).get(0).getName());
     }
 
     @Test
     public void testLookupInvalidSemitones() throws Exception {
         assertEquals(null, Interval.lookupBySemitones(-1));
-        //assertEquals(null, Interval.lookupBySemitones(1));
         assertEquals(null, Interval.lookupBySemitones(100));
     }
 

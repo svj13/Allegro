@@ -35,12 +35,12 @@ public class TutorManager {
     public int questions = 0;
 
     /**
-     *Stores the number of questions answered in the current set
+     * Stores the number of questions answered in the current set
      */
     public int answered = 0;
 
     /**
-     *Stores the number of questions that have been answered correctly
+     * Stores the number of questions that have been answered correctly
      */
     public int correct = 0;
 
@@ -61,17 +61,18 @@ public class TutorManager {
 
 
     /**
-     *Add note pair to to the corresponding array
-     * @param pair pair of objects to store - note+note, interval+note, etc
+     * Add note pair to to the corresponding array
+     *
+     * @param pair    pair of objects to store - note+note, interval+note, etc
      * @param outcome value that represents if the question was answered correctly
      */
-    public void add(Pair pair, int outcome){
+    public void add(Pair pair, int outcome) {
         if (outcome == 0) {
             // Wrong answer
             incorrect += 1;
             tempIncorrectResponses.add(pair);
         }
-        if(outcome == 1) {
+        if (outcome == 1) {
             // Right answer
             correct += 1;
             correctResponses.add(pair);
@@ -87,8 +88,8 @@ public class TutorManager {
     /**
      * Saves the temporary incorrect list to the permanent incorrect list.
      */
-    public void saveTempIncorrect(){
-        for( Pair pair : tempIncorrectResponses ){
+    public void saveTempIncorrect() {
+        for (Pair pair : tempIncorrectResponses) {
             incorrectResponses.add(pair);
         }
         tempIncorrectResponses.clear();
@@ -96,7 +97,7 @@ public class TutorManager {
 
 
     /**
-     *Clears the temporary incorrect list
+     * Clears the temporary incorrect list
      */
     public void clearTempIncorrect() {
         tempIncorrectResponses.clear();
@@ -105,14 +106,16 @@ public class TutorManager {
 
     /**
      * Gets The temporary incorrect responses
-     *@return  the temporary incorrect responses
+     *
+     * @return the temporary incorrect responses
      */
-    public ArrayList<Pair> getTempIncorrectResponses(){
+    public ArrayList<Pair> getTempIncorrectResponses() {
         return tempIncorrectResponses;
     }
 
     /**
      * Calculates a user's score after a tutoring session
+     *
      * @return the user's score as a percentage value
      */
     public float getScore() {
@@ -124,8 +127,8 @@ public class TutorManager {
     }
 
     /**
-     * Clears the variables that are used to track user's scores.
-     * This allows for re-testing without holding onto the previous info.
+     * Clears the variables that are used to track user's scores. This allows for re-testing without
+     * holding onto the previous info.
      */
     public void resetStats() {
         answered = 0;
@@ -143,17 +146,19 @@ public class TutorManager {
 
     /**
      * Getter method for all correct responses
+     *
      * @return the list of correctly answered questions
      */
-    public ArrayList<Pair> getCorrectResponses(){
+    public ArrayList<Pair> getCorrectResponses() {
         return correctResponses;
     }
 
     /**
      * Getter method for all incorrect responses
+     *
      * @return the list of incorrectly answered questions
      */
-    public ArrayList<Pair> getIncorrectResponses(){
+    public ArrayList<Pair> getIncorrectResponses() {
         return incorrectResponses;
     }
 }
