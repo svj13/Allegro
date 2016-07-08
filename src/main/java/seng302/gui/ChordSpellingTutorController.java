@@ -99,7 +99,13 @@ public class ChordSpellingTutorController extends TutorController {
     public HBox setUpQuestion() {
         //Both questions just need a chord
         Pair<String, ArrayList<Note>> randomChord = generateValidChord();
-        return generateQuestionPane(randomChord);
+
+        //Generates either 1 or 2: The type of question
+        int questionType = rand.nextInt(2) + 1;
+
+        Pair question = new Pair(randomChord, questionType);
+
+        return generateQuestionPane(question);
     }
 
     /**
@@ -124,10 +130,10 @@ public class ChordSpellingTutorController extends TutorController {
 
         final HBox inputs = new HBox();
 
-        int questionType = rand.nextInt(2);
+        int questionType = (int) data.getValue();
 
-        if (questionType == 1) {
-            //Use 'fake chords' with a ~0.25 probability
+        if (questionType == 2) {
+            //Use 'fake chords' with a ~0.25 probability for type 2 questions
             if (allowFalseChords.isSelected() && rand.nextInt(4) == 0) {
                 ArrayList<Note> randomNotes = new ArrayList<>();
                 ArrayList<Integer> noteMidis = new ArrayList<>();
@@ -145,14 +151,15 @@ public class ChordSpellingTutorController extends TutorController {
             }
         }
 
-        final Pair finalData = data;
+        final Pair finalData = (Pair) data.getKey();
         final String chordName = (String) finalData.getKey();
         final ArrayList<Note> chordNotes = (ArrayList<Note>) finalData.getValue();
 
         Button skip = new Button("Skip");
         styleSkipButton(skip);
 
-        if (questionType == 0) {
+        if (questionType == 1) {
+            //Type one questions
             String[] selectedNotes = new String[3];
             String[] correctNotes = new String[3];
 
@@ -168,7 +175,7 @@ public class ChordSpellingTutorController extends TutorController {
 
                 };
 
-                handleSkippedQuestion(questionInfo, questionRow, finalData);
+                handleSkippedQuestion(questionInfo, questionRow, finalData, questionType);
             });
 
 
@@ -227,7 +234,7 @@ public class ChordSpellingTutorController extends TutorController {
                 if (isQuestionCompletelyAnswered(inputs)) {
                     //Style whole question as done
                     String selection = String.join(" ", selectedNotes);
-                    handleCompletedQuestion(questionRow, 1, finalData, selection);
+                    handleCompletedQuestion(questionRow, questionType, finalData, selection);
                 }
             });
 
@@ -237,14 +244,14 @@ public class ChordSpellingTutorController extends TutorController {
 
 
         } else {
-            //Type B question
+            //Type 2 questions
             skip.setOnAction(event -> {
                 String[] questionInfo = new String[]{
                         String.format(typeTwoText, chordAsString(chordNotes)),
                         chordName
 
                 };
-                handleSkippedQuestion(questionInfo, questionRow, finalData);
+                handleSkippedQuestion(questionInfo, questionRow, finalData, questionType);
             });
 
             correctAnswer = correctAnswer(chordName);
@@ -261,7 +268,7 @@ public class ChordSpellingTutorController extends TutorController {
                 String selection = possibleNames.getValue();
                 boolean answeredCorrectly = selection.equals(chordName);
                 styleNoteInput(possibleNames, answeredCorrectly);
-                handleCompletedQuestion(questionRow, 2, finalData, selection);
+                handleCompletedQuestion(questionRow, questionType, finalData, selection);
             });
 
             inputs.getChildren().add(possibleNames);
@@ -535,13 +542,13 @@ public class ChordSpellingTutorController extends TutorController {
         applyFormatting(completedQuestion, correctnessValue);
 
         if (correctnessValue == 0 || correctnessValue == 2) {
-            manager.add(data, 0);
+            manager.add(new Pair<Pair, Integer>(data, questionType), 0);
 
             //Shows the correct answer
             completedQuestion.getChildren().get(3).setVisible(true);
         } else {
             answeredCorrectly = true;
-            manager.add(data, 1);
+            manager.add(new Pair<Pair, Integer>(data, questionType), 1);
         }
 
         //Disables skip button
@@ -656,13 +663,14 @@ public class ChordSpellingTutorController extends TutorController {
      * @param questionInfo The textual representation of the skipped question
      * @param questionRow  The GUI element of the question, to be styled
      * @param finalData    The information about the question, to be stored.
+     * @param questionType Whether the question was of type 1 or type 2.
      */
-    private void handleSkippedQuestion(String[] questionInfo, HBox questionRow, Pair finalData) {
+    private void handleSkippedQuestion(String[] questionInfo, HBox questionRow, Pair finalData, int questionType) {
         // Disables only input buttons
         disableButtons(questionRow, 1, 3);
         formatSkippedQuestion(questionRow);
         manager.questions -= 1;
-        manager.add(finalData, 2);
+        manager.add(new Pair<Pair, Integer>(finalData, questionType), 2);
 
         projectHandler.saveTutorRecords("spelling", record.addSkippedQuestion(questionInfo));
 
