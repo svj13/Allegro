@@ -1,14 +1,16 @@
 package seng302.data;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
-import javax.sound.midi.MidiSystem;
-import javax.sound.midi.Receiver;
-import javax.sound.midi.ShortMessage;
-import javax.sound.midi.Synthesizer;
-
-import seng302.utility.Checker;
-import seng302.utility.OctaveUtil;
+import seng302.utility.musicNotation.Checker;
+import seng302.utility.musicNotation.OctaveUtil;
 
 /**
  * This Note class contains a static HashMap of all notes as well as the lookup method and
@@ -205,10 +207,10 @@ public class Note {
 
 
     /**
-     * Returns the note object from the HashMap of notes.
-     *Created the tempo class
-
-Created the tempo class and made it so it defaults to 120BMP
+     * Returns the note object from the HashMap of notes. Created the tempo class
+     *
+     * Created the tempo class and made it so it defaults to 120BMP
+     *
      * @param s The note or MIDI value to lookup.
      * @return Note object that matches the String supplied.
      */
@@ -353,6 +355,7 @@ Created the tempo class and made it so it defaults to 120BMP
         return scaleNotes;
     }
 
+
     /**
      * Convenience method for when you only want one octave.
      *
@@ -414,5 +417,6 @@ Created the tempo class and made it so it defaults to 120BMP
         return midi == note1.midi &&
                 Objects.equals(note, note1.note);
     }
+
 
 }

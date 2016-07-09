@@ -14,17 +14,22 @@ public class Tempo implements Command {
     private boolean isSetter;
     private boolean force;
 
-    public Tempo(){
+    public Tempo() {
         this.isSetter = false;
     }
 
     /**
-     * Given a tempo, checks if it is inside the valid range of 20-300 BPM
+     * a Given a tempo, checks if it is inside the valid range of 20-300 BPM
+     *
      * @param tempo the value to check
      * @return whether or not the tempo is inside a valid range
      */
     private boolean inValidRange(int tempo) {
-        return tempo >= 20 && tempo <= 300;
+        if (tempo >= 20 && tempo <= 300) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -62,13 +67,14 @@ public class Tempo implements Command {
         return 0;
     }
 
+    ;
+
     /**
-     * Executes the tempo command. It will return the current set tempo in BPM. If no tempo has
-     * been set, it defaults to the value of 120BMP
-     *
+     * Executes the tempo command. It will return the current set tempo in BPM. If no tempo has been
+     * set, it defaults to the value of 120BMP
      */
     public void execute(Environment env) {
-        if (isSetter){
+        if (isSetter) {
 
             // Add Tempo to editHistory
 

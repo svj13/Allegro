@@ -258,7 +258,7 @@ singleTerm ::= keyword:s {: RESULT = s;:}
        | ATOM:s        {: RESULT = s;:}
        | note:s        {: RESULT = s;:}
        | SCALE_TYPE:s  {:RESULT = s;:}
-       | RHYTHM_TYPE:r {RESULT = r;:}
+       | RHYTHM_TYPE:r {:RESULT = r;:}
        | CHORD_TYPE:s  {:RESULT = s;:}
        | DIRECTION:s   {:RESULT = s;:}
        | INTERVAL:i    {:RESULT = i;:}

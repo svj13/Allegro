@@ -114,6 +114,11 @@ RhythmType = (([0-9]+\/[0-9]+)(([ ][0-9]+\/[0-9]+)+)*)|([a-z|A-Z]+)
 
 SharpsFlats = ([1-7](#|b))|0#b|0b#
 
+//RhythmType = "straight"|"medium"|"heavy"|"light"
+RhythmType = (([0-9]+\/[0-9]+)(([ ][0-9]+\/[0-9]+)+)*)|([a-z|A-Z]+)
+
+SharpsFlats = ([1-7](#|b))|0#b|0b#
+
 %%
 
 /* Rules

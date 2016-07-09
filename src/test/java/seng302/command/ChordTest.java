@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import seng302.command.Chord;
 import seng302.Environment;
 import seng302.MusicPlayer;
 import seng302.managers.TranscriptManager;
@@ -31,6 +30,9 @@ public class ChordTest {
     @Mock
     private MusicPlayer player;
 
+    @Mock
+    private MusicPlayer player;
+
     @Before
     public void setUp() throws Exception {
         env = new Environment();
@@ -39,7 +41,6 @@ public class ChordTest {
     }
 
 
-    @Test
     /**
      * Checks to see if invalid chords are being handled correctly, namely chords that contain
      * notes that exceed the octave range
