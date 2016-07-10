@@ -27,11 +27,6 @@ public class ChordTest {
     @Mock
     private MusicPlayer player;
 
-    @Mock
-    private MusicPlayer player;
-
-    @Mock
-    private MusicPlayer player;
 
     @Before
     public void setUp() throws Exception {
@@ -145,7 +140,7 @@ public class ChordTest {
         HashMap<String, String> chordMap1 = new HashMap<String, String>();
         chordMap1.put("note", "C");
         chordMap1.put("scale_type", "major");
-        chordMap1.put("playStyle", "arpeggio");
+
 
         HashMap<String, String> chordMap2 = new HashMap<String, String>();
         chordMap2.put("note", "G");
@@ -159,11 +154,15 @@ public class ChordTest {
         new Chord(chordMap2, "play").execute(env);
         verify(transcriptManager).setResult("Playing chord G major");
 
+    }
+
     @Test
-    public void playChordArpeggio() {
+
         /**Tests to see if the chord is played along with the right output
          * with playStyle Arpeggio specified
          */
+
+        public void playChordArpeggio() {
 
         //For C Major Arpeggio
         ArrayList<Note> chordList = new ArrayList<Note>();
