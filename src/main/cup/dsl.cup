@@ -162,8 +162,8 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_SCALE_WITH_KEYSIG notes:s           {: RESULT = new KeySignatureCommand(s); :}
           | COMMAND_PLAY_CHORD playChord:s              {: RESULT = new Chord(s, "play");:}
           | COMMAND_INTERVAL_ENHARMONIC interval:i      {: RESULT = new IntervalCommand(i,"equivalent"); :}
-          | COMMAND_FIND_CHORD chordSet:n      {: RESULT = new ChordFinder(n,false); :}
-          | COMMAND_FIND_CHORD_ALL chordSet:n      {: RESULT = new ChordFinder(n,true); :}
+          | COMMAND_FIND_CHORD chordSet:n               {: RESULT = new ChordFinder(n,false); :}
+          | COMMAND_FIND_CHORD_ALL chordSet:n           {: RESULT = new ChordFinder(n,true); :}
 
 ;
 
