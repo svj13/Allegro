@@ -22,14 +22,33 @@ public class ChordUtil {
         if (notes.size() > 2) {
             String noteDisplay = octave ? Note.lookup(String.valueOf(notes.get(0))).getNote() : OctaveUtil.removeOctaveSpecifier(Note.lookup(String.valueOf(notes.get(0))).getNote()); //Ignore Octave or not?
 
-
+            //for major chords
             if (notes.get(1) == notes.get(0) + 4) {
-
                 return noteDisplay + " major";
-
+            //for minor chords
             } else if (notes.get(1) == notes.get(0) + 3) {
                 return noteDisplay + " minor";
+             //for minor 7th chords
+            } else if (notes.get(1) == notes.get(0) + 3 + 7 + 10) {
+                return noteDisplay + " minor 7th";
+            //for major 7th chords
+            } else if (notes.get(1) == notes.get(0) + 4 + 7 + 11) {
+                return noteDisplay + " major 7th";
+            //for 7th chords
+            } else if (notes.get(1) == notes.get(0) + 4 + 7 + 10) {
+                return noteDisplay + " 7th";
+            //for diminished chords
+            } else if (notes.get(1) == notes.get(0) + 3 + 6) {
+                return noteDisplay + " diminished";
+            //for half diminished chords
+            } else if (notes.get(1) == notes.get(0) + 3 + 6 + 10) {
+                return noteDisplay + " half diminished";
+            //for diminished chords
+            } else if (notes.get(1) == 3 + 6 + 9) {
+                return noteDisplay + " diminished";
             }
+
+
         }
         throw new IllegalArgumentException("Not a chord");
 
