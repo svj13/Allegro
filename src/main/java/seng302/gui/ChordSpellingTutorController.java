@@ -139,19 +139,7 @@ public class ChordSpellingTutorController extends TutorController {
         if (questionType == 2) {
             //Use 'fake chords' with a ~0.25 probability for type 2 questions
             if (allowFalseChords.isSelected() && rand.nextInt(4) == 0) {
-                ArrayList<Note> randomNotes = new ArrayList<>();
-                ArrayList<Integer> noteMidis = new ArrayList<>();
-                for (int i = 0; i < 3; i++) {
-                    Note randomNote = getRandomNote();
-                    randomNotes.add(randomNote);
-                    noteMidis.add(randomNote.getMidi());
-                }
-                try {
-                    ChordUtil.getChordName(noteMidis, true);
-                } catch (IllegalArgumentException notAChord) {
-                    //Only use it if it's not a valid chord
-                    data = new Pair("No Chord", randomNotes);
-                }
+                data = generateFalseChord();
             }
         }
 
@@ -321,6 +309,34 @@ public class ChordSpellingTutorController extends TutorController {
         return questionRow;
     }
 
+    /**
+     * Generates a 'false chord' - that is, a set of notes that do not correspond to a chord. Paired
+     * with the name "No Chord"
+     */
+    private Pair generateFalseChord() {
+        ArrayList<Note> randomNotes = new ArrayList<>();
+        ArrayList<Integer> noteMidis = new ArrayList<>();
+        boolean generatedFalseChord = false;
+
+        while (!generatedFalseChord) {
+            randomNotes.clear();
+            noteMidis.clear();
+            for (int i = 0; i < 3; i++) {
+                Note randomNote = getRandomNote();
+                randomNotes.add(randomNote);
+                noteMidis.add(randomNote.getMidi());
+            }
+            try {
+                ChordUtil.getChordName(noteMidis, true);
+            } catch (IllegalArgumentException notAChord) {
+                //Only use it if it's not a valid chord
+                generatedFalseChord = true;
+
+            }
+        }
+
+        return new Pair("No Chord", randomNotes);
+    }
 
     /**
      * Turns a chord (array list of notes) into a pretty string.
