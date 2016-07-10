@@ -49,7 +49,7 @@ public class ChordSpellingTutorController extends TutorController {
 
     private final String typeTwoText = "Name the chord with the notes %s";
 
-    private String[] validChordNames = {"all", "major", "minor", "minor 7th",
+    private String[] validChordNames = {"major", "minor", "minor 7th",
             "major 7th", "seventh", "diminished", "half diminished 7th", "diminished 7th"};
 
     /**
@@ -65,6 +65,7 @@ public class ChordSpellingTutorController extends TutorController {
     public void create(Environment env) {
         super.create(env);
         initialiseQuestionSelector();
+        chordTypes.getItems().add("all");
         chordTypes.getItems().addAll(validChordNames);
         chordTypes.setOnAction(event -> {
             validChords = (String) chordTypes.getValue();
