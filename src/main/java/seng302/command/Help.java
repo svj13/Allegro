@@ -135,9 +135,7 @@ public class Help implements Command {
                     "half diminished. the half-diminished seventh chord also known as a " +
                     "half-diminished chord or a minor seventh flat five is formed " +
                     "by a root note, a minor third, a diminished fifth, and a minor " +
-                    "seventh \n";
-
-                    " return the corresponding notes that make up the given chord";
+                    "seventh return the corresponding notes that make up the given chord";
         } else if (keyword.equals("interval enharmonic")) {
             result = "When followed by a valid interval name, it returns any enharmonically equivalent intervals";
         } else if (keyword.equals("scale signature") || keyword.equals("scale sig")) {

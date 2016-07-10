@@ -247,7 +247,7 @@ keyword ::= COMMAND_HELP                                {: RESULT = "help"; :}
           | COMMAND_TWINKLE                             {: RESULT = "twinkle"; :}
           | COMMAND_CHORD                               {: RESULT = "chord"; :}
           | COMMAND_PLAY_CHORD                          {: RESULT = "play chord"; :}
-          | COMMAND_INTERVAL_ENHARMONIC {: RESULT = "interval enharmonic"; :}
+          | COMMAND_INTERVAL_ENHARMONIC                 {: RESULT = "interval enharmonic"; :}
           | COMMAND_SHOW_KEYSIGNATURE                   {: RESULT = "scale signature"; :}
           | COMMAND_SHOW_KEYSIGNATURE_NUM               {: RESULT = "scale signature num"; :}
           | COMMAND_SCALE_WITH_KEYSIG                   {: RESULT = "scale signature with"; :}
