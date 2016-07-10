@@ -139,7 +139,7 @@ public class ChordSpellingTutorController extends TutorController {
         if (questionType == 2) {
             //Use 'fake chords' with a ~0.25 probability for type 2 questions
             if (allowFalseChords.isSelected() && rand.nextInt(4) == 0) {
-                data = generateFalseChord();
+                data = new Pair(generateFalseChord(), questionType);
             }
         }
 
@@ -321,11 +321,17 @@ public class ChordSpellingTutorController extends TutorController {
         while (!generatedFalseChord) {
             randomNotes.clear();
             noteMidis.clear();
-            for (int i = 0; i < 3; i++) {
+
+            //Makes it generate either 3 or 4 notes
+            int numberOfNotes = rand.nextInt(2) + 3;
+
+            for (int i = 0; i < numberOfNotes; i++) {
                 Note randomNote = getRandomNote();
                 randomNotes.add(randomNote);
                 noteMidis.add(randomNote.getMidi());
             }
+
+            //Check if it's a real chord
             try {
                 ChordUtil.getChordName(noteMidis, true);
             } catch (IllegalArgumentException notAChord) {
