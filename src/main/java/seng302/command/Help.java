@@ -5,7 +5,7 @@ import seng302.Environment;
 
 public class Help implements Command {
 
-    private String keyword;
+    String keyword;
 
     public Help() {
         keyword = "";
@@ -17,7 +17,7 @@ public class Help implements Command {
 
     public float getLength(Environment env) {
         return 0;
-    }
+    };
 
     public void execute(Environment env) {
         String result = "";
@@ -107,7 +107,35 @@ public class Help implements Command {
                     " play the given chord";
         } else if (keyword.equals("chord")) {
             result = "When followed by a valid chord and a valid chord type (i.e. major, minor), will" +
-                    " return the corresponding notes that make up the given chord";
+                    " return the corresponding notes that make up the given chord. Type 'help " +
+                    "chord types' for more information on valid chord types\n\n" + "Valid chords:\n" +
+                    "major: when put after a valid chord, will show/play the chord in major. " +
+                    "A major chord that has a root note, a major third above this root, and a perfect " +
+                    "fifth above this root note\n\n" +
+                    "minor: when put after a valid chord, will show/play the chord in. A minor" +
+                    " chord is a chord having a root, a minor third, and a perfect fifth. \n\n" +
+                    "minor 7th/minor seventh: when put after a valid chord, will show/play the chord " +
+                    "in minor seventh. A minor seventh chord is any nondominant seventh chord where " +
+                    "the \"third\" note is a minor third above the root. \n\n" +
+                    "major 7th/major seventh: when put after a valid chord, will show/play the " +
+                    "chord in major 7th. A major seventh chord is a seventh chord where the" +
+                    " \"third\" note is a major third above the root, and the \"seventh\" note " +
+                    "is a major seventh above the root \n\n" +
+                    "7th/seventh: when put after a valid chord, will show/play the chord in " +
+                    "seventh. A seventh chord is a chord consisting of a triad plus a note " +
+                    "forming an interval of a seventh above the chord's root.\n\n" +
+                    "diminished: when put after a valid chord, will show/play the chord in " +
+                    "diminished. It is a triad chord " +
+                    "consisting of two minor thirds above the root\n\n" +
+                    "diminished seventh/diminished 7th: when put after a valid chord, will show/" +
+                    "play the chord in diminished 7th. A diminished seventh chord is a four note " +
+                    "chord that comprises a diminished triad plus the interval of a diminished " +
+                    "seventh above the root\n\n" +
+                    "half diminished: when put after a valid chord, will show/play the chord in " +
+                    "half diminished. the half-diminished seventh chord also known as a " +
+                    "half-diminished chord or a minor seventh flat five is formed " +
+                    "by a root note, a minor third, a diminished fifth, and a minor " +
+                    "seventh return the corresponding notes that make up the given chord";
         } else if (keyword.equals("interval enharmonic")) {
             result = "When followed by a valid interval name, it returns any enharmonically equivalent intervals";
         } else if (keyword.equals("scale signature") || keyword.equals("scale sig")) {
