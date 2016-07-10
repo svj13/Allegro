@@ -444,7 +444,7 @@ public class ChordSpellingTutorController extends TutorController {
         chordNames.add(correctAnswer);
 
         //"No Chord" is always an option, if false chords is 'turned on'.
-        if (allowFalseChords.isSelected()) {
+        if (allowFalseChords.isSelected() && !chordNames.contains("No Chord")) {
             chordNames.add("No Chord");
         }
 
