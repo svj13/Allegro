@@ -158,6 +158,7 @@ public class IntervalCommand implements Command {
 
     /**
      * Gets the corresponding note when given a starting note and an interval.
+     * @param env
      */
     private void getCorrespondingNote(Environment env) {
         try {
