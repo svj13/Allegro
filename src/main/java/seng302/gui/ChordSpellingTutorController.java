@@ -49,6 +49,9 @@ public class ChordSpellingTutorController extends TutorController {
 
     private final String typeTwoText = "Name the chord with the notes %s";
 
+    private String[] validChordNames = {"all", "major", "minor", "minor 7th",
+            "major 7th", "seventh", "diminished", "half diminished 7th", "diminished 7th"};
+
     /**
      * What type the generated chords are, i.e. major, minor
      */
@@ -62,7 +65,7 @@ public class ChordSpellingTutorController extends TutorController {
     public void create(Environment env) {
         super.create(env);
         initialiseQuestionSelector();
-        chordTypes.getItems().addAll("all", "major", "minor");
+        chordTypes.getItems().addAll(validChordNames);
         chordTypes.setOnAction(event -> {
             validChords = (String) chordTypes.getValue();
         });
@@ -307,12 +310,8 @@ public class ChordSpellingTutorController extends TutorController {
      */
     private String generateRandomChordType() {
         if (validChords.equals("all")) {
-            int majorOrMinor = rand.nextInt(2);
-            if (majorOrMinor == 0) {
-                return "major";
-            } else {
-                return "minor";
-            }
+            int chordType = rand.nextInt(validChordNames.length);
+            return validChordNames[chordType];
         } else {
             return validChords;
         }
