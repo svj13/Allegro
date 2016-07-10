@@ -163,12 +163,22 @@ public class ChordSpellingTutorController extends TutorController {
         styleSkipButton(skip);
 
         if (questionType == 1) {
+            boolean fourNotes = false;
             //Type one questions
-            String[] selectedNotes = new String[3];
-            String[] correctNotes = new String[3];
+            String[] selectedNotes = new String[4];
+            String[] correctNotes = new String[4];
 
             for (int i = 0; i < 3; i++) {
                 correctNotes[i] = OctaveUtil.removeOctaveSpecifier(chordNotes.get(i).getNote());
+            }
+
+            try {
+                correctNotes[3] = OctaveUtil.removeOctaveSpecifier(chordNotes.get(3).getNote());
+                fourNotes = true;
+            } catch (Exception e) {
+                //there is no fourth note
+                correctNotes[3] = "";
+                selectedNotes[3] = "";
             }
 
 
@@ -241,10 +251,33 @@ public class ChordSpellingTutorController extends TutorController {
                     handleCompletedQuestion(questionRow, questionType, finalData, selection);
                 }
             });
+            ComboBox<String> note4 = new ComboBox<String>();
+            if (fourNotes) {
+                note4.getItems().addAll(generateOptions(chordNotes.get(3)));
+                note4.setOnAction(event -> {
+                    //Store the answer
+                    String selectedNote = note4.getValue();
+                    selectedNotes[3] = selectedNote;
+
+                    //Check if it's correct and style appropriately
+                    boolean answeredCorrectly = isNoteCorrect(correctNotes[3], selectedNote);
+                    styleNoteInput(note4, answeredCorrectly);
+
+                    //check entire question
+                    if (isQuestionCompletelyAnswered(inputs)) {
+                        //Style whole question as done
+                        String selection = String.join(" ", selectedNotes);
+                        handleCompletedQuestion(questionRow, 1, finalData, selection);
+                    }
+                });
+            }
 
             inputs.getChildren().add(note1);
             inputs.getChildren().add(note2);
             inputs.getChildren().add(note3);
+            if (fourNotes) {
+                inputs.getChildren().add(note4);
+            }
 
 
         } else {
@@ -477,6 +510,7 @@ public class ChordSpellingTutorController extends TutorController {
      */
     private int typeOneQuestionCorrectness(HBox inputs) {
         int correctParts = 0;
+        int numberOfParts = inputs.getChildren().size();
         for (Object input : inputs.getChildren()) {
             ComboBox<String> thisInput = (ComboBox<String>) input;
             if (thisInput.getStyle().contains("green")) {
@@ -485,7 +519,7 @@ public class ChordSpellingTutorController extends TutorController {
             }
 
         }
-        if (correctParts == 3) {
+        if (correctParts == numberOfParts) {
             //All correct
             return 1;
         } else if (correctParts == 0) {
