@@ -90,7 +90,6 @@ public class ChordUtil {
             //for 7th chords (4-note chords)
         } else if (type.toLowerCase().equals("seventh") ||
                 type.toLowerCase().equals("7th") ||
-                type.toLowerCase().equals("7") ||
                 type.toLowerCase().equals("seven"))  {
             Note currentNote = note;
             chordNotes.add(currentNote);
