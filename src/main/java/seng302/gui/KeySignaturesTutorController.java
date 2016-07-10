@@ -27,6 +27,8 @@ import seng302.data.Note;
 import seng302.data.Term;
 import seng302.utility.TutorRecord;
 
+import javax.swing.text.StyledEditorKit;
+
 public class KeySignaturesTutorController extends TutorController {
 
     @FXML
@@ -149,8 +151,10 @@ public class KeySignaturesTutorController extends TutorController {
         System.out.println(((Pair) pair.getValue()).getValue());
         Random bRand = new Random();
 
-        int random;
-        random = bRand.nextInt(2);
+        int random = 2;
+        if(pair.getKey().equals("both")) {
+            random = bRand.nextInt(2);
+        }
 
         if ((pair.getKey().equals("major")) || (random == 0) ) {
             isMajor = true;
@@ -215,27 +219,39 @@ public class KeySignaturesTutorController extends TutorController {
                 disableButtons(questionRow, 1, 3);
                 boolean isCorrect = false;
                 System.out.println(question);
-                if(fIsMajor) {
-                    if (options.getValue().equals(KeySignature.getMajorKeySignatures().get(question).getNotes().toString())) {
-                        isCorrect = true;
-                        formatCorrectQuestion(questionRow);
-                        manager.add(pair, 1);
-                    }else{
-                        //correctAnswer.setVisible(true);
-                        formatIncorrectQuestion(questionRow);
-                        manager.add(pair, 0);
-                    }
+
+                if(questionCorrectCheck(((Boolean) ((Pair) pair.getValue()).getValue()),fIsMajor,question,options.getValue())){
+                    isCorrect = true;
+                    formatCorrectQuestion(questionRow);
+                    manager.add(pair, 1);
+
                 }else{
-                    if (options.getValue().equals(KeySignature.getMinorKeySignatures().get(question).getNotes().toString())) {
-                        isCorrect = true;
-                        formatCorrectQuestion(questionRow);
-                        manager.add(pair, 1);
-                    }else{
-                        //correctAnswer.setVisible(true);
-                        formatIncorrectQuestion(questionRow);
-                        manager.add(pair, 0);
-                    }
+                    //correctAnswer.setVisible(true);
+                    formatIncorrectQuestion(questionRow);
+                    manager.add(pair, 0);
                 }
+
+//                if(fIsMajor) {
+//                    if (options.getValue().equals(KeySignature.getMajorKeySignatures().get(question).getNotes().toString())) {
+//                        isCorrect = true;
+//                        formatCorrectQuestion(questionRow);
+//                        manager.add(pair, 1);
+//                    }else{
+//                        //correctAnswer.setVisible(true);
+//                        formatIncorrectQuestion(questionRow);
+//                        manager.add(pair, 0);
+//                    }
+//                }else{
+//                    if (options.getValue().equals(KeySignature.getMinorKeySignatures().get(question).getNotes().toString())) {
+//                        isCorrect = true;
+//                        formatCorrectQuestion(questionRow);
+//                        manager.add(pair, 1);
+//                    }else{
+//                        //correctAnswer.setVisible(true);
+//                        formatIncorrectQuestion(questionRow);
+//                        manager.add(pair, 0);
+//                    }
+//                }
 
                 manager.answered += 1;
                 // Sets up the question to be saved to the record
@@ -261,6 +277,65 @@ public class KeySignaturesTutorController extends TutorController {
         return questionRow;
     }
 
+
+    public Boolean questionCorrectCheck(Boolean showKeysignature, Boolean isMajor, String question, String givenAnswer){
+
+//        System.out.println("keysign " + showKeysignature);
+//        System.out.println("isMajor " + isMajor);
+//        System.out.println("question " + question);
+//        System.out.println("given answer " + givenAnswer);
+//        System.out.println("--------------");
+
+        //if display keySignatures in answer
+        if (showKeysignature){
+            if(isMajor){
+                if(givenAnswer.equals(KeySignature.getMajorKeySignatures().get(question).getNotes().toString())){
+                    return true;
+                }
+
+            }else{
+                if(givenAnswer.equals(KeySignature.getMinorKeySignatures().get(question).getNotes().toString())){
+                    return true;
+                }
+            }
+        }
+        //if displaying the number of sharps/flats in answer
+        else{
+            if(isMajor){
+                if ((KeySignature.getMajorKeySignatures().get(question)).getNotes().get(0).contains("#")) {
+                    if(givenAnswer.equals((KeySignature.getMajorKeySignatures().get(question)).getNumberOfSharps() + "#")){
+                        return true;
+                    }
+                }else if((KeySignature.getMajorKeySignatures().get(question)).getNotes().get(0).contains("b")){
+                    if(givenAnswer.equals((KeySignature.getMajorKeySignatures().get(question)).getNumberOfFlats() + "b")){
+                        return true;
+                    }
+                }else {
+                    if (givenAnswer.startsWith("0")) {
+                        return true;
+                    }
+                }
+
+            } else{
+                if ((KeySignature.getMinorKeySignatures().get(question)).getNotes().get(0).contains("#")) {
+                    if(givenAnswer.equals((KeySignature.getMinorKeySignatures().get(question)).getNumberOfSharps() + "#")){
+                        return true;
+                    }
+                }else if((KeySignature.getMinorKeySignatures().get(question)).getNotes().get(0).contains("b")){
+                    if(givenAnswer.equals((KeySignature.getMinorKeySignatures().get(question)).getNumberOfFlats() + "b")){
+                        return true;
+                    }
+                }else{//if it is an A minor or C major
+                    if(givenAnswer.startsWith("0")){
+                        return true;
+                    }
+                }
+            }
+
+        }
+        return false;
+
+    }
 
     private ComboBox<String> generateMajorChoices(String scale, Boolean keysignature) {
         ComboBox<String> options = new ComboBox<String>();
