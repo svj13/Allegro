@@ -23,10 +23,10 @@ public class ChordUtil {
             String noteDisplay = octave ? Note.lookup(String.valueOf(notes.get(0))).getNote() : OctaveUtil.removeOctaveSpecifier(Note.lookup(String.valueOf(notes.get(0))).getNote()); //Ignore Octave or not?
 
             //for major chords
-            if (notes.get(1) == notes.get(0) + 4) {
+            if (notes.get(1) == notes.get(0) + 4 + 7) {
                 return noteDisplay + " major";
             //for minor chords
-            } else if (notes.get(1) == notes.get(0) + 3) {
+            } else if (notes.get(1) == notes.get(0) + 3 + 7) {
                 return noteDisplay + " minor";
              //for minor 7th chords
             } else if (notes.get(1) == notes.get(0) + 3 + 7 + 10) {
@@ -44,7 +44,7 @@ public class ChordUtil {
             } else if (notes.get(1) == notes.get(0) + 3 + 6 + 10) {
                 return noteDisplay + " half diminished";
             //for diminished chords
-            } else if (notes.get(1) == 3 + 6 + 9) {
+            } else if (notes.get(1) == notes.get(0) + 3 + 6 + 9) {
                 return noteDisplay + " diminished";
             }
 
