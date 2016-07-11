@@ -176,3 +176,6 @@ local.properties
 
 # Code Recommenders
 .recommenders/
+
+# IntelliJ - added by Emily
+app.iml

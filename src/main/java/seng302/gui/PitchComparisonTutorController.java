@@ -92,7 +92,7 @@ public class PitchComparisonTutorController extends TutorController {
                 Pair<String, String> midis = new Pair<String, String>(midiOne, midiTwo);
                 HBox rowPane = generateQuestionPane(midis);
                 questionRows.getChildren().add(rowPane);
-                questionRows.setMargin(rowPane, new Insets(10, 10, 10, 10));
+                VBox.setMargin(rowPane, new Insets(10, 10, 10, 10));
             }
 
 
@@ -301,11 +301,9 @@ public class PitchComparisonTutorController extends TutorController {
      */
     private boolean noteComparison(boolean isHigher, Note note1, Note note2) {
         if (isHigher) {
-            if (note1.getMidi() < note2.getMidi()) return true;
-            else return false;
+            return note1.getMidi() < note2.getMidi();
         } else {
-            if (note1.getMidi() > note2.getMidi()) return true;
-            else return false;
+            return note1.getMidi() > note2.getMidi();
         }
     }
 
