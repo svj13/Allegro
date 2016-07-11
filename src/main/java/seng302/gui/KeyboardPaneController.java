@@ -190,18 +190,14 @@ public class KeyboardPaneController {
         slider.lowValueProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     bottomNote = newValue.intValue();
-                    setUpKeyboard();
-                    positionBlackKeys();
-                    checkLabelStatusForNewNotes();
+                    resetKeyboard();
                 }
         );
 
         slider.highValueProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     topNote = newValue.intValue();
-                    setUpKeyboard();
-                    positionBlackKeys();
-                    checkLabelStatusForNewNotes();
+                    resetKeyboard();
                 }
         );
 
@@ -218,6 +214,15 @@ public class KeyboardPaneController {
         settings.getChildren().add(noteLabelsAlways);
     }
 
+    /**
+     * Each time the keyboard notes are change the keyboard needs to be remade, black keys
+     * repositioned and labels added if the setting is on.
+     */
+    private void resetKeyboard() {
+        setUpKeyboard();
+        positionBlackKeys();
+        checkLabelStatusForNewNotes();
+    }
     /**
      * When a note is created, check if it should be showing a label and toggle as needed.
      */
@@ -256,7 +261,6 @@ public class KeyboardPaneController {
             keyboardStack.requestFocus();
             positionBlackKeys();
         });
-        this.env.getPlayer().initKeyboardTrack();
 
 
         // This change listener is registered to the width property of the application.

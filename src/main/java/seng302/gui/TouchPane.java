@@ -39,7 +39,6 @@ public class TouchPane extends StackPane {
                 touchId = event.getTouchPoint().getId();
                 environment.getPlayer().noteOn(noteToPlay);
                 setHighlightOn();
-
             }
             event.consume();
         };
@@ -59,6 +58,7 @@ public class TouchPane extends StackPane {
 
         setOnMouseReleased(event -> {
             if (!environment.isShiftPressed()) {
+                environment.getPlayer().noteOff(noteToPlay);
                 setHighlightOff();
                 if (displayLabelOnAction) {
                     getChildren().clear();
@@ -71,7 +71,7 @@ public class TouchPane extends StackPane {
                 keyboardPaneController.addMultiNote(noteToPlay, me);
                 setHighlightOn();
             } else {
-                environment.getPlayer().playNote(noteToPlay);
+                environment.getPlayer().noteOn(noteToPlay);
                 setHighlightOn();
             }
             if (displayLabelOnAction) {

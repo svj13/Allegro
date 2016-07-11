@@ -157,10 +157,7 @@ public class EditHistory {
      * @param newRhythm Rhythm timings to change to.
      */
     private void changeRhythm(String newRhythm) {
-        System.out.println("New rhythm");
         new Rhythm(newRhythm, false).execute(env);
-
-
     }
 
     private void redoTranscriptClear() {
