@@ -63,6 +63,12 @@ public class OctaveUtil {
         return Character.toUpperCase(note.charAt(0)) + note.substring(1);
     }
 
+    /**
+     * Capitalises note string and adds default octave if there is none.
+     *
+     * @param note The note to fix/check
+     * @return the correct note.
+     */
     public static String validateNoteString(String note) {
         note = capitalise(note);
         if (Checker.isValidNoteNoOctave(note)) {

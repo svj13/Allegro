@@ -23,28 +23,33 @@ public class ChordUtil {
             String noteDisplay = octave ? Note.lookup(String.valueOf(notes.get(0))).getNote() : OctaveUtil.removeOctaveSpecifier(Note.lookup(String.valueOf(notes.get(0))).getNote()); //Ignore Octave or not?
 
             //for major chords
-            if (notes.get(1) == notes.get(0) + 4 + 7) {
+            if (notes.get(1) == notes.get(0) + 4 && notes.get(2) == notes.get(0) + 7) {
                 return noteDisplay + " major";
             //for minor chords
-            } else if (notes.get(1) == notes.get(0) + 3 + 7) {
+            } else if (notes.get(1) == notes.get(0) + 3 && notes.get(2) == notes.get(0) + 7) {
                 return noteDisplay + " minor";
              //for minor 7th chords
-            } else if (notes.get(1) == notes.get(0) + 3 + 7 + 10) {
+            } else if (notes.get(1) == notes.get(0) + 3 && notes.get(2) == notes.get(0) + 7
+                    && notes.get(3) == notes.get(0) + 10) {
                 return noteDisplay + " minor 7th";
             //for major 7th chords
-            } else if (notes.get(1) == notes.get(0) + 4 + 7 + 11) {
+            } else if (notes.get(1) == notes.get(0) + 4 && notes.get(2) == notes.get(0) + 7
+                    && notes.get(3) == notes.get(0) + 11) {
                 return noteDisplay + " major 7th";
             //for 7th chords
-            } else if (notes.get(1) == notes.get(0) + 4 + 7 + 10) {
+            } else if (notes.get(1) == notes.get(0) + 4 && notes.get(2) == notes.get(0) + 7
+                    && notes.get(3) == notes.get(0) + 10) {
                 return noteDisplay + " 7th";
             //for diminished chords
-            } else if (notes.get(1) == notes.get(0) + 3 + 6) {
+            } else if (notes.get(1) == notes.get(0) + 3 && notes.get(2) == notes.get(0) + 6) {
                 return noteDisplay + " diminished";
             //for half diminished chords
-            } else if (notes.get(1) == notes.get(0) + 3 + 6 + 10) {
+            } else if (notes.get(1) == notes.get(0) + 3 && notes.get(2) == notes.get(0) + 6
+                    && notes.get(3) == notes.get(0) + 10) {
                 return noteDisplay + " half diminished";
             //for diminished chords
-            } else if (notes.get(1) == notes.get(0) + 3 + 6 + 9) {
+            } else if (notes.get(1) == notes.get(0) + 3 && notes.get(2) == notes.get(0) + 6
+                    && notes.get(3) == notes.get(0) + 9) {
                 return noteDisplay + " diminished";
             }
 
