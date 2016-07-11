@@ -70,7 +70,8 @@ public class DslReferenceController {
         helpfulInfo.setPadding(new Insets(10));
         helpfulInfo.getChildren().add(new Text("Note: Arguments surrounded by ( ) are mandatory." +
                 '\n' + "Arguments surrounded by [ ] are optional." + '\n' +
-                "Brackets are indicators only, and should be removed."));
+                "Brackets are indicators only, and should be removed." +
+                "Examples of each command are given below the command."));
 
         return helpfulInfo;
     }
@@ -156,6 +157,8 @@ public class DslReferenceController {
     private void prepareCommand(Map.Entry<String, CommandType> entry, VBox container) {
         final CommandType data = entry.getValue();
         HBox commandInfo = new HBox();
+        VBox infoAndExample = new VBox();
+
         final Text content = new Text("-" + data.getDisplayText());
         commandInfo.setCursor(Cursor.HAND);
         commandInfo.setOnMouseClicked(event -> {
@@ -163,7 +166,9 @@ public class DslReferenceController {
             setCommandText(data);
         });
         commandInfo.getChildren().add(content);
-        container.getChildren().add(commandInfo);
+        infoAndExample.getChildren().add(commandInfo);
+        infoAndExample.getChildren().add(new Text('\t' + data.getExample()));
+        container.getChildren().add(infoAndExample);
     }
 
     /**

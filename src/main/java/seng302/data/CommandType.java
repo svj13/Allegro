@@ -11,69 +11,70 @@ public class CommandType {
     private String[] params;
     private String[] options;
     private String name;
+    private String example;
 
 
     public static Map<String, CommandType> playCommands = new TreeMap<String, CommandType>() {
         {
-            put("play chord", new CommandType("play chord", "note,type", "arpeggio"));
-            put("play interval", new CommandType("play interval", "name,note", ""));
-            put("play", new CommandType("play", "note|midi", ""));
-            put("play scale", new CommandType("play scale", "note,type", "octaves,up|down|updown"));
+            put("play chord", new CommandType("play chord", "note,type", "arpeggio", "play chord C# major"));
+            put("play interval", new CommandType("play interval", "name,note", "", "play interval unison D"));
+            put("play", new CommandType("play", "note|midi", "", "play C5"));
+            put("play scale", new CommandType("play scale", "note,type", "octaves,up|down|updown", "play scale C major"));
         }
     };
 
     public static Map<String, CommandType> showCommands = new TreeMap<String, CommandType>() {
         {
-            put("chord", new CommandType("chord", "note,type", ""));
-            put("crotchet duration", new CommandType("crotchet duration", "", ""));
-            put("all enharmonics", new CommandType("all enharmonics", "note", ""));
-            put("enharmonic higher", new CommandType("enharmonic higher", "note", ""));
-            put("enharmonic lower", new CommandType("enharmonic lower", "note", ""));
-            put("interval", new CommandType("interval", "name", "note"));
-            put("scale signature", new CommandType("scale signature", "note,scale type", ""));
-            put("scale signature with", new CommandType("scale signature with", "number of sharps and flats|list of notes", ""));
-            put("scale", new CommandType("scale", "note,type", ""));
-            put("semitone up", new CommandType("semitone up", "note|midi", ""));
-            put("semitone down", new CommandType("semitone down", "note|midi", ""));
-            put("tempo", new CommandType("tempo", "", ""));
-            put("rhythm", new CommandType("rhythm", "", ""));
+            put("chord", new CommandType("chord", "note,type", "", "chord D minor"));
+            put("crotchet duration", new CommandType("crotchet duration", "", "", "crotchet duration"));
+            put("all enharmonics", new CommandType("all enharmonics", "note", "", "all enharmonics A"));
+            put("enharmonic higher", new CommandType("enharmonic higher", "note", "", "enharmonic higher B"));
+            put("enharmonic lower", new CommandType("enharmonic lower", "note", "", "enharmonic lower C"));
+            put("interval", new CommandType("interval", "name", "note", "interval minor 2nd C"));
+            put("scale signature", new CommandType("scale signature", "note,scale type", "", "scale signature A major"));
+            put("scale signature with", new CommandType("scale signature with", "number of sharps and flats|list of notes", "", "scale signature with 2#"));
+            put("scale", new CommandType("scale", "note,type", "", "scale A minor"));
+            put("semitone up", new CommandType("semitone up", "note|midi", "", "semitone up 100"));
+            put("semitone down", new CommandType("semitone down", "note|midi", "", "semitone down A"));
+            put("tempo", new CommandType("tempo", "", "", "tempo"));
+            put("rhythm", new CommandType("rhythm", "", "", "rhythm"));
         }
     };
 
 
     public static Map<String, CommandType> translationCommands = new TreeMap<String, CommandType>() {
         {
-            put("note", new CommandType("note", "midi number", ""));
-            put("midi", new CommandType("midi", "note", ""));
+            put("note", new CommandType("note", "midi number", "", "note 10"));
+            put("midi", new CommandType("midi", "note", "", "midi C2"));
 
         }
     };
 
     public static Map<String, CommandType> termCommands = new TreeMap<String, CommandType>() {
         {
-            put("add musical term", new CommandType("add musical term", "name; origin; category; definition", ""));
-            put("origin of", new CommandType("origin of", "musical term name", ""));
-            put("meaning of", new CommandType("meaning of", "musical term name", ""));
-            put("category of", new CommandType("category of", "musical term name", ""));
+            put("add musical term", new CommandType("add musical term", "name; origin; category; definition", "", "add musical term Lento; Italian; Tempo; Slowly"));
+            put("origin of", new CommandType("origin of", "musical term name", "", "origin of Lento"));
+            put("meaning of", new CommandType("meaning of", "musical term name", "", "meaning of Lento"));
+            put("category of", new CommandType("category of", "musical term name", "", "category of Lento"));
 
         }
     };
 
     public static Map<String, CommandType> settingsCommands = new TreeMap<String, CommandType>() {
         {
-            put("set tempo", new CommandType("set tempo", "20-300", ""));
-            put("set rhythm", new CommandType("set rhythm", "straight|light|medium|heavy", ""));
-            put("set rhythm", new CommandType("set rhythm", "fraction,fraction,fraction", ""));
-            put("force set tempo", new CommandType("force set tempo", "1 or higher", ""));
+            put("set tempo", new CommandType("set tempo", "20-300", "", "set tempo 150"));
+            put("set rhythm", new CommandType("set rhythm", "straight|light|medium|heavy", "", "set rhythm light"));
+            put("set rhythm", new CommandType("set rhythm", "fraction,fraction,fraction", "", "set rhythm 1/3,1/3,1/3"));
+            put("force set tempo", new CommandType("force set tempo", "1 or higher", "", "force set tempo 500"));
         }
     };
 
     public static Map<String, CommandType> specialCommands = new TreeMap<String, CommandType>() {
         {
-            put("help", new CommandType("help", "", "command name"));
-            put("undo", new CommandType("undo", "", ""));
-            put("redo", new CommandType("redo", "", ""));
-            put("version", new CommandType("version", "", ""));
+            put("help", new CommandType("help", "", "command name", "help play chord"));
+            put("undo", new CommandType("undo", "", "", "undo"));
+            put("redo", new CommandType("redo", "", "", "redo"));
+            put("version", new CommandType("version", "", "", "version"));
         }
     };
 
@@ -92,10 +93,11 @@ public class CommandType {
         }
     };
 
-    public CommandType(String name, String params, String options) {
+    public CommandType(String name, String params, String options, String example) {
         this.name = name;
         this.params = params.split(",");
         this.options = options.split(",");
+        this.example = example;
     }
 
     public static Map<String, CommandType> getCommands(String commandsToGet) {
@@ -130,6 +132,10 @@ public class CommandType {
 
     public String getName() {
         return this.name;
+    }
+
+    public String getExample() {
+        return this.example;
     }
 
     /**
