@@ -25,6 +25,7 @@ public class Chord implements Command {
     private Boolean octaveSpecified;
     private Boolean arpeggioFlag = false;
     private String result;
+    int invLevel;  //Inversion level. (0 if no inversion)
 
     ArrayList<Integer> letters;
     //int[] letters;
@@ -62,35 +63,19 @@ public class Chord implements Command {
 
 
         if(chord.containsKey("inversion")){
-            System.out.println("here");
-            int invLevel = Integer.parseInt(chord.get("inversion"));
+
+            invLevel = Integer.parseInt(chord.get("inversion"));
             System.out.println(invLevel);
             for (int l = 0; l < invLevel; l++) {
+                if(this.chord.get(0).getMidi() >= 120) { //Inversion exceeds range.
+                    this.result = "Invalid chord: " + startNote + ' ' + type + ". Exceeds octave range." ;
+                }
                 this.chord = ChordUtil.invertChord(this.chord);
                 int x = letters.remove(0);
                 letters.add(x);
 
             }
-/*
-            if(chord.get("inversion").equals("1")){
-                //first inversion
-                this.chord = ChordUtil.invertChord(this.chord);
 
-            }
-            else if(chord.get("inversion").equals("2")){
-                //Second inversion
-                this.chord = ChordUtil.invertChord(this.chord);
-                this.chord = ChordUtil.invertChord(this.chord);
-
-            }
-            else if(chord.get("inversion").equals("3") && this.chord.size() > 3 ){
-                //If 3rd inversion and chord has atleast 4 notes.
-                this.chord = ChordUtil.invertChord(this.chord);
-                this.chord = ChordUtil.invertChord(this.chord);
-                this.chord = ChordUtil.invertChord(this.chord);
-
-            }
-            */
             for(Note n : this.chord){
                 System.out.println("chord: "  +n.getNote());
             }
@@ -179,7 +164,7 @@ public class Chord implements Command {
             env.getPlayer().playNotes(chord);
         }
         String output = String.format("Playing chord %s %s type", startNote, type);
-        if ()
+        if (invLevel > 0) output+= " Inversion "+ invLevel;
         env.getTranscriptManager().setResult("Playing chord " + startNote + ' ' + type);
     }
 

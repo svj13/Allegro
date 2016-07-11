@@ -161,14 +161,14 @@ public class ChordTest {
 
         HashMap<String, String> chordMap2 = new HashMap<String, String>();
         chordMap2.put("note", "G");
-        chordMap2.put("scale_type", "major");
-
+        chordMap2.put("scale_type", "minor");
+        chordMap1.put("inversion", "2");
 
         new Chord(chordMap1, "play").execute(env);
-        verify(transcriptManager).setResult("Playing chord F4 major");
+        verify(transcriptManager).setResult("Playing chord F4 major inversion 1");
 
         new Chord(chordMap2, "play").execute(env);
-        verify(transcriptManager).setResult("Playing chord G4 major");
+        verify(transcriptManager).setResult("Playing chord G4 minor inversion 2");
 
 
     }
