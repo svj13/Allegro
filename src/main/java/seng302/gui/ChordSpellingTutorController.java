@@ -1,9 +1,13 @@
 package seng302.gui;
 
+import org.controlsfx.control.CheckComboBox;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
+import java.util.stream.Collectors;
 
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -32,10 +36,10 @@ public class ChordSpellingTutorController extends TutorController {
     AnchorPane chordSpellingAnchor;
 
     @FXML
-    ComboBox chordTypes;
+    ComboBox numEnharmonics;
 
     @FXML
-    ComboBox numEnharmonics;
+    HBox settingsBox;
 
     @FXML
     Button btnGo;
@@ -52,10 +56,12 @@ public class ChordSpellingTutorController extends TutorController {
     private String[] validChordNames = {"major", "minor", "minor 7th",
             "major 7th", "seventh", "diminished", "half diminished 7th", "diminished 7th"};
 
+    CheckComboBox<String> chordTypes = new CheckComboBox<String>();
+
     /**
      * What type the generated chords are, i.e. major, minor
      */
-    private String validChords = "all";
+    private ArrayList<String> validChords = new ArrayList<String>();
 
     /**
      * Sets up the tutoring environment
@@ -65,12 +71,22 @@ public class ChordSpellingTutorController extends TutorController {
     public void create(Environment env) {
         super.create(env);
         initialiseQuestionSelector();
-        chordTypes.getItems().add("all");
-        chordTypes.getItems().addAll(validChordNames);
-        chordTypes.setOnAction(event -> {
-            validChords = (String) chordTypes.getValue();
+
+        for (String validChordName : validChordNames) {
+            chordTypes.getItems().add(validChordName);
+        }
+
+        chordTypes.getCheckModel().getCheckedIndices().addListener(new ListChangeListener<Integer>() {
+            @Override
+            public void onChanged(Change<? extends Integer> c) {
+                validChords.clear();
+                validChords.addAll(chordTypes.getCheckModel().getCheckedIndices().stream().map(index -> validChordNames[index]).collect(Collectors.toList()));
+            }
         });
-        chordTypes.getSelectionModel().selectFirst();
+
+
+        settingsBox.getChildren().add(0, chordTypes);
+
         numEnharmonics.getItems().addAll("only one", "all");
         numEnharmonics.getSelectionModel().selectFirst();
         rand = new Random();
@@ -365,12 +381,8 @@ public class ChordSpellingTutorController extends TutorController {
      * @return either "major" or "minor" as a string
      */
     private String generateRandomChordType() {
-        if (validChords.equals("all")) {
-            int chordType = rand.nextInt(validChordNames.length);
-            return validChordNames[chordType];
-        } else {
-            return validChords;
-        }
+        int chordType = rand.nextInt(validChords.size());
+        return validChords.get(chordType);
     }
 
     /**
@@ -742,7 +754,6 @@ public class ChordSpellingTutorController extends TutorController {
      * Resets the settings inputs
      */
     void resetInputs() {
-        chordTypes.getSelectionModel().selectFirst();
         numEnharmonics.getSelectionModel().selectFirst();
         allowFalseChords.setSelected(false);
     }

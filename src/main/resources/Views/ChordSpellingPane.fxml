@@ -31,10 +31,8 @@
                      <children>
                         <VBox>
                            <children>
-                              <HBox>
+                               <HBox fx:id="settingsBox">
                                  <children>
-                                    <Label text="Chord Types" />
-                                    <ComboBox fx:id="chordTypes" prefWidth="100.0" promptText="All" />
                                     <Label text="Enharmonics" />
                                     <ComboBox fx:id="numEnharmonics" prefWidth="100.0" promptText="1" />
                                  </children>
