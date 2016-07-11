@@ -59,11 +59,23 @@ public class ChordFinder implements Command {
     private Boolean findChord(int midiNote) {
         ArrayList<Integer> majorChord = ChordUtil.getChordMidi(midiNote, "major");
         ArrayList<Integer> minorChord = ChordUtil.getChordMidi(midiNote, "minor");
+        ArrayList<Integer> minorSeventhChord = ChordUtil.getChordMidi(midiNote, "minor 7th");
+        ArrayList<Integer> majorSeventhChord = ChordUtil.getChordMidi(midiNote, "major 7th");
+        ArrayList<Integer> seventhChord = ChordUtil.getChordMidi(midiNote, "seventh");
+        ArrayList<Integer> diminishedChord = ChordUtil.getChordMidi(midiNote, "diminished");
+        ArrayList<Integer> halfDiminishedChord = ChordUtil.getChordMidi(midiNote, "half dim");
+        ArrayList<Integer> diminishedSeventhChord = ChordUtil.getChordMidi(midiNote, "dim 7th");
 
 
         for (int i = 0; i < majorChord.size(); i++) {
             majorChord.set(i, 60 + (majorChord.get(i) % 12));
             minorChord.set(i, 60 + (minorChord.get(i) % 12));
+            minorSeventhChord.set(i, 60 + (minorChord.get(i) % 12));
+            majorSeventhChord.set(i, 60 + (minorChord.get(i) % 12));
+            seventhChord.set(i, 60 + (minorChord.get(i) % 12));
+            diminishedChord.set(i, 60 + (minorChord.get(i) % 12));
+            halfDiminishedChord.set(i, 60 + (minorChord.get(i) % 12));
+            diminishedSeventhChord.set(i, 60 + (minorChord.get(i) % 12));
         }
 
         if (all) {
@@ -73,10 +85,7 @@ public class ChordFinder implements Command {
                     this.result = "" + ChordUtil.getChordName(minorChord, false);
                     return true;
                 }
-
-
             } else if (majorChord != null && majorChord.containsAll(midiNotes)) {
-
                 this.result = "" + ChordUtil.getChordName(majorChord, false);
                 return true;
             }
@@ -86,7 +95,6 @@ public class ChordFinder implements Command {
                 return true;
 
             } else if (majorChord != null && majorChord.equals(this.midiNotes)) {
-
                 this.result = "" + ChordUtil.getChordName(majorChord, false);
                 return true;
             }

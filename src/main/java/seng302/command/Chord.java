@@ -35,7 +35,17 @@ public class Chord implements Command {
      */
     public Chord(HashMap<String, String> chord, String outputType) {
         this.startNote = chord.get("note");
-        this.type = chord.get("scale_type");
+
+
+        //gets whether the chord to be played is a scale type (major/minor) or a
+        // chord type (diminished, major 7th etc)
+        if (chord.get("scale_type") != null) {
+            this.type = chord.get("scale_type");
+
+        } else {
+            this.type = chord.get("chord_type");
+        }
+
         this.outputType = outputType;
         currentLetter = Character.toUpperCase(startNote.charAt(0));
 
