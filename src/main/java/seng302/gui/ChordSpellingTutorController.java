@@ -17,6 +17,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 import javafx.util.Pair;
 import seng302.Environment;
 import seng302.data.Note;
@@ -45,6 +46,9 @@ public class ChordSpellingTutorController extends TutorController {
     Button btnGo;
 
     @FXML
+    Text chordError;
+
+    @FXML
     CheckBox allowFalseChords;
 
     private Random rand;
@@ -71,25 +75,36 @@ public class ChordSpellingTutorController extends TutorController {
     public void create(Environment env) {
         super.create(env);
         initialiseQuestionSelector();
+        initialiseChordTypeSelector();
+
+        numEnharmonics.getItems().addAll("only one", "all");
+        numEnharmonics.getSelectionModel().selectFirst();
+        rand = new Random();
+    }
+
+    /**
+     * Set up the chord type combo check box. The listener on this ComboCheckBox keeps track of
+     * which chord types are to be included in question generation.
+     */
+    private void initialiseChordTypeSelector() {
+        chordTypes.setMaxWidth(100);
 
         for (String validChordName : validChordNames) {
             chordTypes.getItems().add(validChordName);
         }
 
-        chordTypes.getCheckModel().getCheckedIndices().addListener(new ListChangeListener<Integer>() {
-            @Override
-            public void onChanged(Change<? extends Integer> c) {
-                validChords.clear();
-                validChords.addAll(chordTypes.getCheckModel().getCheckedIndices().stream().map(index -> validChordNames[index]).collect(Collectors.toList()));
-            }
+        chordTypes.getCheckModel().getCheckedIndices().addListener((ListChangeListener<Integer>) c -> {
+            validChords.clear();
+            validChords.addAll(chordTypes.getCheckModel().getCheckedIndices().stream().map(index -> validChordNames[index]).collect(Collectors.toList()));
         });
 
+        // Defaults to having all options selected
+        for (int i = 0; i < chordTypes.getItems().size(); i++) {
+            chordTypes.getCheckModel().checkIndices(i);
+        }
 
-        settingsBox.getChildren().add(0, chordTypes);
-
-        numEnharmonics.getItems().addAll("only one", "all");
-        numEnharmonics.getSelectionModel().selectFirst();
-        rand = new Random();
+        //Adds to the settings, after its label
+        settingsBox.getChildren().add(1, chordTypes);
     }
 
     @FXML
@@ -97,17 +112,22 @@ public class ChordSpellingTutorController extends TutorController {
      * When the go button is pressed, a new tutoring session is launched
      */
     private void goAction(ActionEvent event) {
-        record = new TutorRecord();
-        paneQuestions.setVisible(true);
-        paneResults.setVisible(false);
-        manager.resetEverything();
-        manager.questions = selectedQuestions;
+        if (chordTypes.getCheckModel().getCheckedIndices().size() != 0) {
+            chordError.setVisible(false);
+            record = new TutorRecord();
+            paneQuestions.setVisible(true);
+            paneResults.setVisible(false);
+            manager.resetEverything();
+            manager.questions = selectedQuestions;
 
-        questionRows.getChildren().clear();
-        for (int i = 0; i < manager.questions; i++) {
-            HBox questionRow = setUpQuestion();
-            questionRows.getChildren().add(questionRow);
-            questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
+            questionRows.getChildren().clear();
+            for (int i = 0; i < manager.questions; i++) {
+                HBox questionRow = setUpQuestion();
+                questionRows.getChildren().add(questionRow);
+                questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
+            }
+        } else {
+            chordError.setVisible(true);
         }
     }
 
@@ -349,6 +369,7 @@ public class ChordSpellingTutorController extends TutorController {
 
             //Check if it's a real chord
             try {
+                //check this works correctly once chord util has been updated
                 ChordUtil.getChordName(noteMidis, true);
             } catch (IllegalArgumentException notAChord) {
                 //Only use it if it's not a valid chord
