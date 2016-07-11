@@ -262,6 +262,7 @@ public class TranscriptPaneController {
 
     public void giveFocus() {
         txtCommand.requestFocus();
+        txtCommand.positionCaret(txtCommand.getText().length());
     }
 
 

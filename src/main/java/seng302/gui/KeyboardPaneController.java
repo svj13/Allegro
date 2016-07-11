@@ -219,10 +219,6 @@ public class KeyboardPaneController {
         settings.getChildren().add(noteLabelsAlways);
 
         final ToggleGroup group = new ToggleGroup();
-        group.selectedToggleProperty().addListener((observable, newValue, oldValue) -> {
-            playMode = (Boolean) group.getSelectedToggle().getUserData();
-        });
-
         HBox modes = new HBox();
         ToggleButton play = new ToggleButton("Play");
         play.setUserData(true);
@@ -232,6 +228,15 @@ public class KeyboardPaneController {
         ToggleButton text = new ToggleButton("Text Input");
         text.setUserData(false);
         text.setToggleGroup(group);
+        group.selectedToggleProperty().addListener((observable, newValue, oldValue) -> {
+            if (group.getSelectedToggle() == null) {
+                play.setSelected(true);
+            } else {
+                playMode = (Boolean) group.getSelectedToggle().getUserData();
+            }
+        });
+
+
 
         settings.getChildren().add(new Label("Keyboard Mode:"));
         modes.getChildren().add(play);
@@ -466,5 +471,9 @@ public class KeyboardPaneController {
                 ((TouchPane) key).stopDisplayNotes();
             }
         }
+    }
+
+    public Boolean isPlayMode() {
+        return playMode;
     }
 }
