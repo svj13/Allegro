@@ -38,9 +38,13 @@ public class DslReferenceController {
     private PopOver createDslReference() {
         VBox scrollContent = new VBox();
         HBox sortingOptions = getSortingOptions();
+        HBox helpfulInfo = getInfoBox();
+
         sortingOptions.setSpacing(5);
         sortingOptions.setPadding(new Insets(10));
+
         scrollContent.getChildren().add(sortingOptions);
+        scrollContent.getChildren().add(helpfulInfo);
         scrollContent.getChildren().add(popoverContent);
 
         popoverContent.getChildren().add(new Text("Click a command to copy to input field"));
@@ -56,6 +60,19 @@ public class DslReferenceController {
         dslRef.setArrowLocation(PopOver.ArrowLocation.RIGHT_CENTER);
         dslRef.setTitle("DSL Reference Card");
         return dslRef;
+    }
+
+    /**
+     * Creates an HBox with text explaining the syntax of the DSL reference card.
+     */
+    private HBox getInfoBox() {
+        HBox helpfulInfo = new HBox();
+        helpfulInfo.setPadding(new Insets(10));
+        helpfulInfo.getChildren().add(new Text("Note: Arguments surrounded by ( ) are mandatory." +
+                '\n' + "Arguments surrounded by [ ] are optional." + '\n' +
+                "Brackets are indicators only, and should be removed."));
+
+        return helpfulInfo;
     }
 
     /**
