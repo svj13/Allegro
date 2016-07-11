@@ -27,33 +27,22 @@ public class PlayNoteSteps {
     private TranscriptManager transcriptManager = new TranscriptManager();
 
     @Given("^I am on the transcript pane$")
-    public void I_am_on_the_transcript_pane() throws Throwable {
+    public void I_am_on_the_transcript_pane() {
         env = new Environment();
         env.setTranscriptManager(transcriptManager);
     }
 
-//    @When("^I type the command \"([^\"]*)\"$")
-//    public void I_type_the_command(String note) throws Throwable {
-////        transcriptManager.setCommand("Play C");
-//        env.getExecutor().executeCommand("play C");
-//    }
-//
-//    @Then("^The note C(\\d+) should be played$")
-//    public void The_note_C_should_be_played(int arg1) throws Throwable {
-//        assertEquals(transcriptManager.getLastCommand(), "Play C");
-//    }
-
-    @When("^I type the command 'play C'$")
-    public void iTypeTheCommandPlayC() throws Throwable {
+    @When("^I type the command 'play \"([^\"]*)\"'$")
+    public void iTypeTheCommandPlay(String arg0) throws Throwable {
         // Write code here that turns the phrase above into concrete actions
-        new PlayNote("C").execute(env);
+        new PlayNote(arg0).execute(env);
     }
 
-    @Then("^The note 'C' should be played$")
-    public void theNoteCShouldBePlayed() throws Throwable {
+    @Then("^The note '\"([^\"]*)\"' should be played$")
+    public void theNoteShouldBePlayed(String arg0) throws Throwable {
         // Write code here that turns the phrase above into concrete actions
         System.out.println(transcriptManager.getCommandHistory());
         String last_command = transcriptManager.getLastCommand().substring(4);
-        assertEquals(last_command, "Playing C at 120BPM\n");
+        assertEquals(last_command, "Playing " + arg0 + " at 120BPM\n");
     }
 }
