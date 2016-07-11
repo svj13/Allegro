@@ -1,33 +1,20 @@
 package seng302.gui;
 
 
-import org.controlsfx.control.RangeSlider;
-import org.controlsfx.control.spreadsheet.StringConverterWithFormat;
-
 import java.util.*;
-
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 import seng302.Environment;
-import seng302.data.Interval;
 import seng302.data.KeySignature;
-import seng302.data.Note;
-import seng302.data.Term;
 import seng302.utility.TutorRecord;
-
-import javax.swing.text.StyledEditorKit;
 
 public class KeySignaturesTutorController extends TutorController {
 
@@ -48,6 +35,9 @@ public class KeySignaturesTutorController extends TutorController {
 
     private Random rand;
 
+    /**
+     * ArrayLists containing the major and minor notes thats are used to populate the answer comboboxs
+     */
     private ArrayList<String> majorSharps = new ArrayList<String>(Arrays.asList("C", "G", "D", "A", "E", "B", "F#", "C#"));
     private ArrayList<String> majorFlats = new ArrayList<String>(Arrays.asList("Cb", "Gb", "Db", "Ab", "Eb", "Bb", "F", "C"));
     private ArrayList<String> minorSharps = new ArrayList<String>(Arrays.asList("A", "E", "B", "F#", "C#", "G#", "D#", "A#"));
@@ -90,8 +80,7 @@ public class KeySignaturesTutorController extends TutorController {
     }
 
     /**
-     * Prepares a new question
-     *
+     * Prepares a new question, gets the values from the drop down options for the questions
      * @return a question pane containing the question information
      */
     public HBox setUpQuestion() {
@@ -128,13 +117,13 @@ public class KeySignaturesTutorController extends TutorController {
     }
 
 
-
     /**
      * Creates a GUI pane for a single question
-     * y
+     * @param pair - a pair containing the scale type and another pair that contains the question type and answer type
+     * @return a HBox that contains a single question
      */
     //@Override
-    public HBox generateQuestionPane( final Pair pair) {
+    public HBox generateQuestionPane(final Pair pair) {
         Boolean isMajor = false;
 
         final HBox questionRow = new HBox();
@@ -148,7 +137,6 @@ public class KeySignaturesTutorController extends TutorController {
         List<String> keysAsArray;
         final String question;
 
-        System.out.println(((Pair) pair.getValue()).getValue());
         Random bRand = new Random();
 
         int random = 2;
@@ -199,8 +187,6 @@ public class KeySignaturesTutorController extends TutorController {
                 }
 
 
-
-
                 String[] recordQuestion = new String[]{
                         String.format("Keys signature of %s %s", question, pair.getKey()),
                         correctAnswer
@@ -218,7 +204,6 @@ public class KeySignaturesTutorController extends TutorController {
             public void handle(ActionEvent event) {
                 disableButtons(questionRow, 1, 3);
                 boolean isCorrect = false;
-                System.out.println(question);
 
                 if(questionCorrectCheck(((Boolean) ((Pair) pair.getValue()).getValue()),fIsMajor,question,options.getValue())){
                     isCorrect = true;
@@ -230,28 +215,6 @@ public class KeySignaturesTutorController extends TutorController {
                     formatIncorrectQuestion(questionRow);
                     manager.add(pair, 0);
                 }
-
-//                if(fIsMajor) {
-//                    if (options.getValue().equals(KeySignature.getMajorKeySignatures().get(question).getNotes().toString())) {
-//                        isCorrect = true;
-//                        formatCorrectQuestion(questionRow);
-//                        manager.add(pair, 1);
-//                    }else{
-//                        //correctAnswer.setVisible(true);
-//                        formatIncorrectQuestion(questionRow);
-//                        manager.add(pair, 0);
-//                    }
-//                }else{
-//                    if (options.getValue().equals(KeySignature.getMinorKeySignatures().get(question).getNotes().toString())) {
-//                        isCorrect = true;
-//                        formatCorrectQuestion(questionRow);
-//                        manager.add(pair, 1);
-//                    }else{
-//                        //correctAnswer.setVisible(true);
-//                        formatIncorrectQuestion(questionRow);
-//                        manager.add(pair, 0);
-//                    }
-//                }
 
                 manager.answered += 1;
                 // Sets up the question to be saved to the record
@@ -278,13 +241,17 @@ public class KeySignaturesTutorController extends TutorController {
     }
 
 
+    /**
+     * Determines if a given question is correct
+     * @param showKeysignature - the type of question (if the answer is in the form of key
+     *                         signatures or the number of key signatures)
+     * @param isMajor - if the scale in the question is major or minor
+     * @param question - the scale that is being tested
+     * @param givenAnswer - the answer in the combo box
+     * @return
+     */
     public Boolean questionCorrectCheck(Boolean showKeysignature, Boolean isMajor, String question, String givenAnswer){
 
-//        System.out.println("keysign " + showKeysignature);
-//        System.out.println("isMajor " + isMajor);
-//        System.out.println("question " + question);
-//        System.out.println("given answer " + givenAnswer);
-//        System.out.println("--------------");
 
         //if display keySignatures in answer
         if (showKeysignature){
@@ -337,6 +304,15 @@ public class KeySignaturesTutorController extends TutorController {
 
     }
 
+
+
+    /**
+     * Generates the answers in the combo box when the given question is of type major
+     * @param scale - the question that is being tested
+     * @param keysignature - if the items in the combo box should be key signatures. if its false then the combo box
+     *                     will be populated with the number of key signatures
+     * @return a combo box full of potential answers
+     */
     private ComboBox<String> generateMajorChoices(String scale, Boolean keysignature) {
         ComboBox<String> options = new ComboBox<String>();
         options.setPrefHeight(30);
@@ -381,7 +357,13 @@ public class KeySignaturesTutorController extends TutorController {
 
 
 
-
+    /**
+     * Generates the answers in the combo box when the given question is of type minor
+     * @param scale - the question that is being tested
+     * @param keysignature - if the items in the combo box should be key signatures. if its false then the combo box
+     *                     will be populated with the number of key signatures
+     * @return a combo box full of potential answers
+     */
     private ComboBox<String> generateMinorChoices(String scale, Boolean keysignature) {
         ComboBox<String> options = new ComboBox<String>();
         options.setPrefHeight(30);
