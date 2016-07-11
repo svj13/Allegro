@@ -99,12 +99,19 @@ public class ChordSpellingTutorController extends TutorController {
         });
 
         // Defaults to having all options selected
-        for (int i = 0; i < chordTypes.getItems().size(); i++) {
-            chordTypes.getCheckModel().checkIndices(i);
-        }
+        selectAllChordTypes();
 
         //Adds to the settings, after its label
         settingsBox.getChildren().add(1, chordTypes);
+    }
+
+    /**
+     * A simple method for checking all available chord types in the selector.
+     */
+    private void selectAllChordTypes() {
+        for (int i = 0; i < chordTypes.getItems().size(); i++) {
+            chordTypes.getCheckModel().checkIndices(i);
+        }
     }
 
     @FXML
@@ -775,6 +782,7 @@ public class ChordSpellingTutorController extends TutorController {
      * Resets the settings inputs
      */
     void resetInputs() {
+        selectAllChordTypes();
         numEnharmonics.getSelectionModel().selectFirst();
         allowFalseChords.setSelected(false);
     }
