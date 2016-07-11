@@ -26,7 +26,8 @@ public class Chord implements Command {
     private Boolean arpeggioFlag = false;
     private String result;
 
-
+    ArrayList<Integer> letters;
+    //int[] letters;
     /**
      * Creates a chord command.
      * @param chord A map that contains the chord's starting note and scale type - major or minor.
@@ -56,24 +57,40 @@ public class Chord implements Command {
         } else {
             this.result = null;
         }
+        this.startNote = this.chord.get(0).getNote();
+        this.letters = getLetters(this.startNote);
+
 
         if(chord.containsKey("inversion")){
+            System.out.println("here");
+            int invLevel = Integer.parseInt(chord.get("inversion"));
+            System.out.println(invLevel);
+            for (int l = 0; l < invLevel; l++) {
+                this.chord = ChordUtil.invertChord(this.chord);
+                int x = letters.remove(0);
+                letters.add(x);
 
+            }
+/*
             if(chord.get("inversion").equals("1")){
                 //first inversion
                 this.chord = ChordUtil.invertChord(this.chord);
+
             }
             else if(chord.get("inversion").equals("2")){
                 //Second inversion
                 this.chord = ChordUtil.invertChord(this.chord);
                 this.chord = ChordUtil.invertChord(this.chord);
+
             }
             else if(chord.get("inversion").equals("3") && this.chord.size() > 3 ){
                 //If 3rd inversion and chord has atleast 4 notes.
                 this.chord = ChordUtil.invertChord(this.chord);
                 this.chord = ChordUtil.invertChord(this.chord);
                 this.chord = ChordUtil.invertChord(this.chord);
+
             }
+            */
             for(Note n : this.chord){
                 System.out.println("chord: "  +n.getNote());
             }
@@ -94,6 +111,17 @@ public class Chord implements Command {
         }
 
 
+    }
+
+    private ArrayList<Integer> getLetters(String n) {
+        String noteLetters = "ABCDEFG";
+        char startLetter = Character.toUpperCase(n.charAt(0));
+        int startIndex = noteLetters.indexOf(startLetter);
+        ArrayList<Integer> l = new ArrayList<Integer>();
+        l.add(startIndex);
+        l.add(startIndex + 2);
+        l.add(startIndex + 4);
+        return l;
 
 
     }
@@ -102,13 +130,11 @@ public class Chord implements Command {
      * Updates by two letters at once, as we are skipping two places ahead in the scale.
      */
     private  void updateLetter() {
+
         int index = "ABCDEFG".indexOf(currentLetter);
-        if (index == 5) {
-            index = -2;
-        }
-        if (index == 6) {
-            index = -1;
-        }
+
+        if (index >= 5) index -= 7; //Wraps around
+
         currentLetter = "ABCDEFG".charAt(index + 2);
     }
 
@@ -124,8 +150,11 @@ public class Chord implements Command {
      */
     private void showChord(Environment env) {
         String chordString = "";
+        int c = 0;
         for (Note i : chord) {
-            String j = i.getEnharmonicWithLetter(currentLetter);
+            System.out.println(c % 7);
+            String j = i.getEnharmonicWithLetter("ABCDEFG".charAt(letters.get(c) % 7));
+            //String j = i.getEnharmonicWithLetter(currentLetter);
             if (!octaveSpecified) {
                 System.out.println("j: " + j);
                 j = OctaveUtil.removeOctaveSpecifier(j);
@@ -133,6 +162,7 @@ public class Chord implements Command {
             }
             chordString += j + ' ';
             updateLetter();
+            c++;
         }
 
         env.getTranscriptManager().setResult(chordString);
@@ -148,6 +178,8 @@ public class Chord implements Command {
         } else {
             env.getPlayer().playNotes(chord);
         }
+        String output = String.format("Playing chord %s %s type", startNote, type);
+        if ()
         env.getTranscriptManager().setResult("Playing chord " + startNote + ' ' + type);
     }
 
@@ -174,13 +206,12 @@ public class Chord implements Command {
     public static String inversionString(String input){
         System.out.println("called; " + input);
         input = input.toLowerCase();
-        if(input.equals("inversion 1") || input.equals("inv 1")){
+        if (input.equals("inversion 1") || input.equals("inv 1")) {
             return "1";
         }
         else if(input.equals("inv 2") || input.equals("inversion 2")){
             return "2";
-        }
-        else if(input.equals("3rd") || input.equals("3rd inversion")){
+        } else if (input.equals("inv 3") || input.equals("inversion 3")) {
             return "3";
         }
         else return "";

@@ -42,7 +42,9 @@ public class ChordUtil {
     public static ArrayList<Note> invertChord(ArrayList<Note> chord){
 
         Note first = chord.remove(0); //Pop first element
-        chord.add(first); //Append to the end.
+        //chord.add(first); //Append to the end.
+
+        chord.add(Note.lookup(String.valueOf(first.getMidi() + 12)));
 
         return chord;
     }
