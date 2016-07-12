@@ -13,3 +13,8 @@ Furthermore, the command "set rhythm 1/3,1/3,1/3" failed. I discovered the fract
 separated by space, not by comma.
 
 
+##Test 2: The previous DSL command examples that failed yield valid results.
+PASS
+How the test passed:
+1) Typed in "play interval unison D" and the result was as expected
+2) Typed in "set rhythm 1/3 1/3 1/3" and the result was as expected
