@@ -63,7 +63,7 @@ public class CommandType {
     public static Map<String, CommandType> settingsCommands = new TreeMap<String, CommandType>() {
         {
             put("set tempo", new CommandType("set tempo", "20-300", "", "set tempo 150"));
-            put("set rhythm", new CommandType("set rhythm", "straight|light|medium|heavy|fraction,fraction,fraction", "", "set rhythm light"));
+            put("set rhythm", new CommandType("set rhythm", "straight|light|medium|heavy|fraction fraction fraction", "", "set rhythm 1/3 1/3 1/3"));
             put("force set tempo", new CommandType("force set tempo", "1 or higher", "", "force set tempo 500"));
         }
     };
