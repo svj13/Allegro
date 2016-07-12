@@ -113,6 +113,8 @@ public class KeySignaturesTutorController extends TutorController {
         }
 
 
+
+
         return generateQuestionPane(new Pair<String, Pair>(scaletype, new Pair<Integer, Boolean>(questionType, answerType)));
     }
 
@@ -122,8 +124,90 @@ public class KeySignaturesTutorController extends TutorController {
      * @param pair - a pair containing the scale type and another pair that contains the question type and answer type
      * @return a HBox that contains a single question
      */
-    //@Override
-    public HBox generateQuestionPane(final Pair pair) {
+    @Override
+    public HBox generateQuestionPane(Pair pair) {
+
+        if ((Integer) ((Pair) pair.getValue()).getKey() == 0) {
+            return generateQuestionType1Pane(pair);
+        } else{
+            return generateQuestionType2Pane(pair);
+        }
+    }
+
+
+
+
+
+    public HBox generateQuestionType1Pane(final Pair pair){
+        Boolean isMajor = false;
+
+        final HBox questionRow = new HBox();
+        formatQuestionRow(questionRow);
+        final ComboBox<String> options;
+        Random rand = new Random();
+
+        Button skip = new Button("Skip");
+        styleSkipButton(skip);
+        Label questionText = new Label();
+        List<String> keysAsArray;
+        final List<String> question;
+        ArrayList<KeySignature> possibleQuestions = new ArrayList<KeySignature>(KeySignature.getMajorKeySignatures().values());
+        possibleQuestions.addAll(KeySignature.getMinorKeySignatures().values());
+
+        question = possibleQuestions.get(rand.nextInt(possibleQuestions.size())).getNotes();
+        questionText.setText(question.toString());
+        System.out.println(question);
+
+//
+//        questionText.setText(question.concat(questionText.getText()));
+        options = new ComboBox<String>();
+        options.setPrefHeight(30);
+
+
+//
+//        options.setOnAction(new EventHandler<ActionEvent>() {
+//            // This handler colors the GUI depending on the user's input
+//            public void handle(ActionEvent event) {
+//                disableButtons(questionRow, 1, 3);
+//                boolean isCorrect = false;
+//
+//                if(questionCorrectCheck(((Boolean) ((Pair) pair.getValue()).getValue()),fIsMajor,question,options.getValue())){
+//                    isCorrect = true;
+//                    formatCorrectQuestion(questionRow);
+//                    manager.add(pair, 1);
+//
+//                }else{
+//                    //correctAnswer.setVisible(true);
+//                    formatIncorrectQuestion(questionRow);
+//                    manager.add(pair, 0);
+//                }
+//
+//                manager.answered += 1;
+//                // Sets up the question to be saved to the record
+//                String[] recordQuestion = new String[] {
+//                        String.format("Key signature of %s %s", question, pair.getKey()),
+//                        options.getValue(),
+//                        String.valueOf(isCorrect)
+//                };
+//                projectHandler.saveTutorRecords("keySignature", record.addQuestionAnswer(recordQuestion));
+//                env.getRootController().setTabTitle("keySignatureTutor", true);
+//                // Shows the correct answer
+//                if (manager.answered == manager.questions) {
+//                    finished();
+//                }
+//            }
+//        });
+//
+        questionRow.getChildren().add(0, questionText);
+        questionRow.getChildren().add(1, options);
+        questionRow.getChildren().add(2, skip);
+//
+//        questionRow.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
+        return questionRow;
+
+    }
+
+    public HBox generateQuestionType2Pane(final Pair pair){
         Boolean isMajor = false;
 
         final HBox questionRow = new HBox();
@@ -239,6 +323,8 @@ public class KeySignaturesTutorController extends TutorController {
         questionRow.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
         return questionRow;
     }
+
+
 
 
     /**
