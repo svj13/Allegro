@@ -1,8 +1,8 @@
 package seng302.utility.musicNotation;
 
-import seng302.data.Note;
-
 import java.util.ArrayList;
+
+import seng302.data.Note;
 
 /**
  * Created by team-5 on 4/03/16.
@@ -63,6 +63,12 @@ public class OctaveUtil {
         return Character.toUpperCase(note.charAt(0)) + note.substring(1);
     }
 
+    /**
+     * Capitalises note string and adds default octave if there is none.
+     *
+     * @param note The note to fix/check
+     * @return the correct note.
+     */
     public static String validateNoteString(String note) {
         note = capitalise(note);
         if (Checker.isValidNoteNoOctave(note)) {
@@ -75,7 +81,6 @@ public class OctaveUtil {
     public static ArrayList<Note> setToMiddleOctave(ArrayList<Note> notes) {
 
         for (int i = 0; i < notes.size(); i++) {
-            System.out.println(notes.get(i).getNote());
             notes.set(i, Note.lookup(addDefaultOctave(removeOctaveSpecifier(notes.get(i).getNote()))));
         }
         return notes;

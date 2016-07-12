@@ -101,6 +101,13 @@ public abstract class TutorController {
             selectedQuestions = newValue.intValue();
             questions.setText(Integer.toString(selectedQuestions));
         });
+
+        // The question number was not being updated when just a click (rather than a drag)
+        // occurred. This handles that situation.
+        numQuestions.setOnMouseReleased(event -> {
+            Double val = numQuestions.getValue();
+            questions.setText(Integer.toString(val.intValue()));
+        });
     }
 
     /**

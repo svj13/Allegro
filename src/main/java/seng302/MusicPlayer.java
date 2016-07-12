@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
@@ -27,9 +28,7 @@ public class MusicPlayer {
      * Default tempo is 120 BPM.
      */
     private int tempo = 120;
-
-    Track keyboardTrack;
-    Sequence keyboardSequence;
+    Synthesizer synthesizer;
 
     /**
      * Music Player constructor opens the sequencers and synthesizer. It also sets the receiver.
@@ -40,11 +39,10 @@ public class MusicPlayer {
         try {
             this.seq = MidiSystem.getSequencer();
             seq.open();
-            Synthesizer synthesizer = MidiSystem.getSynthesizer();
+            synthesizer = MidiSystem.getSynthesizer();
             synthesizer.open();
             seq.getTransmitter().setReceiver(synthesizer.getReceiver());
         } catch (MidiUnavailableException e) {
-
             System.err.println("Can't play Midi sound at the moment.");
         }
     }
@@ -73,7 +71,6 @@ public class MusicPlayer {
             rh.resetIndex(); //Reset rhythm to first crotchet.
             for (Note note : notes) {
                 int timing = rh.getNextTickTiming();
-
                 addNote(track, currenttick, timing, note.getMidi(), 64); //velocity 64
                 currenttick += (timing + pause);
             }
@@ -93,39 +90,15 @@ public class MusicPlayer {
         playNotes(notes, 0);
     }
 
-    public void initKeyboardTrack() {
-        try {
-            int instrument = 1;
-            // 16 ticks per crotchet note.
-            keyboardSequence = new Sequence(Sequence.PPQ, 16);
-            keyboardTrack = keyboardSequence.createTrack();
-
-            // Set the instrument on channel 0
-            ShortMessage sm = new ShortMessage();
-            sm.setMessage(ShortMessage.PROGRAM_CHANGE, 0, instrument, 0);
-            keyboardTrack.add(new MidiEvent(sm, 0));
-        } catch (InvalidMidiDataException e) {
-            System.err.println("Can't initialise keyboard track.");
-        }
-
-    }
 
     public void noteOn(Note note) {
-        try {
-            ShortMessage on = new ShortMessage();
-            on.setMessage(ShortMessage.NOTE_ON, 0, note.getMidi(), 64);
-        } catch (InvalidMidiDataException e) {
-            System.err.println("Note is not valid.");
-        }
+        MidiChannel channel = synthesizer.getChannels()[0];
+        channel.noteOn(note.getMidi(), 64);
     }
 
     public void noteOff(Note note) {
-        try {
-            ShortMessage off = new ShortMessage();
-            off.setMessage(ShortMessage.NOTE_OFF, 0, note.getMidi(), 64);
-        } catch (InvalidMidiDataException e) {
-            System.err.println("Note is not valid.");
-        }
+        MidiChannel channel = synthesizer.getChannels()[0];
+        channel.noteOff(note.getMidi(), 64);
     }
 
     /**
@@ -162,7 +135,7 @@ public class MusicPlayer {
      * @param note The note to be played.
      */
     public void playNote(Note note) {
-        ArrayList<Note> notes = new ArrayList<Note>();
+        ArrayList<Note> notes = new ArrayList<>();
         notes.add(note);
         playNotes(notes);
     }
@@ -174,7 +147,7 @@ public class MusicPlayer {
      * @param duration The duration in milliseconds to play the note for.
      */
     public void playNote(Note note, int duration) {
-        ArrayList<Note> notes = new ArrayList<Note>();
+        ArrayList<Note> notes = new ArrayList<>();
         notes.add(note);
         int oldTempo = getTempo();
         setTempo(1000 / duration * 60);
@@ -239,7 +212,6 @@ public class MusicPlayer {
     }
 
     public void stop() {
-
         seq.stop();
     }
 
