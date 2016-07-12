@@ -156,7 +156,7 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_UNDO                                {: RESULT = new UndoRedo(0); :}
           | COMMAND_REDO                                {: RESULT = new UndoRedo(1); :}
           | COMMAND_TWINKLE                             {: RESULT = new Twinkle(); :}
-          | COMMAND_CHORD scale:s                       {: RESULT = new Chord(s, "chord"); :}
+          /*| COMMAND_CHORD scale:s                       {: RESULT = new Chord(s, "chord"); :}*/
           | COMMAND_CHORD chordType:c                   {: RESULT = new Chord(c, "chord"); :}
           | COMMAND_SHOW_KEYSIGNATURE scale:s           {: RESULT = new KeySignatureCommand(s,"notes"); :}
           | COMMAND_SHOW_KEYSIGNATURE_NUM scale:s       {: RESULT = new KeySignatureCommand(s,"number"); :}
@@ -212,13 +212,13 @@ playScale ::= scale:s {:RESULT = s;:}
             |   scale:s NUMBER:a DIRECTION:b {: s.put("octaves", String.valueOf(a)); s.put("direction", b); RESULT = s;:}
             |   scale:s DIRECTION:b NUMBER:a {: s.put("octaves", String.valueOf(a)); s.put("direction", b); RESULT = s;:}
 ;
-
+/*
 playChord ::= scale:s {:RESULT = s;:}
             | scale:s PLAY_STYLE:a {: s.put("playStyle", a); RESULT = s;:}
             
             |chordType:c{:RESULT = c;:}
                          | chordType:c PLAY_STYLE:a {: c.put("playStyle", a); RESULT = c;:}
-;
+;*/
 
 interval ::= INTERVAL:i {: RESULT = new HashMap<String,String>(); RESULT.put("interval", i);:}
            | positiveNum:a {: RESULT = new HashMap<String,String>(); RESULT.put("semitones", a);:}
