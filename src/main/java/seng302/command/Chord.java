@@ -32,6 +32,9 @@ public class Chord implements Command {
     /**
      * Creates a chord command.
      *
+     * @param chord      A map that contains the chord's starting note and scale type - major or
+     *                   minor.
+     *
      * Chord command is used for either outputting chord notes, or playing a specified chord.
      * Can specify chord scale types (major/minor), inversions and play types (arpeggio)
      *
@@ -40,7 +43,17 @@ public class Chord implements Command {
      */
     public Chord(HashMap<String, String> chord, String outputType) {
         this.startNote = chord.get("note");
-        this.type = chord.get("scale_type"); //Scaletype Major or Minor
+
+
+        //gets whether the chord to be played is a scale type (major/minor) or a
+        // chord type (diminished, major 7th etc)
+        if (chord.get("scale_type") != null) {
+            this.type = chord.get("scale_type");
+
+        } else {
+            this.type = chord.get("chord_type");
+        }
+
         this.outputType = outputType;
         currentLetter = Character.toUpperCase(startNote.charAt(0));
 
@@ -101,10 +114,9 @@ public class Chord implements Command {
             if (chord.get("playStyle").equals("arpeggio")) {
                 this.arpeggioFlag = true;
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             this.arpeggioFlag = false;
         }
-
 
     }
 
@@ -148,6 +160,7 @@ public class Chord implements Command {
 
     /**
      * Prints the chord to the given environment
+     *
      * @param env The environment to print to
      */
     private void showChord(Environment env) {
@@ -172,6 +185,7 @@ public class Chord implements Command {
 
     /**
      * Plays the chord and prints a message
+     *
      * @param env The environment to play in
      */
     private void playChord(Environment env) {

@@ -19,7 +19,9 @@ public class Semitone implements Command {
 
     public float getLength(Environment env) {
         return 0;
-    };
+    }
+
+    ;
 
     /**
      * If the note has an octave specifier, then return the Note a semitone higher or lower.

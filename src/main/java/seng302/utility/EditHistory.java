@@ -36,8 +36,10 @@ public class EditHistory {
 
     /**
      * Function that allows the addition of commands into the edit history.
-     * @param type Type of command that is being inserted into the history.
-     * @param effect Contains information that can be used to replicate effect - either undo or redo.
+     *
+     * @param type   Type of command that is being inserted into the history.
+     * @param effect Contains information that can be used to replicate effect - either undo or
+     *               redo.
      */
     public void addToHistory(String type, ArrayList<String> effect) {
         if (location > 0 && ath) {
@@ -84,7 +86,8 @@ public class EditHistory {
                     deleteMusicalTerm(commandStack.get(location).get(1));
                     break;
 
-                case 2: changeRhythm(commandStack.get(location).get(1));
+                case 2:
+                    changeRhythm(commandStack.get(location).get(1));
                     break;
                 case 3:
                     undoTranscriptClear();
@@ -118,7 +121,8 @@ public class EditHistory {
                     addMusicalTerm(commandStack.get(location - 1));
                     break;
 
-                case 2: changeRhythm(commandStack.get(location -1).get(2));
+                case 2:
+                    changeRhythm(commandStack.get(location - 1).get(2));
                     break;
 
                 case 3:
@@ -137,8 +141,9 @@ public class EditHistory {
     }
 
     /**
-     * Helper function called internally by both undoCommand and redoCommand to change the tempo
-     * to the required tempo - either previous or next.
+     * Helper function called internally by both undoCommand and redoCommand to change the tempo to
+     * the required tempo - either previous or next.
+     *
      * @param newTempo Tempo to change to.
      */
     private void changeTempo(String newTempo) {
@@ -146,23 +151,21 @@ public class EditHistory {
     }
 
     /**
-     * Helper function called internally by both undoCommand and redoCommand to change the rhythm
-     * to the required rhythm - either previous or next.
+     * Helper function called internally by both undoCommand and redoCommand to change the rhythm to
+     * the required rhythm - either previous or next.
+     *
      * @param newRhythm Rhythm timings to change to.
      */
     private void changeRhythm(String newRhythm) {
-        System.out.println("New rhythm");
         new Rhythm(newRhythm, false).execute(env);
-
-
     }
 
-    private void redoTranscriptClear(){
+    private void redoTranscriptClear() {
         env.getRootController().clearTranscript();
-        
+
     }
 
-    private void undoTranscriptClear(){
+    private void undoTranscriptClear() {
 
         env.getTranscriptManager().setTranscriptContent(env.getTranscriptManager().getBackUpTranscript());
         env.getTranscriptManager().setBackupTranscript(new ArrayList<OutputTuple>());
@@ -171,7 +174,6 @@ public class EditHistory {
 
     /**
      * Helper function called by undoCommand to delete a musical term that has been added.
-     * @param termToDelete
      */
     private void deleteMusicalTerm(String termToDelete) {
         env.getMttDataManager().removeTerm(termToDelete);
@@ -182,7 +184,6 @@ public class EditHistory {
     /**
      * Helper function called by the redoCommand function to create a musical term that has been
      * deleted by the undo command function.
-     * @param termToAdd
      */
     private void addMusicalTerm(ArrayList<String> termToAdd) {
         ArrayList<String> termArgs = new ArrayList<String>();

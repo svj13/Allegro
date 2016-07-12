@@ -8,11 +8,9 @@ package seng302.command;
  */
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import seng302.Environment;
 import seng302.data.Term;
-import seng302.utility.MusicalTermsTutorBackEnd;
 
 public class MusicalTerm implements Command {
     private String result;
@@ -36,18 +34,14 @@ public class MusicalTerm implements Command {
 
 
     /**
-     *
-     * Checks to see if a musical term stream has been inputted and splits this input into the
-     * 4 corresponding categories: name; origin; category; definition.
+     * Checks to see if a musical term stream has been inputted and splits this input into the 4
+     * corresponding categories: name; origin; category; definition.
      *
      * If the musical term name is not null, it will look up to see if it exists in the dictionary
-     * and reutrn the definition, else it will notify the user that the musical term is not in
-     * the dictionary.
+     * and reutrn the definition, else it will notify the user that the musical term is not in the
+     * dictionary.
      *
      * If the musical term name is null, it will add it to the dictionary and format it accordingly
-     *
-     *
-     * @param musicalTermArray
      */
     public MusicalTerm(ArrayList<String> musicalTermArray) {
         rawInput = musicalTermArray;
@@ -58,8 +52,10 @@ public class MusicalTerm implements Command {
 
     /**
      * Displays information about a given musical term.
+     *
      * @param termToLookUp The musical term in question
-     * @param infoToGet Whether we are fetching the musical term's category, origin, or definition.
+     * @param infoToGet    Whether we are fetching the musical term's category, origin, or
+     *                     definition.
      */
     public MusicalTerm(String termToLookUp, String infoToGet) {
         lookupTerm = true;
@@ -148,12 +144,10 @@ public class MusicalTerm implements Command {
         return 0;
     }
 
-    ;
 
-
-    /**will add the musical term to the dictionary, or print the relevant definition of the musical
+    /**
+     * will add the musical term to the dictionary, or print the relevant definition of the musical
      * term exists in the transcript manager
-     * @param env
      */
     public void execute(Environment env) {
         this.terms = env.getMttDataManager().getTerms();

@@ -3,7 +3,16 @@ package seng302;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.sound.midi.*;
+import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiChannel;
+import javax.sound.midi.MidiEvent;
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.MidiUnavailableException;
+import javax.sound.midi.Sequence;
+import javax.sound.midi.Sequencer;
+import javax.sound.midi.ShortMessage;
+import javax.sound.midi.Synthesizer;
+import javax.sound.midi.Track;
 
 import seng302.data.Note;
 import seng302.utility.musicNotation.RhythmHandler;
@@ -19,6 +28,7 @@ public class MusicPlayer {
      * Default tempo is 120 BPM.
      */
     private int tempo = 120;
+    Synthesizer synthesizer;
 
     /**
      * Music Player constructor opens the sequencers and synthesizer. It also sets the receiver.
@@ -29,11 +39,10 @@ public class MusicPlayer {
         try {
             this.seq = MidiSystem.getSequencer();
             seq.open();
-            Synthesizer synthesizer = MidiSystem.getSynthesizer();
+            synthesizer = MidiSystem.getSynthesizer();
             synthesizer.open();
             seq.getTransmitter().setReceiver(synthesizer.getReceiver());
         } catch (MidiUnavailableException e) {
-
             System.err.println("Can't play Midi sound at the moment.");
         }
     }
@@ -62,11 +71,9 @@ public class MusicPlayer {
             rh.resetIndex(); //Reset rhythm to first crotchet.
             for (Note note : notes) {
                 int timing = rh.getNextTickTiming();
-                System.out.println("timing: " + timing + " current tick: " + currenttick);
 
                 addNote(track, currenttick, timing, note.getMidi(), 64); //velocity 64
                 currenttick += (timing + pause);
-                //System.out.println(currenttick);
             }
             playSequence(sequence);
 
@@ -82,6 +89,17 @@ public class MusicPlayer {
      */
     public void playNotes(ArrayList<Note> notes) {
         playNotes(notes, 0);
+    }
+
+
+    public void noteOn(Note note) {
+        MidiChannel channel = synthesizer.getChannels()[0];
+        channel.noteOn(note.getMidi(), 64);
+    }
+
+    public void noteOff(Note note) {
+        MidiChannel channel = synthesizer.getChannels()[0];
+        channel.noteOff(note.getMidi(), 64);
     }
 
     /**
@@ -118,7 +136,7 @@ public class MusicPlayer {
      * @param note The note to be played.
      */
     public void playNote(Note note) {
-        ArrayList<Note> notes = new ArrayList<Note>();
+        ArrayList<Note> notes = new ArrayList<>();
         notes.add(note);
         playNotes(notes);
     }
@@ -130,13 +148,12 @@ public class MusicPlayer {
      * @param duration The duration in milliseconds to play the note for.
      */
     public void playNote(Note note, int duration) {
-        ArrayList<Note> notes = new ArrayList<Note>();
+        ArrayList<Note> notes = new ArrayList<>();
         notes.add(note);
         int oldTempo = getTempo();
         setTempo(1000 / duration * 60);
         playNotes(notes);
         setTempo(oldTempo);
-        System.out.println(duration);
 
     }
 
@@ -200,7 +217,7 @@ public class MusicPlayer {
         seq.stop();
     }
 
-    public RhythmHandler getRhythmHandler(){
+    public RhythmHandler getRhythmHandler() {
         return rh;
     }
 }

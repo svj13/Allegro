@@ -17,19 +17,21 @@ public class Term {
     }
 
 
-    public String getMusicalTermName(){
+    public String getMusicalTermName() {
         return this.musicalTermName;
     }
-    public String getMusicalTermCategory(){
+
+    public String getMusicalTermCategory() {
         return this.musicalTermCategory;
     }
-    public String getMusicalTermOrigin(){
+
+    public String getMusicalTermOrigin() {
         return this.musicalTermOrigin;
     }
-    public String getMusicalTermDefinition(){
+
+    public String getMusicalTermDefinition() {
         return this.musicalTermDefinition;
     }
-
 
 
 }

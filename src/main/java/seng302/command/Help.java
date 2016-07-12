@@ -5,7 +5,7 @@ import seng302.Environment;
 
 public class Help implements Command {
 
-    private String keyword;
+    String keyword;
 
     public Help() {
         keyword = "";
@@ -17,7 +17,7 @@ public class Help implements Command {
 
     public float getLength(Environment env) {
         return 0;
-    }
+    };
 
     public void execute(Environment env) {
         String result = "";
@@ -66,13 +66,13 @@ public class Help implements Command {
 
         } else if (keyword.equals("set rhythm")) {
             result = "Changes the rhythm note timings, syntax: set rhythm 'setting'. \n" +
-                    "Default (no swing, half crotchet duration): 'straight'\n"+
+                    "Default (no swing, half crotchet duration): 'straight'\n" +
                     "Preset swing settings:\n" +
-                        "\t'straight' - regular 1/2 crotchet timing.\n\t'light' - swing 5/8 3/8 crotchet timings.\n" +
-                        "\t'medium' - swing 2/3 1/3 crotchet timings.\n\t'heavy' - swing 3/4 1/4 crotchet timings.\n"+
+                    "\t'straight' - regular 1/2 crotchet timing.\n\t'light' - swing 5/8 3/8 crotchet timings.\n" +
+                    "\t'medium' - swing 2/3 1/3 crotchet timings.\n\t'heavy' - swing 3/4 1/4 crotchet timings.\n" +
                     "Custom setting:\n\tCrotchet duration fractions e.g. 'set rhythm 1/4 1/2 1/4' where every fraction" +
                     "is seperated by a space."
-                    ;
+            ;
 
         } else if (keyword.equals("rhythm")) {
             result = "Returns the current rhythm beat divisions. The default rhythm is set to 1/2," +
@@ -107,7 +107,35 @@ public class Help implements Command {
                     " play the given chord";
         } else if (keyword.equals("chord")) {
             result = "When followed by a valid chord and a valid chord type (i.e. major, minor), will" +
-                    " return the corresponding notes that make up the given chord";
+                    " return the corresponding notes that make up the given chord. Type 'help " +
+                    "chord types' for more information on valid chord types\n\n" + "Valid chords:\n" +
+                    "major: when put after a valid chord, will show/play the chord in major. " +
+                    "A major chord that has a root note, a major third above this root, and a perfect " +
+                    "fifth above this root note\n\n" +
+                    "minor: when put after a valid chord, will show/play the chord in. A minor" +
+                    " chord is a chord having a root, a minor third, and a perfect fifth. \n\n" +
+                    "minor 7th/minor seventh: when put after a valid chord, will show/play the chord " +
+                    "in minor seventh. A minor seventh chord is any nondominant seventh chord where " +
+                    "the \"third\" note is a minor third above the root. \n\n" +
+                    "major 7th/major seventh: when put after a valid chord, will show/play the " +
+                    "chord in major 7th. A major seventh chord is a seventh chord where the" +
+                    " \"third\" note is a major third above the root, and the \"seventh\" note " +
+                    "is a major seventh above the root \n\n" +
+                    "7th/seventh: when put after a valid chord, will show/play the chord in " +
+                    "seventh. A seventh chord is a chord consisting of a triad plus a note " +
+                    "forming an interval of a seventh above the chord's root.\n\n" +
+                    "diminished: when put after a valid chord, will show/play the chord in " +
+                    "diminished. It is a triad chord " +
+                    "consisting of two minor thirds above the root\n\n" +
+                    "diminished seventh/diminished 7th: when put after a valid chord, will show/" +
+                    "play the chord in diminished 7th. A diminished seventh chord is a four note " +
+                    "chord that comprises a diminished triad plus the interval of a diminished " +
+                    "seventh above the root\n\n" +
+                    "half diminished: when put after a valid chord, will show/play the chord in " +
+                    "half diminished. the half-diminished seventh chord also known as a " +
+                    "half-diminished chord or a minor seventh flat five is formed " +
+                    "by a root note, a minor third, a diminished fifth, and a minor " +
+                    "seventh return the corresponding notes that make up the given chord";
         } else if (keyword.equals("interval enharmonic")) {
             result = "When followed by a valid interval name, it returns any enharmonically equivalent intervals";
         } else if (keyword.equals("scale signature") || keyword.equals("scale sig")) {
@@ -119,14 +147,12 @@ public class Help implements Command {
             result = "When followed by either a number of sharps or flats (i.e. 2#, 7b) or " +
                     "a specific list of notes (i.e. F#, C#), will return the scales whose " +
                     "key signatures contain that information";
-        }
-        else if(keyword.equals("find chord") || keyword.equals("find chords all")){
+        } else if (keyword.equals("find chord") || keyword.equals("find chords all")) {
             result = "Finds a chord which matches the pattern of 3 or 4 provided notes.\n" +
                     "Can use 'all' extender to match inversion enharmonic chords.\n" +
                     " \texample: 'find chord F A C' returns F MAJOR.\n" +
                     "\t and 'find chord all C F A' also returns F MAJOR";
-        }
-        else if (keyword.equals("")) {
+        } else if (keyword.equals("")) {
             result = "" +
                     "\nadd musical term:\nWhen followed by a musical term in the format of 'name; origin; " +
                     "category; definition', will add the musical term to the Musical Term " +
@@ -180,7 +206,7 @@ public class Help implements Command {
                     "set tempo:\nWhen followed by a valid tempo (20-300BPM) will change the tempo to that value. \n\n" +
                     "tempo:\nReturns the current tempo. When the program is launched, it will have" +
                     " a default value of 120BPM. \n\n" +
-                    "rhythm: Returns the current beat timing division. Default timing of 1/2 (half crotchet).\n\n"  +
+                    "rhythm: Returns the current beat timing division. Default timing of 1/2 (half crotchet).\n\n" +
                     "set rhythm:\nSets the rhythm timing to the specified beat divisions. " +
                     "See 'help set rhythm' for more info.\n\n" +
                     "version:\nReturns the current version number of the application. \n\n" +
