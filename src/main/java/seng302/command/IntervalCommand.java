@@ -291,13 +291,13 @@ public class IntervalCommand implements Command {
                 if (intervalName != null) {
                     playingInterval = Interval.lookupByName(intervalName);
                 } else {
-
+                    //given the number of semitones
                     ArrayList<Interval> possibleIntervals = Interval.lookupBySemitones(Integer.valueOf(semitones));
                     possibleIntervalnames = "";
                     for (Interval interval : possibleIntervals) {
                         possibleIntervalnames += interval.getName() + "/";
                     }
-                    possibleIntervalnames = possibleIntervalnames.substring(0, possibleIntervalnames.length() - 1);
+                    intervalName = possibleIntervalnames.substring(0, possibleIntervalnames.length() - 1);
 
                     playingInterval = possibleIntervals.get(0);
                 }
@@ -312,7 +312,7 @@ public class IntervalCommand implements Command {
                     // Waits for three crotchets
                     env.getPlayer().playNotes(notes, (48));
                     env.getTranscriptManager().setResult("Playing interval "
-                            + possibleIntervalnames + " above " + note.getNote());
+                            + intervalName + " above " + note.getNote());
                 } catch (Exception e) {
                     env.error("The resulting note is higher than the highest note supported by this application.");
                 }
