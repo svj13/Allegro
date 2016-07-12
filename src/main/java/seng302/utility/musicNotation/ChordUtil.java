@@ -43,8 +43,10 @@ public class ChordUtil {
 
         Note first = chord.remove(0); //Pop first element
         //chord.add(first); //Append to the end.
+        if (first.getMidi() + 12 <= 127) {
+            chord.add(Note.lookup(String.valueOf(first.getMidi() + 12)));
+        } else chord.add(Note.lookup(String.valueOf(first.getMidi() + 12 - 120)));
 
-        chord.add(Note.lookup(String.valueOf(first.getMidi() + 12)));
 
         return chord;
     }
@@ -88,9 +90,6 @@ public class ChordUtil {
      * @param type String type of chord (either major or minor)
      * @return ArrayList of Notes corresponding to the chord.
      */
-
-
-
     public static ArrayList<Integer> getChordMidi(int midi, String type) {
         ArrayList<Integer> chordNotes = new ArrayList<Integer>();
         Note currentNote = Note.lookup(String.valueOf(midi));

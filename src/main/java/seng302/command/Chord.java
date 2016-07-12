@@ -20,7 +20,7 @@ public class Chord implements Command {
     private char currentLetter; //the letter the current note should be
     String type; //where it is major or minor
     String outputType; //whether it wants to be played or printed
-    String startNote; //the root note
+    String startNote, firstNote; //the root note & firstNote ( relevant only to inversions)
     Note note; //the note the current note should be
     private Boolean octaveSpecified;
     private Boolean arpeggioFlag = false;
@@ -28,15 +28,19 @@ public class Chord implements Command {
     int invLevel;  //Inversion level. (0 if no inversion)
 
     ArrayList<Integer> letters;
-    //int[] letters;
+
     /**
      * Creates a chord command.
+     *
+     * Chord command is used for either outputting chord notes, or playing a specified chord.
+     * Can specify chord scale types (major/minor), inversions and play types (arpeggio)
+     *
      * @param chord A map that contains the chord's starting note and scale type - major or minor.
      * @param outputType Whether the chord is to be displayed or played.
      */
     public Chord(HashMap<String, String> chord, String outputType) {
         this.startNote = chord.get("note");
-        this.type = chord.get("scale_type");
+        this.type = chord.get("scale_type"); //Scaletype Major or Minor
         this.outputType = outputType;
         currentLetter = Character.toUpperCase(startNote.charAt(0));
 
@@ -49,26 +53,30 @@ public class Chord implements Command {
             this.note = Note.lookup(OctaveUtil.addDefaultOctave(startNote));
         }
 
-        //getting the chord array
+        //getting the chord array (F4, A5, C5)
         this.chord = ChordUtil.getChord(note, type);
 
         //checking to see if the array is set to null (i.e notes are invalid)
         if (this.chord == null) {
             this.result = "Invalid chord: " + startNote + ' ' + type + ". Exceeds octave range." ;
+            return; //Return without resuming processing the chords.
         } else {
             this.result = null;
         }
         this.startNote = this.chord.get(0).getNote();
-        this.letters = getLetters(this.startNote);
+        this.firstNote = startNote;
+        this.letters = getNoteLetterIndices(this.startNote);
+
 
 
         if(chord.containsKey("inversion")){
 
             invLevel = Integer.parseInt(chord.get("inversion"));
-            System.out.println(invLevel);
+
             for (int l = 0; l < invLevel; l++) {
                 if(this.chord.get(0).getMidi() >= 120) { //Inversion exceeds range.
                     this.result = "Invalid chord: " + startNote + ' ' + type + ". Exceeds octave range." ;
+                    return;
                 }
                 this.chord = ChordUtil.invertChord(this.chord);
                 int x = letters.remove(0);
@@ -79,8 +87,10 @@ public class Chord implements Command {
             for(Note n : this.chord){
                 System.out.println("chord: "  +n.getNote());
             }
+
         }
-        this.startNote = this.chord.get(0).getNote();
+
+        this.startNote = this.chord.get(0).getNote(); //StartNote will only change if the chord is inverted.
         currentLetter = Character.toUpperCase(startNote.charAt(0));
 
 
@@ -98,7 +108,14 @@ public class Chord implements Command {
 
     }
 
-    private ArrayList<Integer> getLetters(String n) {
+    /**
+     * Returns an arrayList of integers which correspond to the letter positions from 'ABCDEFG'
+     * Used for references for which enharmonic a note should use in a chord.
+     *
+     * @param n
+     * @return ArrayList of integers corresponding to indices of 'ABCDEFG' string
+     */
+    private ArrayList<Integer> getNoteLetterIndices(String n) {
         String noteLetters = "ABCDEFG";
         char startLetter = Character.toUpperCase(n.charAt(0));
         int startIndex = noteLetters.indexOf(startLetter);
@@ -163,9 +180,11 @@ public class Chord implements Command {
         } else {
             env.getPlayer().playNotes(chord);
         }
-        String output = String.format("Playing chord %s %s type", startNote, type);
-        if (invLevel > 0) output+= " Inversion "+ invLevel;
-        env.getTranscriptManager().setResult("Playing chord " + startNote + ' ' + type);
+        String output = String.format("Playing chord %s %s", firstNote, type);
+        if (invLevel > 0) output += " inversion " + invLevel;
+        this.result = output;
+
+        env.getTranscriptManager().setResult(this.result);
     }
 
 
@@ -188,6 +207,11 @@ public class Chord implements Command {
 
     }
 
+    /**
+     * Used by the DSL processor to handle accepted inversions (shortened as well)
+     * @param input command inversion extension
+     * @return Inversion number (As a string)
+     */
     public static String inversionString(String input){
         System.out.println("called; " + input);
         input = input.toLowerCase();
