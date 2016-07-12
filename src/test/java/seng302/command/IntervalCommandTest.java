@@ -307,4 +307,18 @@ public class IntervalCommandTest {
         new IntervalCommand(interval, "play").execute(env);
         verify(transcriptManager).setResult("[ERROR] Unknown interval: -1");
     }
+
+    @Test
+    public void testSetsCorrectPlayResult() {
+        interval.put("interval", "perfect fourth");
+        interval.put("note", "D");
+        new IntervalCommand(interval, "play").execute(env);
+        verify(transcriptManager).setResult("Playing interval perfect fourth above D4");
+
+        interval.clear();
+        interval.put("semitones", "9");
+        interval.put("note", "D");
+        new IntervalCommand(interval, "play").execute(env);
+        verify(transcriptManager).setResult("Playing interval major sixth/diminished seventh above D4");
+    }
 }
