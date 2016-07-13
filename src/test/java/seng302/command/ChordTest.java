@@ -24,9 +24,9 @@ public class ChordTest {
     private Environment env;
     @Mock
     private TranscriptManager transcriptManager;
+
     @Mock
     private MusicPlayer player;
-
 
     @Before
     public void setUp() throws Exception {
@@ -102,10 +102,8 @@ public class ChordTest {
 
         new Chord(chordMap1, "chord").execute(env);
         verify(transcriptManager).setResult("C4 E4 G4 ");
-
         new Chord(chordMap2, "chord").execute(env);
         verify(transcriptManager).setResult("G Bb D ");
-
         new Chord(chordMap3, "chord").execute(env);
         verify(transcriptManager).setResult("C E G ");
 
@@ -140,19 +138,76 @@ public class ChordTest {
         HashMap<String, String> chordMap1 = new HashMap<String, String>();
         chordMap1.put("note", "C");
         chordMap1.put("scale_type", "major");
+        //chordMap1.put("playStyle", "arpeggio");
 
+        new Chord(chordMap1, "play").execute(env);
+        verify(transcriptManager).setResult("Playing chord C4 major");
+        verify(player).playSimultaneousNotes(chordList1);
 
         HashMap<String, String> chordMap2 = new HashMap<String, String>();
         chordMap2.put("note", "G");
         chordMap2.put("scale_type", "major");
 
 
-        new Chord(chordMap1, "play").execute(env);
-        verify(transcriptManager).setResult("Playing chord C major");
-        verify(player).playSimultaneousNotes(chordList1);
+
 
         new Chord(chordMap2, "play").execute(env);
-        verify(transcriptManager).setResult("Playing chord G major");
+        verify(transcriptManager).setResult("Playing chord G4 major");
+
+
+    }
+
+
+    /**
+     * Check to see if when the chord is playing, it prints the correct message
+     */
+    @Test
+    public void playChordInversion() {
+
+        HashMap<String, String> chordMap1 = new HashMap<String, String>();
+        chordMap1.put("note", "F");
+        chordMap1.put("scale_type", "major");
+        chordMap1.put("playStyle", "arpeggio");
+        chordMap1.put("inversion", "1");
+
+        new Chord(chordMap1, "play").execute(env);
+        verify(transcriptManager).setResult("Playing chord F4 major inversion 1");
+
+        HashMap<String, String> chordMap2 = new HashMap<String, String>();
+        chordMap2.put("note", "G");
+        chordMap2.put("scale_type", "minor");
+
+        chordMap2.put("inversion", "2");
+
+        new Chord(chordMap2, "play").execute(env);
+        verify(transcriptManager).setResult("Playing chord G4 minor inversion 2");
+
+
+    }
+
+    /**
+     * Check to see if when the chord is playing, it prints the correct message
+     */
+    @Test
+    public void playInvalidChords() {
+
+        HashMap<String, String> chordMap1 = new HashMap<String, String>();
+        chordMap1.put("note", "F9");
+        chordMap1.put("scale_type", "major");
+        chordMap1.put("playStyle", "arpeggio");
+
+
+        new Chord(chordMap1, "play").execute(env);
+        verify(transcriptManager).setResult("Invalid chord: F9 major. Exceeds octave range.");
+
+        HashMap<String, String> chordMap2 = new HashMap<String, String>();
+        chordMap2.put("note", "C9");
+        chordMap2.put("scale_type", "minor");
+
+        chordMap2.put("inversion", "2");
+
+        new Chord(chordMap2, "play").execute(env);
+        verify(transcriptManager).setResult("Invalid chord: C9 minor. Exceeds octave range.");
 
     }
 
@@ -177,7 +232,7 @@ public class ChordTest {
         chordMap.put("playStyle", "arpeggio");
 
         new Chord(chordMap, "play").execute(env);
-        verify(transcriptManager).setResult("Playing chord C major");
+        verify(transcriptManager).setResult("Playing chord C4 major");
         verify(player).playNotes(chordList);
 
     }

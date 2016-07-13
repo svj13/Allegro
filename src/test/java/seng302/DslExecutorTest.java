@@ -367,6 +367,134 @@ public class DslExecutorTest {
         assertThat(command, instanceOf(seng302.command.Version.class));
     }
 
+    /**
+     * Chord related tests
+     *
+     */
+
+    @Test
+    public void basicChords() {
+        Command command = executor.parseCommandString("chord f major");
+        assertThat(command, instanceOf(seng302.command.Chord.class));
+
+        command = executor.parseCommandString("chord f4 major");
+        assertThat(command, instanceOf(seng302.command.Chord.class));
+
+        command = executor.parseCommandString("chord C minor");
+        assertThat(command, instanceOf(seng302.command.Chord.class));
+
+        command = executor.parseCommandString("chord f4 major inversion 1");
+        assertThat(command, instanceOf(seng302.command.Chord.class));
+
+        command = executor.parseCommandString("chord C5 major inversion 3");
+        assertThat(command, instanceOf(seng302.command.Chord.class));
+
+        command = executor.parseCommandString("chord f6 major 7th inversion 1");
+        assertThat(command, instanceOf(seng302.command.Chord.class));
+
+        command = executor.parseCommandString("chord f6 major 7th inv 1"); //shortkey
+        assertThat(command, instanceOf(seng302.command.Chord.class));
+
+
+    }
+
+    @Test
+    public void playBasicChords() {
+        Command command = executor.parseCommandString("play chord f major");
+        assertThat(command, instanceOf(seng302.command.Chord.class));
+
+        command = executor.parseCommandString("play chord f4 major");
+        assertThat(command, instanceOf(seng302.command.Chord.class));
+
+        command = executor.parseCommandString("play chord C minor");
+        assertThat(command, instanceOf(seng302.command.Chord.class));
+
+        command = executor.parseCommandString("play chord f4 major inversion 1");
+        assertThat(command, instanceOf(seng302.command.Chord.class));
+
+        command = executor.parseCommandString("play chord C5 major inversion 3");
+        assertThat(command, instanceOf(seng302.command.Chord.class));
+
+        command = executor.parseCommandString("play chord f6 major 7th inversion 1");
+        assertThat(command, instanceOf(seng302.command.Chord.class));
+
+        command = executor.parseCommandString("play chord f6 major 7th inv 1"); //shortkey
+        assertThat(command, instanceOf(seng302.command.Chord.class));
+
+
+    }
+
+    @Test
+    public void fourNoteChords(){
+        //4 Note chords
+
+        Command command = executor.parseCommandString("chord G1 seventh"); //shortkey
+        assertThat(command, instanceOf(seng302.command.Chord.class));
+
+        command = executor.parseCommandString("chord G1 half dim");
+        assertThat(command, instanceOf(seng302.command.Chord.class));
+
+        command = executor.parseCommandString("chord G1 major seventh");
+        assertThat(command, instanceOf(seng302.command.Chord.class));
+
+        command = executor.parseCommandString("chord G1 seventh");
+        assertThat(command, instanceOf(seng302.command.Chord.class));
+
+        command = executor.parseCommandString("chord G1 minor 7th"); //shortkey
+        assertThat(command, instanceOf(seng302.command.Chord.class));
+
+        command = executor.parseCommandString("chord G1 minor seventh"); //shortkey
+        assertThat(command, instanceOf(seng302.command.Chord.class));
+
+        command = executor.parseCommandString("chord G1 half dim seventh"); //shortkey
+        assertThat(command, instanceOf(seng302.command.Chord.class));
+
+        command = executor.parseCommandString("chord G1 half dim seventh"); //shortkey
+        assertThat(command, instanceOf(seng302.command.Chord.class));
+
+        command = executor.parseCommandString("chord G1 seventh"); //shortkey
+        assertThat(command, instanceOf(seng302.command.Chord.class));
+
+
+        //Play chord tests
+    }
+
+    @Test
+    public void playFourNoteChords(){
+        //4 Note chords
+
+        Command command = executor.parseCommandString("play chord G1 seventh"); //shortkey
+        assertThat(command, instanceOf(seng302.command.Chord.class));
+
+        command = executor.parseCommandString("play chord G1 half dim");
+        assertThat(command, instanceOf(seng302.command.Chord.class));
+
+        command = executor.parseCommandString("play chord G1 major seventh");
+        assertThat(command, instanceOf(seng302.command.Chord.class));
+
+        command = executor.parseCommandString("play chord G1 seventh");
+        assertThat(command, instanceOf(seng302.command.Chord.class));
+
+        command = executor.parseCommandString("play chord G1 minor 7th"); //shortkey
+        assertThat(command, instanceOf(seng302.command.Chord.class));
+
+        command = executor.parseCommandString("play chord G1 minor seventh"); //shortkey
+        assertThat(command, instanceOf(seng302.command.Chord.class));
+
+        command = executor.parseCommandString("play chord G1 half dim seventh"); //shortkey
+        assertThat(command, instanceOf(seng302.command.Chord.class));
+
+        command = executor.parseCommandString("play chord G1 half dim seventh"); //shortkey
+        assertThat(command, instanceOf(seng302.command.Chord.class));
+
+        command = executor.parseCommandString("play chord G1 seventh"); //shortkey
+        assertThat(command, instanceOf(seng302.command.Chord.class));
+
+
+        //Play chord tests
+    }
+
+
     @Test
     public void testIntervalUnison() {
         Command command = executor.parseCommandString("interval unison");

@@ -9,11 +9,10 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.HashMap;
 
 import seng302.Environment;
+import seng302.MusicPlayer;
 import seng302.managers.TranscriptManager;
 
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.atLeast;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class IntervalCommandTest {
@@ -21,13 +20,17 @@ public class IntervalCommandTest {
     private Environment env;
     @Mock
     private TranscriptManager transcriptManager;
+    @Mock
+    private MusicPlayer player;
     private HashMap<String, String> interval;
 
     @Before
     public void setUp() throws Exception {
         env = new Environment();
         env.setTranscriptManager(transcriptManager);
-        interval = new HashMap<String, String>();
+        env.setPlayer(player);
+        when(player.getTempo()).thenReturn(120);
+        interval = new HashMap<>();
     }
 
     @Test
