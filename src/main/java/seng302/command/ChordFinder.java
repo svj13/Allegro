@@ -1,15 +1,12 @@
 package seng302.command;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import seng302.Environment;
-import seng302.data.Interval;
 import seng302.data.Note;
 import seng302.utility.musicNotation.ChordUtil;
 import seng302.utility.musicNotation.OctaveUtil;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
 
 /**
  * Created by Jonty on 24-May-16.
@@ -22,8 +19,9 @@ public class ChordFinder implements Command {
 
 
     /**
-     * Finds a chord name for specified note values, includes the option of finding a chord from all permutations of
-     * provided notes. e.g. both 'F A C' and 'A C F' would return F major.
+     * Finds a chord name for specified note values, includes the option of finding a chord from all
+     * permutations of provided notes. e.g. both 'F A C' and 'A C F' would return F major.
+     *
      * @param notes ArrayList of either 3 or 4 notes.
      * @param all   indicates whether or not inversions are included.
      */
@@ -31,7 +29,7 @@ public class ChordFinder implements Command {
         this.result = "No chords found for given notes.";
         this.all = all;
 
-        if(notes.size() != 4 && notes.size() != 3){
+        if (notes.size() != 4 && notes.size() != 3) {
             this.result = "Not chords found. Must provide either 3 or 4 notes.";
             return;
         }
@@ -40,11 +38,10 @@ public class ChordFinder implements Command {
         if (all) {
             //Check if input notes in all permutations create a chord.
             for (int midi : midiNotes) {
-                if(findChord(midi)) return;
+                if (findChord(midi)) return;
 
             }
-        }
-        else{
+        } else {
             findChord(notes.get(0).getMidi());
         }
 
@@ -52,46 +49,61 @@ public class ChordFinder implements Command {
     }
 
     /**
-     * Helper function which checks if global notes array is a major/minor chord of the specified midi note.
-     * This function is dependant of global variables midiNotes and all specifier, which, if true, will find all
-     * permutatations for the given chord.
-     * @param midiNote Note (midi value) to find a chord for. e.g. 60(C4) will get the major/minor chord for C
+     * Helper function which checks if global notes array is a major/minor chord of the specified
+     * midi note. This function is dependant of global variables midiNotes and all specifier, which,
+     * if true, will find all permutatations for the given chord.
+     *
+     * @param midiNote Note (midi value) to find a chord for. e.g. 60(C4) will get the major/minor
+     *                 chord for C
      * @return ..sds
      */
-    private Boolean findChord(int midiNote){
+    private Boolean findChord(int midiNote) {
         ArrayList<Integer> majorChord = ChordUtil.getChordMidi(midiNote, "major");
         ArrayList<Integer> minorChord = ChordUtil.getChordMidi(midiNote, "minor");
+        ArrayList<Integer> minorSeventhChord = ChordUtil.getChordMidi(midiNote, "minor 7th");
+        ArrayList<Integer> majorSeventhChord = ChordUtil.getChordMidi(midiNote, "major 7th");
+        ArrayList<Integer> seventhChord = ChordUtil.getChordMidi(midiNote, "seventh");
+        ArrayList<Integer> diminishedChord = ChordUtil.getChordMidi(midiNote, "diminished");
+        ArrayList<Integer> halfDiminishedChord = ChordUtil.getChordMidi(midiNote, "half dim");
+        ArrayList<Integer> diminishedSeventhChord = ChordUtil.getChordMidi(midiNote, "dim 7th");
 
 
         for (int i = 0; i < majorChord.size(); i++) {
             majorChord.set(i, 60 + (majorChord.get(i) % 12));
             minorChord.set(i, 60 + (minorChord.get(i) % 12));
+            minorSeventhChord.set(i, 60 + (minorChord.get(i) % 12));
+            majorSeventhChord.set(i, 60 + (minorChord.get(i) % 12));
+            seventhChord.set(i, 60 + (minorChord.get(i) % 12));
+            diminishedChord.set(i, 60 + (minorChord.get(i) % 12));
+            halfDiminishedChord.set(i, 60 + (minorChord.get(i) % 12));
+            diminishedSeventhChord.set(i, 60 + (minorChord.get(i) % 12));
         }
 
-        if(all){
+        System.out.println(Arrays.toString(majorChord.toArray()));
+
+        System.out.println(Arrays.toString(midiNotes.toArray()));
+
+        if (all) {
             if (minorChord != null && minorChord.containsAll(midiNotes)) {
-                if(this.all){
+                if (this.all) {
                     //Add all notes to result string.
                     this.result = "" + ChordUtil.getChordName(minorChord, false);
                     return true;
                 }
-
-
             } else if (majorChord != null && majorChord.containsAll(midiNotes)) {
-
+                System.out.println("majorChord isn't null and contains all midi notes");
                 this.result = "" + ChordUtil.getChordName(majorChord, false);
                 return true;
             }
-        }
-        else{
-            if(minorChord != null &&  minorChord.equals(this.midiNotes)){
+        } else {
+            if (minorChord != null && minorChord.equals(this.midiNotes)) {
                 this.result = "" + ChordUtil.getChordName(minorChord, false);
                 return true;
 
-            }
-            else if(majorChord != null && majorChord.equals(this.midiNotes)){
+            } else if (majorChord != null && majorChord.equals(this.midiNotes)) {
 
                 this.result = "" + ChordUtil.getChordName(majorChord, false);
+                System.out.println("result: " + this.result);
                 return true;
             }
         }
@@ -101,10 +113,11 @@ public class ChordFinder implements Command {
     }
 
     /**
-     * Helper function to convert an arraylist of notes to an arraylist of corresponding midi values.
-     * @param notes ArrayList of Note values.
+     * Helper function to convert an arraylist of notes to an arraylist of corresponding midi
+     * values.
+     *
+     * @param notes        ArrayList of Note values.
      * @param ignoreOctave if true, treats all notes as middle Octave.
-     * @return
      */
     private static ArrayList<Integer> toMidiSet(ArrayList<Note> notes, Boolean ignoreOctave) {
 

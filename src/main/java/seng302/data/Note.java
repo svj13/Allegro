@@ -1,6 +1,13 @@
 package seng302.data;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 import seng302.utility.musicNotation.Checker;
 import seng302.utility.musicNotation.OctaveUtil;
@@ -200,10 +207,8 @@ public class Note {
 
 
     /**
-     * Returns the note object from the HashMap of notes.
-     *Created the tempo class
-
-Created the tempo class and made it so it defaults to 120BMP
+     * Returns the note object from the HashMap of notes
+     *
      * @param s The note or MIDI value to lookup.
      * @return Note object that matches the String supplied.
      */
@@ -378,6 +383,7 @@ Created the tempo class and made it so it defaults to 120BMP
 
     public String getEnharmonicWithLetter(char letter) {
         for (String value : enharmonics.values()) {
+            System.out.println("enh: " + value);
             if (value.startsWith(String.valueOf(letter))) {
                 return value;
             }

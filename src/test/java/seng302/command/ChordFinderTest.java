@@ -103,7 +103,7 @@ public class ChordFinderTest {
         verify(transcriptManager).setResult("F major");
 
 
-        //F mibor (F Ab C)
+        //F minor (F Ab C)
         notes.clear();
         notes.add(Note.lookup(OctaveUtil.validateNoteString("E#")));
         notes.add(Note.lookup(OctaveUtil.validateNoteString("G#")));

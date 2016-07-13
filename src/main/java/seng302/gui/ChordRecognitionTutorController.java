@@ -3,12 +3,9 @@ package seng302.gui;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
-import java.util.List;
 import java.util.Random;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -18,23 +15,15 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Pair;
 import seng302.Environment;
-import seng302.MusicPlayer;
-import seng302.command.Chord;
-import seng302.command.Command;
-import seng302.command.Tempo;
 import seng302.data.Note;
 import seng302.utility.TutorRecord;
 import seng302.utility.musicNotation.ChordUtil;
 
 
-import java.util.Collections;
-
-
 /**
- * Created by Elliot on 16/05/16
- * Controller class for the chord recognition tutor.
+ * Created by Elliot on 16/05/16 Controller class for the chord recognition tutor.
  */
-public class ChordRecognitionTutorController extends TutorController{
+public class ChordRecognitionTutorController extends TutorController {
     @FXML
     HBox settings;
 
@@ -57,7 +46,7 @@ public class ChordRecognitionTutorController extends TutorController{
      * Run when the go button is pressed. Creates a new tutoring session.
      */
     private void goAction(ActionEvent event) {
-        record = new TutorRecord(new Date(), "ChordUtil Recognition");
+        record = new TutorRecord();
         paneQuestions.setVisible(true);
         paneResults.setVisible(false);
         manager.resetEverything();
@@ -74,7 +63,6 @@ public class ChordRecognitionTutorController extends TutorController{
 
     /**
      * Initialises certain GUI elements
-     * @param env
      */
     public void create(Environment env) {
         super.create(env);
@@ -82,13 +70,14 @@ public class ChordRecognitionTutorController extends TutorController{
         rand = new Random();
         playChords.getItems().addAll("Unison", "Arpeggio", "Both");
         playChords.getSelectionModel().selectFirst();
-        octaves.getItems().addAll(1,2,3,4);
+        octaves.getItems().addAll(1, 2, 3, 4);
         octaves.getSelectionModel().selectFirst();
 
     }
 
     /**
      * Prepares a new question
+     *
      * @return a question pane containing the question information
      */
     public HBox setUpQuestion() {
@@ -101,11 +90,12 @@ public class ChordRecognitionTutorController extends TutorController{
         }
         Note randNote = getRandomNote();
 //        return generateQuestionPane(randNote, chordType);
-        return generateQuestionPane(new Pair<Note, String>(randNote, chordType));
+        return generateQuestionPane(new Pair<>(randNote, chordType));
     }
 
     /**
      * Generates a note in the octave of middle C
+     *
      * @return the random note
      */
     public Note getRandomNote() {
@@ -138,8 +128,8 @@ public class ChordRecognitionTutorController extends TutorController{
 
     /**
      * Creates a GUI pane for a single question
+     *
      * @param noteAndChord pair containing first note and type of scale to play
-     * @return
      */
     public HBox generateQuestionPane(Pair noteAndChord) {
         final Pair<Note, String> noteAndChordType = noteAndChord;
@@ -158,56 +148,51 @@ public class ChordRecognitionTutorController extends TutorController{
         Button play = new Button();
         stylePlayButton(play);
 
-        play.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                //Play the scale
-                int currentTempo = env.getPlayer().getTempo();
-                if (playChords.getValue().equals("Unison")) {
-                    env.getPlayer().playSimultaneousNotes(theChord);
-                } else if (playChords.getValue().equals("Arpeggio")) {
-                    env.getPlayer().playNotes((ArrayList) theChord);
-                } else {
-                    env.getPlayer().playNotes((ArrayList) theChord);
-                    try {
-                        //Calculates how long three crotchets is at the current tempo
-                        int wait = 1000 * 180 / currentTempo + 50;
-                        Thread.sleep(wait);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    env.getPlayer().playSimultaneousNotes(theChord);
+        play.setOnAction(event -> {
+            //Play the scale
+            int currentTempo = env.getPlayer().getTempo();
+            if (playChords.getValue().equals("Unison")) {
+                env.getPlayer().playSimultaneousNotes(theChord);
+            } else if (playChords.getValue().equals("Arpeggio")) {
+                env.getPlayer().playNotes((ArrayList) theChord);
+            } else {
+                env.getPlayer().playNotes((ArrayList) theChord);
+                try {
+                    //Calculates how long three crotchets is at the current tempo
+                    int wait = 1000 * 180 / currentTempo + 50;
+                    Thread.sleep(wait);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
+                env.getPlayer().playSimultaneousNotes(theChord);
             }
         });
 
 
         final ComboBox<String> options = generateChoices();
-        options.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
+        options.setOnAction(event -> {
 //                System.out.println("Options.getVal: " + options.getValue());
-                handleQuestionAnswer(options.getValue().toLowerCase(), noteAndChordType, questionRow);
-            }
+            handleQuestionAnswer(options.getValue().toLowerCase(), noteAndChordType, questionRow);
         });
 
 
         Button skip = new Button("Skip");
         styleSkipButton(skip);
 
-        skip.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                // Disables only input buttons
-                disableButtons(questionRow, 1, 3);
-                formatSkippedQuestion(questionRow);
-                manager.questions -= 1;
-                manager.add(noteAndChordType, 2);
-                String[] question = new String[]{
-                        String.format("%s scale from %s", chordType, startNote.getNote()),
-                        chordType
-                };
-                record.addSkippedQuestion(question);
-                if (manager.answered == manager.questions) {
-                    finished();
-                }
+        skip.setOnAction(event -> {
+            // Disables only input buttons
+            disableButtons(questionRow, 1, 3);
+            formatSkippedQuestion(questionRow);
+            manager.questions -= 1;
+            manager.add(noteAndChordType, 2);
+            String[] question = new String[]{
+                    String.format("%s scale from %s", chordType, startNote.getNote()),
+                    chordType
+            };
+            projectHandler.saveTutorRecords("chord", record.addSkippedQuestion(question));
+            env.getRootController().setTabTitle("chordTutor", true);
+            if (manager.answered == manager.questions) {
+                finished();
             }
         });
 
@@ -222,6 +207,7 @@ public class ChordRecognitionTutorController extends TutorController{
 
     /**
      * Creates a JavaFX combo box containing the lexical names of all scales.
+     *
      * @return a combo box of scale options
      */
     private ComboBox<String> generateChoices() {
@@ -234,9 +220,10 @@ public class ChordRecognitionTutorController extends TutorController{
 
     /**
      * Reacts accordingly to a user's input
-     * @param userAnswer The user's selection, as text
+     *
+     * @param userAnswer    The user's selection, as text
      * @param correctAnswer The correct chord, as text
-     * @param questionRow The HBox containing GUI question data
+     * @param questionRow   The HBox containing GUI question data
      */
     public void handleQuestionAnswer(String userAnswer, Pair correctAnswer, HBox questionRow) {
         manager.answered += 1;
@@ -261,7 +248,8 @@ public class ChordRecognitionTutorController extends TutorController{
                 userAnswer,
                 Boolean.toString(correct)
         };
-        record.addQuestionAnswer(question);
+        projectHandler.saveTutorRecords("chord", record.addQuestionAnswer(question));
+        env.getRootController().setTabTitle("chordTutor", true);
 
         if (manager.answered == manager.questions) {
             finished();
@@ -276,5 +264,62 @@ public class ChordRecognitionTutorController extends TutorController{
         octaves.getSelectionModel().selectFirst();
     }
 
+    /**
+     * This function is run once a tutoring session has been completed.
+     */
+    public void finished() {
+        env.getPlayer().stop();
+        userScore = getScore(manager.correct, manager.answered);
+        outputText = String.format("You have finished the tutor.\n" +
+                        "You answered %d questions, and skipped %d questions.\n" +
+                        "You answered %d questions correctly, %d questions incorrectly.\n" +
+                        "This gives a score of %.2f percent.",
+                manager.questions, manager.skipped,
+                manager.correct, manager.incorrect, userScore);
+        if (projectHandler.currentProjectPath != null) {
+            projectHandler.saveSessionStat("chord", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
+            projectHandler.saveCurrentProject();
+            outputText += "\nSession auto saved.";
+        }
+        env.getRootController().setTabTitle("chordTutor", false);
+        // Sets the finished view
+        resultsContent.setText(outputText);
 
+        paneQuestions.setVisible(false);
+        paneResults.setVisible(true);
+        questionRows.getChildren().clear();
+
+        Button retestBtn = new Button("Retest");
+        Button clearBtn = new Button("Clear");
+        Button saveBtn = new Button("Save");
+
+        clearBtn.setOnAction(event -> {
+            manager.saveTempIncorrect();
+            paneResults.setVisible(false);
+            paneQuestions.setVisible(true);
+        });
+
+        paneResults.setPadding(new Insets(10, 10, 10, 10));
+        retestBtn.setOnAction(event -> {
+            paneResults.setVisible(false);
+            paneQuestions.setVisible(true);
+            retest();
+
+        });
+        saveBtn.setOnAction(event -> saveRecord());
+
+        if (manager.getTempIncorrectResponses().size() > 0) {
+            //Can re-test
+            buttons.getChildren().setAll(retestBtn, clearBtn, saveBtn);
+        } else {
+            //Perfect score
+            buttons.getChildren().setAll(clearBtn, saveBtn);
+        }
+
+        HBox.setMargin(retestBtn, new Insets(10, 10, 10, 10));
+        HBox.setMargin(clearBtn, new Insets(10, 10, 10, 10));
+        HBox.setMargin(saveBtn, new Insets(10, 10, 10, 10));
+        // Clear the current session
+        manager.resetStats();
+    }
 }

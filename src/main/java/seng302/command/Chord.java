@@ -32,6 +32,9 @@ public class Chord implements Command {
     /**
      * Creates a chord command.
      *
+     * @param chord      A map that contains the chord's starting note and scale type - major or
+     *                   minor.
+     *
      * Chord command is used for either outputting chord notes, or playing a specified chord.
      * Can specify chord scale types (major/minor), inversions and play types (arpeggio)
      *
@@ -40,7 +43,17 @@ public class Chord implements Command {
      */
     public Chord(HashMap<String, String> chord, String outputType) {
         this.startNote = chord.get("note");
-        this.type = chord.get("scale_type"); //Scaletype Major or Minor
+
+
+        //gets whether the chord to be played is a scale type (major/minor) or a
+        // chord type (diminished, major 7th etc)
+        if (chord.get("scale_type") != null) {
+            this.type = chord.get("scale_type");
+
+        } else {
+            this.type = chord.get("chord_type");
+        }
+
         this.outputType = outputType;
         currentLetter = Character.toUpperCase(startNote.charAt(0));
 
@@ -65,7 +78,8 @@ public class Chord implements Command {
         }
         this.startNote = this.chord.get(0).getNote();
         this.firstNote = startNote;
-        this.letters = getNoteLetterIndices(this.startNote);
+        this.letters = chord.containsKey("scale_type") ? getNoteLetterIndices(this.startNote) : getDimFourthIndices(this.startNote);
+        // this.letters = getNoteLetterIndices(this.startNote);
 
 
 
@@ -101,10 +115,9 @@ public class Chord implements Command {
             if (chord.get("playStyle").equals("arpeggio")) {
                 this.arpeggioFlag = true;
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             this.arpeggioFlag = false;
         }
-
 
     }
 
@@ -123,9 +136,24 @@ public class Chord implements Command {
         l.add(startIndex);
         l.add(startIndex + 2);
         l.add(startIndex + 4);
+
         return l;
 
+    }
 
+    private ArrayList<Integer> getDimFourthIndices(String n) {
+        String noteLetters = "ABCDEFG";
+        char startLetter = Character.toUpperCase(n.charAt(0));
+
+        int startIndex = noteLetters.indexOf(startLetter);
+        System.out.println("getDimLetters :" + startIndex + "  " + startLetter + " " + n);
+        ArrayList<Integer> l = new ArrayList<Integer>();
+        l.add(startIndex);
+        l.add(startIndex + 2);
+        l.add(startIndex + 4);
+        l.add(startIndex + 6);
+
+        return l;
     }
 
     /**
@@ -148,14 +176,18 @@ public class Chord implements Command {
 
     /**
      * Prints the chord to the given environment
+     *
      * @param env The environment to print to
      */
     private void showChord(Environment env) {
         String chordString = "";
         int c = 0;
+        System.out.println("letters: " + Arrays.toString(letters.toArray()));
         for (Note i : chord) {
-            System.out.println(c % 7);
+            System.out.println(letters.get(c) % 7);
+            System.out.println(i.getNote());
             String j = i.getEnharmonicWithLetter("ABCDEFG".charAt(letters.get(c) % 7));
+            System.out.println("j: " + j);
             //String j = i.getEnharmonicWithLetter(currentLetter);
             if (!octaveSpecified) {
                 System.out.println("j: " + j);
@@ -163,6 +195,7 @@ public class Chord implements Command {
 
             }
             chordString += j + ' ';
+            System.out.println("chordString: " + chordString);
             updateLetter();
             c++;
         }
@@ -172,6 +205,7 @@ public class Chord implements Command {
 
     /**
      * Plays the chord and prints a message
+     *
      * @param env The environment to play in
      */
     private void playChord(Environment env) {
