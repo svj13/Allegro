@@ -24,10 +24,10 @@ public class ChordUtil {
             String noteDisplay = octave ? Note.lookup(String.valueOf(notes.get(0))).getNote() : OctaveUtil.removeOctaveSpecifier(Note.lookup(String.valueOf(notes.get(0))).getNote()); //Ignore Octave or not?
             System.out.println("noteDisplay; " + noteDisplay);
             //for major chords
-            if (notes.get(1) == notes.get(0) + 4 && notes.get(2) == notes.get(0) + 7) {
+            if (notes.get(1) % 12 == (notes.get(0) + 4) % 12 && notes.get(2) % 12 == (notes.get(0) + 7) % 12) {
                 return noteDisplay + " major";
             //for minor chords
-            } else if (notes.get(1) == notes.get(0) + 3 && notes.get(2) == notes.get(0) + 7) {
+            } else if (notes.get(1) % 12 == (notes.get(0) + 3) % 12 && notes.get(2) % 12 == (notes.get(0) + 7) % 12) {
                 return noteDisplay + " minor";
              //for minor 7th chords
             } else if (notes.get(1) == notes.get(0) + 3 && notes.get(2) == notes.get(0) + 7
