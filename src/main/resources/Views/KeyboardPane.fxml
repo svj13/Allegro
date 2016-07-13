@@ -22,8 +22,9 @@
                    <Insets right="-0.0"/>
                </StackPane.margin>
             </HBox>
-             <AnchorPane fx:id="blackKeys" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0"
-                         snapToPixel="false" StackPane.alignment="TOP_CENTER"/>
+             <AnchorPane fx:id="blackKeys" minWidth="-Infinity" pickOnBounds="false"
+                         prefHeight="200.0" prefWidth="200.0" snapToPixel="false"
+                         StackPane.alignment="TOP_CENTER"/>
          </children>
       </StackPane>
    </content>

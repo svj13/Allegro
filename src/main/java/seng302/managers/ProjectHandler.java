@@ -267,7 +267,6 @@ public class ProjectHandler {
         Type transcriptType = new TypeToken<ArrayList<OutputTuple>>() {
         }.getType();
         transcript = gson.fromJson((String) projectSettings.get("transcript"), transcriptType);
-        System.out.println("Properties loaded!!");
 
         env.getTranscriptManager().setTranscriptContent(transcript);
         env.getRootController().setTranscriptPaneText(env.getTranscriptManager().convertToText());

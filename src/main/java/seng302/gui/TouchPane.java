@@ -37,9 +37,14 @@ public class TouchPane extends StackPane {
         EventHandler<TouchEvent> touchPress = event -> {
             if (touchId == -1) {
                 touchId = event.getTouchPoint().getId();
-                environment.getPlayer().noteOn(noteToPlay);
-                setHighlightOn();
-
+                if (kpc.isPlayMode()) {
+                    environment.getPlayer().noteOn(noteToPlay);
+                    setHighlightOn();
+                } else {
+                    String prev = env.getRootController().getTranscriptController().txtCommand.getText();
+                    String newText = prev + " " + this.getNoteValue().getNote();
+                    env.getRootController().getTranscriptController().txtCommand.setText(newText);
+                }
             }
             event.consume();
         };
@@ -47,8 +52,12 @@ public class TouchPane extends StackPane {
         EventHandler<TouchEvent> touchRelease = event -> {
             if (event.getTouchPoint().getId() == touchId) {
                 touchId = -1;
-                environment.getPlayer().noteOff(noteToPlay);
-                setHighlightOff();
+                if (kpc.isPlayMode()) {
+                    environment.getPlayer().noteOff(noteToPlay);
+                    setHighlightOff();
+                } else {
+                    env.getRootController().getTranscriptController().giveFocus();
+                }
             }
             event.consume();
         };
@@ -56,29 +65,38 @@ public class TouchPane extends StackPane {
         setOnTouchReleased(touchRelease);
         setOnTouchPressed(touchPress);
 
-
         setOnMouseReleased(event -> {
-            if (!environment.isShiftPressed()) {
-                setHighlightOff();
-                if (displayLabelOnAction) {
-                    getChildren().clear();
+            if (kpc.isPlayMode()) {
+                if (!environment.isShiftPressed()) {
+                    environment.getPlayer().noteOff(noteToPlay);
+                    setHighlightOff();
+                    if (displayLabelOnAction) {
+                        getChildren().clear();
+                    }
                 }
+            } else {
+                env.getRootController().getTranscriptController().giveFocus();
             }
         });
 
         setOnMousePressed(event -> {
-            if (environment.isShiftPressed()) {
-                keyboardPaneController.addMultiNote(noteToPlay, me);
-                setHighlightOn();
+            if (kpc.isPlayMode()) {
+                if (environment.isShiftPressed()) {
+                    keyboardPaneController.addMultiNote(noteToPlay, me);
+                    setHighlightOn();
+                } else {
+                    environment.getPlayer().noteOn(noteToPlay);
+                    setHighlightOn();
+                }
+                if (displayLabelOnAction) {
+                    getChildren().add(new Text(keyLabel));
+                }
             } else {
-                environment.getPlayer().playNote(noteToPlay);
-                setHighlightOn();
-            }
-            if (displayLabelOnAction) {
-                getChildren().add(new Text(keyLabel));
+                String prev = env.getRootController().getTranscriptController().txtCommand.getText();
+                String newText = prev + " " + this.getNoteValue().getNote();
+                env.getRootController().getTranscriptController().txtCommand.setText(newText);
             }
         });
-
 
     }
 

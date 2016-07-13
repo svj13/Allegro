@@ -99,7 +99,7 @@ COMMAND_INTERVAL_ENHARMONIC, COMMAND_SHOW_KEYSIGNATURE,COMMAND_SHOW_KEYSIGNATURE
 COMMAND_SCALE_WITH_KEYSIG, COMMAND_FIND_CHORD, COMMAND_FIND_CHORD_ALL;
 
 terminal String ATOM, NOTE, SCALE_TYPE, DIRECTION, MIDINOTE, NUMBER, POSNUM, INTERVAL, PLAY_STYLE, SHARPSFLATS, RHYTHM_TYPE,
-NOTE_TRIO, CHORD_TYPE;
+NOTE_TRIO, CHORD_TYPE, SHARED_CHORD_AND_INTERVAL;
 
 /* Non terminals */
 non terminal Command command;
@@ -162,8 +162,8 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_SCALE_WITH_KEYSIG notes:s           {: RESULT = new KeySignatureCommand(s); :}
           | COMMAND_PLAY_CHORD playChord:s              {: RESULT = new Chord(s, "play");:}
           | COMMAND_INTERVAL_ENHARMONIC interval:i      {: RESULT = new IntervalCommand(i,"equivalent"); :}
-          | COMMAND_FIND_CHORD chordSet:n      {: RESULT = new ChordFinder(n,false); :}
-          | COMMAND_FIND_CHORD_ALL chordSet:n      {: RESULT = new ChordFinder(n,true); :}
+          | COMMAND_FIND_CHORD chordSet:n               {: RESULT = new ChordFinder(n,false); :}
+          | COMMAND_FIND_CHORD_ALL chordSet:n           {: RESULT = new ChordFinder(n,true); :}
 
 ;
 
@@ -198,6 +198,9 @@ scale ::= NOTE:s SCALE_TYPE:r       {:RESULT = new HashMap<String,String>(); RES
 chordType ::= NOTE:s CHORD_TYPE:r  {:RESULT = new HashMap<String,String>(); RESULT.put("note", s);
                                                 RESULT.put("chord_type", r);:}
             | scale:s {:RESULT = s;:}
+            | NOTE:s SHARED_CHORD_AND_INTERVAL:r {:RESULT = new HashMap<String,String>();
+                                                   RESULT.put("note", s);
+                                                   RESULT.put("chord_type", r);:}
 ;
 
 playScale ::= scale:s {:RESULT = s;:}
@@ -213,6 +216,7 @@ playChord ::= chordType:s {:RESULT = s;:}
 
 interval ::= INTERVAL:i {: RESULT = new HashMap<String,String>(); RESULT.put("interval", i);:}
            | positiveNum:a {: RESULT = new HashMap<String,String>(); RESULT.put("semitones", a);:}
+           | SHARED_CHORD_AND_INTERVAL:i {: RESULT = new HashMap<String,String>(); RESULT.put("interval", i);:}
 ;
 
 intervalWithTonic ::= interval:i note:a {: i.put("note",a); RESULT = i;:}
