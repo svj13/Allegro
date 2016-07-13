@@ -2,6 +2,7 @@ package seng302.gui;
 
 
 import org.json.simple.JSONArray;
+import org.controlsfx.control.PopOver;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -26,12 +28,17 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import seng302.Environment;
+import seng302.command.UndoRedo;
+import seng302.data.CommandType;
 import seng302.managers.TranscriptManager;
 import seng302.utility.FileHandler;
 import seng302.utility.OutputTuple;
@@ -106,6 +113,12 @@ public class RootController implements Initializable {
 
     @FXML
     private Menu menuOpenProjects;
+
+    @FXML
+    private Menu helpMenu;
+
+    @FXML
+    private MenuItem dslReferenceMenuItem;
 
     @FXML
     private TabPane TabPane;
@@ -185,6 +198,54 @@ public class RootController implements Initializable {
         keyboardPaneController.stopShowingNotesOnKeyboard();
     }
 
+    private void setCommandText(CommandType command) {
+        transcriptController.txtCommand.clear();
+        String[] parameters = command.getParams();
+        String[] options = command.getOptions();
+        String parameterString = "";
+        String optionsString = "";
+        for (String parameter : parameters) {
+            parameterString += "[" + parameter + "] ";
+        }
+        for (String option : options) {
+            optionsString += "[" + option + "] ";
+        }
+        transcriptController.txtCommand.setText(command.getName() +
+                " Parameters: " + parameterString);
+        if (!optionsString.equals("[]")) {
+            transcriptController.txtCommand.appendText("Options: " + optionsString);
+        }
+    }
+
+//    @FXML
+//    private void selectPlayNote() {
+//        String commandText = "play ";
+//        String commandParams = "[note|midi]";
+//        setCommandText(commandText, commandParams, "");
+//    }
+//
+//    @FXML
+//    private void selectPlayChord() {
+//        String commandText = "play chord ";
+//        String commandParams = "[note] [type]";
+//        String commandOptions = "[arpeggio]";
+//        setCommandText(commandText, commandParams, commandOptions);
+//    }
+//
+//    @FXML
+//    private void selectPlayScale() {
+//        String commandText = "play scale ";
+//        String commandParams = "[note] [type]";
+//        String commandOptions = "[octaves] [up|down|updown]";
+//        setCommandText(commandText, commandParams, commandOptions);
+//    }
+//
+//    @FXML
+//    private void selectPlayInterval() {
+//        String commandText = "play interval ";
+//        String commandParams = "[type] [note]";
+//        setCommandText(commandText, commandParams, "");
+//    }
 
     /**
      * Displays a dialog to ask the user whether or not they want to save project changes.
