@@ -247,7 +247,6 @@ public class ChordTest {
         chordMap.put("playStyle", "arpeggio");
         Chord cmajor = new Chord(chordMap, "play");
         int tempo = env.getPlayer().getTempo();
-        System.out.println(tempo);
         long crotchetLength = 60000 / tempo;
         assertEquals(cmajor.getLength(env), 3 * crotchetLength);
 
