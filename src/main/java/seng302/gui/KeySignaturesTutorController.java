@@ -138,6 +138,12 @@ public class KeySignaturesTutorController extends TutorController {
     }
 
 
+    /**
+     * Helper function for generateQuestionType1Pane that generates a question pane if the question is in the form of
+     * a number of sharps or flats.
+     * @param pair - a pair containing the scale type and another pair that contains the question type and answer type
+     * @return - returns a HBox containing the question pane
+     */
     private HBox generateNumQuestionType1Pane(final Pair pair) {
         final HBox questionRow = new HBox();
         formatQuestionRow(questionRow);
@@ -351,6 +357,11 @@ public class KeySignaturesTutorController extends TutorController {
     }
 
 
+    /**
+     * Generates a single question pane for type 1 questions
+     * @param pair - a pair containing the scale type and another pair that contains the question type and answer type
+     * @return - returns a HBox containing the question pane
+     */
     public HBox generateQuestionType1Pane(final Pair pair) {
 
         if (!(Boolean) (((Pair) pair.getValue()).getValue())) {
@@ -505,6 +516,7 @@ public class KeySignaturesTutorController extends TutorController {
 
             }
         });
+
         minorOptions.setOnAction(new EventHandler<ActionEvent>() {
             // This handler colors the GUI depending on the user's input
             public void handle(ActionEvent event) {
@@ -562,6 +574,13 @@ public class KeySignaturesTutorController extends TutorController {
 
     }
 
+
+    /**
+     * Generates a combobox filled with potential answers to given question for type 1 questions
+     * @param question - the current question that the comboBox is being generated for
+     * @param isMajor - varible representing the scale type of the current question
+     * @return - returns a filled comboBox
+     */
     private ComboBox<String> generateType1ComboBox(String question, Boolean isMajor) {
 
         ComboBox<String> options = new ComboBox<String>();
@@ -606,6 +625,12 @@ public class KeySignaturesTutorController extends TutorController {
         return options;
     }
 
+
+    /**
+     * Generates a single question pane for type 2 questions
+     * @param pair - a pair containing the scale type and another pair that contains the question type and answer type
+     * @return - returns a HBox containing the question pane
+     */
     public HBox generateQuestionType2Pane(final Pair pair) {
         Boolean isMajor = false;
 
@@ -788,6 +813,17 @@ public class KeySignaturesTutorController extends TutorController {
 
     }
 
+
+    /**
+     * Is used to determine if a type 1 question is correct or incorrect
+     * @param scaleType - the type of scale that the question is, eg minor, major or both
+     * @param question -  the question that is being determined if its correct or not
+     * @param questionIsInNumForm - determines what type of type1 question it is, represents if the question
+     *                            is in the form of number of sharps and flats
+     * @param givenAnswer1 - the given answer to the question
+     * @param givenAnswer2 - if the both option is selected then it will need the second answer
+     * @return - a boolean that represents if the given question is correct
+     */
     public Boolean type1QuestionCorrectCheck(String scaleType, String question, Boolean questionIsInNumForm, String givenAnswer1, String givenAnswer2) {
 
 
@@ -1020,6 +1056,7 @@ public class KeySignaturesTutorController extends TutorController {
         manager.resetStats();
     }
 
+
     /**
      * Returns the option combo boxes to their default states.
      */
@@ -1028,5 +1065,4 @@ public class KeySignaturesTutorController extends TutorController {
         formBox.getSelectionModel().selectFirst();
         answerBox.getSelectionModel().selectFirst();
     }
-
 }
