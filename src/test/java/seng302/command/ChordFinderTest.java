@@ -185,6 +185,18 @@ public class ChordFinderTest {
         verify(transcriptManager, times(2)).setResult("Not chords found. Must provide either 3 or 4 notes.");
     }
 
+    @Test
+    public void testFourNoteChords() {
+        ArrayList<Note> notes = new ArrayList<Note>();
+
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("F")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("A")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("C")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("E")));
+
+        new ChordFinder(notes, false).execute(env);
+    }
+
 
 
 
