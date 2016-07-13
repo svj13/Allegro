@@ -105,7 +105,7 @@ PlayStyle = "arpeggio"
 ChordType = "seventh"|"7th"|"seven"|"half dim"|"half diminished"|"major 7th"
             |"major seventh"|"minor seventh"|"minor 7th"|
             "half diminished 7th"|"half diminished seventh"|"half dim seventh"|"half dim 7th"|
-            "diminished seventh"|"diminished 7th"|"dim seventh"|"dim 7th"
+            "diminished seventh"|"diminished 7th"|"dim seventh"|"dim 7th"|"dim"|"diminished"
 Direction = "updown"|"up"|"down"
 InversionSpecifier = "inversion 1"|"inversion 2"|"inversion 3"|"inv 1"|"inv 2"|"inv 3"
 PosNum = \p{Digit}+

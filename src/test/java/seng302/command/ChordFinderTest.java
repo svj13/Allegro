@@ -279,7 +279,7 @@ public class ChordFinderTest {
         //F minor seventh (F Ab C Eb) with enharmonic (E# Gx B# D#)
         ArrayList<Note> notes = new ArrayList<Note>();
         notes.add(Note.lookup(OctaveUtil.validateNoteString("E#")));
-        notes.add(Note.lookup(OctaveUtil.validateNoteString("Gx")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("G#")));
         notes.add(Note.lookup(OctaveUtil.validateNoteString("B#")));
         notes.add(Note.lookup(OctaveUtil.validateNoteString("D#")));
         new ChordFinder(notes, false).execute(env);
@@ -502,6 +502,22 @@ public class ChordFinderTest {
         notes.add(Note.lookup(OctaveUtil.validateNoteString("G")));
         new ChordFinder(notes, false).execute(env);
         verify(transcriptManager, times(1)).setResult("Not chords found. Must provide either 3 or 4 notes.");
+
+    }
+
+    @Test
+    public void testFourNoteInversion() {
+        //Test for notes given for find chord with more than 4 notes inversion
+        ArrayList<Note> notes = new ArrayList<Note>();
+
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("F")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("E")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("A")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("C")));
+
+
+        new ChordFinder(notes, true).execute(env);
+        verify(transcriptManager, times(1)).setResult("F major 7th");
 
     }
 
