@@ -8,9 +8,11 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -66,6 +68,8 @@ public class ChordSpellingTutorController extends TutorController {
      * What type the generated chords are, i.e. major, minor
      */
     private ArrayList<String> validChords = new ArrayList<String>();
+
+    private String enharmonicsRequired;
 
     /**
      * Sets up the tutoring environment
@@ -126,6 +130,7 @@ public class ChordSpellingTutorController extends TutorController {
             paneResults.setVisible(false);
             manager.resetEverything();
             manager.questions = selectedQuestions;
+            enharmonicsRequired = (String) numEnharmonics.getValue();
 
             questionRows.getChildren().clear();
             for (int i = 0; i < manager.questions; i++) {
@@ -325,21 +330,51 @@ public class ChordSpellingTutorController extends TutorController {
             correctAnswer = correctAnswer(chordName);
             question.setText(chordAsString(chordNotes));
 
-            ComboBox<String> possibleNames = new ComboBox<String>();
 
-            for (String chord : generateTypeTwoOptions(chordName)) {
-                possibleNames.getItems().add(chord);
+            if (enharmonicsRequired.equals("all")) {
+                CheckComboBox<String> possibleNames = new CheckComboBox<>();
+
+                for (String chord : generateTypeTwoOptions(chordName)) {
+                    possibleNames.getItems().add(chord);
+                }
+
+                Button checkInputs = new Button("Check");
+                checkInputs.setOnAction(event -> {
+                    //Disallow any more inputs
+                    checkInputs.setDisable(true);
+                    possibleNames.setDisable(true);
+
+                    //Check if the answer is correct
+                    ObservableList<Integer> selectedItems = possibleNames.getCheckModel().getCheckedIndices();
+                    ArrayList<String> selectedNames = selectedItems.stream().map(selectedIndex -> possibleNames.getCheckModel().getItem(selectedIndex)).collect(Collectors.toCollection(ArrayList::new));
+                    String selection = String.join(", ", selectedNames);
+                    boolean answeredCorrectly = selection.equals(chordName);
+                    if (answeredCorrectly) {
+                        checkInputs.setStyle("-fx-background-color: green");
+                    } else {
+                        checkInputs.setStyle("-fx-background-color: red");
+                    }
+                    handleCompletedQuestion(questionRow, questionType, finalData, selection);
+                });
+
+                inputs.getChildren().add(possibleNames);
+                inputs.getChildren().add(checkInputs);
+            } else {
+                //you only need to select one correct answer
+                ComboBox<String> possibleNames = new ComboBox<>();
+                for (String chord : generateTypeTwoOptions(chordName)) {
+                    possibleNames.getItems().add(chord);
+                }
+
+                possibleNames.setOnAction(event -> {
+                    //Check if the answer is correct
+                    String selection = possibleNames.getValue();
+                    boolean answeredCorrectly = selection.equals(chordName);
+                    styleNoteInput(possibleNames, answeredCorrectly);
+                    handleCompletedQuestion(questionRow, questionType, finalData, selection);
+                });
+                inputs.getChildren().add(possibleNames);
             }
-
-            possibleNames.setOnAction(event -> {
-                //Check if the answer is correct
-                String selection = possibleNames.getValue();
-                boolean answeredCorrectly = selection.equals(chordName);
-                styleNoteInput(possibleNames, answeredCorrectly);
-                handleCompletedQuestion(questionRow, questionType, finalData, selection);
-            });
-
-            inputs.getChildren().add(possibleNames);
 
         }
 
@@ -600,7 +635,12 @@ public class ChordSpellingTutorController extends TutorController {
      * @return true if the user was correct, false otherwise
      */
     private boolean isTypeTwoQuestionCorrect(HBox inputs) {
-        return inputs.getChildren().get(0).getStyle().contains("green");
+        for (Node input : inputs.getChildren()) {
+            if (input.getStyle().contains("green")) {
+                return true;
+            }
+        }
+        return false;
     }
 
 
