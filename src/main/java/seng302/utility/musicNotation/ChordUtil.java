@@ -136,7 +136,7 @@ public class ChordUtil {
             if (chordNotes.contains(null)) {
                 return null;
             }
-            //for half diminished chords (triad)
+            //for diminished chords (triad)
         } else if (type.toLowerCase().equals("diminished") ||
                 type.toLowerCase().equals("dim")) {
             Note currentNote = note;
