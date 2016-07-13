@@ -199,7 +199,13 @@ public class ChordRecognitionTutorController extends TutorController {
                 env.getPlayer().playNotes((ArrayList) theChord);
                 try {
                     //Calculates how long three crotchets is at the current tempo
-                    int wait = 1000 * 180 / currentTempo + 50;
+                    Integer wait;
+                    if (chordTypeBox.getValue().equals("Both") || chordTypeBox.getValue().equals("4 Notes")) {
+                        wait = 1000 * 240 / currentTempo + 40;
+                    }
+                    else {
+                        wait = 1000 * 180 / currentTempo + 40;
+                    }
                     Thread.sleep(wait);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -253,14 +259,28 @@ public class ChordRecognitionTutorController extends TutorController {
     private ComboBox<String> generateChoices() {
         ComboBox<String> options = new ComboBox<String>();
         options.setPrefHeight(30);
-        options.getItems().add("major");
-        options.getItems().add("minor");
-        options.getItems().add("minor 7th");
-        options.getItems().add("major 7th");
-        options.getItems().add("7th");
-        options.getItems().add("diminished");
-        options.getItems().add("half diminished");
-        options.getItems().add("diminished 7th");
+        if (chordTypeBox.getValue().equals("Both")) {
+            options.getItems().add("major");
+            options.getItems().add("minor");
+            options.getItems().add("diminished");
+            options.getItems().add("minor 7th");
+            options.getItems().add("major 7th");
+            options.getItems().add("7th");
+            options.getItems().add("half diminished");
+            options.getItems().add("diminished 7th");
+        }
+        else if (chordTypeBox.getValue().equals("3 Notes")){
+            options.getItems().add("major");
+            options.getItems().add("minor");
+            options.getItems().add("diminished");
+        }
+        else {
+            options.getItems().add("minor 7th");
+            options.getItems().add("major 7th");
+            options.getItems().add("7th");
+            options.getItems().add("half diminished");
+            options.getItems().add("diminished 7th");
+        }
 
         return options;
     }
