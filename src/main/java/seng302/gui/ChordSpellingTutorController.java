@@ -334,7 +334,19 @@ public class ChordSpellingTutorController extends TutorController {
             if (enharmonicsRequired.equals("all")) {
                 CheckComboBox<String> possibleNames = new CheckComboBox<>();
 
-                for (String chord : generateTypeTwoOptions(chordName)) {
+                //Stores the enharmonics of the current chord
+                ArrayList<String> allEnharmonics = new ArrayList<>();
+                allEnharmonics.add(chordName);
+
+                //Generate the list of options
+                ArrayList<String> options;
+                if (allEnharmonics.size() == 1) {
+                    options = generateTypeTwoOptions(chordName);
+                } else {
+                    options = generateTypeTwoOptionsEnharmonics(allEnharmonics);
+                }
+
+                for (String chord : options) {
                     possibleNames.getItems().add(chord);
                 }
 
@@ -348,7 +360,15 @@ public class ChordSpellingTutorController extends TutorController {
                     ObservableList<Integer> selectedItems = possibleNames.getCheckModel().getCheckedIndices();
                     ArrayList<String> selectedNames = selectedItems.stream().map(selectedIndex -> possibleNames.getCheckModel().getItem(selectedIndex)).collect(Collectors.toCollection(ArrayList::new));
                     String selection = String.join(", ", selectedNames);
-                    boolean answeredCorrectly = selection.equals(chordName);
+
+                    //Checks that the user has selected all the enharmonics
+                    boolean answeredCorrectly = true;
+                    for (String enharmonic : allEnharmonics) {
+                        if (!selectedNames.contains(enharmonic)) {
+                            answeredCorrectly = false;
+                        }
+                    }
+
                     if (answeredCorrectly) {
                         checkInputs.setStyle("-fx-background-color: green");
                     } else {
@@ -517,6 +537,34 @@ public class ChordSpellingTutorController extends TutorController {
     private ArrayList<String> generateTypeTwoOptions(String correctAnswer) {
         ArrayList<String> chordNames = new ArrayList<String>();
         chordNames.add(correctAnswer);
+
+        //"No Chord" is always an option, if false chords is 'turned on'.
+        if (allowFalseChords.isSelected() && !chordNames.contains("No Chord")) {
+            chordNames.add("No Chord");
+        }
+
+        while (chordNames.size() < 8) {
+            String chordName = generateValidChord().getKey();
+            if (!chordNames.contains(chordName)) {
+                chordNames.add(chordName);
+            }
+        }
+        Collections.shuffle(chordNames);
+        return chordNames;
+    }
+
+    /**
+     * Creates a list of 8 chord names, that includes all the enharmonic names of the 'real' chord.
+     *
+     * @param enharmonicNames A list of correct options
+     * @return An arraylist of chord names
+     */
+    private ArrayList<String> generateTypeTwoOptionsEnharmonics(ArrayList<String> enharmonicNames) {
+        ArrayList<String> chordNames = new ArrayList<String>();
+
+        for (String enharmonicName : enharmonicNames) {
+            chordNames.add(enharmonicName);
+        }
 
         //"No Chord" is always an option, if false chords is 'turned on'.
         if (allowFalseChords.isSelected() && !chordNames.contains("No Chord")) {
