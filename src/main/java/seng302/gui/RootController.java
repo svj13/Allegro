@@ -17,6 +17,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Menu;
@@ -869,7 +870,6 @@ public class RootController implements Initializable {
         transcriptController.hidePlaybackGui();
         transcriptController.setEnv(env);
 
-<<<<<<< HEAD
         if (PitchComparisonTabController != null) {
             PitchComparisonTabController.clearTutor();
         }
