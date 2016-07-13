@@ -175,7 +175,7 @@ public class TranscriptPaneController {
                     Command cmd = execute(command);
                     printToTranscript();
                     try {
-                        Thread.sleep((long) cmd.getLength(env) + 1000);
+                        Thread.sleep(cmd.getLength(env) + 1000);
                     } catch (InterruptedException e) {
                         updateMessage("Cancelled");
                         break;
@@ -207,7 +207,7 @@ public class TranscriptPaneController {
                         try {
                             commands.remove(0);
 
-                            Thread.sleep((long) cmd.getLength(env) + 100);
+                            Thread.sleep(cmd.getLength(env) + 100);
                         } catch (InterruptedException e) {
                             updateMessage("Cancelled");
                         }

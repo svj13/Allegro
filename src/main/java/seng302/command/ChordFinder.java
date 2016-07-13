@@ -122,10 +122,6 @@ public class ChordFinder implements Command {
 
     }
 
-    public float getLength(Environment env) {
-        return 0;
-    }
-
     public void execute(Environment env) {
 
         env.getTranscriptManager().setResult(result);

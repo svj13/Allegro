@@ -32,7 +32,7 @@ public class PlayNote implements Command {
         this.duration = duration;
     }
 
-    public float getLength(Environment env) {
+    public long getLength(Environment env) {
         return 60000 / env.getPlayer().getTempo();
     }
 
