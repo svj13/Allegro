@@ -78,8 +78,9 @@ public class Chord implements Command {
         }
         this.startNote = this.chord.get(0).getNote();
         this.firstNote = startNote;
-        this.letters = chord.containsKey("scale_type") ? getNoteLetterIndices(this.startNote) : getDimFourthIndices(this.startNote);
-        // this.letters = getNoteLetterIndices(this.startNote);
+        this.letters = chord.containsKey("scale_type") ? getNoteLetterIndices(this.startNote, 3)
+                : getNoteLetterIndices(this.startNote, 4);
+
 
 
 
@@ -98,16 +99,10 @@ public class Chord implements Command {
 
             }
 
-            for(Note n : this.chord){
-                System.out.println("chord: "  +n.getNote());
-            }
-
         }
 
         this.startNote = this.chord.get(0).getNote(); //StartNote will only change if the chord is inverted.
         currentLetter = Character.toUpperCase(startNote.charAt(0));
-
-
 
 
         //checks to see if arpeggio was specified or not. Will play simultaneously if not
@@ -128,33 +123,20 @@ public class Chord implements Command {
      * @param n
      * @return ArrayList of integers corresponding to indices of 'ABCDEFG' string
      */
-    private ArrayList<Integer> getNoteLetterIndices(String n) {
+    private ArrayList<Integer> getNoteLetterIndices(String n, int noteCount) {
         String noteLetters = "ABCDEFG";
         char startLetter = Character.toUpperCase(n.charAt(0));
         int startIndex = noteLetters.indexOf(startLetter);
         ArrayList<Integer> l = new ArrayList<Integer>();
-        l.add(startIndex);
-        l.add(startIndex + 2);
-        l.add(startIndex + 4);
+
+        for(int i = 0; i < noteCount; i++){
+            l.add(startIndex + (i * 2));
+        }
 
         return l;
 
     }
 
-    private ArrayList<Integer> getDimFourthIndices(String n) {
-        String noteLetters = "ABCDEFG";
-        char startLetter = Character.toUpperCase(n.charAt(0));
-
-        int startIndex = noteLetters.indexOf(startLetter);
-        System.out.println("getDimLetters :" + startIndex + "  " + startLetter + " " + n);
-        ArrayList<Integer> l = new ArrayList<Integer>();
-        l.add(startIndex);
-        l.add(startIndex + 2);
-        l.add(startIndex + 4);
-        l.add(startIndex + 6);
-
-        return l;
-    }
 
     /**
      * Updates by two letters at once, as we are skipping two places ahead in the scale.
@@ -182,20 +164,19 @@ public class Chord implements Command {
     private void showChord(Environment env) {
         String chordString = "";
         int c = 0;
-        System.out.println("letters: " + Arrays.toString(letters.toArray()));
+
         for (Note i : chord) {
-            System.out.println(letters.get(c) % 7);
-            System.out.println(i.getNote());
+
             String j = i.getEnharmonicWithLetter("ABCDEFG".charAt(letters.get(c) % 7));
-            System.out.println("j: " + j);
+
             //String j = i.getEnharmonicWithLetter(currentLetter);
             if (!octaveSpecified) {
-                System.out.println("j: " + j);
+
                 j = OctaveUtil.removeOctaveSpecifier(j);
 
             }
             chordString += j + ' ';
-            System.out.println("chordString: " + chordString);
+
             updateLetter();
             c++;
         }
@@ -247,7 +228,7 @@ public class Chord implements Command {
      * @return Inversion number (As a string)
      */
     public static String inversionString(String input){
-        System.out.println("called; " + input);
+
         input = input.toLowerCase();
         if (input.equals("inversion 1") || input.equals("inv 1")) {
             return "1";

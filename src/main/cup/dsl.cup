@@ -207,6 +207,10 @@ chordType ::= NOTE:s CHORD_TYPE:r  {:RESULT = new HashMap<String,String>(); RESU
             | NOTE:s SHARED_CHORD_AND_INTERVAL:r {:RESULT = new HashMap<String,String>();
                                                    RESULT.put("note", s);
                                                    RESULT.put("chord_type", r);:}
+
+            | NOTE:s SHARED_CHORD_AND_INTERVAL:r INVERSION_SPECIFIER:i   {:RESULT = new HashMap<String,String>();
+                                                               RESULT.put("note", s);
+                                                               RESULT.put("chord_type", r); RESULT.put("inversion", Chord.inversionString(i));:}
 ;
 
 playScale ::= scale:s {:RESULT = s;:}

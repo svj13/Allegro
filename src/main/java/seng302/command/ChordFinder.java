@@ -83,9 +83,7 @@ public class ChordFinder implements Command {
             diminishedSeventhChord.set(i, 60 + (diminishedSeventhChord.get(i) % 12));
         }
 
-        System.out.println("half dim:" + Arrays.toString(halfDiminishedChord.toArray()));
 
-        System.out.println("midi notes:" + Arrays.toString(midiNotes.toArray()));
 
         if (all) {
             if (minorChord != null && minorChord.containsAll(midiNotes)) {
@@ -104,7 +102,7 @@ public class ChordFinder implements Command {
 
                 return true;
             } else if (majorSeventhChord != null && majorSeventhChord.containsAll(this.midiNotes)) {
-                System.out.println("in here!!");
+
                 this.result = "" + ChordUtil.getChordName(majorSeventhChord, false);
 
                 return true;
@@ -130,7 +128,7 @@ public class ChordFinder implements Command {
                 return true;
             }
         } else {
-            System.out.println("a:" + Arrays.toString(halfDiminishedChord.toArray()));
+
 
             if (minorChord != null && minorChord.equals(this.midiNotes)) {
                 this.result = "" + ChordUtil.getChordName(minorChord, false);
@@ -147,7 +145,7 @@ public class ChordFinder implements Command {
 
                 return true;
             } else if (majorSeventhChord != null && majorSeventhChord.equals(this.midiNotes)) {
-                System.out.println("in here!!");
+
                 this.result = "" + ChordUtil.getChordName(majorSeventhChord, false);
 
                 return true;
@@ -162,7 +160,7 @@ public class ChordFinder implements Command {
 
                 return true;
             } else if (halfDiminishedChord != null && halfDiminishedChord.equals(this.midiNotes)) {
-                System.out.println("half dim is equal!");
+
                 this.result = "" + ChordUtil.getChordName(halfDiminishedChord, false);
 
                 return true;

@@ -19,7 +19,6 @@ public class ChordUtil {
      * @return Name of the given chord. e.g. C major or C minor.
      */
     public static String getChordName(ArrayList<Integer> notes, Boolean octave) {
-        System.out.println("chord notes; " + notes);
 
         if (notes.size() > 3) {
             String noteDisplay = octave ? Note.lookup(String.valueOf(notes.get(0))).getNote() : OctaveUtil.removeOctaveSpecifier(Note.lookup(String.valueOf(notes.get(0))).getNote()); //Ignore Octave or not?
@@ -64,10 +63,14 @@ public class ChordUtil {
 
     }
 
+    /**
+     * Inverts a chord one time by shifting the first element to the end position.
+     * @param chord ArrayList of Notes resembling a chord
+     * @return ArrayList of Notes resembling an inverted chord
+     */
     public static ArrayList<Note> invertChord(ArrayList<Note> chord){
 
         Note first = chord.remove(0); //Pop first element
-        //chord.add(first); //Append to the end.
         if (first.getMidi() + 12 <= 127) {
             chord.add(Note.lookup(String.valueOf(first.getMidi() + 12)));
         } else chord.add(Note.lookup(String.valueOf(first.getMidi() + 12 - 120)));
