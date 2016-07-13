@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import org.json.simple.JSONArray;
+import org.controlsfx.control.PopOver;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,11 +14,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -35,9 +36,8 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import seng302.Environment;
-import seng302.command.UndoRedo;
+import seng302.data.CommandType;
 import seng302.managers.TranscriptManager;
 import seng302.utility.FileHandler;
 import seng302.utility.OutputTuple;
@@ -120,6 +120,12 @@ public class RootController implements Initializable {
     private Menu menuOpenProjects;
 
     @FXML
+    private Menu helpMenu;
+
+    @FXML
+    private MenuItem dslReferenceMenuItem;
+
+    @FXML
     private TabPane TabPane;
 
     @FXML
@@ -197,8 +203,54 @@ public class RootController implements Initializable {
         keyboardPaneController.stopShowingNotesOnKeyboard();
     }
 
+    private void setCommandText(CommandType command) {
+        transcriptController.txtCommand.clear();
+        String[] parameters = command.getParams();
+        String[] options = command.getOptions();
+        String parameterString = "";
+        String optionsString = "";
+        for (String parameter : parameters) {
+            parameterString += "[" + parameter + "] ";
+        }
+        for (String option : options) {
+            optionsString += "[" + option + "] ";
+        }
+        transcriptController.txtCommand.setText(command.getName() +
+                " Parameters: " + parameterString);
+        if (!optionsString.equals("[]")) {
+            transcriptController.txtCommand.appendText("Options: " + optionsString);
+        }
+    }
 
-
+//    @FXML
+//    private void selectPlayNote() {
+//        String commandText = "play ";
+//        String commandParams = "[note|midi]";
+//        setCommandText(commandText, commandParams, "");
+//    }
+//
+//    @FXML
+//    private void selectPlayChord() {
+//        String commandText = "play chord ";
+//        String commandParams = "[note] [type]";
+//        String commandOptions = "[arpeggio]";
+//        setCommandText(commandText, commandParams, commandOptions);
+//    }
+//
+//    @FXML
+//    private void selectPlayScale() {
+//        String commandText = "play scale ";
+//        String commandParams = "[note] [type]";
+//        String commandOptions = "[octaves] [up|down|updown]";
+//        setCommandText(commandText, commandParams, commandOptions);
+//    }
+//
+//    @FXML
+//    private void selectPlayInterval() {
+//        String commandText = "play interval ";
+//        String commandParams = "[type] [note]";
+//        setCommandText(commandText, commandParams, "");
+//    }
 
     /**
      * Displays a dialog to ask the user whether or not they want to save project changes.
@@ -576,22 +628,22 @@ public class RootController implements Initializable {
     }
 
     /**
-     * opens the scale tutor when the scale menu option is pressed
-     * If there is already an open tutor of the same form then it sets focus to the already open tutor
+     * opens the scale tutor when the scale menu option is pressed If there is already an open tutor
+     * of the same form then it sets focus to the already open tutor
      */
     @FXML
-    private void openScaleTutor(){
+    private void openScaleTutor() {
 
         boolean alreadyExists = false;
-        for(Tab tab:TabPane.getTabs()){
-            if(tab.getId().equals("scaleTutor")){
+        for (Tab tab : TabPane.getTabs()) {
+            if (tab.getId().equals("scaleTutor")) {
                 TabPane.getSelectionModel().select(tab);
                 alreadyExists = true;
             }
 
         }
 
-        if(!alreadyExists) {
+        if (!alreadyExists) {
 
             Tab ScaleTab = new Tab("Scale Recognition Tutor");
             ScaleTab.setId("scaleTutor");
@@ -600,7 +652,7 @@ public class RootController implements Initializable {
             loader.setLocation(getClass().getResource("/Views/ScaleRecognitionPane.fxml"));
 
             try {
-                ScaleTab.setContent((Node) loader.load());
+                ScaleTab.setContent(loader.load());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -614,22 +666,22 @@ public class RootController implements Initializable {
     }
 
     /**
-     * opens the chord tutor when the chord tutor menu option is pressed
-     * If there is already an open tutor of the same form then it sets focus to the already open tutor
+     * opens the chord tutor when the chord tutor menu option is pressed If there is already an open
+     * tutor of the same form then it sets focus to the already open tutor
      */
     @FXML
-    private void openChordTutor(){
+    private void openChordTutor() {
 
         boolean alreadyExists = false;
-        for(Tab tab:TabPane.getTabs()){
-            if(tab.getId().equals("chordTutor")){
+        for (Tab tab : TabPane.getTabs()) {
+            if (tab.getId().equals("chordTutor")) {
                 TabPane.getSelectionModel().select(tab);
                 alreadyExists = true;
             }
 
         }
 
-        if(!alreadyExists) {
+        if (!alreadyExists) {
 
             Tab ScaleTab = new Tab("Chord Recognition Tutor");
             ScaleTab.setId("chordTutor");
@@ -638,7 +690,7 @@ public class RootController implements Initializable {
             loader.setLocation(getClass().getResource("/Views/ChordRecognitionPane.fxml"));
 
             try {
-                ScaleTab.setContent((Node) loader.load());
+                ScaleTab.setContent(loader.load());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -717,21 +769,21 @@ public class RootController implements Initializable {
         dirChooser.setInitialDirectory(path.toFile());
 
 
-        File folder  = dirChooser.showDialog(stage);
+        File folder = dirChooser.showDialog(stage);
 
-        if(folder != null){
-            if(folder.isDirectory()){
-                for(File f : folder.listFiles()){
+        if (folder != null) {
+            if (folder.isDirectory()) {
+                for (File f : folder.listFiles()) {
 
-                    if(f.getName().endsWith(".json") && f.getName().substring(0, f.getName().length() - 5).equals(folder.getName())){
+                    if (f.getName().endsWith(".json") && f.getName().substring(0, f.getName().length() - 5).equals(folder.getName())) {
 
-                        if(! new File("userData/Projects/"+folder.getName()).isDirectory()){
+                        if (!new File("userData/Projects/" + folder.getName()).isDirectory()) {
 
-                            try{
+                            try {
 
                                 //Copy all files from inside the projects folder.
-                                FileHandler.copyFolder(folder,Paths.get(path.toString()+"/"+folder.getName()).toFile());
-                            }catch (Exception ce){
+                                FileHandler.copyFolder(folder, Paths.get(path.toString() + "/" + folder.getName()).toFile());
+                            } catch (Exception ce) {
                                 ce.printStackTrace();
                                 errorAlert("Could not Import the project! Maybe it already exists in the Projects folder?");
                             }
@@ -756,66 +808,59 @@ public class RootController implements Initializable {
 
     /**
      * Sets the stage for root
-     * @param stage
      */
     public void setStage(Stage stage) {
         this.stage = stage;
-        this.stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            public void handle(WindowEvent event) {
-                closeApplication();
-                event.consume();
-
-            }
+        this.stage.setOnCloseRequest(event -> {
+            closeApplication();
+            event.consume();
         });
-
     }
 
     /**
      * Connects the GUI components with the logic environment
-     * @param env
      */
     public void setEnvironment(Environment env) {
         this.env = env;
         this.env.setRootController(this);
         tm = env.getTranscriptManager();
-        transcriptController.setEnv(env);
+        transcriptController.setEnv(this.env);
         transcriptPane.setClosable(false);
         //PitchComparisonTabController.create(env);
         //IntervalRecognitionTabController.create(env);
         //MusicalTermsTabController.create(env);
         //ScaleRecognitionTabController.create(env);
-        keyboardPaneController.create(env);
+        keyboardPaneController.create(this.env);
+
+
     }
 
     /**
      * sets the title of the application to the text input
-     * @param text
      */
-    public void setWindowTitle(String text){
-        this.stage.setTitle("Allegro    " + text);
+    public void setWindowTitle(String text) {
+        this.stage.setTitle("Allegro - " + text);
     }
 
 
     /**
      * Sets the title of a selected tab depending on if there are unsaved changes
-     * @param tabID
-     * @param unsavedChanges
      */
-    public void setTabTitle(String tabID, Boolean unsavedChanges){
+    public void setTabTitle(String tabID, Boolean unsavedChanges) {
 
-        for(Tab tab:TabPane.getTabs()){
-            if(tab.getId().equals(tabID)){
+        for (Tab tab : TabPane.getTabs()) {
+            if (tab.getId().equals(tabID)) {
 
                 String currentText = tab.getText();
                 Character firstChar = currentText.charAt(0);
-                if(firstChar == '*'){
-                    if(!unsavedChanges){
+                if (firstChar == '*') {
+                    if (!unsavedChanges) {
                         tab.setText(currentText.substring(1));
                     }
 
-                }else{
-                    if(unsavedChanges){
-                        tab.setText("*"+ currentText);
+                } else {
+                    if (unsavedChanges) {
+                        tab.setText("*" + currentText);
                     }
                 }
 
@@ -824,10 +869,10 @@ public class RootController implements Initializable {
     }
 
 
-    public boolean tabSaveCheck(String tabID){
-        for(Tab tab:TabPane.getTabs()){
-            if(tab.getId().equals(tabID)){
-                if(tab.getText().charAt(0) =='*'){
+    public boolean tabSaveCheck(String tabID) {
+        for (Tab tab : TabPane.getTabs()) {
+            if (tab.getId().equals(tabID)) {
+                if (tab.getText().charAt(0) == '*') {
                     return true;
                 }
             }
@@ -835,16 +880,17 @@ public class RootController implements Initializable {
         return false;
 
     }
+
     /**
      * clears all the unsaved changes indicators on the tutor tabs
      */
-    public void clearAllIndicators(){
-        for(Tab tab:TabPane.getTabs()){
+    public void clearAllIndicators() {
+        for (Tab tab : TabPane.getTabs()) {
 
             String currentText = tab.getText();
             Character firstChar = currentText.charAt(0);
 
-            if(firstChar == '*'){
+            if (firstChar == '*') {
                 tab.setText(currentText.substring(1));
             }
         }
@@ -855,9 +901,9 @@ public class RootController implements Initializable {
     }
 
     /**
-     * Allows for dynamic updating of the question slider in Musical Terms tutor.
-     * When you load this tab, it checks how many terms are in the current session, and changes
-     * the default accordingly - up to 5.
+     * Allows for dynamic updating of the question slider in Musical Terms tutor. When you load this
+     * tab, it checks how many terms are in the current session, and changes the default accordingly
+     * - up to 5.
      */
     public void reloadNumberTerms() {
         MusicalTermsTabController.terms = env.getMttDataManager().getTerms().size();
