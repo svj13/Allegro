@@ -18,6 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -117,6 +118,8 @@ public class KeyboardPaneController {
     @FXML
     private TitledPane keyPane;
 
+    private Boolean playMode;
+
 
     /**
      * Set up keyboard, by creating settings popOver and TouchPanes(keys) for the keyboard.
@@ -126,6 +129,7 @@ public class KeyboardPaneController {
         keyboardBox.setMaxHeight(200);
         keyboardBox.setMinHeight(200);
         blackKeys.setMaxHeight(130);
+        playMode = true;
         HBox.setHgrow(rightStack, Priority.ALWAYS);
 
         // Picking is computed by intersecting with the geometric
@@ -206,12 +210,39 @@ public class KeyboardPaneController {
         settings.setSpacing(5);
         settings.setPadding(new Insets(10));
 
+
         pop = new PopOver(settings);
         pop.setTitle("Keyboard Settings");
 
         settings.getChildren().add(noteLabelsOff);
         settings.getChildren().add(noteLabelsClick);
         settings.getChildren().add(noteLabelsAlways);
+
+        final ToggleGroup group = new ToggleGroup();
+        HBox modes = new HBox();
+        ToggleButton play = new ToggleButton("Play");
+        play.setUserData(true);
+        play.setToggleGroup(group);
+        play.setSelected(true);
+
+        ToggleButton text = new ToggleButton("Text Input");
+        text.setUserData(false);
+        text.setToggleGroup(group);
+        group.selectedToggleProperty().addListener((observable, newValue, oldValue) -> {
+            if (group.getSelectedToggle() == null) {
+                play.setSelected(true);
+            } else {
+                playMode = (Boolean) group.getSelectedToggle().getUserData();
+            }
+        });
+
+
+
+        settings.getChildren().add(new Label("Keyboard Mode:"));
+        modes.getChildren().add(play);
+        modes.getChildren().add(text);
+        settings.getChildren().add(modes);
+
     }
 
     /**
@@ -440,5 +471,9 @@ public class KeyboardPaneController {
                 ((TouchPane) key).stopDisplayNotes();
             }
         }
+    }
+
+    public Boolean isPlayMode() {
+        return playMode;
     }
 }

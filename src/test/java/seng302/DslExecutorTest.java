@@ -495,15 +495,89 @@ public class DslExecutorTest {
     }
 
 
+    @Test
+    public void testIntervalUnison() {
+        Command command = executor.parseCommandString("interval unison");
+        assertThat(command, instanceOf(seng302.command.IntervalCommand.class));
+    }
 
+    @Test
+    public void testIntervalMinorSecond() {
+        Command command = executor.parseCommandString("interval minor second");
+        assertThat(command, instanceOf(seng302.command.IntervalCommand.class));
+    }
 
+    @Test
+    public void testIntervalMajorSecond() {
+        Command command = executor.parseCommandString("interval major second");
+        assertThat(command, instanceOf(seng302.command.IntervalCommand.class));
+    }
 
+    @Test
+    public void testIntervalMinorThird() {
+        Command command = executor.parseCommandString("interval minor third");
+        assertThat(command, instanceOf(seng302.command.IntervalCommand.class));
+    }
 
+    @Test
+    public void testIntervalMajorThird() {
+        Command command = executor.parseCommandString("interval major third");
+        assertThat(command, instanceOf(seng302.command.IntervalCommand.class));
+    }
 
+    @Test
+    public void testIntervalPerfectFourth() {
+        Command command = executor.parseCommandString("interval perfect fourth");
+        assertThat(command, instanceOf(seng302.command.IntervalCommand.class));
+    }
 
+    @Test
+    public void testIntervalAugmentedFourth() {
+        Command command = executor.parseCommandString("interval augmented fourth");
+        assertThat(command, instanceOf(seng302.command.IntervalCommand.class));
+    }
 
+    @Test
+    public void testIntervalDiminishedFifth() {
+        Command command = executor.parseCommandString("interval diminished fifth");
+        assertThat(command, instanceOf(seng302.command.IntervalCommand.class));
+    }
 
+    @Test
+    public void testIntervalMinorSixth() {
+        Command command = executor.parseCommandString("interval minor sixth");
+        assertThat(command, instanceOf(seng302.command.IntervalCommand.class));
+    }
 
+    @Test
+    public void testIntervalMajorSixth() {
+        Command command = executor.parseCommandString("interval major sixth");
+        assertThat(command, instanceOf(seng302.command.IntervalCommand.class));
+    }
+
+    @Test
+    public void testIntervalDiminishedSeventh() {
+        Command command = executor.parseCommandString("interval diminished seventh");
+        assertThat(command, instanceOf(seng302.command.IntervalCommand.class));
+    }
+
+    @Test
+    public void testIntervalMinorSeventh() {
+        Command command = executor.parseCommandString("interval minor seventh");
+        assertThat(command, instanceOf(seng302.command.IntervalCommand.class));
+    }
+
+    @Test
+    public void testIntervalMajorSeventh() {
+        Command command = executor.parseCommandString("interval major seventh");
+        assertThat(command, instanceOf(seng302.command.IntervalCommand.class));
+    }
+
+    @Test
+    public void testIntervalPerfectOctave() {
+        Command command = executor.parseCommandString("interval perfect octave");
+        assertThat(command, instanceOf(seng302.command.IntervalCommand.class));
+    }
 
 
 }

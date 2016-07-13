@@ -70,11 +70,24 @@ public class TranscriptPaneController {
     @FXML
     ToolBar playbackToolbar;
 
+    @FXML
+    private Button helpButton;
+
+    private DslReferenceController dslRefControl;
+
 
     @FXML
     private void initialize() {
+        dslRefControl = new DslReferenceController(this);
         // Text field can only request focus once everything has been loaded.
         Platform.runLater(() -> txtCommand.requestFocus());
+    }
+
+    /**
+     * Getter method for the input text field
+     */
+    public TextField getTxtCommand() {
+        return txtCommand;
     }
 
     private String enteredCommand;
@@ -121,6 +134,11 @@ public class TranscriptPaneController {
 
     private void printToTranscript() {
         txtTranscript.appendText(env.getTranscriptManager().getLastCommand());
+    }
+
+    @FXML
+    private void showDslRef() {
+        dslRefControl.getPopover().show(helpButton);
     }
 
 
@@ -262,6 +280,7 @@ public class TranscriptPaneController {
 
     public void giveFocus() {
         txtCommand.requestFocus();
+        txtCommand.positionCaret(txtCommand.getText().length());
     }
 
 

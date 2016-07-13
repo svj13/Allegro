@@ -98,8 +98,8 @@ COMMAND_REDO, COMMAND_TWINKLE, COMMAND_CHORD, COMMAND_PLAY_CHORD,COMMAND_RHYTHM,
 COMMAND_INTERVAL_ENHARMONIC, COMMAND_SHOW_KEYSIGNATURE,COMMAND_SHOW_KEYSIGNATURE_NUM,
 COMMAND_SCALE_WITH_KEYSIG, COMMAND_FIND_CHORD, COMMAND_FIND_CHORD_ALL;
 
-terminal String ATOM, NOTE, SCALE_TYPE,INVERSION_SPECIFIER, DIRECTION, MIDINOTE, NUMBER, POSNUM, INTERVAL, PLAY_STYLE, SHARPSFLATS, RHYTHM_TYPE,
-NOTE_TRIO, CHORD_TYPE;
+terminal String ATOM, NOTE, SCALE_TYPE,INVERSION_SPECIFIER,  DIRECTION, MIDINOTE, NUMBER, POSNUM, INTERVAL, PLAY_STYLE, SHARPSFLATS, RHYTHM_TYPE,
+NOTE_TRIO, CHORD_TYPE, SHARED_CHORD_AND_INTERVAL;
 
 /* Non terminals */
 non terminal Command command;
@@ -120,7 +120,6 @@ non terminal HashMap<String, String> chordType;
 non terminal String numberAndSharpsFlat;
 non terminal ArrayList<String> notes;
 non terminal ArrayList<Note> chordSet;
-
 
 start with command;
 
@@ -156,8 +155,7 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_UNDO                                {: RESULT = new UndoRedo(0); :}
           | COMMAND_REDO                                {: RESULT = new UndoRedo(1); :}
           | COMMAND_TWINKLE                             {: RESULT = new Twinkle(); :}
-          /*| COMMAND_CHORD scale:s                       {: RESULT = new Chord(s, "chord"); :}*/
-          | COMMAND_CHORD chordType:c                   {: RESULT = new Chord(c, "chord"); :}
+          | COMMAND_CHORD chordType:s                   {: RESULT = new Chord(s, "chord"); :}
           | COMMAND_SHOW_KEYSIGNATURE scale:s           {: RESULT = new KeySignatureCommand(s,"notes"); :}
           | COMMAND_SHOW_KEYSIGNATURE_NUM scale:s       {: RESULT = new KeySignatureCommand(s,"number"); :}
           | COMMAND_SCALE_WITH_KEYSIG SHARPSFLATS:s     {: RESULT = new KeySignatureCommand(s); :}
@@ -203,10 +201,12 @@ scale ::= NOTE:s SCALE_TYPE:r       {:RESULT = new HashMap<String,String>(); RES
 
 chordType ::= NOTE:s CHORD_TYPE:r  {:RESULT = new HashMap<String,String>(); RESULT.put("note", s);
                                                 RESULT.put("chord_type", r);:}
-            | |    NOTE:s CHORD_TYPE:r INVERSION_SPECIFIER:i       {:RESULT = new HashMap<String,String>(); RESULT.put("note", s);
+            |    NOTE:s CHORD_TYPE:r INVERSION_SPECIFIER:i       {:RESULT = new HashMap<String,String>(); RESULT.put("note", s);
                                                                         RESULT.put("chord_type", r); RESULT.put("inversion", Chord.inversionString(i));:}
-
             | scale:s {:RESULT = s;:}
+            | NOTE:s SHARED_CHORD_AND_INTERVAL:r {:RESULT = new HashMap<String,String>();
+                                                   RESULT.put("note", s);
+                                                   RESULT.put("chord_type", r);:}
 ;
 
 playScale ::= scale:s {:RESULT = s;:}
@@ -216,12 +216,13 @@ playScale ::= scale:s {:RESULT = s;:}
             |   scale:s DIRECTION:b NUMBER:a {: s.put("octaves", String.valueOf(a)); s.put("direction", b); RESULT = s;:}
 ;
 
-playChord ::= chordType:c{:RESULT = c;:}
-                         | chordType:c PLAY_STYLE:a {: c.put("playStyle", a); RESULT = c;:}
+playChord ::= chordType:s {:RESULT = s;:}
+            | chordType:s PLAY_STYLE:a {: s.put("playStyle", a); RESULT = s;:}
 ;
 
 interval ::= INTERVAL:i {: RESULT = new HashMap<String,String>(); RESULT.put("interval", i);:}
            | positiveNum:a {: RESULT = new HashMap<String,String>(); RESULT.put("semitones", a);:}
+           | SHARED_CHORD_AND_INTERVAL:i {: RESULT = new HashMap<String,String>(); RESULT.put("interval", i);:}
 ;
 
 intervalWithTonic ::= interval:i note:a {: i.put("note",a); RESULT = i;:}
@@ -267,9 +268,11 @@ singleTerm ::= keyword:s {: RESULT = s;:}
        | note:s        {: RESULT = s;:}
        | SCALE_TYPE:s  {:RESULT = s;:}
        | RHYTHM_TYPE:r {:RESULT = r;:}
-       | CHORD_TYPE:c  {:RESULT = c;:}
+       | CHORD_TYPE:s  {:RESULT = s;:}
        | DIRECTION:s   {:RESULT = s;:}
        | INTERVAL:i    {:RESULT = i;:}
+
+
 ;
 
 term ::= singleTerm:s {:RESULT =s;:}
@@ -284,6 +287,8 @@ musicalDef ::= term:a SEMIC term:b SEMIC term:c SEMIC term:d
                 {: errorMessage = "Please provide the name, origin, category and definition of the " +
                    "musical term, separated by semicolons.";:}
 ;
+
+
 
 
 
