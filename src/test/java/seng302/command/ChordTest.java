@@ -2,22 +2,21 @@ package seng302.command;
 
 import org.junit.Before;
 import org.junit.Test;
-import static org.mockito.Mockito.*;
-
-
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.HashMap;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 
 import seng302.Environment;
 import seng302.MusicPlayer;
-import seng302.managers.TranscriptManager;
-import seng302.MusicPlayer;
 import seng302.data.Note;
+import seng302.managers.TranscriptManager;
+
+import static junit.framework.TestCase.assertEquals;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ChordTest {
@@ -33,12 +32,13 @@ public class ChordTest {
         env = new Environment();
         env.setTranscriptManager(transcriptManager);
         env.setPlayer(player);
+        when(player.getTempo()).thenReturn(120);
     }
 
 
     /**
-     * Checks to see if invalid chords are being handled correctly, namely chords that contain
-     * notes that exceed the octave range
+     * Checks to see if invalid chords are being handled correctly, namely chords that contain notes
+     * that exceed the octave range
      */
     @Test
     public void catchInvalidChords() {
@@ -65,13 +65,9 @@ public class ChordTest {
     }
 
     /**
-     * Tests to see if when a valid chord is passed through, that it prints the correct
-     * output.
-     * -should print notes of chords ascending from root note
-     * -should print correct enharmonic
-     * -should print whether it is playing a chord or not
-     * -prints octave specifiers
-     *
+     * Tests to see if when a valid chord is passed through, that it prints the correct output.
+     * -should print notes of chords ascending from root note -should print correct enharmonic
+     * -should print whether it is playing a chord or not -prints octave specifiers
      */
     @Test
     public void correctChordPrintOut() {
@@ -119,10 +115,10 @@ public class ChordTest {
         verify(transcriptManager).setResult("C E G B ");
 
 
-
     }
-    /**Check to see if when the chord is playing, it prints the correct message
-     *
+
+    /**
+     * Check to see if when the chord is playing, it prints the correct message
      */
     @Test
     public void playChord() {
@@ -158,11 +154,11 @@ public class ChordTest {
 
     @Test
 
-        /**Tests to see if the chord is played along with the right output
-         * with playStyle Arpeggio specified
-         */
+    /**Tests to see if the chord is played along with the right output
+     * with playStyle Arpeggio specified
+     */
 
-        public void playChordArpeggio() {
+    public void playChordArpeggio() {
 
         //For C Major Arpeggio
         ArrayList<Note> chordList = new ArrayList<Note>();
@@ -179,6 +175,26 @@ public class ChordTest {
         new Chord(chordMap, "play").execute(env);
         verify(transcriptManager).setResult("Playing chord C major");
         verify(player).playNotes(chordList);
+
+    }
+
+    @Test
+    public void testGetLength() {
+        ArrayList<Note> chordList = new ArrayList<Note>();
+        Note currentNote = Note.lookup("C4");
+        chordList.add(currentNote);
+        chordList.add(currentNote.semitoneUp(4));
+        chordList.add(currentNote.semitoneUp(7));
+
+        HashMap<String, String> chordMap = new HashMap<String, String>();
+        chordMap.put("note", "C");
+        chordMap.put("scale_type", "major");
+        chordMap.put("playStyle", "arpeggio");
+        Chord cmajor = new Chord(chordMap, "play");
+        int tempo = env.getPlayer().getTempo();
+        System.out.println(tempo);
+        long crotchetLength = 60000 / tempo;
+        assertEquals(cmajor.getLength(env), 3 * crotchetLength);
 
     }
 
