@@ -19,10 +19,34 @@ public class ChordUtil {
      * @return Name of the given chord. e.g. C major or C minor.
      */
     public static String getChordName(ArrayList<Integer> notes, Boolean octave) {
+        System.out.println("chord notes; " + notes);
 
-        if (notes.size() > 2) {
+        if (notes.size() > 3) {
             String noteDisplay = octave ? Note.lookup(String.valueOf(notes.get(0))).getNote() : OctaveUtil.removeOctaveSpecifier(Note.lookup(String.valueOf(notes.get(0))).getNote()); //Ignore Octave or not?
-            System.out.println("noteDisplay; " + noteDisplay);
+
+            if (notes.get(1) % 12 == (notes.get(0) + 3) % 12 && notes.get(2) % 12 == (notes.get(0) + 7) % 12
+                    && notes.get(3) % 12 == (notes.get(0) + 10) % 12) {
+                return noteDisplay + " minor 7th";
+                //for major 7th chords
+            } else if (notes.get(1) % 12 == (notes.get(0) + 4) % 12 && notes.get(2) % 12 == (notes.get(0) + 7) % 12
+                    && notes.get(3) % 12 == (notes.get(0) + 11) % 12) {
+                return noteDisplay + " major 7th";
+                //for 7th chords
+            } else if (notes.get(1) % 12 == (notes.get(0) + 4) % 12 && notes.get(2) % 12 == (notes.get(0) + 7) % 12
+                    && notes.get(3) % 12 == (notes.get(0) + 10) % 12) {
+                return noteDisplay + " seventh";
+                //for half diminished chords
+            } else if (notes.get(1) % 12 == (notes.get(0) + 3) % 12 && notes.get(2) % 12 == (notes.get(0) + 6) % 12
+                    && notes.get(3) % 12 == (notes.get(0) + 10) % 12) {
+                return noteDisplay + " half diminished";
+                //for diminished chords
+            }
+        }
+
+
+        if (notes.size() > 2) { //Scales
+            String noteDisplay = octave ? Note.lookup(String.valueOf(notes.get(0))).getNote() : OctaveUtil.removeOctaveSpecifier(Note.lookup(String.valueOf(notes.get(0))).getNote()); //Ignore Octave or not?
+
             //for major chords
             if (notes.get(1) % 12 == (notes.get(0) + 4) % 12 && notes.get(2) % 12 == (notes.get(0) + 7) % 12) {
                 return noteDisplay + " major";
@@ -30,27 +54,7 @@ public class ChordUtil {
             } else if (notes.get(1) % 12 == (notes.get(0) + 3) % 12 && notes.get(2) % 12 == (notes.get(0) + 7) % 12) {
                 return noteDisplay + " minor";
              //for minor 7th chords
-            } else if (notes.get(1) == notes.get(0) + 3 && notes.get(2) == notes.get(0) + 7
-                    && notes.get(3) == notes.get(0) + 10) {
-                return noteDisplay + " minor 7th";
-            //for major 7th chords
-            } else if (notes.get(1) == notes.get(0) + 4 && notes.get(2) == notes.get(0) + 7
-                    && notes.get(3) == notes.get(0) + 11) {
-                return noteDisplay + " major 7th";
-            //for 7th chords
-            } else if (notes.get(1) == notes.get(0) + 4 && notes.get(2) == notes.get(0) + 7
-                    && notes.get(3) == notes.get(0) + 10) {
-                return noteDisplay + " 7th";
-            //for diminished chords
-            } else if (notes.get(1) == notes.get(0) + 3 && notes.get(2) == notes.get(0) + 6) {
-                return noteDisplay + " diminished";
-            //for half diminished chords
-            } else if (notes.get(1) == notes.get(0) + 3 && notes.get(2) == notes.get(0) + 6
-                    && notes.get(3) == notes.get(0) + 10) {
-                return noteDisplay + " half diminished";
-            //for diminished chords
-            } else if (notes.get(1) == notes.get(0) + 3 && notes.get(2) == notes.get(0) + 6
-                    && notes.get(3) == notes.get(0) + 9) {
+            } else if (notes.get(1) % 12 == (notes.get(0) + 3) % 12 && notes.get(2) % 12 == (notes.get(0) + 6) % 12) {
                 return noteDisplay + " diminished";
             }
 

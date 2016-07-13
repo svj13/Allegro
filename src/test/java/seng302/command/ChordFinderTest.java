@@ -144,6 +144,18 @@ public class ChordFinderTest {
     }
 
     @Test
+    public void testValidFour2NotAll_FMajor7() throws Exception {
+        //F major seventh (F A C E)
+        ArrayList<Note> notes = new ArrayList<Note>();
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("F")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("A")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("C")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("E")));
+        new ChordFinder(notes, false).execute(env);
+        verify(transcriptManager).setResult("F major 7th");
+    }
+
+    @Test
     public void testValidFourNotAll_FMinor7() throws Exception {
         //F minor seventh (F Ab C Eb)
         ArrayList<Note> notes = new ArrayList<Note>();
@@ -342,7 +354,7 @@ public class ChordFinderTest {
     public void testValidFourAll_CDiminished7() throws Exception {
         //C diminished seventh inversion (C Eb Gb Bbb) in order (Bbb C Eb Gb)
         ArrayList<Note> notes = new ArrayList<Note>();
-        notes.add(Note.lookup(OctaveUtil.validateNoteString("Bbb")));
+
         notes.add(Note.lookup(OctaveUtil.validateNoteString("C")));
         notes.add(Note.lookup(OctaveUtil.validateNoteString("Eb")));
         notes.add(Note.lookup(OctaveUtil.validateNoteString("Gb")));
