@@ -40,7 +40,7 @@
                </children>
             </StackPane>
              <StackPane fx:id="rightStack" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308"
-                        prefHeight="48.0" AnchorPane.leftAnchor="0.0">
+                        pickOnBounds="false" prefHeight="48.0">
                <children>
                    <Button fx:id="settingsButton" focusTraversable="false" minHeight="10.0"
                            mnemonicParsing="false" onAction="#toggleSettings" prefHeight="20.0"
