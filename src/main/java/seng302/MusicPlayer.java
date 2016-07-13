@@ -35,6 +35,7 @@ public class MusicPlayer {
      */
     public MusicPlayer() {
         rh = new RhythmHandler();
+        tempo = 120;
 
         try {
             this.seq = MidiSystem.getSequencer();
