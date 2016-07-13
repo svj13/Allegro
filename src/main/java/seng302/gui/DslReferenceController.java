@@ -70,7 +70,7 @@ public class DslReferenceController {
         helpfulInfo.setPadding(new Insets(10));
         helpfulInfo.getChildren().add(new Text("Note: Arguments surrounded by ( ) are mandatory." +
                 '\n' + "Arguments surrounded by [ ] are optional." + '\n' +
-                "Brackets are indicators only, and should be removed." +
+                "Brackets are indicators only, and should be removed." + '\n' +
                 "Examples of each command are given below the command."));
 
         return helpfulInfo;
