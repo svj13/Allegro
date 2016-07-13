@@ -78,7 +78,7 @@ public class Chord implements Command {
         }
         this.startNote = this.chord.get(0).getNote();
         this.firstNote = startNote;
-        this.letters = chord.containsKey("scale_type") ? getNoteLetterIndices(this.startNote) : getDimFourthIndices("chord_type");
+        this.letters = chord.containsKey("scale_type") ? getNoteLetterIndices(this.startNote) : getDimFourthIndices(this.startNote);
         // this.letters = getNoteLetterIndices(this.startNote);
 
 
@@ -144,7 +144,9 @@ public class Chord implements Command {
     private ArrayList<Integer> getDimFourthIndices(String n) {
         String noteLetters = "ABCDEFG";
         char startLetter = Character.toUpperCase(n.charAt(0));
+
         int startIndex = noteLetters.indexOf(startLetter);
+        System.out.println("getDimLetters :" + startIndex + "  " + startLetter + " " + n);
         ArrayList<Integer> l = new ArrayList<Integer>();
         l.add(startIndex);
         l.add(startIndex + 2);
@@ -182,9 +184,10 @@ public class Chord implements Command {
         int c = 0;
         System.out.println("letters: " + Arrays.toString(letters.toArray()));
         for (Note i : chord) {
-            System.out.println(c % 7);
+            System.out.println(letters.get(c) % 7);
             System.out.println(i.getNote());
             String j = i.getEnharmonicWithLetter("ABCDEFG".charAt(letters.get(c) % 7));
+            System.out.println("j: " + j);
             //String j = i.getEnharmonicWithLetter(currentLetter);
             if (!octaveSpecified) {
                 System.out.println("j: " + j);
@@ -192,6 +195,7 @@ public class Chord implements Command {
 
             }
             chordString += j + ' ';
+            System.out.println("chordString: " + chordString);
             updateLetter();
             c++;
         }

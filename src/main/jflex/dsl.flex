@@ -102,8 +102,8 @@ Atom = [^\s|;]+
 SemiColon = ";"
 ScaleType = "major"|"minor"
 PlayStyle = "arpeggio"
-ChordType = "seventh"|"7th"|"7"|"seven"|"half dim"|"half diminished"|"major 7th"
-            |"major seventh"|"minor 7th"|"minor 7th"|"half dim"|"half diminished"|
+ChordType = "seventh"|"7th"|"seven"|"half dim"|"half diminished"|"major 7th"
+            |"major seventh"|"minor seventh"|"minor 7th"|
             "half diminished 7th"|"half diminished seventh"|"half dim seventh"|"half dim 7th"|
             "diminished seventh"|"diminished 7th"|"dim seventh"|"dim 7th"
 Direction = "updown"|"up"|"down"

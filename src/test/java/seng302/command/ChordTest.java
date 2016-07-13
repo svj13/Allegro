@@ -138,16 +138,18 @@ public class ChordTest {
         HashMap<String, String> chordMap1 = new HashMap<String, String>();
         chordMap1.put("note", "C");
         chordMap1.put("scale_type", "major");
-        chordMap1.put("playStyle", "arpeggio");
+        //chordMap1.put("playStyle", "arpeggio");
+
+        new Chord(chordMap1, "play").execute(env);
+        verify(transcriptManager).setResult("Playing chord C4 major");
+        verify(player).playSimultaneousNotes(chordList1);
 
         HashMap<String, String> chordMap2 = new HashMap<String, String>();
         chordMap2.put("note", "G");
         chordMap2.put("scale_type", "major");
 
 
-        new Chord(chordMap1, "play").execute(env);
-        verify(transcriptManager).setResult("Playing chord C major");
-        verify(player).playSimultaneousNotes(chordList1);
+
 
         new Chord(chordMap2, "play").execute(env);
         verify(transcriptManager).setResult("Playing chord G4 major");
@@ -230,7 +232,7 @@ public class ChordTest {
         chordMap.put("playStyle", "arpeggio");
 
         new Chord(chordMap, "play").execute(env);
-        verify(transcriptManager).setResult("Playing chord C major");
+        verify(transcriptManager).setResult("Playing chord C4 major");
         verify(player).playNotes(chordList);
 
     }

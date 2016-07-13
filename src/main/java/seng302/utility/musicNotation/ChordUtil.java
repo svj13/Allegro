@@ -22,7 +22,7 @@ public class ChordUtil {
 
         if (notes.size() > 2) {
             String noteDisplay = octave ? Note.lookup(String.valueOf(notes.get(0))).getNote() : OctaveUtil.removeOctaveSpecifier(Note.lookup(String.valueOf(notes.get(0))).getNote()); //Ignore Octave or not?
-
+            System.out.println("noteDisplay; " + noteDisplay);
             //for major chords
             if (notes.get(1) == notes.get(0) + 4 && notes.get(2) == notes.get(0) + 7) {
                 return noteDisplay + " major";

@@ -203,6 +203,9 @@ scale ::= NOTE:s SCALE_TYPE:r       {:RESULT = new HashMap<String,String>(); RES
 
 chordType ::= NOTE:s CHORD_TYPE:r  {:RESULT = new HashMap<String,String>(); RESULT.put("note", s);
                                                 RESULT.put("chord_type", r);:}
+            | |    NOTE:s CHORD_TYPE:r INVERSION_SPECIFIER:i       {:RESULT = new HashMap<String,String>(); RESULT.put("note", s);
+                                                                        RESULT.put("chord_type", r); RESULT.put("inversion", Chord.inversionString(i));:}
+
             | scale:s {:RESULT = s;:}
 ;
 
@@ -212,13 +215,10 @@ playScale ::= scale:s {:RESULT = s;:}
             |   scale:s NUMBER:a DIRECTION:b {: s.put("octaves", String.valueOf(a)); s.put("direction", b); RESULT = s;:}
             |   scale:s DIRECTION:b NUMBER:a {: s.put("octaves", String.valueOf(a)); s.put("direction", b); RESULT = s;:}
 ;
-/*
-playChord ::= scale:s {:RESULT = s;:}
-            | scale:s PLAY_STYLE:a {: s.put("playStyle", a); RESULT = s;:}
-            
-            |chordType:c{:RESULT = c;:}
+
+playChord ::= chordType:c{:RESULT = c;:}
                          | chordType:c PLAY_STYLE:a {: c.put("playStyle", a); RESULT = c;:}
-;*/
+;
 
 interval ::= INTERVAL:i {: RESULT = new HashMap<String,String>(); RESULT.put("interval", i);:}
            | positiveNum:a {: RESULT = new HashMap<String,String>(); RESULT.put("semitones", a);:}

@@ -1,6 +1,7 @@
 package seng302.command;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import seng302.Environment;
 import seng302.data.Note;
@@ -78,6 +79,10 @@ public class ChordFinder implements Command {
             diminishedSeventhChord.set(i, 60 + (minorChord.get(i) % 12));
         }
 
+        System.out.println(Arrays.toString(majorChord.toArray()));
+
+        System.out.println(Arrays.toString(midiNotes.toArray()));
+
         if (all) {
             if (minorChord != null && minorChord.containsAll(midiNotes)) {
                 if (this.all) {
@@ -86,6 +91,7 @@ public class ChordFinder implements Command {
                     return true;
                 }
             } else if (majorChord != null && majorChord.containsAll(midiNotes)) {
+                System.out.println("majorChord isn't null and contains all midi notes");
                 this.result = "" + ChordUtil.getChordName(majorChord, false);
                 return true;
             }
@@ -95,7 +101,9 @@ public class ChordFinder implements Command {
                 return true;
 
             } else if (majorChord != null && majorChord.equals(this.midiNotes)) {
+
                 this.result = "" + ChordUtil.getChordName(majorChord, false);
+                System.out.println("result: " + this.result);
                 return true;
             }
         }
