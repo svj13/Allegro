@@ -383,6 +383,7 @@ public class Note {
 
     public String getEnharmonicWithLetter(char letter) {
         for (String value : enharmonics.values()) {
+            System.out.println("enh: " + value);
             if (value.startsWith(String.valueOf(letter))) {
                 return value;
             }

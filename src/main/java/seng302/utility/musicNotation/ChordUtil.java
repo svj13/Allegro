@@ -1,6 +1,7 @@
 package seng302.utility.musicNotation;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import seng302.data.Note;
 
@@ -19,37 +20,40 @@ public class ChordUtil {
      */
     public static String getChordName(ArrayList<Integer> notes, Boolean octave) {
 
-        if (notes.size() > 2) {
+        if (notes.size() > 3) {
+            String noteDisplay = octave ? Note.lookup(String.valueOf(notes.get(0))).getNote() : OctaveUtil.removeOctaveSpecifier(Note.lookup(String.valueOf(notes.get(0))).getNote()); //Ignore Octave or not?
+
+            if (notes.get(1) % 12 == (notes.get(0) + 3) % 12 && notes.get(2) % 12 == (notes.get(0) + 7) % 12
+                    && notes.get(3) % 12 == (notes.get(0) + 10) % 12) {
+                return noteDisplay + " minor 7th";
+                //for major 7th chords
+            } else if (notes.get(1) % 12 == (notes.get(0) + 4) % 12 && notes.get(2) % 12 == (notes.get(0) + 7) % 12
+                    && notes.get(3) % 12 == (notes.get(0) + 11) % 12) {
+                return noteDisplay + " major 7th";
+                //for 7th chords
+            } else if (notes.get(1) % 12 == (notes.get(0) + 4) % 12 && notes.get(2) % 12 == (notes.get(0) + 7) % 12
+                    && notes.get(3) % 12 == (notes.get(0) + 10) % 12) {
+                return noteDisplay + " seventh";
+                //for half diminished chords
+            } else if (notes.get(1) % 12 == (notes.get(0) + 3) % 12 && notes.get(2) % 12 == (notes.get(0) + 6) % 12
+                    && notes.get(3) % 12 == (notes.get(0) + 10) % 12) {
+                return noteDisplay + " half diminished";
+                //for diminished chords
+            }
+        }
+
+
+        if (notes.size() > 2) { //Scales
             String noteDisplay = octave ? Note.lookup(String.valueOf(notes.get(0))).getNote() : OctaveUtil.removeOctaveSpecifier(Note.lookup(String.valueOf(notes.get(0))).getNote()); //Ignore Octave or not?
 
             //for major chords
-            if (notes.get(1) == notes.get(0) + 4 && notes.get(2) == notes.get(0) + 7) {
+            if (notes.get(1) % 12 == (notes.get(0) + 4) % 12 && notes.get(2) % 12 == (notes.get(0) + 7) % 12) {
                 return noteDisplay + " major";
             //for minor chords
-            } else if (notes.get(1) == notes.get(0) + 3 && notes.get(2) == notes.get(0) + 7) {
+            } else if (notes.get(1) % 12 == (notes.get(0) + 3) % 12 && notes.get(2) % 12 == (notes.get(0) + 7) % 12) {
                 return noteDisplay + " minor";
              //for minor 7th chords
-            } else if (notes.get(1) == notes.get(0) + 3 && notes.get(2) == notes.get(0) + 7
-                    && notes.get(3) == notes.get(0) + 10) {
-                return noteDisplay + " minor 7th";
-            //for major 7th chords
-            } else if (notes.get(1) == notes.get(0) + 4 && notes.get(2) == notes.get(0) + 7
-                    && notes.get(3) == notes.get(0) + 11) {
-                return noteDisplay + " major 7th";
-            //for 7th chords
-            } else if (notes.get(1) == notes.get(0) + 4 && notes.get(2) == notes.get(0) + 7
-                    && notes.get(3) == notes.get(0) + 10) {
-                return noteDisplay + " 7th";
-            //for diminished chords
-            } else if (notes.get(1) == notes.get(0) + 3 && notes.get(2) == notes.get(0) + 6) {
-                return noteDisplay + " diminished";
-            //for half diminished chords
-            } else if (notes.get(1) == notes.get(0) + 3 && notes.get(2) == notes.get(0) + 6
-                    && notes.get(3) == notes.get(0) + 10) {
-                return noteDisplay + " half diminished";
-            //for diminished chords
-            } else if (notes.get(1) == notes.get(0) + 3 && notes.get(2) == notes.get(0) + 6
-                    && notes.get(3) == notes.get(0) + 9) {
+            } else if (notes.get(1) % 12 == (notes.get(0) + 3) % 12 && notes.get(2) % 12 == (notes.get(0) + 6) % 12) {
                 return noteDisplay + " diminished";
             }
 
@@ -57,6 +61,22 @@ public class ChordUtil {
         }
         throw new IllegalArgumentException("Not a chord");
 
+    }
+
+    /**
+     * Inverts a chord one time by shifting the first element to the end position.
+     * @param chord ArrayList of Notes resembling a chord
+     * @return ArrayList of Notes resembling an inverted chord
+     */
+    public static ArrayList<Note> invertChord(ArrayList<Note> chord){
+
+        Note first = chord.remove(0); //Pop first element
+        if (first.getMidi() + 12 <= 127) {
+            chord.add(Note.lookup(String.valueOf(first.getMidi() + 12)));
+        } else chord.add(Note.lookup(String.valueOf(first.getMidi() + 12 - 120)));
+
+
+        return chord;
     }
 
 
@@ -123,7 +143,7 @@ public class ChordUtil {
             if (chordNotes.contains(null)) {
                 return null;
             }
-            //for half diminished chords (triad)
+            //for diminished chords (triad)
         } else if (type.toLowerCase().equals("diminished") ||
                 type.toLowerCase().equals("dim")) {
             Note currentNote = note;
@@ -175,7 +195,6 @@ public class ChordUtil {
      * @param type String type of chord (either major or minor)
      * @return ArrayList of Notes corresponding to the chord.
      */
-
     public static ArrayList<Integer> getChordMidi(int midi, String type) {
         ArrayList<Integer> chordNotes = new ArrayList<Integer>();
         Note currentNote = Note.lookup(String.valueOf(midi));
@@ -272,6 +291,9 @@ public class ChordUtil {
         }
         return chordNotes;
     }
+
+
+
 
 
 }

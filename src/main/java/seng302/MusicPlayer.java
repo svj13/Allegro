@@ -71,6 +71,7 @@ public class MusicPlayer {
             rh.resetIndex(); //Reset rhythm to first crotchet.
             for (Note note : notes) {
                 int timing = rh.getNextTickTiming();
+
                 addNote(track, currenttick, timing, note.getMidi(), 64); //velocity 64
                 currenttick += (timing + pause);
             }
@@ -117,7 +118,7 @@ public class MusicPlayer {
             track.add(new MidiEvent(sm, 0));
 
             // Add all notes to the start of the sequence
-            for (Note note : notes) {
+            for (Note note:notes) {
                 addNote(track, 0, 16, note.getMidi(), 64);
             }
             playSequence(sequence);
@@ -212,6 +213,7 @@ public class MusicPlayer {
     }
 
     public void stop() {
+
         seq.stop();
     }
 

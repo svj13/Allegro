@@ -39,7 +39,11 @@ public class ChordRecognitionTutorController extends TutorController {
     @FXML
     ComboBox<Integer> octaves;
 
+    @FXML
+    ComboBox<String> chordTypeBox;
+
     private Random rand;
+
 
     @FXML
     /**
@@ -72,7 +76,8 @@ public class ChordRecognitionTutorController extends TutorController {
         playChords.getSelectionModel().selectFirst();
         octaves.getItems().addAll(1, 2, 3, 4);
         octaves.getSelectionModel().selectFirst();
-
+        chordTypeBox.getItems().addAll("3 Notes", "4 Notes", "Both");
+        chordTypeBox.getSelectionModel().selectFirst();
     }
 
     /**
@@ -81,12 +86,47 @@ public class ChordRecognitionTutorController extends TutorController {
      * @return a question pane containing the question information
      */
     public HBox setUpQuestion() {
-        int type = rand.nextInt(2);
+
         String chordType;
-        if (type == 0) {
-            chordType = "major";
-        } else {
-            chordType = "minor";
+        Integer type;
+
+        if (chordTypeBox.getValue().equals("Both")) {
+            type = rand.nextInt(8);
+        }
+        else if (chordTypeBox.getValue().equals("3 Notes")) {
+            type = rand.nextInt(3);
+        }
+        else {
+            type = rand.nextInt(5) + 3;
+        }
+
+        switch (type) {
+            case 0:
+                chordType = "major";
+                break;
+            case 1:
+                chordType = "minor";
+                break;
+            case 2:
+                chordType = "diminished";
+                break;
+            case 3:
+                chordType = "major 7th";
+                break;
+            case 4:
+                chordType = "7th";
+                break;
+            case 5:
+                chordType = "minor 7th";
+                break;
+            case 6:
+                chordType = "half diminished";
+                break;
+            case 7:
+                chordType = "diminished 7th";
+                break;
+            default:
+                chordType = "major";
         }
         Note randNote = getRandomNote();
 //        return generateQuestionPane(randNote, chordType);
@@ -159,7 +199,13 @@ public class ChordRecognitionTutorController extends TutorController {
                 env.getPlayer().playNotes((ArrayList) theChord);
                 try {
                     //Calculates how long three crotchets is at the current tempo
-                    int wait = 1000 * 180 / currentTempo + 50;
+                    Integer wait;
+                    if (chordTypeBox.getValue().equals("Both") || chordTypeBox.getValue().equals("4 Notes")) {
+                        wait = 1000 * 240 / currentTempo + 40;
+                    }
+                    else {
+                        wait = 1000 * 180 / currentTempo + 40;
+                    }
                     Thread.sleep(wait);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -213,8 +259,29 @@ public class ChordRecognitionTutorController extends TutorController {
     private ComboBox<String> generateChoices() {
         ComboBox<String> options = new ComboBox<String>();
         options.setPrefHeight(30);
-        options.getItems().add("major");
-        options.getItems().add("minor");
+        if (chordTypeBox.getValue().equals("Both")) {
+            options.getItems().add("major");
+            options.getItems().add("minor");
+            options.getItems().add("diminished");
+            options.getItems().add("minor 7th");
+            options.getItems().add("major 7th");
+            options.getItems().add("7th");
+            options.getItems().add("half diminished");
+            options.getItems().add("diminished 7th");
+        }
+        else if (chordTypeBox.getValue().equals("3 Notes")){
+            options.getItems().add("major");
+            options.getItems().add("minor");
+            options.getItems().add("diminished");
+        }
+        else {
+            options.getItems().add("minor 7th");
+            options.getItems().add("major 7th");
+            options.getItems().add("7th");
+            options.getItems().add("half diminished");
+            options.getItems().add("diminished 7th");
+        }
+
         return options;
     }
 
