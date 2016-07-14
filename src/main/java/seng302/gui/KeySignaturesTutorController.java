@@ -39,8 +39,6 @@ public class KeySignaturesTutorController extends TutorController {
     Label formLabel;
 
 
-    private Random rand;
-
 
     /**
      * ArrayLists containing the major and minor notes thats are used to populate the answer comboboxs used for question type 2
@@ -77,7 +75,6 @@ public class KeySignaturesTutorController extends TutorController {
     public void create(Environment env) {
         super.create(env);
         initialiseQuestionSelector();
-        rand = new Random();
         scaleBox.getItems().addAll("Major", "Minor", "Both");
         scaleBox.getSelectionModel().selectFirst();
         formBox.getItems().addAll("Listing sharps/flats", "Number of sharps/flats");
@@ -87,7 +84,9 @@ public class KeySignaturesTutorController extends TutorController {
     }
 
 
-
+    /**
+     * Updates the form label depending on the question type
+     */
     public void updateQuestionBox(){
         if(answerBox.getValue().equals("Show Key Signature")){
             formLabel.setText("Question form:");
@@ -366,6 +365,13 @@ public class KeySignaturesTutorController extends TutorController {
     }
 
 
+    /**
+     *  Helper function for finding the correct answer that can be displayed if a question is answered incorrectly. For
+     * Type 1 questions that have the number of flats or sharps as the question
+     * @param pair - a pair containing the scale type and another pair that contains the question type and answer type
+     * @param question - the question that is being answered
+     * @return a string representing the correct answer to the given question
+     */
     private String findCorrectAnswerNumSharpFlat(Pair pair, String question){
         Boolean isBoth = false;
         String correctAnswer = "";
@@ -626,11 +632,6 @@ public class KeySignaturesTutorController extends TutorController {
         questionRow.getChildren().add(0, questionText);
 
 
-
-
-
-
-
         if (pair.getKey().equals("both")) {
             questionRow.getChildren().add(1, majorOptions);
             questionRow.getChildren().add(2, minorOptions);
@@ -648,6 +649,12 @@ public class KeySignaturesTutorController extends TutorController {
     }
 
 
+    /**
+     * Helper function for finding the correct answer that can be displayed if a question is answered incorrectly
+     * @param pair - a pair containing the scale type and another pair that contains the question type and answer type
+     * @param question - the question that is being answered
+     * @return a string representing the correct answer to the given question
+     */
     private String findCorrectAnswer(Pair pair, String question){
         Boolean isBoth = false;
         String correctAnswer = "";
@@ -673,6 +680,7 @@ public class KeySignaturesTutorController extends TutorController {
 
         return correctAnswer;
     }
+
 
     /**
      * Generates a combobox filled with potential answers to given question for type 1 questions
