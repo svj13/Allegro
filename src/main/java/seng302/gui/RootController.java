@@ -1,6 +1,9 @@
 package seng302.gui;
 
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.control.*;
 import org.json.simple.JSONArray;
 import org.controlsfx.control.PopOver;
 
@@ -79,6 +82,9 @@ public class RootController implements Initializable {
     private ChordRecognitionTutorController ChordRecognitionTabController;
 
     @FXML
+    private ChordSpellingTutorController ChordSpellingTabController;
+
+    @FXML
     private KeySignaturesTutorController KeySignaturesTabController;
 
     @FXML
@@ -114,6 +120,9 @@ public class RootController implements Initializable {
 
     @FXML
     private MenuItem menuCRT;
+
+    @FXML
+    private MenuItem menuCST;
 
     @FXML
     private MenuItem menuKST;
@@ -224,35 +233,7 @@ public class RootController implements Initializable {
         }
     }
 
-//    @FXML
-//    private void selectPlayNote() {
-//        String commandText = "play ";
-//        String commandParams = "[note|midi]";
-//        setCommandText(commandText, commandParams, "");
-//    }
-//
-//    @FXML
-//    private void selectPlayChord() {
-//        String commandText = "play chord ";
-//        String commandParams = "[note] [type]";
-//        String commandOptions = "[arpeggio]";
-//        setCommandText(commandText, commandParams, commandOptions);
-//    }
-//
-//    @FXML
-//    private void selectPlayScale() {
-//        String commandText = "play scale ";
-//        String commandParams = "[note] [type]";
-//        String commandOptions = "[octaves] [up|down|updown]";
-//        setCommandText(commandText, commandParams, commandOptions);
-//    }
-//
-//    @FXML
-//    private void selectPlayInterval() {
-//        String commandText = "play interval ";
-//        String commandParams = "[type] [note]";
-//        setCommandText(commandText, commandParams, "");
-//    }
+
 
     /**
      * Displays a dialog to ask the user whether or not they want to save project changes.
@@ -744,6 +725,42 @@ public class RootController implements Initializable {
     }
 
     /**
+     * Opens the chord spelling tutor. If this tutor is already open, focus is transferred to it.
+     */
+    @FXML
+    private void openSpellingTutor() {
+        boolean alreadyExists = false;
+        for (Tab tab : TabPane.getTabs()) {
+            if (tab.getId().equals("chordSpellingTutor")) {
+                TabPane.getSelectionModel().select(tab);
+                alreadyExists = true;
+            }
+
+        }
+
+        if (!alreadyExists) {
+
+            Tab spellingTab = new Tab("Chord Spelling Tutor");
+            spellingTab.setId("chordSpellingTutor");
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/Views/ChordSpellingPane.fxml"));
+
+            try {
+                spellingTab.setContent((Node) loader.load());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            TabPane.getTabs().add(spellingTab);
+            TabPane.getSelectionModel().select(spellingTab);
+            ChordSpellingTabController = loader.getController();
+            ChordSpellingTabController.create(env);
+        }
+    }
+
+
+    /**
      * Displays an error message
      *
      * @param errorMessage The message to be displayed
@@ -834,6 +851,7 @@ public class RootController implements Initializable {
         //MusicalTermsTabController.create(env);
         //ScaleRecognitionTabController.create(env);
         keyboardPaneController.create(this.env);
+
 
     }
 
@@ -937,6 +955,9 @@ public class RootController implements Initializable {
         if (ScaleRecognitionTabController != null) {
             ScaleRecognitionTabController.clearTutor();
         }
+        if (ChordSpellingTabController != null) {
+            ChordSpellingTabController.clearTutor();
+        }
         if (ChordRecognitionTabController != null){
             ChordRecognitionTabController.clearTutor();
         }
@@ -944,7 +965,7 @@ public class RootController implements Initializable {
             KeySignaturesTabController.clearTutor();
 
         }
-        
+
     }
 
     public TranscriptPaneController getTranscriptController() {

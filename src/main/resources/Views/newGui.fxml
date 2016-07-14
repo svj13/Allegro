@@ -73,6 +73,7 @@
                         <MenuItem fx:id="menuMTT" mnemonicParsing="false" onAction="#openMusicalTermTutor" text="Musical Terms" />
                         <MenuItem fx:id="menuSCT" mnemonicParsing="false" onAction="#openScaleTutor" text="Scale Recognition" />
                         <MenuItem fx:id="menuCRT" mnemonicParsing="false" onAction="#openChordTutor" text="Chord Recognition" />
+                         <MenuItem fx:id="menuCST" mnemonicParsing="false" onAction="#openSpellingTutor" text="Chord Spelling" />
                         <MenuItem fx:id="menuKST" mnemonicParsing="false" onAction="#openKeySignatureTutor" text="Key Signature" />
                      </items>
                   </Menu>
