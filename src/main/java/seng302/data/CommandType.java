@@ -16,7 +16,7 @@ public class CommandType {
 
     public static Map<String, CommandType> playCommands = new TreeMap<String, CommandType>() {
         {
-            put("play chord", new CommandType("play chord", "note,type", "arpeggio", "play chord C# major"));
+            put("play chord", new CommandType("play chord", "note,type", "inversion number,arpeggio", "play chord C# major inversion 1"));
             put("play interval", new CommandType("play interval", "name,note", "", "play interval unison D"));
             put("play", new CommandType("play", "note|midi", "", "play C5"));
             put("play scale", new CommandType("play scale", "note,type", "octaves,up|down|updown", "play scale C major"));
@@ -25,7 +25,7 @@ public class CommandType {
 
     public static Map<String, CommandType> showCommands = new TreeMap<String, CommandType>() {
         {
-            put("chord", new CommandType("chord", "note,type", "", "chord D minor"));
+            put("chord", new CommandType("chord", "note,type", "inversion number", "chord D minor"));
             put("crotchet duration", new CommandType("crotchet duration", "", "", "crotchet duration"));
             put("all enharmonics", new CommandType("all enharmonics", "note", "", "all enharmonics A"));
             put("enharmonic higher", new CommandType("enharmonic higher", "note", "", "enharmonic higher B"));
