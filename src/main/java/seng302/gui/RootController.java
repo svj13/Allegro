@@ -19,6 +19,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Menu;
@@ -78,6 +79,9 @@ public class RootController implements Initializable {
     private ChordRecognitionTutorController ChordRecognitionTabController;
 
     @FXML
+    private KeySignaturesTutorController KeySignaturesTabController;
+
+    @FXML
     private KeyboardPaneController keyboardPaneController;
 
     @FXML
@@ -110,6 +114,9 @@ public class RootController implements Initializable {
 
     @FXML
     private MenuItem menuCRT;
+
+    @FXML
+    private MenuItem menuKST;
 
     @FXML
     private Menu menuOpenProjects;
@@ -698,6 +705,43 @@ public class RootController implements Initializable {
 
     }
 
+    /**
+     * opens the keySignatures tutor when the key signatures tutor menu option is pressed
+     * If there is already an open tutor of the same form then it sets focus to the already open tutor
+     */
+    @FXML
+    private void openKeySignatureTutor(){
+
+        boolean alreadyExists = false;
+        for(Tab tab:TabPane.getTabs()){
+            if(tab.getId().equals("keySignatureTutor")){
+                TabPane.getSelectionModel().select(tab);
+                alreadyExists = true;
+            }
+
+        }
+
+        if(!alreadyExists) {
+
+            Tab ScaleTab = new Tab("Key Signature Tutor");
+            ScaleTab.setId("keySignatureTutor");
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/Views/KeySignaturesPane.fxml"));
+
+            try {
+                ScaleTab.setContent((Node) loader.load());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            TabPane.getTabs().add(ScaleTab);
+            TabPane.getSelectionModel().select(ScaleTab);
+            KeySignaturesTabController = loader.getController();
+            KeySignaturesTabController.create(env);
+        }
+
+    }
 
     /**
      * Displays an error message
@@ -790,7 +834,6 @@ public class RootController implements Initializable {
         //MusicalTermsTabController.create(env);
         //ScaleRecognitionTabController.create(env);
         keyboardPaneController.create(this.env);
-
 
     }
 
@@ -894,6 +937,14 @@ public class RootController implements Initializable {
         if (ScaleRecognitionTabController != null) {
             ScaleRecognitionTabController.clearTutor();
         }
+        if (ChordRecognitionTabController != null){
+            ChordRecognitionTabController.clearTutor();
+        }
+        if(KeySignaturesTabController != null){
+            KeySignaturesTabController.clearTutor();
+
+        }
+        
     }
 
     public TranscriptPaneController getTranscriptController() {
