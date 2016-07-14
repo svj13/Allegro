@@ -83,7 +83,7 @@ public class TutorRecord {
     }
 
 
-    private void makeOveralTutorObject() {
+    private void makeOverallTutorObject() {
         overalTutorSessionObject.put("Questions", tutorRecordList);
         overalTutorSessionObject.put("SessionStats", tutorRecordStats);
         overalTutorObject.put("Session_" + new Date().toString(), overalTutorSessionObject);
@@ -98,7 +98,7 @@ public class TutorRecord {
     public JSONObject writeToFile(String recordLocation) {
         if (overalTutorObject.isEmpty()) {
 
-            makeOveralTutorObject();
+            makeOverallTutorObject();
         }
 
         try {

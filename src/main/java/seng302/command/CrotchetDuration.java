@@ -6,15 +6,6 @@ import seng302.Environment;
  * Created by Sarah on 21/03/2016.
  */
 public class CrotchetDuration implements Command {
-    private int tempo;
-    private int speed;
-    private String result;
-
-    public float getLength(Environment env) {
-        return 0;
-    }
-
-    ;
 
     public void execute(Environment env) {
         int tempo = env.getPlayer().getTempo();

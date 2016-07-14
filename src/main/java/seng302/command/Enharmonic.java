@@ -20,12 +20,6 @@ public class Enharmonic implements Command {
         this.comm = c;
     }
 
-    public float getLength(Environment env) {
-        return 0;
-    }
-
-    ;
-
 
     public void execute(Environment env) {
         try {

@@ -74,12 +74,6 @@ public class Rhythm implements Command {
         this.divisions = rhythmDivisions;
     }
 
-    public float getLength(Environment env) {
-        return 0;
-    }
-
-    ;
-
 
     /**
      * Executes the rhythm command, adds the rhythm values to the history for undoing/redoing, and

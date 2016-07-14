@@ -17,10 +17,6 @@ public class Midi implements Command {
         this.s = OctaveUtil.validateNoteString(s);
     }
 
-    public float getLength(Environment env) {
-        return 0;
-    }
-
     ;
 
     /**

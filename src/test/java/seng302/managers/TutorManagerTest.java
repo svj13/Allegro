@@ -1,12 +1,11 @@
 package seng302.managers;
 
-import javafx.util.Pair;
-import seng302.managers.TutorManager;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+
+import javafx.util.Pair;
 
 import static org.junit.Assert.assertEquals;
 
@@ -102,6 +101,21 @@ public class TutorManagerTest {
         assertEquals(0,tm.correct);
         assertEquals(0,tm.incorrect);
         assertEquals(0,tm.skipped);
+    }
+
+    @Test
+    public void testResetEverything() {
+        tm.add(incorrectPair, 0);
+        tm.add(correctPair, 1);
+        tm.add(skippedPair, 2);
+        tm.resetEverything();
+        assertEquals(0, tm.correct);
+        assertEquals(0, tm.incorrect);
+        assertEquals(0, tm.skipped);
+        assertEquals(0, tm.getTempIncorrectResponses().size());
+        assertEquals(0, tm.getIncorrectResponses().size());
+        assertEquals(0, tm.getCorrectResponses().size());
+
     }
 
 

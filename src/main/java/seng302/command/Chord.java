@@ -151,9 +151,20 @@ public class Chord implements Command {
     }
 
 
+    public long getLength(Environment env) {
+        long milliseconds = 0;
 
-    public float getLength(Environment env) {
-        return 0;
+        if (outputType.equals("play")) {
+            ArrayList<Note> chord = this.chord;
+            int tempo = env.getPlayer().getTempo();
+            long crotchetLength = 60000 / tempo;
+            if (arpeggioFlag) {
+                milliseconds = chord.size() * crotchetLength;
+            } else {
+                milliseconds = crotchetLength;
+            }
+        }
+        return milliseconds;
     }
 
     /**

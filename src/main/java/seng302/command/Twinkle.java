@@ -11,9 +11,9 @@ import seng302.data.Note;
 public class Twinkle implements Command {
 
 
-    public float getLength(Environment env) {
+    public long getLength(Environment env) {
         int tempo = env.getPlayer().getTempo();
-        float crotchetLength = 60000 / tempo;
+        long crotchetLength = 60000 / tempo;
         return 14 * crotchetLength;
     }
 

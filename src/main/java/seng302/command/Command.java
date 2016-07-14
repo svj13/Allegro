@@ -6,7 +6,11 @@ import seng302.Environment;
  * All Command classes implement this interface.
  */
 public interface Command {
-    float getLength(Environment env);
+    default long getLength(Environment env) {
+        return 0;
+    }
+
+    ;
 
     void execute(Environment env);
 
