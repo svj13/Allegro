@@ -39,6 +39,10 @@ public class ChordUtil {
                     && notes.get(3) % 12 == (notes.get(0) + 10) % 12) {
                 return noteDisplay + " half diminished";
                 //for diminished chords
+            } else if (notes.get(1) % 12 == (notes.get(0) + 3) % 12 && notes.get(2) % 12 == (notes.get(0) + 6) % 12
+                    && notes.get(3) % 12 == (notes.get(0) + 9) % 12) {
+                return noteDisplay + " diminished 7th";
+                //for diminished chords
             }
         }
 
@@ -49,10 +53,10 @@ public class ChordUtil {
             //for major chords
             if (notes.get(1) % 12 == (notes.get(0) + 4) % 12 && notes.get(2) % 12 == (notes.get(0) + 7) % 12) {
                 return noteDisplay + " major";
-            //for minor chords
+                //for minor chords
             } else if (notes.get(1) % 12 == (notes.get(0) + 3) % 12 && notes.get(2) % 12 == (notes.get(0) + 7) % 12) {
                 return noteDisplay + " minor";
-             //for minor 7th chords
+                //for minor 7th chords
             } else if (notes.get(1) % 12 == (notes.get(0) + 3) % 12 && notes.get(2) % 12 == (notes.get(0) + 6) % 12) {
                 return noteDisplay + " diminished";
             }
@@ -65,10 +69,11 @@ public class ChordUtil {
 
     /**
      * Inverts a chord one time by shifting the first element to the end position.
+     *
      * @param chord ArrayList of Notes resembling a chord
      * @return ArrayList of Notes resembling an inverted chord
      */
-    public static ArrayList<Note> invertChord(ArrayList<Note> chord){
+    public static ArrayList<Note> invertChord(ArrayList<Note> chord) {
 
         Note first = chord.remove(0); //Pop first element
         if (first.getMidi() + 12 <= 127) {
@@ -100,7 +105,7 @@ public class ChordUtil {
                 return null;
             }
 
-        //for minor chords (triads)
+            //for minor chords (triads)
         } else if (type.toLowerCase().equals("minor")) {
             Note currentNote = note;
             chordNotes.add(currentNote);
@@ -134,7 +139,7 @@ public class ChordUtil {
             //for 7th chords (4-note chords)
         } else if (type.toLowerCase().equals("seventh") ||
                 type.toLowerCase().equals("7th") ||
-                type.toLowerCase().equals("seven"))  {
+                type.toLowerCase().equals("seven")) {
             Note currentNote = note;
             chordNotes.add(currentNote);
             chordNotes.add(currentNote.semitoneUp(4));
@@ -242,7 +247,7 @@ public class ChordUtil {
         } else if (type.toLowerCase().equals("seventh") ||
                 type.toLowerCase().equals("7th") ||
                 type.toLowerCase().equals("7") ||
-                type.toLowerCase().equals("seven"))  {
+                type.toLowerCase().equals("seven")) {
             chordNotes.add(currentNote.getMidi());
             chordNotes.add(currentNote.semitoneUp(4).getMidi());
             chordNotes.add(currentNote.semitoneUp(7).getMidi());
@@ -291,9 +296,6 @@ public class ChordUtil {
         }
         return chordNotes;
     }
-
-
-
 
 
 }
