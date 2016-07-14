@@ -743,12 +743,6 @@ public class RootController implements Initializable {
 
     }
 
-
-
-
-
-
-
     /**
      * Displays an error message
      *
