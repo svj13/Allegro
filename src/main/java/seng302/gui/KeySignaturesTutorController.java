@@ -674,11 +674,6 @@ public class KeySignaturesTutorController extends TutorController {
         return correctAnswer;
     }
 
-
-
-
-
-
     /**
      * Generates a combobox filled with potential answers to given question for type 1 questions
      * @param question - the current question that the comboBox is being generated for
@@ -727,8 +722,6 @@ public class KeySignaturesTutorController extends TutorController {
 
         return options;
     }
-
-
 
 
     /**
