@@ -31,6 +31,7 @@ public class CommandType {
             put("enharmonic higher", new CommandType("enharmonic higher", "note", "", "enharmonic higher B"));
             put("enharmonic lower", new CommandType("enharmonic lower", "note", "", "enharmonic lower C"));
             put("find chord", new CommandType("find chord", "note note note", "", "find chord F A C"));
+            put("find chord all", new CommandType("find chord all", "note note note", "", "find chord all F A C"));
             put("interval", new CommandType("interval", "name", "note", "interval minor 2nd C"));
             put("scale signature", new CommandType("scale signature", "note,scale type", "", "scale signature A major"));
             put("scale signature with", new CommandType("scale signature with", "number of sharps and flats|list of notes", "", "scale signature with 2#"));
