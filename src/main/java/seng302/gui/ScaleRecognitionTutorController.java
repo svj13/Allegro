@@ -39,8 +39,6 @@ public class ScaleRecognitionTutorController extends TutorController {
 
     private Random rand;
 
-
-
     @FXML
     /**
      * Run when the go button is pressed. Creates a new tutoring session.
@@ -53,7 +51,6 @@ public class ScaleRecognitionTutorController extends TutorController {
         manager.questions = selectedQuestions;
 
         questionRows.getChildren().clear();
-
         for (int i = 0; i < manager.questions; i++) {
             HBox questionRow = setUpQuestion();
             questionRows.getChildren().add(questionRow);
