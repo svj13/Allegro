@@ -116,7 +116,7 @@ public class ChordFinderTest {
         notes.add(Note.lookup(OctaveUtil.validateNoteString("Gb4")));
         notes.add(Note.lookup(OctaveUtil.validateNoteString("Bbb5")));
         new ChordFinder(notes, false).execute(env);
-        verify(transcriptManager).setResult("C diminished");
+        verify(transcriptManager).setResult("C diminished 7th");
     }
 
     @Test
@@ -206,7 +206,7 @@ public class ChordFinderTest {
         notes.add(Note.lookup(OctaveUtil.validateNoteString("Eb")));
         notes.add(Note.lookup(OctaveUtil.validateNoteString("Fx")));
         new ChordFinder(notes, false).execute(env);
-        verify(transcriptManager).setResult("C minor");
+        verify(transcriptManager).setResult("B# minor");
     }
 
     @Test
@@ -218,7 +218,7 @@ public class ChordFinderTest {
         notes.add(Note.lookup(OctaveUtil.validateNoteString("Gx")));
         notes.add(Note.lookup(OctaveUtil.validateNoteString("B#")));
         new ChordFinder(notes, false).execute(env);
-        verify(transcriptManager).setResult("F major");
+        verify(transcriptManager).setResult("E# major");
     }
 
 
@@ -230,7 +230,7 @@ public class ChordFinderTest {
         notes.add(Note.lookup(OctaveUtil.validateNoteString("G#")));
         notes.add(Note.lookup(OctaveUtil.validateNoteString("B#")));
         new ChordFinder(notes, false).execute(env);
-        verify(transcriptManager).setResult("F minor");
+        verify(transcriptManager).setResult("E# minor");
     }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -247,7 +247,7 @@ public class ChordFinderTest {
         notes.add(Note.lookup(OctaveUtil.validateNoteString("F#4")));
         notes.add(Note.lookup(OctaveUtil.validateNoteString("Bbb5")));
         new ChordFinder(notes, false).execute(env);
-        verify(transcriptManager).setResult("C diminished");
+        verify(transcriptManager).setResult("B# diminished 7th");
     }
 
     @Test
@@ -259,7 +259,7 @@ public class ChordFinderTest {
         notes.add(Note.lookup(OctaveUtil.validateNoteString("F#")));
         notes.add(Note.lookup(OctaveUtil.validateNoteString("A#")));
         new ChordFinder(notes, false).execute(env);
-        verify(transcriptManager).setResult("C half diminished");
+        verify(transcriptManager).setResult("B# half diminished");
     }
 
     @Test
@@ -271,7 +271,7 @@ public class ChordFinderTest {
         notes.add(Note.lookup(OctaveUtil.validateNoteString("B#5")));
         notes.add(Note.lookup(OctaveUtil.validateNoteString("Dx5")));
         new ChordFinder(notes, false).execute(env);
-        verify(transcriptManager).setResult("F major 7th");
+        verify(transcriptManager).setResult("E# major 7th");
     }
 
     @Test
@@ -283,7 +283,7 @@ public class ChordFinderTest {
         notes.add(Note.lookup(OctaveUtil.validateNoteString("B#")));
         notes.add(Note.lookup(OctaveUtil.validateNoteString("D#")));
         new ChordFinder(notes, false).execute(env);
-        verify(transcriptManager).setResult("F minor 7th");
+        verify(transcriptManager).setResult("E# minor 7th");
     }
 
     @Test
@@ -295,7 +295,7 @@ public class ChordFinderTest {
         notes.add(Note.lookup(OctaveUtil.validateNoteString("Cx")));
         notes.add(Note.lookup(OctaveUtil.validateNoteString("E#")));
         new ChordFinder(notes, false).execute(env);
-        verify(transcriptManager).setResult("G seventh");
+        verify(transcriptManager).setResult("Fx seventh");
     }
 
 
@@ -518,6 +518,22 @@ public class ChordFinderTest {
 
         new ChordFinder(notes, true).execute(env);
         verify(transcriptManager, times(1)).setResult("F major 7th");
+
+    }
+
+    @Test
+    public void testDiminishedSeventhEnharmonics() {
+        //
+        ArrayList<Note> notes = new ArrayList<Note>();
+
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("C")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("Eb")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("Gb")));
+        notes.add(Note.lookup(OctaveUtil.validateNoteString("Bbb")));
+
+
+        new ChordFinder(notes, true).execute(env);
+        verify(transcriptManager, times(1)).setResult("C diminished 7th : Eb diminished 7th : Gb diminished 7th : Bbb diminished 7th");
 
     }
 

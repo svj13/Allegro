@@ -11,6 +11,69 @@ import seng302.data.Note;
 public class ChordUtil {
 
 
+
+    public static String getChordName(ArrayList<Integer> notes, boolean octave, char enharmonicLetter){
+
+        String type = getChordType(notes);
+
+
+        String n = octave ? Note.lookup(notes.get(0).toString()).getEnharmonicWithLetter(enharmonicLetter) :
+                        OctaveUtil.removeOctaveSpecifier(Note.lookup(notes.get(0).toString())
+                                .getEnharmonicWithLetter(enharmonicLetter));
+
+        return n +" " + type;
+
+    }
+
+    public static String getChordType(ArrayList<Integer> notes){
+        if (notes.size() > 3) {
+            //String noteDisplay = octave ? Note.lookup(String.valueOf(notes.get(0))).getNote() : OctaveUtil.removeOctaveSpecifier(Note.lookup(String.valueOf(notes.get(0))).getNote()); //Ignore Octave or not?
+
+            if (notes.get(1) % 12 == (notes.get(0) + 3) % 12 && notes.get(2) % 12 == (notes.get(0) + 7) % 12
+                    && notes.get(3) % 12 == (notes.get(0) + 10) % 12) {
+                return "minor 7th";
+                //for major 7th chords
+            } else if (notes.get(1) % 12 == (notes.get(0) + 4) % 12 && notes.get(2) % 12 == (notes.get(0) + 7) % 12
+                    && notes.get(3) % 12 == (notes.get(0) + 11) % 12) {
+                return "major 7th";
+                //for 7th chords
+            } else if (notes.get(1) % 12 == (notes.get(0) + 4) % 12 && notes.get(2) % 12 == (notes.get(0) + 7) % 12
+                    && notes.get(3) % 12 == (notes.get(0) + 10) % 12) {
+                return "seventh";
+                //for half diminished chords
+            } else if (notes.get(1) % 12 == (notes.get(0) + 3) % 12 && notes.get(2) % 12 == (notes.get(0) + 6) % 12
+                    && notes.get(3) % 12 == (notes.get(0) + 10) % 12) {
+                return "half diminished";
+                //for diminished chords
+            } else if (notes.get(1) % 12 == (notes.get(0) + 3) % 12 && notes.get(2) % 12 == (notes.get(0) + 6) % 12
+                    && notes.get(3) % 12 == (notes.get(0) + 9) % 12) {
+                return "diminished 7th";
+                //for diminished chords
+            }
+        }
+
+
+        if (notes.size() > 2) { //Scales
+
+            //for major chords
+            if (notes.get(1) % 12 == (notes.get(0) + 4) % 12 && notes.get(2) % 12 == (notes.get(0) + 7) % 12) {
+                return "major";
+                //for minor chords
+            } else if (notes.get(1) % 12 == (notes.get(0) + 3) % 12 && notes.get(2) % 12 == (notes.get(0) + 7) % 12) {
+                return "minor";
+                //for minor 7th chords
+            } else if (notes.get(1) % 12 == (notes.get(0) + 3) % 12 && notes.get(2) % 12 == (notes.get(0) + 6) % 12) {
+                return "diminished";
+            }
+
+
+        }
+        throw new IllegalArgumentException("Not a chord");
+    }
+
+
+
+
     /**
      * Returns the chord name for the given midi vaue.
      *
@@ -65,6 +128,17 @@ public class ChordUtil {
         }
         throw new IllegalArgumentException("Not a chord");
 
+    }
+
+
+
+
+    public static char nextChordLetterChar(char c){
+        int index = "ABCDEFG".indexOf(c);
+
+        if (index >= 5) index -= 7; //Wraps around
+
+        return "ABCDEFG".charAt(index + 2);
     }
 
     /**
