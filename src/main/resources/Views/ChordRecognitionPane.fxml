@@ -22,7 +22,7 @@
         </HBox>
         <HBox fx:id="settings" alignment="CENTER_LEFT" layoutY="36.0" minWidth="400.0" prefHeight="10.0" spacing="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="56.0">
             <children>
-                <VBox minHeight="-Infinity" prefHeight="100.0" prefWidth="400.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                <VBox minHeight="-Infinity" prefHeight="100.0" prefWidth="400.0" spacing="10.0">
                     <children>
                         <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="250.0" spacing="10.0">
                             <children>
