@@ -31,4 +31,6 @@ public class EnvironmentTest {
         env.error("This went wrong.");
         verify(transcriptManager).setResult("[ERROR] This went wrong.");
     }
+
 }
+

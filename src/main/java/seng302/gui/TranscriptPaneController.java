@@ -70,11 +70,24 @@ public class TranscriptPaneController {
     @FXML
     ToolBar playbackToolbar;
 
+    @FXML
+    private Button helpButton;
+
+    private DslReferenceController dslRefControl;
+
 
     @FXML
     private void initialize() {
+        dslRefControl = new DslReferenceController(this);
         // Text field can only request focus once everything has been loaded.
         Platform.runLater(() -> txtCommand.requestFocus());
+    }
+
+    /**
+     * Getter method for the input text field
+     */
+    public TextField getTxtCommand() {
+        return txtCommand;
     }
 
     private String enteredCommand;
@@ -121,6 +134,11 @@ public class TranscriptPaneController {
 
     private void printToTranscript() {
         txtTranscript.appendText(env.getTranscriptManager().getLastCommand());
+    }
+
+    @FXML
+    private void showDslRef() {
+        dslRefControl.getPopover().show(helpButton);
     }
 
 
@@ -175,7 +193,7 @@ public class TranscriptPaneController {
                     Command cmd = execute(command);
                     printToTranscript();
                     try {
-                        Thread.sleep((long) cmd.getLength(env) + 1000);
+                        Thread.sleep(cmd.getLength(env) + 1000);
                     } catch (InterruptedException e) {
                         updateMessage("Cancelled");
                         break;
@@ -207,7 +225,7 @@ public class TranscriptPaneController {
                         try {
                             commands.remove(0);
 
-                            Thread.sleep((long) cmd.getLength(env) + 100);
+                            Thread.sleep(cmd.getLength(env) + 100);
                         } catch (InterruptedException e) {
                             updateMessage("Cancelled");
                         }

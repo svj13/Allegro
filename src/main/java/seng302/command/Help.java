@@ -15,9 +15,6 @@ public class Help implements Command {
         this.keyword = keyword;
     }
 
-    public float getLength(Environment env) {
-        return 0;
-    };
 
     public void execute(Environment env) {
         String result = "";

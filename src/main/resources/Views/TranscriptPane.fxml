@@ -69,8 +69,16 @@
                        promptText="Enter a command in the box below. Type 'help' for more information on the available commands."
                        wrapText="true" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="0"
                        AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0.0"/>
-              <TextField fx:id="txtCommand" layoutX="11.0" layoutY="286.0" onKeyPressed="#handleKeyPressed" prefHeight="30.0" prefWidth="334.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="110.0" />
-              <Button fx:id="btnGo" layoutX="412.0" layoutY="285.0" mnemonicParsing="false" onAction="#goAction" prefHeight="30.0" prefWidth="74.0" text="Go" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="20.0" />
+             <TextField fx:id="txtCommand" layoutX="11.0" layoutY="286.0"
+                        onKeyPressed="#handleKeyPressed" prefHeight="30.0" prefWidth="516.0"
+                        AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="20.0"
+                        AnchorPane.rightAnchor="208.0"/>
+             <Button fx:id="btnGo" layoutX="556.0" layoutY="298.0" mnemonicParsing="false"
+                     onAction="#goAction" prefHeight="30.0" prefWidth="74.0" text="Go"
+                     AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="114.0"/>
+             <Button fx:id="helpButton" layoutX="627.0" layoutY="298.0" mnemonicParsing="false"
+                     onAction="#showDslRef" prefHeight="30.0" prefWidth="74.0" text="Help"
+                     AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="20.0"/>
          </children>
       <!--</Pane>-->
     <!--</children>-->
