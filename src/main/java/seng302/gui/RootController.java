@@ -22,6 +22,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Menu;
@@ -31,12 +32,16 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import seng302.Environment;
+import seng302.command.UndoRedo;
 import seng302.data.CommandType;
 import seng302.managers.TranscriptManager;
 import seng302.utility.FileHandler;
@@ -80,6 +85,9 @@ public class RootController implements Initializable {
     private ChordSpellingTutorController ChordSpellingTabController;
 
     @FXML
+    private KeySignaturesTutorController KeySignaturesTabController;
+
+    @FXML
     private KeyboardPaneController keyboardPaneController;
 
     @FXML
@@ -115,6 +123,9 @@ public class RootController implements Initializable {
 
     @FXML
     private MenuItem menuCST;
+
+    @FXML
+    private MenuItem menuKST;
 
     @FXML
     private Menu menuOpenProjects;
@@ -222,35 +233,7 @@ public class RootController implements Initializable {
         }
     }
 
-//    @FXML
-//    private void selectPlayNote() {
-//        String commandText = "play ";
-//        String commandParams = "[note|midi]";
-//        setCommandText(commandText, commandParams, "");
-//    }
-//
-//    @FXML
-//    private void selectPlayChord() {
-//        String commandText = "play chord ";
-//        String commandParams = "[note] [type]";
-//        String commandOptions = "[arpeggio]";
-//        setCommandText(commandText, commandParams, commandOptions);
-//    }
-//
-//    @FXML
-//    private void selectPlayScale() {
-//        String commandText = "play scale ";
-//        String commandParams = "[note] [type]";
-//        String commandOptions = "[octaves] [up|down|updown]";
-//        setCommandText(commandText, commandParams, commandOptions);
-//    }
-//
-//    @FXML
-//    private void selectPlayInterval() {
-//        String commandText = "play interval ";
-//        String commandParams = "[type] [note]";
-//        setCommandText(commandText, commandParams, "");
-//    }
+
 
     /**
      * Displays a dialog to ask the user whether or not they want to save project changes.
@@ -703,6 +686,43 @@ public class RootController implements Initializable {
 
     }
 
+    /**
+     * opens the keySignatures tutor when the key signatures tutor menu option is pressed
+     * If there is already an open tutor of the same form then it sets focus to the already open tutor
+     */
+    @FXML
+    private void openKeySignatureTutor(){
+
+        boolean alreadyExists = false;
+        for(Tab tab:TabPane.getTabs()){
+            if(tab.getId().equals("keySignatureTutor")){
+                TabPane.getSelectionModel().select(tab);
+                alreadyExists = true;
+            }
+
+        }
+
+        if(!alreadyExists) {
+
+            Tab ScaleTab = new Tab("Key Signature Tutor");
+            ScaleTab.setId("keySignatureTutor");
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/Views/KeySignaturesPane.fxml"));
+
+            try {
+                ScaleTab.setContent((Node) loader.load());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            TabPane.getTabs().add(ScaleTab);
+            TabPane.getSelectionModel().select(ScaleTab);
+            KeySignaturesTabController = loader.getController();
+            KeySignaturesTabController.create(env);
+        }
+
+    }
 
     /**
      * Opens the chord spelling tutor. If this tutor is already open, focus is transferred to it.
@@ -938,6 +958,14 @@ public class RootController implements Initializable {
         if (ChordSpellingTabController != null) {
             ChordSpellingTabController.clearTutor();
         }
+        if (ChordRecognitionTabController != null){
+            ChordRecognitionTabController.clearTutor();
+        }
+        if(KeySignaturesTabController != null){
+            KeySignaturesTabController.clearTutor();
+
+        }
+
     }
 
     public TranscriptPaneController getTranscriptController() {

@@ -4,7 +4,7 @@
   <groupId>seng302</groupId>
   <artifactId>app</artifactId>
   <packaging>jar</packaging>
-  <version>2.0</version>
+  <version>3.0</version>
 
   <name>app</name>
   <url>https://eng-git.canterbury.ac.nz/SENG302-2016/team-5</url>
@@ -41,10 +41,22 @@
       <artifactId>mockito-core</artifactId>
       <version>1.10.19</version>
     </dependency>
+    <dependency>
+      <groupId>org.controlsfx</groupId>
+      <artifactId>controlsfx</artifactId>
+      <version>8.40.10</version>
+    </dependency>
       <dependency>
-          <groupId>org.controlsfx</groupId>
-          <artifactId>controlsfx</artifactId>
-          <version>8.40.10</version>
+        <groupId>info.cukes</groupId>
+        <artifactId>cucumber-java</artifactId>
+        <version>1.2.4</version>
+        <scope>test</scope>
+      </dependency>
+    <dependency>
+      <groupId>info.cukes</groupId>
+      <artifactId>cucumber-junit</artifactId>
+      <version>1.2.4</version>
+      <scope>test</scope>
       </dependency>
   </dependencies>
   <build>

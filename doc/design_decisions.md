@@ -57,3 +57,21 @@ Assuming the user input is the number of flats or sharps they are looking for (e
 This finds the scales whose key signatures have no sharps or flats.
 
 This decision was made Friday 20th May, based on the musical understanding of our team.
+
+## Decisions make regarding Keyboard with answers from Moffat
+
+1. When the display note labels setting is on, at the moment we are not displaying labels on the black keys. The reason for this is that they have two possible names (e.g. F# or Gb) and the are much smaller so even fitting one name means the text has to be small. We can add the black key labels if you prefer though.
+
+Answer: Leave it as it is.
+
+2. The acceptance criteria specifies that a current octave label is required, however our note labels include the octave (e.g. C3) so this doesn't seem necessary as a separate thing. Thoughts?
+
+Answer: Leave it as it is.
+
+3. Currently the only way to adjust the displayed keys is with the range slider in the settings panel. This seems not totally intuitive when using the touch screen. I was thinking of adding zoom gestures to scale the keyboard as well. This would take 1-2hrs. Do you think it is a good idea?
+
+Answer: The zoom gesture is a little bit of gold plating at this stage as you have the slider. Keep this as a note that we could look at in the next sprint if we have time.
+
+4. My last question is more vague. We basically said that we would discuss the keyboard input options once we had the keyboard working, but unfortunately the holidays have been busy for our whole team and the keyboard is only done now which doesn't really leave time for a meeting. So would you like to be able to press a key and enter that key as text in the command? If so, would that involve some way of changing mode, from playing mode to input mode? 
+
+Answer: Yes to a toggle button that toggles between “input” and “play” (or suitable words).
