@@ -47,6 +47,10 @@ public class MusicPlayer {
         }
     }
 
+    public void setSeq(Sequencer seq) {
+        this.seq = seq;
+    }
+
     /**
      * Plays an array of notes directly after each other.
      *
@@ -186,12 +190,13 @@ public class MusicPlayer {
     private void playSequence(Sequence sequence) {
         try {
             seq.setSequence(sequence);
+            seq.setTempoInBPM(tempo);
+            seq.start();
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println("Can't play Midi sound at the moment.");
         }
-        seq.setTempoInBPM(tempo);
-        seq.start();
+
     }
 
     /**

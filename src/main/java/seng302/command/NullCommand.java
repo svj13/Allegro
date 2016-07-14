@@ -7,10 +7,6 @@ import seng302.Environment;
  */
 public class NullCommand implements Command {
 
-    public float getLength(Environment env) {
-        return 0;
-    }
-
     /**
      * A NullCommand should do nothing when executed. The error message is handled in the
      * DslExecutor.

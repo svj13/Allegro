@@ -20,8 +20,4 @@ public class UndoRedo implements Command {
             env.getEditManager().redoCommand();
         }
     }
-
-    public float getLength(Environment env) {
-        return 0;
-    }
 }
