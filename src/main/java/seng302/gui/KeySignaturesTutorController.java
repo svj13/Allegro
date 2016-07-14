@@ -35,6 +35,10 @@ public class KeySignaturesTutorController extends TutorController {
     @FXML
     ComboBox<String> answerBox;
 
+    @FXML
+    Label formLabel;
+
+
     private Random rand;
 
 
@@ -82,6 +86,17 @@ public class KeySignaturesTutorController extends TutorController {
         answerBox.getSelectionModel().selectFirst();
     }
 
+
+
+    public void updateQuestionBox(){
+        if(answerBox.getValue().equals("Show Key Signature")){
+            formLabel.setText("Question form:");
+        }
+        else {
+            formLabel.setText("Answer form:");
+        }
+
+    }
     /**
      * Prepares a new question, gets the values from the drop down options for the questions
      *
@@ -151,12 +166,10 @@ public class KeySignaturesTutorController extends TutorController {
         final ComboBox<String> majorOptions;
         final ComboBox<String> minorOptions;
 
-
-        Random rand = new Random();
-
         Button skip = new Button("Skip");
         styleSkipButton(skip);
         Label questionText = new Label();
+        Label correctAnswerLabel = new Label();
         final String question;
 
 
@@ -185,32 +198,15 @@ public class KeySignaturesTutorController extends TutorController {
                 formatSkippedQuestion(questionRow);
                 manager.questions -= 1;
                 manager.add(pair, 2);
-                String correctAnswer = "";
-
-                Boolean isBoth = false;
-
+                String correctAnswer = findCorrectAnswerNumSharpFlat(pair, question);
                 if (pair.getKey().equals("both")) {
-                    isBoth = true;
                     disableButtons(questionRow, 1, 4);
-                } else {
+                }
+                else {
                     disableButtons(questionRow, 1, 3);
                 }
 
 
-                if ((pair.getKey().equals("major") || isBoth)) {
-                    for (Map.Entry<String, KeySignature> entry : KeySignature.getMajorKeySignatures().entrySet()) {
-                        if (question.equals(entry.getValue().getNotes())) {
-                            correctAnswer = correctAnswer + entry.getKey() + " major ";
-                        }
-                    }
-                }
-                if ((pair.getKey().equals("minor")) || isBoth) {
-                    for (Map.Entry<String, KeySignature> entry : KeySignature.getMinorKeySignatures().entrySet()) {
-                        if (question.equals(entry.getValue().getNotes())) {
-                            correctAnswer = correctAnswer + entry.getKey() + " minor";
-                        }
-                    }
-                }
 
 
                 String[] recordQuestion = new String[]{
@@ -231,6 +227,8 @@ public class KeySignaturesTutorController extends TutorController {
             public void handle(ActionEvent event) {
                 disableButtons(questionRow, 1, 3);
                 boolean isCorrect = false;
+                String correctAnswer = findCorrectAnswerNumSharpFlat(pair, question.toString());
+
 
                 if (type1QuestionCorrectCheck(pair.getKey().toString(), question, true, options.getValue(), null)) {
                     isCorrect = true;
@@ -238,7 +236,8 @@ public class KeySignaturesTutorController extends TutorController {
                     manager.add(pair, 1);
 
                 } else {
-                    //correctAnswer.setVisible(true);
+                    correctAnswerLabel.setText(correctAnswer);
+                    correctAnswerLabel.setVisible(true);
                     formatIncorrectQuestion(questionRow);
                     manager.add(pair, 0);
                 }
@@ -269,6 +268,10 @@ public class KeySignaturesTutorController extends TutorController {
 
                     disableButtons(questionRow, 1, 3);
                     boolean isCorrect = false;
+                    String correctAnswer = findCorrectAnswerNumSharpFlat(pair, question.toString());
+
+
+
 
                     if (type1QuestionCorrectCheck(pair.getKey().toString(), question, true, majorOptions.getValue(), minorOptions.getValue())) {
                         isCorrect = true;
@@ -276,7 +279,8 @@ public class KeySignaturesTutorController extends TutorController {
                         manager.add(pair, 1);
 
                     } else {
-                        //correctAnswer.setVisible(true);
+                        correctAnswerLabel.setText(correctAnswer);
+                        correctAnswerLabel.setVisible(true);
                         formatIncorrectQuestion(questionRow);
                         manager.add(pair, 0);
                     }
@@ -309,6 +313,8 @@ public class KeySignaturesTutorController extends TutorController {
 
                     disableButtons(questionRow, 1, 3);
                     boolean isCorrect = false;
+                    String correctAnswer = findCorrectAnswerNumSharpFlat(pair, question.toString());
+
 
                     if (type1QuestionCorrectCheck(pair.getKey().toString(), question, true, majorOptions.getValue(), minorOptions.getValue())) {
                         isCorrect = true;
@@ -316,7 +322,8 @@ public class KeySignaturesTutorController extends TutorController {
                         manager.add(pair, 1);
 
                     } else {
-                        //correctAnswer.setVisible(true);
+                        correctAnswerLabel.setText(correctAnswer);
+                        correctAnswerLabel.setVisible(true);
                         formatIncorrectQuestion(questionRow);
                         manager.add(pair, 0);
                     }
@@ -345,15 +352,66 @@ public class KeySignaturesTutorController extends TutorController {
             questionRow.getChildren().add(1, majorOptions);
             questionRow.getChildren().add(2, minorOptions);
             questionRow.getChildren().add(3, skip);
+            questionRow.getChildren().add(4, correctAnswerLabel);
         } else {
             questionRow.getChildren().add(1, options);
             questionRow.getChildren().add(2, skip);
+            questionRow.getChildren().add(3, correctAnswerLabel);
         }
 
         questionRow.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
         return questionRow;
 
 
+    }
+
+
+    private String findCorrectAnswerNumSharpFlat(Pair pair, String question){
+        Boolean isBoth = false;
+        String correctAnswer = "";
+        if (pair.getKey().equals("both")) {
+            isBoth = true;
+        }
+
+        if ((pair.getKey().equals("major") || isBoth)) {
+            if (question.contains("0")) {
+                correctAnswer = "C major ";
+            }
+            else {
+                for (Map.Entry<String, KeySignature> entry : KeySignature.getMajorKeySignatures().entrySet()) {
+
+                    if (question.contains("#")) {
+                        if (question.equals(entry.getValue().getNumberOfSharps() + "#")) {
+                            correctAnswer = correctAnswer + entry.getKey() + " major ";
+                        }
+                    } else {
+                        if (question.equals(entry.getValue().getNumberOfFlats() + "b")) {
+                            correctAnswer = correctAnswer + entry.getKey() + " major ";
+                        }
+                    }
+                }
+            }
+        }
+
+        if ((pair.getKey().equals("minor")) || isBoth) {
+            if (question.contains("0")) {
+                correctAnswer += " A minor";
+            }
+            else {
+                for (Map.Entry<String, KeySignature> entry : KeySignature.getMinorKeySignatures().entrySet()) {
+                    if (question.contains("#")) {
+                        if (question.equals(entry.getValue().getNumberOfSharps() + "#")) {
+                            correctAnswer = correctAnswer + entry.getKey() + " minor";
+                        }
+                    } else {
+                        if (question.equals(entry.getValue().getNumberOfFlats() + "b")) {
+                            correctAnswer = correctAnswer + entry.getKey() + " minor";
+                        }
+                    }
+                }
+            }
+        }
+        return correctAnswer;
     }
 
 
@@ -380,6 +438,7 @@ public class KeySignaturesTutorController extends TutorController {
         Button skip = new Button("Skip");
         styleSkipButton(skip);
         Label questionText = new Label();
+        Label correctAnswerLabel = new Label();
         final List<String> question;
 
 
@@ -449,6 +508,7 @@ public class KeySignaturesTutorController extends TutorController {
             public void handle(ActionEvent event) {
                 disableButtons(questionRow, 1, 3);
                 boolean isCorrect = false;
+                String correctAnswer = findCorrectAnswer(pair, question.toString());
 
                 if (type1QuestionCorrectCheck(pair.getKey().toString(), question.toString(), false, options.getValue(), null)) {
                     isCorrect = true;
@@ -456,7 +516,8 @@ public class KeySignaturesTutorController extends TutorController {
                     manager.add(pair, 1);
 
                 } else {
-                    //correctAnswer.setVisible(true);
+                    correctAnswerLabel.setText(correctAnswer);
+                    correctAnswerLabel.setVisible(true);
                     formatIncorrectQuestion(questionRow);
                     manager.add(pair, 0);
                 }
@@ -488,13 +549,16 @@ public class KeySignaturesTutorController extends TutorController {
                     disableButtons(questionRow, 1, 3);
                     boolean isCorrect = false;
 
+                    String correctAnswer = findCorrectAnswer(pair, question.toString());
+
                     if (type1QuestionCorrectCheck(pair.getKey().toString(), question.toString(), false, majorOptions.getValue(), minorOptions.getValue())) {
                         isCorrect = true;
                         formatCorrectQuestion(questionRow);
                         manager.add(pair, 1);
 
                     } else {
-                        //correctAnswer.setVisible(true);
+                        correctAnswerLabel.setText(correctAnswer);
+                        correctAnswerLabel.setVisible(true);
                         formatIncorrectQuestion(questionRow);
                         manager.add(pair, 0);
                     }
@@ -524,7 +588,7 @@ public class KeySignaturesTutorController extends TutorController {
                 if (!(majorOptions.getValue() == null)) {
                     disableButtons(questionRow, 1, 4);
                     manager.answered += 1;
-
+                    String correctAnswer = findCorrectAnswer(pair, question.toString());
 
                     disableButtons(questionRow, 1, 3);
                     boolean isCorrect = false;
@@ -535,7 +599,8 @@ public class KeySignaturesTutorController extends TutorController {
                         manager.add(pair, 1);
 
                     } else {
-                        //correctAnswer.setVisible(true);
+                        correctAnswerLabel.setText(correctAnswer);
+                        correctAnswerLabel.setVisible(true);
                         formatIncorrectQuestion(questionRow);
                         manager.add(pair, 0);
                     }
@@ -560,19 +625,58 @@ public class KeySignaturesTutorController extends TutorController {
 
         questionRow.getChildren().add(0, questionText);
 
+
+
+
+
+
+
         if (pair.getKey().equals("both")) {
             questionRow.getChildren().add(1, majorOptions);
             questionRow.getChildren().add(2, minorOptions);
             questionRow.getChildren().add(3, skip);
+            questionRow.getChildren().add(4, correctAnswerLabel);
         } else {
             questionRow.getChildren().add(1, options);
             questionRow.getChildren().add(2, skip);
+            questionRow.getChildren().add(3, correctAnswerLabel);
         }
 
         questionRow.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
         return questionRow;
 
     }
+
+
+    private String findCorrectAnswer(Pair pair, String question){
+        Boolean isBoth = false;
+        String correctAnswer = "";
+
+        if (pair.getKey().equals("both")) {
+            isBoth = true;
+        }
+
+        if ((pair.getKey().equals("major") || isBoth)) {
+            for (Map.Entry<String, KeySignature> entry : KeySignature.getMajorKeySignatures().entrySet()) {
+                if (question.equals(entry.getValue().getNotes().toString())) {
+                    correctAnswer = correctAnswer + entry.getKey() + " major ";
+                }
+            }
+        }
+        if ((pair.getKey().equals("minor")) || isBoth) {
+            for (Map.Entry<String, KeySignature> entry : KeySignature.getMinorKeySignatures().entrySet()) {
+                if (question.equals(entry.getValue().getNotes().toString())) {
+                    correctAnswer = correctAnswer + entry.getKey() + " minor";
+                }
+            }
+        }
+
+        return correctAnswer;
+    }
+
+
+
+
 
 
     /**
@@ -614,7 +718,6 @@ public class KeySignaturesTutorController extends TutorController {
             }
 
         }
-        //////////////////////////////////////need to deal with [] where u dont know the type
 
         Collections.shuffle(optionsList);
         for (String option : optionsList) {
@@ -624,6 +727,8 @@ public class KeySignaturesTutorController extends TutorController {
 
         return options;
     }
+
+
 
 
     /**
@@ -642,6 +747,7 @@ public class KeySignaturesTutorController extends TutorController {
         Button skip = new Button("Skip");
         styleSkipButton(skip);
         Label questionText = new Label();
+        Label correctAnswerLabel = new Label();
         List<String> keysAsArray;
         final String question;
 
@@ -688,10 +794,29 @@ public class KeySignaturesTutorController extends TutorController {
                 String correctAnswer;
 
                 if (fIsMajor) {
-                    correctAnswer = KeySignature.getMajorKeySignatures().get(question).getNotes().toString();
+
+                    if(!(Boolean)((Pair) pair.getValue()).getValue()) {
+
+                        if ((KeySignature.getMajorKeySignatures().get(question)).getNotes().get(0).contains("#")) {
+                            correctAnswer = (KeySignature.getMajorKeySignatures().get(question)).getNumberOfSharps() + "#";
+                        } else {
+                            correctAnswer = (KeySignature.getMajorKeySignatures().get(question)).getNumberOfFlats() + "b";
+                        }
+                    }else{
+                        correctAnswer = KeySignature.getMajorKeySignatures().get(question).getNotes().toString();
+                    }
 
                 } else {
-                    correctAnswer = KeySignature.getMinorKeySignatures().get(question).getNotes().toString();
+                    if(!(Boolean)((Pair) pair.getValue()).getValue()) {
+
+                        if ((KeySignature.getMinorKeySignatures().get(question)).getNotes().get(0).contains("#")) {
+                            correctAnswer = (KeySignature.getMinorKeySignatures().get(question)).getNumberOfSharps() + "#";
+                        } else {
+                            correctAnswer = (KeySignature.getMinorKeySignatures().get(question)).getNumberOfFlats() + "b";
+                        }
+                    }else{
+                        correctAnswer = KeySignature.getMinorKeySignatures().get(question).getNotes().toString();
+                    }
                 }
 
 
@@ -712,6 +837,34 @@ public class KeySignaturesTutorController extends TutorController {
             public void handle(ActionEvent event) {
                 disableButtons(questionRow, 1, 3);
                 boolean isCorrect = false;
+                String correctAnswerStr;
+
+
+                if (fIsMajor) {
+
+                    if(!(Boolean)((Pair) pair.getValue()).getValue()) {
+
+                        if ((KeySignature.getMajorKeySignatures().get(question)).getNotes().get(0).contains("#")) {
+                            correctAnswerStr = (KeySignature.getMajorKeySignatures().get(question)).getNumberOfSharps() + "#";
+                        } else {
+                            correctAnswerStr = (KeySignature.getMajorKeySignatures().get(question)).getNumberOfFlats() + "b";
+                        }
+                    }else{
+                        correctAnswerStr = KeySignature.getMajorKeySignatures().get(question).getNotes().toString();
+                    }
+
+                } else {
+                    if(!(Boolean)((Pair) pair.getValue()).getValue()) {
+
+                        if ((KeySignature.getMinorKeySignatures().get(question)).getNotes().get(0).contains("#")) {
+                            correctAnswerStr = (KeySignature.getMinorKeySignatures().get(question)).getNumberOfSharps() + "#";
+                        } else {
+                            correctAnswerStr = (KeySignature.getMinorKeySignatures().get(question)).getNumberOfFlats() + "b";
+                        }
+                    }else{
+                        correctAnswerStr = KeySignature.getMinorKeySignatures().get(question).getNotes().toString();
+                    }
+                }
 
                 if (type2QuestionCorrectCheck(((Boolean) ((Pair) pair.getValue()).getValue()), fIsMajor, question, options.getValue())) {
                     isCorrect = true;
@@ -719,7 +872,8 @@ public class KeySignaturesTutorController extends TutorController {
                     manager.add(pair, 1);
 
                 } else {
-                    //correctAnswer.setVisible(true);
+                    correctAnswerLabel.setText(correctAnswerStr);
+                    correctAnswerLabel.setVisible(true);
                     formatIncorrectQuestion(questionRow);
                     manager.add(pair, 0);
                 }
@@ -743,6 +897,7 @@ public class KeySignaturesTutorController extends TutorController {
         questionRow.getChildren().add(0, questionText);
         questionRow.getChildren().add(1, options);
         questionRow.getChildren().add(2, skip);
+        questionRow.getChildren().add(3, correctAnswerLabel);
 
         questionRow.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
         return questionRow;
@@ -855,15 +1010,21 @@ public class KeySignaturesTutorController extends TutorController {
 
         } else {
             Boolean minorCorrect = false;
-            Boolean majorCorrect = false;
+            Boolean majorCorrect ;
             if (questionIsInNumForm) {
                 if (questionIsInNumForm) {
                     if (question.contains("#")) {
                         majorCorrect = ((KeySignature.getMajorKeySignatures().get(givenAnswer1.substring(0, givenAnswer1.indexOf(" "))).getNumberOfSharps() + "#").equals(question));
-                        minorCorrect = ((KeySignature.getMinorKeySignatures().get(givenAnswer2.substring(0, givenAnswer1.indexOf(" "))).getNumberOfSharps() + "#").equals(question));
+
+                        if(givenAnswer2 != null) {
+                            minorCorrect = ((KeySignature.getMinorKeySignatures().get(givenAnswer2.substring(0, givenAnswer2.indexOf(" "))).getNumberOfSharps() + "#").equals(question));
+                        }
                     } else {
                         majorCorrect = ((KeySignature.getMajorKeySignatures().get(givenAnswer1.substring(0, givenAnswer1.indexOf(" "))).getNumberOfFlats() + "b").equals(question));
-                        minorCorrect = ((KeySignature.getMinorKeySignatures().get(givenAnswer2.substring(0, givenAnswer1.indexOf(" "))).getNumberOfFlats() + "b").equals(question));
+
+                        if(givenAnswer2 != null) {
+                            minorCorrect = ((KeySignature.getMinorKeySignatures().get(givenAnswer2.substring(0, givenAnswer2.indexOf(" "))).getNumberOfFlats() + "b").equals(question));
+                        }
                     }
 
                     if (minorCorrect && majorCorrect) {
