@@ -305,11 +305,6 @@ public class KeySignatureCommand implements Command {
     }
 
 
-    public float getLength(Environment env) {
-        return length;
-    }
-
-
     /**
      * Called when the command is made and decides what function needs to be called
      */

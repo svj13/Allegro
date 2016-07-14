@@ -140,11 +140,6 @@ public class MusicalTerm implements Command {
         }
     }
 
-    public float getLength(Environment env) {
-        return 0;
-    }
-
-
     /**
      * will add the musical term to the dictionary, or print the relevant definition of the musical
      * term exists in the transcript manager

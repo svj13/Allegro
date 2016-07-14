@@ -258,13 +258,13 @@ public class Scale implements Command {
         return midiValues.trim();
     }
 
-    public float getLength(Environment env) {
-        float milliseconds = 0;
+    public long getLength(Environment env) {
+        long milliseconds = 0;
 
         if (outputType.equals("play")) {
             ArrayList<Note> scale = getScale(direction);
             int tempo = env.getPlayer().getTempo();
-            float crotchetLength = 60000 / tempo;
+            long crotchetLength = 60000 / tempo;
             milliseconds = scale.size() * crotchetLength;
         }
 

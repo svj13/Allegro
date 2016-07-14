@@ -13,8 +13,8 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 %column
 %unicode
 %caseless
-/*Uncomment for debugging info.
-%debug */
+/* Uncomment for debugging info.
+%debug*/
 
 
 
@@ -102,13 +102,14 @@ Atom = [^\s|;]+
 SemiColon = ";"
 ScaleType = "major"|"minor"
 PlayStyle = "arpeggio"
-SharedChordAndInterval = "diminished 7th"|"diminished seventh"|"major 7th"|"major seventh"
-ChordType = "seventh"|"7th"|"7"|"seven"|"half dim"|"half diminished"|"minor 7th"|"minor 7th"|
-            "half dim"|"half diminished"|"half diminished 7th"|"half diminished seventh"|
-            "half dim seventh"|"half dim 7th"|"dim seventh"|"dim 7th"
+SharedChordAndInterval = "diminished 7th"|"diminished seventh"|"major 7th"|"major seventh"|"minor 7th"|"minor seventh"
+ChordType = "seventh"|"7th"|"half dim"|"half diminished"|
+            "half diminished 7th"|"half diminished seventh"|
+            "half dim seventh"|"half dim 7th"|"dim seventh"|"dim 7th"|"dim"|"diminished"
 Direction = "updown"|"up"|"down"
+InversionSpecifier = "inversion 1"|"inversion 2"|"inversion 3"|"inv 1"|"inv 2"|"inv 3"
 PosNum = \p{Digit}+
-Interval = "unison"|(major\s(second|2nd|third|3rd|sixth|6th|ninth|9th|tenth|10th|thirteenth|13th|fourteenth|14th))|(minor\s(second|2nd|third|3rd|sixth|6th|seventh|7th|ninth|9th|tenth|10th|thirteenth|13th|fourteenth|14th))|(augmented\s(fourth|4th|eleventh|11th))|(diminished\s(fifth|5th))|(perfect\s(fourth|4th|fifth|5th|eleventh|11th|twelfth|12th|octave))|"double octave"
+Interval = "unison"|(major\s(second|2nd|third|3rd|sixth|6th|ninth|9th|tenth|10th|thirteenth|13th|fourteenth|14th))|(minor\s(second|2nd|third|3rd|sixth|6th|ninth|9th|tenth|10th|thirteenth|13th|fourteenth|14th))|(augmented\s(fourth|4th|eleventh|11th))|(diminished\s(fifth|5th))|(perfect\s(fourth|4th|fifth|5th|eleventh|11th|twelfth|12th|octave))|"double octave"
 RhythmType = (([0-9]+\/[0-9]+)(([ ][0-9]+\/[0-9]+)+)*)|"straight"|"medium"|"heavy"|"light"
 
 SharpsFlats = ([1-7](#|b))|0#b|0b#
@@ -143,6 +144,8 @@ SharpsFlats = ([1-7](#|b))|0#b|0b#
     "play chord"        {return symbol(DslSymbol.COMMAND_PLAY_CHORD);}
     "play interval"     {return symbol(DslSymbol.COMMAND_PLAY_INTERVAL); }
     "play"             { return symbol(DslSymbol.COMMAND_PLAY_NOTE);    }
+    {InversionSpecifier} {return symbol(DslSymbol.INVERSION_SPECIFIER, new String(yytext()));}
+
     "interval"          {return symbol(DslSymbol.COMMAND_INTERVAL); }
     "crotchet duration"    { return symbol(DslSymbol.COMMAND_CROTCHET_DURATION); }
     "meaning of"       { return symbol(DslSymbol.COMMAND_MUSICAL_TERM_MEANING); }
@@ -170,7 +173,7 @@ SharpsFlats = ([1-7](#|b))|0#b|0b#
     {ChordType}         {return symbol(DslSymbol.CHORD_TYPE, new String(yytext()));}
     {Direction}         {return symbol(DslSymbol.DIRECTION, new String(yytext()));}
     {RhythmType}         {return symbol(DslSymbol.RHYTHM_TYPE, new String(yytext()));}
-
+    {ScaleType}         {return symbol(DslSymbol.SCALE_TYPE, new String(yytext()));}
     {PosNum}            {return symbol(DslSymbol.POSNUM, new String(yytext()));}
     {Interval}          {return symbol(DslSymbol.INTERVAL, new String(yytext()));}
     {SharedChordAndInterval} {return symbol(DslSymbol.SHARED_CHORD_AND_INTERVAL, new String(yytext()));}

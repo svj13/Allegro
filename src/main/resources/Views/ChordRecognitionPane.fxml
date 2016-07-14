@@ -6,7 +6,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="chordTutorAnchor" prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.ChordRecognitionTutorController">
+<AnchorPane fx:id="chordTutorAnchor" prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.ChordRecognitionTutorController">
     <children>
         <HBox prefHeight="30.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
             <children>
@@ -22,12 +22,14 @@
         </HBox>
         <HBox fx:id="settings" alignment="CENTER_LEFT" layoutY="36.0" minWidth="400.0" prefHeight="10.0" spacing="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="56.0">
             <children>
-                <VBox minHeight="-Infinity" prefHeight="100.0" prefWidth="400.0" spacing="10.0">
+                <VBox minHeight="-Infinity" prefHeight="100.0" prefWidth="400.0" spacing="10.0" HBox.hgrow="ALWAYS">
                     <children>
-                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="250.0" spacing="10.0">
                             <children>
                                 <Label text="Play chords: " />
                                 <ComboBox fx:id="playChords" prefWidth="100.0" promptText="Up" />
+                        <Label text="Chord Type:" />
+                        <ComboBox fx:id="chordTypeBox" prefWidth="100.0" promptText="Up" />
                                 <Label text="Octaves: ">
                                     <HBox.margin>
                                         <Insets left="5.0" />
