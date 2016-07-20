@@ -140,7 +140,7 @@ public class NoteTest {
                 Arrays.asList(Note.lookup("C4"), Note.lookup("D4"), Note.lookup("E4"),
                         Note.lookup("F4"), Note.lookup("G4"), Note.lookup("A4"),
                         Note.lookup("B4"), Note.lookup("C5")));
-        assertEquals(scale, Note.lookup("C4").getScale("major", true));
+        assertEquals(scale, Note.lookup("C4").getScale("major", true, false));
     }
 
     @Test
@@ -149,12 +149,12 @@ public class NoteTest {
                 Arrays.asList(Note.lookup("D4"), Note.lookup("E4"),
                         Note.lookup("F#4"), Note.lookup("G4"), Note.lookup("A4"),
                         Note.lookup("B4"), Note.lookup("C#5"), Note.lookup("D5")));
-        assertEquals(scale, Note.lookup("D4").getScale("major", true));
+        assertEquals(scale, Note.lookup("D4").getScale("major", true, false));
     }
 
     @Test
     public void testMajorScaleTooHigh() throws Exception {
-        assertEquals(null, Note.lookup("A8").getScale("major", true));
+        assertEquals(null, Note.lookup("A8").getScale("major", true, false));
     }
 
     // Get Method Tests
