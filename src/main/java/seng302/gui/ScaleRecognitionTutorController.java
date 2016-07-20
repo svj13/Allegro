@@ -109,14 +109,14 @@ public class ScaleRecognitionTutorController extends TutorController {
         // Add # octaves and up/down selection here.
         ArrayList<Note> scale;
         if (direction.getValue().equals("Up")) {
-            scale = startNote.getOctaveScale(scaleType, octaves.getValue(), true);
+            scale = startNote.getOctaveScale(scaleType, octaves.getValue(), true, false);
         } else if (direction.getValue().equals("UpDown")) {
-            scale = startNote.getOctaveScale(scaleType, octaves.getValue(), true);
+            scale = startNote.getOctaveScale(scaleType, octaves.getValue(), true, false);
             ArrayList<Note> notes = new ArrayList<>(scale);
             Collections.reverse(notes);
             scale.addAll(notes);
         } else {
-            scale = startNote.getOctaveScale(scaleType, octaves.getValue(), false);
+            scale = startNote.getOctaveScale(scaleType, octaves.getValue(), false, false);
         }
 
         return scale;

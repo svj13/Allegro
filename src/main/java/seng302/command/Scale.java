@@ -141,9 +141,9 @@ public class Scale implements Command {
 
 
     private ArrayList<Note> getScale(String direction) {
-        ArrayList<Note> scale = note.getOctaveScale(type, octaves, true);
+        ArrayList<Note> scale = note.getOctaveScale(type, octaves, true, false);
         if (direction.equals("down")) {
-            scale = note.getOctaveScale(type, octaves, false);
+            scale = note.getOctaveScale(type, octaves, false, false);
         } else if (direction.equals("updown")) {
             ArrayList<Note> notes = new ArrayList<Note>(scale);
             Collections.reverse(notes);
