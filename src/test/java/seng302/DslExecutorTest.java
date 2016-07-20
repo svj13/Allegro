@@ -254,6 +254,12 @@ public class DslExecutorTest {
     }
 
     @Test
+    public void parsesPlayMelodicScale() {
+        Command command = executor.parseCommandString("play scale c melodic minor updown 3");
+        assertThat(command, instanceOf(seng302.command.Scale.class));
+    }
+
+    @Test
     public void logsErrorOnPlayBadScale() {
         Command command = executor.parseCommandString("play scale c major cake");
         verify(env).error("Invalid input for this command. Please type 'help' and the command you want to use for more information.");
@@ -268,6 +274,18 @@ public class DslExecutorTest {
     @Test
     public void parsesMinorScaleCommand() {
         Command command = executor.parseCommandString("scale c minor");
+        assertThat(command, instanceOf(seng302.command.Scale.class));
+    }
+
+    @Test
+    public void parsesMelodicMinorScaleCommand() {
+        Command command = executor.parseCommandString("scale c melodic minor");
+        assertThat(command, instanceOf(seng302.command.Scale.class));
+    }
+
+    @Test
+    public void parsesMelodicMinorShortcut() {
+        Command command = executor.parseCommandString("scale c mel minor");
         assertThat(command, instanceOf(seng302.command.Scale.class));
     }
 
@@ -300,6 +318,7 @@ public class DslExecutorTest {
         Command command = executor.parseCommandString("scale C blah");
         verify(env).error("'blah' is not a valid scale type.");
     }
+
 
     @Test
     public void logsErrorOnInvalidScaleExtraCommand() {
