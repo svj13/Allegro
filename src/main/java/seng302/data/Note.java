@@ -277,6 +277,7 @@ public class Note {
      */
     public ArrayList<Note> getOctaveScale(String type, int octaves, boolean up, boolean blues) {
         ArrayList<Note> scaleNotes = new ArrayList<Note>();
+        System.out.println("Blues: " + blues);
         if (up) {
             if (type.toLowerCase().equals("major")) {
                 if (!blues) {
@@ -299,13 +300,11 @@ public class Note {
                     Note currentNote = this;
                     scaleNotes.add(currentNote);
                     for (int i = 0; i < octaves; i++) {
-                        scaleNotes.add(currentNote.semitoneUp(2));
-                        scaleNotes.add(currentNote.semitoneUp(4));
+                        scaleNotes.add(currentNote.semitoneUp(3));
                         scaleNotes.add(currentNote.semitoneUp(5));
                         scaleNotes.add(currentNote.semitoneUp(6)); // <-- 'blue' note
                         scaleNotes.add(currentNote.semitoneUp(7));
-                        scaleNotes.add(currentNote.semitoneUp(9));
-                        scaleNotes.add(currentNote.semitoneUp(11));
+                        scaleNotes.add(currentNote.semitoneUp(10));
                         scaleNotes.add(currentNote.semitoneUp(12));
                         currentNote = currentNote.semitoneUp(12);
                     }
