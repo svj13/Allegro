@@ -218,10 +218,14 @@ playScale ::= scale:s {:RESULT = s;:}
             |   scale:s NUMBER:a {: s.put("octaves", String.valueOf(a)); RESULT = s;:}
             |   scale:s BLUES:a {: s.put("blues", a); RESULT = s;:}
             |   scale:s NUMBER:a BLUES:b {: s.put("octaves", String.valueOf(a)); s.put("blues", b); RESULT = s;:}
+            |   scale:s BLUES:b NUMBER:a {: s.put("octaves", String.valueOf(a)); s.put("blues", b); RESULT = s;:}
+            |   scale:s BLUES:b DIRECTION:a {: s.put("direction", String.valueOf(a)); s.put("blues", b); RESULT = s;:}
             |   scale:s DIRECTION:a BLUES:b {: s.put("direction", String.valueOf(a)); s.put("blues", b); RESULT = s;:}
             |   scale:s NUMBER:a DIRECTION:b {: s.put("octaves", String.valueOf(a)); s.put("direction", b); RESULT = s;:}
             |   scale:s DIRECTION:b NUMBER:a {: s.put("octaves", String.valueOf(a)); s.put("direction", b); RESULT = s;:}
+            |   scale:s NUMBER:a BLUES:c DIRECTION:b {: s.put("octaves", String.valueOf(a)); s.put("direction", b); s.put("blues", c); RESULT = s;:}
             |   scale:s DIRECTION:b NUMBER:a BLUES:c {: s.put("octaves", String.valueOf(a)); s.put("direction", b); s.put("blues", c); RESULT = s;:}
+            |   scale:s BLUES:c NUMBER:a DIRECTION:b {: s.put("octaves", String.valueOf(a)); s.put("direction", b); s.put("blues", c); RESULT = s;:}
 ;
 
 playChord ::= chordType:s {:RESULT = s;:}
