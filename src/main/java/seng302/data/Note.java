@@ -310,6 +310,23 @@ public class Note {
                 if (scaleNotes.contains(null)) {
                     return null;
                 }
+
+            } else if (type.toLowerCase().equals("melodic minor")) {
+                Note currentNote = this;
+                scaleNotes.add(currentNote);
+                for (int i = 0; i < octaves; i++) {
+                    scaleNotes.add(currentNote.semitoneUp(2));
+                    scaleNotes.add(currentNote.semitoneUp(3));
+                    scaleNotes.add(currentNote.semitoneUp(5));
+                    scaleNotes.add(currentNote.semitoneUp(7));
+                    scaleNotes.add(currentNote.semitoneUp(9));
+                    scaleNotes.add(currentNote.semitoneUp(11));
+                    scaleNotes.add(currentNote.semitoneUp(12));
+                    currentNote = currentNote.semitoneUp(12);
+                }
+                if (scaleNotes.contains(null)) {
+                    return null;
+                }
             } else {
                 throw new IllegalArgumentException("Invalid scale type: '" + type + "'.");
             }
@@ -331,6 +348,22 @@ public class Note {
                     return null;
                 }
             } else if (type.toLowerCase().equals("minor")) {
+                Note currentNote = this;
+                scaleNotes.add(currentNote);
+                for (int i = 0; i < octaves; i++) {
+                    scaleNotes.add(currentNote.semitoneDown(2));
+                    scaleNotes.add(currentNote.semitoneDown(4));
+                    scaleNotes.add(currentNote.semitoneDown(5));
+                    scaleNotes.add(currentNote.semitoneDown(7));
+                    scaleNotes.add(currentNote.semitoneDown(9));
+                    scaleNotes.add(currentNote.semitoneDown(10));
+                    scaleNotes.add(currentNote.semitoneDown(12));
+                    currentNote = currentNote.semitoneDown(12);
+                }
+                if (scaleNotes.contains(null)) {
+                    return null;
+                }
+            } else if (type.toLowerCase().equals("melodic minor")) {
                 Note currentNote = this;
                 scaleNotes.add(currentNote);
                 for (int i = 0; i < octaves; i++) {

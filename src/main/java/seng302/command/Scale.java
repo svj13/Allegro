@@ -21,7 +21,7 @@ public class Scale implements Command {
     String startNote;
 
     /**
-     * Type of scale. e.g major, minor
+     * Type of scale. e.g major, minor, melodic minor
      */
     String type;
 
@@ -142,6 +142,7 @@ public class Scale implements Command {
 
     private ArrayList<Note> getScale(String direction) {
         ArrayList<Note> scale = note.getOctaveScale(type, octaves, true);
+
         if (direction.equals("down")) {
             scale = note.getOctaveScale(type, octaves, false);
         } else if (direction.equals("updown")) {
@@ -172,6 +173,7 @@ public class Scale implements Command {
                 }
                 try {
                     ArrayList<Note> scale = getScale(direction);
+
 
                     if (scale == null) {
                         env.error("This scale goes beyond the MIDI notes available.");
