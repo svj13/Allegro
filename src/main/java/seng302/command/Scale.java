@@ -81,7 +81,6 @@ public class Scale implements Command {
         if (scale.get("blues") != null) {
             this.blues = true;
         }
-        System.out.println("Your supposed blues: " + scale.get("blues"));
     }
 
     /**
@@ -92,7 +91,6 @@ public class Scale implements Command {
      * @param outputType The way to output the scale.
      */
     public Scale(String a, String b, String outputType) {
-        System.out.println("The 'empty' constructor");
         this.startNote = a;
         this.type = b;
         this.outputType = outputType;
@@ -156,7 +154,6 @@ public class Scale implements Command {
      */
     public Scale(String a, String b, String outputType, boolean blues) {
         this(a, b, outputType);
-        System.out.println("Got to the right constructor!");
         this.blues = blues;
     }
 
@@ -254,7 +251,8 @@ public class Scale implements Command {
     private String scaleToString(ArrayList<Note> scaleNotes, boolean up) {
         String notesAsText = "";
         for (Note note : scaleNotes) {
-            String currentNote = note.getEnharmonicWithLetter(currentLetter);
+//            String currentNote = note.getEnharmonicWithLetter(currentLetter);
+            String currentNote = note.getNote();
             if (octaveSpecified) {
                 notesAsText += currentNote + " ";
             } else {
@@ -266,7 +264,6 @@ public class Scale implements Command {
                 updateLetter(true);
             }
         }
-
         return notesAsText.trim();
     }
 
