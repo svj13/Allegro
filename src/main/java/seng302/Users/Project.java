@@ -1,4 +1,4 @@
-package seng302.managers;
+package seng302.Users;
 
 /**
  * ProjectHandler
@@ -36,7 +36,7 @@ import seng302.Environment;
 import seng302.data.Term;
 import seng302.utility.OutputTuple;
 
-public class ProjectHandler {
+public class Project {
     //private String[] propertyNames = {"tempo"};
 
     JSONObject projectSettings;
@@ -91,7 +91,7 @@ public class ProjectHandler {
     boolean saved = true;
     Environment env;
 
-    public ProjectHandler(Environment env) {
+    public Project(Environment env, String projectName) {
 
         projectSettings = new JSONObject();
         //pitchTutorRecords = new JSONObject();

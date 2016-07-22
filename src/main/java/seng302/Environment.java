@@ -3,7 +3,7 @@ package seng302;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import seng302.gui.RootController;
-import seng302.managers.ProjectHandler;
+import seng302.Users.ProjectHandler;
 import seng302.managers.TranscriptManager;
 import seng302.utility.EditHistory;
 import seng302.utility.MusicalTermsTutorBackEnd;

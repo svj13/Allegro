@@ -21,7 +21,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import seng302.Environment;
-import seng302.managers.ProjectHandler;
+import seng302.Users.ProjectHandler;
 import seng302.managers.TutorManager;
 import seng302.utility.TutorRecord;
 
