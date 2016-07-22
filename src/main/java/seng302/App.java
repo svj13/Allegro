@@ -3,6 +3,7 @@ package seng302;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -10,6 +11,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import seng302.gui.RootController;
+import seng302.gui.UserLoginController;
 
 
 public class App extends Application {
@@ -28,10 +30,36 @@ public class App extends Application {
         env = new Environment();
         try {
 
+
+            Stage stage = new Stage();
+            stage.setTitle("Allegro");
+            stage.setScene(new Scene(new Group()));
+            stage.show();
+
+            FXMLLoader loader1 = new FXMLLoader();
+            loader1.setLocation(getClass().getResource("/Views/userLogin.fxml"));
+
+            //Parent root1 = FXMLLoader.load(getClass().getResource("/Views/userLogin.fxml"));
+
+            Parent root1 = loader1.load();
+            Scene scene1 = new Scene(root1);
+
+            stage.setTitle("Allegro");
+            stage.setScene(scene1);
+            stage.show();
+            UserLoginController userLoginController = loader1.getController();
+            userLoginController.create();
+
+
+
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/Views/newGui.fxml"));
 
             Parent root = loader.load();
+
+
+
+
 
 
             //Parent root = loader;

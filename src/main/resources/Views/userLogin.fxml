@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.UserLoginController">
+   <children>
+      <Label layoutX="130.0" layoutY="24.0" prefHeight="41.0" prefWidth="336.0" text="QUINTUS SOFTWARE">
+         <font>
+            <Font size="31.0" />
+         </font>
+      </Label>
+      <HBox fx:id="recentUsersHbox" layoutX="136.0" layoutY="108.0" maxHeight="191.0" maxWidth="399.0" minHeight="95.0" minWidth="336.0" prefHeight="95.0" prefWidth="354.0" />
+      <PasswordField fx:id="passwordInput" layoutX="246.0" layoutY="284.0" />
+      <Label layoutX="160.0" layoutY="289.0" text="Password:" />
+      <Button layoutX="246.0" layoutY="331.0" mnemonicParsing="false" text="Sign in" />
+      <Label layoutX="159.0" layoutY="249.0" text="User Name:" />
+      <TextField fx:id="usernameInput" layoutX="246.0" layoutY="246.0" />
+      <Button layoutX="338.0" layoutY="331.0" mnemonicParsing="false" text="Register" />
+   </children>
+</AnchorPane>
