@@ -333,26 +333,50 @@ public class Note {
             }
         } else { // the scale is 'down'
             if (type.toLowerCase().equals("major")) {
-                for (int i = 0; i < octaves; i++) {
-                    scaleNotes.add(currentNote.semitoneDown(1));
-                    scaleNotes.add(currentNote.semitoneDown(3));
-                    scaleNotes.add(currentNote.semitoneDown(5));
-                    scaleNotes.add(currentNote.semitoneDown(7));
-                    scaleNotes.add(currentNote.semitoneDown(8));
-                    scaleNotes.add(currentNote.semitoneDown(10));
-                    scaleNotes.add(currentNote.semitoneDown(12));
-                    currentNote = currentNote.semitoneDown(12);
+                if (!blues) {
+                    for (int i = 0; i < octaves; i++) {
+                        scaleNotes.add(currentNote.semitoneDown(1));
+                        scaleNotes.add(currentNote.semitoneDown(3));
+                        scaleNotes.add(currentNote.semitoneDown(5));
+                        scaleNotes.add(currentNote.semitoneDown(7));
+                        scaleNotes.add(currentNote.semitoneDown(8));
+                        scaleNotes.add(currentNote.semitoneDown(10));
+                        scaleNotes.add(currentNote.semitoneDown(12));
+                        currentNote = currentNote.semitoneDown(12);
+                    }
+                } else { // A blues scale
+                    for (int i = 0; i < octaves; i++) {
+                        scaleNotes.add(currentNote.semitoneDown(2));
+                        scaleNotes.add(currentNote.semitoneDown(5));
+                        scaleNotes.add(currentNote.semitoneDown(6));
+                        scaleNotes.add(currentNote.semitoneDown(7));
+                        scaleNotes.add(currentNote.semitoneDown(9));
+                        scaleNotes.add(currentNote.semitoneDown(12));
+                        currentNote = currentNote.semitoneDown(12);
+                    }
                 }
             } else if (type.toLowerCase().equals("minor")) {
-                for (int i = 0; i < octaves; i++) {
-                    scaleNotes.add(currentNote.semitoneDown(2));
-                    scaleNotes.add(currentNote.semitoneDown(4));
-                    scaleNotes.add(currentNote.semitoneDown(5));
-                    scaleNotes.add(currentNote.semitoneDown(7));
-                    scaleNotes.add(currentNote.semitoneDown(9));
-                    scaleNotes.add(currentNote.semitoneDown(10));
-                    scaleNotes.add(currentNote.semitoneDown(12));
-                    currentNote = currentNote.semitoneDown(12);
+                if (!blues) {
+                    for (int i = 0; i < octaves; i++) {
+                        scaleNotes.add(currentNote.semitoneDown(2));
+                        scaleNotes.add(currentNote.semitoneDown(4));
+                        scaleNotes.add(currentNote.semitoneDown(5));
+                        scaleNotes.add(currentNote.semitoneDown(7));
+                        scaleNotes.add(currentNote.semitoneDown(9));
+                        scaleNotes.add(currentNote.semitoneDown(10));
+                        scaleNotes.add(currentNote.semitoneDown(12));
+                        currentNote = currentNote.semitoneDown(12);
+                    }
+                } else { // A blues scale
+                    for (int i = 0; i < octaves; i++) {
+                        scaleNotes.add(currentNote.semitoneDown(2));
+                        scaleNotes.add(currentNote.semitoneDown(5));
+                        scaleNotes.add(currentNote.semitoneDown(6));
+                        scaleNotes.add(currentNote.semitoneDown(7));
+                        scaleNotes.add(currentNote.semitoneDown(9));
+                        scaleNotes.add(currentNote.semitoneDown(12));
+                        currentNote = currentNote.semitoneDown(12);
+                    }
                 }
             } else {
                 throw new IllegalArgumentException("Invalid scale type: '" + type + "'.");
