@@ -47,6 +47,14 @@
                            text="Settings"/>
                </children>
             </StackPane>
+             <StackPane fx:id="rightMostStack" alignment="CENTER_LEFT" maxWidth="1500"
+                        pickOnBounds="false" prefHeight="48.0">
+                 <children>
+                     <Button fx:id="displayScalesButtonButton" focusTraversable="false" minHeight="10.0"
+                             mnemonicParsing="false" onAction="#toggleDisplayScales" prefHeight="20.0"
+                             text="Display Scales"/>
+                 </children>
+             </StackPane>
          </children>
       </HBox>
    </graphic>

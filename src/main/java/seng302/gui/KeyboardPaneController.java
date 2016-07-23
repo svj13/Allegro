@@ -49,7 +49,6 @@ public class KeyboardPaneController {
     private HBox keyboardBox;
 
 
-
     /**
      * Contains the black keys (TouchPanes).
      */
@@ -62,6 +61,9 @@ public class KeyboardPaneController {
     @FXML
     private Button settingsButton;
 
+    /**
+     * Button to show display scales pop over.
+     */
     @FXML
     private Button displayScalesButton;
 
@@ -290,9 +292,18 @@ public class KeyboardPaneController {
 
         //Style display scales button
         displayScalesButton = new Button("Display Scales");
+        displayScalesButton.setText(null);
+
+        //this is here to see if i could duplicate the button on the keyboard.
+        //no success. WHERE IS THE BUTTON BEING SLAPPED ON. BLEH
+
+//        Image cog = new Image(getClass().getResourceAsStream
+//                ("/images/gear-1119298_960_720.png"), 10, 10, true, true);
+//        settingsButton.setGraphic(new ImageView(cog));
+//        settingsButton.setText(null);
 
         // used the spacing etc from settings to see if it will come out nicely. Subject to change
-        displayScales.setSpacing(5);
+        displayScales.setSpacing(10);
         displayScales.setPadding(new Insets(10));
 
         displayScalesPop = new PopOver(displayScales);
