@@ -289,12 +289,14 @@ public class KeyboardPaneController {
         displayScales.getChildren().add(scale2);
 
         //Style display scales button
-        displayScalesButton.setText("Display Scales");
+        displayScalesButton = new Button("Display Scales");
+
+        // used the spacing etc from settings to see if it will come out nicely. Subject to change
+        displayScales.setSpacing(5);
+        displayScales.setPadding(new Insets(10));
 
         displayScalesPop = new PopOver(displayScales);
         displayScalesPop.setTitle("Display Scales");
-
-
 
 
     }
