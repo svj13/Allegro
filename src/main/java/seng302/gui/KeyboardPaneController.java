@@ -48,6 +48,8 @@ public class KeyboardPaneController {
     @FXML
     private HBox keyboardBox;
 
+
+
     /**
      * Contains the black keys (TouchPanes).
      */
@@ -76,6 +78,11 @@ public class KeyboardPaneController {
      * Settings pop over.
      */
     private PopOver pop;
+
+    /**
+     * Display Scales pop over
+     */
+    private PopOver displayScalesPop;
 
     /**
      * Bottom note of keyboard.
@@ -144,6 +151,7 @@ public class KeyboardPaneController {
         topNote = 72;
 
         createSettingsPop();
+        createDisplayScalesPop();
 
 
     }
@@ -173,11 +181,13 @@ public class KeyboardPaneController {
         // Add to the settings VBox
         settings.getChildren().add(slider);
 
+
         // Style settings button.
         Image cog = new Image(getClass().getResourceAsStream
                 ("/images/gear-1119298_960_720.png"), 10, 10, true, true);
         settingsButton.setGraphic(new ImageView(cog));
         settingsButton.setText(null);
+
 
         // Select whether to show note names.
         settings.getChildren().add(new Label("Note names:"));
@@ -217,6 +227,7 @@ public class KeyboardPaneController {
         pop = new PopOver(settings);
         pop.setTitle("Keyboard Settings");
 
+
         settings.getChildren().add(noteLabelsOff);
         settings.getChildren().add(noteLabelsClick);
         settings.getChildren().add(noteLabelsAlways);
@@ -249,13 +260,41 @@ public class KeyboardPaneController {
     }
 
 
+
     /**
-     * display scales pop up option on keyboard. Will enable tuser to display 1 or more scales. They can select
+     * display scales pop up option on keyboard. Will enable user to display 1 or more scales. They can select
      * note of scale, what type of scale and its octave. Clear buttons for each scale to clear fields.
      * OK button to confirm and execute and close window. Cancel button to cancel and close window.
      * Error handling
      */
     private void createDisplayScalesPop() {
+
+        // Vbox goes inside display scales pop over
+        VBox displayScales = new VBox();
+
+        // Hbox for scale 1
+        HBox scale1 = new HBox();
+        scale1.setSpacing(5);
+        Label selectScale1 = new Label("Select scale:");
+        scale1.getChildren().add(selectScale1);
+
+        // Hbox for optional scale 2
+        HBox scale2 = new HBox();
+        scale2.setSpacing(5);
+        Label selectScale2 = new Label("Select second scale (optional):");
+        scale2.getChildren().add(selectScale2);
+
+        // Add Hboxes to the display scales vbox
+        displayScales.getChildren().add(scale1);
+        displayScales.getChildren().add(scale2);
+
+        //Style display scales button
+        displayScalesButton.setText("Display Scales");
+
+        displayScalesPop = new PopOver(displayScales);
+        displayScalesPop.setTitle("Display Scales");
+
+
 
 
     }
@@ -291,6 +330,18 @@ public class KeyboardPaneController {
             pop.hide();
         } else {
             pop.show(settingsButton);
+        }
+    }
+
+    /**
+     * Hides and shows the display scales pop over when the display scales Button is pressed.
+     */
+    @FXML
+    private void toggleDisplayScales() {
+        if (displayScalesPop.isShowing()) {
+            displayScalesPop.hide();
+        } else {
+            displayScalesPop.show(displayScalesButton);
         }
     }
 
