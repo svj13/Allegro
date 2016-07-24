@@ -272,6 +272,13 @@ public class KeyboardPaneController {
         // Vbox goes inside display scales pop over
         VBox displayScales = new VBox();
 
+        //clear, OK and cancel button. OK and cancel are going into their own HBOX. clear is going to
+        //be added to both the scale 1 and scale 2 hboxes
+        Button okButton = new Button("OK"); //actions the fields selected and highlights corresponding keys
+        Button cancelButton = new Button("Cancel"); //closes the pop out window without actioning
+        Button clearButtonScale1 = new Button("Clear"); //clears the fields of the corresponding drop down
+        Button clearButtonScale2 = new Button("Clear"); //clears the fields of the corresponding drop down
+
 
         // TODO make this fetch the notes instead
         ObservableList<String> noteOptions =
@@ -354,16 +361,29 @@ public class KeyboardPaneController {
 
 
 
+        //HBox for the OK and Cancel button
+        HBox actionButtonBox = new HBox();
+        actionButtonBox.getChildren().add(okButton);
+        actionButtonBox.getChildren().add(cancelButton);
+
+
+
+
+
+
 
         // Add Hboxes to the display scales vbox
         displayScales.getChildren().add(scale1);
         displayScales.getChildren().add(scaleOneNoteOptions);
         displayScales.getChildren().add(scaleOneTypeOptions);
         displayScales.getChildren().add(scaleOneOctaveOptions);
+        displayScales.getChildren().add(clearButtonScale1);
         displayScales.getChildren().add(scale2);
         displayScales.getChildren().add(scaleTwoNoteOptions);
         displayScales.getChildren().add(scaleTwoTypeOptions);
         displayScales.getChildren().add(scaleTwoOctaveOptions);
+        displayScales.getChildren().add(clearButtonScale2);
+        displayScales.getChildren().add(actionButtonBox);
 
 
         // used the spacing etc from settings to see if it will come out nicely. Subject to change
