@@ -272,6 +272,28 @@ public class KeyboardPaneController {
         // Vbox goes inside display scales pop over
         VBox displayScales = new VBox();
 
+        // Hbox for label of scale 1
+        HBox scale1Label = new HBox();
+        scale1Label.setSpacing(5);
+        Label selectScale1Label = new Label("Select scale:");
+        scale1Label.getChildren().add(selectScale1Label);
+
+        // Hbox for scale 1
+        HBox scale1 = new HBox();
+        scale1.setSpacing(5);
+
+        // Hbox for label of scale 2
+        HBox scale2Label = new HBox();
+        scale2Label.setSpacing(5);
+        Label selectScale2Label = new Label("Select scale:");
+        scale2Label.getChildren().add(selectScale2Label);
+
+        // Hbox for scale 2
+        HBox scale2 = new HBox();
+        scale2.setSpacing(5);
+
+
+
         //clear, OK and cancel button. OK and cancel are going into their own HBOX. clear is going to
         //be added to both the scale 1 and scale 2 hboxes
         Button okButton = new Button("OK"); //actions the fields selected and highlights corresponding keys
@@ -303,13 +325,6 @@ public class KeyboardPaneController {
                         "3"
                 );
 
-
-        // Hbox for scale 1
-        HBox scale1 = new HBox();
-        scale1.setSpacing(5);
-        Label selectScale1 = new Label("Select scale:");
-        scale1.getChildren().add(selectScale1);
-
         // HBox for the options of the first scale
         HBox scaleOneNoteOptions = new HBox();
         HBox scaleOneTypeOptions = new HBox();
@@ -332,12 +347,6 @@ public class KeyboardPaneController {
         scaleOneOctaveOptions.getChildren().add(octaveScale1);
 
 
-
-        // Hbox for optional scale 2
-        HBox scale2 = new HBox();
-        scale2.setSpacing(5);
-        Label selectScale2 = new Label("Select second scale (optional):");
-        scale2.getChildren().add(selectScale2);
 
         //HBox for the options of the optional second scale
         HBox scaleTwoNoteOptions = new HBox();
@@ -369,20 +378,26 @@ public class KeyboardPaneController {
 
 
 
+        // add drop downs and clear button to scale 1 HBox
+        scale1.getChildren().add(scaleOneNoteOptions);
+        scale1.getChildren().add(scaleOneTypeOptions);
+        scale1.getChildren().add(scaleOneOctaveOptions);
+        scale1.getChildren().add(clearButtonScale1);
+
+        // add drop downs and clear button to scale 1 HBox
+        scale2.getChildren().add(scaleTwoNoteOptions);
+        scale2.getChildren().add(scaleTwoTypeOptions);
+        scale2.getChildren().add(scaleTwoOctaveOptions);
+        scale2.getChildren().add(clearButtonScale2);
+
 
 
 
         // Add Hboxes to the display scales vbox
+        displayScales.getChildren().add(scale1Label);
         displayScales.getChildren().add(scale1);
-        displayScales.getChildren().add(scaleOneNoteOptions);
-        displayScales.getChildren().add(scaleOneTypeOptions);
-        displayScales.getChildren().add(scaleOneOctaveOptions);
-        displayScales.getChildren().add(clearButtonScale1);
+        displayScales.getChildren().add(scale2Label);
         displayScales.getChildren().add(scale2);
-        displayScales.getChildren().add(scaleTwoNoteOptions);
-        displayScales.getChildren().add(scaleTwoTypeOptions);
-        displayScales.getChildren().add(scaleTwoOctaveOptions);
-        displayScales.getChildren().add(clearButtonScale2);
         displayScales.getChildren().add(actionButtonBox);
 
 
