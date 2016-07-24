@@ -272,6 +272,31 @@ public class KeyboardPaneController {
         // Vbox goes inside display scales pop over
         VBox displayScales = new VBox();
 
+
+        // TODO make this fetch the notes instead
+        ObservableList<String> noteOptions =
+                FXCollections.observableArrayList(
+                        "C",
+                        "D",
+                        "E"
+                );
+
+        //TODO make this fetch the types instead
+        ObservableList<String> typeOptions =
+                FXCollections.observableArrayList(
+                        "Major",
+                        "Minor"
+                );
+
+        //TODO make this fetch the octaves and make it so octave 4 is the default
+        ObservableList<String> octaveOptions =
+                FXCollections.observableArrayList(
+                        "1",
+                        "2",
+                        "3"
+                );
+
+
         // Hbox for scale 1
         HBox scale1 = new HBox();
         scale1.setSpacing(5);
@@ -279,17 +304,26 @@ public class KeyboardPaneController {
         scale1.getChildren().add(selectScale1);
 
         // HBox for the options of the first scale
-        HBox scaleOneOptions = new HBox();
+        HBox scaleOneNoteOptions = new HBox();
+        HBox scaleOneTypeOptions = new HBox();
+        HBox scaleOneOctaveOptions = new HBox();
 
-        ObservableList<String> options =
-                FXCollections.observableArrayList(
-                        "C",
-                        "D",
-                        "E"
-                );
-        ComboBox<String> box = new ComboBox(options);
-        box.setPromptText("Note");
-        scaleOneOptions.getChildren().add(box);
+
+        //drop down for note of first scale
+        ComboBox<String> noteScale1 = new ComboBox(noteOptions);
+        noteScale1.setPromptText("Note");
+        scaleOneNoteOptions.getChildren().add(noteScale1);
+
+        //drop down for type of first scale
+        ComboBox<String> typeScale1 = new ComboBox(typeOptions);
+        typeScale1.setPromptText("Type");
+        scaleOneTypeOptions.getChildren().add(typeScale1);
+
+        //drop down for octave of first scale
+        ComboBox<String> octaveScale1 = new ComboBox(octaveOptions);
+        octaveScale1.setPromptText("Octave");
+        scaleOneOctaveOptions.getChildren().add(octaveScale1);
+
 
 
         // Hbox for optional scale 2
@@ -298,12 +332,39 @@ public class KeyboardPaneController {
         Label selectScale2 = new Label("Select second scale (optional):");
         scale2.getChildren().add(selectScale2);
 
+        //HBox for the options of the optional second scale
+        HBox scaleTwoNoteOptions = new HBox();
+        HBox scaleTwoTypeOptions = new HBox();
+        HBox scaleTwoOctaveOptions = new HBox();
+
+        //drop down for note of first scale
+        ComboBox<String> noteScale2 = new ComboBox(noteOptions);
+        noteScale2.setPromptText("Note");
+        scaleTwoNoteOptions.getChildren().add(noteScale2);
+
+        //drop down for type of first scale
+        ComboBox<String> typeScale2 = new ComboBox(typeOptions);
+        typeScale2.setPromptText("Type");
+        scaleTwoTypeOptions.getChildren().add(typeScale2);
+
+        //drop down for octave of first scale
+        ComboBox<String> octaveScale2 = new ComboBox(octaveOptions);
+        octaveScale2.setPromptText("Octave");
+        scaleTwoOctaveOptions.getChildren().add(octaveScale2);
+
+
+
+
         // Add Hboxes to the display scales vbox
         displayScales.getChildren().add(scale1);
-        displayScales.getChildren().add(scaleOneOptions);
+        displayScales.getChildren().add(scaleOneNoteOptions);
+        displayScales.getChildren().add(scaleOneTypeOptions);
+        displayScales.getChildren().add(scaleOneOctaveOptions);
         displayScales.getChildren().add(scale2);
+        displayScales.getChildren().add(scaleTwoNoteOptions);
+        displayScales.getChildren().add(scaleTwoTypeOptions);
+        displayScales.getChildren().add(scaleTwoOctaveOptions);
 
-        //Style display scales button
 
         // used the spacing etc from settings to see if it will come out nicely. Subject to change
         displayScales.setSpacing(10);
