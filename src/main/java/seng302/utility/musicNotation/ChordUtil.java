@@ -1,7 +1,6 @@
 package seng302.utility.musicNotation;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import seng302.data.Note;
 
@@ -275,100 +274,16 @@ public class ChordUtil {
      * @return ArrayList of Notes corresponding to the chord.
      */
     public static ArrayList<Integer> getChordMidi(int midi, String type) {
-        ArrayList<Integer> chordNotes = new ArrayList<Integer>();
-        Note currentNote = Note.lookup(String.valueOf(midi));
-        if (type.toLowerCase().equals("major")) {
-
-            chordNotes.add(currentNote.getMidi());
-            chordNotes.add(currentNote.semitoneUp(4).getMidi());
-            chordNotes.add(currentNote.semitoneUp(7).getMidi());
-            if (chordNotes.contains(null)) {
-                return null;
+        ArrayList<Integer> chordMidiNotes = new ArrayList<Integer>();
+        ArrayList<Note> chordNotes = ChordUtil.getChord(Note.lookup(String.valueOf(midi)), type);
+        try {
+            for (Note note : chordNotes) {
+                chordMidiNotes.add(note.getMidi());
             }
-
-
-        } else if (type.toLowerCase().equals("minor")) {
-
-            chordNotes.add(currentNote.getMidi());
-            chordNotes.add(currentNote.semitoneUp(3).getMidi());
-            chordNotes.add(currentNote.semitoneUp(7).getMidi());
-            if (chordNotes.contains(null)) {
-                return null;
-            }
-            //for minor 7th chords (4 note chords)
-        } else if (type.toLowerCase().equals("minor 7th") ||
-                type.toLowerCase().equals("minor seventh")) {
-            chordNotes.add(currentNote.getMidi());
-            chordNotes.add(currentNote.semitoneUp(3).getMidi());
-            chordNotes.add(currentNote.semitoneUp(7).getMidi());
-            chordNotes.add(currentNote.semitoneUp(10).getMidi());
-            if (chordNotes.contains(null)) {
-                return null;
-            }
-
-            //for major 7th chords (4 note chords)
-        } else if (type.toLowerCase().equals("major 7th") ||
-                type.toLowerCase().equals("major seventh")) {
-            chordNotes.add(currentNote.getMidi());
-            chordNotes.add(currentNote.semitoneUp(4).getMidi());
-            chordNotes.add(currentNote.semitoneUp(7).getMidi());
-            chordNotes.add(currentNote.semitoneUp(11).getMidi());
-            if (chordNotes.contains(null)) {
-                return null;
-            }
-
-            //for 7th chords (4-note chords)
-        } else if (type.toLowerCase().equals("seventh") ||
-                type.toLowerCase().equals("7th") ||
-                type.toLowerCase().equals("7") ||
-                type.toLowerCase().equals("seven")) {
-            chordNotes.add(currentNote.getMidi());
-            chordNotes.add(currentNote.semitoneUp(4).getMidi());
-            chordNotes.add(currentNote.semitoneUp(7).getMidi());
-            chordNotes.add(currentNote.semitoneUp(10).getMidi());
-            if (chordNotes.contains(null)) {
-                return null;
-            }
-            //for half diminished chords (triad)
-        } else if (type.toLowerCase().equals("diminished") ||
-                type.toLowerCase().equals("dim")) {
-            chordNotes.add(currentNote.getMidi());
-            chordNotes.add(currentNote.semitoneUp(3).getMidi());
-            chordNotes.add(currentNote.semitoneUp(6).getMidi());
-            if (chordNotes.contains(null)) {
-                return null;
-            }
-            //for half diminished chords (4 note chords)
-        } else if (type.toLowerCase().equals("half diminished seventh") ||
-                type.toLowerCase().equals("half dim seventh") ||
-                type.toLowerCase().equals("half dim 7th") ||
-                type.toLowerCase().equals("half diminished 7th") ||
-                type.toLowerCase().equals("half dim") ||
-                type.toLowerCase().equals("half diminished")) {
-            chordNotes.add(currentNote.getMidi());
-            chordNotes.add(currentNote.semitoneUp(3).getMidi());
-            chordNotes.add(currentNote.semitoneUp(6).getMidi());
-            chordNotes.add(currentNote.semitoneUp(10).getMidi());
-            if (chordNotes.contains(null)) {
-                return null;
-            }
-            //for diminished chords (4 chords)
-        } else if (type.toLowerCase().equals("diminished seventh") ||
-                type.toLowerCase().equals("dim seventh") ||
-                type.toLowerCase().equals("dim 7th") ||
-                type.toLowerCase().equals("diminished 7th")) {
-            chordNotes.add(currentNote.getMidi());
-            chordNotes.add(currentNote.semitoneUp(3).getMidi());
-            chordNotes.add(currentNote.semitoneUp(6).getMidi());
-            chordNotes.add(currentNote.semitoneUp(9).getMidi());
-            if (chordNotes.contains(null)) {
-                return null;
-            }
-            //if the string does not match a chord type
-        } else {
-            throw new IllegalArgumentException("Invalid chord type: '" + type + "'.");
+        } catch (NullPointerException e) {
+            return null;
         }
-        return chordNotes;
+        return chordMidiNotes;
     }
 
 
