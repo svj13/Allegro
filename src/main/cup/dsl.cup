@@ -96,7 +96,8 @@ COMMAND_MUSICAL_TERM_ORIGIN, COMMAND_MUSICAL_TERM_CATEGORY, COMMAND_ADD_MUSICAL_
 COMMAND_INTERVAL, COMMAND_PLAY_INTERVAL,COMMAND_ALL_ENHARMONICS, SEMIC, COMMAND_UNDO,
 COMMAND_REDO, COMMAND_TWINKLE, COMMAND_CHORD, COMMAND_PLAY_CHORD,COMMAND_RHYTHM, COMMAND_SET_RHYTHM,
 COMMAND_INTERVAL_ENHARMONIC, COMMAND_SHOW_KEYSIGNATURE,COMMAND_SHOW_KEYSIGNATURE_NUM,
-COMMAND_SCALE_WITH_KEYSIG, COMMAND_FIND_CHORD, COMMAND_FIND_CHORD_ALL, COMMAND_QUALITY_OF;
+COMMAND_SCALE_WITH_KEYSIG, COMMAND_FIND_CHORD, COMMAND_FIND_CHORD_ALL, COMMAND_QUALITY_OF,
+COMMAND_CHORD_FUNCTION;
 
 terminal String ATOM, NOTE, SCALE_TYPE,INVERSION_SPECIFIER,  DIRECTION, MIDINOTE, NUMBER, POSNUM, INTERVAL, PLAY_STYLE, SHARPSFLATS, RHYTHM_TYPE,
 NOTE_TRIO, CHORD_TYPE, SHARED_CHORD_AND_INTERVAL, ROMAN_NUMERALS;
@@ -120,6 +121,7 @@ non terminal HashMap<String, String> chordType;
 non terminal String numberAndSharpsFlat;
 non terminal ArrayList<String> notes;
 non terminal ArrayList<Note> chordSet;
+non terminal HashMap<String,String> chordFunction;
 
 start with command;
 
@@ -164,7 +166,8 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_INTERVAL_ENHARMONIC interval:i      {: RESULT = new IntervalCommand(i,"equivalent"); :}
           | COMMAND_FIND_CHORD chordSet:n               {: RESULT = new ChordFinder(n,false); :}
           | COMMAND_FIND_CHORD_ALL chordSet:n           {: RESULT = new ChordFinder(n,true); :}
-          | COMMAND_QUALITY_OF ROMAN_NUMERALS:r         {: RESULT = new Diatonic(r, "quality"); :}
+          | COMMAND_QUALITY_OF ROMAN_NUMERALS:r         {: RESULT = new Diatonic(r, "quality");:}
+          | COMMAND_CHORD_FUNCTION chordFunction:c      {: RESULT = new Diatonic(c);:}
 
 ;
 
@@ -292,6 +295,12 @@ musicalDef ::= term:a SEMIC term:b SEMIC term:c SEMIC term:d
                 {: errorMessage = "Please provide the name, origin, category and definition of the " +
                    "musical term, separated by semicolons.";:}
 ;
+
+chordFunction ::= NOTE:n SCALE_TYPE:s ROMAN_NUMERALS:r
+            {: RESULT = new HashMap<String,String>(); RESULT.put("note", n); RESULT.put("scale_type",s);
+                RESULT.put("function", r); :}
+;
+
 
 
 

@@ -164,6 +164,7 @@ RomanNumerals = (I|II|III|IV|V|VI|VII)
     "scale signature with" {return symbol(DslSymbol.COMMAND_SCALE_WITH_KEYSIG);}
     "scale sig with"    {return symbol(DslSymbol.COMMAND_SCALE_WITH_KEYSIG); }
     "quality of"        {return symbol(DslSymbol.COMMAND_QUALITY_OF);}
+    "chord function"    {return symbol(DslSymbol.COMMAND_CHORD_FUNCTION);}
     {RomanNumerals}     {return symbol(DslSymbol.ROMAN_NUMERALS);}
     {SharpsFlats}       {return symbol(DslSymbol.SHARPSFLATS, new String(yytext()));}
     {PlayStyle}         {return symbol(DslSymbol.PLAY_STYLE, new String(yytext())); }

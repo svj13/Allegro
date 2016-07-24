@@ -1,5 +1,7 @@
 package seng302.command;
 
+import java.util.HashMap;
+
 import seng302.Environment;
 
 /**
@@ -12,6 +14,10 @@ public class Diatonic implements Command {
     public Diatonic(String romanNumeral, String command) {
         this.romanNumeral = romanNumeral;
         this.command = command;
+    }
+
+    public Diatonic(HashMap<String, String> map) {
+
     }
 
     @Override

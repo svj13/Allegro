@@ -588,5 +588,11 @@ public class DslExecutorTest {
         assertThat(command, instanceOf(seng302.command.Diatonic.class));
     }
 
+    @Test
+    public void testChordFunctionCommand() {
+        Command command = executor.parseCommandString("chord function D major IV");
+        assertThat(command, instanceOf(seng302.command.Diatonic.class));
+    }
+
 
 }
