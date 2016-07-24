@@ -285,7 +285,7 @@ public class KeyboardPaneController {
         // Hbox for label of scale 2
         HBox scale2Label = new HBox();
         scale2Label.setSpacing(5);
-        Label selectScale2Label = new Label("Select scale:");
+        Label selectScale2Label = new Label("Select 2nd scale (optional):");
         scale2Label.getChildren().add(selectScale2Label);
 
         // Hbox for scale 2
