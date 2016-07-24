@@ -1,6 +1,7 @@
 package seng302.utility.musicNotation;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import seng302.data.Note;
 
@@ -8,6 +9,19 @@ import seng302.data.Note;
  * Created by Jonty on 24-May-16.
  */
 public class ChordUtil {
+    private static final HashMap<String, String> chordFunctionQuality;
+
+    static {
+        chordFunctionQuality = new HashMap<>();
+        chordFunctionQuality.put("I", "major 7th");
+        chordFunctionQuality.put("II", "minor 7th");
+        chordFunctionQuality.put("III", "minor 7th");
+        chordFunctionQuality.put("IV", "major 7th");
+        chordFunctionQuality.put("V", "7th");
+        chordFunctionQuality.put("VI", "minor 7th");
+        chordFunctionQuality.put("VII", "half-diminished 7th");
+
+    }
 
 
 
@@ -284,6 +298,16 @@ public class ChordUtil {
             return null;
         }
         return chordMidiNotes;
+    }
+
+    /**
+     * Returns the diatonic chord quality when given a chord function (roman numeral)
+     *
+     * @param romanNumeral from I to VII
+     * @return the chord quality
+     */
+    public static String getDiatonicChordQuality(String romanNumeral) {
+        return chordFunctionQuality.get(romanNumeral.toUpperCase());
     }
 
 
