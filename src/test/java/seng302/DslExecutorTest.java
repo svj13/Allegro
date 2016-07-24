@@ -10,8 +10,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 import seng302.command.Command;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 
 /**
@@ -577,6 +578,14 @@ public class DslExecutorTest {
     public void testIntervalPerfectOctave() {
         Command command = executor.parseCommandString("interval perfect octave");
         assertThat(command, instanceOf(seng302.command.IntervalCommand.class));
+    }
+
+    // DIATONIC TESTS
+
+    @Test
+    public void testQualityOfCommand() {
+        Command command = executor.parseCommandString("quality of II");
+        assertThat(command, instanceOf(seng302.command.Diatonic.class));
     }
 
 
