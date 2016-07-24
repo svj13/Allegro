@@ -4,7 +4,7 @@
   <groupId>seng302</groupId>
   <artifactId>app</artifactId>
   <packaging>jar</packaging>
-  <version>2.0</version>
+  <version>3.0</version>
 
   <name>app</name>
   <url>https://eng-git.canterbury.ac.nz/SENG302-2016/team-5</url>

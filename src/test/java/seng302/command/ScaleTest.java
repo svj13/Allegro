@@ -245,6 +245,66 @@ public class ScaleTest {
         verify(transcriptManager).setResult("[ERROR] Invalid scale: 'Fx minor'.");
     }
 
+    /**
+     * Melodic Minor scale testing
+     * ###############################################
+     */
+
+    @Test
+    public void validCMelodicMinorScale() {
+        new Scale("C", "melodic minor", "note").execute(env);
+        verify(transcriptManager).setResult("C D Eb F G A B C");
+    }
+
+    @Test
+    public void validDMelodicMinorScale() {
+        new Scale("D", "melodic minor", "note").execute(env);
+        verify(transcriptManager).setResult("D E F G A B C# D");
+    }
+
+    @Test
+    public void validDFlatMelodicMinorScale() {
+        new Scale("Db", "melodic minor", "note").execute(env);
+        verify(transcriptManager).setResult("Db Eb Fb Gb Ab Bb C Db");
+    }
+
+    @Test
+    public void validFMelodicMinorScale5thOctave() {
+        new Scale("F5", "melodic minor", "note").execute(env);
+        verify(transcriptManager).setResult("F5 G5 Ab5 Bb5 C6 D6 E6 F6");
+    }
+
+    @Test
+    public void validGSharpMelodicMinorScale() {
+        new Scale("G#", "melodic minor", "note").execute(env);
+        verify(transcriptManager).setResult("G# A# B C# D# E# Fx G#");
+    }
+
+    @Test
+    public void testPlayCorrectMelodicMinorScaleDown() {
+        new Scale("C", "melodic minor", "play", "down").execute(env);
+        verify(transcriptManager).setResult("C Bb Ab G F Eb D C");
+        ArrayList<Note> scale = Note.lookup("C4").getScale("melodic minor", false);
+        verify(player).playNotes(scale);
+    }
+
+    @Test
+    public void invalidDoubleSharpMelodicMinor() {
+        new Scale("Fx", "melodic minor", "note").execute(env);
+        verify(transcriptManager).setResult("[ERROR] Invalid scale: 'Fx melodic minor'.");
+    }
+
+    @Test
+    public void setsCorrectMelodicMinorScaleResultMidi() {
+        new Scale("C4", "melodic minor", "midi").execute(env);
+        verify(transcriptManager).setResult("60 62 63 65 67 69 71 72");
+    }
+
+
+    /**
+     * #########################################
+     */
+
 
 
 }

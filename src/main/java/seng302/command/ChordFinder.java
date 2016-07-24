@@ -16,6 +16,7 @@ public class ChordFinder implements Command {
     Boolean all = false; //Return all chords, including inversions.
     String result;
     ArrayList<Integer> midiNotes;
+    char enharmonicLetter;
 
 
     /**
@@ -26,7 +27,7 @@ public class ChordFinder implements Command {
      * @param all   indicates whether or not inversions are included.
      */
     public ChordFinder(ArrayList<Note> notes, Boolean all) {
-        this.result = "No chords found for given notes.";
+        this.result = "";
         this.all = all;
 
         if (notes.size() != 4 && notes.size() != 3) {
@@ -35,15 +36,35 @@ public class ChordFinder implements Command {
         }
         this.midiNotes = toMidiSet(notes, true);
 
-        if (all) {
-            //Check if input notes in all permutations create a chord.
-            for (int midi : midiNotes) {
-                if (findChord(midi)) return;
+
+
+        //Find all enharmonically equivalent permutations of the chord.
+
+        //char startLetter = ChordUtil.nextChordLetterChar()
+        if(all){
+            for (int i = 0; i < midiNotes.size(); i++) {
+
+                //if (findChord(midi)) return;
+                enharmonicLetter = notes.get(i).getNote().charAt(0);
+                findChord(midiNotes.get(i));
+
 
             }
-        } else {
-            findChord(notes.get(0).getMidi());
         }
+        else{
+            for (int i = 0; i < midiNotes.size(); i++) {
+
+                enharmonicLetter = notes.get(i).getNote().charAt(0);
+                if(findChord(midiNotes.get(i))) return; //Stop after first chord found
+
+
+            }
+        }
+
+
+
+
+        if(this.result == "") this.result = "No chords found for given notes.";
 
 
     }
@@ -84,92 +105,105 @@ public class ChordFinder implements Command {
         }
 
 
-
         if (all) {
-            if (minorChord != null && minorChord.containsAll(midiNotes)) {
-                if (this.all) {
-                    //Add all notes to result string.
-                    this.result = "" + ChordUtil.getChordName(minorChord, false);
+
+
+            if(midiNotes.size() == 3){
+                if (minorChord != null && minorChord.containsAll(midiNotes)) {
+                    if (this.all) {
+                        //Add all notes to result string.
+                        this.result = "" + ChordUtil.getChordName(minorChord, false, enharmonicLetter);
+                        return true;
+                    }
+                } else if (majorChord != null && majorChord.containsAll(midiNotes)) {
+
+                    this.result = "" + ChordUtil.getChordName(majorChord, false, enharmonicLetter);
+                    return true;
+                } else if (diminishedChord != null && diminishedChord.containsAll(this.midiNotes)){
+
+                    this.result = "" + ChordUtil.getChordName(diminishedChord, false, enharmonicLetter);
+
                     return true;
                 }
-            } else if (majorChord != null && majorChord.containsAll(midiNotes)) {
-
-                this.result = "" + ChordUtil.getChordName(majorChord, false);
-                return true;
-            } else if (diminishedChord != null && diminishedChord.containsAll(this.midiNotes)) {
-
-                this.result = "" + ChordUtil.getChordName(diminishedChord, false);
-
-                return true;
-            } else if (majorSeventhChord != null && majorSeventhChord.containsAll(this.midiNotes)) {
-
-                this.result = "" + ChordUtil.getChordName(majorSeventhChord, false);
-
-                return true;
-            } else if (minorSeventhChord != null && minorSeventhChord.containsAll(this.midiNotes)) {
-
-                this.result = "" + ChordUtil.getChordName(minorSeventhChord, false);
-
-                return true;
-            } else if (seventhChord != null && seventhChord.containsAll(this.midiNotes)) {
-
-                this.result = "" + ChordUtil.getChordName(seventhChord, false);
-
-                return true;
-            } else if (halfDiminishedChord != null && halfDiminishedChord.containsAll(this.midiNotes)) {
-
-                this.result = "" + ChordUtil.getChordName(halfDiminishedChord, false);
-
-                return true;
-            } else if (diminishedSeventhChord != null && diminishedSeventhChord.containsAll(this.midiNotes)) {
-
-                this.result = "" + ChordUtil.getChordName(diminishedSeventhChord, false);
-
-                return true;
             }
+            else if(midiNotes.size() == 4){
+                if (majorSeventhChord != null && majorSeventhChord.containsAll(this.midiNotes)) {
+
+                    this.result = "" + ChordUtil.getChordName(majorSeventhChord, false, enharmonicLetter);
+
+                    return true;
+                } else if (minorSeventhChord != null && minorSeventhChord.containsAll(this.midiNotes)) {
+
+                    this.result = "" + ChordUtil.getChordName(minorSeventhChord, false, enharmonicLetter);
+
+                    return true;
+                } else if (seventhChord != null && seventhChord.containsAll(this.midiNotes)) {
+
+                    this.result = "" + ChordUtil.getChordName(seventhChord, false, enharmonicLetter);
+
+                    return true;
+                } else if (halfDiminishedChord != null && halfDiminishedChord.containsAll(this.midiNotes)) {
+
+                    this.result = "" + ChordUtil.getChordName(halfDiminishedChord, false, enharmonicLetter);
+
+                    return true;
+                } else if (diminishedSeventhChord != null && diminishedSeventhChord.containsAll(this.midiNotes)) {
+                    if(this.result != "") this.result += " : ";
+                    this.result +=  ChordUtil.getChordName(diminishedSeventhChord, false, enharmonicLetter);
+
+                    return true;
+                }
+            }
+
         } else {
 
+            if(midiNotes.size() == 3){
 
-            if (minorChord != null && minorChord.equals(this.midiNotes)) {
-                this.result = "" + ChordUtil.getChordName(minorChord, false);
-                return true;
+                if (minorChord != null && minorChord.equals(this.midiNotes)) {
+                    this.result = "" + ChordUtil.getChordName(minorChord, false, enharmonicLetter);
+                    return true;
 
-            } else if (majorChord != null && majorChord.equals(this.midiNotes)) {
+                } else if (majorChord != null && majorChord.equals(this.midiNotes)) {
 
-                this.result = "" + ChordUtil.getChordName(majorChord, false);
+                    this.result = "" + ChordUtil.getChordName(majorChord, false, enharmonicLetter);
 
-                return true;
-            } else if (diminishedChord != null && diminishedChord.equals(this.midiNotes)) {
+                    return true;
+                } else if (diminishedChord != null && diminishedChord.equals(this.midiNotes)) {
 
-                this.result = "" + ChordUtil.getChordName(diminishedChord, false);
+                    this.result = "" + ChordUtil.getChordName(diminishedChord, false, enharmonicLetter);
 
-                return true;
-            } else if (majorSeventhChord != null && majorSeventhChord.equals(this.midiNotes)) {
-
-                this.result = "" + ChordUtil.getChordName(majorSeventhChord, false);
-
-                return true;
-            } else if (minorSeventhChord != null && minorSeventhChord.equals(this.midiNotes)) {
-
-                this.result = "" + ChordUtil.getChordName(minorSeventhChord, false);
-
-                return true;
-            } else if (seventhChord != null && seventhChord.equals(this.midiNotes)) {
-
-                this.result = "" + ChordUtil.getChordName(seventhChord, false);
-
-                return true;
-            } else if (halfDiminishedChord != null && halfDiminishedChord.equals(this.midiNotes)) {
-
-                this.result = "" + ChordUtil.getChordName(halfDiminishedChord, false);
-
-                return true;
-            } else if (diminishedSeventhChord != null && diminishedSeventhChord.equals(this.midiNotes)) {
-
-                this.result = "" + ChordUtil.getChordName(diminishedSeventhChord, false);
-
-                return true;
+                    return true;
+                }
             }
+            else if(midiNotes.size() == 4){
+                if (majorSeventhChord != null && majorSeventhChord.equals(this.midiNotes)) {
+
+                    this.result = "" + ChordUtil.getChordName(majorSeventhChord, false, enharmonicLetter);
+
+                    return true;
+                } else if (minorSeventhChord != null && minorSeventhChord.equals(this.midiNotes)) {
+
+                    this.result = "" + ChordUtil.getChordName(minorSeventhChord, false,enharmonicLetter);
+
+                    return true;
+                } else if (seventhChord != null && seventhChord.equals(this.midiNotes)) {
+
+                    this.result = "" + ChordUtil.getChordName(seventhChord, false, enharmonicLetter);
+
+                    return true;
+                } else if (halfDiminishedChord != null && halfDiminishedChord.equals(this.midiNotes)) {
+
+                    this.result = "" + ChordUtil.getChordName(halfDiminishedChord, false,enharmonicLetter);
+
+                    return true;
+                } else if (diminishedSeventhChord != null && diminishedSeventhChord.equals(this.midiNotes)) {
+
+                    this.result = "" + ChordUtil.getChordName(diminishedSeventhChord, false,enharmonicLetter);
+
+                    return true;
+                }
+            }
+
         }
 
         return false;

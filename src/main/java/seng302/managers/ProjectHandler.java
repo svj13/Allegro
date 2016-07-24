@@ -67,11 +67,17 @@ public class ProjectHandler {
     Collection<JSONObject> chordTutorRecordsList = new ArrayList<JSONObject>();
     String chordTutorRecordStats = "";
 
+    JSONObject overallSpellingObject;
+    JSONObject overallSpellingSessionObject;
+    Collection<JSONObject> spellingTutorRecordsList = new ArrayList<>();
+    String spellingTutorRecordStats = "";
+
 
     JSONObject intervalTutorRecords;
     JSONObject musicalTermsTutorRecords;
     JSONObject scaleTutorRecords;
     JSONObject chordTutorRecords;
+    JSONObject spellingTutorRecords;
 
     JSONParser parser = new JSONParser(); //parser for reading project
 
@@ -93,16 +99,26 @@ public class ProjectHandler {
         musicalTermsTutorRecords = new JSONObject();
         scaleTutorRecords = new JSONObject();
         chordTutorRecords = new JSONObject();
+        spellingTutorRecords = new JSONObject();
+
         overalPitchObject = new JSONObject();
         overalPitchSessionObject = new JSONObject();
+
         overalIntervalObject = new JSONObject();
         overalIntervalSessionObject = new JSONObject();
+
         overalMusicalTermObject = new JSONObject();
         overalMusicalTermSessionObject = new JSONObject();
+
         overalScaleObject = new JSONObject();
         overalScaleSessionObject = new JSONObject();
+
         overalChordObject = new JSONObject();
         overalChordSessionObject = new JSONObject();
+
+        overallSpellingObject = new JSONObject();
+        overallSpellingSessionObject = new JSONObject();
+
 
 
         this.env = env;
@@ -184,6 +200,9 @@ public class ProjectHandler {
         } else if (tutorType.equals("chord")) {
 
             chordTutorRecordStats += (statString);
+        } else if (tutorType.equals("spelling")) {
+
+            spellingTutorRecordStats += (statString);
         }
 
 
@@ -218,6 +237,10 @@ public class ProjectHandler {
 
             jasonOFQuestion.put("QuestionInfo", record);
             chordTutorRecordsList.add(jasonOFQuestion);
+        } else if (tutorType.equals("spelling")) {
+
+            jasonOFQuestion.put("QuestionInfo", record);
+            spellingTutorRecordsList.add(jasonOFQuestion);
         }
     }
 
@@ -413,6 +436,20 @@ public class ProjectHandler {
                 overalChordObject.clear();
                 chordFile.flush();
                 chordFile.close();
+            }
+
+            if (env.getRootController().tabSaveCheck("chordSpellingTutor")) {
+                FileWriter spellingFile = new FileWriter(projectAddress + "/ChordSpellingRecords.json", true);
+                overallSpellingSessionObject.put("Questions", spellingTutorRecordsList);
+                overallSpellingSessionObject.put("SessionStats", spellingTutorRecordStats);
+                overallSpellingObject.put("Session_" + new Date().toString(), overallSpellingSessionObject);
+                spellingFile.write(overallSpellingObject.toJSONString());
+                spellingTutorRecordsList.clear();
+                spellingTutorRecordStats = "";
+                overallSpellingSessionObject.clear();
+                overallSpellingObject.clear();
+                spellingFile.flush();
+                spellingFile.close();
             }
 
         } catch (IOException e) {

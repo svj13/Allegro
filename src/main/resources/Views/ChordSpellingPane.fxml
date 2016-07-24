@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="chordTutorAnchor" prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.ChordRecognitionTutorController">
+<AnchorPane fx:id="chordSpellingAnchor" prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.ChordSpellingTutorController">
     <children>
-        <HBox prefHeight="30.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
+        <HBox layoutX="10.0" layoutY="10.0" prefHeight="30.0">
             <children>
-                <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="Chord Recognition Tutor" textAlignment="CENTER">
+                <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="Chord Spelling Tutor" textAlignment="CENTER">
                     <font>
                         <Font name="System Bold" size="21.0" />
                     </font>
@@ -20,26 +20,43 @@
                 </Label>
             </children>
         </HBox>
-        <HBox fx:id="settings" alignment="CENTER_LEFT" layoutY="36.0" minWidth="400.0" prefHeight="10.0" spacing="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="56.0">
+        <HBox fx:id="settings" alignment="CENTER_LEFT" layoutX="10.0" layoutY="46.0" minWidth="400.0" prefHeight="10.0" spacing="5.0">
             <children>
                 <VBox minHeight="-Infinity" prefHeight="100.0" prefWidth="400.0" spacing="10.0">
                     <children>
-                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="250.0" spacing="10.0">
-                            <children>
-                                <Label text="Play chords: " />
-                                <ComboBox fx:id="playChords" prefWidth="100.0" promptText="Up" />
-                        <Label text="Chord Type:" />
-                        <ComboBox fx:id="chordTypeBox" prefWidth="100.0" promptText="Up" />
-                                <Label text="Octaves: ">
-                                    <HBox.margin>
-                                        <Insets left="5.0" />
-                                    </HBox.margin>
-                                </Label>
-                                <ComboBox fx:id="octaves" prefWidth="100.0" promptText="1" />
-                            </children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                             <VBox.margin>
                                 <Insets left="5.0" />
                             </VBox.margin>
+                     <children>
+                        <VBox>
+                           <children>
+                               <HBox fx:id="settingsBox">
+                                 <children>
+                                     <Label text="Chord Types">
+                                         <padding>
+                                             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                         </padding>
+                                     </Label>
+                                     <Label text="Enharmonics">
+                                         <padding>
+                                             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                         </padding>
+                                     </Label>
+                                    <ComboBox fx:id="numEnharmonics" prefWidth="100.0" promptText="1" />
+                                 </children>
+                              </HBox>
+                              <HBox>
+                                 <children>
+                                    <CheckBox fx:id="allowFalseChords" mnemonicParsing="false" text="Allow False Chords" />
+                                 </children>
+                                 <padding>
+                                    <Insets top="5.0" />
+                                 </padding>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
                         </HBox>
                         <HBox prefHeight="100.0" prefWidth="300.0">
                             <children>
@@ -68,19 +85,24 @@
                             </BorderPane.margin>
                         </Button>
                     </bottom>
+                    <top>
+                        <Text fx:id="chordError" strokeType="OUTSIDE" strokeWidth="0.0"
+                              text="Please select one or more chord types" visible="false"
+                              BorderPane.alignment="CENTER"/>
+                    </top>
                 </BorderPane>
             </children>
         </HBox>
-        <ScrollPane fx:id="paneQuestions" fitToHeight="true" fitToWidth="true" layoutY="105.0" minHeight="10.0" minWidth="10.0" prefHeight="50.0" prefViewportHeight="60.0" prefViewportWidth="680.0" prefWidth="700.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5" AnchorPane.rightAnchor="5" AnchorPane.topAnchor="180.0">
+        <ScrollPane fx:id="paneQuestions" fitToHeight="true" fitToWidth="true" layoutX="10.0" layoutY="115.0" minHeight="10.0" minWidth="10.0" prefHeight="50.0" prefViewportHeight="60.0" prefViewportWidth="680.0" prefWidth="700.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="180.0">
             <content>
                 <VBox fx:id="questionRows" />
             </content>
         </ScrollPane>
-        <ScrollPane fx:id="paneResults" fitToWidth="true" layoutX="20.0" layoutY="180.0" prefHeight="265.0" prefWidth="690.0" visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="180.0">
+        <ScrollPane fx:id="paneResults" fitToWidth="true" layoutX="30.0" layoutY="190.0" prefHeight="265.0" prefWidth="690.0" visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="180.0">
             <content>
                 <VBox fx:id="resultsBox" prefHeight="200.0" prefWidth="100.0">
                     <children>
-                        <Text fx:id="resultsTitle" strokeType="OUTSIDE" strokeWidth="10.0" style="-fx-font-weight: bold;" text="Chord Recognition Results">
+                        <Text fx:id="resultsTitle" strokeType="OUTSIDE" strokeWidth="10.0" style="-fx-font-weight: bold;" text="Chord Spelling Results">
                             <font>
                                 <Font name="System Bold" size="12.0" />
                             </font>

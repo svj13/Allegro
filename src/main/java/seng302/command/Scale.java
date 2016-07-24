@@ -21,7 +21,7 @@ public class Scale implements Command {
     String startNote;
 
     /**
-     * Type of scale. e.g major, minor
+     * Type of scale. e.g major, minor, melodic minor
      */
     String type;
 
@@ -57,11 +57,6 @@ public class Scale implements Command {
      */
     private int octaves;
 
-    /**
-     * Used to specify whether the scale is a 'blues' scale or not.
-     */
-    private boolean blues;
-
 
     public Scale(HashMap<String, String> scale, String outputType) {
         this.startNote = scale.get("note");
@@ -78,13 +73,10 @@ public class Scale implements Command {
         } else {
             this.octaves = 1;
         }
-        if (scale.get("blues") != null) {
-            this.blues = true;
-        }
     }
 
     /**
-     * This constructor does not specify a direction or blues so it defaults to 'up' and false.
+     * This constructor does not specify a direction so it defaults to 'up'.
      *
      * @param a          The startNote.
      * @param b          The type of scale.
@@ -96,7 +88,6 @@ public class Scale implements Command {
         this.outputType = outputType;
         currentLetter = Character.toUpperCase(startNote.charAt(0));
         direction = "up";
-        this.blues = false;
         octaves = 1;
     }
 
@@ -115,22 +106,6 @@ public class Scale implements Command {
     }
 
     /**
-     * This constructor specifies the direction to play the scale and whether it is a blues scale.
-     *
-     * @param a          The start Note.
-     * @param b          The scale type.
-     * @param outputType The way the scale should be outputted.
-     * @param direction  The direction to play the scale.
-     */
-    public Scale(String a, String b, String outputType, String direction, boolean blues) {
-        this(a, b, outputType);
-        this.direction = direction;
-        this.blues = blues;
-        octaves = 1;
-    }
-
-
-    /**
      * A constructor that takes in the number of octaves to play.
      *
      * @param a          The start note.
@@ -142,19 +117,6 @@ public class Scale implements Command {
     public Scale(String a, String b, String outputType, String direction, String octaves) {
         this(a, b, outputType, direction);
         this.octaves = Integer.parseInt(octaves);
-    }
-
-    /**
-     * A constructor that takes in a blues scale.
-     *
-     * @param a          The start note.
-     * @param b          The scale type.
-     * @param outputType The way the scale is outputted.
-     * @param blues      The blues switch.
-     */
-    public Scale(String a, String b, String outputType, boolean blues) {
-        this(a, b, outputType);
-        this.blues = blues;
     }
 
     /**
@@ -177,10 +139,11 @@ public class Scale implements Command {
     }
 
 
-    private ArrayList<Note> getScale(String direction, boolean blues) {
-        ArrayList<Note> scale = note.getOctaveScale(type, octaves, true, blues);
+    private ArrayList<Note> getScale(String direction) {
+        ArrayList<Note> scale = note.getOctaveScale(type, octaves, true);
+
         if (direction.equals("down")) {
-            scale = note.getOctaveScale(type, octaves, false, blues);
+            scale = note.getOctaveScale(type, octaves, false);
         } else if (direction.equals("updown")) {
             ArrayList<Note> notes = new ArrayList<Note>(scale);
             Collections.reverse(notes);
@@ -208,7 +171,8 @@ public class Scale implements Command {
                     this.note = Note.lookup(OctaveUtil.addDefaultOctave(startNote));
                 }
                 try {
-                    ArrayList<Note> scale = getScale(direction, this.blues);
+                    ArrayList<Note> scale = getScale(direction);
+
 
                     if (scale == null) {
                         env.error("This scale goes beyond the MIDI notes available.");
@@ -251,8 +215,7 @@ public class Scale implements Command {
     private String scaleToString(ArrayList<Note> scaleNotes, boolean up) {
         String notesAsText = "";
         for (Note note : scaleNotes) {
-//            String currentNote = note.getEnharmonicWithLetter(currentLetter);
-            String currentNote = note.getNote();
+            String currentNote = note.getEnharmonicWithLetter(currentLetter);
             if (octaveSpecified) {
                 notesAsText += currentNote + " ";
             } else {
@@ -299,7 +262,7 @@ public class Scale implements Command {
         long milliseconds = 0;
 
         if (outputType.equals("play")) {
-            ArrayList<Note> scale = getScale(direction, this.blues);
+            ArrayList<Note> scale = getScale(direction);
             int tempo = env.getPlayer().getTempo();
             long crotchetLength = 60000 / tempo;
             milliseconds = scale.size() * crotchetLength;

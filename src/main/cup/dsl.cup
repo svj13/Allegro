@@ -192,7 +192,8 @@ rhythmStyle ::= RHYTHM_TYPE: r {:RESULT = r;:}
 ;
 
 scale ::= NOTE:s SCALE_TYPE:r       {:RESULT = new HashMap<String,String>(); RESULT.put("note", s);
-                                                RESULT.put("scale_type", r);:}
+                                        if(r.equals("mel minor"))RESULT.put("scale_type", "melodic minor");
+                                        else RESULT.put("scale_type", r);:}
       |    NOTE:s SCALE_TYPE:r INVERSION_SPECIFIER:i       {:RESULT = new HashMap<String,String>(); RESULT.put("note", s);
                                                           RESULT.put("scale_type", r); RESULT.put("inversion", Chord.inversionString(i));:}
 
