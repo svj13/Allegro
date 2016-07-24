@@ -71,6 +71,9 @@ public class KeyboardPaneController {
     @FXML
     private StackPane rightStack;
 
+    @FXML
+    private StackPane scalesStackPane;
+
     /**
      * Current Environment (to access music player etc.).
      */
@@ -291,16 +294,6 @@ public class KeyboardPaneController {
         displayScales.getChildren().add(scale2);
 
         //Style display scales button
-        displayScalesButton = new Button("Display Scales");
-        displayScalesButton.setText(null);
-
-        //this is here to see if i could duplicate the button on the keyboard.
-        //no success. WHERE IS THE BUTTON BEING SLAPPED ON. BLEH
-
-//        Image cog = new Image(getClass().getResourceAsStream
-//                ("/images/gear-1119298_960_720.png"), 10, 10, true, true);
-//        settingsButton.setGraphic(new ImageView(cog));
-//        settingsButton.setText(null);
 
         // used the spacing etc from settings to see if it will come out nicely. Subject to change
         displayScales.setSpacing(10);
