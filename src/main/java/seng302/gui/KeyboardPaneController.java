@@ -1,5 +1,7 @@
 package seng302.gui;
 
+import javafx.collections.FXCollections;
+import javafx.scene.control.*;
 import org.controlsfx.control.PopOver;
 
 import java.util.ArrayList;
@@ -14,12 +16,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TitledPane;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -30,7 +26,6 @@ import javafx.scene.layout.VBox;
 import seng302.Environment;
 import seng302.data.Note;
 import seng302.utility.NoteRangeSlider;
-
 /**
  * Created by team 5 on 13/05/16.
  */
@@ -283,6 +278,20 @@ public class KeyboardPaneController {
         Label selectScale1 = new Label("Select scale:");
         scale1.getChildren().add(selectScale1);
 
+        // HBox for the options of the first scale
+        HBox scaleOneOptions = new HBox();
+
+        ObservableList<String> options =
+                FXCollections.observableArrayList(
+                        "C",
+                        "D",
+                        "E"
+                );
+        ComboBox<String> box = new ComboBox(options);
+        box.setPromptText("Note");
+        scaleOneOptions.getChildren().add(box);
+
+
         // Hbox for optional scale 2
         HBox scale2 = new HBox();
         scale2.setSpacing(5);
@@ -291,6 +300,7 @@ public class KeyboardPaneController {
 
         // Add Hboxes to the display scales vbox
         displayScales.getChildren().add(scale1);
+        displayScales.getChildren().add(scaleOneOptions);
         displayScales.getChildren().add(scale2);
 
         //Style display scales button
