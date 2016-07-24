@@ -2,6 +2,7 @@ package seng302.utility.musicNotation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import seng302.data.Note;
 
@@ -9,19 +10,25 @@ import seng302.data.Note;
  * Created by Jonty on 24-May-16.
  */
 public class ChordUtil {
-    private static final HashMap<String, String> chordFunctionQuality;
+    private static final Map<String, String> chordFunctionQuality = new HashMap<String, String>() {{
+        put("I", "major 7th");
+        put("II", "minor 7th");
+        put("III", "minor 7th");
+        put("IV", "major 7th");
+        put("V", "7th");
+        put("VI", "minor 7th");
+        put("VII", "half-diminished 7th");
+    }};
 
-    static {
-        chordFunctionQuality = new HashMap<>();
-        chordFunctionQuality.put("I", "major 7th");
-        chordFunctionQuality.put("II", "minor 7th");
-        chordFunctionQuality.put("III", "minor 7th");
-        chordFunctionQuality.put("IV", "major 7th");
-        chordFunctionQuality.put("V", "7th");
-        chordFunctionQuality.put("VI", "minor 7th");
-        chordFunctionQuality.put("VII", "half-diminished 7th");
-
-    }
+    private static final Map<String, Integer> roman = new HashMap<String, Integer>() {{
+        put("I", 1);
+        put("II", 2);
+        put("III", 3);
+        put("IV", 4);
+        put("V", 5);
+        put("VI", 6);
+        put("VII", 7);
+    }};
 
 
 
@@ -308,6 +315,48 @@ public class ChordUtil {
      */
     public static String getDiatonicChordQuality(String romanNumeral) {
         return chordFunctionQuality.get(romanNumeral.toUpperCase());
+    }
+
+    /**
+     * Finds the name of the chord function when given a scale and function. Basically it gets the
+     * scale and finds the note that is (romanNumeral) above the starting note of the scale. Then it
+     * finds the quality of the scale and adds that to the end.
+     *
+     * @param romanNumeral the function of the chord
+     * @param startingNote the scale starting note
+     * @param scaleType    the scale type of the scale
+     * @return the chord function
+     */
+    public static String getChordFunction(String romanNumeral, String startingNote, String scaleType) {
+        ArrayList<Note> scale = Note.lookup(startingNote + "4").getOctaveScale(scaleType, 1, true);
+        Integer notesUp = romanNumeralToInteger(romanNumeral) - 1;
+        Note key = scale.get(notesUp);
+        char enharmonicLetter = lettersUp(startingNote, notesUp);
+        return OctaveUtil.removeOctaveSpecifier(key.getEnharmonicWithLetter(enharmonicLetter)) +
+                " " + getDiatonicChordQuality(romanNumeral);
+    }
+
+    /**
+     * Converts the given string of a roman numeral to an integer.
+     *
+     * @return the integer value of the roman numeral
+     */
+    public static Integer romanNumeralToInteger(String romanNumeral) {
+        return roman.get(romanNumeral.toUpperCase());
+    }
+
+    /**
+     * This function finds the letter name for the note that is a certain number of notesUp.
+     *
+     * @param startingNote The note the scale begins on.
+     * @param notesUp      the number of letters to go up.
+     * @return the letter that the note should be named.
+     */
+    public static char lettersUp(String startingNote, Integer notesUp) {
+        char letter = startingNote.toUpperCase().charAt(0);
+        int index = "ABCDEFG".indexOf(letter);
+        index = (index + notesUp) % 7;
+        return "ABCDEFG".charAt(index);
     }
 
 
