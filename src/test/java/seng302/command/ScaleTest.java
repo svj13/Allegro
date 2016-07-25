@@ -126,14 +126,14 @@ public class ScaleTest {
     public void testPlayScale() {
         new Scale("F", "major", "play").execute(env);
         verify(transcriptManager).setResult("F G A Bb C D E F");
-        verify(player).playNotes(Note.lookup("F4").getScale("major", true, false));
+        verify(player).playNotes(Note.lookup("F4").getScale("major", true));
     }
 
     @Test
     public void testPlayCorrectScaleDown() {
         new Scale("C", "major", "play", "down").execute(env);
         verify(transcriptManager).setResult("C B A G F E D C");
-        ArrayList<Note> scale = Note.lookup("C4").getScale("major", false, false);
+        ArrayList<Note> scale = Note.lookup("C4").getScale("major", false);
         verify(player).playNotes(scale);
     }
 
@@ -141,7 +141,7 @@ public class ScaleTest {
     public void testPlayCorrectScaleUpDown() {
         new Scale("C", "major", "play", "updown").execute(env);
         verify(transcriptManager).setResult("C D E F G A B C C B A G F E D C");
-        ArrayList<Note> notesToPlay = Note.lookup("C4").getScale("major", true, false);
+        ArrayList<Note> notesToPlay = Note.lookup("C4").getScale("major", true);
         ArrayList<Note> notes = new ArrayList<Note>(notesToPlay);
         Collections.reverse(notes);
         notesToPlay.addAll(notes);
@@ -182,7 +182,7 @@ public class ScaleTest {
     public void testPlayThreeOctavesUp() {
         new Scale("F3", "major", "play", "up", "3").execute(env);
         verify(transcriptManager).setResult("F3 G3 A3 Bb3 C4 D4 E4 F4 G4 A4 Bb4 C5 D5 E5 F5 G5 A5 Bb5 C6 D6 E6 F6");
-        ArrayList<Note> scale = Note.lookup("F3").getOctaveScale("major", 3, true, false);
+        ArrayList<Note> scale = Note.lookup("F3").getOctaveScale("major", 3, true);
         verify(player).playNotes(scale);
     }
 
@@ -190,7 +190,7 @@ public class ScaleTest {
     public void testPlayFourOctavesDown() {
         new Scale("G6", "major", "play", "down", "4").execute(env);
         verify(transcriptManager).setResult("G6 F#6 E6 D6 C6 B5 A5 G5 F#5 E5 D5 C5 B4 A4 G4 F#4 E4 D4 C4 B3 A3 G3 F#3 E3 D3 C3 B2 A2 G2");
-        ArrayList<Note> scale = Note.lookup("G6").getOctaveScale("major", 4, false, false);
+        ArrayList<Note> scale = Note.lookup("G6").getOctaveScale("major", 4, false);
         verify(player).playNotes(scale);
     }
 
@@ -198,7 +198,7 @@ public class ScaleTest {
     public void testPlayTwoOctavesUpDown() {
         new Scale("D", "major", "play", "updown", "2").execute(env);
         verify(transcriptManager).setResult("D E F# G A B C# D E F# G A B C# D D C# B A G F# E D C# B A G F# E D");
-        ArrayList<Note> scale = Note.lookup("D4").getOctaveScale("major", 2, true, false);
+        ArrayList<Note> scale = Note.lookup("D4").getOctaveScale("major", 2, true);
         ArrayList<Note> notes = new ArrayList<Note>(scale);
         Collections.reverse(notes);
         scale.addAll(notes);
@@ -230,7 +230,7 @@ public class ScaleTest {
     public void testPlayMinorScale() {
         new Scale("C", "minor", "play").execute(env);
         verify(transcriptManager).setResult("C D Eb F G Ab Bb C");
-        verify(player).playNotes(Note.lookup("C4").getScale("minor", true, false));
+        verify(player).playNotes(Note.lookup("C4").getScale("minor", true));
     }
 
     @Test
