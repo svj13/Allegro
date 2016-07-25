@@ -3,11 +3,13 @@ package seng302;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.sound.midi.Instrument;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
+import javax.sound.midi.Patch;
 import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
 import javax.sound.midi.ShortMessage;
@@ -23,12 +25,15 @@ import seng302.utility.musicNotation.RhythmHandler;
 public class MusicPlayer {
     Sequencer seq;
     RhythmHandler rh;
+    Instrument instrument = null;
+    Patch instrumentPatch;
 
     /**
      * Default tempo is 120 BPM.
      */
     private int tempo = 120;
     Synthesizer synthesizer;
+    Instrument[] availableInstruments;
 
     /**
      * Music Player constructor opens the sequencers and synthesizer. It also sets the receiver.
@@ -42,14 +47,43 @@ public class MusicPlayer {
             synthesizer = MidiSystem.getSynthesizer();
             synthesizer.open();
             seq.getTransmitter().setReceiver(synthesizer.getReceiver());
+            synthesizer.loadAllInstruments(synthesizer.getDefaultSoundbank());
+            availableInstruments = synthesizer.getAvailableInstruments();
+            setStarterInstrument();
+
         } catch (MidiUnavailableException e) {
             System.err.println("Can't play Midi sound at the moment.");
+        }
+    }
+
+    private void setStarterInstrument() {
+        //Default to the first instrument
+        instrument = availableInstruments[0];
+        instrumentPatch = instrument.getPatch();
+
+        for (int i = 0; i < availableInstruments.length; i++) {
+            if (availableInstruments[i].getName().equals("Bright Acoustic Pian")) {
+                instrument = availableInstruments[i];
+                instrumentPatch = instrument.getPatch();
+                setInstrument();
+                break;
+            }
         }
     }
 
     public void setSeq(Sequencer seq) {
         this.seq = seq;
     }
+
+    public Instrument getInstrument() {
+        return instrument;
+    }
+
+    public void setInstrument() {
+        synthesizer.getChannels()[0].programChange(instrumentPatch.getBank(), instrumentPatch.getProgram());
+    }
+
+    //public Synthesizer getSynth()
 
     /**
      * Plays an array of notes directly after each other.
@@ -61,15 +95,9 @@ public class MusicPlayer {
         //int ticks = 16; //16 (1 crotchet beat)
         int ticks = rh.getBeatResolution();
         try {
-            int instrument = 1;
             // 16 ticks per crotchet note.
             Sequence sequence = new Sequence(Sequence.PPQ, ticks);
             Track track = sequence.createTrack();
-
-            // Set the instrument on channel 0
-            ShortMessage sm = new ShortMessage();
-            sm.setMessage(ShortMessage.PROGRAM_CHANGE, 0, instrument, 0);
-            track.add(new MidiEvent(sm, 0));
 
             int currenttick = 0;
             rh.resetIndex(); //Reset rhythm to first crotchet.
@@ -113,13 +141,8 @@ public class MusicPlayer {
      */
     public void playSimultaneousNotes(Collection<Note> notes) {
         try {
-            int instrument = 1;
             Sequence sequence = new Sequence(Sequence.PPQ, 16);
             Track track = sequence.createTrack();
-
-            ShortMessage sm = new ShortMessage();
-            sm.setMessage(ShortMessage.PROGRAM_CHANGE, 0, instrument, 0);
-            track.add(new MidiEvent(sm, 0));
 
             // Add all notes to the start of the sequence
             for (Note note:notes) {

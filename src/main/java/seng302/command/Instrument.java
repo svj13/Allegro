@@ -7,6 +7,8 @@ import seng302.Environment;
  */
 public class Instrument implements Command {
 
+    String type;
+
     /**
      * Instrument Command Constructor
      * This constructor will be used for setting the instrument.
@@ -23,11 +25,21 @@ public class Instrument implements Command {
      * @param type Whether we are displaying the current instrument, or all available instruments.
      */
     public Instrument(String type) {
+        if (type.equals("current")) {
+            this.type = "current";
+        } else {
+            this.type = "all";
+        }
 
     }
 
     @Override
     public void execute(Environment env) {
-
+        if (!type.equals(null)) {
+            if (type.equals("current")) {
+                //Show the currently selected instrument
+                env.getTranscriptManager().setResult(env.getPlayer().getInstrument().getName());
+            }
+        }
     }
 }
