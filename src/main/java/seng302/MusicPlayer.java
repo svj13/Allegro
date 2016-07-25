@@ -65,7 +65,8 @@ public class MusicPlayer {
             if (availableInstruments[i].getName().equals("Bright Acoustic Pian")) {
                 instrument = availableInstruments[i];
                 instrumentPatch = instrument.getPatch();
-                setInstrument();
+                synthesizer.getChannels()[0].programChange(
+                        instrumentPatch.getBank(), instrumentPatch.getProgram());
                 break;
             }
         }
@@ -78,12 +79,6 @@ public class MusicPlayer {
     public Instrument getInstrument() {
         return instrument;
     }
-
-    public void setInstrument() {
-        synthesizer.getChannels()[0].programChange(instrumentPatch.getBank(), instrumentPatch.getProgram());
-    }
-
-    //public Synthesizer getSynth()
 
     /**
      * Plays an array of notes directly after each other.
