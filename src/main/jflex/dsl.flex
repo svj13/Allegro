@@ -166,6 +166,7 @@ SharpsFlats = ([1-7](#|b))|0#b|0b#
     "scale sig with"    {return symbol(DslSymbol.COMMAND_SCALE_WITH_KEYSIG); }
     "instrument"        {return symbol(DslSymbol.COMMAND_SHOW_CURRENT_INSTRUMENT); }
     "all instruments"  {return symbol(DslSymbol.COMMAND_SHOW_ALL_INSTRUMENTS); }
+    "set instrument"    {return symbol(DslSymbol.COMMAND_SET_INSTRUMENT); }
     {SharpsFlats}       {return symbol(DslSymbol.SHARPSFLATS, new String(yytext()));}
     {PlayStyle}         {return symbol(DslSymbol.PLAY_STYLE, new String(yytext())); }
     {Note}              {return symbol(DslSymbol.NOTE, new String(yytext())); }
