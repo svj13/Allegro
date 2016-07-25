@@ -275,13 +275,12 @@ public class Note {
      * @return array list of notes in the scale. If any notes are null, the scale returned will be
      * null.
      */
-    public ArrayList<Note> getOctaveScale(String type, int octaves, boolean up, boolean blues) {
+    public ArrayList<Note> getOctaveScale(String type, int octaves, boolean up) {
         ArrayList<Note> scaleNotes = new ArrayList<Note>();
         Note currentNote = this;
         scaleNotes.add(currentNote);
         if (up) {
             if (type.toLowerCase().equals("major")) {
-                if (!blues) {
                     for (int i = 0; i < octaves; i++) {
                         scaleNotes.add(currentNote.semitoneUp(2));
                         scaleNotes.add(currentNote.semitoneUp(4));
@@ -292,19 +291,7 @@ public class Note {
                         scaleNotes.add(Note.lookup(currentNote.semitoneUp(12).simpleEnharmonic()));
                         currentNote = currentNote.semitoneUp(12);
                     }
-                } else { // This is a blues scale
-                    for (int i = 0; i < octaves; i++) {
-                        scaleNotes.add(currentNote.semitoneUp(3));
-                        scaleNotes.add(currentNote.semitoneUp(5));
-                        scaleNotes.add(currentNote.semitoneUp(6)); // <-- 'blue' note
-                        scaleNotes.add(currentNote.semitoneUp(7));
-                        scaleNotes.add(currentNote.semitoneUp(10));
-                        scaleNotes.add(currentNote.semitoneUp(12));
-                        currentNote = currentNote.semitoneUp(12);
-                    }
-                }
             } else if (type.toLowerCase().equals("minor")) {
-                if (!blues) {
                     for (int i = 0; i < octaves; i++) {
                         scaleNotes.add(currentNote.semitoneUp(2));
                         scaleNotes.add(currentNote.semitoneUp(3));
@@ -315,21 +302,8 @@ public class Note {
                         scaleNotes.add(currentNote.semitoneUp(12));
                         currentNote = currentNote.semitoneUp(12);
                     }
-                }  else { // This is a blues scale
-                    for (int i = 0; i < octaves; i++) {
-                        scaleNotes.add(currentNote.semitoneUp(3));
-                        scaleNotes.add(currentNote.semitoneUp(5));
-                        scaleNotes.add(currentNote.semitoneUp(6)); // <-- 'blue' note
-                        scaleNotes.add(currentNote.semitoneUp(7));
-                        scaleNotes.add(currentNote.semitoneUp(10));
-                        scaleNotes.add(currentNote.semitoneUp(12));
-                        currentNote = currentNote.semitoneUp(12);
-                    }
-                }
 
             } else if (type.toLowerCase().equals("melodic minor")) {
-                Note currentNote = this;
-                scaleNotes.add(currentNote);
                 for (int i = 0; i < octaves; i++) {
                     scaleNotes.add(currentNote.semitoneUp(2));
                     scaleNotes.add(currentNote.semitoneUp(3));
@@ -343,12 +317,24 @@ public class Note {
                 if (scaleNotes.contains(null)) {
                     return null;
                 }
+            } else if (type.toLowerCase().equals("blues")) {
+                for (int i = 0; i < octaves; i++) {
+                    scaleNotes.add(currentNote.semitoneUp(3));
+                    scaleNotes.add(currentNote.semitoneUp(5));
+                    scaleNotes.add(currentNote.semitoneUp(6));
+                    scaleNotes.add(currentNote.semitoneUp(7));
+                    scaleNotes.add(currentNote.semitoneUp(10));
+                    scaleNotes.add(currentNote.semitoneUp(12));
+                    currentNote = currentNote.semitoneUp(12);
+                }
+                if (scaleNotes.contains(null)) {
+                    return null;
+                }
             } else {
                 throw new IllegalArgumentException("Invalid scale type: '" + type + "'.");
             }
         } else { // the scale is 'down'
             if (type.toLowerCase().equals("major")) {
-                if (!blues) {
                     for (int i = 0; i < octaves; i++) {
                         scaleNotes.add(currentNote.semitoneDown(1));
                         scaleNotes.add(currentNote.semitoneDown(3));
@@ -359,19 +345,7 @@ public class Note {
                         scaleNotes.add(currentNote.semitoneDown(12));
                         currentNote = currentNote.semitoneDown(12);
                     }
-                } else { // A blues scale
-                    for (int i = 0; i < octaves; i++) {
-                        scaleNotes.add(currentNote.semitoneDown(2));
-                        scaleNotes.add(currentNote.semitoneDown(5));
-                        scaleNotes.add(currentNote.semitoneDown(6));
-                        scaleNotes.add(currentNote.semitoneDown(7));
-                        scaleNotes.add(currentNote.semitoneDown(9));
-                        scaleNotes.add(currentNote.semitoneDown(12));
-                        currentNote = currentNote.semitoneDown(12);
-                    }
-                }
             } else if (type.toLowerCase().equals("minor")) {
-                if (!blues) {
                     for (int i = 0; i < octaves; i++) {
                         scaleNotes.add(currentNote.semitoneDown(2));
                         scaleNotes.add(currentNote.semitoneDown(4));
@@ -382,20 +356,7 @@ public class Note {
                         scaleNotes.add(currentNote.semitoneDown(12));
                         currentNote = currentNote.semitoneDown(12);
                     }
-                } else { // A blues scale
-                    for (int i = 0; i < octaves; i++) {
-                        scaleNotes.add(currentNote.semitoneDown(2));
-                        scaleNotes.add(currentNote.semitoneDown(5));
-                        scaleNotes.add(currentNote.semitoneDown(6));
-                        scaleNotes.add(currentNote.semitoneDown(7));
-                        scaleNotes.add(currentNote.semitoneDown(9));
-                        scaleNotes.add(currentNote.semitoneDown(12));
-                        currentNote = currentNote.semitoneDown(12);
-                    }
-                }
             } else if (type.toLowerCase().equals("melodic minor")) {
-                Note currentNote = this;
-                scaleNotes.add(currentNote);
                 for (int i = 0; i < octaves; i++) {
                     scaleNotes.add(currentNote.semitoneDown(2));
                     scaleNotes.add(currentNote.semitoneDown(4));
@@ -403,6 +364,19 @@ public class Note {
                     scaleNotes.add(currentNote.semitoneDown(7));
                     scaleNotes.add(currentNote.semitoneDown(9));
                     scaleNotes.add(currentNote.semitoneDown(10));
+                    scaleNotes.add(currentNote.semitoneDown(12));
+                    currentNote = currentNote.semitoneDown(12);
+                }
+                if (scaleNotes.contains(null)) {
+                    return null;
+                }
+            } else if (type.toLowerCase().equals("blues")) {
+                for (int i = 0; i < octaves; i++) {
+                    scaleNotes.add(currentNote.semitoneDown(2));
+                    scaleNotes.add(currentNote.semitoneDown(5));
+                    scaleNotes.add(currentNote.semitoneDown(6));
+                    scaleNotes.add(currentNote.semitoneDown(7));
+                    scaleNotes.add(currentNote.semitoneDown(9));
                     scaleNotes.add(currentNote.semitoneDown(12));
                     currentNote = currentNote.semitoneDown(12);
                 }
@@ -427,8 +401,8 @@ public class Note {
      * @param up   Whether the scale goes up or down.
      * @return The Arraylist of notes that make up the scale. Or null if invalid scale.
      */
-    public ArrayList<Note> getScale(String type, boolean up, boolean blues) {
-        return this.getOctaveScale(type, 1, up, blues);
+    public ArrayList<Note> getScale(String type, boolean up) {
+        return this.getOctaveScale(type, 1, up);
     }
 
     public ArrayList<String> getAllEnharmonics() {

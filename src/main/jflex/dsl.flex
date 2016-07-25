@@ -100,12 +100,11 @@ MidiNote = (0?[0-9]?[0-9]|1[01][0-9]|12[0-7])
 noteTrio = ({Note} {Note} {Note})
 Atom = [^\s|;]+
 SemiColon = ";"
-ScaleType = "major"|"minor"|"melodic minor"|"mel minor"
+ScaleType = "major"|"minor"|"melodic minor"|"mel minor"|"blues"
 PlayStyle = "arpeggio"
 SharedChordAndInterval = "diminished 7th"|"diminished seventh"|"major 7th"|"major seventh"|"minor 7th"|"minor seventh"
 ChordType = "seventh"|"7th"|"half dim"|"half diminished"|"half diminished 7th"|"half diminished seventh"|"half dim seventh"|"half dim 7th"|"dim seventh"|"dim 7th"|"dim"|"diminished"
 Direction = "updown"|"up"|"down"
-Blues = "blues"
 InversionSpecifier = "inversion 1"|"inversion 2"|"inversion 3"|"inv 1"|"inv 2"|"inv 3"
 PosNum = \p{Digit}+
 Interval = "unison"|(major\s(second|2nd|third|3rd|sixth|6th|ninth|9th|tenth|10th|thirteenth|13th|fourteenth|14th))|(minor\s(second|2nd|third|3rd|sixth|6th|ninth|9th|tenth|10th|thirteenth|13th|fourteenth|14th))|(augmented\s(fourth|4th|eleventh|11th))|(diminished\s(fifth|5th))|(perfect\s(fourth|4th|fifth|5th|eleventh|11th|twelfth|12th|octave))|"double octave"
@@ -171,7 +170,6 @@ SharpsFlats = ([1-7](#|b))|0#b|0b#
     {ScaleType}         {return symbol(DslSymbol.SCALE_TYPE, new String(yytext()));}
     {ChordType}         {return symbol(DslSymbol.CHORD_TYPE, new String(yytext()));}
     {Direction}         {return symbol(DslSymbol.DIRECTION, new String(yytext()));}
-    {Blues}             {return symbol(DslSymbol.BLUES, new String(yytext()));}
     {RhythmType}         {return symbol(DslSymbol.RHYTHM_TYPE, new String(yytext()));}
     {ScaleType}         {return symbol(DslSymbol.SCALE_TYPE, new String(yytext()));}
     {PosNum}            {return symbol(DslSymbol.POSNUM, new String(yytext()));}

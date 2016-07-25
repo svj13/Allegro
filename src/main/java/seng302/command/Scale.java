@@ -21,7 +21,7 @@ public class Scale implements Command {
     String startNote;
 
     /**
-     * Type of scale. e.g major, minor, melodic minor
+     * Type of scale. e.g major, minor, melodic minor, blues
      */
     String type;
 

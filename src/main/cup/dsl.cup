@@ -98,7 +98,7 @@ COMMAND_REDO, COMMAND_TWINKLE, COMMAND_CHORD, COMMAND_PLAY_CHORD,COMMAND_RHYTHM,
 COMMAND_INTERVAL_ENHARMONIC, COMMAND_SHOW_KEYSIGNATURE,COMMAND_SHOW_KEYSIGNATURE_NUM,
 COMMAND_SCALE_WITH_KEYSIG, COMMAND_FIND_CHORD, COMMAND_FIND_CHORD_ALL;
 
-terminal String ATOM, NOTE, SCALE_TYPE,INVERSION_SPECIFIER,  DIRECTION, MIDINOTE, NUMBER, BLUES, POSNUM, INTERVAL, PLAY_STYLE, SHARPSFLATS, RHYTHM_TYPE,
+terminal String ATOM, NOTE, SCALE_TYPE,INVERSION_SPECIFIER,  DIRECTION, MIDINOTE, NUMBER, POSNUM, INTERVAL, PLAY_STYLE, SHARPSFLATS, RHYTHM_TYPE,
 NOTE_TRIO, CHORD_TYPE, SHARED_CHORD_AND_INTERVAL;
 
 /* Non terminals */
@@ -217,16 +217,8 @@ chordType ::= NOTE:s CHORD_TYPE:r  {:RESULT = new HashMap<String,String>(); RESU
 playScale ::= scale:s {:RESULT = s;:}
             |   scale:s DIRECTION:a {: s.put("direction", a); RESULT = s;:}
             |   scale:s NUMBER:a {: s.put("octaves", String.valueOf(a)); RESULT = s;:}
-            |   scale:s BLUES:a {: s.put("blues", a); RESULT = s;:}
-            |   scale:s NUMBER:a BLUES:b {: s.put("octaves", String.valueOf(a)); s.put("blues", b); RESULT = s;:}
-            |   scale:s BLUES:b NUMBER:a {: s.put("octaves", String.valueOf(a)); s.put("blues", b); RESULT = s;:}
-            |   scale:s BLUES:b DIRECTION:a {: s.put("direction", String.valueOf(a)); s.put("blues", b); RESULT = s;:}
-            |   scale:s DIRECTION:a BLUES:b {: s.put("direction", String.valueOf(a)); s.put("blues", b); RESULT = s;:}
             |   scale:s NUMBER:a DIRECTION:b {: s.put("octaves", String.valueOf(a)); s.put("direction", b); RESULT = s;:}
             |   scale:s DIRECTION:b NUMBER:a {: s.put("octaves", String.valueOf(a)); s.put("direction", b); RESULT = s;:}
-            |   scale:s NUMBER:a BLUES:c DIRECTION:b {: s.put("octaves", String.valueOf(a)); s.put("direction", b); s.put("blues", c); RESULT = s;:}
-            |   scale:s DIRECTION:b NUMBER:a BLUES:c {: s.put("octaves", String.valueOf(a)); s.put("direction", b); s.put("blues", c); RESULT = s;:}
-            |   scale:s BLUES:c NUMBER:a DIRECTION:b {: s.put("octaves", String.valueOf(a)); s.put("direction", b); s.put("blues", c); RESULT = s;:}
 ;
 
 playChord ::= chordType:s {:RESULT = s;:}
@@ -284,8 +276,6 @@ singleTerm ::= keyword:s {: RESULT = s;:}
        | CHORD_TYPE:s  {:RESULT = s;:}
        | DIRECTION:s   {:RESULT = s;:}
        | INTERVAL:i    {:RESULT = i;:}
-       | BLUES:b       {:RESULT = b;:}
-
 ;
 
 term ::= singleTerm:s {:RESULT =s;:}
