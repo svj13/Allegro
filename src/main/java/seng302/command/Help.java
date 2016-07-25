@@ -92,8 +92,8 @@ public class Help implements Command {
         } else if (keyword.equals("play scale")) {
             result = "When followed by a valid scale (made up of a note and a scale type)" +
                     " the corresponding scale will be played. Options for the number of octaves, " +
-                    " whether the scale is a blues scale and direction can be given. E.g play" +
-                    " scale c major [number of octaves] [blues|not] [up|updown|down]";
+                    " and direction can be given. E.g play" +
+                    " scale c [major|minor|melodic minor|blues] [number of octaves] [up|updown|down]";
         } else if (keyword.equals("interval")) {
             result = "When followed by an interval name, it returns the number of semitones in that interval." +
                     " When followed by an interval name and a note, it returns the note that is the specified interval above the given note." +
@@ -188,8 +188,8 @@ public class Help implements Command {
                     " note will be played. \n\n" +
                     "play scale:\nWhen followed by a valid scale (made up of a note and a scale type) " +
                     "the corresponding scale will be played. Options for the number of octaves, " +
-                    " whether the scale is a blues scale and direction can be given. E.g play" +
-                    " scale c major [number of octaves] [blues|not] [up|updown|down] \n\n" +
+                    " and direction can be given. E.g play" +
+                    " scale c [major|minor|melodic minor|blues] [number of octaves] [up|updown|down] \n\n" +
                     "scale:\nWhen followed by a valid scale (made up of a note and a scale type) " +
                     " the corresponding scale notes will be returned. \n\n" +
                     "scale signature:\nWhen followed by a scale, shows that scale's key signature. \n\n" +

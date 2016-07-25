@@ -21,7 +21,7 @@ public class Scale implements Command {
     String startNote;
 
     /**
-     * Type of scale. e.g major, minor, melodic minor, blues
+     * Type of scale. e.g major, minor, melodic minor
      */
     String type;
 
@@ -89,6 +89,7 @@ public class Scale implements Command {
         currentLetter = Character.toUpperCase(startNote.charAt(0));
         direction = "up";
         octaves = 1;
+
     }
 
     /**

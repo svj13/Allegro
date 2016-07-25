@@ -276,6 +276,8 @@ singleTerm ::= keyword:s {: RESULT = s;:}
        | CHORD_TYPE:s  {:RESULT = s;:}
        | DIRECTION:s   {:RESULT = s;:}
        | INTERVAL:i    {:RESULT = i;:}
+
+
 ;
 
 term ::= singleTerm:s {:RESULT =s;:}
