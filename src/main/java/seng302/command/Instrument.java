@@ -39,6 +39,14 @@ public class Instrument implements Command {
             if (type.equals("current")) {
                 //Show the currently selected instrument
                 env.getTranscriptManager().setResult(env.getPlayer().getInstrument().getName());
+            } else {
+                //Need to get all the available instruments
+                javax.sound.midi.Instrument[] instruments = env.getPlayer().getAvailableInstruments();
+                String instrumentList = "";
+                for (int i = 0; i < instruments.length; i++) {
+                    instrumentList += String.format("%d: %s\n", i, instruments[i].getName());
+                }
+                env.getTranscriptManager().setResult(instrumentList);
             }
         }
     }

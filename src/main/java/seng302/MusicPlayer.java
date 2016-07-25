@@ -80,6 +80,10 @@ public class MusicPlayer {
         return instrument;
     }
 
+    public Instrument[] getAvailableInstruments() {
+        return availableInstruments;
+    }
+
     /**
      * Plays an array of notes directly after each other.
      *
