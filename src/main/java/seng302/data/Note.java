@@ -277,111 +277,52 @@ public class Note {
      */
     public ArrayList<Note> getOctaveScale(String type, int octaves, boolean up) {
         ArrayList<Note> scaleNotes = new ArrayList<Note>();
+        List<Integer> semitones;
+        Note currentNote = this;
+        scaleNotes.add(currentNote);
         if (up) {
             if (type.toLowerCase().equals("major")) {
-                Note currentNote = this;
-                scaleNotes.add(currentNote);
-                for (int i = 0; i < octaves; i++) {
-                    scaleNotes.add(currentNote.semitoneUp(2));
-                    scaleNotes.add(currentNote.semitoneUp(4));
-                    scaleNotes.add(currentNote.semitoneUp(5));
-                    scaleNotes.add(currentNote.semitoneUp(7));
-                    scaleNotes.add(currentNote.semitoneUp(9));
-                    scaleNotes.add(currentNote.semitoneUp(11));
-                    scaleNotes.add(currentNote.semitoneUp(12));
-                    currentNote = currentNote.semitoneUp(12);
-                }
-                if (scaleNotes.contains(null)) {
-                    return null;
-                }
+                semitones = Arrays.asList(2, 4, 5, 7, 9, 11, 12);
             } else if (type.toLowerCase().equals("minor")) {
-                Note currentNote = this;
-                scaleNotes.add(currentNote);
-                for (int i = 0; i < octaves; i++) {
-                    scaleNotes.add(currentNote.semitoneUp(2));
-                    scaleNotes.add(currentNote.semitoneUp(3));
-                    scaleNotes.add(currentNote.semitoneUp(5));
-                    scaleNotes.add(currentNote.semitoneUp(7));
-                    scaleNotes.add(currentNote.semitoneUp(8));
-                    scaleNotes.add(currentNote.semitoneUp(10));
-                    scaleNotes.add(currentNote.semitoneUp(12));
-                    currentNote = currentNote.semitoneUp(12);
-                }
-                if (scaleNotes.contains(null)) {
-                    return null;
-                }
-
+                semitones = Arrays.asList(2, 3, 5, 7, 8, 10, 12);
             } else if (type.toLowerCase().equals("melodic minor")) {
-                Note currentNote = this;
-                scaleNotes.add(currentNote);
-                for (int i = 0; i < octaves; i++) {
-                    scaleNotes.add(currentNote.semitoneUp(2));
-                    scaleNotes.add(currentNote.semitoneUp(3));
-                    scaleNotes.add(currentNote.semitoneUp(5));
-                    scaleNotes.add(currentNote.semitoneUp(7));
-                    scaleNotes.add(currentNote.semitoneUp(9));
-                    scaleNotes.add(currentNote.semitoneUp(11));
-                    scaleNotes.add(currentNote.semitoneUp(12));
-                    currentNote = currentNote.semitoneUp(12);
-                }
-                if (scaleNotes.contains(null)) {
-                    return null;
-                }
+                semitones = Arrays.asList(2, 3, 5, 7, 9, 11, 12);
             } else {
                 throw new IllegalArgumentException("Invalid scale type: '" + type + "'.");
+            }
+            for (int i = 0; i < octaves; i++) {
+                scaleNotes.add(currentNote.semitoneUp(semitones.get(0)));
+                scaleNotes.add(currentNote.semitoneUp(semitones.get(1)));
+                scaleNotes.add(currentNote.semitoneUp(semitones.get(2)));
+                scaleNotes.add(currentNote.semitoneUp(semitones.get(3)));
+                scaleNotes.add(currentNote.semitoneUp(semitones.get(4)));
+                scaleNotes.add(currentNote.semitoneUp(semitones.get(5)));
+                scaleNotes.add(currentNote.semitoneUp(semitones.get(6)));
+                currentNote = currentNote.semitoneUp(semitones.get(6));
             }
         } else {
             if (type.toLowerCase().equals("major")) {
-                Note currentNote = this;
-                scaleNotes.add(currentNote);
-                for (int i = 0; i < octaves; i++) {
-                    scaleNotes.add(currentNote.semitoneDown(1));
-                    scaleNotes.add(currentNote.semitoneDown(3));
-                    scaleNotes.add(currentNote.semitoneDown(5));
-                    scaleNotes.add(currentNote.semitoneDown(7));
-                    scaleNotes.add(currentNote.semitoneDown(8));
-                    scaleNotes.add(currentNote.semitoneDown(10));
-                    scaleNotes.add(currentNote.semitoneDown(12));
-                    currentNote = currentNote.semitoneDown(12);
-                }
-                if (scaleNotes.contains(null)) {
-                    return null;
-                }
+                semitones = Arrays.asList(1, 3, 5, 7, 8, 10, 12);
             } else if (type.toLowerCase().equals("minor")) {
-                Note currentNote = this;
-                scaleNotes.add(currentNote);
-                for (int i = 0; i < octaves; i++) {
-                    scaleNotes.add(currentNote.semitoneDown(2));
-                    scaleNotes.add(currentNote.semitoneDown(4));
-                    scaleNotes.add(currentNote.semitoneDown(5));
-                    scaleNotes.add(currentNote.semitoneDown(7));
-                    scaleNotes.add(currentNote.semitoneDown(9));
-                    scaleNotes.add(currentNote.semitoneDown(10));
-                    scaleNotes.add(currentNote.semitoneDown(12));
-                    currentNote = currentNote.semitoneDown(12);
-                }
-                if (scaleNotes.contains(null)) {
-                    return null;
-                }
+                semitones = Arrays.asList(2, 4, 5, 7, 9, 10, 12);
             } else if (type.toLowerCase().equals("melodic minor")) {
-                Note currentNote = this;
-                scaleNotes.add(currentNote);
-                for (int i = 0; i < octaves; i++) {
-                    scaleNotes.add(currentNote.semitoneDown(2));
-                    scaleNotes.add(currentNote.semitoneDown(4));
-                    scaleNotes.add(currentNote.semitoneDown(5));
-                    scaleNotes.add(currentNote.semitoneDown(7));
-                    scaleNotes.add(currentNote.semitoneDown(9));
-                    scaleNotes.add(currentNote.semitoneDown(10));
-                    scaleNotes.add(currentNote.semitoneDown(12));
-                    currentNote = currentNote.semitoneDown(12);
-                }
-                if (scaleNotes.contains(null)) {
-                    return null;
-                }
+                semitones = Arrays.asList(2, 4, 5, 7, 9, 10, 12);
             } else {
                 throw new IllegalArgumentException("Invalid scale type: '" + type + "'.");
             }
+            for (int i = 0; i < octaves; i++) {
+                scaleNotes.add(currentNote.semitoneDown(semitones.get(0)));
+                scaleNotes.add(currentNote.semitoneDown(semitones.get(1)));
+                scaleNotes.add(currentNote.semitoneDown(semitones.get(2)));
+                scaleNotes.add(currentNote.semitoneDown(semitones.get(3)));
+                scaleNotes.add(currentNote.semitoneDown(semitones.get(4)));
+                scaleNotes.add(currentNote.semitoneDown(semitones.get(5)));
+                scaleNotes.add(currentNote.semitoneDown(semitones.get(6)));
+                currentNote = currentNote.semitoneDown(semitones.get(6));
+            }
+        }
+        if (scaleNotes.contains(null)) {
+            return null;
         }
         return scaleNotes;
     }
