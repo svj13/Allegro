@@ -276,16 +276,16 @@ public class Note {
      * null.
      */
     public ArrayList<Note> getOctaveScale(String type, int octaves, boolean up) {
-        ArrayList<Note> scaleNotes = new ArrayList<Note>();
+        ArrayList<Note> scaleNotes = new ArrayList<>();
         List<Integer> semitones;
         Note currentNote = this;
         scaleNotes.add(currentNote);
         if (up) {
-            if (type.toLowerCase().equals("major")) {
+            if (type.equalsIgnoreCase("major")) {
                 semitones = Arrays.asList(2, 4, 5, 7, 9, 11, 12);
-            } else if (type.toLowerCase().equals("minor")) {
+            } else if (type.equalsIgnoreCase("minor")) {
                 semitones = Arrays.asList(2, 3, 5, 7, 8, 10, 12);
-            } else if (type.toLowerCase().equals("melodic minor")) {
+            } else if (type.equalsIgnoreCase("melodic minor")) {
                 semitones = Arrays.asList(2, 3, 5, 7, 9, 11, 12);
             } else {
                 throw new IllegalArgumentException("Invalid scale type: '" + type + "'.");
@@ -301,11 +301,11 @@ public class Note {
                 currentNote = currentNote.semitoneUp(semitones.get(6));
             }
         } else {
-            if (type.toLowerCase().equals("major")) {
+            if (type.equalsIgnoreCase("major")) {
                 semitones = Arrays.asList(1, 3, 5, 7, 8, 10, 12);
-            } else if (type.toLowerCase().equals("minor")) {
+            } else if (type.equalsIgnoreCase("minor")) {
                 semitones = Arrays.asList(2, 4, 5, 7, 9, 10, 12);
-            } else if (type.toLowerCase().equals("melodic minor")) {
+            } else if (type.equalsIgnoreCase("melodic minor")) {
                 semitones = Arrays.asList(2, 4, 5, 7, 9, 10, 12);
             } else {
                 throw new IllegalArgumentException("Invalid scale type: '" + type + "'.");
