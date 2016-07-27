@@ -97,10 +97,10 @@ COMMAND_INTERVAL, COMMAND_PLAY_INTERVAL,COMMAND_ALL_ENHARMONICS, SEMIC, COMMAND_
 COMMAND_REDO, COMMAND_TWINKLE, COMMAND_CHORD, COMMAND_PLAY_CHORD,COMMAND_RHYTHM, COMMAND_SET_RHYTHM,
 COMMAND_INTERVAL_ENHARMONIC, COMMAND_SHOW_KEYSIGNATURE,COMMAND_SHOW_KEYSIGNATURE_NUM,
 COMMAND_SCALE_WITH_KEYSIG, COMMAND_FIND_CHORD, COMMAND_FIND_CHORD_ALL, COMMAND_QUALITY_OF,
-COMMAND_CHORD_FUNCTION;
+COMMAND_CHORD_FUNCTION, COMMAND_FUNCTION_OF;
 
-terminal String ATOM, NOTE, SCALE_TYPE,INVERSION_SPECIFIER,  DIRECTION, MIDINOTE, NUMBER, POSNUM, INTERVAL, PLAY_STYLE, SHARPSFLATS, RHYTHM_TYPE,
-NOTE_TRIO, CHORD_TYPE, SHARED_CHORD_AND_INTERVAL, ROMAN_NUMERALS;
+terminal String ATOM, NOTE, SCALE_TYPE, INVERSION_SPECIFIER,  DIRECTION, MIDINOTE, NUMBER, POSNUM,
+INTERVAL, PLAY_STYLE, SHARPSFLATS, RHYTHM_TYPE, CHORD_TYPE, SHARED_CHORD_AND_INTERVAL, ROMAN_NUMERALS;
 
 /* Non terminals */
 non terminal Command command;
@@ -122,6 +122,7 @@ non terminal String numberAndSharpsFlat;
 non terminal ArrayList<String> notes;
 non terminal ArrayList<Note> chordSet;
 non terminal HashMap<String,String> chordFunction;
+non terminal HashMap<String,String> functionOf;
 
 start with command;
 
@@ -168,6 +169,7 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_FIND_CHORD_ALL chordSet:n           {: RESULT = new ChordFinder(n,true); :}
           | COMMAND_QUALITY_OF ROMAN_NUMERALS:r         {: RESULT = new Diatonic(r, "quality");:}
           | COMMAND_CHORD_FUNCTION chordFunction:c      {: RESULT = new Diatonic(c);:}
+          | COMMAND_FUNCTION_OF functionOf:f            {: RESULT = new Diatonic(f);:}
 
 ;
 
@@ -279,8 +281,6 @@ singleTerm ::= keyword:s {: RESULT = s;:}
        | CHORD_TYPE:s  {:RESULT = s;:}
        | DIRECTION:s   {:RESULT = s;:}
        | INTERVAL:i    {:RESULT = i;:}
-
-
 ;
 
 term ::= singleTerm:s {:RESULT =s;:}
@@ -299,6 +299,17 @@ musicalDef ::= term:a SEMIC term:b SEMIC term:c SEMIC term:d
 chordFunction ::= NOTE:n SCALE_TYPE:s ROMAN_NUMERALS:r
             {: RESULT = new HashMap<String,String>(); RESULT.put("note", n); RESULT.put("scale_type",s);
                 RESULT.put("function", r); :}
+            | ROMAN_NUMERALS:r NOTE:n SCALE_TYPE:s
+            {: RESULT = new HashMap<String,String>(); RESULT.put("note", n); RESULT.put("scale_type",s);
+                                                                          RESULT.put("function", r); :}
+;
+
+functionOf ::= NOTE:n CHORD_TYPE:c NOTE:o SCALE_TYPE:s
+            {: RESULT = new HashMap<String,String>(); RESULT.put("chordNote", n); RESULT.put("scale_type",s);
+                RESULT.put("function", "function"); RESULT.put("scaleNote", o); RESULT.put("chord_type", c); :}
+            | NOTE:o SCALE_TYPE:s NOTE:n CHORD_TYPE:c
+            {: RESULT = new HashMap<String,String>(); RESULT.put("chordNote", n); RESULT.put("scale_type",s);
+               RESULT.put("function", "function"); RESULT.put("scaleNote", o); RESULT.put("chord_type", c); :}
 ;
 
 
