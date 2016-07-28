@@ -270,6 +270,9 @@ keyword ::= COMMAND_HELP                                {: RESULT = "help"; :}
           | COMMAND_SHOW_KEYSIGNATURE_NUM               {: RESULT = "scale signature num"; :}
           | COMMAND_SCALE_WITH_KEYSIG                   {: RESULT = "scale signature with"; :}
           | COMMAND_FIND_CHORD                          {: RESULT = "find chord"; :}
+          | COMMAND_SHOW_CURRENT_INSTRUMENT             {: RESULT = "instrument"; :}
+          | COMMAND_SHOW_ALL_INSTRUMENTS                {: RESULT = "all instruments"; :}
+          | COMMAND_SET_INSTRUMENT                      {: RESULT = "set instrument"; :}
 ;
 
 singleTerm ::= keyword:s {: RESULT = s;:}

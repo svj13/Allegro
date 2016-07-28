@@ -28,6 +28,8 @@ public class Help implements Command {
                     "dictionary.";
         } else if (keyword.equals("all enharmonics")) {
             result = "Return all the enharmonics of a given note.";
+        } else if (keyword.equals("all instruments")) {
+            result = "Shows a list of all instruments that can be selected as the playback instrument.";
         } else if (keyword.equals("crotchet duration")) {
             result = "Returns the duration of a crotchet in milliseconds at the current tempo.";
         } else if (keyword.equals("enharmonic higher")) {
@@ -39,6 +41,8 @@ public class Help implements Command {
         } else if (keyword.equals("force set tempo")) {
             result = "When followed by a tempo, it will set the given tempo, even if it" +
                     " is outside of the recommended range of 20-300BPM.";
+        } else if (keyword.equals("instrument")) {
+            result = "Shows the current playback instrument.";
         } else if (keyword.equals("meaning of")) {
             result = "When followed by a musical term, will display the definition of that" +
                     " term.";
@@ -61,6 +65,9 @@ public class Help implements Command {
             result = "Returns the current tempo. When the program is launched, it will have" +
                     " a default value of 120BPM.";
 
+        } else if (keyword.equals("set instrument")) {
+            result = "When followed by a valid instrument name or number, sets the playback instrument to that instrument.\n" +
+                    "For a list of valid instruments, use the command all instruments.";
         } else if (keyword.equals("set rhythm")) {
             result = "Changes the rhythm note timings, syntax: set rhythm 'setting'. \n" +
                     "Default (no swing, half crotchet duration): 'straight'\n" +
@@ -70,7 +77,6 @@ public class Help implements Command {
                     "Custom setting:\n\tCrotchet duration fractions e.g. 'set rhythm 1/4 1/2 1/4' where every fraction" +
                     "is seperated by a space."
             ;
-
         } else if (keyword.equals("rhythm")) {
             result = "Returns the current rhythm beat divisions. The default rhythm is set to 1/2," +
                     " meaning 1/2 crotchet timings.\nFor information changing the rhythm, see 'help set rhythm'";
