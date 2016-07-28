@@ -613,5 +613,11 @@ public class DslExecutorTest {
         assertThat(command, instanceOf(seng302.command.Diatonic.class));
     }
 
+    @Test
+    public void testFunctionOfCommand() {
+        Command command = executor.parseCommandString("function of c major d minor 7th");
+        assertThat(command, instanceOf(seng302.command.Diatonic.class));
+    }
+
 
 }

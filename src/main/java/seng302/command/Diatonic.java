@@ -41,6 +41,26 @@ public class Diatonic implements Command {
         }
     }
 
+    private String getFunctionOf() {
+        Note noteScaleStart = Note.lookup(OctaveUtil.addDefaultOctave(startingNote));
+        ArrayList<Note> scale = noteScaleStart.getScale("major", true);
+        ArrayList<String> scaleNoteNames = Scale.scaleNameList(startingNote, scale, true);
+        if (scaleNoteNames.contains(chordNote)) {
+            // The note is in the scale.
+            Integer numberOfNote = scaleNoteNames.indexOf(chordNote);
+            String romanNumeral = ChordUtil.integerToRomanNumeral(numberOfNote + 1);
+            String quality = ChordUtil.getDiatonicChordQuality(romanNumeral);
+            if (quality.equals(chordType)) {
+                result = romanNumeral;
+            } else {
+                result = "Non Functional";
+            }
+        } else {
+            result = "Non Functional";
+        }
+        return result;
+    }
+
     @Override
     public void execute(Environment env) {
         if (command == "quality") {
@@ -48,22 +68,7 @@ public class Diatonic implements Command {
         } else if (command == "chordFunction") {
             result = ChordUtil.getChordFunction(romanNumeral, startingNote, scaleType);
         } else if (command == "functionOf") {
-            Note noteScaleStart = Note.lookup(OctaveUtil.addDefaultOctave(startingNote));
-            ArrayList<Note> scale = noteScaleStart.getScale("major", true);
-            ArrayList<String> scaleNoteNames = Scale.scaleNameList(startingNote, scale, true);
-            if (scaleNoteNames.contains(chordNote)) {
-                // The note is in the scale.
-                Integer numberOfNote = scaleNoteNames.indexOf(chordNote);
-                String romanNumeral = ChordUtil.integerToRomanNumeral(numberOfNote + 1);
-                String quality = ChordUtil.getDiatonicChordQuality(romanNumeral);
-                if (quality.equals(chordType)) {
-                    result = romanNumeral;
-                } else {
-                    result = "Non Functional";
-                }
-            } else {
-                result = "Non Functional";
-            }
+            result = getFunctionOf();
         }
         env.getTranscriptManager().setResult(this.result);
     }

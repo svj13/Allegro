@@ -311,6 +311,13 @@ functionOf ::= NOTE:n CHORD_TYPE:c NOTE:o SCALE_TYPE:s
             | NOTE:o SCALE_TYPE:s NOTE:n CHORD_TYPE:c
             {: RESULT = new HashMap<String,String>(); RESULT.put("chordNote", n); RESULT.put("scale_type",s);
                RESULT.put("function", "function"); RESULT.put("scaleNote", o); RESULT.put("chord_type", c); :}
+            | NOTE:o SCALE_TYPE:s NOTE:n SHARED_CHORD_AND_INTERVAL:c
+            {: RESULT = new HashMap<String,String>(); RESULT.put("chordNote", n); RESULT.put("scale_type",s);
+               RESULT.put("function", "function"); RESULT.put("scaleNote", o); RESULT.put("chord_type", c); :}
+            | NOTE:n SHARED_CHORD_AND_INTERVAL:c NOTE:o SCALE_TYPE:s
+            {: RESULT = new HashMap<String,String>(); RESULT.put("chordNote", n); RESULT.put("scale_type",s);
+                RESULT.put("function", "function"); RESULT.put("scaleNote", o); RESULT.put("chord_type", c); :}
+
 ;
 
 
