@@ -6,7 +6,7 @@ import seng302.Environment;
 import seng302.command.MusicalTerm;
 import seng302.command.Rhythm;
 import seng302.command.Tempo;
-import seng302.command.Instrument;
+import seng302.command.InstrumentCommand;
 
 /**
  * Undo/redo history manager for the application Created by team 5 on 24/04/16.
@@ -216,7 +216,7 @@ public class EditHistory {
     private void changeInstrument(String newInstrument) {
         ArrayList<String> instrumentName = new ArrayList<>();
         instrumentName.add(newInstrument);
-        new Instrument(true, instrumentName).execute(env);
+        new InstrumentCommand(true, instrumentName).execute(env);
     }
 
 }

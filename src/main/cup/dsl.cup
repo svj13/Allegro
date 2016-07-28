@@ -166,9 +166,9 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_INTERVAL_ENHARMONIC interval:i      {: RESULT = new IntervalCommand(i,"equivalent"); :}
           | COMMAND_FIND_CHORD chordSet:n               {: RESULT = new ChordFinder(n,false); :}
           | COMMAND_FIND_CHORD_ALL chordSet:n           {: RESULT = new ChordFinder(n,true); :}
-          | COMMAND_SHOW_CURRENT_INSTRUMENT             {: RESULT = new Instrument("current"); :}
-          | COMMAND_SHOW_ALL_INSTRUMENTS                {: RESULT = new Instrument("all"); :}
-          | COMMAND_SET_INSTRUMENT instrument:s         {: RESULT = new Instrument(true, s); :}
+          | COMMAND_SHOW_CURRENT_INSTRUMENT             {: RESULT = new InstrumentCommand("current"); :}
+          | COMMAND_SHOW_ALL_INSTRUMENTS                {: RESULT = new InstrumentCommand("all"); :}
+          | COMMAND_SET_INSTRUMENT instrument:s         {: RESULT = new InstrumentCommand(true, s); :}
 
 ;
 
