@@ -12,8 +12,7 @@ import seng302.command.Instrument;
  * Undo/redo history manager for the application Created by team 5 on 24/04/16.
  */
 public class EditHistory {
-    // Stack of commands to redo operations
-    // Stack of commands to undo operations
+    // Stack of commands to undo/redo operations
     private ArrayList<ArrayList<String>> commandStack = new ArrayList<ArrayList<String>>();
     private int location = 0;
     // Set true when there are actions that can be undone
@@ -168,13 +167,18 @@ public class EditHistory {
         new Rhythm(newRhythm, false).execute(env);
     }
 
+    /**
+     * Convenience method for re-executing the "clear transcript" command
+     */
     private void redoTranscriptClear() {
         env.getRootController().clearTranscript();
-
     }
 
+    /**
+     * Undoes the "clear transcript" command. Returns all text that was deleted from the transcript,
+     * back into the transcript.
+     */
     private void undoTranscriptClear() {
-
         env.getTranscriptManager().setTranscriptContent(env.getTranscriptManager().getBackUpTranscript());
         env.getTranscriptManager().setBackupTranscript(new ArrayList<OutputTuple>());
         env.getRootController().setTranscriptPaneText(env.getTranscriptManager().convertToText());
