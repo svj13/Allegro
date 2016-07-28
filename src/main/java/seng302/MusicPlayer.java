@@ -84,6 +84,13 @@ public class MusicPlayer {
         return availableInstruments;
     }
 
+    public void setInstrument(Instrument instrument) {
+        this.instrument = instrument;
+        this.instrumentPatch = this.instrument.getPatch();
+        synthesizer.getChannels()[0].programChange(
+                instrumentPatch.getBank(), instrumentPatch.getProgram());
+    }
+
     /**
      * Plays an array of notes directly after each other.
      *

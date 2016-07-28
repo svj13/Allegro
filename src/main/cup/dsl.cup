@@ -121,6 +121,7 @@ non terminal HashMap<String, String> chordType;
 non terminal String numberAndSharpsFlat;
 non terminal ArrayList<String> notes;
 non terminal ArrayList<Note> chordSet;
+non terminal ArrayList<String> instrument;
 
 start with command;
 
@@ -167,7 +168,7 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_FIND_CHORD_ALL chordSet:n           {: RESULT = new ChordFinder(n,true); :}
           | COMMAND_SHOW_CURRENT_INSTRUMENT             {: RESULT = new Instrument("current"); :}
           | COMMAND_SHOW_ALL_INSTRUMENTS                {: RESULT = new Instrument("all"); :}
-          | COMMAND_SET_INSTRUMENT positiveNum:n        {: RESULT = new Instrument(true, n); :}
+          | COMMAND_SET_INSTRUMENT instrument:s         {: RESULT = new Instrument(true, s); :}
 
 ;
 
@@ -297,7 +298,7 @@ musicalDef ::= term:a SEMIC term:b SEMIC term:c SEMIC term:d
 ;
 
 
-
-
-
-
+instrument ::= ATOM:a {: RESULT = new ArrayList<String>(); RESULT.add(a);:}
+             | instrument:a ATOM:b {: RESULT = a; RESULT.add(b); :}
+             | positiveNum:a {:RESULT = new ArrayList<String>(); RESULT.add(a);:}
+;
