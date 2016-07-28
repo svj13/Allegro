@@ -203,6 +203,12 @@ public class EditHistory {
         new MusicalTerm(termArgs).execute(env);
     }
 
+    /**
+     * Helper function called by undo or redo change of instrument. Changes the instrument, either
+     * to the previous or to an undone instrument
+     *
+     * @param newInstrument The instrument which will be set
+     */
     private void changeInstrument(String newInstrument) {
         ArrayList<String> instrumentName = new ArrayList<>();
         instrumentName.add(newInstrument);
