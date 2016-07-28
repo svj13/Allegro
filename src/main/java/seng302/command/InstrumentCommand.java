@@ -68,6 +68,11 @@ public class InstrumentCommand implements Command {
         env.getEditManager().addToHistory("4", editHistoryArray);
     }
 
+    /**
+     * Shows all instruments that the user can currently select from for playback.
+     *
+     * @param env The environment in which the list of instruments is being fetched from
+     */
     private void showAllInstruments(Environment env) {
         Instrument[] instruments = env.getPlayer().getAvailableInstruments();
         String instrumentList = "";
@@ -77,11 +82,20 @@ public class InstrumentCommand implements Command {
         env.getTranscriptManager().setResult(instrumentList);
     }
 
+    /**
+     * Shows whatever instrument is currently used for playing sound.
+     * @param env The environment in which to get the instrument from
+     */
     private void showCurrentInstrument(Environment env) {
         Instrument currentInstrument = env.getPlayer().getInstrument();
         env.getTranscriptManager().setResult(currentInstrument.getName());
     }
 
+    /**
+     * Used when the user wants to change the playback instrument.
+     * If the provided instrument was valid, it is changed. Otherwise, an error is displayed
+     * @param env The environment in which the instrument is being changed.
+     */
     private void setInstrument(Environment env) {
         Instrument[] instruments = env.getPlayer().getAvailableInstruments();
         Instrument chosenInstrument = null;
@@ -114,6 +128,10 @@ public class InstrumentCommand implements Command {
     }
 
     @Override
+    /**
+     * The execute function delegates to different functions, depending on which type of instrument
+     * command has been chosen.
+     */
     public void execute(Environment env) {
 
         if (type.equals("current")) {
