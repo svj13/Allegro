@@ -1,5 +1,8 @@
 package seng302.utility.musicNotation;
 
+import org.apache.commons.collections4.BidiMap;
+import org.apache.commons.collections4.bidimap.DualHashBidiMap;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +23,7 @@ public class ChordUtil {
         put("VII", "half-diminished 7th");
     }};
 
-    private static final Map<String, Integer> roman = new HashMap<String, Integer>() {{
+    private static final BidiMap<String, Integer> roman = new DualHashBidiMap<String, Integer>() {{
         put("I", 1);
         put("II", 2);
         put("III", 3);
@@ -343,6 +346,15 @@ public class ChordUtil {
      */
     public static Integer romanNumeralToInteger(String romanNumeral) {
         return roman.get(romanNumeral.toUpperCase());
+    }
+
+    /**
+     * Converts the given integer into a roman numeral.
+     *
+     * @return the string roman numeral
+     */
+    public static String integerToRomanNumeral(Integer number) {
+        return roman.inverseBidiMap().get(number);
     }
 
     /**

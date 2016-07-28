@@ -234,7 +234,7 @@ public class Note {
      * Finds the note x semitones higher.
      *
      * @param semitones The number of semitones to increase by
-     * @return the Note object one semitone higher than the current note.
+     * @return the Note object x semitones higher than the current note.
      */
     public Note semitoneUp(int semitones) {
         return Note.lookup(Integer.toString(this.getMidi() + semitones));
@@ -244,7 +244,7 @@ public class Note {
      * Finds the note x semitones lower.
      *
      * @param semitones The number of semitones to decrease by
-     * @return the Note object one semitone lower than the current note.
+     * @return the Note object x semitones lower than the current note.
      */
     public Note semitoneDown(int semitones) {
         return Note.lookup(Integer.toString(this.getMidi() - semitones));
@@ -354,7 +354,13 @@ public class Note {
         return allEnharmonics;
     }
 
-
+    /**
+     * Returns the note name for the current note that uses the given letter. If there is no
+     * enharmonic using that letter for the current note it will return null.
+     *
+     * @param letter The letter to include in note name.
+     * @return Note name using the given letter.
+     */
     public String getEnharmonicWithLetter(char letter) {
         for (String value : enharmonics.values()) {
             if (value.startsWith(String.valueOf(letter))) {

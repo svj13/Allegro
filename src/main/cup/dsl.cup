@@ -167,7 +167,7 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_INTERVAL_ENHARMONIC interval:i      {: RESULT = new IntervalCommand(i,"equivalent"); :}
           | COMMAND_FIND_CHORD chordSet:n               {: RESULT = new ChordFinder(n,false); :}
           | COMMAND_FIND_CHORD_ALL chordSet:n           {: RESULT = new ChordFinder(n,true); :}
-          | COMMAND_QUALITY_OF ROMAN_NUMERALS:r         {: RESULT = new Diatonic(r, "quality");:}
+          | COMMAND_QUALITY_OF ROMAN_NUMERALS:r         {: RESULT = new Diatonic(r);:}
           | COMMAND_CHORD_FUNCTION chordFunction:c      {: RESULT = new Diatonic(c);:}
           | COMMAND_FUNCTION_OF functionOf:f            {: RESULT = new Diatonic(f);:}
 
