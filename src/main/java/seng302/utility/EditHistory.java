@@ -95,7 +95,7 @@ public class EditHistory {
                     break;
                 case 4:
                     //undo change instrument
-                    undoChangeInstrument(commandStack.get(location).get(1));
+                    changeInstrument(commandStack.get(location).get(1));
                     break;
             }
             ath = true;
@@ -132,6 +132,9 @@ public class EditHistory {
 
                 case 3:
                     redoTranscriptClear();
+                    break;
+                case 4:
+                    changeInstrument(commandStack.get(location - 1).get(2));
                     break;
             }
             ath = true;
@@ -200,7 +203,7 @@ public class EditHistory {
         new MusicalTerm(termArgs).execute(env);
     }
 
-    private void undoChangeInstrument(String newInstrument) {
+    private void changeInstrument(String newInstrument) {
         ArrayList<String> instrumentName = new ArrayList<>();
         instrumentName.add(newInstrument);
         new Instrument(true, instrumentName).execute(env);
