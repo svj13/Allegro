@@ -317,13 +317,6 @@ public class KeyboardPaneController {
                         "Minor"
                 );
 
-        //TODO make this fetch the octaves and make it so octave 4 is the default
-        ObservableList<String> octaveOptions =
-                FXCollections.observableArrayList(
-                        "1",
-                        "2",
-                        "3"
-                );
 
         // HBox for the options of the first scale
         HBox scaleOneNoteOptions = new HBox();
@@ -341,12 +334,6 @@ public class KeyboardPaneController {
         typeScale1.setPromptText("Type");
         scaleOneTypeOptions.getChildren().add(typeScale1);
 
-        //drop down for octave of first scale
-        ComboBox<String> octaveScale1 = new ComboBox(octaveOptions);
-        octaveScale1.setPromptText("Octave");
-        scaleOneOctaveOptions.getChildren().add(octaveScale1);
-
-
 
         //HBox for the options of the optional second scale
         HBox scaleTwoNoteOptions = new HBox();
@@ -363,20 +350,11 @@ public class KeyboardPaneController {
         typeScale2.setPromptText("Type");
         scaleTwoTypeOptions.getChildren().add(typeScale2);
 
-        //drop down for octave of first scale
-        ComboBox<String> octaveScale2 = new ComboBox(octaveOptions);
-        octaveScale2.setPromptText("Octave");
-        scaleTwoOctaveOptions.getChildren().add(octaveScale2);
-
-
 
         //HBox for the OK and Cancel button
         HBox actionButtonBox = new HBox();
         actionButtonBox.getChildren().add(okButton);
         actionButtonBox.getChildren().add(cancelButton);
-
-
-
 
         // add drop downs and clear button to scale 1 HBox
         scale1.getChildren().add(scaleOneNoteOptions);
