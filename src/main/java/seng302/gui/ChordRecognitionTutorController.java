@@ -235,7 +235,7 @@ public class ChordRecognitionTutorController extends TutorController {
                     String.format("%s scale from %s", chordType, startNote.getNote()),
                     chordType
             };
-            projectHandler.saveTutorRecords("chord", record.addSkippedQuestion(question));
+            tutorHandler.saveTutorRecords("chord", record.addSkippedQuestion(question));
             env.getRootController().setTabTitle("chordTutor", true);
             if (manager.answered == manager.questions) {
                 finished();
@@ -315,7 +315,7 @@ public class ChordRecognitionTutorController extends TutorController {
                 userAnswer,
                 Boolean.toString(correct)
         };
-        projectHandler.saveTutorRecords("chord", record.addQuestionAnswer(question));
+        tutorHandler.saveTutorRecords("chord", record.addQuestionAnswer(question));
         env.getRootController().setTabTitle("chordTutor", true);
 
         if (manager.answered == manager.questions) {
@@ -344,7 +344,7 @@ public class ChordRecognitionTutorController extends TutorController {
                 manager.questions, manager.skipped,
                 manager.correct, manager.incorrect, userScore);
         if (projectHandler.currentProjectPath != null) {
-            projectHandler.saveSessionStat("chord", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
+            tutorHandler.saveSessionStat("chord", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
             projectHandler.saveCurrentProject();
             outputText += "\nSession auto saved.";
         }

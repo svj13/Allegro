@@ -14,13 +14,16 @@ import java.io.FileReader;
 import java.lang.reflect.Type;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by jmw280 on 22/07/16.
  */
 public class User {
 
+    private String userFullName, userPassword, themeColor;
 
 
     private String userName;
@@ -33,7 +36,13 @@ public class User {
 
     private Environment env;
 
+
     private JSONObject properties;
+
+    private Date lastSignIn;
+
+
+
 
 
 
@@ -42,39 +51,31 @@ public class User {
         this.password = password;
         this.env = env;
         projectHandler = new ProjectHandler(env, userName);
+        loadBasicProperties();
+        //loadFullProperties();
     }
 
-    private void loadProperties() {
+    /**
+     * Loads basic user properties (Picture, Name, Password etc.)
+     * @param env
+     * @param user user name
+     */
+    public User(Environment env, String user){
+        this.env = env;
+        this.userName = user;
+        loadBasicProperties();
+    }
 
-        Path userDirectory = Paths.get("UserData/"+userName); //Default user path for now, before user compatibility is set up.
-        JSONParser parser = new JSONParser(); //parser for reading project
-        try {
-            properties = (JSONObject) parser.parse(new FileReader(userDirectory + "/user_properties.json"));
-        }catch(Exception e){
+    public void loadFullProperties(){
+        /**
+         * Current Theme
+         * Musical Terms
+         * Project Handler
+         *
+         */
 
-        }
-
-        int tempo;
+        //Load musical terms property
         Gson gson = new Gson();
-
-        try {
-            tempo = ((Long) properties.get("tempo")).intValue();
-        } catch (Exception e) {
-            tempo = 120;
-        }
-        env.getPlayer().setTempo(tempo);
-
-
-        //Transcript
-        ArrayList<OutputTuple> transcript;
-        Type transcriptType = new TypeToken<ArrayList<OutputTuple>>() {
-        }.getType();
-        transcript = gson.fromJson((String) properties.get("transcript"), transcriptType);
-
-        env.getTranscriptManager().setTranscriptContent(transcript);
-        env.getRootController().setTranscriptPaneText(env.getTranscriptManager().convertToText());
-
-        //Musical Terms
         Type termsType = new TypeToken<ArrayList<Term>>() {
         }.getType();
         ArrayList<Term> terms = gson.fromJson((String) properties.get("musicalTerms"), termsType);
@@ -84,20 +85,54 @@ public class User {
             env.getMttDataManager().setTerms(terms);
         }
 
-        //Rhythm
-        int[] rhythms;
+        projectHandler = new ProjectHandler(env, userName);
 
 
+
+
+    }
+
+
+    private void loadBasicProperties() {
+        /**
+         * Properties:
+         *  PhotoID - Stored as default 'userPicture.png'
+         *  Last sign in time
+         *  name
+         *  Password
+         *  Musical terms
+         *  Maybe default tempo?
+         *  Theme
+         *
+         */
+        Gson gson = new Gson();
+        Path userDirectory = Paths.get("UserData/"+userName); //Default user path for now, before user compatibility is set up.
+        JSONParser parser = new JSONParser(); //parser for reading project
         try {
-            rhythms = ((int[]) gson.fromJson((String) properties.get("rhythm"), int[].class));
-            rhythms = rhythms == null ? new int[]{12} : rhythms;
-        } catch (Exception e) {
-            rhythms = new int[]{12};
+            properties = (JSONObject) parser.parse(new FileReader(userDirectory + "/user_properties.json"));
+        }catch(Exception e){
+
         }
-        env.getPlayer().getRhythmHandler().setRhythmTimings(rhythms);
 
 
-        env.getTranscriptManager().unsavedChanges = false;
+
+        //env.getTranscriptManager().unsavedChanges = false;
+        Type dateType = new TypeToken<Date>() {
+        }.getType();
+        lastSignIn = gson.fromJson((String) properties.get("signInTime"), dateType);
+
+        //name
+        userFullName = ((String) properties.get("fullName")).toString();
+
+
+        //Password
+        userPassword = ((String) properties.get("password")).toString();
+
+        //Theme
+        themeColor = ((String) properties.get("themeColor")).toString();
+
+
+
 
 
     }

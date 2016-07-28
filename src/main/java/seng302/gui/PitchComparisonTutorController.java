@@ -150,7 +150,7 @@ public class PitchComparisonTutorController extends TutorController {
                     Boolean.toString(getAnswer(note1, note2).equals("Higher"))
             };
 
-            projectHandler.saveTutorRecords("pitch", record.addQuestionAnswer(question));
+            tutorHandler.saveTutorRecords("pitch", record.addQuestionAnswer(question));
             env.getRootController().setTabTitle("pitchTutor", true);
         } else if (((ToggleButton) row.getChildren().get(2)).isSelected()) { //Same
             row.getChildren().get(2).setStyle("-fx-text-fill: white;-fx-background-color: black");
@@ -161,7 +161,7 @@ public class PitchComparisonTutorController extends TutorController {
                     Boolean.toString(getAnswer(note1, note2).equals("Same"))
             };
 
-            projectHandler.saveTutorRecords("pitch", record.addQuestionAnswer(question));
+            tutorHandler.saveTutorRecords("pitch", record.addQuestionAnswer(question));
             env.getRootController().setTabTitle("pitchTutor", true);
         } else if (((ToggleButton) row.getChildren().get(3)).isSelected()) { //Lower
             row.getChildren().get(3).setStyle("-fx-text-fill: white;-fx-background-color: black");
@@ -173,7 +173,7 @@ public class PitchComparisonTutorController extends TutorController {
                     "Lower",
                     Boolean.toString(getAnswer(note1, note2).equals("Lower"))
             };
-            projectHandler.saveTutorRecords("pitch", record.addQuestionAnswer(question));
+            tutorHandler.saveTutorRecords("pitch", record.addQuestionAnswer(question));
             env.getRootController().setTabTitle("pitchTutor", true);
         } else if (((ToggleButton) row.getChildren().get(4)).isSelected()) { //Skip
             row.getChildren().get(4).setStyle("-fx-text-fill: white;-fx-background-color: black");
@@ -185,7 +185,7 @@ public class PitchComparisonTutorController extends TutorController {
                     String.format("Is %s higher or lower than %s", note2.getNote(), note1.getNote()),
                     getAnswer(note1, note2)
             };
-            projectHandler.saveTutorRecords("pitch", record.addSkippedQuestion(question));
+            tutorHandler.saveTutorRecords("pitch", record.addSkippedQuestion(question));
             env.getRootController().setTabTitle("pitchTutor", true);
         }
 
@@ -341,7 +341,7 @@ public class PitchComparisonTutorController extends TutorController {
 
         if (projectHandler.currentProjectPath != null) {
 
-            projectHandler.saveSessionStat("pitch", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
+            tutorHandler.saveSessionStat("pitch", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
             projectHandler.saveCurrentProject();
             outputText += "\nSession auto saved";
         }

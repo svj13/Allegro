@@ -152,7 +152,7 @@ public class ScaleRecognitionTutorController extends TutorController {
                 userAnswer,
                 Boolean.toString(correct)
         };
-        projectHandler.saveTutorRecords("scale", record.addQuestionAnswer(question));
+        tutorHandler.saveTutorRecords("scale", record.addQuestionAnswer(question));
         env.getRootController().setTabTitle("scaleTutor", true);
 
         if (manager.answered == manager.questions) {
@@ -201,7 +201,7 @@ public class ScaleRecognitionTutorController extends TutorController {
                     String.format("%s scale from %s", scaleType, startNote.getNote()),
                     scaleType
             };
-            projectHandler.saveTutorRecords("scale", record.addSkippedQuestion(question));
+            tutorHandler.saveTutorRecords("scale", record.addSkippedQuestion(question));
             env.getRootController().setTabTitle("scaleTutor", true);
             if (manager.answered == manager.questions) {
                 finished();
@@ -253,7 +253,7 @@ public class ScaleRecognitionTutorController extends TutorController {
                 manager.correct, manager.incorrect, userScore);
 
         if (projectHandler.currentProjectPath != null) {
-            projectHandler.saveSessionStat("scale", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
+            tutorHandler.saveSessionStat("scale", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
             projectHandler.saveCurrentProject();
             outputText += "\nSession auto saved";
         }

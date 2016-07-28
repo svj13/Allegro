@@ -743,7 +743,7 @@ public class ChordSpellingTutorController extends TutorController {
                 selectedAnswer,
                 answeredCorrectly.toString()
         };
-        projectHandler.saveTutorRecords("spelling", record.addQuestionAnswer(question));
+        tutorHandler.saveTutorRecords("spelling", record.addQuestionAnswer(question));
 
         updateManagerCompletedQuestion();
     }
@@ -792,7 +792,7 @@ public class ChordSpellingTutorController extends TutorController {
                 manager.correct, manager.incorrect, userScore);
 
         if (projectHandler.currentProjectPath != null) {
-            projectHandler.saveSessionStat("spelling", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
+            tutorHandler.saveSessionStat("spelling", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
             projectHandler.saveCurrentProject();
             outputText += "\nSession auto saved";
         }
@@ -856,7 +856,7 @@ public class ChordSpellingTutorController extends TutorController {
         manager.questions -= 1;
         manager.add(new Pair<Pair, Integer>(finalData, questionType), 2);
 
-        projectHandler.saveTutorRecords("spelling", record.addSkippedQuestion(questionInfo));
+        tutorHandler.saveTutorRecords("spelling", record.addSkippedQuestion(questionInfo));
 
         env.getRootController().setTabTitle("chordSpellingTutor", true);
         if (manager.answered == manager.questions) {

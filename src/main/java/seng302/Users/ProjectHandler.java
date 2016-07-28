@@ -38,6 +38,7 @@ public class ProjectHandler {
     private Project currentProject;
     private ArrayList<String> projects = new ArrayList<String>();
     Environment env;
+    String lastOpened;
     Path userDirectory;
     String userName;
 
@@ -47,6 +48,20 @@ public class ProjectHandler {
         //Iterate through user directory and load all
         this.userName = user;
         this.env = env;
+
+        loadProjectList();
+        loadDefaultProject();
+
+    }
+
+    public void loadDefaultProject(){
+        //Handle Null
+        if(lastOpened == null){
+
+        }
+        else{
+            setCurrentProject(lastOpened);
+        }
     }
 
     public Project getCurrentProject(){
@@ -65,6 +80,7 @@ public class ProjectHandler {
         try {
              projectsInfo = (JSONObject) parser.parse(new FileReader(userDirectory + "/project_list.json"));
             this.projects = (JSONArray) projectsInfo.get("projects");
+            this.lastOpened = projectsInfo.get("lastOpened").toString();
 
         } catch (FileNotFoundException e) {
             try {

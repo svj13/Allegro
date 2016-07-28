@@ -236,7 +236,7 @@ public class MusicalTermsTutorController extends TutorController {
                     originOptions.getValue(),
                     Boolean.toString(originOptions.getValue().equals(currentTerm.getMusicalTermOrigin()))
             };
-            projectHandler.saveTutorRecords("musicalTerm", record.addQuestionAnswer(question));
+            tutorHandler.saveTutorRecords("musicalTerm", record.addQuestionAnswer(question));
             env.getRootController().setTabTitle("musicalTermTutor", true);
 
             styleAnswer(rowPane, currentTerm, originOptions, categoryOptions, definitionOptions);
@@ -262,7 +262,7 @@ public class MusicalTermsTutorController extends TutorController {
                     categoryOptions.getValue(),
                     Boolean.toString(categoryOptions.getValue().equals(currentTerm.getMusicalTermCategory()))
             };
-            projectHandler.saveTutorRecords("musicalTerm", record.addQuestionAnswer(question));
+            tutorHandler.saveTutorRecords("musicalTerm", record.addQuestionAnswer(question));
             env.getRootController().setTabTitle("musicalTermTutor", true);
 
             styleAnswer(rowPane, currentTerm, categoryOptions, definitionOptions, originOptions);
@@ -289,7 +289,7 @@ public class MusicalTermsTutorController extends TutorController {
                     definitionOptions.getValue(),
                     Boolean.toString(definitionOptions.getValue().equals(currentTerm.getMusicalTermDefinition()))
             };
-            projectHandler.saveTutorRecords("musicalTerm", record.addQuestionAnswer(question));
+            tutorHandler.saveTutorRecords("musicalTerm", record.addQuestionAnswer(question));
             env.getRootController().setTabTitle("musicalTermTutor", true);
 
             styleAnswer(rowPane, currentTerm, definitionOptions, categoryOptions, originOptions);
@@ -307,7 +307,7 @@ public class MusicalTermsTutorController extends TutorController {
                     String.format("Information about %s", currentTerm.getMusicalTermName()),
                     currentTerm.getMusicalTermName()
             };
-            projectHandler.saveTutorRecords("musicalTerm", record.addSkippedQuestion(question));
+            tutorHandler.saveTutorRecords("musicalTerm", record.addSkippedQuestion(question));
             env.getRootController().setTabTitle("musicalTermTutor", true);
 
             formatSkippedQuestion(rowPane);
@@ -397,7 +397,7 @@ public class MusicalTermsTutorController extends TutorController {
                 manager.correct, manager.incorrect, userScore);
 
         if (projectHandler.currentProjectPath != null) {
-            projectHandler.saveSessionStat("musicalTerm", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
+            tutorHandler.saveSessionStat("musicalTerm", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
             projectHandler.saveCurrentProject();
             outputText += "\nSession auto saved";
         }

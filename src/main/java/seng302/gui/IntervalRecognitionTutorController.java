@@ -150,7 +150,7 @@ public class IntervalRecognitionTutorController extends TutorController {
                     String.format("Interval between %s and %s", firstNote.getNote(), secondNote.getNote()),
                     thisInterval.getName()
             };
-            projectHandler.saveTutorRecords("interval", record.addSkippedQuestion(question));
+            tutorHandler.saveTutorRecords("interval", record.addSkippedQuestion(question));
             env.getRootController().setTabTitle("intervalTutor", true);
             if (manager.answered == manager.questions) {
                 finished();
@@ -176,7 +176,7 @@ public class IntervalRecognitionTutorController extends TutorController {
                     options.getValue(),
                     Boolean.toString(options.getValue().equals(thisInterval.getName()))
             };
-            projectHandler.saveTutorRecords("interval", record.addQuestionAnswer(question));
+            tutorHandler.saveTutorRecords("interval", record.addQuestionAnswer(question));
             env.getRootController().setTabTitle("intervalTutor", true);
             // Shows the correct answer
             if (manager.answered == manager.questions) {
@@ -321,7 +321,7 @@ public class IntervalRecognitionTutorController extends TutorController {
                 manager.correct, manager.incorrect, userScore);
 
         if (projectHandler.currentProjectPath != null) {
-            projectHandler.saveSessionStat("interval", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
+            tutorHandler.saveSessionStat("interval", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
             projectHandler.saveCurrentProject();
             outputText += "\nSession auto saved.";
         }

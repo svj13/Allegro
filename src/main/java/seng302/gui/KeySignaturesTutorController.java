@@ -212,7 +212,7 @@ public class KeySignaturesTutorController extends TutorController {
                         String.format("Keys signature of %s %s", question, pair.getKey()),
                         correctAnswer
                 };
-                projectHandler.saveTutorRecords("keySignature", record.addSkippedQuestion(recordQuestion));
+                tutorHandler.saveTutorRecords("keySignature", record.addSkippedQuestion(recordQuestion));
                 env.getRootController().setTabTitle("keySignatureTutor", true);
                 if (manager.answered == manager.questions) {
                     finished();
@@ -248,7 +248,7 @@ public class KeySignaturesTutorController extends TutorController {
                         options.getValue(),
                         String.valueOf(isCorrect)
                 };
-                projectHandler.saveTutorRecords("keySignature", record.addQuestionAnswer(recordQuestion));
+                tutorHandler.saveTutorRecords("keySignature", record.addQuestionAnswer(recordQuestion));
                 env.getRootController().setTabTitle("keySignatureTutor", true);
                 // Shows the correct answer
                 if (manager.answered == manager.questions) {
@@ -290,7 +290,7 @@ public class KeySignaturesTutorController extends TutorController {
                             options.getValue(),
                             String.valueOf(isCorrect)
                     };
-                    projectHandler.saveTutorRecords("keySignature", record.addQuestionAnswer(recordQuestion));
+                    tutorHandler.saveTutorRecords("keySignature", record.addQuestionAnswer(recordQuestion));
                     env.getRootController().setTabTitle("keySignatureTutor", true);
                     // Shows the correct answer
                     if (manager.answered == manager.questions) {
@@ -333,7 +333,7 @@ public class KeySignaturesTutorController extends TutorController {
                             options.getValue(),
                             String.valueOf(isCorrect)
                     };
-                    projectHandler.saveTutorRecords("keySignature", record.addQuestionAnswer(recordQuestion));
+                    tutorHandler.saveTutorRecords("keySignature", record.addQuestionAnswer(recordQuestion));
                     env.getRootController().setTabTitle("keySignatureTutor", true);
                     // Shows the correct answer
                     if (manager.answered == manager.questions) {
@@ -500,7 +500,7 @@ public class KeySignaturesTutorController extends TutorController {
                         String.format("Keys signature of %s %s", question, pair.getKey()),
                         correctAnswer
                 };
-                projectHandler.saveTutorRecords("keySignature", record.addSkippedQuestion(recordQuestion));
+                tutorHandler.saveTutorRecords("keySignature", record.addSkippedQuestion(recordQuestion));
                 env.getRootController().setTabTitle("keySignatureTutor", true);
                 if (manager.answered == manager.questions) {
                     finished();
@@ -535,7 +535,7 @@ public class KeySignaturesTutorController extends TutorController {
                         options.getValue(),
                         String.valueOf(isCorrect)
                 };
-                projectHandler.saveTutorRecords("keySignature", record.addQuestionAnswer(recordQuestion));
+                tutorHandler.saveTutorRecords("keySignature", record.addQuestionAnswer(recordQuestion));
                 env.getRootController().setTabTitle("keySignatureTutor", true);
                 // Shows the correct answer
                 if (manager.answered == manager.questions) {
@@ -575,7 +575,7 @@ public class KeySignaturesTutorController extends TutorController {
                             options.getValue(),
                             String.valueOf(isCorrect)
                     };
-                    projectHandler.saveTutorRecords("keySignature", record.addQuestionAnswer(recordQuestion));
+                    tutorHandler.saveTutorRecords("keySignature", record.addQuestionAnswer(recordQuestion));
                     env.getRootController().setTabTitle("keySignatureTutor", true);
                     // Shows the correct answer
                     if (manager.answered == manager.questions) {
@@ -825,7 +825,7 @@ public class KeySignaturesTutorController extends TutorController {
                         String.format("Keys signature of %s %s", question, pair.getKey()),
                         correctAnswer
                 };
-                projectHandler.saveTutorRecords("keySignature", record.addSkippedQuestion(recordQuestion));
+                tutorHandler.saveTutorRecords("keySignature", record.addSkippedQuestion(recordQuestion));
                 env.getRootController().setTabTitle("keySignatureTutor", true);
                 if (manager.answered == manager.questions) {
                     finished();
@@ -886,7 +886,7 @@ public class KeySignaturesTutorController extends TutorController {
                         options.getValue(),
                         String.valueOf(isCorrect)
                 };
-                projectHandler.saveTutorRecords("keySignature", record.addQuestionAnswer(recordQuestion));
+                tutorHandler.saveTutorRecords("keySignature", record.addQuestionAnswer(recordQuestion));
                 env.getRootController().setTabTitle("keySignatureTutor", true);
                 // Shows the correct answer
                 if (manager.answered == manager.questions) {
@@ -1164,7 +1164,7 @@ public class KeySignaturesTutorController extends TutorController {
                 manager.questions, manager.skipped,
                 manager.correct, manager.incorrect, userScore);
         if (projectHandler.currentProjectPath != null) {
-            projectHandler.saveSessionStat("keySignature", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
+            tutorHandler.saveSessionStat("keySignature", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
             projectHandler.saveCurrentProject();
             outputText += "\nSession auto saved.";
         }

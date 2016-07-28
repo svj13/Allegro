@@ -22,6 +22,7 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 import seng302.Environment;
 import seng302.Users.ProjectHandler;
+import seng302.Users.TutorHandler;
 import seng302.managers.TutorManager;
 import seng302.utility.TutorRecord;
 
@@ -40,6 +41,8 @@ public abstract class TutorController {
     public int selectedQuestions;
 
     public ProjectHandler projectHandler;
+
+    public TutorHandler tutorHandler;
 
     Stage stage;
 
@@ -87,6 +90,7 @@ public abstract class TutorController {
         this.env = env;
         manager = new TutorManager();
         projectHandler = env.getProjectHandler();
+        tutorHandler = env.getTutorHandler();
     }
 
     /**
