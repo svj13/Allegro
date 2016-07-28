@@ -52,6 +52,12 @@ public class Instrument implements Command {
 
     }
 
+    /**
+     * Saves the change of instrument to the environment's edit history
+     *
+     * @param instrument The instrument that has been newly selected
+     * @param env        The environment in which to save the change
+     */
     private void saveInstrumentEditHistory(javax.sound.midi.Instrument instrument, Environment env) {
         ArrayList<String> editHistoryArray = new ArrayList<String>();
         editHistoryArray.add(env.getPlayer().getInstrument().getName());
