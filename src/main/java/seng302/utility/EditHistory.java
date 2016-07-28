@@ -6,6 +6,7 @@ import seng302.Environment;
 import seng302.command.MusicalTerm;
 import seng302.command.Rhythm;
 import seng302.command.Tempo;
+import seng302.command.Instrument;
 
 /**
  * Undo/redo history manager for the application Created by team 5 on 24/04/16.
@@ -91,6 +92,10 @@ public class EditHistory {
                     break;
                 case 3:
                     undoTranscriptClear();
+                    break;
+                case 4:
+                    //undo change instrument
+                    undoChangeInstrument(commandStack.get(location).get(1));
                     break;
             }
             ath = true;
@@ -193,6 +198,12 @@ public class EditHistory {
         termArgs.add(termToAdd.get(4));
 
         new MusicalTerm(termArgs).execute(env);
+    }
+
+    private void undoChangeInstrument(String newInstrument) {
+        ArrayList<String> instrumentName = new ArrayList<>();
+        instrumentName.add(newInstrument);
+        new Instrument(true, instrumentName).execute(env);
     }
 
 }

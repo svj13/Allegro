@@ -52,6 +52,13 @@ public class Instrument implements Command {
 
     }
 
+    private void saveInstrumentEditHistory(javax.sound.midi.Instrument instrument, Environment env) {
+        ArrayList<String> editHistoryArray = new ArrayList<String>();
+        editHistoryArray.add(env.getPlayer().getInstrument().getName());
+        editHistoryArray.add(instrument.getName());
+        env.getEditManager().addToHistory("4", editHistoryArray);
+    }
+
     @Override
     public void execute(Environment env) {
         MusicPlayer player = env.getPlayer();
@@ -78,6 +85,7 @@ public class Instrument implements Command {
                 }
                 try {
                     env.getTranscriptManager().setResult("Selected Instrument: " + chosenInstrument.getName());
+                    saveInstrumentEditHistory(chosenInstrument, env);
                     player.setInstrument(chosenInstrument);
                 } catch (Exception e) {
                     env.error("Invalid instrument name");
@@ -87,6 +95,7 @@ public class Instrument implements Command {
                 try {
                     chosenInstrument = player.getAvailableInstruments()[instrumentId];
                     env.getTranscriptManager().setResult("Selected Instrument: " + chosenInstrument.getName());
+                    saveInstrumentEditHistory(chosenInstrument, env);
                     player.setInstrument(chosenInstrument);
                 } catch (Exception e) {
                     env.error("Invalid instrument number");
