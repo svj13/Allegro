@@ -30,6 +30,8 @@ public class UserHandler {
     JSONParser parser = new JSONParser(); //parser for reading project
 
 
+
+
     final Path userDirectory = Paths.get("UserData"); //Default user path for now, before user compatibility is set up.
 
 
@@ -106,6 +108,9 @@ public class UserHandler {
 
 
 
+    public void createUser(String user, String password){
+
+    }
 
 
     public User getCurrentUser(){

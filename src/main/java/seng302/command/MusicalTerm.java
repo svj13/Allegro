@@ -153,7 +153,7 @@ public class MusicalTerm implements Command {
         }
         if (termAdded == true && validAdd == true) {
             env.getMttDataManager().addTerm(term);
-            env.getProjectHandler().checkmusicTerms();
+            env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().checkmusicTerms();
             env.getEditManager().addToHistory("1", rawInput);
         }
         env.getTranscriptManager().setResult(result);

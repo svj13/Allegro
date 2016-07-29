@@ -125,6 +125,11 @@ public class ProjectHandler {
     }
 
 
+    public void createProject(String name){
+
+    }
+
+
     /**
      * Updates the json list of project names, used to fill the quick load list.
      *
@@ -203,6 +208,7 @@ public class ProjectHandler {
      */
     public void createNewProject() {
 
+
         TextInputDialog dialog = new TextInputDialog("");
         dialog.setTitle("New Project");
         dialog.setHeaderText("New Project");
@@ -214,14 +220,15 @@ public class ProjectHandler {
             String resultString = result.get().toString();
             Path path;
             try {
-                path = Paths.get("UserData/Projects/" + resultString);
+                path = Paths.get("UserData/" + userName + "/" + resultString);
 
                 if (!Files.isDirectory(path)) {
                     try {
 
                         Files.createDirectories(path);
+                        setCurrentProject(resultString);
 
-                        env.getProjectHandler().saveProject(path.toString().replace("\\", "/"));
+                        getCurrentProject().saveProject(path.toString().replace("\\", "/"));
                         //setWindowTitle(resultString);
 
                     } catch (IOException e) {

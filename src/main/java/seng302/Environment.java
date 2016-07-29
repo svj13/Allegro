@@ -3,6 +3,7 @@ package seng302;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import seng302.Users.TutorHandler;
+import seng302.Users.UserHandler;
 import seng302.gui.RootController;
 import seng302.Users.ProjectHandler;
 import seng302.managers.TranscriptManager;
@@ -34,16 +35,15 @@ public class Environment {
     private ProjectHandler json;
 
 
-    private ProjectHandler projectHandler;
+    private UserHandler userHandler;
 
     public Environment() {
         executor = new DslExecutor(this);
         player = new MusicPlayer();
         transcriptManager = new TranscriptManager();
         mttDataManager = new MusicalTermsTutorBackEnd();
-        projectHandler = new ProjectHandler(this);
         shiftPressed = new SimpleBooleanProperty(false);
-        tutorHandler = new TutorHandler(this);
+        userHandler = new UserHandler(this);
     }
 
     /**
@@ -112,15 +112,12 @@ public class Environment {
         this.player = m;
     }
 
-    public ProjectHandler getProjectHandler() {
-        return projectHandler;
+    public UserHandler getUserHandler() {
+        return userHandler;
     }
 
     public TutorHandler getTutorHandler(){ return tutorHandler;}
 
-    public void setProjectHandler(ProjectHandler p) {
-        this.projectHandler = p;
-    }
 
     public EditHistory getEditManager() {
         return this.em;

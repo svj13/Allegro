@@ -11,7 +11,11 @@ import seng302.data.Term;
 import seng302.utility.OutputTuple;
 
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Time;
@@ -28,7 +32,6 @@ public class User {
 
     private String userName;
 
-    private String password;
 
     private Image profilePic;
 
@@ -41,14 +44,17 @@ public class User {
 
     private Date lastSignIn;
 
+    private Path userDirectory;
+
 
 
 
 
 
     public User(String userName, String password, Environment env){
+        userDirectory = Paths.get("UserData/"+userName);
         this.userName = userName;
-        this.password = password;
+        this.userPassword = password;
         this.env = env;
         projectHandler = new ProjectHandler(env, userName);
         loadBasicProperties();
@@ -61,6 +67,7 @@ public class User {
      * @param user user name
      */
     public User(Environment env, String user){
+        userDirectory = Paths.get("UserData/"+userName);
         this.env = env;
         this.userName = user;
         loadBasicProperties();
@@ -92,6 +99,8 @@ public class User {
 
     }
 
+
+    public ProjectHandler getProjectHandler(){return projectHandler;}
 
     private void loadBasicProperties() {
         /**
@@ -130,14 +139,80 @@ public class User {
 
         //Theme
         themeColor = ((String) properties.get("themeColor")).toString();
+    }
 
 
+    private void updateProperties() {
+        Gson gson = new Gson();
+        properties.put("fullName", userFullName);
+        properties.put("password", this.userPassword);
+        properties.put("themeColor", this.themeColor);
+
+
+        String musicalTermsJSON = gson.toJson(env.getMttDataManager().getTerms());
+        properties.put("musicalTerms", musicalTermsJSON);
+
+        String lastSignInJSON = gson.toJson(lastSignIn);
+        properties.put("signInTime", lastSignInJSON);
 
 
 
     }
 
+    private void saveProperties(){
+        try {
+            Gson gson = new Gson();
+            updateProperties();
 
+
+            FileWriter file = new FileWriter(userDirectory + "/user_properties.json");
+            file.write(properties.toJSONString());
+            file.flush();
+            file.close();
+
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+        }
+
+    }
+
+
+    private void createUserFiles(){
+        //Add all settings to such as tempo speed to the project here.
+
+
+        Path path;
+        try {
+            //path = Paths.get("UserData/" + userName + "/" + resultString);
+
+            if (!Files.isDirectory(userDirectory)) {
+                try {
+
+                    Files.createDirectories(userDirectory);
+                    saveProperties();
+
+
+
+                } catch (IOException e) {
+                    //Failed to create the directory.
+                    e.printStackTrace();
+                }
+
+            } else {
+                env.getRootController().errorAlert("The user: " + userName + " already exists.");
+                //createNewProject();
+            }
+
+        } catch (InvalidPathException invPath) {
+            //invalid path (Poor project naming)
+            env.getRootController().errorAlert("Invalid file name - try again.");
+            //createNewProject();
+        }
+
+
+    }
 
 
 
