@@ -26,6 +26,8 @@ import javafx.scene.layout.VBox;
 import seng302.Environment;
 import seng302.data.Note;
 import seng302.utility.NoteRangeSlider;
+import seng302.utility.musicNotation.OctaveUtil;
+
 /**
  * Created by team 5 on 13/05/16.
  */
@@ -341,11 +343,15 @@ public class KeyboardPaneController {
         //binding action event to OK button so when OK is clicked, the information in the corresponding
         //fields will fetch the scale notes
         Button okButton = new Button("OK"); //actions the fields selected and highlights corresponding keys
-        okButton.onActionProperty().addListener(event->{
-            if (scale1NoteInput.getText() != null) {
+        okButton.setOnAction(event->{
+            System.out.println("<");
+            System.out.println(scale1NoteInput.getText());
+            System.out.println(">");
+            if (scale1NoteInput.getText() != null && !scale1NoteInput.getText().equals("")){
                 ArrayList<Note> scaleNotes = fetchScaleNotes(scale1NoteInput.getText(), typeScale1.getValue());
                 System.out.println(scaleNotes);
-
+            } else {
+                System.out.println("You didn't give me an input. Derp");
             }
         });
 
@@ -395,12 +401,13 @@ public class KeyboardPaneController {
      * and fetches the notes of the relevant scale
      */
     private ArrayList<Note> fetchScaleNotes(String scaleNote, String scaleType) {
+        scaleNote = OctaveUtil.addDefaultOctave(scaleNote);
         Note scaleStartNote = Note.lookup(scaleNote);
         ArrayList<Note> scaleNotes = scaleStartNote.getScale(scaleType, true);
-        System.out.println(scaleNotes);
+        for (Note n: scaleNotes) {
+            System.out.println(n.getNote());
+        }
         return scaleNotes;
-
-
 
     }
 
