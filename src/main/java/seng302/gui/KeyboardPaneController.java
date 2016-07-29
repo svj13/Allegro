@@ -347,7 +347,7 @@ public class KeyboardPaneController {
             String scale1Note =scale1NoteInput.getText();
             String scale2Note = scale2NoteInput.getText();
             //if scale 2 is filled out but not scale 1
-            if (scale2Note != null && scale1Note==null | scale1Note.equals("")) {
+            if (scale2Note != null && !scale2Note.equals("") && scale1Note.equals("")) {
                 System.out.println("You filled out scale 2 but not scale 1");
                 scale1NoteInput.setStyle("-fx-border-color: red;");
             //if scale 1 is filled out
