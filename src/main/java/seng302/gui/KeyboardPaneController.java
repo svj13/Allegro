@@ -114,6 +114,12 @@ public class KeyboardPaneController {
      */
     private RadioButton noteLabelsOff;
 
+    //Name of scale note taken by Display scales input field
+    private String scaleNote;
+
+    //Type of scale taken by Display Scales drop down menu
+    private String scaleType;
+
 
     /**
      * Current notes that have been clicked, since shift key was held.
@@ -293,15 +299,6 @@ public class KeyboardPaneController {
         scale2.setSpacing(5);
 
 
-
-        //clear, OK and cancel button. OK and cancel are going into their own HBOX. clear is going to
-        //be added to both the scale 1 and scale 2 hboxes
-        Button okButton = new Button("OK"); //actions the fields selected and highlights corresponding keys
-        Button cancelButton = new Button("Cancel"); //closes the pop out window without actioning
-        Button clearButtonScale1 = new Button("Clear"); //clears the fields of the corresponding drop down
-        Button clearButtonScale2 = new Button("Clear"); //clears the fields of the corresponding drop down
-
-
         //text input field so user can type in the note for the scale of interest.
         //for scale 1
         TextField scale1NoteInput = new TextField();
@@ -310,6 +307,29 @@ public class KeyboardPaneController {
         //for optional scale 2
         TextField scale2NoteInput = new TextField();
         scale2NoteInput.setPrefColumnCount(3); // setting column size (user can input 3 characters)
+
+
+        /**
+         * clear, OK and cancel button. OK and cancel are going into their own HBOX. clear is going to
+         * be added to both the scale 1 and scale 2 hboxes
+         */
+
+        //binding action event to OK button so when OK is clicked, the information in the corresponding
+        //fields will fetch the scale notes
+        Button okButton = new Button("OK"); //actions the fields selected and highlights corresponding keys
+        okButton.onActionProperty().addListener(event->{
+            if (scale1NoteInput != null) {
+
+            }
+        });
+
+
+        Button cancelButton = new Button("Cancel"); //closes the pop out window without actioning
+        Button clearButtonScale1 = new Button("Clear"); //clears the fields of the corresponding drop down
+        Button clearButtonScale2 = new Button("Clear"); //clears the fields of the corresponding drop down
+
+
+
 
 
         // TODO make major default. add the rest of the scale options
@@ -325,7 +345,7 @@ public class KeyboardPaneController {
 
         //drop down for type of first scale
         ComboBox<String> typeScale1 = new ComboBox(typeOptions);
-        typeScale1.setPromptText("Type");
+        typeScale1.setValue("Major"); //setting major as the default value
         scaleOneTypeOptions.getChildren().add(typeScale1);
 
 
@@ -335,7 +355,7 @@ public class KeyboardPaneController {
 
         //drop down for type of first scale
         ComboBox<String> typeScale2 = new ComboBox(typeOptions);
-        typeScale2.setPromptText("Type");
+        typeScale2.setValue("Major"); //setting major as the default value
         scaleTwoTypeOptions.getChildren().add(typeScale2);
 
 
@@ -369,6 +389,18 @@ public class KeyboardPaneController {
 
         displayScalesPop = new PopOver(displayScales);
         displayScalesPop.setTitle("Display Scales");
+
+
+    }
+
+    /**
+     * Takes the scale note specified in the text input field and option from drop down menu in Display Scales
+     * and fetches the notes of the relevant scale
+     */
+    private ArrayList<Note> fetchScaleNotes(String scaleNote, String scaleType) {
+        Note scaleStartNote = Note.lookup(scaleNote);
+        ArrayList<Note> scaleNotes = scaleStartNote.getScale(scaleType, true);
+        return scaleNotes;
 
 
     }
