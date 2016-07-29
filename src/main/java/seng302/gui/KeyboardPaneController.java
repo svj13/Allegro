@@ -302,15 +302,24 @@ public class KeyboardPaneController {
         Button clearButtonScale2 = new Button("Clear"); //clears the fields of the corresponding drop down
 
 
-        // TODO make this fetch the notes instead
+        // TODO make this fetch the notes instead. Default to C
         ObservableList<String> noteOptions =
                 FXCollections.observableArrayList(
-                        "C",
-                        "D",
-                        "E"
+                        "Cb", "C", "C#", "Db", "D", "D#", "Eb", "E", "E#", "Fb", "F", "F#",
+                        "Gb", "G", "G#"
                 );
 
-        //TODO make this fetch the types instead
+        //text input field so user can type in the note for the scale of interest.
+        //for scale 1
+        TextField scale1NoteInput = new TextField();
+        scale1NoteInput.setPrefColumnCount(3); //setting col size (user can input 3 characters)
+
+        //for optional scale 2
+        TextField scale2NoteInput = new TextField();
+        scale2NoteInput.setPrefColumnCount(3); // setting column size (user can input 3 characters)
+
+
+        // TODO make major default. add the rest of the scale options
         ObservableList<String> typeOptions =
                 FXCollections.observableArrayList(
                         "Major",
@@ -319,15 +328,9 @@ public class KeyboardPaneController {
 
 
         // HBox for the options of the first scale
-        HBox scaleOneNoteOptions = new HBox();
         HBox scaleOneTypeOptions = new HBox();
-        HBox scaleOneOctaveOptions = new HBox();
 
 
-        //drop down for note of first scale
-        ComboBox<String> noteScale1 = new ComboBox(noteOptions);
-        noteScale1.setPromptText("Note");
-        scaleOneNoteOptions.getChildren().add(noteScale1);
 
         //drop down for type of first scale
         ComboBox<String> typeScale1 = new ComboBox(typeOptions);
@@ -338,7 +341,7 @@ public class KeyboardPaneController {
         //HBox for the options of the optional second scale
         HBox scaleTwoNoteOptions = new HBox();
         HBox scaleTwoTypeOptions = new HBox();
-        HBox scaleTwoOctaveOptions = new HBox();
+
 
         //drop down for note of first scale
         ComboBox<String> noteScale2 = new ComboBox(noteOptions);
@@ -357,15 +360,13 @@ public class KeyboardPaneController {
         actionButtonBox.getChildren().add(cancelButton);
 
         // add drop downs and clear button to scale 1 HBox
-        scale1.getChildren().add(scaleOneNoteOptions);
+        scale1.getChildren().add(scale1NoteInput);
         scale1.getChildren().add(scaleOneTypeOptions);
-        scale1.getChildren().add(scaleOneOctaveOptions);
         scale1.getChildren().add(clearButtonScale1);
 
         // add drop downs and clear button to scale 1 HBox
-        scale2.getChildren().add(scaleTwoNoteOptions);
+        scale2.getChildren().add(scale2NoteInput);
         scale2.getChildren().add(scaleTwoTypeOptions);
-        scale2.getChildren().add(scaleTwoOctaveOptions);
         scale2.getChildren().add(clearButtonScale2);
 
 
