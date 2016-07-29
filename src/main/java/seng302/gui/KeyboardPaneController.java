@@ -371,6 +371,9 @@ public class KeyboardPaneController {
 
 
         Button cancelButton = new Button("Cancel"); //closes the pop out window without actioning
+        cancelButton.setOnAction(event->{
+            toggleDisplayScales();
+        });
 
 
         Button clearButtonScale1 = new Button("Clear"); //clears the fields of the corresponding drop down
