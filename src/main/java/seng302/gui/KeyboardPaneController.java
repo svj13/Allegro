@@ -344,9 +344,6 @@ public class KeyboardPaneController {
         //fields will fetch the scale notes
         Button okButton = new Button("OK"); //actions the fields selected and highlights corresponding keys
         okButton.setOnAction(event->{
-            System.out.println("<");
-            System.out.println(scale1NoteInput.getText());
-            System.out.println(">");
             String scale1Note =scale1NoteInput.getText();
             String scale2Note = scale2NoteInput.getText();
             if (scale1Note != null && !scale1Note.equals("")){
@@ -354,6 +351,8 @@ public class KeyboardPaneController {
                 System.out.println(scaleNotes);
             } else {
                 System.out.println("You didn't give me an input. Derp");
+                scale1NoteInput.setStyle("-fx-border-color: red;");
+
             }
         });
 
