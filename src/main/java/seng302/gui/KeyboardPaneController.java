@@ -347,7 +347,9 @@ public class KeyboardPaneController {
             System.out.println("<");
             System.out.println(scale1NoteInput.getText());
             System.out.println(">");
-            if (scale1NoteInput.getText() != null && !scale1NoteInput.getText().equals("")){
+            String scale1Note =scale1NoteInput.getText();
+            String scale2Note = scale2NoteInput.getText();
+            if (scale1Note != null && !scale1Note.equals("")){
                 ArrayList<Note> scaleNotes = fetchScaleNotes(scale1NoteInput.getText(), typeScale1.getValue());
                 System.out.println(scaleNotes);
             } else {
@@ -357,8 +359,22 @@ public class KeyboardPaneController {
 
 
         Button cancelButton = new Button("Cancel"); //closes the pop out window without actioning
+
+
         Button clearButtonScale1 = new Button("Clear"); //clears the fields of the corresponding drop down
+        clearButtonScale1.setOnAction(event->{
+            scale1NoteInput.clear();
+            typeScale1.setValue("Major");
+        });
+
+
         Button clearButtonScale2 = new Button("Clear"); //clears the fields of the corresponding drop down
+        clearButtonScale2.setOnAction(event->{
+            scale2NoteInput.clear();
+            typeScale2.setValue("Major");
+        });
+
+
 
 
 
