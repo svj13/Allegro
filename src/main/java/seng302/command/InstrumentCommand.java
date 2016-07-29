@@ -6,6 +6,7 @@ import javax.sound.midi.Instrument;
 
 import seng302.Environment;
 import seng302.MusicPlayer;
+import seng302.utility.InstrumentUtility;
 
 /**
  * InstrumentCommand command class includes logic for getting and setting the current instrument.
@@ -97,18 +98,12 @@ public class InstrumentCommand implements Command {
      * @param env The environment in which the instrument is being changed.
      */
     private void setInstrument(Environment env) {
-        Instrument[] instruments = env.getPlayer().getAvailableInstruments();
         Instrument chosenInstrument = null;
         MusicPlayer player = env.getPlayer();
         if (lookupByName) {
-            for (Instrument instrument : instruments) {
-                if (instrument.getName().equals(instrumentName)) {
-                    //use this one
-                    chosenInstrument = instrument;
-                }
-            }
+            chosenInstrument = InstrumentUtility.getInstrumentByName(instrumentName, env);
             try {
-                env.getTranscriptManager().setResult("Selected InstrumentCommand: " + chosenInstrument.getName());
+                env.getTranscriptManager().setResult("Selected Instrument: " + chosenInstrument.getName());
                 saveInstrumentEditHistory(chosenInstrument, env);
                 player.setInstrument(chosenInstrument);
             } catch (Exception e) {
@@ -117,8 +112,8 @@ public class InstrumentCommand implements Command {
         } else {
             //getting the instrument by its number
             try {
-                chosenInstrument = player.getAvailableInstruments()[instrumentId];
-                env.getTranscriptManager().setResult("Selected InstrumentCommand: " + chosenInstrument.getName());
+                chosenInstrument = InstrumentUtility.getInstrumentById(instrumentId, env);
+                env.getTranscriptManager().setResult("Selected Instrument: " + chosenInstrument.getName());
                 saveInstrumentEditHistory(chosenInstrument, env);
                 player.setInstrument(chosenInstrument);
             } catch (Exception e) {

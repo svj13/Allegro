@@ -31,9 +31,12 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
 
+import javax.sound.midi.Instrument;
+
 import javafx.scene.control.TextInputDialog;
 import seng302.Environment;
 import seng302.data.Term;
+import seng302.utility.InstrumentUtility;
 import seng302.utility.OutputTuple;
 
 public class ProjectHandler {
@@ -178,6 +181,7 @@ public class ProjectHandler {
 
         projectSettings.put("rhythm", gson.toJson(env.getPlayer().getRhythmHandler().getRhythmTimings()));
 
+        projectSettings.put("instrument", gson.toJson(env.getPlayer().getInstrument().getName()));
     }
 
 
@@ -292,6 +296,22 @@ public class ProjectHandler {
             rhythms = new int[]{12};
         }
         env.getPlayer().getRhythmHandler().setRhythmTimings(rhythms);
+
+        //Instrument
+        //Uses the default instrument to start with
+        Instrument instrument;
+        try {
+            String instrumentName = gson.fromJson((String) projectSettings.get("instrument"), String.class);
+            instrument = InstrumentUtility.getInstrumentByName(instrumentName, env);
+            if (instrument == null) {
+                // Uses the default instrument if there's a problem
+                instrument = InstrumentUtility.getDefaultInstrument(env);
+            }
+        } catch (Exception e) {
+            // Uses the default instrument if there's a problem
+            instrument = InstrumentUtility.getDefaultInstrument(env);
+        }
+        env.getPlayer().setInstrument(instrument);
 
 
         env.getTranscriptManager().unsavedChanges = false;
