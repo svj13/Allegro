@@ -302,13 +302,6 @@ public class KeyboardPaneController {
         Button clearButtonScale2 = new Button("Clear"); //clears the fields of the corresponding drop down
 
 
-        // TODO make this fetch the notes instead. Default to C
-        ObservableList<String> noteOptions =
-                FXCollections.observableArrayList(
-                        "Cb", "C", "C#", "Db", "D", "D#", "Eb", "E", "E#", "Fb", "F", "F#",
-                        "Gb", "G", "G#"
-                );
-
         //text input field so user can type in the note for the scale of interest.
         //for scale 1
         TextField scale1NoteInput = new TextField();
@@ -323,14 +316,12 @@ public class KeyboardPaneController {
         ObservableList<String> typeOptions =
                 FXCollections.observableArrayList(
                         "Major",
-                        "Minor"
+                        "Minor",
+                        "Blues"
                 );
-
 
         // HBox for the options of the first scale
         HBox scaleOneTypeOptions = new HBox();
-
-
 
         //drop down for type of first scale
         ComboBox<String> typeScale1 = new ComboBox(typeOptions);
@@ -339,14 +330,8 @@ public class KeyboardPaneController {
 
 
         //HBox for the options of the optional second scale
-        HBox scaleTwoNoteOptions = new HBox();
         HBox scaleTwoTypeOptions = new HBox();
 
-
-        //drop down for note of first scale
-        ComboBox<String> noteScale2 = new ComboBox(noteOptions);
-        noteScale2.setPromptText("Note");
-        scaleTwoNoteOptions.getChildren().add(noteScale2);
 
         //drop down for type of first scale
         ComboBox<String> typeScale2 = new ComboBox(typeOptions);
@@ -359,17 +344,15 @@ public class KeyboardPaneController {
         actionButtonBox.getChildren().add(okButton);
         actionButtonBox.getChildren().add(cancelButton);
 
-        // add drop downs and clear button to scale 1 HBox
+        // add note input field, type drop down and clear button to scale 1 HBox
         scale1.getChildren().add(scale1NoteInput);
         scale1.getChildren().add(scaleOneTypeOptions);
         scale1.getChildren().add(clearButtonScale1);
 
-        // add drop downs and clear button to scale 1 HBox
+        // add note input field, type drop down and clear button to scale 1 HBox
         scale2.getChildren().add(scale2NoteInput);
         scale2.getChildren().add(scaleTwoTypeOptions);
         scale2.getChildren().add(clearButtonScale2);
-
-
 
 
         // Add Hboxes to the display scales vbox
