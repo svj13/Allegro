@@ -308,30 +308,6 @@ public class KeyboardPaneController {
         TextField scale2NoteInput = new TextField();
         scale2NoteInput.setPrefColumnCount(3); // setting column size (user can input 3 characters)
 
-
-        /**
-         * clear, OK and cancel button. OK and cancel are going into their own HBOX. clear is going to
-         * be added to both the scale 1 and scale 2 hboxes
-         */
-
-        //binding action event to OK button so when OK is clicked, the information in the corresponding
-        //fields will fetch the scale notes
-        Button okButton = new Button("OK"); //actions the fields selected and highlights corresponding keys
-        okButton.onActionProperty().addListener(event->{
-            if (scale1NoteInput != null) {
-
-            }
-        });
-
-
-        Button cancelButton = new Button("Cancel"); //closes the pop out window without actioning
-        Button clearButtonScale1 = new Button("Clear"); //clears the fields of the corresponding drop down
-        Button clearButtonScale2 = new Button("Clear"); //clears the fields of the corresponding drop down
-
-
-
-
-
         // TODO make major default. add the rest of the scale options
         ObservableList<String> typeOptions =
                 FXCollections.observableArrayList(
@@ -357,6 +333,27 @@ public class KeyboardPaneController {
         ComboBox<String> typeScale2 = new ComboBox(typeOptions);
         typeScale2.setValue("Major"); //setting major as the default value
         scaleTwoTypeOptions.getChildren().add(typeScale2);
+        /**
+         * clear, OK and cancel button. OK and cancel are going into their own HBOX. clear is going to
+         * be added to both the scale 1 and scale 2 hboxes
+         */
+
+        //binding action event to OK button so when OK is clicked, the information in the corresponding
+        //fields will fetch the scale notes
+        Button okButton = new Button("OK"); //actions the fields selected and highlights corresponding keys
+        okButton.onActionProperty().addListener(event->{
+            if (scale1NoteInput.getText() != null) {
+                ArrayList<Note> scaleNotes = fetchScaleNotes(scale1NoteInput.getText(), typeScale1.getValue());
+                System.out.println(scaleNotes);
+
+            }
+        });
+
+
+        Button cancelButton = new Button("Cancel"); //closes the pop out window without actioning
+        Button clearButtonScale1 = new Button("Clear"); //clears the fields of the corresponding drop down
+        Button clearButtonScale2 = new Button("Clear"); //clears the fields of the corresponding drop down
+
 
 
         //HBox for the OK and Cancel button
@@ -400,7 +397,9 @@ public class KeyboardPaneController {
     private ArrayList<Note> fetchScaleNotes(String scaleNote, String scaleType) {
         Note scaleStartNote = Note.lookup(scaleNote);
         ArrayList<Note> scaleNotes = scaleStartNote.getScale(scaleType, true);
+        System.out.println(scaleNotes);
         return scaleNotes;
+
 
 
     }
