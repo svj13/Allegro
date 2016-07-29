@@ -348,6 +348,7 @@ public class KeyboardPaneController {
             String scale2Note = scale2NoteInput.getText();
             if (scale1Note != null && !scale1Note.equals("")){
                 ArrayList<Note> scaleNotes = fetchScaleNotes(scale1NoteInput.getText(), typeScale1.getValue());
+                scale1NoteInput.setStyle("-fx-border-color: lightgray;");
                 System.out.println(scaleNotes);
             } else {
                 System.out.println("You didn't give me an input. Derp");
