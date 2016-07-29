@@ -210,7 +210,12 @@ public class Scale implements Command {
         ArrayList<String> scale = new ArrayList<>();
         char currentLetter = Character.toUpperCase(startNote.charAt(0));
         for (Note note : scaleNotes) {
-            String currentNote = note.getEnharmonicWithLetter(currentLetter);
+            String currentNote;
+            if (scaleNotes.size() > 7) {
+                currentNote = note.getEnharmonicWithLetter(currentLetter);
+            } else {
+                currentNote = note.getDescendingEnharmonic();
+            }
             if (OctaveUtil.octaveSpecifierFlag(startNote)) {
                 scale.add(currentNote);
             } else {
