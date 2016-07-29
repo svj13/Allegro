@@ -346,13 +346,25 @@ public class KeyboardPaneController {
         okButton.setOnAction(event->{
             String scale1Note =scale1NoteInput.getText();
             String scale2Note = scale2NoteInput.getText();
-            if (scale1Note != null && !scale1Note.equals("")){
-                ArrayList<Note> scaleNotes = fetchScaleNotes(scale1NoteInput.getText(), typeScale1.getValue());
+            //if scale 2 is filled out but not scale 1
+            if (scale2Note != null && scale1Note==null | scale1Note.equals("")) {
+                System.out.println("You filled out scale 2 but not scale 1");
+                scale1NoteInput.setStyle("-fx-border-color: red;");
+            //if scale 1 is filled out
+            } else if (scale1Note != null && !scale1Note.equals("")){
+                ArrayList<Note> scale1Notes = fetchScaleNotes(scale1NoteInput.getText(), typeScale1.getValue());
                 scale1NoteInput.setStyle("-fx-border-color: lightgray;");
-                System.out.println(scaleNotes);
+                System.out.println(scale1Notes);
+                if (scale2Note != null && !scale2Note.equals("")) {
+                    ArrayList<Note> scale2Notes = fetchScaleNotes(scale2NoteInput.getText(), typeScale2.getValue());
+                    scale2NoteInput.setStyle("-fx-border-color: lightgray;");
+                    System.out.println(scale2Notes);
+                }
+            //if the fields are left blank
             } else {
                 System.out.println("You didn't give me an input. Derp");
                 scale1NoteInput.setStyle("-fx-border-color: red;");
+                scale2NoteInput.setStyle("-fx-border-color: red;");
 
             }
         });
@@ -365,6 +377,7 @@ public class KeyboardPaneController {
         clearButtonScale1.setOnAction(event->{
             scale1NoteInput.clear();
             typeScale1.setValue("Major");
+            scale1NoteInput.setStyle("-fx-border-color: lightgray;");
         });
 
 
@@ -372,6 +385,7 @@ public class KeyboardPaneController {
         clearButtonScale2.setOnAction(event->{
             scale2NoteInput.clear();
             typeScale2.setValue("Major");
+            scale2NoteInput.setStyle("-fx-border-color: lightgray;");
         });
 
 
