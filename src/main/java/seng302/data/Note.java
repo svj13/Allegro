@@ -234,7 +234,7 @@ public class Note {
      * Finds the note x semitones higher.
      *
      * @param semitones The number of semitones to increase by
-     * @return the Note object one semitone higher than the current note.
+     * @return the Note object x semitones higher than the current note.
      */
     public Note semitoneUp(int semitones) {
         return Note.lookup(Integer.toString(this.getMidi() + semitones));
@@ -244,7 +244,7 @@ public class Note {
      * Finds the note x semitones lower.
      *
      * @param semitones The number of semitones to decrease by
-     * @return the Note object one semitone lower than the current note.
+     * @return the Note object x semitones lower than the current note.
      */
     public Note semitoneDown(int semitones) {
         return Note.lookup(Integer.toString(this.getMidi() - semitones));
@@ -276,7 +276,10 @@ public class Note {
      * null.
      */
     public ArrayList<Note> getOctaveScale(String type, int octaves, boolean up) {
-        ArrayList<Note> scaleNotes = new ArrayList<Note>();
+        ArrayList<Note> scaleNotes = new ArrayList<>();
+        List<Integer> semitones;
+        Note currentNote = this;
+        scaleNotes.add(currentNote);
         if (up) {
             if (type.toLowerCase().equals("major")) {
                 Note currentNote = this;
@@ -327,95 +330,42 @@ public class Note {
                 if (scaleNotes.contains(null)) {
                     return null;
                 }
-            } else if (type.toLowerCase().equals("blues")) {
-                Note currentNote = this;
-                char currentLetter = (currentNote.getNote().charAt(0));
-                scaleNotes.add(currentNote);
-                for (int i = 0; i < octaves; i++) {
-                    scaleNotes.add(currentNote.semitoneUp(3));
-                    scaleNotes.add(currentNote.semitoneUp(5));
-                    scaleNotes.add(currentNote.semitoneUp(6));
-                    scaleNotes.add(currentNote.semitoneUp(7));
-                    scaleNotes.add(currentNote.semitoneUp(10));
-                    scaleNotes.add(Note.lookup(currentNote.semitoneUp(12).getEnharmonicWithLetter(currentLetter)));
-                    currentNote = currentNote.semitoneUp(12);
-                }
-//                for (int i = 0; i < 7; i++) {
-//                    System.out.println(scaleNotes.get(i).getNote());
-//                }
-                if (scaleNotes.contains(null)) {
-                    return null;
-                }
             } else {
                 throw new IllegalArgumentException("Invalid scale type: '" + type + "'.");
             }
-        } else { // the scale is played 'down'
-            if (type.toLowerCase().equals("major")) {
-                Note currentNote = this;
-                scaleNotes.add(currentNote);
-                for (int i = 0; i < octaves; i++) {
-                    scaleNotes.add(currentNote.semitoneDown(1));
-                    scaleNotes.add(currentNote.semitoneDown(3));
-                    scaleNotes.add(currentNote.semitoneDown(5));
-                    scaleNotes.add(currentNote.semitoneDown(7));
-                    scaleNotes.add(currentNote.semitoneDown(8));
-                    scaleNotes.add(currentNote.semitoneDown(10));
-                    scaleNotes.add(currentNote.semitoneDown(12));
-                    currentNote = currentNote.semitoneDown(12);
-                }
-                if (scaleNotes.contains(null)) {
-                    return null;
-                }
-            } else if (type.toLowerCase().equals("minor")) {
-                Note currentNote = this;
-                scaleNotes.add(currentNote);
-                for (int i = 0; i < octaves; i++) {
-                    scaleNotes.add(currentNote.semitoneDown(2));
-                    scaleNotes.add(currentNote.semitoneDown(4));
-                    scaleNotes.add(currentNote.semitoneDown(5));
-                    scaleNotes.add(currentNote.semitoneDown(7));
-                    scaleNotes.add(currentNote.semitoneDown(9));
-                    scaleNotes.add(currentNote.semitoneDown(10));
-                    scaleNotes.add(currentNote.semitoneDown(12));
-                    currentNote = currentNote.semitoneDown(12);
-                }
-                if (scaleNotes.contains(null)) {
-                    return null;
-                }
-            } else if (type.toLowerCase().equals("melodic minor")) {
-                Note currentNote = this;
-                scaleNotes.add(currentNote);
-                for (int i = 0; i < octaves; i++) {
-                    scaleNotes.add(currentNote.semitoneDown(2));
-                    scaleNotes.add(currentNote.semitoneDown(4));
-                    scaleNotes.add(currentNote.semitoneDown(5));
-                    scaleNotes.add(currentNote.semitoneDown(7));
-                    scaleNotes.add(currentNote.semitoneDown(9));
-                    scaleNotes.add(currentNote.semitoneDown(10));
-                    scaleNotes.add(currentNote.semitoneDown(12));
-                    currentNote = currentNote.semitoneDown(12);
-                }
-                if (scaleNotes.contains(null)) {
-                    return null;
-                }
-            } else if (type.toLowerCase().equals("blues")) {
-                Note currentNote = this;
-                scaleNotes.add(currentNote);
-                for (int i = 0; i < octaves; i++) {
-                    scaleNotes.add(currentNote.semitoneDown(2));
-                    scaleNotes.add(currentNote.semitoneDown(5));
-                    scaleNotes.add(currentNote.semitoneDown(6));
-                    scaleNotes.add(currentNote.semitoneDown(7));
-                    scaleNotes.add(currentNote.semitoneDown(9));
-                    scaleNotes.add(currentNote.semitoneDown(12));
-                    currentNote = currentNote.semitoneDown(12);
-                }
-                if (scaleNotes.contains(null)) {
-                    return null;
-                }
+            for (int i = 0; i < octaves; i++) {
+                scaleNotes.add(currentNote.semitoneUp(semitones.get(0)));
+                scaleNotes.add(currentNote.semitoneUp(semitones.get(1)));
+                scaleNotes.add(currentNote.semitoneUp(semitones.get(2)));
+                scaleNotes.add(currentNote.semitoneUp(semitones.get(3)));
+                scaleNotes.add(currentNote.semitoneUp(semitones.get(4)));
+                scaleNotes.add(currentNote.semitoneUp(semitones.get(5)));
+                scaleNotes.add(currentNote.semitoneUp(semitones.get(6)));
+                currentNote = currentNote.semitoneUp(semitones.get(6));
+            }
+        } else {
+            if (type.equalsIgnoreCase("major")) {
+                semitones = Arrays.asList(1, 3, 5, 7, 8, 10, 12);
+            } else if (type.equalsIgnoreCase("minor")) {
+                semitones = Arrays.asList(2, 4, 5, 7, 9, 10, 12);
+            } else if (type.equalsIgnoreCase("melodic minor")) {
+                semitones = Arrays.asList(2, 4, 5, 7, 9, 10, 12);
             } else {
                 throw new IllegalArgumentException("Invalid scale type: '" + type + "'.");
             }
+            for (int i = 0; i < octaves; i++) {
+                scaleNotes.add(currentNote.semitoneDown(semitones.get(0)));
+                scaleNotes.add(currentNote.semitoneDown(semitones.get(1)));
+                scaleNotes.add(currentNote.semitoneDown(semitones.get(2)));
+                scaleNotes.add(currentNote.semitoneDown(semitones.get(3)));
+                scaleNotes.add(currentNote.semitoneDown(semitones.get(4)));
+                scaleNotes.add(currentNote.semitoneDown(semitones.get(5)));
+                scaleNotes.add(currentNote.semitoneDown(semitones.get(6)));
+                currentNote = currentNote.semitoneDown(semitones.get(6));
+            }
+        }
+        if (scaleNotes.contains(null)) {
+            return null;
         }
         return scaleNotes;
     }
@@ -447,7 +397,13 @@ public class Note {
         return allEnharmonics;
     }
 
-
+    /**
+     * Returns the note name for the current note that uses the given letter. If there is no
+     * enharmonic using that letter for the current note it will return null.
+     *
+     * @param letter The letter to include in note name.
+     * @return Note name using the given letter.
+     */
     public String getEnharmonicWithLetter(char letter) {
         for (String value : enharmonics.values()) {
             if (value.startsWith(String.valueOf(letter))) {

@@ -1,7 +1,6 @@
 package seng302.command;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import seng302.Environment;
 import seng302.data.Note;
@@ -37,46 +36,38 @@ public class ChordFinder implements Command {
         this.midiNotes = toMidiSet(notes, true);
 
 
-
         //Find all enharmonically equivalent permutations of the chord.
 
-        //char startLetter = ChordUtil.nextChordLetterChar()
-        if(all){
+        if (all) {
             for (int i = 0; i < midiNotes.size(); i++) {
 
-                //if (findChord(midi)) return;
                 enharmonicLetter = notes.get(i).getNote().charAt(0);
                 findChord(midiNotes.get(i));
 
 
             }
-        }
-        else{
+        } else {
             for (int i = 0; i < midiNotes.size(); i++) {
 
                 enharmonicLetter = notes.get(i).getNote().charAt(0);
-                if(findChord(midiNotes.get(i))) return; //Stop after first chord found
+                if (findChord(midiNotes.get(i))) return; //Stop after first chord found
 
 
             }
         }
 
-
-
-
-        if(this.result == "") this.result = "No chords found for given notes.";
-
+        if (this.result == "") this.result = "No chords found for given notes.";
 
     }
 
     /**
      * Helper function which checks if global notes array is a major/minor chord of the specified
      * midi note. This function is dependant of global variables midiNotes and all specifier, which,
-     * if true, will find all permutatations for the given chord.
+     * if true, will find all permutations for the given chord.
      *
      * @param midiNote Note (midi value) to find a chord for. e.g. 60(C4) will get the major/minor
      *                 chord for C
-     * @return ..sds
+     * @return A boolean indicating whether a chord has been found for the given notes.
      */
     private Boolean findChord(int midiNote) {
         ArrayList<Integer> majorChord = ChordUtil.getChordMidi(midiNote, "major");
@@ -108,7 +99,7 @@ public class ChordFinder implements Command {
         if (all) {
 
 
-            if(midiNotes.size() == 3){
+            if (midiNotes.size() == 3) {
                 if (minorChord != null && minorChord.containsAll(midiNotes)) {
                     if (this.all) {
                         //Add all notes to result string.
@@ -119,14 +110,13 @@ public class ChordFinder implements Command {
 
                     this.result = "" + ChordUtil.getChordName(majorChord, false, enharmonicLetter);
                     return true;
-                } else if (diminishedChord != null && diminishedChord.containsAll(this.midiNotes)){
+                } else if (diminishedChord != null && diminishedChord.containsAll(this.midiNotes)) {
 
                     this.result = "" + ChordUtil.getChordName(diminishedChord, false, enharmonicLetter);
 
                     return true;
                 }
-            }
-            else if(midiNotes.size() == 4){
+            } else if (midiNotes.size() == 4) {
                 if (majorSeventhChord != null && majorSeventhChord.containsAll(this.midiNotes)) {
 
                     this.result = "" + ChordUtil.getChordName(majorSeventhChord, false, enharmonicLetter);
@@ -148,8 +138,8 @@ public class ChordFinder implements Command {
 
                     return true;
                 } else if (diminishedSeventhChord != null && diminishedSeventhChord.containsAll(this.midiNotes)) {
-                    if(this.result != "") this.result += " : ";
-                    this.result +=  ChordUtil.getChordName(diminishedSeventhChord, false, enharmonicLetter);
+                    if (this.result != "") this.result += " : ";
+                    this.result += ChordUtil.getChordName(diminishedSeventhChord, false, enharmonicLetter);
 
                     return true;
                 }
@@ -157,7 +147,7 @@ public class ChordFinder implements Command {
 
         } else {
 
-            if(midiNotes.size() == 3){
+            if (midiNotes.size() == 3) {
 
                 if (minorChord != null && minorChord.equals(this.midiNotes)) {
                     this.result = "" + ChordUtil.getChordName(minorChord, false, enharmonicLetter);
@@ -174,8 +164,7 @@ public class ChordFinder implements Command {
 
                     return true;
                 }
-            }
-            else if(midiNotes.size() == 4){
+            } else if (midiNotes.size() == 4) {
                 if (majorSeventhChord != null && majorSeventhChord.equals(this.midiNotes)) {
 
                     this.result = "" + ChordUtil.getChordName(majorSeventhChord, false, enharmonicLetter);
@@ -183,7 +172,7 @@ public class ChordFinder implements Command {
                     return true;
                 } else if (minorSeventhChord != null && minorSeventhChord.equals(this.midiNotes)) {
 
-                    this.result = "" + ChordUtil.getChordName(minorSeventhChord, false,enharmonicLetter);
+                    this.result = "" + ChordUtil.getChordName(minorSeventhChord, false, enharmonicLetter);
 
                     return true;
                 } else if (seventhChord != null && seventhChord.equals(this.midiNotes)) {
@@ -193,12 +182,12 @@ public class ChordFinder implements Command {
                     return true;
                 } else if (halfDiminishedChord != null && halfDiminishedChord.equals(this.midiNotes)) {
 
-                    this.result = "" + ChordUtil.getChordName(halfDiminishedChord, false,enharmonicLetter);
+                    this.result = "" + ChordUtil.getChordName(halfDiminishedChord, false, enharmonicLetter);
 
                     return true;
                 } else if (diminishedSeventhChord != null && diminishedSeventhChord.equals(this.midiNotes)) {
 
-                    this.result = "" + ChordUtil.getChordName(diminishedSeventhChord, false,enharmonicLetter);
+                    this.result = "" + ChordUtil.getChordName(diminishedSeventhChord, false, enharmonicLetter);
 
                     return true;
                 }

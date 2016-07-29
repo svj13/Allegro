@@ -97,7 +97,6 @@ WhiteSpace = \p{Whitespace}
 Number = \p{Digit}
 Note = [A-G|a-g]([#|b|x]|(bb))?[0-8]?|[A|B|D|E|F|G|a|b|d|e|f|g]([#|b|x]|(bb))?("-1")?|[C-F|c-f]([#|b|x]|(bb))?[9]?|[C|c][#|x]?(-1)?|[G|g](b|bb)?[9]?
 MidiNote = (0?[0-9]?[0-9]|1[01][0-9]|12[0-7])
-noteTrio = ({Note} {Note} {Note})
 Atom = [^\s|;]+
 SemiColon = ";"
 ScaleType = "major"|"minor"|"melodic minor"|"mel minor"|"blues"
@@ -111,6 +110,7 @@ Interval = "unison"|(major\s(second|2nd|third|3rd|sixth|6th|ninth|9th|tenth|10th
 RhythmType = (([0-9]+\/[0-9]+)(([ ][0-9]+\/[0-9]+)+)*)|"straight"|"medium"|"heavy"|"light"
 
 SharpsFlats = ([1-7](#|b))|0#b|0b#
+RomanNumerals = (I|II|III|IV|V|VI|VII)
 
 %%
 
@@ -143,7 +143,6 @@ SharpsFlats = ([1-7](#|b))|0#b|0b#
     "play interval"     {return symbol(DslSymbol.COMMAND_PLAY_INTERVAL); }
     "play"             { return symbol(DslSymbol.COMMAND_PLAY_NOTE);    }
     {InversionSpecifier} {return symbol(DslSymbol.INVERSION_SPECIFIER, new String(yytext()));}
-
     "interval"          {return symbol(DslSymbol.COMMAND_INTERVAL); }
     "crotchet duration"    { return symbol(DslSymbol.COMMAND_CROTCHET_DURATION); }
     "meaning of"       { return symbol(DslSymbol.COMMAND_MUSICAL_TERM_MEANING); }
@@ -162,10 +161,14 @@ SharpsFlats = ([1-7](#|b))|0#b|0b#
     "scale sig num"     {return symbol(DslSymbol.COMMAND_SHOW_KEYSIGNATURE_NUM);}
     "scale signature with" {return symbol(DslSymbol.COMMAND_SCALE_WITH_KEYSIG);}
     "scale sig with"    {return symbol(DslSymbol.COMMAND_SCALE_WITH_KEYSIG); }
+    "quality of"        {return symbol(DslSymbol.COMMAND_QUALITY_OF);}
+    "chord function"    {return symbol(DslSymbol.COMMAND_CHORD_FUNCTION);}
+    "function of"       {return symbol(DslSymbol.COMMAND_FUNCTION_OF);}
+    {RomanNumerals}     {return symbol(DslSymbol.ROMAN_NUMERALS, new String(yytext()));}
     {SharpsFlats}       {return symbol(DslSymbol.SHARPSFLATS, new String(yytext()));}
     {PlayStyle}         {return symbol(DslSymbol.PLAY_STYLE, new String(yytext())); }
     {Note}              {return symbol(DslSymbol.NOTE, new String(yytext())); }
-    {Number}           { return symbol(DslSymbol.NUMBER, new String(yytext())); }
+    {Number}            {return symbol(DslSymbol.NUMBER, new String(yytext())); }
     {MidiNote}          {return symbol(DslSymbol.MIDINOTE, new String(yytext())); }
     {ScaleType}         {return symbol(DslSymbol.SCALE_TYPE, new String(yytext()));}
     {ChordType}         {return symbol(DslSymbol.CHORD_TYPE, new String(yytext()));}
