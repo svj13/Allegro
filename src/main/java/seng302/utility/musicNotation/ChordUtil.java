@@ -1,7 +1,11 @@
 package seng302.utility.musicNotation;
 
+import org.apache.commons.collections4.BidiMap;
+import org.apache.commons.collections4.bidimap.DualHashBidiMap;
+
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import seng302.data.Note;
 
@@ -9,6 +13,25 @@ import seng302.data.Note;
  * Created by Jonty on 24-May-16.
  */
 public class ChordUtil {
+    private static final Map<String, String> chordFunctionQuality = new HashMap<String, String>() {{
+        put("I", "major 7th");
+        put("II", "minor 7th");
+        put("III", "minor 7th");
+        put("IV", "major 7th");
+        put("V", "7th");
+        put("VI", "minor 7th");
+        put("VII", "half-diminished 7th");
+    }};
+
+    private static final BidiMap<String, Integer> roman = new DualHashBidiMap<String, Integer>() {{
+        put("I", 1);
+        put("II", 2);
+        put("III", 3);
+        put("IV", 4);
+        put("V", 5);
+        put("VI", 6);
+        put("VII", 7);
+    }};
 
 
 
@@ -275,100 +298,77 @@ public class ChordUtil {
      * @return ArrayList of Notes corresponding to the chord.
      */
     public static ArrayList<Integer> getChordMidi(int midi, String type) {
-        ArrayList<Integer> chordNotes = new ArrayList<Integer>();
-        Note currentNote = Note.lookup(String.valueOf(midi));
-        if (type.toLowerCase().equals("major")) {
-
-            chordNotes.add(currentNote.getMidi());
-            chordNotes.add(currentNote.semitoneUp(4).getMidi());
-            chordNotes.add(currentNote.semitoneUp(7).getMidi());
-            if (chordNotes.contains(null)) {
-                return null;
+        ArrayList<Integer> chordMidiNotes = new ArrayList<Integer>();
+        ArrayList<Note> chordNotes = ChordUtil.getChord(Note.lookup(String.valueOf(midi)), type);
+        try {
+            for (Note note : chordNotes) {
+                chordMidiNotes.add(note.getMidi());
             }
-
-
-        } else if (type.toLowerCase().equals("minor")) {
-
-            chordNotes.add(currentNote.getMidi());
-            chordNotes.add(currentNote.semitoneUp(3).getMidi());
-            chordNotes.add(currentNote.semitoneUp(7).getMidi());
-            if (chordNotes.contains(null)) {
-                return null;
-            }
-            //for minor 7th chords (4 note chords)
-        } else if (type.toLowerCase().equals("minor 7th") ||
-                type.toLowerCase().equals("minor seventh")) {
-            chordNotes.add(currentNote.getMidi());
-            chordNotes.add(currentNote.semitoneUp(3).getMidi());
-            chordNotes.add(currentNote.semitoneUp(7).getMidi());
-            chordNotes.add(currentNote.semitoneUp(10).getMidi());
-            if (chordNotes.contains(null)) {
-                return null;
-            }
-
-            //for major 7th chords (4 note chords)
-        } else if (type.toLowerCase().equals("major 7th") ||
-                type.toLowerCase().equals("major seventh")) {
-            chordNotes.add(currentNote.getMidi());
-            chordNotes.add(currentNote.semitoneUp(4).getMidi());
-            chordNotes.add(currentNote.semitoneUp(7).getMidi());
-            chordNotes.add(currentNote.semitoneUp(11).getMidi());
-            if (chordNotes.contains(null)) {
-                return null;
-            }
-
-            //for 7th chords (4-note chords)
-        } else if (type.toLowerCase().equals("seventh") ||
-                type.toLowerCase().equals("7th") ||
-                type.toLowerCase().equals("7") ||
-                type.toLowerCase().equals("seven")) {
-            chordNotes.add(currentNote.getMidi());
-            chordNotes.add(currentNote.semitoneUp(4).getMidi());
-            chordNotes.add(currentNote.semitoneUp(7).getMidi());
-            chordNotes.add(currentNote.semitoneUp(10).getMidi());
-            if (chordNotes.contains(null)) {
-                return null;
-            }
-            //for half diminished chords (triad)
-        } else if (type.toLowerCase().equals("diminished") ||
-                type.toLowerCase().equals("dim")) {
-            chordNotes.add(currentNote.getMidi());
-            chordNotes.add(currentNote.semitoneUp(3).getMidi());
-            chordNotes.add(currentNote.semitoneUp(6).getMidi());
-            if (chordNotes.contains(null)) {
-                return null;
-            }
-            //for half diminished chords (4 note chords)
-        } else if (type.toLowerCase().equals("half diminished seventh") ||
-                type.toLowerCase().equals("half dim seventh") ||
-                type.toLowerCase().equals("half dim 7th") ||
-                type.toLowerCase().equals("half diminished 7th") ||
-                type.toLowerCase().equals("half dim") ||
-                type.toLowerCase().equals("half diminished")) {
-            chordNotes.add(currentNote.getMidi());
-            chordNotes.add(currentNote.semitoneUp(3).getMidi());
-            chordNotes.add(currentNote.semitoneUp(6).getMidi());
-            chordNotes.add(currentNote.semitoneUp(10).getMidi());
-            if (chordNotes.contains(null)) {
-                return null;
-            }
-            //for diminished chords (4 chords)
-        } else if (type.toLowerCase().equals("diminished seventh") ||
-                type.toLowerCase().equals("dim seventh") ||
-                type.toLowerCase().equals("dim 7th") ||
-                type.toLowerCase().equals("diminished 7th")) {
-            chordNotes.add(currentNote.getMidi());
-            chordNotes.add(currentNote.semitoneUp(3).getMidi());
-            chordNotes.add(currentNote.semitoneUp(6).getMidi());
-            chordNotes.add(currentNote.semitoneUp(9).getMidi());
-            if (chordNotes.contains(null)) {
-                return null;
-            }
-            //if the string does not match a chord type
-        } else {
-            throw new IllegalArgumentException("Invalid chord type: '" + type + "'.");
+        } catch (NullPointerException e) {
+            return null;
         }
-        return chordNotes;
+        return chordMidiNotes;
+    }
+
+    /**
+     * Returns the diatonic chord quality when given a chord function (roman numeral)
+     *
+     * @param romanNumeral from I to VII
+     * @return the chord quality
+     */
+    public static String getDiatonicChordQuality(String romanNumeral) {
+        return chordFunctionQuality.get(romanNumeral.toUpperCase());
+    }
+
+    /**
+     * Finds the name of the chord function when given a scale and function. Basically it gets the
+     * scale and finds the note that is (romanNumeral) above the starting note of the scale. Then it
+     * finds the quality of the scale and adds that to the end.
+     *
+     * @param romanNumeral the function of the chord
+     * @param startingNote the scale starting note
+     * @param scaleType    the scale type of the scale
+     * @return the chord function
+     */
+    public static String getChordFunction(String romanNumeral, String startingNote, String scaleType) {
+        ArrayList<Note> scale = Note.lookup(startingNote + "4").getOctaveScale(scaleType, 1, true);
+        Integer notesUp = romanNumeralToInteger(romanNumeral) - 1;
+        Note key = scale.get(notesUp);
+        char enharmonicLetter = lettersUp(startingNote, notesUp);
+        return OctaveUtil.removeOctaveSpecifier(key.getEnharmonicWithLetter(enharmonicLetter)) +
+                " " + getDiatonicChordQuality(romanNumeral);
+    }
+
+    /**
+     * Converts the given string of a roman numeral to an integer.
+     *
+     * @return the integer value of the roman numeral
+     */
+    public static Integer romanNumeralToInteger(String romanNumeral) {
+        return roman.get(romanNumeral.toUpperCase());
+    }
+
+    /**
+     * Converts the given integer into a roman numeral.
+     *
+     * @return the string roman numeral
+     */
+    public static String integerToRomanNumeral(Integer number) {
+        return roman.inverseBidiMap().get(number);
+    }
+
+    /**
+     * This function finds the letter name for the note that is a certain number of notesUp.
+     *
+     * @param startingNote The note the scale begins on.
+     * @param notesUp      the number of letters to go up.
+     * @return the letter that the note should be named.
+     */
+    public static char lettersUp(String startingNote, Integer notesUp) {
+        char letter = startingNote.toUpperCase().charAt(0);
+        int index = "ABCDEFG".indexOf(letter);
+        index = (index + notesUp) % 7;
+        return "ABCDEFG".charAt(index);
     }
 
 
