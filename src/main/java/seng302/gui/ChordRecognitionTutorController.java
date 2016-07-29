@@ -343,9 +343,9 @@ public class ChordRecognitionTutorController extends TutorController {
                         "This gives a score of %.2f percent.",
                 manager.questions, manager.skipped,
                 manager.correct, manager.incorrect, userScore);
-        if (projectHandler.currentProjectPath != null) {
+        if (projectHandler.getCurrentProject() != null) {
             tutorHandler.saveSessionStat("chord", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
-            projectHandler.saveCurrentProject();
+            projectHandler.getCurrentProject().saveCurrentProject();
             outputText += "\nSession auto saved.";
         }
         env.getRootController().setTabTitle("chordTutor", false);

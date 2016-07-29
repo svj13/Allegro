@@ -252,9 +252,9 @@ public class ScaleRecognitionTutorController extends TutorController {
                 manager.questions, manager.skipped,
                 manager.correct, manager.incorrect, userScore);
 
-        if (projectHandler.currentProjectPath != null) {
+        if (projectHandler.getCurrentProject() != null) {
             tutorHandler.saveSessionStat("scale", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
-            projectHandler.saveCurrentProject();
+            projectHandler.getCurrentProject().saveCurrentProject();
             outputText += "\nSession auto saved";
         }
         env.getRootController().setTabTitle("scaleTutor", false);

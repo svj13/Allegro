@@ -617,7 +617,7 @@ public class KeySignaturesTutorController extends TutorController {
                             options.getValue(),
                             String.valueOf(isCorrect)
                     };
-                    projectHandler.saveTutorRecords("keySignature", record.addQuestionAnswer(recordQuestion));
+                    tutorHandler.saveTutorRecords("keySignature", record.addQuestionAnswer(recordQuestion));
                     env.getRootController().setTabTitle("keySignatureTutor", true);
                     // Shows the correct answer
                     if (manager.answered == manager.questions) {
@@ -1163,9 +1163,9 @@ public class KeySignaturesTutorController extends TutorController {
                         "This gives a score of %.2f percent.",
                 manager.questions, manager.skipped,
                 manager.correct, manager.incorrect, userScore);
-        if (projectHandler.currentProjectPath != null) {
+        if (projectHandler.getCurrentProject() != null) {
             tutorHandler.saveSessionStat("keySignature", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
-            projectHandler.saveCurrentProject();
+            projectHandler.getCurrentProject().saveCurrentProject();
             outputText += "\nSession auto saved.";
         }
         env.getRootController().setTabTitle("keySignatureTutor", false);

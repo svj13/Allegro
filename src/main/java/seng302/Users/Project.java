@@ -37,54 +37,14 @@ import seng302.data.Term;
 import seng302.utility.OutputTuple;
 
 public class Project {
-    //private String[] propertyNames = {"tempo"};
 
     JSONObject projectSettings;
 
-
-
-//    JSONObject overalPitchObject;
-//    JSONObject overalPitchSessionObject;
-//    Collection<JSONObject> pitchTutorRecordsList = new ArrayList<JSONObject>();
-//    String pitchTutorRecordStats = "";
-//
-//    JSONObject overalIntervalObject;
-//    JSONObject overalIntervalSessionObject;
-//    Collection<JSONObject> intervalTutorRecordsList = new ArrayList<JSONObject>();
-//    String intervalTutorRecordStats = "";
-//
-//    JSONObject overalMusicalTermObject;
-//    JSONObject overalMusicalTermSessionObject;
-//    Collection<JSONObject> musicalTermTutorRecordsList = new ArrayList<JSONObject>();
-//    String musicalTermTutorRecordStats = "";
-//
-//    JSONObject overalScaleObject;
-//    JSONObject overalScaleSessionObject;
-//    Collection<JSONObject> scaleTutorRecordsList = new ArrayList<JSONObject>();
-//    String scaleTutorRecordStats = "";
-//
-//    JSONObject overalChordObject;
-//    JSONObject overalChordSessionObject;
-//    Collection<JSONObject> chordTutorRecordsList = new ArrayList<JSONObject>();
-//    String chordTutorRecordStats = "";
-//
-//    JSONObject overallSpellingObject;
-//    JSONObject overallSpellingSessionObject;
-//    Collection<JSONObject> spellingTutorRecordsList = new ArrayList<>();
-//    String spellingTutorRecordStats = "";
-//
-//
-//    JSONObject intervalTutorRecords;
-//    JSONObject musicalTermsTutorRecords;
-//    JSONObject scaleTutorRecords;
-//    JSONObject chordTutorRecords;
-//    JSONObject spellingTutorRecords;
-
     JSONParser parser = new JSONParser(); //parser for reading project
 
-    JSONArray projectList;
 
-    JSONObject projectsInfo = new JSONObject();
+
+    ProjectHandler projectHandler;
 
     Path userDirectory = Paths.get("UserData"); //Default user path for now, before user compatibility is set up.
     public String currentProjectPath, projectName;
@@ -94,79 +54,68 @@ public class Project {
     Environment env;
     public TutorHandler tutorHandler;
 
-    public Project(Environment env, String projectName) {
+    public Project(Environment env, String projectName, ProjectHandler projectH) {
 
         projectSettings = new JSONObject();
         tutorHandler = new TutorHandler(env);
-//        //pitchTutorRecords = new JSONObject();
-//        intervalTutorRecords = new JSONObject();
-//        musicalTermsTutorRecords = new JSONObject();
-//        scaleTutorRecords = new JSONObject();
-//        chordTutorRecords = new JSONObject();
-//        spellingTutorRecords = new JSONObject();
+        projectHandler = projectH;
+
+
+
+//        /**
+//         * Should this not be in the project handler?????????????????????????????????????????????????????????????
+//         * ?????????????????????????????????????????????????????????????????
+//         * ??????????????????????????????????/////
+//         * ?????????????????????????/
+//         * ??????????????????????????????????????????????????????????????????????????????
+//         */
+//        this.env = env;
+//        try {
+//            this.projectsInfo = (JSONObject) parser.parse(new FileReader(userDirectory + "/projects.json"));
+//            this.projectList = (JSONArray) projectsInfo.get("projects");
 //
-//        overalPitchObject = new JSONObject();
-//        overalPitchSessionObject = new JSONObject();
+//        } catch (FileNotFoundException e) {
+//            try {
+//                System.err.println("projects.json Does not exist! - Creating new one");
+//                projectList = new JSONArray();
 //
-//        overalIntervalObject = new JSONObject();
-//        overalIntervalSessionObject = new JSONObject();
 //
-//        overalMusicalTermObject = new JSONObject();
-//        overalMusicalTermSessionObject = new JSONObject();
+//                projectsInfo.put("projects", projectList);
 //
-//        overalScaleObject = new JSONObject();
-//        overalScaleSessionObject = new JSONObject();
+//                if (!Files.isDirectory(userDirectory)) {
+//                    //Create Projects path doesn't exist.
+//                    try {
+//                        Files.createDirectories(userDirectory);
 //
-//        overalChordObject = new JSONObject();
-//        overalChordSessionObject = new JSONObject();
 //
-//        overallSpellingObject = new JSONObject();
-//        overallSpellingSessionObject = new JSONObject();
+//                    } catch (IOException eIO3) {
+//                        //Failed to create the directory.
+//                        System.err.println("Well UserData directory failed to create.. lost cause.");
+//                    }
+//                }
+//
+//                FileWriter file = new FileWriter(userDirectory + "/projects.json");
+//                file.write(projectsInfo.toJSONString());
+//                file.flush();
+//                file.close();
+//
+//            } catch (IOException e2) {
+//                System.err.println("Failed to create projects.json file.");
+//
+//            }
+//
+//
+//        } catch (IOException e) {
+//            //e.printStackTrace();
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+
+    }
 
 
-
-        this.env = env;
-        try {
-            this.projectsInfo = (JSONObject) parser.parse(new FileReader(userDirectory + "/projects.json"));
-            this.projectList = (JSONArray) projectsInfo.get("projects");
-
-        } catch (FileNotFoundException e) {
-            try {
-                System.err.println("projects.json Does not exist! - Creating new one");
-                projectList = new JSONArray();
-
-
-                projectsInfo.put("projects", projectList);
-
-                if (!Files.isDirectory(userDirectory)) {
-                    //Create Projects path doesn't exist.
-                    try {
-                        Files.createDirectories(userDirectory);
-
-
-                    } catch (IOException eIO3) {
-                        //Failed to create the directory.
-                        System.err.println("Well UserData directory failed to create.. lost cause.");
-                    }
-                }
-
-                FileWriter file = new FileWriter(userDirectory + "/projects.json");
-                file.write(projectsInfo.toJSONString());
-                file.flush();
-                file.close();
-
-            } catch (IOException e2) {
-                System.err.println("Failed to create projects.json file.");
-
-            }
-
-
-        } catch (IOException e) {
-            //e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
+    public TutorHandler getTutorHandler(){
+        return tutorHandler;
     }
 
     private void saveProperties() {
@@ -184,69 +133,8 @@ public class Project {
 
     }
 
-//
-//    public void saveSessionStat(String tutorType, String statString) {
-//        if (tutorType.equals("pitch")) {
-//
-//            pitchTutorRecordStats += (statString);
-//
-//        } else if (tutorType.equals("interval")) {
-//
-//            intervalTutorRecordStats += (statString);
-//
-//        } else if (tutorType.equals("musicalTerm")) {
-//            musicalTermTutorRecordStats += (statString);
-//
-//        } else if (tutorType.equals("scale")) {
-//
-//            scaleTutorRecordStats += (statString);
-//
-//        } else if (tutorType.equals("chord")) {
-//
-//            chordTutorRecordStats += (statString);
-//        } else if (tutorType.equals("spelling")) {
-//
-//            spellingTutorRecordStats += (statString);
-//        }
-//
-//
-//    }
 
-//    public void saveTutorRecords(String tutorType, String record) {
-//        JSONObject jasonOFQuestion = new JSONObject();
-//
-//        if (tutorType.equals("pitch")) {
-//
-//            jasonOFQuestion.put("QuestionInfo", record);
-//            pitchTutorRecordsList.add(jasonOFQuestion);
-//            //System.out.println(pitchTutorRecordsList);
-//
-//        } else if (tutorType.equals("interval")) {
-//
-//            jasonOFQuestion.put("QuestionInfo", record);
-//            intervalTutorRecordsList.add(jasonOFQuestion);
-//
-//
-//        } else if (tutorType.equals("musicalTerm")) {
-//            jasonOFQuestion.put("QuestionInfo", record);
-//            musicalTermTutorRecordsList.add(jasonOFQuestion);
-//            ;
-//
-//        } else if (tutorType.equals("scale")) {
-//            jasonOFQuestion.put("QuestionInfo", record);
-//            scaleTutorRecordsList.add(jasonOFQuestion);
-//
-//
-//        } else if (tutorType.equals("chord")) {
-//
-//            jasonOFQuestion.put("QuestionInfo", record);
-//            chordTutorRecordsList.add(jasonOFQuestion);
-//        } else if (tutorType.equals("spelling")) {
-//
-//            jasonOFQuestion.put("QuestionInfo", record);
-//            spellingTutorRecordsList.add(jasonOFQuestion);
-//        }
-//    }
+
 
 
     /**
@@ -311,7 +199,7 @@ public class Project {
         if (currentProjectPath != null) {
             saveProject(currentProjectPath);
         } else {
-            createNewProject();
+            projectHandler.createNewProject();
         }
         saved = true;
 
@@ -352,7 +240,7 @@ public class Project {
             currentProjectPath = projectAddress;
 
             //Check if it isn't an exisiting stored project
-            updateProjectList();
+            //projectHandler.updateProjectList();
 
         } catch (IOException e) {
 
@@ -362,139 +250,10 @@ public class Project {
     }
 
 
-//    private void saveTutorRecordsToFile(String projectAddress) {
-//        try {
-//
-//            if (env.getRootController().tabSaveCheck("pitchTutor")) {
-//                FileWriter pitchFile = new FileWriter(projectAddress + "/PitchComparisonRecords.json", true);
-//                overalPitchSessionObject.put("Questions", pitchTutorRecordsList);
-//                overalPitchSessionObject.put("SessionStats", pitchTutorRecordStats);
-//
-//
-//                overalPitchObject.put("Session_" + new Date().toString(), overalPitchSessionObject);
-//                pitchFile.write(overalPitchObject.toJSONString());
-//                //file1.write(overalpitchSessionObject.toJSONString());
-//                pitchTutorRecordsList.clear();
-//                pitchTutorRecordStats = "";
-//                overalPitchSessionObject.clear();
-//                overalPitchObject.clear();
-//
-//                pitchFile.flush();
-//                pitchFile.close();
-//            }
-//
-//            if (env.getRootController().tabSaveCheck("intervalTutor")) {
-//
-//                FileWriter intervalFile = new FileWriter(projectAddress + "/IntervalRecognitionRecords.json", true);
-//                overalIntervalSessionObject.put("Questions", intervalTutorRecordsList);
-//                overalIntervalSessionObject.put("SessionStats", intervalTutorRecordStats);
-//                overalIntervalObject.put("Session_" + new Date().toString(), overalIntervalSessionObject);
-//                intervalFile.write(overalIntervalObject.toJSONString());
-//                intervalTutorRecordsList.clear();
-//                intervalTutorRecordStats = "";
-//                overalIntervalSessionObject.clear();
-//                overalIntervalObject.clear();
-//                intervalFile.flush();
-//                intervalFile.close();
-//            }
-//
-//            if (env.getRootController().tabSaveCheck("musicalTermTutor")) {
-//
-//                FileWriter MusicalTermFile = new FileWriter(projectAddress + "/MusicalTermsRecords.json", true);
-//                overalMusicalTermSessionObject.put("Questions", musicalTermTutorRecordsList);
-//                overalMusicalTermSessionObject.put("SessionStats", musicalTermTutorRecordStats);
-//                overalMusicalTermObject.put("Session_" + new Date().toString(), overalMusicalTermSessionObject);
-//                MusicalTermFile.write(overalMusicalTermObject.toJSONString());
-//                musicalTermTutorRecordsList.clear();
-//                musicalTermTutorRecordStats = "";
-//                overalMusicalTermSessionObject.clear();
-//                overalMusicalTermObject.clear();
-//                MusicalTermFile.flush();
-//                MusicalTermFile.close();
-//            }
-//            if (env.getRootController().tabSaveCheck("scaleTutor")) {
-//
-//                FileWriter scaleFile = new FileWriter(projectAddress + "/ScaleRecognitionRecords.json", true);
-//                overalScaleSessionObject.put("Questions", scaleTutorRecordsList);
-//                overalScaleSessionObject.put("SessionStats", scaleTutorRecordStats);
-//                overalScaleObject.put("Session_" + new Date().toString(), overalScaleSessionObject);
-//                scaleFile.write(overalScaleObject.toJSONString());
-//                scaleTutorRecordsList.clear();
-//                scaleTutorRecordStats = "";
-//                overalScaleSessionObject.clear();
-//                overalScaleObject.clear();
-//                scaleFile.flush();
-//                scaleFile.close();
-//
-//            }
-//
-//            if (env.getRootController().tabSaveCheck("chordTutor")) {
-//                FileWriter chordFile = new FileWriter(projectAddress + "/ChordRecognitionRecords.json", true);
-//                overalChordSessionObject.put("Questions", chordTutorRecordsList);
-//                overalChordSessionObject.put("SessionStats", chordTutorRecordStats);
-//                overalChordObject.put("Session_" + new Date().toString(), overalChordSessionObject);
-//                chordFile.write(overalChordObject.toJSONString());
-//                chordTutorRecordsList.clear();
-//                chordTutorRecordStats = "";
-//                overalChordSessionObject.clear();
-//                overalChordObject.clear();
-//                chordFile.flush();
-//                chordFile.close();
-//            }
-//
-//            if (env.getRootController().tabSaveCheck("chordSpellingTutor")) {
-//                FileWriter spellingFile = new FileWriter(projectAddress + "/ChordSpellingRecords.json", true);
-//                overallSpellingSessionObject.put("Questions", spellingTutorRecordsList);
-//                overallSpellingSessionObject.put("SessionStats", spellingTutorRecordStats);
-//                overallSpellingObject.put("Session_" + new Date().toString(), overallSpellingSessionObject);
-//                spellingFile.write(overallSpellingObject.toJSONString());
-//                spellingTutorRecordsList.clear();
-//                spellingTutorRecordStats = "";
-//                overallSpellingSessionObject.clear();
-//                overallSpellingObject.clear();
-//                spellingFile.flush();
-//                spellingFile.close();
-//            }
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//
-//        }
-//
-//
-//    }
-
-    /**
-     * Updates the json list of project names, used to fill the quick load list.
-     *
-     */
-    private void updateProjectList() {
-        if (!projectList.contains(projectName)) {
-            projectList.add(projectName);
-        }
-
-        try { //Save list of projects.
-            projectsInfo.put("projects", projectList);
-            FileWriter projectsJson = new FileWriter(userDirectory + "/projects.json");
-            projectsJson.write(projectsInfo.toJSONString());
-            projectsJson.flush();
-            projectsJson.close();
 
 
-        } catch (Exception e2) {
-            e2.printStackTrace();
-        }
-    }
 
 
-    /**
-     * Compares all current project properties to the saved values
-     * If there are any differences, adds an asterix indicator to the project title
-     */
-    public void checkChanges() {
-
-
-    }
 
 
     /**
@@ -574,7 +333,7 @@ public class Project {
                     //If the Project directory folder doesn't exist.
                     System.err.println("Project directory missing - Might have been moved, renamed or deleted.\n Will remove the project from the projects json");
                     env.getRootController().errorAlert("Project directory is missing - possibly moved, renamed or deleted.");
-                    projectList.remove(pName);
+                    projectHandler.projectList.remove(pName);
                     return;
                 } else {
                     //.json project files are corrupt.
@@ -589,7 +348,7 @@ public class Project {
             loadProperties();
 
             currentProjectPath = path;
-            updateProjectList();
+            //projectHandler.updateProjectList();
 
             env.getRootController().setWindowTitle(pName);
             //ignore
@@ -609,60 +368,12 @@ public class Project {
         }
     }
 
-    /**
-     * Creates a new project.
-     */
-    public void createNewProject() {
-
-        TextInputDialog dialog = new TextInputDialog("");
-        dialog.setTitle("New Project");
-        dialog.setHeaderText("New Project");
-        dialog.setContentText("Please enter the project name:");
-
-        // Traditional way to get the response value.
-        Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()) {
-            String resultString = result.get().toString();
-            Path path;
-            try {
-                path = Paths.get("UserData/Projects/" + resultString);
-
-                if (!Files.isDirectory(path)) {
-                    try {
-
-                        Files.createDirectories(path);
-
-                        env.getProjectHandler().saveProject(path.toString().replace("\\", "/"));
-                        //setWindowTitle(resultString);
-
-                    } catch (IOException e) {
-                        //Failed to create the directory.
-                        e.printStackTrace();
-                    }
-
-                } else {
-                    env.getRootController().errorAlert("The project: " + resultString + " already exists.");
-                    createNewProject();
-                }
-
-            } catch (InvalidPathException invPath) {
-                //invalid path (Poor project naming)
-                env.getRootController().errorAlert("Invalid file name - try again.");
-                createNewProject();
-            }
-
-        }
-    }
-
 
     public boolean isSaved() {
         return saved;
     }
 
 
-    public JSONArray getProjectList() {
-        return this.projectList;
-    }
 
     public Boolean isProject() {
         return currentProjectPath != null;

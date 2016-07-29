@@ -158,7 +158,7 @@ public class RootController implements Initializable {
      */
     @FXML
     private void closeApplication() {
-        if (!env.getProjectHandler().isSaved()) {
+        if (!env.getProjectHandler().getCurrentProject().isSaved()) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("Unsaved changes");
 
@@ -175,15 +175,15 @@ public class RootController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.get() == btnSaveProject) {
-                env.getProjectHandler().saveCurrentProject();
+                env.getProjectHandler().getCurrentProject().saveCurrentProject();
                 System.exit(0);
             } else if (result.get() == btnQuit) {
                 System.exit(0);
             }
 
 
-        } else if (env.getProjectHandler().isProject() && env.getTranscriptManager().unsavedChanges) {
-            env.getProjectHandler().saveCurrentProject();
+        } else if (env.getProjectHandler().getCurrentProject().isProject() && env.getTranscriptManager().unsavedChanges) {
+            env.getProjectHandler().getCurrentProject().saveCurrentProject();
             System.exit(0);
         } else {
 
@@ -241,7 +241,7 @@ public class RootController implements Initializable {
      * @return a boolean - true for save, false for cancel
      */
     public Boolean saveChangesDialog() {
-        if (!env.getProjectHandler().isSaved()) {
+        if (!env.getProjectHandler().getCurrentProject().isSaved()) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("Unsaved project changes");
 
@@ -260,16 +260,16 @@ public class RootController implements Initializable {
 
             if (result.get() == btnSaveProject) {
                 checkProjectDirectory();
-                env.getProjectHandler().saveCurrentProject();
+                env.getProjectHandler().getCurrentProject().saveCurrentProject();
 
             } else if (result.get() == btnCancel) {
                 return false;
             }
 
 
-        } else if (env.getProjectHandler().isProject() && env.getTranscriptManager().unsavedChanges) {
+        } else if (env.getProjectHandler().getCurrentProject().isProject() && env.getTranscriptManager().unsavedChanges) {
 
-            env.getProjectHandler().saveCurrentProject();
+            env.getProjectHandler().getCurrentProject().saveCurrentProject();
         }
         return true;
     }
@@ -316,9 +316,9 @@ public class RootController implements Initializable {
 
         if (file != null) {
             fileDir = file.getParentFile();
-            if (env.getProjectHandler().isProject()) {
+            if (env.getProjectHandler().getCurrentProject().isProject()) {
 
-                fileDir = Paths.get(env.getProjectHandler().getCurrentProjectPath()).toFile();
+                fileDir = Paths.get(env.getProjectHandler().getCurrentProject().getCurrentProjectPath()).toFile();
 
             }
             path = file.getAbsolutePath();
@@ -353,9 +353,9 @@ public class RootController implements Initializable {
         FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(textFilter);
 
-        if (env.getProjectHandler().isProject()) {
+        if (env.getProjectHandler().getCurrentProject().isProject()) {
             checkProjectDirectory();
-            fileDir = Paths.get(env.getProjectHandler().getCurrentProjectPath()).toFile();
+            fileDir = Paths.get(env.getProjectHandler().getCurrentProject().getCurrentProjectPath()).toFile();
 
         }
 
@@ -373,9 +373,9 @@ public class RootController implements Initializable {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(textFilter);
-        if (env.getProjectHandler().isProject()) {
+        if (env.getProjectHandler().getCurrentProject().isProject()) {
             checkProjectDirectory();
-            fileDir = Paths.get(env.getProjectHandler().getCurrentProjectPath()).toFile();
+            fileDir = Paths.get(env.getProjectHandler().getCurrentProject().getCurrentProjectPath()).toFile();
 
         }
         fileChooser.setInitialDirectory(fileDir);
@@ -466,7 +466,7 @@ public class RootController implements Initializable {
      */
     @FXML
     private void saveProject() {
-        env.getProjectHandler().saveCurrentProject();
+        env.getProjectHandler().getCurrentProject().saveCurrentProject();
     }
 
     @FXML
@@ -488,7 +488,7 @@ public class RootController implements Initializable {
 
             MenuItem projectItem = new MenuItem(projectName);
             projectItem.setOnAction(event -> {
-                if (saveChangesDialog()) env.getProjectHandler().loadProject(projectName);
+                if (saveChangesDialog()) env.getProjectHandler().getCurrentProject().loadProject(projectName);
             });
 
             menuOpenProjects.getItems().add(projectItem); //Add to Open projects menu

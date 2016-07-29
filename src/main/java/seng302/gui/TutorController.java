@@ -90,7 +90,7 @@ public abstract class TutorController {
         this.env = env;
         manager = new TutorManager();
         projectHandler = env.getProjectHandler();
-        tutorHandler = env.getTutorHandler();
+        tutorHandler = projectHandler.getCurrentProject().getTutorHandler();
     }
 
     /**
@@ -161,9 +161,9 @@ public abstract class TutorController {
         FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(textFilter);
 
-        if (env.getProjectHandler().isProject()) {
+        if (env.getProjectHandler().getCurrentProject().isProject()) {
             env.getRootController().checkProjectDirectory();
-            fileChooser.setInitialDirectory(Paths.get(env.getProjectHandler().getCurrentProjectPath()).toFile());
+            fileChooser.setInitialDirectory(Paths.get(env.getProjectHandler().getCurrentProject().getCurrentProjectPath()).toFile());
         }
         File file = fileChooser.showSaveDialog(stage);
 

@@ -339,10 +339,10 @@ public class PitchComparisonTutorController extends TutorController {
 
         record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
 
-        if (projectHandler.currentProjectPath != null) {
+        if (projectHandler.getCurrentProject() != null) {
 
             tutorHandler.saveSessionStat("pitch", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
-            projectHandler.saveCurrentProject();
+            projectHandler.getCurrentProject().saveCurrentProject();
             outputText += "\nSession auto saved";
         }
         env.getRootController().setTabTitle("pitchTutor", false);
