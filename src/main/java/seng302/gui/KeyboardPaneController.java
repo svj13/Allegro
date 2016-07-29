@@ -27,6 +27,9 @@ import seng302.Environment;
 import seng302.data.Note;
 import seng302.utility.NoteRangeSlider;
 import seng302.utility.musicNotation.OctaveUtil;
+import seng302.utility.musicNotation.Checker;
+
+import static seng302.utility.musicNotation.Checker.isValidNormalNote;
 
 /**
  * Created by team 5 on 13/05/16.
@@ -346,17 +349,20 @@ public class KeyboardPaneController {
         okButton.setOnAction(event->{
             String scale1Note =scale1NoteInput.getText();
             String scale2Note = scale2NoteInput.getText();
+            boolean isValidNote1 = isValidNormalNote(scale1Note);
+            boolean isValidNote2 = isValidNormalNote(scale2Note);
+
             //if scale 2 is filled out but not scale 1
-            if (scale2Note != null && !scale2Note.equals("") && scale1Note.equals("")) {
+            if (scale2Note != null && !scale2Note.equals("") && scale1Note.equals("") && isValidNote2) {
                 System.out.println("You filled out scale 2 but not scale 1");
                 scale1NoteInput.setStyle("-fx-border-color: red;");
             //if scale 1 is filled out
-            } else if (scale1Note != null && !scale1Note.equals("")){
+            } else if (scale1Note != null && !scale1Note.equals("") && isValidNote1){
                 ArrayList<Note> scale1Notes = fetchScaleNotes(scale1NoteInput.getText(), typeScale1.getValue());
                 scale1NoteInput.setStyle("-fx-border-color: lightgray;");
                 System.out.println(scale1Notes);
                 //if the optional scale 2 is filled out
-                if (scale2Note != null && !scale2Note.equals("")) {
+                if (scale2Note != null && !scale2Note.equals("") && isValidNote2) {
                     ArrayList<Note> scale2Notes = fetchScaleNotes(scale2NoteInput.getText(), typeScale2.getValue());
                     scale2NoteInput.setStyle("-fx-border-color: lightgray;");
                     System.out.println(scale2Notes);
