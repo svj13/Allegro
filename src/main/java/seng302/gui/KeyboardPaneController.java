@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import javafx.event.ActionEvent;
+
+
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -386,6 +389,12 @@ public class KeyboardPaneController {
                     scale2NoteInput.setStyle("-fx-border-color: lightgray;");
                     System.out.println(scale2Notes);
                 }
+
+//                @Override
+//                public void handle(ActionEvent event) {
+//                    cancelButton.setText("Hello, World.");
+//                }
+
 
             //if the fields are left blank
             } else {
