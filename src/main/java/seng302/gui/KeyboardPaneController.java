@@ -343,6 +343,24 @@ public class KeyboardPaneController {
          * be added to both the scale 1 and scale 2 hboxes
          */
 
+        //closes the pop out and cancels any inputted information
+        Button cancelButton = new Button("Cancel"); //closes the pop out window without actioning
+        cancelButton.setOnAction(event->{
+            scale1NoteInput.clear();
+            typeScale1.setValue("Major");
+            scale2NoteInput.clear();
+            typeScale2.setValue("Major");
+            toggleDisplayScales();
+
+        });
+
+        //changes cancel button and display scales button to close scales
+//        Button closeScales = new Button("Close Scales");
+//        closeScales.setOnAction(event->{
+//
+//        });
+
+
         //binding action event to OK button so when OK is clicked, the information in the corresponding
         //fields will fetch the scale notes
         Button okButton = new Button("OK"); //actions the fields selected and highlights corresponding keys
@@ -361,12 +379,14 @@ public class KeyboardPaneController {
                 ArrayList<Note> scale1Notes = fetchScaleNotes(scale1NoteInput.getText(), typeScale1.getValue());
                 scale1NoteInput.setStyle("-fx-border-color: lightgray;");
                 System.out.println(scale1Notes);
+
                 //if the optional scale 2 is filled out
                 if (scale2Note != null && !scale2Note.equals("") && isValidNote2) {
                     ArrayList<Note> scale2Notes = fetchScaleNotes(scale2NoteInput.getText(), typeScale2.getValue());
                     scale2NoteInput.setStyle("-fx-border-color: lightgray;");
                     System.out.println(scale2Notes);
                 }
+
             //if the fields are left blank
             } else {
                 System.out.println("You didn't give me an input. Derp");
@@ -377,10 +397,7 @@ public class KeyboardPaneController {
         });
 
 
-        Button cancelButton = new Button("Cancel"); //closes the pop out window without actioning
-        cancelButton.setOnAction(event->{
-            toggleDisplayScales();
-        });
+
 
 
         Button clearButtonScale1 = new Button("Clear"); //clears the fields of the corresponding drop down
