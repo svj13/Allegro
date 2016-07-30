@@ -228,7 +228,6 @@ public class RootController implements Initializable {
     }
 
 
-
     /**
      * Displays a dialog to ask the user whether or not they want to save project changes.
      *
@@ -719,22 +718,22 @@ public class RootController implements Initializable {
     }
 
     /**
-     * opens the keySignatures tutor when the key signatures tutor menu option is pressed
-     * If there is already an open tutor of the same form then it sets focus to the already open tutor
+     * opens the keySignatures tutor when the key signatures tutor menu option is pressed If there
+     * is already an open tutor of the same form then it sets focus to the already open tutor
      */
     @FXML
-    private void openKeySignatureTutor(){
+    private void openKeySignatureTutor() {
 
         boolean alreadyExists = false;
-        for(Tab tab:TabPane.getTabs()){
-            if(tab.getId().equals("keySignatureTutor")){
+        for (Tab tab : TabPane.getTabs()) {
+            if (tab.getId().equals("keySignatureTutor")) {
                 TabPane.getSelectionModel().select(tab);
                 alreadyExists = true;
             }
 
         }
 
-        if(!alreadyExists) {
+        if (!alreadyExists) {
 
             Tab ScaleTab = new Tab("Key Signature Tutor");
             ScaleTab.setId("keySignatureTutor");
@@ -990,10 +989,10 @@ public class RootController implements Initializable {
         if (ChordSpellingTabController != null) {
             ChordSpellingTabController.clearTutor();
         }
-        if (ChordRecognitionTabController != null){
+        if (ChordRecognitionTabController != null) {
             ChordRecognitionTabController.clearTutor();
         }
-        if(KeySignaturesTabController != null){
+        if (KeySignaturesTabController != null) {
             KeySignaturesTabController.clearTutor();
 
         }

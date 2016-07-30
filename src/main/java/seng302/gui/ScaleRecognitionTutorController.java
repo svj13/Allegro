@@ -1,8 +1,9 @@
 package seng302.gui;
 
+import org.controlsfx.control.CheckComboBox;
+
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Observable;
 import java.util.Random;
 
 import javafx.collections.ObservableList;
@@ -10,14 +11,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
-import org.controlsfx.control.CheckComboBox;
 import seng302.Environment;
 import seng302.data.Note;
 import seng302.utility.TutorRecord;

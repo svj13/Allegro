@@ -92,11 +92,9 @@ public class ChordRecognitionTutorController extends TutorController {
 
         if (chordTypeBox.getValue().equals("Both")) {
             type = rand.nextInt(8);
-        }
-        else if (chordTypeBox.getValue().equals("3 Notes")) {
+        } else if (chordTypeBox.getValue().equals("3 Notes")) {
             type = rand.nextInt(3);
-        }
-        else {
+        } else {
             type = rand.nextInt(5) + 3;
         }
 
@@ -202,8 +200,7 @@ public class ChordRecognitionTutorController extends TutorController {
                     Integer wait;
                     if (chordTypeBox.getValue().equals("Both") || chordTypeBox.getValue().equals("4 Notes")) {
                         wait = 1000 * 240 / currentTempo + 40;
-                    }
-                    else {
+                    } else {
                         wait = 1000 * 180 / currentTempo + 40;
                     }
                     Thread.sleep(wait);
@@ -268,13 +265,11 @@ public class ChordRecognitionTutorController extends TutorController {
             options.getItems().add("7th");
             options.getItems().add("half diminished");
             options.getItems().add("diminished 7th");
-        }
-        else if (chordTypeBox.getValue().equals("3 Notes")){
+        } else if (chordTypeBox.getValue().equals("3 Notes")) {
             options.getItems().add("major");
             options.getItems().add("minor");
             options.getItems().add("diminished");
-        }
-        else {
+        } else {
             options.getItems().add("minor 7th");
             options.getItems().add("major 7th");
             options.getItems().add("7th");
