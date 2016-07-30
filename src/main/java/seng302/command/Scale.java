@@ -140,7 +140,13 @@ public class Scale implements Command {
         return currentLetter;
     }
 
-
+    /**
+     * This methods gets a scale in a particular direction. For updown it will get the scale in each
+     * direction and then combine them.
+     *
+     * @param direction the direction of the scale (up, down, updown)
+     * @return An arraylist of notes of the scale in the correct direction.
+     */
     private ArrayList<Note> getScale(String direction) {
         ArrayList<Note> scale = note.getOctaveScale(type, octaves, true);
 

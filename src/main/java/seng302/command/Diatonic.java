@@ -21,19 +21,30 @@ public class Diatonic implements Command {
     String chordNote;
 
 
+    /**
+     * This constructor is used for the 'quality of' command.
+     *
+     * @param romanNumeral the function that the user wants the quality of.
+     */
     public Diatonic(String romanNumeral) {
         this.romanNumeral = romanNumeral;
         this.command = "quality";
     }
 
+    /**
+     * This constructor is used for the chord function and function of commands.
+     * @param map The map contained the parameters for the command.
+     */
     public Diatonic(HashMap<String, String> map) {
         this.romanNumeral = map.get("function");
+        // So this is a chord function command
         if (this.romanNumeral != null) {
             this.command = "chordFunction";
             this.startingNote = map.get("note");
             this.scaleType = map.get("scale_type");
         }
         this.chordType = map.get("chord_type");
+        // So this is a function of command.
         if (this.chordType != null) {
             this.command = "functionOf";
             this.startingNote = OctaveUtil.capitalise(map.get("scaleNote"));
@@ -41,6 +52,13 @@ public class Diatonic implements Command {
         }
     }
 
+    /**
+     * For the 'function of' command this method looks up the scale and checks if the chord note
+     * is in the scale. If it is in the scale, it finds which number note it is and finds the
+     * function (roman numeral) for the number note. It then checks that the quality of the chords
+     * matches the quality of that chord function.
+     * @return If this is all ok, it will return the function. Otherwise it return 'Non Functional'.
+     */
     private String getFunctionOf() {
         Note noteScaleStart = Note.lookup(OctaveUtil.addDefaultOctave(startingNote));
         ArrayList<Note> scale = noteScaleStart.getScale("major", true);

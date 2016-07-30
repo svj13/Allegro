@@ -13,6 +13,10 @@ import seng302.data.Note;
  * Created by Jonty on 24-May-16.
  */
 public class ChordUtil {
+
+    /**
+     * Maps the function (roman numeral) to the quality for diatonic chords.
+     */
     private static final Map<String, String> chordFunctionQuality = new HashMap<String, String>() {{
         put("I", "major 7th");
         put("II", "minor 7th");
@@ -23,6 +27,9 @@ public class ChordUtil {
         put("VII", "half-diminished 7th");
     }};
 
+    /**
+     * Maps the function(roman numeral) the the integer number that they represent.
+     */
     private static final BidiMap<String, Integer> roman = new DualHashBidiMap<String, Integer>() {{
         put("I", 1);
         put("II", 2);
@@ -34,21 +41,35 @@ public class ChordUtil {
     }};
 
 
-
-    public static String getChordName(ArrayList<Integer> notes, boolean octave, char enharmonicLetter){
+    /**
+     * Returns the name of the chord, with the correct enharmonic letter, with or without an octave
+     * specifier.
+     *
+     * @param notes            notes of the chord.
+     * @param octave           was an octave specified in the input?
+     * @param enharmonicLetter the letter that the chord should be represented by.
+     * @return a string of the chord name including a note and a chord type.
+     */
+    public static String getChordName(ArrayList<Integer> notes, boolean octave, char enharmonicLetter) {
 
         String type = getChordType(notes);
 
 
         String n = octave ? Note.lookup(notes.get(0).toString()).getEnharmonicWithLetter(enharmonicLetter) :
-                        OctaveUtil.removeOctaveSpecifier(Note.lookup(notes.get(0).toString())
-                                .getEnharmonicWithLetter(enharmonicLetter));
+                OctaveUtil.removeOctaveSpecifier(Note.lookup(notes.get(0).toString())
+                        .getEnharmonicWithLetter(enharmonicLetter));
 
-        return n +" " + type;
+        return n + " " + type;
 
     }
 
-    public static String getChordType(ArrayList<Integer> notes){
+    /**
+     * This method uses the number of semitones between notes to determine the type of chord.
+     *
+     * @param notes The notes of the chord.
+     * @return The chord type.
+     */
+    public static String getChordType(ArrayList<Integer> notes) {
         if (notes.size() > 3) {
             //String noteDisplay = octave ? Note.lookup(String.valueOf(notes.get(0))).getNote() : OctaveUtil.removeOctaveSpecifier(Note.lookup(String.valueOf(notes.get(0))).getNote()); //Ignore Octave or not?
 
@@ -74,8 +95,6 @@ public class ChordUtil {
                 //for diminished chords
             }
         }
-
-
         if (notes.size() > 2) { //Scales
 
             //for major chords
@@ -89,12 +108,9 @@ public class ChordUtil {
                 return "diminished";
             }
 
-
         }
         throw new IllegalArgumentException("Not a chord");
     }
-
-
 
 
     /**
@@ -153,10 +169,13 @@ public class ChordUtil {
 
     }
 
-
-
-
-    public static char nextChordLetterChar(char c){
+    /**
+     * This method returns the correct enharmonic letter for each note of the chord.
+     *
+     * @param c The current letter
+     * @return The next letter to use. (Skips every second letter for chords.)
+     */
+    public static char nextChordLetterChar(char c) {
         int index = "ABCDEFG".indexOf(c);
 
         if (index >= 5) index -= 7; //Wraps around
