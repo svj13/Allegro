@@ -9,16 +9,17 @@ import seng302.utility.musicNotation.ChordUtil;
 import seng302.utility.musicNotation.OctaveUtil;
 
 /**
- * Created by isabelle on 24/07/16.
+ *  This class handles commands related to Diatonic Chords, including finding the quality of the
+ *  chord, the chord function or the function of a chord and key.
  */
 public class Diatonic implements Command {
-    String romanNumeral;
-    String command;
-    String startingNote;
-    String scaleType;
-    String result;
-    String chordType;
-    String chordNote;
+    private String romanNumeral;
+    private String command;
+    private String startingNote;
+    private String scaleType;
+    private String result;
+    private String chordType;
+    private String chordNote;
 
 
     /**

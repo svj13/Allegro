@@ -71,8 +71,6 @@ public class ChordUtil {
      */
     public static String getChordType(ArrayList<Integer> notes) {
         if (notes.size() > 3) {
-            //String noteDisplay = octave ? Note.lookup(String.valueOf(notes.get(0))).getNote() : OctaveUtil.removeOctaveSpecifier(Note.lookup(String.valueOf(notes.get(0))).getNote()); //Ignore Octave or not?
-
             if (notes.get(1) % 12 == (notes.get(0) + 3) % 12 && notes.get(2) % 12 == (notes.get(0) + 7) % 12
                     && notes.get(3) % 12 == (notes.get(0) + 10) % 12) {
                 return "minor 7th";

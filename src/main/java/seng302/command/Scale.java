@@ -123,6 +123,9 @@ public class Scale implements Command {
     /**
      * Moves the current letter to the next letter. If the letter is G, the next letter will be A.
      * This method is used to ensure one of each letter name is in each scale.
+     * @param currentLetter The current letter.
+     * @param backDown Whether to iterate through the letters forwards or backwards.
+     * @return The new letter.
      */
     private static char updateLetter(char currentLetter, boolean backDown) {
         int index = "ABCDEFG".indexOf(currentLetter);
