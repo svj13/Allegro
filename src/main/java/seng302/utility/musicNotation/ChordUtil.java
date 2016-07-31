@@ -348,7 +348,7 @@ public class ChordUtil {
      * @return the chord function
      */
     public static String getChordFunction(String romanNumeral, String startingNote, String scaleType) {
-        ArrayList<Note> scale = Note.lookup(startingNote + "4").getOctaveScale(scaleType, 1, true);
+        ArrayList<Note> scale = Note.lookup(OctaveUtil.addDefaultOctave(startingNote)).getOctaveScale(scaleType, 1, true);
         Integer notesUp = romanNumeralToInteger(romanNumeral) - 1;
         Note key = scale.get(notesUp);
         char enharmonicLetter = lettersUp(startingNote, notesUp);
