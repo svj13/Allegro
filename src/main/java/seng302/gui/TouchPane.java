@@ -9,7 +9,9 @@ import seng302.Environment;
 import seng302.data.Note;
 
 /**
- * Created by isabelle on 13/05/16.
+ * This class is used by each key on the virtual keyboard.
+ * Each key is a single touch pane, and registers click/touch events.
+ * These events are then dealt with be the KeyboardPaneController.
  */
 
 public class TouchPane extends StackPane {
@@ -25,6 +27,13 @@ public class TouchPane extends StackPane {
     private boolean isTouch;
 
 
+    /**
+     * Constructor for a single touch pane
+     *
+     * @param note The note that the touch pane is associated with
+     * @param env  The environment in which the touch pane will be located
+     * @param kpc  The keyboard pane controller that the touch pane belongs to
+     */
     public TouchPane(Integer note, Environment env, KeyboardPaneController kpc) {
         super();
         noteToPlay = Note.lookup(String.valueOf(note));
