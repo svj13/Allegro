@@ -41,4 +41,15 @@ public class Semitone implements Command {
             env.error("Note is not contained in the MIDI library.");
         }
     }
+
+    public static String getHelp(String direction) {
+        if (direction.equals("up")) {
+            return "When followed by a valid note or midi number, it will return the note" +
+                    " that is a semitone higher.";
+        } else {
+            return "When followed by a valid note or midi number, it will return the note" +
+                    " that is a semitone lower.";
+
+        }
+    }
 }

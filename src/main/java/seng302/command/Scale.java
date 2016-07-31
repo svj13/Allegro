@@ -206,6 +206,25 @@ public class Scale implements Command {
 
     }
 
+    public static String getHelp(String type) {
+        switch (type) {
+            case "display":
+                return "When followed by a valid scale (made up of a note and a scale type)" +
+                        " the corresponding scale notes will be returned. e.g scale c major. ";
+            case "play":
+                return "When followed by a valid scale (made up of a note and a scale type)" +
+                        " the corresponding scale will be played. Options for the number of" +
+                        " octaves and direction can be given. E.g play scale c major " +
+                        "[number of octaves] [up|updown|down]";
+
+            case "midi":
+                return "When followed by a valid scale (made up of a note and a scale type) " +
+                        "the corresponding scale midi notes will be returned. ";
+
+        }
+        return null;
+    }
+
     /**
      * Converts an ArrayList of notes into an ArrayList of Strings where the strings are the correct
      * enharmonic name for the each name.

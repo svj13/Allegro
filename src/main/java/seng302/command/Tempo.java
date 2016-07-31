@@ -93,5 +93,19 @@ public class Tempo implements Command {
         }
 
     }
+
+    public static String getHelp(String type) {
+        switch (type) {
+            case "force":
+                return "When followed by a tempo, it will set the given tempo, " +
+                        "even if it is outside of the recommended range of 20-300BPM.";
+            case "set":
+                return "When followed by a valid tempo (20-300BPM) will change the tempo to that value.";
+            case "get":
+                return "Returns the current tempo. When the program is launched, " +
+                        "it will have a default value of 120BPM.";
+        }
+        return null;
+    }
 }
 

@@ -93,4 +93,21 @@ public class Enharmonic implements Command {
         }
     }
 
+    public static String getHelp(String type) {
+        switch (type) {
+            case "lower":
+                return "Returns the enharmonic that corresponds to the same note," +
+                        " a 'letter' below the current note.";
+
+            case "higher":
+                return "Returns the enharmonic that corresponds to the same note," +
+                        " a 'letter' above the current note.";
+
+            case "simple":
+                return "Returns the standard enharmonic that corresponds to the same note.";
+
+        }
+        return null;
+    }
+
 }

@@ -26,4 +26,8 @@ public class NoteCommand implements Command {
             env.error("\'" + note + "\'" + " is not a valid MIDI value.");
         }
     }
+
+    public static String getHelp() {
+        return "When followed by a valid midi number (within the range of 0-127), it will return the corresponding note name and its octave e.g. 'note 60' will return C4.";
+    }
 }

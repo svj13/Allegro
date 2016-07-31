@@ -105,4 +105,21 @@ public class Rhythm implements Command {
         }
 
     }
+
+    public static String getHelp(String type) {
+        if (type.equals("set")) {
+            return "Changes the rhythm note timings, syntax: set rhythm 'setting'. \n" +
+                    "Default (no swing, half crotchet duration): 'straight'\n" +
+                    "Preset swing settings:\n\t'straight' - regular 1/2 crotchet timing." +
+                    "\n\t'light' - swing 5/8 3/8 crotchet timings.\n\t'medium' - swing " +
+                    "2/3 1/3 crotchet timings.\n\t'heavy' - swing 3/4 1/4 crotchet timings.\n" +
+                    "Custom setting:\n\tCrotchet duration fractions e.g. 'set rhythm 1/4 1/2 1/4'" +
+                    " where every fraction is seperated by a space.";
+
+        } else {
+            return "Returns the current rhythm beat divisions. " +
+                    "The default rhythm is set to 1/2, meaning 1/2 crotchet timings. \n" +
+                    "For information on changing the rhythm, see 'help set rhythm";
+        }
+    }
 }

@@ -27,5 +27,11 @@ public class Midi implements Command {
         env.getTranscriptManager().setResult(Integer.toString(Note.lookup(s).getMidi()));
     }
 
+    public static String getHelp() {
+        return "When followed by a valid note, it will return its corresponding midi number" +
+                " within the range of 0-127. If an octave not specified to the note, it will" +
+                " default  to octave 4. e.g. 'midi' C4 will return 60. It is not case sensitive. ";
+    }
+
 
 }

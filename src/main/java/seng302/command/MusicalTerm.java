@@ -158,5 +158,21 @@ public class MusicalTerm implements Command {
         }
         env.getTranscriptManager().setResult(result);
     }
+
+    public static String getHelp(String type) {
+        switch (type) {
+            case "add":
+                return "When followed by a musical term in the format of 'name; origin; " +
+                        "category; definition', it will add the musical term to the Musical " +
+                        "Term dictionary.";
+            case "origin":
+                return "When followed by a musical term, will display the origin of that term.";
+            case "meaning":
+                return "When followed by a musical term, will display the definition of that term.";
+            case "category":
+                return "When followed by a musical term, will display the category of that term.";
+        }
+        return null;
+    }
 }
 

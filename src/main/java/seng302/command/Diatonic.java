@@ -91,4 +91,8 @@ public class Diatonic implements Command {
         }
         env.getTranscriptManager().setResult(this.result);
     }
+
+    public static String getHelp() {
+        return null;
+    }
 }
