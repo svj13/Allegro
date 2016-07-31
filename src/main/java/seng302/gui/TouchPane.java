@@ -21,6 +21,9 @@ public class TouchPane extends StackPane {
     Note noteToPlay;
     private boolean isblackKey;
 
+    // Used to avoid the bug where both a touch and a click is registered
+    private boolean isTouch;
+
 
     public TouchPane(Integer note, Environment env, KeyboardPaneController kpc) {
         super();
@@ -34,7 +37,9 @@ public class TouchPane extends StackPane {
         this.keyLabel = noteToPlay.getNote();
         this.isblackKey = false;
 
+        // Event handler for on touch
         EventHandler<TouchEvent> touchPress = event -> {
+            isTouch = true;
             if (touchId == -1) {
                 touchId = event.getTouchPoint().getId();
                 if (kpc.isPlayMode()) {
@@ -49,7 +54,9 @@ public class TouchPane extends StackPane {
             event.consume();
         };
 
+        // Event handler for release of touch
         EventHandler<TouchEvent> touchRelease = event -> {
+            isTouch = false;
             if (event.getTouchPoint().getId() == touchId) {
                 touchId = -1;
                 if (kpc.isPlayMode()) {
@@ -65,6 +72,7 @@ public class TouchPane extends StackPane {
         setOnTouchReleased(touchRelease);
         setOnTouchPressed(touchPress);
 
+        // Event handler for when mouse is released
         setOnMouseReleased(event -> {
             if (kpc.isPlayMode()) {
                 if (!environment.isShiftPressed()) {
@@ -79,22 +87,25 @@ public class TouchPane extends StackPane {
             }
         });
 
+        // Event handler for when mouse is clicked
         setOnMousePressed(event -> {
-            if (kpc.isPlayMode()) {
-                if (environment.isShiftPressed()) {
-                    keyboardPaneController.addMultiNote(noteToPlay, me);
-                    setHighlightOn();
+            if (!isTouch) {
+                if (kpc.isPlayMode()) {
+                    if (environment.isShiftPressed()) {
+                        keyboardPaneController.addMultiNote(noteToPlay, me);
+                        setHighlightOn();
+                    } else {
+                        environment.getPlayer().noteOn(noteToPlay);
+                        setHighlightOn();
+                    }
+                    if (displayLabelOnAction) {
+                        getChildren().add(new Text(keyLabel));
+                    }
                 } else {
-                    environment.getPlayer().noteOn(noteToPlay);
-                    setHighlightOn();
+                    String prev = env.getRootController().getTranscriptController().txtCommand.getText();
+                    String newText = prev + " " + this.getNoteValue().getNote();
+                    env.getRootController().getTranscriptController().txtCommand.setText(newText);
                 }
-                if (displayLabelOnAction) {
-                    getChildren().add(new Text(keyLabel));
-                }
-            } else {
-                String prev = env.getRootController().getTranscriptController().txtCommand.getText();
-                String newText = prev + " " + this.getNoteValue().getNote();
-                env.getRootController().getTranscriptController().txtCommand.setText(newText);
             }
         });
 
