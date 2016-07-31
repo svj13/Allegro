@@ -126,19 +126,11 @@ public class ChordRecognitionTutorController extends TutorController {
             default:
                 chordType = "major";
         }
-        Note randNote = getRandomNote();
+        Note randNote = Note.getRandomNote();
 //        return generateQuestionPane(randNote, chordType);
         return generateQuestionPane(new Pair<>(randNote, chordType));
     }
 
-    /**
-     * Generates a note in the octave of middle C
-     *
-     * @return the random note
-     */
-    public Note getRandomNote() {
-        return Note.lookup(Integer.toString(rand.nextInt(11) + 60));
-    }
 
     /**
      * Given a type of scale (major or minor) and a starting note, returns a list of notes of scale

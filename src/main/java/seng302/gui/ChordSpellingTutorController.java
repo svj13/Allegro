@@ -160,15 +160,6 @@ public class ChordSpellingTutorController extends TutorController {
         return generateQuestionPane(question);
     }
 
-    /**
-     * Generates a note in the octave of middle C
-     *
-     * @return the random note
-     */
-    public Note getRandomNote() {
-        return Note.lookup(Integer.toString(rand.nextInt(11) + 60));
-    }
-
     @Override
     /**
      * Generates a GUI containing question data.
@@ -424,7 +415,7 @@ public class ChordSpellingTutorController extends TutorController {
             int numberOfNotes = rand.nextInt(2) + 3;
 
             for (int i = 0; i < numberOfNotes; i++) {
-                Note randomNote = getRandomNote();
+                Note randomNote = Note.getRandomNote();
                 randomNotes.add(randomNote);
                 noteMidis.add(randomNote.getMidi());
             }
@@ -482,7 +473,7 @@ public class ChordSpellingTutorController extends TutorController {
         ArrayList<Note> chordNotes = null;
 
         while (!validChord) {
-            Note startNote = getRandomNote();
+            Note startNote = Note.getRandomNote();
             if (ChordUtil.getChord(startNote, chordType) != null) {
                 validChord = true;
                 chordNotes = ChordUtil.getChord(startNote, chordType);
