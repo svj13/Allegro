@@ -3,12 +3,14 @@ package seng302.gui;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import seng302.Environment;
 
 import java.io.IOException;
 
@@ -26,8 +28,21 @@ public class UserLoginController {
     @FXML
     PasswordField passwordInput;
 
+    @FXML
+    Button btnRegister;
+
+    @FXML
+    Button btnLogIn;
+
+    Environment env;
+
 
     public UserLoginController(){
+
+    }
+
+    public void setEnv(Environment env){
+        this.env = env;
     }
 
 
@@ -68,6 +83,16 @@ public class UserLoginController {
 //        }
 
 
+    }
+
+    @FXML
+    protected void register(){
+        env.getUserHandler().createUser(usernameInput.getText(), passwordInput.getText());
+    }
+
+    @FXML
+    protected void logIn(){
+        env.getUserHandler().setCurrentUser(usernameInput.getText());
     }
 
     public void create(){

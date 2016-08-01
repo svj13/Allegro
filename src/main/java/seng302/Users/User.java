@@ -10,6 +10,7 @@ import seng302.Environment;
 import seng302.data.Term;
 import seng302.utility.OutputTuple;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -56,8 +57,14 @@ public class User {
         this.userName = userName;
         this.userPassword = password;
         this.env = env;
-        projectHandler = new ProjectHandler(env, userName);
+
+        properties = new JSONObject();
+
+        createUserFiles();
         loadBasicProperties();
+        saveProperties();
+
+        projectHandler = new ProjectHandler(env, userName);
         //loadFullProperties();
     }
 
@@ -67,9 +74,10 @@ public class User {
      * @param user user name
      */
     public User(Environment env, String user){
-        userDirectory = Paths.get("UserData/"+userName);
+        userDirectory = Paths.get("UserData/"+user);
         this.env = env;
         this.userName = user;
+        properties = new JSONObject();
         loadBasicProperties();
     }
 
@@ -126,24 +134,43 @@ public class User {
 
 
         //env.getTranscriptManager().unsavedChanges = false;
-        Type dateType = new TypeToken<Date>() {
-        }.getType();
-        lastSignIn = gson.fromJson((String) properties.get("signInTime"), dateType);
 
-        //name
-        userFullName = ((String) properties.get("fullName")).toString();
+
+        try {
+            Type dateType = new TypeToken<Date>() {
+            }.getType();
+            lastSignIn = gson.fromJson((String) properties.get("signInTime"), dateType);
+            System.out.println("lsit:" + lastSignIn);
+            if(lastSignIn == null)  lastSignIn = new Date();
+        }catch(Exception e){
+            lastSignIn = new Date();
+
+        }
+
+        try {
+            //name
+            userFullName = (properties.get("fullName")).toString();
+        }catch (NullPointerException e){
+            userFullName = userName;
+        }
 
 
         //Password
-        userPassword = ((String) properties.get("password")).toString();
+        userPassword = (properties.get("password")).toString();
 
-        //Theme
-        themeColor = ((String) properties.get("themeColor")).toString();
+
+        try {
+            //Theme
+            themeColor = (properties.get("themeColor")).toString();
+        }catch(NullPointerException e){
+            themeColor = "white";
+        }
     }
 
 
     private void updateProperties() {
         Gson gson = new Gson();
+        properties.put("userName", userName);
         properties.put("fullName", userFullName);
         properties.put("password", this.userPassword);
         properties.put("themeColor", this.themeColor);
@@ -175,6 +202,37 @@ public class User {
 
             e.printStackTrace();
         }
+        /*catch (FileNotFoundException e) {
+            try {
+                System.err.println("user_properties.json Does not exist! - Creating new one");
+                properties = new JSONArray();
+
+
+                projectsInfo.put("projects", projectList);
+
+                if (!Files.isDirectory(userDirectory)) {
+                    //Create Projects path doesn't exist.
+                    try {
+                        Files.createDirectories(userDirectory);
+
+
+                    } catch (IOException eIO3) {
+                        //Failed to create the directory.
+                        System.err.println("Well UserData directory failed to create.. lost cause.");
+                    }
+                }
+
+                FileWriter file = new FileWriter(userDirectory + "/projects.json");
+                file.write(projectsInfo.toJSONString());
+                file.flush();
+                file.close();
+
+            } catch (IOException e2) {
+                System.err.println("Failed to create projects.json file.");
+
+            }
+            */
+
 
     }
 
@@ -191,6 +249,7 @@ public class User {
                 try {
 
                     Files.createDirectories(userDirectory);
+
                     saveProperties();
 
 

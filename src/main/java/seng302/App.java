@@ -49,6 +49,7 @@ public class App extends Application {
             stage.show();
             UserLoginController userLoginController = loader1.getController();
             userLoginController.create();
+            userLoginController.setEnv(env);
 
 
 

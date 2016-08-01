@@ -15,9 +15,9 @@
       <HBox fx:id="recentUsersHbox" layoutX="136.0" layoutY="108.0" maxHeight="191.0" maxWidth="399.0" minHeight="95.0" minWidth="336.0" prefHeight="95.0" prefWidth="354.0" />
       <PasswordField fx:id="passwordInput" layoutX="246.0" layoutY="284.0" />
       <Label layoutX="160.0" layoutY="289.0" text="Password:" />
-      <Button layoutX="246.0" layoutY="331.0" mnemonicParsing="false" text="Sign in" />
+      <Button layoutX="246.0" layoutY="331.0" mnemonicParsing="false" text="Sign in" fx:id="btnLogIn" onAction="#logIn" />
       <Label layoutX="159.0" layoutY="249.0" text="User Name:" />
       <TextField fx:id="usernameInput" layoutX="246.0" layoutY="246.0" />
-      <Button layoutX="338.0" layoutY="331.0" mnemonicParsing="false" text="Register" />
+      <Button layoutX="338.0" layoutY="331.0" mnemonicParsing="false" fx:id="btnRegister" onAction="#register"  text="Register" />
    </children>
 </AnchorPane>

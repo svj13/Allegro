@@ -36,10 +36,10 @@ import seng302.utility.OutputTuple;
 public class ProjectHandler {
 
     private Project currentProject;
-    private ArrayList<String> projects = new ArrayList<String>();
+    //private ArrayList<String> projects = new ArrayList<String>();
     Environment env;
     String lastOpened;
-    Path userDirectory;
+    public Path projectsDirectory;
     String userName;
 
     JSONArray projectList;
@@ -51,64 +51,24 @@ public class ProjectHandler {
     public ProjectHandler(Environment env, String user){
         //Iterate through user directory and load all
         this.userName = user;
-
+        projectsDirectory = Paths.get("UserData/"+user+"/Projects");
         this.env = env;
-        try {
-            this.projectsInfo = (JSONObject) parser.parse(new FileReader(userDirectory + "/projects.json"));
-            this.projectList = (JSONArray) projectsInfo.get("projects");
-
-        } catch (FileNotFoundException e) {
-            try {
-                System.err.println("projects.json Does not exist! - Creating new one");
-                projectList = new JSONArray();
-
-
-                projectsInfo.put("projects", projectList);
-
-                if (!Files.isDirectory(userDirectory)) {
-                    //Create Projects path doesn't exist.
-                    try {
-                        Files.createDirectories(userDirectory);
-
-
-                    } catch (IOException eIO3) {
-                        //Failed to create the directory.
-                        System.err.println("Well UserData directory failed to create.. lost cause.");
-                    }
-                }
-
-                FileWriter file = new FileWriter(userDirectory + "/projects.json");
-                file.write(projectsInfo.toJSONString());
-                file.flush();
-                file.close();
-
-            } catch (IOException e2) {
-                System.err.println("Failed to create projects.json file.");
-
-            }
-
-
-        } catch (IOException e) {
-            //e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-
-
-
-
-
 
         loadProjectList();
         loadDefaultProject();
 
+
+
+
     }
 
-    public void loadDefaultProject(){
-        //Handle Null
-        if(lastOpened == null){
 
+
+    public void loadDefaultProject(){
+        //Handle Nulls
+        System.out.println("loading default project: "+ lastOpened);
+        if(lastOpened == null){
+            setCurrentProject("default");
         }
         else{
             setCurrentProject(lastOpened);
@@ -120,14 +80,17 @@ public class ProjectHandler {
     }
 
     public void setCurrentProject(String projName){
+
         this.currentProject = new Project(env, projName, this);
+        lastOpened = projName;
+
 
     }
 
 
-    public void createProject(String name){
-
-    }
+//    public void createProject(String name){
+//
+//    }
 
 
     /**
@@ -141,7 +104,8 @@ public class ProjectHandler {
 
         try { //Save list of projects.
             projectsInfo.put("projects", projectList);
-            FileWriter projectsJson = new FileWriter(userDirectory + "/projects.json");
+            projectsInfo.put("lastOpened", projectName);
+            FileWriter projectsJson = new FileWriter(projectsDirectory + "/projects.json");
             projectsJson.write(projectsInfo.toJSONString());
             projectsJson.flush();
             projectsJson.close();
@@ -157,25 +121,28 @@ public class ProjectHandler {
 
     private void loadProjectList(){
         JSONObject projectsInfo = new JSONObject();
-        userDirectory = Paths.get("UserData/"+userName); //Default user path for now, before user compatibility is set up.
+
         JSONParser parser = new JSONParser(); //parser for reading project
         try {
-             projectsInfo = (JSONObject) parser.parse(new FileReader(userDirectory + "/project_list.json"));
-            this.projects = (JSONArray) projectsInfo.get("projects");
+             projectsInfo = (JSONObject) parser.parse(new FileReader(projectsDirectory + "/projects.json"));
+            this.projectList = (JSONArray) projectsInfo.get("projects");
             this.lastOpened = projectsInfo.get("lastOpened").toString();
 
         } catch (FileNotFoundException e) {
             try {
                 System.err.println("projects.json Does not exist! - Creating new one");
-                this.projects = new JSONArray();
+                this.projectList = new JSONArray();
 
 
-                projectsInfo.put("projects", projects);
+                projectsInfo.put("projects", projectList);
+                projectsInfo.put("lastOpened", "default");
 
-                if (!Files.isDirectory(userDirectory)) {
+
+                if (!Files.isDirectory(projectsDirectory)) {
+
                     //Create Projects path doesn't exist.
                     try {
-                        Files.createDirectories(userDirectory);
+                        Files.createDirectories(projectsDirectory);
 
 
                     } catch (IOException eIO3) {
@@ -184,7 +151,7 @@ public class ProjectHandler {
                     }
                 }
 
-                FileWriter file = new FileWriter(userDirectory + "/projects.json");
+                FileWriter file = new FileWriter(projectsDirectory + "/projects.json");
                 file.write(projectsInfo.toJSONString());
                 file.flush();
                 file.close();
@@ -220,7 +187,7 @@ public class ProjectHandler {
             String resultString = result.get().toString();
             Path path;
             try {
-                path = Paths.get("UserData/" + userName + "/" + resultString);
+                path = Paths.get(projectsDirectory+"/" + resultString);
 
                 if (!Files.isDirectory(path)) {
                     try {

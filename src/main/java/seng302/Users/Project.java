@@ -46,7 +46,7 @@ public class Project {
 
     ProjectHandler projectHandler;
 
-    Path userDirectory = Paths.get("UserData"); //Default user path for now, before user compatibility is set up.
+    Path projectDirectory;
     public String currentProjectPath, projectName;
 
     boolean saved = true;
@@ -55,11 +55,15 @@ public class Project {
     public TutorHandler tutorHandler;
 
     public Project(Environment env, String projectName, ProjectHandler projectH) {
-
+        this.projectName = projectName;
+        this.projectDirectory =  Paths.get(projectH.projectsDirectory + "/"+projectName);
+        this.env = env;
         projectSettings = new JSONObject();
         tutorHandler = new TutorHandler(env);
         projectHandler = projectH;
 
+        loadProject(projectName);
+        loadProperties();
 
 
 //        /**
@@ -220,7 +224,8 @@ public class Project {
             Gson gson = new Gson();
 
             saveProperties();
-            projectName = projectAddress.substring(projectAddress.lastIndexOf("/") + 1);
+           // projectName = projectAddress.substring(projectAddress.lastIndexOf("/") + 1);
+
 
             FileWriter file = new FileWriter(projectAddress + "/" + projectName + ".json");
             file.write(projectSettings.toJSONString());
@@ -320,7 +325,7 @@ public class Project {
         try {
 
             env.resetEnvironment();
-            String path = userDirectory + "/Projects/" + pName;
+            String path = projectDirectory.toString();
             try {
                 projectSettings = (JSONObject) parser.parse(new FileReader(path + "/" + pName + ".json"));
 
@@ -328,12 +333,20 @@ public class Project {
                 //Project doesn't exist? Create it.
 
                 if (!Paths.get(path).toFile().isDirectory()) {
-
-
                     //If the Project directory folder doesn't exist.
                     System.err.println("Project directory missing - Might have been moved, renamed or deleted.\n Will remove the project from the projects json");
-                    env.getRootController().errorAlert("Project directory is missing - possibly moved, renamed or deleted.");
-                    projectHandler.projectList.remove(pName);
+                    env.getRootController().errorAlert("Project directory is missing - possibly moved, renamed or deleted - recreating.");
+
+                    try {
+                        Files.createDirectories(projectDirectory);
+                        saveProject(path);
+
+                    } catch (IOException eIO3) {
+                        //Failed to create the directory.
+                        System.err.println("Well UserData directory failed to create.. lost cause.");
+                    }
+
+                    //projectHandler.projectList.remove(pName);
                     return;
                 } else {
                     //.json project files are corrupt.

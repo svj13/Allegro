@@ -63,16 +63,16 @@ public class UserHandler {
         JSONObject UsersInfo = new JSONObject();
 
         try {
-            UsersInfo = (JSONObject) parser.parse(new FileReader(userDirectory + "/projects.json"));
-            this.userList = (JSONArray) UsersInfo.get("user");
+            UsersInfo = (JSONObject) parser.parse(new FileReader(userDirectory + "/user_list.json"));
+            this.userList = (JSONArray) UsersInfo.get("users");
 
         } catch (FileNotFoundException e) {
             try {
-                System.err.println("projects.json Does not exist! - Creating new one");
+                System.err.println("users.json Does not exist! - Creating new one");
                 userList = new JSONArray();
 
 
-                UsersInfo.put("projects", userList);
+                UsersInfo.put("users", userList);
 
                 if (!Files.isDirectory(userDirectory)) {
                     //Create Projects path doesn't exist.
@@ -86,13 +86,13 @@ public class UserHandler {
                     }
                 }
 
-                FileWriter file = new FileWriter(userDirectory + "/projects.json");
+                FileWriter file = new FileWriter(userDirectory + "/user_list.json");
                 file.write(UsersInfo.toJSONString());
                 file.flush();
                 file.close();
 
             } catch (IOException e2) {
-                System.err.println("Failed to create projects.json file.");
+                System.err.println("Failed to create users.json file.");
 
 
             }
@@ -109,8 +109,11 @@ public class UserHandler {
 
 
     public void createUser(String user, String password){
+        this.currentUser = new User(user, password, env);
+
 
     }
+
 
 
     public User getCurrentUser(){
