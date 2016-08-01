@@ -77,6 +77,11 @@ public class MusicPlayer {
     }
 
 
+    /**
+     * Sets the synthesizer to synthesize playback with a given instrument.
+     *
+     * @param instrument The instrument which will be used for playback
+     */
     public void setInstrument(Instrument instrument) {
         instrumentInt = Arrays.asList(availableInstruments).indexOf(instrument);
         this.instrument = instrument;
