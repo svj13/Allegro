@@ -63,7 +63,7 @@ public class Help implements Command {
 
         keywordToCommand.put("version", Version.getHelp());
 
-        keywordToCommand.put("", null);
+        keywordToCommand.put("", Help.getHelp());
 
     }
 
@@ -83,7 +83,8 @@ public class Help implements Command {
     }
 
     public static String getHelp() {
-        return "Type help followed by any command to get more information on that command.";
+        return "Type help followed by any command to get more information on " +
+                "that command.\nExamples: help play scale, help set tempo.";
     }
 
 
