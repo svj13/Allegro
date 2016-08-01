@@ -1,6 +1,7 @@
 package seng302.command;
 
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -57,6 +58,10 @@ public class Scale implements Command {
      */
     private int octaves;
 
+    /**
+     *
+     */
+    private Boolean pentatonic = false;
 
     public Scale(HashMap<String, String> scale, String outputType) {
         this.startNote = scale.get("note");
@@ -73,6 +78,7 @@ public class Scale implements Command {
         } else {
             this.octaves = 1;
         }
+        pentatonicCheck();
     }
 
     /**
@@ -89,7 +95,7 @@ public class Scale implements Command {
         currentLetter = Character.toUpperCase(startNote.charAt(0));
         direction = "up";
         octaves = 1;
-
+        pentatonicCheck();
     }
 
     /**
@@ -104,6 +110,7 @@ public class Scale implements Command {
         this(a, b, outputType);
         this.direction = direction;
         octaves = 1;
+        pentatonicCheck();
     }
 
     /**
@@ -118,6 +125,7 @@ public class Scale implements Command {
     public Scale(String a, String b, String outputType, String direction, String octaves) {
         this(a, b, outputType, direction);
         this.octaves = Integer.parseInt(octaves);
+        pentatonicCheck();
     }
 
     /**
@@ -167,11 +175,16 @@ public class Scale implements Command {
             this.note = Note.lookup(OctaveUtil.addDefaultOctave(startNote));
             try {
                 ArrayList<Note> scale = getScale(direction);
+                System.out.println(scale);
                 if (scale == null) {
                     env.error("This scale goes beyond the MIDI notes available.");
                 } else {
                     if (this.outputType.equals("note")) {
-                        env.getTranscriptManager().setResult(scaleToString(startNote, scale, true));
+                        String stringOfScale = scaleToString(startNote, scale, true);
+                        if (pentatonic) {
+                            stringOfScale = scaleToPentatonicString(stringOfScale);
+                        }
+                        env.getTranscriptManager().setResult(stringOfScale);
                     } else if (this.outputType.equals("midi")) {
                         env.getTranscriptManager().setResult(scaleToMidi(scale));
                     } else { // Play scale.
@@ -269,9 +282,68 @@ public class Scale implements Command {
     /**
      * Converts the given (7 note) scale to a pentatonic scale
      */
-    private ArrayList<Note> scaleToPentatonic(ArrayList<Note> scaleNotes) {
-        return null;
+    private ArrayList<String> scaleToPentatonic(ArrayList<String> scaleNotes) {
+        ArrayList<String> pentatonicScale = new ArrayList<String>();
+        if (type.equals("major")) {
+            pentatonicScale.add(scaleNotes.get(0));
+            pentatonicScale.add(scaleNotes.get(1));
+            pentatonicScale.add(scaleNotes.get(2));
+            pentatonicScale.add(scaleNotes.get(4));
+            pentatonicScale.add(scaleNotes.get(5));
+            pentatonicScale.add(scaleNotes.get(7));
+            if (direction.equals("updown")) {
+                ArrayList<String> notes = new ArrayList<String>(pentatonicScale);
+                Collections.reverse(notes);
+                pentatonicScale.addAll(notes);
+            }
+        } else if (type.equals("minor")) {
+            pentatonicScale.add(scaleNotes.get(0));
+            pentatonicScale.add(scaleNotes.get(2));
+            pentatonicScale.add(scaleNotes.get(3));
+            pentatonicScale.add(scaleNotes.get(4));
+            pentatonicScale.add(scaleNotes.get(6));
+            pentatonicScale.add(scaleNotes.get(7));
+            if (direction.equals("updown")) {
+                ArrayList<String> notes = new ArrayList<String>(pentatonicScale);
+                Collections.reverse(notes);
+                pentatonicScale.addAll(notes);
+            }
+        }
+        return pentatonicScale;
+    }
 
+    private String scaleToPentatonicString(String scale) {
+        String pentScaleStr = "";
+        String[] splitString = scale.split(" ");
+        if (type.equals("major")) {
+            pentScaleStr += splitString[0] + " ";
+            pentScaleStr += splitString[1] + " ";
+            pentScaleStr += splitString[2] + " ";
+            pentScaleStr += splitString[4] + " ";
+            pentScaleStr += splitString[5] + " ";
+            pentScaleStr += splitString[7];
+        } else if (type.equals("minor")) {
+            pentScaleStr += splitString[0] + " ";
+            pentScaleStr += splitString[2] + " ";
+            pentScaleStr += splitString[3] + " ";
+            pentScaleStr += splitString[4] + " ";
+            pentScaleStr += splitString[6] + " ";
+            pentScaleStr += splitString[7];
+        }
+        if (direction.equals("updown")) {
+            String reversedScale = (new StringBuilder().append(pentScaleStr).reverse()).toString();
+            pentScaleStr += reversedScale;
+        }
+
+        return pentScaleStr;
+    }
+
+
+    private void pentatonicCheck() {
+        if (this.outputType.equals("pentatonic_note")) {
+            this.outputType = "note";
+            this.pentatonic = true;
+        }
     }
 
 
