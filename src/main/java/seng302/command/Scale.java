@@ -266,6 +266,15 @@ public class Scale implements Command {
         return midiValues.trim();
     }
 
+    /**
+     * Converts the given (7 note) scale to a pentatonic scale
+     */
+    private ArrayList<Note> scaleToPentatonic(ArrayList<Note> scaleNotes) {
+        return null;
+
+    }
+
+
     public long getLength(Environment env) {
         long milliseconds = 0;
 

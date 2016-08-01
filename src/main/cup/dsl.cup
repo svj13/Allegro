@@ -170,6 +170,7 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_QUALITY_OF ROMAN_NUMERALS:r         {: RESULT = new Diatonic(r);:}
           | COMMAND_CHORD_FUNCTION chordFunction:c      {: RESULT = new Diatonic(c);:}
           | COMMAND_FUNCTION_OF functionOf:f            {: RESULT = new Diatonic(f);:}
+          | COMMAND_PENTATONIC_SCALE scale:s            {: RESULT = new Scale(s, "pentatonic");:}
 
 ;
 
@@ -272,6 +273,7 @@ keyword ::= COMMAND_HELP                                {: RESULT = "help"; :}
           | COMMAND_SHOW_KEYSIGNATURE_NUM               {: RESULT = "scale signature num"; :}
           | COMMAND_SCALE_WITH_KEYSIG                   {: RESULT = "scale signature with"; :}
           | COMMAND_FIND_CHORD                          {: RESULT = "find chord"; :}
+          | COMMAND_PENTATONIC_SCALE                    {: RESULT = "pentatonic scale"}
 ;
 
 singleTerm ::= keyword:s {: RESULT = s;:}
