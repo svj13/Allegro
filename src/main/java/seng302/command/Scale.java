@@ -213,6 +213,8 @@ public class Scale implements Command {
             String currentNote;
             if (scaleNotes.size() > 7) {
                 currentNote = note.getEnharmonicWithLetter(currentLetter);
+            } else if (Character.toUpperCase(startNote.charAt(0)) == 'B' && note.getNote().charAt(1) == '#') {
+                currentNote = note.getNote();
             } else {
                 currentNote = note.getDescendingEnharmonic();
             }

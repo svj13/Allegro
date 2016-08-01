@@ -24,14 +24,14 @@ public class BluesScalesSteps {
     }
 
     @When("I type the command 'play scale (.+) blues'")
-    public void executeCommand(final String scaleName) {
-        env.getExecutor().executeCommand("quality of " + scaleName);
+    public void executeCommand(final String startingNote) {
+        env.getExecutor().executeCommand("play scale " + startingNote + " blues");
         result = env.getTranscriptManager().getTranscriptTuples().get(0).getResult();
     }
 
-    @Then("The following is printed to the transcript pane: (.+)")
-    public void verifyResult(final String quality) {
-        assertThat(result, equalTo(quality));
+    @Then("The following is printed to the transcript pane - (.+)")
+    public void verifyResult(final String scale) {
+        assertThat(result, equalTo(scale));
     }
 
 }
