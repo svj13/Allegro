@@ -47,6 +47,7 @@ public class DiatonicChordsTutorController extends TutorController {
         Integer function = rand.nextInt(7) + 1;
         String functionInRomanNumeral = ChordUtil.integerToRomanNumeral(function);
         Note randomNote = Note.getRandomNote();
+        randomiseNoteName(randomNote);
         Pair question = new Pair(functionInRomanNumeral, randomNote);
         return question;
     }

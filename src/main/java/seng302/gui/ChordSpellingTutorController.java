@@ -506,14 +506,22 @@ public class ChordSpellingTutorController extends TutorController {
             //example, if you're +7 above the note, you take that one and go down 7 semitones?
             for (int i = 0; i < 8; i++) {
                 Note thisNote = startingNote.semitoneDown(i);
-                surroundingNotes.add(randomiseNoteName(thisNote, correctNote));
+                if (thisNote != correctNote) {
+                    surroundingNotes.add(randomiseNoteName(thisNote));
+                } else {
+                    surroundingNotes.add(OctaveUtil.removeOctaveSpecifier(correctNote.getNote()));
+                }
             }
         } else {
             //goes to below the note
             //so, if you're -7 below the note, you take that and go up 7 semitones
             for (int i = 0; i < 8; i++) {
                 Note thisNote = startingNote.semitoneUp(i);
-                surroundingNotes.add(randomiseNoteName(thisNote, correctNote));
+                if (thisNote != correctNote) {
+                    surroundingNotes.add(randomiseNoteName(thisNote));
+                } else {
+                    surroundingNotes.add(OctaveUtil.removeOctaveSpecifier(correctNote.getNote()));
+                }
             }
         }
 
@@ -574,25 +582,7 @@ public class ChordSpellingTutorController extends TutorController {
         return chordNames;
     }
 
-    /**
-     * Using random numbers, "randomises" whether a note will display with a sharp or flat. Only
-     * uses sharps/flats when applicable.
-     *
-     * @param noteToRandomise A Note which is being "randomised"
-     * @param correctNote     A note we don't want to randomise, ever
-     * @return A 'randomised' string representation of a note.
-     */
-    private String randomiseNoteName(Note noteToRandomise, Note correctNote) {
-        String noteName = OctaveUtil.removeOctaveSpecifier(noteToRandomise.getNote());
 
-        //As the default is sharp, we randomise to get some flats
-        if (!noteToRandomise.equals(correctNote) && rand.nextInt(2) != 0) {
-            if (!noteToRandomise.simpleEnharmonic().equals("")) {
-                noteName = OctaveUtil.removeOctaveSpecifier(noteToRandomise.simpleEnharmonic());
-            }
-        }
-        return noteName;
-    }
 
     /**
      * Checks if the note a user has selected is the correct note. Essentially just a nice
