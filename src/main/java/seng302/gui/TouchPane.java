@@ -2,6 +2,8 @@ package seng302.gui;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.TouchEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
@@ -18,6 +20,7 @@ public class TouchPane extends StackPane {
     private String keyLabel;
     private boolean displayLabel = false;
     private boolean displayLabelOnAction = false;
+    private boolean displayScaleStartNote = false;
     Note noteToPlay;
     private boolean isblackKey;
 
@@ -131,6 +134,16 @@ public class TouchPane extends StackPane {
         } else {
             displayLabel = true;
             this.getChildren().add(new Text(keyLabel));
+        }
+
+    }
+
+    public void toggleScale() {
+
+        if (displayScaleStartNote) {
+            Image blueTriangle = new Image(getClass().getResourceAsStream
+                ("blueTriangle.png"), 10, 10, true, true);
+            this.getChildren().add(new ImageView("blueTriangle.png"));
         }
 
     }
