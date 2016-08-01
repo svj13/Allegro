@@ -382,6 +382,8 @@ public class KeyboardPaneController {
                 ArrayList<Note> scale1Notes = fetchScaleNotes(scale1NoteInput.getText(), typeScale1.getValue());
                 scale1NoteInput.setStyle("-fx-border-color: lightgray;");
                 System.out.println(scale1Notes);
+                cancelButton.setText("Close Scales");
+                displayScalesButton.setText("Close Scales");
 
                 //if the optional scale 2 is filled out
                 if (scale2Note != null && !scale2Note.equals("") && isValidNote2) {
