@@ -1,5 +1,8 @@
 package seng302.gui;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 import javafx.event.ActionEvent;
@@ -85,7 +88,7 @@ public class DiatonicChordsTutorController extends TutorController {
         formatQuestionRow(questionRow);
 
         final Label correctAnswer = correctAnswer(answer);
-        final ComboBox<String> options = generateChoices();
+        final ComboBox<String> options = generateChoices(functionAndNote, answer);
         options.setOnAction(event ->
                 handleQuestionAnswer(options.getValue().toLowerCase(), answer, questionRow)
         );
@@ -107,16 +110,41 @@ public class DiatonicChordsTutorController extends TutorController {
      *
      * @return a combo box of scale options
      */
-    private ComboBox<String> generateChoices() {
+    private ComboBox<String> generateChoices(Pair functionAndData, String answer) {
         ComboBox<String> options = new ComboBox<>();
         options.setPrefHeight(30);
 
-// Type 2 questions
-//        for(int i = 1; i<8; i++){
-//            options.getItems().add(ChordUtil.integerToRomanNumeral(i));
-//        }
-//        options.getItems().add("Non Functional");
-        options.getItems().add("to do");
+        if (type == 2) {
+            for (int i = 1; i < 8; i++) {
+                options.getItems().add(ChordUtil.integerToRomanNumeral(i));
+            }
+            options.getItems().add("Non Functional");
+        } else {
+            Integer numInScale = ChordUtil.romanNumeralToInteger((String) functionAndData.getKey());
+            String noteName = (String) functionAndData.getValue();
+            //Get the letter numInScale above the scale note
+            char letter = ChordUtil.lettersUp(noteName, numInScale - 1);
+            List<String> allOptions = new ArrayList<>();
+            allOptions.add(letter + " major 7th");
+            allOptions.add(letter + " minor 7th");
+            allOptions.add(letter + " 7th");
+            allOptions.add(letter + " half-diminished 7th");
+            allOptions.add(letter + "b major 7th");
+            allOptions.add(letter + "b minor 7th");
+            allOptions.add(letter + "b 7th");
+            allOptions.add(letter + "b half-diminished 7th");
+            allOptions.add(letter + "# major 7th");
+            allOptions.add(letter + "# minor 7th");
+            allOptions.add(letter + "# 7th");
+            allOptions.add(letter + "# half-diminished 7th");
+            Collections.shuffle(allOptions);
+            List<String> eight = allOptions.subList(0, 8);
+            if (!eight.contains(answer)) {
+                eight.remove(rand.nextInt(7));
+                eight.add(rand.nextInt(7), answer);
+            }
+            options.getItems().addAll(eight);
+        }
 
 
         return options;
