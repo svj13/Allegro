@@ -22,6 +22,7 @@ public class DiatonicChordsTutorController extends TutorController {
     private Random rand;
     private final String typeOneText = "What is the %s chord of %s?";
     private final String typeTwoText = "In %s, what is %s?";
+    Integer type = 1;
 
 
     public void create(Environment env) {
@@ -35,7 +36,14 @@ public class DiatonicChordsTutorController extends TutorController {
 
         questionRows.getChildren().clear();
         for (int i = 0; i < manager.questions; i++) {
-            HBox questionRow = generateQuestionPane(generateQuestionTypeOne());
+            HBox questionRow;
+            if (rand.nextBoolean()) {
+                type = 1;
+                questionRow = generateQuestionPane(generateQuestionTypeOne());
+            } else {
+                type = 2;
+                questionRow = generateQuestionPane(generateQuestionTypeTwo());
+            }
             questionRows.getChildren().add(questionRow);
             questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
         }
@@ -47,8 +55,13 @@ public class DiatonicChordsTutorController extends TutorController {
         Integer function = rand.nextInt(7) + 1;
         String functionInRomanNumeral = ChordUtil.integerToRomanNumeral(function);
         Note randomNote = Note.getRandomNote();
-        randomiseNoteName(randomNote);
-        Pair question = new Pair(functionInRomanNumeral, randomNote);
+        String randomNoteName = randomiseNoteName(randomNote);
+        Pair question = new Pair(functionInRomanNumeral, randomNoteName);
+        return question;
+    }
+
+    private Pair generateQuestionTypeTwo() {
+        Pair question = new Pair("type", "two");
         return question;
     }
 
@@ -56,12 +69,20 @@ public class DiatonicChordsTutorController extends TutorController {
 
     @Override
     HBox generateQuestionPane(Pair data) {
-        final Pair<String, Note> functionAndNote = data;
+        final Pair<String, String> functionAndNote = data;
         String scaleType = "major"; // Diatonics only accept major scales at this point.
-        String answer = ChordUtil.getChordFunction(functionAndNote.getKey(),
-                functionAndNote.getValue().getNote(), scaleType);
         final HBox questionRow = new HBox();
-        formatCorrectQuestion(questionRow);
+        Label question;
+        String answer;
+        if (type == 1) {
+            System.out.println(functionAndNote.getKey() + " " + functionAndNote.getValue());
+            question = new Label(String.format(typeOneText, functionAndNote.getKey(), functionAndNote.getValue()));
+            answer = ChordUtil.getChordFunction(functionAndNote.getKey(), functionAndNote.getValue(), scaleType);
+        } else {
+            question = new Label(String.format(typeTwoText, functionAndNote.getKey(), functionAndNote.getValue()));
+            answer = "";
+        }
+        formatQuestionRow(questionRow);
 
         final Label correctAnswer = correctAnswer(answer);
         final ComboBox<String> options = generateChoices();
@@ -72,9 +93,10 @@ public class DiatonicChordsTutorController extends TutorController {
         Button skip = new Button("Skip");
         styleSkipButton(skip);
 
-        questionRow.getChildren().add(0, options);
-        questionRow.getChildren().add(1, skip);
-        questionRow.getChildren().add(1, correctAnswer);
+        questionRow.getChildren().add(0, question);
+        questionRow.getChildren().add(1, options);
+        questionRow.getChildren().add(2, skip);
+        questionRow.getChildren().add(3, correctAnswer);
 
         questionRow.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
         return questionRow;
