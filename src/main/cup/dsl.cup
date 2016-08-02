@@ -96,11 +96,12 @@ COMMAND_MUSICAL_TERM_ORIGIN, COMMAND_MUSICAL_TERM_CATEGORY, COMMAND_ADD_MUSICAL_
 COMMAND_INTERVAL, COMMAND_PLAY_INTERVAL,COMMAND_ALL_ENHARMONICS, SEMIC, COMMAND_UNDO,
 COMMAND_REDO, COMMAND_TWINKLE, COMMAND_CHORD, COMMAND_PLAY_CHORD,COMMAND_RHYTHM, COMMAND_SET_RHYTHM,
 COMMAND_INTERVAL_ENHARMONIC, COMMAND_SHOW_KEYSIGNATURE,COMMAND_SHOW_KEYSIGNATURE_NUM,
-COMMAND_SCALE_WITH_KEYSIG, COMMAND_FIND_CHORD, COMMAND_FIND_CHORD_ALL,
-COMMAND_SHOW_CURRENT_INSTRUMENT, COMMAND_SHOW_ALL_INSTRUMENTS, COMMAND_SET_INSTRUMENT;
+COMMAND_SCALE_WITH_KEYSIG, COMMAND_FIND_CHORD, COMMAND_FIND_CHORD_ALL, COMMAND_QUALITY_OF,
+COMMAND_CHORD_FUNCTION, COMMAND_FUNCTION_OF, COMMAND_SHOW_CURRENT_INSTRUMENT,
+COMMAND_SHOW_ALL_INSTRUMENTS, COMMAND_SET_INSTRUMENT;
 
-terminal String ATOM, NOTE, SCALE_TYPE,INVERSION_SPECIFIER,  DIRECTION, MIDINOTE, NUMBER, POSNUM, INTERVAL, PLAY_STYLE, SHARPSFLATS, RHYTHM_TYPE,
-NOTE_TRIO, CHORD_TYPE, SHARED_CHORD_AND_INTERVAL;
+terminal String ATOM, NOTE, SCALE_TYPE, INVERSION_SPECIFIER,  DIRECTION, MIDINOTE, NUMBER, POSNUM,
+INTERVAL, PLAY_STYLE, SHARPSFLATS, RHYTHM_TYPE, CHORD_TYPE, SHARED_CHORD_AND_INTERVAL, ROMAN_NUMERALS;
 
 /* Non terminals */
 non terminal Command command;
@@ -121,6 +122,8 @@ non terminal HashMap<String, String> chordType;
 non terminal String numberAndSharpsFlat;
 non terminal ArrayList<String> notes;
 non terminal ArrayList<Note> chordSet;
+non terminal HashMap<String,String> chordFunction;
+non terminal HashMap<String,String> functionOf;
 non terminal ArrayList<String> instrument;
 
 start with command;
@@ -166,6 +169,9 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_INTERVAL_ENHARMONIC interval:i      {: RESULT = new IntervalCommand(i,"equivalent"); :}
           | COMMAND_FIND_CHORD chordSet:n               {: RESULT = new ChordFinder(n,false); :}
           | COMMAND_FIND_CHORD_ALL chordSet:n           {: RESULT = new ChordFinder(n,true); :}
+          | COMMAND_QUALITY_OF ROMAN_NUMERALS:r         {: RESULT = new Diatonic(r);:}
+          | COMMAND_CHORD_FUNCTION chordFunction:c      {: RESULT = new Diatonic(c);:}
+          | COMMAND_FUNCTION_OF functionOf:f            {: RESULT = new Diatonic(f);:}
           | COMMAND_SHOW_CURRENT_INSTRUMENT             {: RESULT = new InstrumentCommand("current"); :}
           | COMMAND_SHOW_ALL_INSTRUMENTS                {: RESULT = new InstrumentCommand("all"); :}
           | COMMAND_SET_INSTRUMENT instrument:s         {: RESULT = new InstrumentCommand(true, s); :}
@@ -197,7 +203,8 @@ rhythmStyle ::= RHYTHM_TYPE: r {:RESULT = r;:}
 ;
 
 scale ::= NOTE:s SCALE_TYPE:r       {:RESULT = new HashMap<String,String>(); RESULT.put("note", s);
-                                                RESULT.put("scale_type", r);:}
+                                        if(r.equals("mel minor"))RESULT.put("scale_type", "melodic minor");
+                                        else RESULT.put("scale_type", r);:}
       |    NOTE:s SCALE_TYPE:r INVERSION_SPECIFIER:i       {:RESULT = new HashMap<String,String>(); RESULT.put("note", s);
                                                           RESULT.put("scale_type", r); RESULT.put("inversion", Chord.inversionString(i));:}
 
@@ -283,8 +290,6 @@ singleTerm ::= keyword:s {: RESULT = s;:}
        | CHORD_TYPE:s  {:RESULT = s;:}
        | DIRECTION:s   {:RESULT = s;:}
        | INTERVAL:i    {:RESULT = i;:}
-
-
 ;
 
 term ::= singleTerm:s {:RESULT =s;:}
@@ -299,6 +304,32 @@ musicalDef ::= term:a SEMIC term:b SEMIC term:c SEMIC term:d
                 {: errorMessage = "Please provide the name, origin, category and definition of the " +
                    "musical term, separated by semicolons.";:}
 ;
+
+chordFunction ::= NOTE:n SCALE_TYPE:s ROMAN_NUMERALS:r
+            {: RESULT = new HashMap<String,String>(); RESULT.put("note", n); RESULT.put("scale_type",s);
+                RESULT.put("function", r); :}
+            | ROMAN_NUMERALS:r NOTE:n SCALE_TYPE:s
+            {: RESULT = new HashMap<String,String>(); RESULT.put("note", n); RESULT.put("scale_type",s);
+                                                                          RESULT.put("function", r); :}
+;
+
+functionOf ::= NOTE:n CHORD_TYPE:c NOTE:o SCALE_TYPE:s
+            {: RESULT = new HashMap<String,String>(); RESULT.put("chordNote", n); RESULT.put("scale_type",s);
+                RESULT.put("function", "function"); RESULT.put("scaleNote", o); RESULT.put("chord_type", c); :}
+            | NOTE:o SCALE_TYPE:s NOTE:n CHORD_TYPE:c
+            {: RESULT = new HashMap<String,String>(); RESULT.put("chordNote", n); RESULT.put("scale_type",s);
+               RESULT.put("function", "function"); RESULT.put("scaleNote", o); RESULT.put("chord_type", c); :}
+            | NOTE:o SCALE_TYPE:s NOTE:n SHARED_CHORD_AND_INTERVAL:c
+            {: RESULT = new HashMap<String,String>(); RESULT.put("chordNote", n); RESULT.put("scale_type",s);
+               RESULT.put("function", "function"); RESULT.put("scaleNote", o); RESULT.put("chord_type", c); :}
+            | NOTE:n SHARED_CHORD_AND_INTERVAL:c NOTE:o SCALE_TYPE:s
+            {: RESULT = new HashMap<String,String>(); RESULT.put("chordNote", n); RESULT.put("scale_type",s);
+                RESULT.put("function", "function"); RESULT.put("scaleNote", o); RESULT.put("chord_type", c); :}
+
+;
+
+
+
 
 
 instrument ::= ATOM:a {: RESULT = new ArrayList<String>(); RESULT.add(a);:}
