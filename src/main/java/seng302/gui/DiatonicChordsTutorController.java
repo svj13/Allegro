@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.util.Pair;
 import seng302.Environment;
+import seng302.command.Scale;
 import seng302.data.Note;
 import seng302.utility.TutorRecord;
 import seng302.utility.musicNotation.ChordUtil;
@@ -23,8 +24,8 @@ import seng302.utility.musicNotation.ChordUtil;
  */
 public class DiatonicChordsTutorController extends TutorController {
     private Random rand;
-    private final String typeOneText = "What is the %s chord of %s?";
-    private final String typeTwoText = "In %s, what is %s?";
+    private final String typeOneText = "What is the %s chord of %s major?";
+    private final String typeTwoText = "In %s major, what is %s?";
     Integer type = 1;
 
 
@@ -64,31 +65,47 @@ public class DiatonicChordsTutorController extends TutorController {
     }
 
     private Pair generateQuestionTypeTwo() {
-        Pair question = new Pair("type", "two");
-        return question;
-    }
+        Note randomNote = Note.getRandomNote();
+        String randomNoteName = randomiseNoteName(randomNote);
+        // Functional questions:
+        ArrayList<Note> scale = randomNote.getOctaveScale("major", 1, true);
+        Integer numInScale = rand.nextInt(7) + 1;
+        List<String> scaleNames = Scale.scaleNameList(randomNoteName, scale, true);
+        String chordNote = scaleNames.get(numInScale);
 
+        // About a quarter of questions will be non-functional.
+        Integer funcOrNon = rand.nextInt(4);
+        String chordType;
+        if (funcOrNon < 3) {
+            chordType = ChordUtil.getDiatonicChordQuality(ChordUtil.integerToRomanNumeral(numInScale));
+        } else {
+            // Non Functional questions:
+            Integer randomFunction = rand.nextInt(7) + 1;
+            chordType = ChordUtil.getDiatonicChordQuality(ChordUtil.integerToRomanNumeral(randomFunction));
+        }
+        Pair<String, String> chord = new Pair(chordNote, chordType);
+        return new Pair(randomNoteName, chord);
+    }
 
 
     @Override
     HBox generateQuestionPane(Pair data) {
-        final Pair<String, String> functionAndNote = data;
         String scaleType = "major"; // Diatonics only accept major scales at this point.
         final HBox questionRow = new HBox();
         Label question;
         String answer;
         if (type == 1) {
-            System.out.println(functionAndNote.getKey() + " " + functionAndNote.getValue());
-            question = new Label(String.format(typeOneText, functionAndNote.getKey(), functionAndNote.getValue()));
-            answer = ChordUtil.getChordFunction(functionAndNote.getKey(), functionAndNote.getValue(), scaleType);
+            question = new Label(String.format(typeOneText, data.getKey(), data.getValue()));
+            answer = ChordUtil.getChordFunction((String) data.getKey(), (String) data.getValue(), scaleType);
         } else {
-            question = new Label(String.format(typeTwoText, functionAndNote.getKey(), functionAndNote.getValue()));
-            answer = "";
+            Pair chord = (Pair) data.getValue();
+            question = new Label(String.format(typeTwoText, data.getKey(), chord.getKey() + " " + chord.getValue()));
+            answer = ChordUtil.getFunctionOf((String) data.getKey(), (String) chord.getKey(), (String) chord.getValue());
         }
         formatQuestionRow(questionRow);
 
         final Label correctAnswer = correctAnswer(answer);
-        final ComboBox<String> options = generateChoices(functionAndNote, answer);
+        final ComboBox<String> options = generateChoices(data, answer);
         options.setOnAction(event ->
                 handleQuestionAnswer(options.getValue().toLowerCase(), answer, questionRow)
         );
@@ -106,7 +123,9 @@ public class DiatonicChordsTutorController extends TutorController {
     }
 
     /**
-     * Creates a JavaFX combo box containing the lexical names of all scales.
+     * For type 2 questions: the answer options are the roman numerals from 1-7 and
+     * 'Non-functional'. For type 1 questions: the answer options are 7 random choices that have the
+     * correct letter + the correct answer.
      *
      * @return a combo box of scale options
      */
@@ -122,6 +141,7 @@ public class DiatonicChordsTutorController extends TutorController {
         } else {
             Integer numInScale = ChordUtil.romanNumeralToInteger((String) functionAndData.getKey());
             String noteName = (String) functionAndData.getValue();
+
             //Get the letter numInScale above the scale note
             char letter = ChordUtil.lettersUp(noteName, numInScale - 1);
             List<String> allOptions = new ArrayList<>();
@@ -138,11 +158,15 @@ public class DiatonicChordsTutorController extends TutorController {
             allOptions.add(letter + "# 7th");
             allOptions.add(letter + "# half-diminished 7th");
             Collections.shuffle(allOptions);
+            // We only want 8 of all the options.
             List<String> eight = allOptions.subList(0, 8);
+
+            // Ensure the correct answer is included.
             if (!eight.contains(answer)) {
                 eight.remove(rand.nextInt(7));
                 eight.add(rand.nextInt(7), answer);
             }
+
             options.getItems().addAll(eight);
         }
 

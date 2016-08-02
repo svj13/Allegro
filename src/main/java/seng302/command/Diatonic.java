@@ -1,10 +1,8 @@
 package seng302.command;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import seng302.Environment;
-import seng302.data.Note;
 import seng302.utility.musicNotation.ChordUtil;
 import seng302.utility.musicNotation.OctaveUtil;
 
@@ -53,33 +51,6 @@ public class Diatonic implements Command {
         }
     }
 
-    /**
-     * For the 'function of' command this method looks up the scale and checks if the chord note
-     * is in the scale. If it is in the scale, it finds which number note it is and finds the
-     * function (roman numeral) for the number note. It then checks that the quality of the chords
-     * matches the quality of that chord function.
-     * @return If this is all ok, it will return the function. Otherwise it return 'Non Functional'.
-     */
-    private String getFunctionOf() {
-        Note noteScaleStart = Note.lookup(OctaveUtil.addDefaultOctave(startingNote));
-        ArrayList<Note> scale = noteScaleStart.getScale("major", true);
-        ArrayList<String> scaleNoteNames = Scale.scaleNameList(startingNote, scale, true);
-        if (scaleNoteNames.contains(chordNote)) {
-            // The note is in the scale.
-            Integer numberOfNote = scaleNoteNames.indexOf(chordNote);
-            String romanNumeral = ChordUtil.integerToRomanNumeral(numberOfNote + 1);
-            String quality = ChordUtil.getDiatonicChordQuality(romanNumeral);
-            if (quality.equals(chordType)) {
-                result = romanNumeral;
-            } else {
-                result = "Non Functional";
-            }
-        } else {
-            result = "Non Functional";
-        }
-        return result;
-    }
-
     @Override
     public void execute(Environment env) {
         if (command == "quality") {
@@ -87,7 +58,7 @@ public class Diatonic implements Command {
         } else if (command == "chordFunction") {
             result = ChordUtil.getChordFunction(romanNumeral, startingNote, scaleType);
         } else if (command == "functionOf") {
-            result = getFunctionOf();
+            result = ChordUtil.getFunctionOf(startingNote, chordNote, chordType);
         }
         env.getTranscriptManager().setResult(this.result);
     }
