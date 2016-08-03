@@ -32,38 +32,30 @@ public class DiatonicChordsTutorController extends TutorController {
     public void create(Environment env) {
         super.create(env);
         initialiseQuestionSelector();
-        paneQuestions.setVisible(true);
-        paneResults.setVisible(false);
-        manager.resetEverything();
-        manager.questions = selectedQuestions;
         rand = new Random();
-
-        questionRows.getChildren().clear();
-        for (int i = 0; i < manager.questions; i++) {
-            HBox questionRow;
-            if (rand.nextBoolean()) {
-                type = 1;
-                questionRow = generateQuestionPane(generateQuestionTypeOne());
-            } else {
-                type = 2;
-                questionRow = generateQuestionPane(generateQuestionTypeTwo());
-            }
-            questionRows.getChildren().add(questionRow);
-            questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
-        }
-
-
     }
 
+    /**
+     * Generate the questions that ask the diatonic chord of a certain function.
+     *
+     * @return a Pair that includes the function and the Note name.
+     */
     private Pair generateQuestionTypeOne() {
         Integer function = rand.nextInt(7) + 1;
         String functionInRomanNumeral = ChordUtil.integerToRomanNumeral(function);
         Note randomNote = Note.getRandomNote();
         String randomNoteName = randomiseNoteName(randomNote);
         Pair question = new Pair(functionInRomanNumeral, randomNoteName);
-        return question;
+        String answer = ChordUtil.getChordFunction(functionInRomanNumeral, randomNoteName, "major");
+        return new Pair(question, answer);
     }
 
+    /**
+     * Generate the questions that ask for the function of a chord and key?
+     *
+     * @return a Pair that includes the random note name and another Pair containing chord Note,
+     * chord type.
+     */
     private Pair generateQuestionTypeTwo() {
         Note randomNote = Note.getRandomNote();
         String randomNoteName = randomiseNoteName(randomNote);
@@ -84,30 +76,30 @@ public class DiatonicChordsTutorController extends TutorController {
             chordType = ChordUtil.getDiatonicChordQuality(ChordUtil.integerToRomanNumeral(randomFunction));
         }
         Pair<String, String> chord = new Pair(chordNote, chordType);
-        return new Pair(randomNoteName, chord);
+        Pair data = new Pair(randomNoteName, chord);
+        String answer = ChordUtil.getFunctionOf(randomNoteName, chordNote, chordType);
+        return new Pair(data, answer);
     }
 
 
     @Override
-    HBox generateQuestionPane(Pair data) {
-        String scaleType = "major"; // Diatonics only accept major scales at this point.
+    HBox generateQuestionPane(Pair questionAnswer) {
+        Pair data = (Pair) questionAnswer.getKey();
+        String answer = (String) questionAnswer.getValue();
         final HBox questionRow = new HBox();
         Label question;
-        String answer;
         if (type == 1) {
             question = new Label(String.format(typeOneText, data.getKey(), data.getValue()));
-            answer = ChordUtil.getChordFunction((String) data.getKey(), (String) data.getValue(), scaleType);
         } else {
             Pair chord = (Pair) data.getValue();
             question = new Label(String.format(typeTwoText, data.getKey(), chord.getKey() + " " + chord.getValue()));
-            answer = ChordUtil.getFunctionOf((String) data.getKey(), (String) chord.getKey(), (String) chord.getValue());
         }
         formatQuestionRow(questionRow);
 
         final Label correctAnswer = correctAnswer(answer);
         final ComboBox<String> options = generateChoices(data, answer);
         options.setOnAction(event ->
-                handleQuestionAnswer(options.getValue().toLowerCase(), answer, questionRow)
+                handleQuestionAnswer(options.getValue().toLowerCase(), questionAnswer, questionRow)
         );
 
         Button skip = new Button("Skip");
@@ -177,12 +169,109 @@ public class DiatonicChordsTutorController extends TutorController {
     /**
      * Reacts accordingly to a user's input
      *
-     * @param userAnswer    The user's selection, as text
-     * @param correctAnswer A pair containing the starting note and scale type
-     * @param questionRow   The HBox containing GUI question data
+     * @param userAnswer  The user's selection, as text
+     * @param data        A pair containing the starting note and scale type
+     * @param questionRow The HBox containing GUI question data
      */
-    public void handleQuestionAnswer(String userAnswer, String correctAnswer, HBox questionRow) {
+    public void handleQuestionAnswer(String userAnswer, Pair data, HBox questionRow) {
+        manager.answered += 1;
+        boolean correct;
+        disableButtons(questionRow, 1, 2);
+        String correctAnswer = (String) data.getValue();
+        if (userAnswer.equals(correctAnswer)) {
+            correct = true;
+            manager.add(data, 1);
+            formatCorrectQuestion(questionRow);
+        } else {
+            correct = false;
+            manager.add(data, 0);
+            formatIncorrectQuestion(questionRow);
+            //Shows the correct answer
+            questionRow.getChildren().get(3).setVisible(true);
+        }
+        Pair questionPair = (Pair) data.getKey();
+        String[] question;
+        if (type == 1) {
+            question = new String[]{
+                    String.format(typeOneText,
+                            questionPair.getKey(),
+                            questionPair.getValue()),
+                    userAnswer,
+                    Boolean.toString(correct)
+            };
+        } else {
+            Pair chord = (Pair) questionPair.getValue();
+            question = new String[]{
+                    String.format(typeTwoText,
+                            questionPair.getKey(),
+                            chord.getKey() + " " + chord.getValue()),
+                    userAnswer,
+                    Boolean.toString(correct)
+            };
+        }
+        projectHandler.saveTutorRecords("diatonic", record.addQuestionAnswer(question));
+        env.getRootController().setTabTitle("diatonicChordTutor", true);
 
+        if (manager.answered == manager.questions) {
+            finished();
+        }
+
+    }
+
+    public void finished() {
+        env.getPlayer().stop();
+        userScore = getScore(manager.correct, manager.answered);
+        outputText = String.format("You have finished the tutor.\n" +
+                        "You answered %d questions, and skipped %d questions.\n" +
+                        "You answered %d questions correctly, %d questions incorrectly.\n" +
+                        "This gives a score of %.2f percent.",
+                manager.questions, manager.skipped,
+                manager.correct, manager.incorrect, userScore);
+        if (projectHandler.currentProjectPath != null) {
+            projectHandler.saveSessionStat("keySignature", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
+            projectHandler.saveCurrentProject();
+            outputText += "\nSession auto saved.";
+        }
+        env.getRootController().setTabTitle("keySignatureTutor", false);
+        // Sets the finished view
+        resultsContent.setText(outputText);
+
+        paneQuestions.setVisible(false);
+        paneResults.setVisible(true);
+        questionRows.getChildren().clear();
+
+        Button retestBtn = new Button("Retest");
+        Button clearBtn = new Button("Clear");
+        Button saveBtn = new Button("Save");
+
+        clearBtn.setOnAction(event -> {
+            manager.saveTempIncorrect();
+            paneResults.setVisible(false);
+            paneQuestions.setVisible(true);
+        });
+
+        paneResults.setPadding(new Insets(10, 10, 10, 10));
+        retestBtn.setOnAction(event -> {
+            paneResults.setVisible(false);
+            paneQuestions.setVisible(true);
+            retest();
+
+        });
+        saveBtn.setOnAction(event -> saveRecord());
+
+        if (manager.getTempIncorrectResponses().size() > 0) {
+            //Can re-test
+            buttons.getChildren().setAll(retestBtn, clearBtn, saveBtn);
+        } else {
+            //Perfect score
+            buttons.getChildren().setAll(clearBtn, saveBtn);
+        }
+
+        buttons.setMargin(retestBtn, new Insets(10, 10, 10, 10));
+        buttons.setMargin(clearBtn, new Insets(10, 10, 10, 10));
+        buttons.setMargin(saveBtn, new Insets(10, 10, 10, 10));
+        // Clear the current session
+        manager.resetStats();
     }
 
     @Override
@@ -196,6 +285,26 @@ public class DiatonicChordsTutorController extends TutorController {
      */
     private void goAction(ActionEvent event) {
         record = new TutorRecord();
+        paneQuestions.setVisible(true);
+        paneResults.setVisible(false);
+        manager.resetEverything();
+        manager.questions = selectedQuestions;
+
+        rand = new Random();
+
+        questionRows.getChildren().clear();
+        for (int i = 0; i < manager.questions; i++) {
+            HBox questionRow;
+            if (rand.nextBoolean()) {
+                type = 1;
+                questionRow = generateQuestionPane(generateQuestionTypeOne());
+            } else {
+                type = 2;
+                questionRow = generateQuestionPane(generateQuestionTypeTwo());
+            }
+            questionRows.getChildren().add(questionRow);
+            questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
+        }
 
     }
 

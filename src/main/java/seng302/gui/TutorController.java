@@ -157,8 +157,8 @@ public abstract class TutorController {
 
         //show a file picker
         FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
-        fileChooser.getExtensionFilters().add(textFilter);
+        //FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+        //fileChooser.getExtensionFilters().add(textFilter);
 
         if (env.getProjectHandler().isProject()) {
             env.getRootController().checkProjectDirectory();

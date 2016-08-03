@@ -53,11 +53,11 @@ public class Diatonic implements Command {
 
     @Override
     public void execute(Environment env) {
-        if (command == "quality") {
+        if (command.equals("quality")) {
             result = ChordUtil.getDiatonicChordQuality(romanNumeral);
-        } else if (command == "chordFunction") {
+        } else if (command.equals("chordFunction")) {
             result = ChordUtil.getChordFunction(romanNumeral, startingNote, scaleType);
-        } else if (command == "functionOf") {
+        } else if (command.equals("functionOf")) {
             result = ChordUtil.getFunctionOf(startingNote, chordNote, chordType);
         }
         env.getTranscriptManager().setResult(this.result);
