@@ -694,6 +694,7 @@ public class KeyboardPaneController {
     public void toggleScaleKeys(ArrayList<Note> scaleNotes) {
         ObservableList<Node> keys = keyboardBox.getChildren();
         Note startNote = scaleNotes.get(0);
+
         for (Node key : keys) {
             if (key instanceof TouchPane) {
                 if (((TouchPane) key).getNoteValue().equals(startNote)) {
