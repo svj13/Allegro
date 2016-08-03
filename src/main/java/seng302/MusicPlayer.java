@@ -57,8 +57,11 @@ public class MusicPlayer {
         }
     }
 
+    /**
+     * When the music player is initialised, this function sets the default instrument. The default
+     * instrument is the first available instrument on the synthesizer - usually a piano.
+     */
     private void setStarterInstrument() {
-        //Default to the first available instrument
         instrument = availableInstruments[0];
         instrumentInt = 0;
         instrumentPatch = instrument.getPatch();
