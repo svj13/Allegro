@@ -21,6 +21,10 @@ public class Help implements Command {
 
         keywordToCommand.put("crotchet duration", CrotchetDuration.getHelp());
 
+        keywordToCommand.put("chord function", Diatonic.getHelp("chordFunction"));
+        keywordToCommand.put("function of", Diatonic.getHelp("functionOf"));
+        keywordToCommand.put("quality of", Diatonic.getHelp("quality"));
+
         keywordToCommand.put("simple enharmonic", Enharmonic.getHelp("simple"));
         keywordToCommand.put("enharmonic higher", Enharmonic.getHelp("higher"));
         keywordToCommand.put("enharmonic lower", Enharmonic.getHelp("lower"));

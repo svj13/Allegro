@@ -27,6 +27,9 @@ public class CommandType {
         {
             put("chord", new CommandType("chord", "note,type", "inversion number", "chord D minor"));
             put("crotchet duration", new CommandType("crotchet duration", "", "", "crotchet duration"));
+            put("quality of", new CommandType("quality of", "I-VII", "", "quality of IV"));
+            put("function of", new CommandType("function of", "chord,major key", "", "function of C major II"));
+            put("chord function", new CommandType("chord function", "chord,major key", "", "chord function II C major"));
             put("all enharmonics", new CommandType("all enharmonics", "note", "", "all enharmonics A"));
             put("enharmonic higher", new CommandType("enharmonic higher", "note", "", "enharmonic higher B"));
             put("enharmonic lower", new CommandType("enharmonic lower", "note", "", "enharmonic lower C"));
