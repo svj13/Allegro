@@ -124,6 +124,9 @@ public class TouchPane extends StackPane {
         }
     }
 
+    /**
+     * displays the keynote name on the keyboard when display label is selected
+     */
     public void toggleDisplayLabel() {
         if (displayLabelOnAction) {
             toggleDisplayLabelOnAction();
@@ -138,15 +141,23 @@ public class TouchPane extends StackPane {
 
     }
 
+    /**
+     * displays a picture corresponding to a particular scale on the keys. Used by
+     * toggleScaleKeys() in KeyBoardPaneController
+     */
     public void toggleScale() {
 
         if (displayScaleStartNote) {
             Image blueTriangle = new Image(getClass().getResourceAsStream
                 ("blueTriangle.png"), 10, 10, true, true);
-            this.getChildren().add(new ImageView("blueTriangle.png"));
+            this.getChildren().add(new ImageView(blueTriangle)); //should this be "blueTriangle.png"??
         }
 
     }
+
+    /**
+     * displays the label of the key on click when show on click is selected
+     */
 
     public void toggleDisplayLabelOnAction() {
         if (displayLabel) {

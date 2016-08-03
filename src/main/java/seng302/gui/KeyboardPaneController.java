@@ -258,7 +258,7 @@ public class KeyboardPaneController {
         text.setToggleGroup(group);
         group.selectedToggleProperty().addListener((observable, newValue, oldValue) -> {
             if (group.getSelectedToggle() == null) {
-                play.setSelected(true);/images/gear-1119298_960_720
+                play.setSelected(true);
             } else {
                 playMode = (Boolean) group.getSelectedToggle().getUserData();
             }
@@ -340,19 +340,21 @@ public class KeyboardPaneController {
         ComboBox<String> typeScale2 = new ComboBox(typeOptions);
         typeScale2.setValue("Major"); //setting major as the default value
         scaleTwoTypeOptions.getChildren().add(typeScale2);
+
         /**
          * clear, OK and cancel button. OK and cancel are going into their own HBOX. clear is going to
          * be added to both the scale 1 and scale 2 hboxes
          */
 
         //closes the pop out and cancels any inputted information
-        Button cancelButton = new Button("Cancel"); //closes the pop out window without actioning
+        Button cancelButton = new Button("Cancel"); //closes the pop toggleScale(scale1Notes);out window without actioning
         cancelButton.setOnAction(event->{
             scale1NoteInput.clear();
             typeScale1.setValue("Major");
             scale2NoteInput.clear();
             typeScale2.setValue("Major");
             toggleDisplayScales();
+            displayScalesButton.setText("Display Scales");
 
         });
 
@@ -374,7 +376,7 @@ public class KeyboardPaneController {
             //if scale 1 is filled out
             } else if (scale1Note != null && !scale1Note.equals("") && isValidNote1){
                 ArrayList<Note> scale1Notes = fetchScaleNotes(scale1NoteInput.getText(), typeScale1.getValue());
-                
+                toggleScaleKeys(scale1Notes); //displays pic on first key of scale
                 scale1NoteInput.setStyle("-fx-border-color: lightgray;");
                 System.out.println(scale1Notes);
                 cancelButton.setText("Close Scales"); //changes the value of cancel to promt turn off the scales
@@ -384,6 +386,7 @@ public class KeyboardPaneController {
                 //if the optional scale 2 is filled out
                 if (scale2Note != null && !scale2Note.equals("") && isValidNote2) {
                     ArrayList<Note> scale2Notes = fetchScaleNotes(scale2NoteInput.getText(), typeScale2.getValue());
+                    toggleScaleKeys(scale2Notes); //displays pic on first key of scale
                     scale2NoteInput.setStyle("-fx-border-color: lightgray;");
                     System.out.println(scale2Notes);
                 }
@@ -688,13 +691,14 @@ public class KeyboardPaneController {
     /**
      * Show/Hide first note of scale on keyboard notes
      */
-    public void toggleScale() {
+    public void toggleScaleKeys(ArrayList<Note> scaleNotes) {
         ObservableList<Node> keys = keyboardBox.getChildren();
-        Note startNote = new
+        Note startNote = scaleNotes.get(0);
         for (Node key : keys) {
             if (key instanceof TouchPane) {
-                if (((TouchPane) key).getNoteValue() == )
-                ((TouchPane) key).toggleScale();
+                if (((TouchPane) key).getNoteValue().equals(startNote)) {
+                    ((TouchPane) key).toggleScale();
+                }
             }
         }
     }
