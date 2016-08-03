@@ -147,11 +147,10 @@ public class TouchPane extends StackPane {
      */
     public void toggleScale() {
 
-        if (displayScaleStartNote) {
-            Image blueTriangle = new Image(getClass().getResourceAsStream
-                ("blueTriangle.png"), 10, 10, true, true);
-            this.getChildren().add(new ImageView(blueTriangle)); //should this be "blueTriangle.png"??
-        }
+
+        Image triangle = new Image(getClass().getResourceAsStream("/images/triangle.png"), 10, 10, true, true);
+        this.getChildren().add(new ImageView(triangle)); //should this be "blueTriangle.png"??
+
 
     }
 
