@@ -40,6 +40,8 @@ public class CommandType {
             put("semitone down", new CommandType("semitone down", "note|midi", "", "semitone down A"));
             put("tempo", new CommandType("tempo", "", "", "tempo"));
             put("rhythm", new CommandType("rhythm", "", "", "rhythm"));
+            put("all instruments", new CommandType("all instruments", "", "", "all instruments"));
+            put("instrument", new CommandType("instrument", "", "", "instrument"));
         }
     };
 
@@ -67,6 +69,7 @@ public class CommandType {
             put("set tempo", new CommandType("set tempo", "20-300", "", "set tempo 150"));
             put("set rhythm", new CommandType("set rhythm", "straight|light|medium|heavy|fraction fraction fraction", "", "set rhythm 1/3 1/3 1/3"));
             put("force set tempo", new CommandType("force set tempo", "1 or higher", "", "force set tempo 500"));
+            put("set instrument", new CommandType("set instrument", "number|instrument name", "", "set instrument Flute"));
         }
     };
 
