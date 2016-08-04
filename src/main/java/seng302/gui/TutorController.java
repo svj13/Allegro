@@ -109,6 +109,7 @@ public abstract class TutorController {
         // occurred. This handles that situation.
         numQuestions.setOnMouseReleased(event -> {
             Double val = numQuestions.getValue();
+            selectedQuestions = val.intValue();
             questions.setText(Integer.toString(val.intValue()));
         });
     }

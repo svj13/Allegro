@@ -26,13 +26,19 @@ public class DiatonicChordsTutorController extends TutorController {
     private Random rand;
     private final String typeOneText = "What is the %s chord of %s major?";
     private final String typeTwoText = "In %s major, what is %s?";
-    Integer type = 1;
+    private Integer type = 1;
+    private ArrayList<String> type2answers;
 
 
     public void create(Environment env) {
         super.create(env);
         initialiseQuestionSelector();
         rand = new Random();
+        type2answers = new ArrayList<>();
+        for (int i = 1; i < 8; i++) {
+            type2answers.add(ChordUtil.integerToRomanNumeral(i));
+        }
+        type2answers.add("Non Functional");
     }
 
     /**
@@ -88,18 +94,7 @@ public class DiatonicChordsTutorController extends TutorController {
         String answer = (String) questionAnswer.getValue();
         final HBox questionRow = new HBox();
         Label question;
-        ArrayList<String> type2answers = new ArrayList<>();
-        for (int i = 1; i < 8; i++) {
-            type2answers.add(ChordUtil.integerToRomanNumeral(i));
-        }
-        type2answers.add("Non Functional");
-        if (type2answers.contains(answer)) {
-            type = 2;
-        } else {
-            type = 1;
-        }
-
-        if (type == 1) {
+        if (getTypeOfQuestion(questionAnswer) == 1) {
             question = new Label(String.format(typeOneText, data.getKey(), data.getValue()));
         } else {
             Pair chord = (Pair) data.getValue();
@@ -137,10 +132,7 @@ public class DiatonicChordsTutorController extends TutorController {
         options.setPrefHeight(30);
 
         if (type == 2) {
-            for (int i = 1; i < 8; i++) {
-                options.getItems().add(ChordUtil.integerToRomanNumeral(i));
-            }
-            options.getItems().add("Non Functional");
+            options.getItems().addAll(type2answers);
         } else {
             Integer numInScale = ChordUtil.romanNumeralToInteger((String) functionAndData.getKey());
             String noteName = (String) functionAndData.getValue();
@@ -181,30 +173,28 @@ public class DiatonicChordsTutorController extends TutorController {
      * Reacts accordingly to a user's input
      *
      * @param userAnswer  The user's selection, as text
-     * @param data        A pair containing the starting note and scale type
+     * @param questionAndAnswer        A pair containing the starting note and scale type
      * @param questionRow The HBox containing GUI question data
      */
-    public void handleQuestionAnswer(String userAnswer, Pair data, HBox questionRow) {
+    public void handleQuestionAnswer(String userAnswer, Pair questionAndAnswer, HBox questionRow) {
         manager.answered += 1;
         boolean correct;
         disableButtons(questionRow, 1, 2);
-        String correctAnswer = (String) data.getValue();
-        System.out.println(correctAnswer);
-        System.out.println(userAnswer);
+        String correctAnswer = (String) questionAndAnswer.getValue();
         if (userAnswer.equalsIgnoreCase(correctAnswer)) {
             correct = true;
-            manager.add(data, 1);
+            manager.add(questionAndAnswer, 1);
             formatCorrectQuestion(questionRow);
         } else {
             correct = false;
-            manager.add(data, 0);
+            manager.add(questionAndAnswer, 0);
             formatIncorrectQuestion(questionRow);
             //Shows the correct answer
             questionRow.getChildren().get(3).setVisible(true);
         }
-        Pair questionPair = (Pair) data.getKey();
+        Pair questionPair = (Pair) questionAndAnswer.getKey();
         String[] question;
-        if (type == 1) {
+        if (getTypeOfQuestion(questionAndAnswer) == 1) {
             question = new String[]{
                     String.format(typeOneText,
                             questionPair.getKey(),
@@ -241,11 +231,11 @@ public class DiatonicChordsTutorController extends TutorController {
                 manager.questions, manager.skipped,
                 manager.correct, manager.incorrect, userScore);
         if (projectHandler.currentProjectPath != null) {
-            projectHandler.saveSessionStat("keySignature", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
+            projectHandler.saveSessionStat("diatonic", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
             projectHandler.saveCurrentProject();
             outputText += "\nSession auto saved.";
         }
-        env.getRootController().setTabTitle("keySignatureTutor", false);
+        env.getRootController().setTabTitle("diatonicChordTutor", false);
         // Sets the finished view
         resultsContent.setText(outputText);
 
@@ -290,6 +280,22 @@ public class DiatonicChordsTutorController extends TutorController {
     @Override
     void resetInputs() {
 
+    }
+
+    /**
+     * Figures out what type the questions is based on the answer. If the answer is a type 2 answer
+     * then the question is type 2. Otherwise it is type 1.
+     *
+     * @param questionAndAnswer The pair data for the question.
+     * @return an Integer indicating question type 1 or 2
+     */
+    private Integer getTypeOfQuestion(Pair questionAndAnswer) {
+        String answer = (String) questionAndAnswer.getValue();
+        if (type2answers.contains(answer)) {
+            return 2;
+        } else {
+            return 1;
+        }
     }
 
     @FXML
