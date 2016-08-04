@@ -1,6 +1,6 @@
 Feature: Blues Scales
 
-  Scenario Outline: Retrieve Notes in Specific Blues Scale
+  Scenario Outline: Retrieve Notes in Specific Blues Scales
     Given I am on the transcript pane
     When I type the command 'play scale <startingNote> blues'
     Then The following is printed to the transcript pane - <scale>
@@ -38,3 +38,49 @@ Feature: Blues Scales
       | G5           | G5 Bb5 C6 Db6 D6 F6 G6   |
       | A5           | A5 C6 D6 Eb6 E6 G6 A6    |
       | B5           | B5 D6 E6 F6 F#6 A6 B6    |
+
+  Scenario Outline: Retrieve Notes in Specific Blues Scales Downwards
+    Given I am on the transcript pane
+    When I type the command 'play scale <startingNote> blues down'
+    Then The following is printed to the transcript pane - <scale>
+
+    Examples:
+      | startingNote | scale             |
+      | C            | C Bb G Gb F Eb C  |
+      | D            | D C A Ab G F D    |
+      | E            | E D B Bb A G E    |
+      | F            | F Eb C B Bb Ab F  |
+      | G            | G F D Db C Bb G   |
+      | A            | A G E Eb D C A    |
+      | B            | B A F# F E D B    |
+
+      | C5            | C5 Bb4 G4 Gb4 F4 Eb4 C4  |
+      | D5            | D5 C5 A4 Ab4 G4 F4 D4    |
+      | E5            | E5 D5 B4 Bb4 A4 G4 E4    |
+      | F5            | F5 Eb5 C5 B4 Bb4 Ab4 F4  |
+      | G5            | G5 F5 D5 Db5 C5 Bb4 G4   |
+      | A5            | A5 G5 E5 Eb5 D5 C5 A4    |
+      | B5            | B5 A5 F#5 F5 E5 D5 B4    |
+
+  Scenario Outline: Retrieve Notes in Specific Blues Scales Up and Downwards
+    Given I am on the transcript pane
+    When I type the command 'play scale <startingNote> blues updown'
+    Then The following is printed to the transcript pane - <scale>
+
+    Examples:
+      | startingNote | scale                             |
+      | C            | C Eb F Gb G Bb C C Bb G Gb F Eb C |
+      | D            | D F G Ab A C D D C A Ab G F D     |
+      | E            | E G A Bb B D E E D B Bb A G E     |
+      | F            | F Ab Bb B C Eb F F Eb C B Bb Ab F |
+      | G            | G Bb C Db D F G G F D Db C Bb G   |
+      | A            | A C D Eb E G A A G E Eb D C A     |
+      | B            | B D E F F# A B B A F# F E D B     |
+
+      | C5           | C5 Eb5 F5 Gb5 G5 Bb5 C6 C6 Bb5 G5 Gb5 F5 Eb5 C5 |
+      | D5           | D5 F5 G5 Ab5 A5 C6 D6 D6 C6 A5 Ab5 G5 F5 D5     |
+      | E5           | E5 G5 A5 Bb5 B5 D6 E6 E6 D6 B5 Bb5 A5 G5 E5     |
+      | F5           | F5 Ab5 Bb5 B5 C6 Eb6 F6 F6 Eb6 C6 B5 Bb5 Ab5 F5 |
+      | G5           | G5 Bb5 C6 Db6 D6 F6 G6 G6 F6 D6 Db6 C6 Bb5 G5   |
+      | A5           | A5 C6 D6 Eb6 E6 G6 A6 A6 G6 E6 Eb6 D6 C6 A5     |
+      | B5           | B5 D6 E6 F6 F#6 A6 B6 B6 A6 F#6 F6 E6 D6 B5     |

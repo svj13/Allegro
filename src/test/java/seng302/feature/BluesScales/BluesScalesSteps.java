@@ -24,8 +24,20 @@ public class BluesScalesSteps {
     }
 
     @When("I type the command 'play scale (.+) blues'")
-    public void executeCommand(final String startingNote) {
+    public void play_blues_scale(final String startingNote) {
         env.getExecutor().executeCommand("play scale " + startingNote + " blues");
+        result = env.getTranscriptManager().getTranscriptTuples().get(0).getResult();
+    }
+
+    @When("I type the command 'play scale (.+) blues down'")
+    public void play_blues_scale_down(final String startingNote) {
+        env.getExecutor().executeCommand("play scale " + startingNote + " blues down");
+        result = env.getTranscriptManager().getTranscriptTuples().get(0).getResult();
+    }
+
+    @When("I type the command 'play scale (.+) blues updown'")
+    public void play_blues_scale_updown(final String startingNote) {
+        env.getExecutor().executeCommand("play scale " + startingNote + " blues updown");
         result = env.getTranscriptManager().getTranscriptTuples().get(0).getResult();
     }
 
