@@ -29,6 +29,7 @@ public class UserHandler {
     JSONArray userList;
     JSONParser parser = new JSONParser(); //parser for reading project
     JSONObject UsersInfo = new JSONObject();
+    JSONArray recentUsers = new JSONArray();
 
 
 
@@ -60,12 +61,12 @@ public class UserHandler {
 
 
     private void populateUsers(){
-        ArrayList<User> users = new ArrayList<User>();
 
 
         try {
             UsersInfo = (JSONObject) parser.parse(new FileReader(userDirectory + "/user_list.json"));
             this.userList = (JSONArray) UsersInfo.get("users");
+            this.recentUsers = (JSONArray) UsersInfo.get("recentUsers");
 
         } catch (FileNotFoundException e) {
             try {
@@ -74,6 +75,7 @@ public class UserHandler {
 
 
                 UsersInfo.put("users", userList);
+                UsersInfo.put("recentUsers", recentUsers);
 
                 if (!Files.isDirectory(userDirectory)) {
                     //Create Projects path doesn't exist.
@@ -134,9 +136,16 @@ public class UserHandler {
         if (!userList.contains(username)) {
             userList.add(username);
         }
+        if(!recentUsers.contains(username)){
+            if(recentUsers.size() == 4){
+                recentUsers.remove(0);
+            }
+            recentUsers.add(username);
+        }
 
         try { //Save list of projects.
             UsersInfo.put("users", userList);
+            UsersInfo.put("recentUsers", recentUsers);
             FileWriter projectsJson = new FileWriter(userDirectory + "/user_list.json");
             projectsJson.write(UsersInfo.toJSONString());
             projectsJson.flush();
@@ -157,6 +166,7 @@ public class UserHandler {
     public void setCurrentUser(String userName){
         this.currentUser = new User(env, userName);
         currentUser.loadFullProperties();
+        updateUserList(userName);
 
     }
 
