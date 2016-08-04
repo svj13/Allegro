@@ -177,7 +177,17 @@ public class MusicalTerm implements Command {
         }
         return null;
 
+    }
+
+    public ArrayList<String> getParams() {
+        ArrayList<String> params = new ArrayList<>();
+        if (infoToGet.equals("add")) {
+            params.add("name; origin; category; definition");
+        } else {
+            params.add("musical term name");
         }
+        return params;
+    }
 
 
 }

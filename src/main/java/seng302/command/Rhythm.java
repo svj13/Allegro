@@ -122,4 +122,13 @@ public class Rhythm implements Command {
                     "For information on changing the rhythm, see 'help set rhythm";
         }
     }
+
+    public ArrayList<String> getParams() {
+        ArrayList<String> params = new ArrayList<>();
+        if (isSetter) {
+            params.add("straight|light|medium|heavy|fraction fraction fraction");
+        }
+
+        return params;
+    }
 }

@@ -107,5 +107,18 @@ public class Tempo implements Command {
                     "it will have a default value of 120BPM.";
         }
     }
+
+    public ArrayList<String> getParams() {
+        ArrayList<String> params = new ArrayList<>();
+        if (isSetter) {
+            if (force) {
+                params.add("1 or higher");
+            } else {
+                params.add("20-300");
+            }
+        }
+
+        return params;
+    }
 }
 

@@ -230,5 +230,12 @@ public class ChordFinder implements Command {
                 "\t and 'find chord all C F A' also returns F MAJOR";
     }
 
+    public ArrayList<String> getParams() {
+        ArrayList<String> params = new ArrayList<>();
+        params.add("note note note");
+        return params;
+
+    }
+
 
 }

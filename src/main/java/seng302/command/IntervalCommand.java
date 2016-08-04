@@ -364,5 +364,24 @@ public class IntervalCommand implements Command {
         }
         return null;
     }
+
+    public ArrayList<String> getParams() {
+        ArrayList<String> params = new ArrayList<>();
+        params.add("name");
+        if (outputType.equals("play")) {
+            params.add("note");
+        }
+
+        return params;
+    }
+
+    public ArrayList<String> getOptions() {
+        ArrayList<String> options = new ArrayList<>();
+        if (outputType.equals("semitones") || outputType.equals("note")) {
+            options.add("note");
+        }
+
+        return options;
+    }
 }
 

@@ -106,4 +106,21 @@ public class Diatonic implements Command {
         return null;
 
     }
+
+    public ArrayList<String> getParams() {
+        ArrayList<String> params = new ArrayList<>();
+        switch (command) {
+            case "quality":
+                params.add("I-VII");
+            case "chordFunction":
+                params.add("chord");
+                params.add("major key");
+            case "functionOf":
+                params.add("chord");
+                params.add("major key");
+        }
+
+        return params;
+    }
+
 }

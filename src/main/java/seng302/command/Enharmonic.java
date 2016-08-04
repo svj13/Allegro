@@ -112,4 +112,9 @@ public class Enharmonic implements Command {
         return null;
     }
 
+    public ArrayList<String> getParams() {
+        ArrayList<String> params = new ArrayList<>();
+        params.add("note");
+        return params;
+    }
 }

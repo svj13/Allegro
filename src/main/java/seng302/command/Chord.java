@@ -260,4 +260,20 @@ public class Chord implements Command {
             return "Having errors with the text for this";
         }
     }
+
+    public ArrayList<String> getParams() {
+        ArrayList<String> params = new ArrayList<>();
+        params.add("note");
+        params.add("type");
+        return params;
+    }
+
+    public ArrayList<String> getOptions() {
+        ArrayList<String> options = new ArrayList<>();
+        options.add("inversion number");
+        if (outputType.equals("play")) {
+            options.add("arpeggio");
+        }
+        return options;
+    }
 }

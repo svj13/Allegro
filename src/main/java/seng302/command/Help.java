@@ -28,6 +28,8 @@ public class Help implements Command {
         chordNotes.add(Note.lookup("C4"));
         chordNotes.add(Note.lookup("F4"));
         keywordToCommand.put("find chord", new ChordFinder(chordNotes, false));
+        //add this to keywords in the parser
+        keywordToCommand.put("find chord all", new ChordFinder(chordNotes, true));
 
         keywordToCommand.put("crotchet duration", new CrotchetDuration());
 
@@ -120,6 +122,7 @@ public class Help implements Command {
             Command result = keywordToCommand.get(keyword);
             if (result != null) {
                 env.getTranscriptManager().setResult(result.getHelp());
+                System.out.println(result.getParams());
             } else {
                 env.getTranscriptManager().setResult("Showing DSL Reference");
                 env.getRootController().getTranscriptController().showDslRef();

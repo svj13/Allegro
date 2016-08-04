@@ -1,5 +1,7 @@
 package seng302.command;
 
+import java.util.ArrayList;
+
 import seng302.Environment;
 import seng302.data.Note;
 import seng302.utility.musicNotation.Checker;
@@ -29,5 +31,11 @@ public class NoteCommand implements Command {
 
     public String getHelp() {
         return "When followed by a valid midi number (within the range of 0-127), it will return the corresponding note name and its octave e.g. 'note 60' will return C4.";
+    }
+
+    public ArrayList<String> getParams() {
+        ArrayList<String> params = new ArrayList<>();
+        params.add("midi number");
+        return params;
     }
 }

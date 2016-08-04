@@ -206,24 +206,6 @@ public class Scale implements Command {
 
     }
 
-    public String getHelp() {
-        switch (outputType) {
-            case "note":
-                return "When followed by a valid scale (made up of a note and a scale type)" +
-                        " the corresponding scale notes will be returned. e.g scale c major. ";
-            case "play":
-                return "When followed by a valid scale (made up of a note and a scale type)" +
-                        " the corresponding scale will be played. Options for the number of" +
-                        " octaves and direction can be given. E.g play scale c major " +
-                        "[number of octaves] [up|updown|down]";
-
-            case "midi":
-                return "When followed by a valid scale (made up of a note and a scale type) " +
-                        "the corresponding scale midi notes will be returned. ";
-
-        }
-        return null;
-    }
 
     /**
      * Converts an ArrayList of notes into an ArrayList of Strings where the strings are the correct
@@ -305,5 +287,41 @@ public class Scale implements Command {
         }
 
         return milliseconds;
+    }
+
+    public String getHelp() {
+        switch (outputType) {
+            case "note":
+                return "When followed by a valid scale (made up of a note and a scale type)" +
+                        " the corresponding scale notes will be returned. e.g scale c major. ";
+            case "play":
+                return "When followed by a valid scale (made up of a note and a scale type)" +
+                        " the corresponding scale will be played. Options for the number of" +
+                        " octaves and direction can be given. E.g play scale c major " +
+                        "[number of octaves] [up|updown|down]";
+
+            case "midi":
+                return "When followed by a valid scale (made up of a note and a scale type) " +
+                        "the corresponding scale midi notes will be returned. ";
+
+        }
+        return null;
+    }
+
+    public ArrayList<String> getParams() {
+        ArrayList<String> params = new ArrayList<>();
+        params.add("note");
+        params.add("type");
+        return params;
+    }
+
+    public ArrayList<String> getOptions() {
+        ArrayList<String> options = new ArrayList<>();
+        if (outputType.equals("play")) {
+            options.add("octaves");
+            options.add("up|down|updown");
+        }
+
+        return options;
     }
 }

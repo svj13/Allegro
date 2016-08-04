@@ -1,5 +1,7 @@
 package seng302.command;
 
+import java.util.ArrayList;
+
 import seng302.Environment;
 import seng302.data.Note;
 import seng302.utility.musicNotation.OctaveUtil;
@@ -51,5 +53,11 @@ public class Semitone implements Command {
                     " that is a semitone lower.";
 
         }
+    }
+
+    public ArrayList<String> getParams() {
+        ArrayList<String> params = new ArrayList<>();
+        params.add("note|midi");
+        return params;
     }
 }
