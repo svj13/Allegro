@@ -186,8 +186,15 @@ public class Scale implements Command {
                         }
                         env.getTranscriptManager().setResult(stringOfScale);
                     } else if (this.outputType.equals("midi")) {
-                        env.getTranscriptManager().setResult(scaleToMidi(scale));
+                        String midiScaleString = scaleToMidi(scale);
+                        if (pentatonic) {
+                            midiScaleString = scaleToPentatonicString(midiScaleString);
+                        }
+                        env.getTranscriptManager().setResult(midiScaleString);
                     } else { // Play scale.
+                        if (pentatonic) {
+                            scale = scaleToPentatonic(scale);
+                        }
 
                         if (direction.equals("updown")) {
                             env.getPlayer().playNotes(scale);
@@ -282,8 +289,8 @@ public class Scale implements Command {
     /**
      * Converts the given (7 note) scale to a pentatonic scale
      */
-    private ArrayList<String> scaleToPentatonic(ArrayList<String> scaleNotes) {
-        ArrayList<String> pentatonicScale = new ArrayList<String>();
+    private ArrayList<Note> scaleToPentatonic(ArrayList<Note> scaleNotes) {
+        ArrayList<Note> pentatonicScale = new ArrayList<Note>();
         if (type.equals("major")) {
             pentatonicScale.add(scaleNotes.get(0));
             pentatonicScale.add(scaleNotes.get(1));
@@ -292,7 +299,7 @@ public class Scale implements Command {
             pentatonicScale.add(scaleNotes.get(5));
             pentatonicScale.add(scaleNotes.get(7));
             if (direction.equals("updown")) {
-                ArrayList<String> notes = new ArrayList<String>(pentatonicScale);
+                ArrayList<Note> notes = new ArrayList<Note>(pentatonicScale);
                 Collections.reverse(notes);
                 pentatonicScale.addAll(notes);
             }
@@ -304,7 +311,7 @@ public class Scale implements Command {
             pentatonicScale.add(scaleNotes.get(6));
             pentatonicScale.add(scaleNotes.get(7));
             if (direction.equals("updown")) {
-                ArrayList<String> notes = new ArrayList<String>(pentatonicScale);
+                ArrayList<Note> notes = new ArrayList<Note>(pentatonicScale);
                 Collections.reverse(notes);
                 pentatonicScale.addAll(notes);
             }
@@ -342,6 +349,9 @@ public class Scale implements Command {
     private void pentatonicCheck() {
         if (this.outputType.equals("pentatonic_note")) {
             this.outputType = "note";
+            this.pentatonic = true;
+        } else if (this.outputType.equals("pentatonic_midi")) {
+            this.outputType = "midi";
             this.pentatonic = true;
         }
     }

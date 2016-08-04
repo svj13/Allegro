@@ -1,8 +1,9 @@
+@pentatonicNote
 Feature: Pentatonic Scales
 
   Scenario Outline: Pentatonic Scales
     Given I am on the transcript pane
-    When I type the command 'scale <scale name> <scale type> pentatonic'
+    When I type the command 'pentatonic scale <scale name> <scale type>'
     Then The following is printed to the transcript pane - <returnedNotes>
     Examples:
       | scale name | scale type | returnedNotes   |
