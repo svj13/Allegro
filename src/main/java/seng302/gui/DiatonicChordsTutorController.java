@@ -63,12 +63,12 @@ public class DiatonicChordsTutorController extends TutorController {
         ArrayList<Note> scale = randomNote.getOctaveScale("major", 1, true);
         Integer numInScale = rand.nextInt(7) + 1;
         List<String> scaleNames = Scale.scaleNameList(randomNoteName, scale, true);
-        String chordNote = scaleNames.get(numInScale);
+        String chordNote = scaleNames.get(numInScale - 1);
 
         // About a quarter of questions will be non-functional.
-        Integer funcOrNon = rand.nextInt(4);
+        Integer funcOrNon = rand.nextInt(8);
         String chordType;
-        if (funcOrNon < 3) {
+        if (funcOrNon <= 7) {
             chordType = ChordUtil.getDiatonicChordQuality(ChordUtil.integerToRomanNumeral(numInScale));
         } else {
             // Non Functional questions:
@@ -88,6 +88,17 @@ public class DiatonicChordsTutorController extends TutorController {
         String answer = (String) questionAnswer.getValue();
         final HBox questionRow = new HBox();
         Label question;
+        ArrayList<String> type2answers = new ArrayList<>();
+        for (int i = 1; i < 8; i++) {
+            type2answers.add(ChordUtil.integerToRomanNumeral(i));
+        }
+        type2answers.add("Non Functional");
+        if (type2answers.contains(answer)) {
+            type = 2;
+        } else {
+            type = 1;
+        }
+
         if (type == 1) {
             question = new Label(String.format(typeOneText, data.getKey(), data.getValue()));
         } else {
@@ -178,7 +189,9 @@ public class DiatonicChordsTutorController extends TutorController {
         boolean correct;
         disableButtons(questionRow, 1, 2);
         String correctAnswer = (String) data.getValue();
-        if (userAnswer.equals(correctAnswer)) {
+        System.out.println(correctAnswer);
+        System.out.println(userAnswer);
+        if (userAnswer.equalsIgnoreCase(correctAnswer)) {
             correct = true;
             manager.add(data, 1);
             formatCorrectQuestion(questionRow);
