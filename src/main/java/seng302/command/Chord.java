@@ -285,4 +285,13 @@ public class Chord implements Command {
             return "chord";
         }
     }
+
+    @Override
+    public String getExample() {
+        if (outputType.equals("play")) {
+            return "play chord C# major inversion 1";
+        } else {
+            return "chord D minor";
+        }
+    }
 }

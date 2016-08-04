@@ -339,4 +339,19 @@ public class Scale implements Command {
         }
         return null;
     }
+
+    @Override
+    public String getExample() {
+        switch (outputType) {
+            case "note":
+                return "scale A minor";
+            case "play":
+                return "play scale C major updown";
+
+            case "midi":
+                return "midi scale A minor";
+
+        }
+        return null;
+    }
 }

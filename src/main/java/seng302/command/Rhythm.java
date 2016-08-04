@@ -140,4 +140,13 @@ public class Rhythm implements Command {
             return "rhythm";
         }
     }
+
+    @Override
+    public String getExample() {
+        if (isSetter) {
+            return "set rhythm 1/3 1/3 1/3";
+        } else {
+            return "rhythm";
+        }
+    }
 }

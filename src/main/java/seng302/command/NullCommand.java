@@ -23,4 +23,9 @@ public class NullCommand implements Command {
     public String getCommandText() {
         return null;
     }
+
+    @Override
+    public String getExample() {
+        return null;
+    }
 }

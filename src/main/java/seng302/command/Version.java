@@ -38,4 +38,9 @@ public class Version implements Command {
     public String getCommandText() {
         return "version";
     }
+
+    @Override
+    public String getExample() {
+        return getCommandText();
+    }
 }

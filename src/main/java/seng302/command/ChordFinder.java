@@ -246,5 +246,14 @@ public class ChordFinder implements Command {
         }
     }
 
+    @Override
+    public String getExample() {
+        if (all) {
+            return "find chord all F A C";
+        } else {
+            return "find chord F A C";
+        }
+    }
+
 
 }

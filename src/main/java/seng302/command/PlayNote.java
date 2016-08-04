@@ -90,5 +90,10 @@ public class PlayNote implements Command {
     public String getCommandText() {
         return "play note";
     }
+
+    @Override
+    public String getExample() {
+        return "play C5";
+    }
 }
 

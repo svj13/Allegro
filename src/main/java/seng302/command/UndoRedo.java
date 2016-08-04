@@ -34,4 +34,9 @@ public class UndoRedo implements Command {
             return "redo";
         }
     }
+
+    @Override
+    public String getExample() {
+        return getCommandText();
+    }
 }

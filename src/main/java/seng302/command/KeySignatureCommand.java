@@ -387,4 +387,21 @@ public class KeySignatureCommand implements Command {
         }
         return null;
     }
+
+    @Override
+    public String getExample() {
+        //need to double check these are correct
+        switch (outputType) {
+            case "getNotes":
+                return "scale signature A#";
+            case "get":
+                return "scale signature with 2#";
+            case "number":
+                return "scale signature num";
+
+            case "notes":
+                return "scale signature A major";
+        }
+        return null;
+    }
 }

@@ -135,4 +135,21 @@ public class Enharmonic implements Command {
         return null;
 
     }
+
+    @Override
+    public String getExample() {
+        switch (comm) {
+            case 1:
+                return "enharmonic lower C";
+            case 0:
+                return "enharmonic higher B";
+
+            case 2:
+                return "simple enharmonic B";
+
+            case 3:
+                return "all enharmonics A";
+        }
+        return null;
+    }
 }

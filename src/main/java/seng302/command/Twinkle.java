@@ -47,5 +47,10 @@ public class Twinkle implements Command {
         return "twinkle";
     }
 
+    @Override
+    public String getExample() {
+        return getCommandText();
+    }
+
 
 }

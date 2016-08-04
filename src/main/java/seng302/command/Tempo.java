@@ -133,5 +133,18 @@ public class Tempo implements Command {
             return "tempo";
         }
     }
+
+    @Override
+    public String getExample() {
+        if (isSetter) {
+            if (force) {
+                return "force set tempo 3000";
+            } else {
+                return "set tempo 150";
+            }
+        } else {
+            return "tempo";
+        }
+    }
 }
 

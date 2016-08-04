@@ -204,6 +204,21 @@ public class MusicalTerm implements Command {
         return null;
     }
 
+    @Override
+    public String getExample() {
+        switch (infoToGet) {
+            case "add":
+                return "add musical term Lento; Italian; Tempo; Slowly";
+            case "origin":
+                return "origin of Lento";
+            case "meaning":
+                return "meaning of Lento";
+            case "category":
+                return "category of Lento";
+        }
+        return null;
+    }
+
 
 }
 

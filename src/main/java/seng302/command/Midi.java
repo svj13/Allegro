@@ -46,5 +46,10 @@ public class Midi implements Command {
         return "midi";
     }
 
+    @Override
+    public String getExample() {
+        return "midi C2";
+    }
+
 
 }

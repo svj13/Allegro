@@ -136,4 +136,17 @@ public class Diatonic implements Command {
         return null;
     }
 
+    @Override
+    public String getExample() {
+        switch (command) {
+            case "quality":
+                return "quality of IV";
+            case "chordFunction":
+                return "chord function II C major";
+            case "functionOf":
+                return "function of C major II";
+        }
+        return null;
+    }
+
 }

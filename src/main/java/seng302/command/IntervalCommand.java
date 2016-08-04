@@ -398,5 +398,20 @@ public class IntervalCommand implements Command {
         }
         return null;
     }
+
+    @Override
+    public String getExample() {
+        switch (outputType) {
+            case "semitones":
+                return "interval minor 2nd C";
+            case "note":
+                return "interval minor 2nd C";
+            case "play":
+                return "play interval unison D";
+            case "equivalent":
+                return "interval enharmonic minor 2nd C";
+        }
+        return null;
+    }
 }
 

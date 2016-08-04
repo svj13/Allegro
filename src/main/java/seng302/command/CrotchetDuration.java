@@ -23,5 +23,10 @@ public class CrotchetDuration implements Command {
         return "crotchet duration";
     }
 
+    @Override
+    public String getExample() {
+        return "crotchet duration";
+    }
+
 }
 

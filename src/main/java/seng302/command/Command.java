@@ -43,4 +43,6 @@ public interface Command {
 
     String getCommandText();
 
+    String getExample();
+
 }

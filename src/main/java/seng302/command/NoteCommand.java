@@ -43,4 +43,9 @@ public class NoteCommand implements Command {
     public String getCommandText() {
         return "note";
     }
+
+    @Override
+    public String getExample() {
+        return "note 10";
+    }
 }

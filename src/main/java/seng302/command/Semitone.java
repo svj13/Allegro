@@ -64,9 +64,18 @@ public class Semitone implements Command {
     @Override
     public String getCommandText() {
         if (up) {
-            return "semitone higher";
+            return "semitone up";
         } else {
-            return "semitone lower";
+            return "semitone down";
+        }
+    }
+
+    @Override
+    public String getExample() {
+        if (up) {
+            return "semitone up 100";
+        } else {
+            return "semitone down A";
         }
     }
 }
