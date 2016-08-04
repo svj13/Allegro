@@ -82,15 +82,13 @@ public class ProjectHandler {
     public void setCurrentProject(String projName){
 
         this.currentProject = new Project(env, projName, this);
-        lastOpened = projName;
+        updateProjectList(projName);
 
 
     }
 
 
-//    public void createProject(String name){
-//
-//    }
+
 
 
     /**

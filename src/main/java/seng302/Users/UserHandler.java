@@ -28,6 +28,7 @@ public class UserHandler {
     Environment env;
     JSONArray userList;
     JSONParser parser = new JSONParser(); //parser for reading project
+    JSONObject UsersInfo = new JSONObject();
 
 
 
@@ -42,8 +43,8 @@ public class UserHandler {
 
     }
 
-    public ArrayList<String> getUserNames(){
-        return (ArrayList<String>) userList;
+    public JSONArray getUserNames(){
+        return userList;
     }
 
     public HashMap<String, User> getUsers(){
@@ -60,7 +61,7 @@ public class UserHandler {
 
     private void populateUsers(){
         ArrayList<User> users = new ArrayList<User>();
-        JSONObject UsersInfo = new JSONObject();
+
 
         try {
             UsersInfo = (JSONObject) parser.parse(new FileReader(userDirectory + "/user_list.json"));
@@ -106,12 +107,45 @@ public class UserHandler {
 
 
 
+    public boolean userPassExists(String userName, String password){
+        if(userList.contains(userName)){
+            User tempUser = new User(env,userName);
+            if (password.equals(tempUser.getUserPassword())){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 
     public void createUser(String user, String password){
         this.currentUser = new User(user, password, env);
+        updateUserList(user);
+
+    }
 
 
+    /**
+     * Updates the json list of user names, used to fill the quick load list.
+     *
+     */
+    public void updateUserList(String username) {
+        if (!userList.contains(username)) {
+            userList.add(username);
+        }
+
+        try { //Save list of projects.
+            UsersInfo.put("users", userList);
+            FileWriter projectsJson = new FileWriter(userDirectory + "/user_list.json");
+            projectsJson.write(UsersInfo.toJSONString());
+            projectsJson.flush();
+            projectsJson.close();
+
+
+        } catch (Exception e2) {
+            e2.printStackTrace();
+        }
     }
 
 

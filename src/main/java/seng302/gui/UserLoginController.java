@@ -87,22 +87,31 @@ public class UserLoginController {
 
     @FXML
     protected void register(){
-        env.getUserHandler().createUser(usernameInput.getText(), passwordInput.getText());
+
+        if (!(env.getUserHandler().getUserNames().contains(usernameInput))){
+            env.getUserHandler().createUser(usernameInput.getText(), passwordInput.getText());
+        }
+        else{
+            System.out.println("user already exists");
+        }
     }
 
     @FXML
     protected void logIn(){
-        env.getUserHandler().setCurrentUser(usernameInput.getText());
+        System.out.println("login");
+
+        if(env.getUserHandler().userPassExists(usernameInput.getText(), passwordInput.getText())){
+            System.out.println("sucsess");
+
+            env.getUserHandler().setCurrentUser(usernameInput.getText());
+        }else{
+            System.out.println("incorrect login info");
+        }
+
     }
 
     public void create(){
         displayRecentUsers();
     }
-
-    private void checkUsernamePassword(){
-
-    }
-
-
 
 }

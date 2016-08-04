@@ -811,7 +811,7 @@ public class RootController implements Initializable {
 
 
                             //project with said name does not exist in the projects directory.. import it.
-                            env.getUserHandler().getCurrentUser().getProjectHandler().createProject(folder.getName());
+                            env.getUserHandler().getCurrentUser().getProjectHandler().setCurrentProject(folder.getName());
 
                         }
 
