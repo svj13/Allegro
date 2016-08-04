@@ -29,8 +29,6 @@ public class Help implements Command {
         keywordToCommand.put("enharmonic higher", Enharmonic.getHelp("higher"));
         keywordToCommand.put("enharmonic lower", Enharmonic.getHelp("lower"));
 
-        keywordToCommand.put("help", Help.getHelp());
-
         keywordToCommand.put("interval", IntervalCommand.getHelp("display"));
         keywordToCommand.put("play interval", IntervalCommand.getHelp("play"));
         keywordToCommand.put("interval enharmonic", IntervalCommand.getHelp("enharmonic"));
@@ -67,8 +65,6 @@ public class Help implements Command {
 
         keywordToCommand.put("version", Version.getHelp());
 
-        keywordToCommand.put("", Help.getHelp());
-
     }
 
 
@@ -81,15 +77,20 @@ public class Help implements Command {
     }
 
     public void execute(Environment env) {
-        String result = keywordToCommand.get(keyword);
-        env.getTranscriptManager().setResult(result);
+        try {
+            String result = keywordToCommand.get(keyword);
+            if (result != null) {
+                env.getTranscriptManager().setResult(result);
+            } else {
+                env.getTranscriptManager().setResult("Showing DSL Reference");
+                env.getRootController().getTranscriptController().showDslRef();
+            }
+        } catch (Exception e) {
+            env.getTranscriptManager().setResult("Showing DSL Reference");
+            env.getRootController().getTranscriptController().showDslRef();
+        }
+
 
     }
-
-    public static String getHelp() {
-        return "Type help followed by any command to get more information on " +
-                "that command.\nExamples: help play scale, help set tempo.";
-    }
-
 
 }
