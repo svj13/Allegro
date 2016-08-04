@@ -34,6 +34,7 @@ public class CommandData {
     public static ArrayList<Command> termCommands = new ArrayList<>();
     public static ArrayList<Command> settingsCommands = new ArrayList<>();
     public static ArrayList<Command> specialCommands = new ArrayList<>();
+    public static ArrayList<Command> allCommands = new ArrayList<>();
 
 
     static {
@@ -128,5 +129,63 @@ public class CommandData {
 
         keywordToCommand.put("version", new Version());
 
+        ArrayList<String> terms = new ArrayList<>();
+        terms.add("origin of");
+        terms.add("meaning of");
+        terms.add("category of");
+        terms.add("add musical term");
+
+        ArrayList<String> special = new ArrayList<>();
+        special.add("twinkle");
+        special.add("undo");
+        special.add("redo");
+        special.add("version");
+        special.add("help");
+
+        ArrayList<String> translation = new ArrayList<>();
+        translation.add("note");
+        translation.add("midi");
+
+
+        for (Map.Entry command : keywordToCommand.entrySet()) {
+            Command thisCommand = (Command) command.getValue();
+            allCommands.add(thisCommand);
+            if (thisCommand.getCommandText().contains("play")) {
+                playCommands.add(thisCommand);
+            } else if (thisCommand.getCommandText().contains("set ")) {
+                settingsCommands.add(thisCommand);
+            } else if (terms.contains(thisCommand.getCommandText())) {
+                termCommands.add(thisCommand);
+            } else if (special.contains(thisCommand.getCommandText())) {
+                specialCommands.add(thisCommand);
+            } else if (translation.contains(thisCommand.getCommandText())) {
+                translationCommands.add(thisCommand);
+            } else {
+                showCommands.add(thisCommand);
+            }
+        }
+
+    }
+
+    public static ArrayList<Command> getCommands(String commandsToGet) {
+        if (commandsToGet.equals("Play")) {
+            return playCommands;
+        }
+        if (commandsToGet.equals("Show")) {
+            return showCommands;
+        }
+        if (commandsToGet.equals("Special")) {
+            return specialCommands;
+        }
+        if (commandsToGet.equals("Translation")) {
+            return translationCommands;
+        }
+        if (commandsToGet.equals("Terms")) {
+            return termCommands;
+        }
+        if (commandsToGet.equals("Settings")) {
+            return settingsCommands;
+        }
+        return allCommands;
     }
 }

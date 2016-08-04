@@ -16,12 +16,10 @@ public class Help implements Command {
     }
 
     public void execute(Environment env) {
-        System.out.println(keyword);
         try {
             Command result = CommandData.keywordToCommand.get(keyword);
             if (result != null) {
                 env.getTranscriptManager().setResult(result.getHelp());
-                System.out.println(result.getParams());
             } else {
                 env.getTranscriptManager().setResult("Showing DSL Reference");
                 env.getRootController().getTranscriptController().showDslRef();
