@@ -201,7 +201,11 @@ public class ScaleRecognitionTutorController extends TutorController {
 
         play.setOnAction(event -> {
             //Play the scale
-            env.getPlayer().playNotes(getScale(startNote, scaleType));
+            if (scaleType.equals("blues")) {
+                env.getPlayer().playBluesNotes(getScale(startNote, scaleType));
+            } else {
+                env.getPlayer().playNotes(getScale(startNote, scaleType));
+            }
         });
 
         final ComboBox<String> options = generateChoices();

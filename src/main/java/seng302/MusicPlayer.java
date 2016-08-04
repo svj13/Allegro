@@ -95,6 +95,10 @@ public class MusicPlayer {
         playNotes(notes, 0);
     }
 
+    public void playBluesNotes(ArrayList<Note> notes) {
+        playBluesNotes(notes, 0);
+    }
+
 
     public void noteOn(Note note) {
         MidiChannel channel = synthesizer.getChannels()[0];
@@ -224,5 +228,40 @@ public class MusicPlayer {
 
     public RhythmHandler getRhythmHandler() {
         return rh;
+    }
+
+    public void playBluesNotes(ArrayList<Note> notes, int pause) {
+        //int ticks = 16; //16 (1 crotchet beat)
+        int ticks = rh.getBeatResolution();
+        try {
+            int instrument = 1;
+            // 16 ticks per crotchet note.
+            Sequence sequence = new Sequence(Sequence.PPQ, ticks);
+            Track track = sequence.createTrack();
+
+            // Set the instrument on channel 0
+            ShortMessage sm = new ShortMessage();
+            sm.setMessage(ShortMessage.PROGRAM_CHANGE, 0, instrument, 0);
+            track.add(new MidiEvent(sm, 0));
+
+            int currenttick = 0;
+            int noteNum = 2;
+            rh.resetIndex(); //Reset rhythm to first crotchet.
+            for (Note note : notes) {
+                noteNum++;
+                int timing = rh.getNextTickTiming();
+                if (noteNum == 3) {
+                    noteNum = 0;
+                    addNote(track, currenttick, timing, note.getMidi(), 120);
+                } else {
+                    addNote(track, currenttick, timing, note.getMidi(), 64); //velocity 64
+                }
+                currenttick += (timing + pause);
+            }
+            playSequence(sequence);
+
+        } catch (InvalidMidiDataException e) {
+            System.err.println("The notes you are trying to play were invalid");
+        }
     }
 }
