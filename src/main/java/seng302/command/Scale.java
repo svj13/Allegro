@@ -21,7 +21,7 @@ public class Scale implements Command {
     String startNote;
 
     /**
-     * Type of scale. e.g major, minor, melodic minor
+     * Type of scale. e.g major, minor, melodic minor, blues
      */
     String type;
 
@@ -174,8 +174,21 @@ public class Scale implements Command {
                         env.getTranscriptManager().setResult(scaleToString(startNote, scale, true));
                     } else if (this.outputType.equals("midi")) {
                         env.getTranscriptManager().setResult(scaleToMidi(scale));
-                    } else { // Play scale.
+                    } else if (type.equals("blues")) {
+                        if (direction.equals("updown")) {
+                            env.getPlayer().playBluesNotes(scale);
+                            env.getTranscriptManager().setResult(scaleToStringUpDown(startNote, scale));
+                        } else if (direction.equals("down")) {
+                            env.getPlayer().playBluesNotes(scale);
+                            env.getTranscriptManager().setResult(scaleToString(startNote, scale, false));
+                        } else if (direction.equals("up")) {
+                            env.getPlayer().playBluesNotes(scale);
+                            env.getTranscriptManager().setResult(scaleToString(startNote, scale, true));
+                        } else {
+                            env.error("'" + direction + "' is not a valid scale direction. Try 'up', 'updown' or 'down'.");
+                        }
 
+                    } else { // Play scale.
                         if (direction.equals("updown")) {
                             env.getPlayer().playNotes(scale);
                             env.getTranscriptManager().setResult(scaleToStringUpDown(startNote, scale));
