@@ -237,5 +237,14 @@ public class ChordFinder implements Command {
 
     }
 
+    @Override
+    public String getCommandText() {
+        if (all) {
+            return "find chord all";
+        } else {
+            return "find chord";
+        }
+    }
+
 
 }

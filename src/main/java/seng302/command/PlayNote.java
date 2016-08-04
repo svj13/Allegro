@@ -85,5 +85,10 @@ public class PlayNote implements Command {
         params.add("note|midi");
         return params;
     }
+
+    @Override
+    public String getCommandText() {
+        return "play note";
+    }
 }
 

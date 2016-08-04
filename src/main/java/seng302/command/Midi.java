@@ -41,5 +41,10 @@ public class Midi implements Command {
         return params;
     }
 
+    @Override
+    public String getCommandText() {
+        return "midi";
+    }
+
 
 }

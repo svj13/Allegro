@@ -131,4 +131,13 @@ public class Rhythm implements Command {
 
         return params;
     }
+
+    @Override
+    public String getCommandText() {
+        if (isSetter) {
+            return "set rhythm";
+        } else {
+            return "rhythm";
+        }
+    }
 }

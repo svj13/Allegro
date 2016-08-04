@@ -120,5 +120,18 @@ public class Tempo implements Command {
 
         return params;
     }
+
+    @Override
+    public String getCommandText() {
+        if (isSetter) {
+            if (force) {
+                return "force set tempo";
+            } else {
+                return "set tempo";
+            }
+        } else {
+            return "tempo";
+        }
+    }
 }
 

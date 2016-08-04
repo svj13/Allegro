@@ -324,4 +324,19 @@ public class Scale implements Command {
 
         return options;
     }
+
+    @Override
+    public String getCommandText() {
+        switch (outputType) {
+            case "note":
+                return "scale";
+            case "play":
+                return "play scale";
+
+            case "midi":
+                return "midi scale";
+
+        }
+        return null;
+    }
 }

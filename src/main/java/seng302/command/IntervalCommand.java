@@ -383,5 +383,20 @@ public class IntervalCommand implements Command {
 
         return options;
     }
+
+    @Override
+    public String getCommandText() {
+        switch (outputType) {
+            case "semitones":
+                return "interval";
+            case "note":
+                return "interval";
+            case "play":
+                return "play interval";
+            case "equivalent":
+                return "interval enharmonic";
+        }
+        return null;
+    }
 }
 

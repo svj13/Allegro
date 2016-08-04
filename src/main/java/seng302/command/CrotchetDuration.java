@@ -18,5 +18,10 @@ public class CrotchetDuration implements Command {
         return "Returns the duration of a crotchet in milliseconds at the current tempo.";
     }
 
+    @Override
+    public String getCommandText() {
+        return "crotchet duration";
+    }
+
 }
 

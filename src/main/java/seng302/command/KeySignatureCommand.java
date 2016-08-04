@@ -370,4 +370,21 @@ public class KeySignatureCommand implements Command {
 
         return params;
     }
+
+    @Override
+    public String getCommandText() {
+        //need to double check these are correct
+        switch (outputType) {
+            case "getNotes":
+                return "scale signature";
+            case "get":
+                return "scale signature with";
+            case "number":
+                return "scale signature num";
+
+            case "notes":
+                return "scale signature";
+        }
+        return null;
+    }
 }

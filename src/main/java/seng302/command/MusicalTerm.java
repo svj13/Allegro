@@ -189,6 +189,21 @@ public class MusicalTerm implements Command {
         return params;
     }
 
+    @Override
+    public String getCommandText() {
+        switch (infoToGet) {
+            case "add":
+                return "add musical term";
+            case "origin":
+                return "origin of";
+            case "meaning":
+                return "meaning of";
+            case "category":
+                return "category of";
+        }
+        return null;
+    }
+
 
 }
 

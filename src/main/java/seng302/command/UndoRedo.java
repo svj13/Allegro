@@ -25,4 +25,13 @@ public class UndoRedo implements Command {
     public String getHelp() {
         return null;
     }
+
+    @Override
+    public String getCommandText() {
+        if (action == 0) {
+            return "undo";
+        } else {
+            return "redo";
+        }
+    }
 }

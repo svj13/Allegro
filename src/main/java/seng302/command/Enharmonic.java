@@ -117,4 +117,22 @@ public class Enharmonic implements Command {
         params.add("note");
         return params;
     }
+
+    @Override
+    public String getCommandText() {
+        switch (comm) {
+            case 1:
+                return "enharmonic lower";
+            case 0:
+                return "enharmonic higher";
+
+            case 2:
+                return "simple enharmonic";
+
+            case 3:
+                return "all enharmonics";
+        }
+        return null;
+
+    }
 }

@@ -276,4 +276,13 @@ public class Chord implements Command {
         }
         return options;
     }
+
+    @Override
+    public String getCommandText() {
+        if (outputType.equals("play")) {
+            return "play chord";
+        } else {
+            return "chord";
+        }
+    }
 }

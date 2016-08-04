@@ -60,4 +60,13 @@ public class Semitone implements Command {
         params.add("note|midi");
         return params;
     }
+
+    @Override
+    public String getCommandText() {
+        if (up) {
+            return "semitone higher";
+        } else {
+            return "semitone lower";
+        }
+    }
 }

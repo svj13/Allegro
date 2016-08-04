@@ -33,4 +33,9 @@ public class Version implements Command {
     public String getHelp() {
         return "Returns the current version number of the application.";
     }
+
+    @Override
+    public String getCommandText() {
+        return "version";
+    }
 }

@@ -141,4 +141,9 @@ public class Help implements Command {
         return null;
     }
 
+    @Override
+    public String getCommandText() {
+        return "help";
+    }
+
 }

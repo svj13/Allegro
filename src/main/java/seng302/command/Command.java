@@ -41,4 +41,6 @@ public interface Command {
         return new ArrayList<>();
     }
 
+    String getCommandText();
+
 }

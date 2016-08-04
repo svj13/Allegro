@@ -18,4 +18,9 @@ public class NullCommand implements Command {
     public String getHelp() {
         return null;
     }
+
+    @Override
+    public String getCommandText() {
+        return null;
+    }
 }

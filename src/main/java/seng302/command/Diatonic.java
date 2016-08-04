@@ -123,4 +123,17 @@ public class Diatonic implements Command {
         return params;
     }
 
+    @Override
+    public String getCommandText() {
+        switch (command) {
+            case "quality":
+                return "quality of";
+            case "chordFunction":
+                return "chord function";
+            case "functionOf":
+                return "function of";
+        }
+        return null;
+    }
+
 }

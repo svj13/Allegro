@@ -38,4 +38,9 @@ public class NoteCommand implements Command {
         params.add("midi number");
         return params;
     }
+
+    @Override
+    public String getCommandText() {
+        return "note";
+    }
 }
