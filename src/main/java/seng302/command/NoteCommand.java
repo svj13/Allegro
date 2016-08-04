@@ -27,7 +27,7 @@ public class NoteCommand implements Command {
         }
     }
 
-    public static String getHelp() {
+    public String getHelp() {
         return "When followed by a valid midi number (within the range of 0-127), it will return the corresponding note name and its octave e.g. 'note 60' will return C4.";
     }
 }

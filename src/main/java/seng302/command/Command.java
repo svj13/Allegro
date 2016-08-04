@@ -25,4 +25,6 @@ public interface Command {
      */
     void execute(Environment env);
 
+    String getHelp();
+
 }

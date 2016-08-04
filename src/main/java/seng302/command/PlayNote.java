@@ -73,7 +73,7 @@ public class PlayNote implements Command {
 
     }
 
-    public static String getHelp() {
+    public String getHelp() {
         return "When followed by a valid midi number or valid note, " +
                 "the corresponding note will be played.";
     }

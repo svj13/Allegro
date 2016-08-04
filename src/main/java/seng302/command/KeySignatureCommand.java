@@ -332,19 +332,22 @@ public class KeySignatureCommand implements Command {
 
     }
 
-    public static String getHelp(String type) {
-        switch (type) {
-            case "with":
+    public String getHelp() {
+        switch (outputType) {
+            case "getNotes":
                 return "When followed by either a number of sharps or flats (i.e. 2#, 7b)" +
                         " or a specific list of notes (i.e. F# C#), will return the scales" +
                         " whose key signatures contain that information";
+            case "get":
+                return "When followed by a number and either sharps or flats, " +
+                        "finds all scales whose key signatures have this number of sharps/flats.";
 
-            case "num":
+            case "number":
                 return "When followed by a scale, shows the number of flats and sharps in that " +
                         "scale's key signature.";
 
-            case "":
-                return "When followed by a scale, shows that scale's key signature";
+            case "notes":
+                return "When followed by a note and scale type, shows that scale's key signature";
         }
         return null;
     }

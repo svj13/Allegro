@@ -206,9 +206,9 @@ public class Scale implements Command {
 
     }
 
-    public static String getHelp(String type) {
-        switch (type) {
-            case "display":
+    public String getHelp() {
+        switch (outputType) {
+            case "note":
                 return "When followed by a valid scale (made up of a note and a scale type)" +
                         " the corresponding scale notes will be returned. e.g scale c major. ";
             case "play":

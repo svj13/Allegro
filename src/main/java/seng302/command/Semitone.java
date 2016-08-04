@@ -42,8 +42,8 @@ public class Semitone implements Command {
         }
     }
 
-    public static String getHelp(String direction) {
-        if (direction.equals("up")) {
+    public String getHelp() {
+        if (up) {
             return "When followed by a valid note or midi number, it will return the note" +
                     " that is a semitone higher.";
         } else {

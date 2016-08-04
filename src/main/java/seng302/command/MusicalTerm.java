@@ -29,6 +29,7 @@ public class MusicalTerm implements Command {
 
     private ArrayList<String> rawInput;
 
+    private String type;
 
     public ArrayList<Term> terms;
 
@@ -44,6 +45,7 @@ public class MusicalTerm implements Command {
      * If the musical term name is null, it will add it to the dictionary and format it accordingly
      */
     public MusicalTerm(ArrayList<String> musicalTermArray) {
+        infoToGet = "add";
         rawInput = musicalTermArray;
         termAdded = true;
         term = new Term(musicalTermArray.get(0), musicalTermArray.get(2), musicalTermArray.get(1), musicalTermArray.get(3));
@@ -159,8 +161,9 @@ public class MusicalTerm implements Command {
         env.getTranscriptManager().setResult(result);
     }
 
-    public static String getHelp(String type) {
-        switch (type) {
+    public String getHelp() {
+
+        switch (infoToGet) {
             case "add":
                 return "When followed by a musical term in the format of 'name; origin; " +
                         "category; definition', it will add the musical term to the Musical " +
@@ -173,6 +176,9 @@ public class MusicalTerm implements Command {
                 return "When followed by a musical term, will display the category of that term.";
         }
         return null;
-    }
+
+        }
+
+
 }
 

@@ -20,4 +20,9 @@ public class UndoRedo implements Command {
             env.getEditManager().redoCommand();
         }
     }
+
+    @Override
+    public String getHelp() {
+        return null;
+    }
 }

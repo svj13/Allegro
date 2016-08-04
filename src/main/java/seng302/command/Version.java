@@ -30,7 +30,7 @@ public class Version implements Command {
         env.getTranscriptManager().setResult("Current Version: " + getCurrentVersion());
     }
 
-    public static String getHelp() {
+    public String getHelp() {
         return "Returns the current version number of the application.";
     }
 }

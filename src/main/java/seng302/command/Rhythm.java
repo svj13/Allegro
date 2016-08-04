@@ -106,8 +106,8 @@ public class Rhythm implements Command {
 
     }
 
-    public static String getHelp(String type) {
-        if (type.equals("set")) {
+    public String getHelp() {
+        if (isSetter) {
             return "Changes the rhythm note timings, syntax: set rhythm 'setting'. \n" +
                     "Default (no swing, half crotchet duration): 'straight'\n" +
                     "Preset swing settings:\n\t'straight' - regular 1/2 crotchet timing." +

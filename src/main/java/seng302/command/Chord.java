@@ -253,13 +253,11 @@ public class Chord implements Command {
 
     }
 
-    public static String getHelp(String type) {
-        if (type.equals("play")) {
+    public String getHelp() {
+        if (outputType.equals("play")) {
             return "When followed by a valid chord and a valid chord type (i.e. major, minor), will play the given chord";
-        } else if (type.equals("display")) {
+        } else {
             return "Having errors with the text for this";
-
         }
-        return "Help for the chord command";
     }
 }

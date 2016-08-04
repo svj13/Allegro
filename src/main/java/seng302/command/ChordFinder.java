@@ -223,7 +223,7 @@ public class ChordFinder implements Command {
 
     }
 
-    public static String getHelp() {
+    public String getHelp() {
         return "Finds a chord which matches the pattern of 3 or 4 provided notes.\n " +
                 "Can use 'all' extender to match inversion enharmonic chords.\n" +
                 " \texample: 'find chord F A C' returns F MAJOR.\n" +

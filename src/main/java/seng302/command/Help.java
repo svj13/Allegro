@@ -1,69 +1,107 @@
 package seng302.command;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import seng302.Environment;
+import seng302.data.Note;
 
 public class Help implements Command {
 
     String keyword;
 
-    private static Map<String, String> keywordToCommand = new HashMap<String, String>();
+    private static Map<String, Command> keywordToCommand = new HashMap<String, Command>();
 
     static {
-        keywordToCommand.put("chord", Chord.getHelp("display"));
-        keywordToCommand.put("play chord", Chord.getHelp("play"));
+        HashMap chordInfo = new HashMap<>();
+        chordInfo.put("scale_type", "major");
+        chordInfo.put("note", "C4");
+
+        keywordToCommand.put("chord", new Chord(chordInfo, "chord"));
+        keywordToCommand.put("play chord", new Chord(chordInfo, "play"));
 
 
-        keywordToCommand.put("find chord", ChordFinder.getHelp());
+        ArrayList chordNotes = new ArrayList();
+        chordNotes.add(Note.lookup("A4"));
+        chordNotes.add(Note.lookup("C4"));
+        chordNotes.add(Note.lookup("F4"));
+        keywordToCommand.put("find chord", new ChordFinder(chordNotes, false));
 
-        keywordToCommand.put("crotchet duration", CrotchetDuration.getHelp());
+        keywordToCommand.put("crotchet duration", new CrotchetDuration());
 
-        keywordToCommand.put("chord function", Diatonic.getHelp("chordFunction"));
-        keywordToCommand.put("function of", Diatonic.getHelp("functionOf"));
-        keywordToCommand.put("quality of", Diatonic.getHelp("quality"));
+        HashMap diatonicInfo = new HashMap<>();
+        diatonicInfo.put("function", "");
+        diatonicInfo.put("note", "C4");
+        diatonicInfo.put("scale_type", "major");
 
-        keywordToCommand.put("simple enharmonic", Enharmonic.getHelp("simple"));
-        keywordToCommand.put("enharmonic higher", Enharmonic.getHelp("higher"));
-        keywordToCommand.put("enharmonic lower", Enharmonic.getHelp("lower"));
+        keywordToCommand.put("chord function", new Diatonic(diatonicInfo));
 
-        keywordToCommand.put("interval", IntervalCommand.getHelp("display"));
-        keywordToCommand.put("play interval", IntervalCommand.getHelp("play"));
-        keywordToCommand.put("interval enharmonic", IntervalCommand.getHelp("enharmonic"));
+        HashMap diatonicInfo2 = new HashMap<>();
+        diatonicInfo2.put("chord_type", "");
+        diatonicInfo2.put("scaleNote", "C4");
+        diatonicInfo2.put("chordNote", "C4");
 
-        keywordToCommand.put("scale signature with", KeySignatureCommand.getHelp("with"));
-        keywordToCommand.put("scale signature num", KeySignatureCommand.getHelp("num"));
-        keywordToCommand.put("scale signature", KeySignatureCommand.getHelp(""));
+        keywordToCommand.put("function of", new Diatonic(diatonicInfo2));
+        keywordToCommand.put("quality of", new Diatonic("II"));
 
-        keywordToCommand.put("midi", Midi.getHelp());
+        keywordToCommand.put("simple enharmonic", new Enharmonic("C", 2));
+        keywordToCommand.put("enharmonic higher", new Enharmonic("C", 0));
+        keywordToCommand.put("enharmonic lower", new Enharmonic("C", 1));
+        keywordToCommand.put("all enharmonics", new Enharmonic("C", 3));
 
-        keywordToCommand.put("category of", MusicalTerm.getHelp("category"));
-        keywordToCommand.put("origin of", MusicalTerm.getHelp("origin"));
-        keywordToCommand.put("meaning of", MusicalTerm.getHelp("meaning"));
-        keywordToCommand.put("add musical term", MusicalTerm.getHelp("add"));
+        HashMap intervalInfo = new HashMap();
 
-        keywordToCommand.put("note", NoteCommand.getHelp());
+        keywordToCommand.put("interval", new IntervalCommand(intervalInfo, "note"));
+        keywordToCommand.put("play interval", new IntervalCommand(intervalInfo, "play"));
+        keywordToCommand.put("interval enharmonic", new IntervalCommand(intervalInfo, "equivalent"));
 
-        keywordToCommand.put("play", PlayNote.getHelp());
+        keywordToCommand.put("scale signature with", new KeySignatureCommand(new ArrayList<String>()));
 
-        keywordToCommand.put("set rhythm", Rhythm.getHelp("set"));
-        keywordToCommand.put("rhythm", Rhythm.getHelp("get"));
+        HashMap keySigInfo = new HashMap();
+        keySigInfo.put("note", "C4");
 
-        keywordToCommand.put("scale", Scale.getHelp("display"));
-        keywordToCommand.put("midi scale", Scale.getHelp("midi"));
-        keywordToCommand.put("play scale", Scale.getHelp("play"));
+        keywordToCommand.put("scale signature num", new KeySignatureCommand(keySigInfo, "number"));
+        keywordToCommand.put("scale signature", new KeySignatureCommand(keySigInfo, "notes"));
+
+        keywordToCommand.put("midi", new Midi("C"));
+
+        keywordToCommand.put("category of", new MusicalTerm("term", "category"));
+        keywordToCommand.put("origin of", new MusicalTerm("term", "origin"));
+        keywordToCommand.put("meaning of", new MusicalTerm("term", "meaning"));
+
+        ArrayList musicalTermArray = new ArrayList();
+        musicalTermArray.add("a");
+        musicalTermArray.add("b");
+        musicalTermArray.add("c");
+        musicalTermArray.add("d");
+        keywordToCommand.put("add musical term", new MusicalTerm(musicalTermArray));
+
+        keywordToCommand.put("note", new NoteCommand("1"));
+
+        keywordToCommand.put("play", new PlayNote("C"));
+
+        keywordToCommand.put("set rhythm", new Rhythm("heavy", false));
+        keywordToCommand.put("rhythm", new Rhythm());
+
+        HashMap scaleInfo = new HashMap<>();
+        scaleInfo.put("scale_type", "major");
+        scaleInfo.put("note", "C4");
+
+        keywordToCommand.put("scale", new Scale(scaleInfo, "note"));
+        keywordToCommand.put("midi scale", new Scale(scaleInfo, "midi"));
+        keywordToCommand.put("play scale", new Scale(scaleInfo, "play"));
 
 
-        keywordToCommand.put("semitone up", Semitone.getHelp("up"));
-        keywordToCommand.put("semitone down", Semitone.getHelp("down"));
+        keywordToCommand.put("semitone up", new Semitone("C", true));
+        keywordToCommand.put("semitone down", new Semitone("C", false));
 
-        keywordToCommand.put("force set tempo", Tempo.getHelp("force"));
-        keywordToCommand.put("set tempo", Tempo.getHelp("set"));
-        keywordToCommand.put("tempo", Tempo.getHelp("get"));
+        keywordToCommand.put("force set tempo", new Tempo("120", true));
+        keywordToCommand.put("set tempo", new Tempo("120", false));
+        keywordToCommand.put("tempo", new Tempo());
 
-        keywordToCommand.put("version", Version.getHelp());
+        keywordToCommand.put("version", new Version());
 
     }
 
@@ -77,20 +115,27 @@ public class Help implements Command {
     }
 
     public void execute(Environment env) {
+        System.out.println(keyword);
         try {
-            String result = keywordToCommand.get(keyword);
+            Command result = keywordToCommand.get(keyword);
             if (result != null) {
-                env.getTranscriptManager().setResult(result);
+                env.getTranscriptManager().setResult(result.getHelp());
             } else {
                 env.getTranscriptManager().setResult("Showing DSL Reference");
                 env.getRootController().getTranscriptController().showDslRef();
             }
         } catch (Exception e) {
+            e.printStackTrace();
             env.getTranscriptManager().setResult("Showing DSL Reference");
             env.getRootController().getTranscriptController().showDslRef();
         }
 
 
+    }
+
+    @Override
+    public String getHelp() {
+        return null;
     }
 
 }

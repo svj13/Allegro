@@ -353,13 +353,13 @@ public class IntervalCommand implements Command {
 
     }
 
-    public static String getHelp(String type) {
-        switch (type) {
-            case "display":
+    public String getHelp() {
+        switch (outputType) {
+            case "note":
                 return "When followed by an interval name, it returns the number of semitones in that interval. When followed by an interval name and a note, it returns the note that is the specified interval above the given note. e.g. interval perfect fifth C4 will return G4.";
             case "play":
                 return "When followed by an interval name and a note, it will play the given note and then the note that is the specified interval above the given note.";
-            case "enharmonic":
+            case "equivalent":
                 return "When followed by a valid interval name, it returns any enharmonically equivalent intervals.";
         }
         return null;
