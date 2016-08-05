@@ -2,6 +2,7 @@ package seng302.data;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -37,13 +38,13 @@ public class CommandData {
     public static TreeMap<String, Command> keywordToCommand = new TreeMap<>();
 
     // These lists hold different command "types"
-    public static ArrayList<Command> playCommands = new ArrayList<>();
-    public static ArrayList<Command> showCommands = new ArrayList<>();
-    public static ArrayList<Command> translationCommands = new ArrayList<>();
-    public static ArrayList<Command> termCommands = new ArrayList<>();
-    public static ArrayList<Command> settingsCommands = new ArrayList<>();
-    public static ArrayList<Command> specialCommands = new ArrayList<>();
-    public static ArrayList<Command> allCommands = new ArrayList<>();
+    public static List<Command> playCommands = new ArrayList<>();
+    public static List<Command> showCommands = new ArrayList<>();
+    public static List<Command> translationCommands = new ArrayList<>();
+    public static List<Command> termCommands = new ArrayList<>();
+    public static List<Command> settingsCommands = new ArrayList<>();
+    public static List<Command> specialCommands = new ArrayList<>();
+    public static List<Command> allCommands = new ArrayList<>();
 
 
     // Populate the map and lists
@@ -152,14 +153,14 @@ public class CommandData {
 
 
         //These are the commands we want in the 'terms' category
-        ArrayList<String> terms = new ArrayList<>();
+        List<String> terms = new ArrayList<>();
         terms.add("origin of");
         terms.add("meaning of");
         terms.add("category of");
         terms.add("add musical term");
 
         //These are the commands we want in the 'special' category
-        ArrayList<String> special = new ArrayList<>();
+        List<String> special = new ArrayList<>();
         special.add("twinkle");
         special.add("undo");
         special.add("redo");
@@ -167,7 +168,7 @@ public class CommandData {
         special.add("help");
 
         //These are the commands we want in the 'translation' category
-        ArrayList<String> translation = new ArrayList<>();
+        List<String> translation = new ArrayList<>();
         translation.add("note");
         translation.add("midi");
 
@@ -200,7 +201,7 @@ public class CommandData {
      * @param commandsToGet The category of command we are looking for
      * @return an ArrayList of commands belonging to the provided category.
      */
-    public static ArrayList<Command> getCommands(String commandsToGet) {
+    public static List<Command> getCommands(String commandsToGet) {
         if (commandsToGet.equals("Play")) {
             return playCommands;
         }

@@ -1,6 +1,7 @@
 package seng302.command;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import seng302.Environment;
 import seng302.data.CommandData;
@@ -65,8 +66,8 @@ public class Help implements Command {
     }
 
     @Override
-    public ArrayList<String> getOptions() {
-        ArrayList<String> options = new ArrayList<>();
+    public List<String> getOptions() {
+        List<String> options = new ArrayList<>();
         options.add("command");
         return options;
     }

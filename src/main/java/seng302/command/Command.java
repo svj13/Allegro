@@ -1,7 +1,7 @@
 package seng302.command;
 
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.List;
 
 import seng302.Environment;
 
@@ -37,7 +37,7 @@ public interface Command {
      * @return A list containing textual representations of parameters, or an empty list if the
      * command has no parameters.
      */
-    default ArrayList<String> getParams() {
+    default List<String> getParams() {
         return new ArrayList<>();
     }
 
@@ -46,7 +46,7 @@ public interface Command {
      * @return A list containing textual representations of options, or an empty list if the
      * command has no options.
      */
-    default ArrayList<String> getOptions() {
+    default List<String> getOptions() {
         return new ArrayList<>();
     }
 

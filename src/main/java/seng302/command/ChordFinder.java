@@ -1,6 +1,7 @@
 package seng302.command;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import seng302.Environment;
 import seng302.data.Note;
@@ -232,8 +233,8 @@ public class ChordFinder implements Command {
         }
     }
 
-    public ArrayList<String> getParams() {
-        ArrayList<String> params = new ArrayList<>();
+    public List<String> getParams() {
+        List<String> params = new ArrayList<>();
         params.add("note note note");
         return params;
 

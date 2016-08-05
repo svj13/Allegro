@@ -7,6 +7,7 @@ package seng302.command;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import seng302.Environment;
 import seng302.data.Interval;
@@ -369,8 +370,8 @@ public class IntervalCommand implements Command {
         return null;
     }
 
-    public ArrayList<String> getParams() {
-        ArrayList<String> params = new ArrayList<>();
+    public List<String> getParams() {
+        List<String> params = new ArrayList<>();
         params.add("name");
         if (outputType.equals("play")) {
             params.add("note");
@@ -379,8 +380,8 @@ public class IntervalCommand implements Command {
         return params;
     }
 
-    public ArrayList<String> getOptions() {
-        ArrayList<String> options = new ArrayList<>();
+    public List<String> getOptions() {
+        List<String> options = new ArrayList<>();
         if (outputType.equals("semitones") || outputType.equals("note")) {
             options.add("note");
         }

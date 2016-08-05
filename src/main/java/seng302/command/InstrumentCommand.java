@@ -1,6 +1,7 @@
 package seng302.command;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.sound.midi.Instrument;
 
@@ -157,8 +158,8 @@ public class InstrumentCommand implements Command {
     }
 
     @Override
-    public ArrayList<String> getParams() {
-        ArrayList<String> params = new ArrayList<>();
+    public List<String> getParams() {
+        List<String> params = new ArrayList<>();
         if (type.equals("setting")) {
             params.add("instrument name|instrument ID");
         }

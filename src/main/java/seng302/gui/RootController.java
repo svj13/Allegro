@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -207,8 +208,8 @@ public class RootController implements Initializable {
 
     private void setCommandText(Command command) {
         transcriptController.txtCommand.clear();
-        ArrayList<String> parameters = command.getParams();
-        ArrayList<String> options = command.getOptions();
+        List<String> parameters = command.getParams();
+        List<String> options = command.getOptions();
         String parameterString = "";
         String optionsString = "";
         for (String parameter : parameters) {
