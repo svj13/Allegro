@@ -1,5 +1,8 @@
 package seng302.command;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import seng302.Environment;
 import seng302.data.Note;
 import seng302.utility.musicNotation.OctaveUtil;
@@ -39,6 +42,41 @@ public class Semitone implements Command {
             }
         } catch (Exception e) {
             env.error("Note is not contained in the MIDI library.");
+        }
+    }
+
+    public String getHelp() {
+        if (up) {
+            return "When followed by a valid note or midi number, it will return the note" +
+                    " that is a semitone higher.";
+        } else {
+            return "When followed by a valid note or midi number, it will return the note" +
+                    " that is a semitone lower.";
+
+        }
+    }
+
+    public List<String> getParams() {
+        List<String> params = new ArrayList<>();
+        params.add("note|midi");
+        return params;
+    }
+
+    @Override
+    public String getCommandText() {
+        if (up) {
+            return "semitone up";
+        } else {
+            return "semitone down";
+        }
+    }
+
+    @Override
+    public String getExample() {
+        if (up) {
+            return "semitone up 100";
+        } else {
+            return "semitone down A";
         }
     }
 }

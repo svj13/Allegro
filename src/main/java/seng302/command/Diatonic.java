@@ -2,6 +2,7 @@ package seng302.command;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import seng302.Environment;
 import seng302.data.Note;
@@ -91,4 +92,68 @@ public class Diatonic implements Command {
         }
         env.getTranscriptManager().setResult(this.result);
     }
+
+    public String getHelp() {
+        switch (command) {
+            case "quality":
+                return "When followed by a roman numeral from 1-7 (I - VII), " +
+                        "displays the quality of a chord for this degree.";
+            case "chordFunction":
+                return "When followed by a major key (e.g. C major) and a quality, displays the diatonic chord " +
+                        "function of this pair.";
+
+            case "functionOf":
+                return "When followed by a chord and a major key (e.g. C major), displays the function" +
+                        "of this pair.";
+
+        }
+        return null;
+
+    }
+
+    public List<String> getParams() {
+        List<String> params = new ArrayList<>();
+        switch (command) {
+            case "quality":
+                params.add("I-VII");
+                break;
+            case "chordFunction":
+                params.add("I-VII");
+                params.add("major key");
+                break;
+            case "functionOf":
+                params.add("chord");
+                params.add("major key");
+                break;
+        }
+
+        return params;
+    }
+
+    @Override
+    public String getCommandText() {
+        switch (command) {
+            case "quality":
+                return "quality of";
+            case "chordFunction":
+                return "chord function";
+            case "functionOf":
+                return "function of";
+        }
+        return null;
+    }
+
+    @Override
+    public String getExample() {
+        switch (command) {
+            case "quality":
+                return "quality of IV";
+            case "chordFunction":
+                return "chord function II C major";
+            case "functionOf":
+                return "function of D minor 7th C major";
+        }
+        return null;
+    }
+
 }
