@@ -117,7 +117,7 @@ public class Diatonic implements Command {
                 params.add("I-VII");
                 break;
             case "chordFunction":
-                params.add("chord");
+                params.add("I-VII");
                 params.add("major key");
                 break;
             case "functionOf":
@@ -150,7 +150,7 @@ public class Diatonic implements Command {
             case "chordFunction":
                 return "chord function II C major";
             case "functionOf":
-                return "function of C major II";
+                return "function of D minor 7th C major";
         }
         return null;
     }
