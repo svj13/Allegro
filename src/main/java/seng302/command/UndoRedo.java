@@ -23,7 +23,11 @@ public class UndoRedo implements Command {
 
     @Override
     public String getHelp() {
-        return null;
+        if (action == 0) {
+            return "Undoes the most recent reversible command.";
+        } else {
+            return "Re-executes the most recently undone command.";
+        }
     }
 
     @Override

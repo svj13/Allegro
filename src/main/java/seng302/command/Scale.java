@@ -293,16 +293,15 @@ public class Scale implements Command {
         switch (outputType) {
             case "note":
                 return "When followed by a valid scale (made up of a note and a scale type)" +
-                        " the corresponding scale notes will be returned. e.g scale c major. ";
+                        " the corresponding scale notes will be displayed.";
             case "play":
                 return "When followed by a valid scale (made up of a note and a scale type)" +
-                        " the corresponding scale will be played. Options for the number of" +
-                        " octaves and direction can be given. E.g play scale c major " +
-                        "[number of octaves] [up|updown|down]";
+                        " the corresponding scale will be played. The number of" +
+                        " octaves and direction may optionally be given.";
 
             case "midi":
                 return "When followed by a valid scale (made up of a note and a scale type) " +
-                        "the corresponding scale midi notes will be returned. ";
+                        "the corresponding scale midi notes will be displayed. ";
 
         }
         return null;

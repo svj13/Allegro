@@ -31,8 +31,8 @@ public class Midi implements Command {
 
     public String getHelp() {
         return "When followed by a valid note, it will return its corresponding midi number" +
-                " within the range of 0-127. If an octave not specified to the note, it will" +
-                " default  to octave 4. e.g. 'midi' C4 will return 60. It is not case sensitive. ";
+                " within the range of 0-127. If an octave is not specified with the note, " +
+                "the default octave (4) will be used.";
     }
 
     public ArrayList<String> getParams() {

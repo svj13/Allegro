@@ -271,6 +271,7 @@ keyword ::= COMMAND_HELP                                {: RESULT = "help"; :}
           | COMMAND_SHOW_KEYSIGNATURE_NUM               {: RESULT = "scale signature num"; :}
           | COMMAND_SCALE_WITH_KEYSIG                   {: RESULT = "scale signature with"; :}
           | COMMAND_FIND_CHORD                          {: RESULT = "find chord"; :}
+          | COMMAND_FIND_CHORD_ALL                      {: RESULT = "find chord all"; :}
           | COMMAND_QUALITY_OF                          {: RESULT = "quality of";:}
           | COMMAND_CHORD_FUNCTION                      {: RESULT = "chord function";:}
           | COMMAND_FUNCTION_OF                         {: RESULT = "function of";:}

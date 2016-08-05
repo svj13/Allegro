@@ -100,11 +100,10 @@ public class Tempo implements Command {
                 return "When followed by a tempo, it will set the given tempo, " +
                         "even if it is outside of the recommended range of 20-300BPM.";
             } else {
-                return "When followed by a valid tempo (20-300BPM) will change the tempo to that value.";
+                return "When followed by a valid tempo (20-300BPM), sets the tempo to that value.";
             }
         } else {
-            return "Returns the current tempo. When the program is launched, " +
-                    "it will have a default value of 120BPM.";
+            return "Returns the current tempo. The default value is 120BPM.";
         }
     }
 

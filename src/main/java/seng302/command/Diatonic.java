@@ -93,15 +93,18 @@ public class Diatonic implements Command {
     }
 
     public String getHelp() {
-        if (command.equals("quality")) {
-            return "When followed by a roman numeral from 1-7 (I - VII), " +
-                    "displays the quality of a chord for this degree.";
-        } else if (command.equals("chordFunction")) {
-            return "When followed by a major key (e.g. C major) and a quality, displays the diatonic chord " +
-                    "function of this pair.";
-        } else if (command.equals("functionOf")) {
-            return "When followed by a chord and a major key (e.g. C major), displays the function" +
-                    "of this pair.";
+        switch (command) {
+            case "quality":
+                return "When followed by a roman numeral from 1-7 (I - VII), " +
+                        "displays the quality of a chord for this degree.";
+            case "chordFunction":
+                return "When followed by a major key (e.g. C major) and a quality, displays the diatonic chord " +
+                        "function of this pair.";
+
+            case "functionOf":
+                return "When followed by a chord and a major key (e.g. C major), displays the function" +
+                        "of this pair.";
+
         }
         return null;
 

@@ -52,7 +52,6 @@ public class CommandData {
         chordNotes.add(Note.lookup("F4"));
 
         keywordToCommand.put("find chord", new ChordFinder(chordNotes, false));
-        //add this to keywords in the parser
         keywordToCommand.put("find chord all", new ChordFinder(chordNotes, true));
 
         keywordToCommand.put("crotchet duration", new CrotchetDuration());

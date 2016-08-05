@@ -224,10 +224,12 @@ public class ChordFinder implements Command {
     }
 
     public String getHelp() {
-        return "Finds a chord which matches the pattern of 3 or 4 provided notes.\n " +
-                "Can use 'all' extender to match inversion enharmonic chords.\n" +
-                " \texample: 'find chord F A C' returns F MAJOR.\n" +
-                "\t and 'find chord all C F A' also returns F MAJOR";
+        if (all) {
+            return "Finds the chord which matches the 3 or 4 provided notes.";
+        } else {
+            return "Finds all chords which match the 3 or 4 provided notes, " +
+                    "regardless of the note order. This allows for matching chord inversions.";
+        }
     }
 
     public ArrayList<String> getParams() {

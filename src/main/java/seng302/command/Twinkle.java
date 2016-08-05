@@ -39,7 +39,7 @@ public class Twinkle implements Command {
 
     @Override
     public String getHelp() {
-        return null;
+        return "A mystery command...";
     }
 
     @Override

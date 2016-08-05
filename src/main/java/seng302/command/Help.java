@@ -1,5 +1,7 @@
 package seng302.command;
 
+import java.util.ArrayList;
+
 import seng302.Environment;
 import seng302.data.CommandData;
 
@@ -53,12 +55,20 @@ public class Help implements Command {
 
     @Override
     public String getHelp() {
-        return null;
+        return "When typed alone, opens the DSL reference menu. When followed by a command name, " +
+                "gives more information about that command.";
     }
 
     @Override
     public String getCommandText() {
         return "help";
+    }
+
+    @Override
+    public ArrayList<String> getOptions() {
+        ArrayList<String> options = new ArrayList<>();
+        options.add("command");
+        return options;
     }
 
     @Override

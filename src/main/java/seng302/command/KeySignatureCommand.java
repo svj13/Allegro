@@ -339,8 +339,9 @@ public class KeySignatureCommand implements Command {
                         " or a specific list of notes (i.e. F# C#), will return the scales" +
                         " whose key signatures contain that information";
             case "get":
-                return "When followed by a number and either sharps or flats, " +
-                        "finds all scales whose key signatures have this number of sharps/flats.";
+                return "When followed by either a number of sharps or flats (i.e. 2#, 7b)" +
+                        " or a specific list of notes (i.e. F# C#), will return the scales" +
+                        " whose key signatures contain that information";
 
             case "number":
                 return "When followed by a scale, shows the number of flats and sharps in that " +
@@ -376,12 +377,11 @@ public class KeySignatureCommand implements Command {
         //need to double check these are correct
         switch (outputType) {
             case "getNotes":
-                return "scale signature";
+                return "scale signature with";
             case "get":
                 return "scale signature with";
             case "number":
                 return "scale signature num";
-
             case "notes":
                 return "scale signature";
         }
@@ -390,15 +390,13 @@ public class KeySignatureCommand implements Command {
 
     @Override
     public String getExample() {
-        //need to double check these are correct
         switch (outputType) {
             case "getNotes":
-                return "scale signature A#";
+                return "scale signature with A# B#";
             case "get":
                 return "scale signature with 2#";
             case "number":
-                return "scale signature num";
-
+                return "scale signature num A major";
             case "notes":
                 return "scale signature A major";
         }

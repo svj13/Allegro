@@ -30,7 +30,8 @@ public class NoteCommand implements Command {
     }
 
     public String getHelp() {
-        return "When followed by a valid midi number (within the range of 0-127), it will return the corresponding note name and its octave e.g. 'note 60' will return C4.";
+        return "When followed by a valid midi number (within the range of 0-127), " +
+                "it will return the corresponding note, including its octave ";
     }
 
     public ArrayList<String> getParams() {
@@ -46,6 +47,6 @@ public class NoteCommand implements Command {
 
     @Override
     public String getExample() {
-        return "note 10";
+        return "note 60";
     }
 }

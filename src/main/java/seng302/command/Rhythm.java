@@ -108,13 +108,13 @@ public class Rhythm implements Command {
 
     public String getHelp() {
         if (isSetter) {
-            return "Changes the rhythm note timings, syntax: set rhythm 'setting'. \n" +
+            return "Changes the rhythm note timings.\n" +
                     "Default (no swing, half crotchet duration): 'straight'\n" +
                     "Preset swing settings:\n\t'straight' - regular 1/2 crotchet timing." +
                     "\n\t'light' - swing 5/8 3/8 crotchet timings.\n\t'medium' - swing " +
                     "2/3 1/3 crotchet timings.\n\t'heavy' - swing 3/4 1/4 crotchet timings.\n" +
                     "Custom setting:\n\tCrotchet duration fractions e.g. 'set rhythm 1/4 1/2 1/4'" +
-                    " where every fraction is seperated by a space.";
+                    " where every fraction is separated by a space.";
 
         } else {
             return "Returns the current rhythm beat divisions. " +
