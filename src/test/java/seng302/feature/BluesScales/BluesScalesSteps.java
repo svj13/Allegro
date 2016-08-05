@@ -41,6 +41,18 @@ public class BluesScalesSteps {
         result = env.getTranscriptManager().getTranscriptTuples().get(0).getResult();
     }
 
+    @When("I type the command 'play scale (.+) blues 2'")
+    public void play_blues_scale_2_octaves(final String startingNote) {
+        env.getExecutor().executeCommand("play scale " + startingNote + " blues 2");
+        result = env.getTranscriptManager().getTranscriptTuples().get(0).getResult();
+    }
+
+    @When("I type the command 'play scale (.+) blues 3'")
+    public void play_blues_scale_3_octaves(final String startingNote) {
+        env.getExecutor().executeCommand("play scale " + startingNote + " blues 3");
+        result = env.getTranscriptManager().getTranscriptTuples().get(0).getResult();
+    }
+
     @Then("The following is printed to the transcript pane - (.+)")
     public void verifyResult(final String scale) {
         assertThat(result, equalTo(scale));
