@@ -89,8 +89,6 @@ public class ProjectHandler {
 
 
 
-
-
     /**
      * Updates the json list of project names, used to fill the quick load list.
      *

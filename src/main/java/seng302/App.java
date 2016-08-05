@@ -48,8 +48,8 @@ public class App extends Application {
             stage.setScene(scene1);
             stage.show();
             UserLoginController userLoginController = loader1.getController();
-            userLoginController.create();
             userLoginController.setEnv(env);
+            userLoginController.displayRecentUsers();
 
 
 

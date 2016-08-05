@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import seng302.Environment;
+import seng302.Users.User;
 
 import java.io.IOException;
 
@@ -71,16 +72,17 @@ public class UserLoginController {
 
 
 
-    private void displayRecentUsers(){
-        String name = "joseph";
+    public void displayRecentUsers(){
+        String name;
         Image image = new Image(getClass().getResourceAsStream
                 ("/images/gear-1119298_960_720.png"), 10, 10, true, true);
 
+        System.out.println(env.getUserHandler().getRecentUsers());
+        for(User user: env.getUserHandler().getRecentUsers()) {
+            name = user.getUserName();
 
-//        for ... {
-//
-//            recentUsersHbox.getChildren().add(generateRecentUser(name, image));
-//        }
+            recentUsersHbox.getChildren().add(generateRecentUser(name, image));
+        }
 
 
     }
@@ -108,10 +110,6 @@ public class UserLoginController {
             System.out.println("incorrect login info");
         }
 
-    }
-
-    public void create(){
-        displayRecentUsers();
     }
 
 }

@@ -59,6 +59,19 @@ public class UserHandler {
     }
 
 
+    public ArrayList<User> getRecentUsers(){
+        ArrayList<User> recentUsersTemp = new ArrayList<User>();
+        System.out.println(userList);
+
+        for (Object user: recentUsers) {
+            User tempUser = new User(env, user.toString());
+            recentUsersTemp.add(tempUser);
+        }
+
+        return  recentUsersTemp;
+
+
+    }
 
     private void populateUsers(){
 
@@ -162,6 +175,7 @@ public class UserHandler {
     public User getCurrentUser(){
         return currentUser;
     }
+
 
     public void setCurrentUser(String userName){
         this.currentUser = new User(env, userName);
