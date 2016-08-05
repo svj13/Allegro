@@ -11,6 +11,7 @@ import seng302.command.CrotchetDuration;
 import seng302.command.Diatonic;
 import seng302.command.Enharmonic;
 import seng302.command.Help;
+import seng302.command.InstrumentCommand;
 import seng302.command.IntervalCommand;
 import seng302.command.KeySignatureCommand;
 import seng302.command.Midi;
@@ -83,6 +84,14 @@ public class CommandData {
         keywordToCommand.put("enharmonic higher", new Enharmonic("C", 0));
         keywordToCommand.put("enharmonic lower", new Enharmonic("C", 1));
         keywordToCommand.put("all enharmonics", new Enharmonic("C", 3));
+
+        keywordToCommand.put("instrument", new InstrumentCommand("current"));
+        keywordToCommand.put("all instruments", new InstrumentCommand("all"));
+
+        ArrayList<String> instrument = new ArrayList<>();
+        instrument.add("10");
+        keywordToCommand.put("set instrument", new InstrumentCommand(true, instrument));
+
 
         HashMap intervalInfo = new HashMap();
 

@@ -140,4 +140,50 @@ public class InstrumentCommand implements Command {
         }
 
     }
+
+    @Override
+    public String getHelp() {
+        switch (type) {
+            case "current":
+                return "Shows the current playback instrument.";
+            case "all":
+                return "Shows a list of all instruments that can be selected as the playback instrument.";
+            case "setting":
+                return "When followed by a valid instrument name or number, sets the playback" +
+                        " instrument to that instrument.\nFor a list of valid instruments, " +
+                        "use the command all instruments.";
+        }
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> getParams() {
+        ArrayList<String> params = new ArrayList<>();
+        if (type.equals("setting")) {
+            params.add("instrument name|instrument ID");
+        }
+        return params;
+    }
+
+    @Override
+    public String getCommandText() {
+        switch (type) {
+            case "current":
+                return "instrument";
+            case "all":
+                return "all instruments";
+            case "setting":
+                return "set instrument";
+        }
+        return null;
+    }
+
+    @Override
+    public String getExample() {
+        if (type.equals("current") || type.equals("all")) {
+            return getCommandText();
+        } else {
+            return "set instrument 10";
+        }
+    }
 }
