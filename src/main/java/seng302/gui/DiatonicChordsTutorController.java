@@ -103,7 +103,7 @@ public class DiatonicChordsTutorController extends TutorController {
         formatQuestionRow(questionRow);
 
         final Label correctAnswer = correctAnswer(answer);
-        final ComboBox<String> options = generateChoices(data, answer);
+        final ComboBox<String> options = generateChoices(questionAnswer, answer);
         options.setOnAction(event ->
                 handleQuestionAnswer(options.getValue().toLowerCase(), questionAnswer, questionRow)
         );
@@ -127,15 +127,16 @@ public class DiatonicChordsTutorController extends TutorController {
      *
      * @return a combo box of scale options
      */
-    private ComboBox<String> generateChoices(Pair functionAndData, String answer) {
+    private ComboBox<String> generateChoices(Pair questionAnswer, String answer) {
+        Pair question = (Pair) questionAnswer.getKey();
         ComboBox<String> options = new ComboBox<>();
         options.setPrefHeight(30);
 
-        if (type == 2) {
+        if (getTypeOfQuestion(questionAnswer) == 2) {
             options.getItems().addAll(type2answers);
         } else {
-            Integer numInScale = ChordUtil.romanNumeralToInteger((String) functionAndData.getKey());
-            String noteName = (String) functionAndData.getValue();
+            Integer numInScale = ChordUtil.romanNumeralToInteger((String) question.getKey());
+            String noteName = (String) question.getValue();
 
             //Get the letter numInScale above the scale note
             char letter = ChordUtil.lettersUp(noteName, numInScale - 1);
@@ -230,6 +231,7 @@ public class DiatonicChordsTutorController extends TutorController {
                         "This gives a score of %.2f percent.",
                 manager.questions, manager.skipped,
                 manager.correct, manager.incorrect, userScore);
+        record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
         if (projectHandler.currentProjectPath != null) {
             projectHandler.saveSessionStat("diatonic", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
             projectHandler.saveCurrentProject();
