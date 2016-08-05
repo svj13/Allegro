@@ -88,7 +88,7 @@ public class PlayNote implements Command {
 
     @Override
     public String getCommandText() {
-        return "play note";
+        return "play";
     }
 
     @Override

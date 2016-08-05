@@ -3,6 +3,7 @@ package seng302.data;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import seng302.command.Chord;
 import seng302.command.ChordFinder;
@@ -33,7 +34,7 @@ import seng302.command.Version;
 public class CommandData {
 
     //This map is for getting a command based on the keyword - this allows us to get relevant info
-    public static Map<String, Command> keywordToCommand = new HashMap<String, Command>();
+    public static TreeMap<String, Command> keywordToCommand = new TreeMap<>();
 
     // These lists hold different command "types"
     public static ArrayList<Command> playCommands = new ArrayList<>();
