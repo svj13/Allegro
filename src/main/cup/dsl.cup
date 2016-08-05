@@ -275,6 +275,11 @@ keyword ::= COMMAND_HELP                                {: RESULT = "help"; :}
           | COMMAND_QUALITY_OF                          {: RESULT = "quality of";:}
           | COMMAND_CHORD_FUNCTION                      {: RESULT = "chord function";:}
           | COMMAND_FUNCTION_OF                         {: RESULT = "function of";:}
+          | COMMAND_ALL_ENHARMONICS                     {: RESULT = "all enharmonics";:}
+          | COMMAND_UNDO                                {: RESULT = "undo";:}
+          | COMMAND_REDO                                {: RESULT = "redo";:}
+          | COMMAND_TWINKLE                             {: RESULT = "twinkle";:}
+
 ;
 
 singleTerm ::= keyword:s {: RESULT = s;:}
