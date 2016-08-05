@@ -4,6 +4,7 @@ package seng302.command;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import seng302.Environment;
 import seng302.data.Note;
@@ -307,15 +308,15 @@ public class Scale implements Command {
         return null;
     }
 
-    public ArrayList<String> getParams() {
-        ArrayList<String> params = new ArrayList<>();
+    public List<String> getParams() {
+        List<String> params = new ArrayList<>();
         params.add("note");
         params.add("type");
         return params;
     }
 
-    public ArrayList<String> getOptions() {
-        ArrayList<String> options = new ArrayList<>();
+    public List<String> getOptions() {
+        List<String> options = new ArrayList<>();
         if (outputType.equals("play")) {
             options.add("octaves");
             options.add("up|down|updown");

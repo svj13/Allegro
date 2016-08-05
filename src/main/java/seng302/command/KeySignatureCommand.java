@@ -353,8 +353,8 @@ public class KeySignatureCommand implements Command {
         return null;
     }
 
-    public ArrayList<String> getParams() {
-        ArrayList<String> params = new ArrayList<>();
+    public List<String> getParams() {
+        List<String> params = new ArrayList<>();
         switch (outputType) {
             case "getNotes":
                 params.add("number of sharps and flats|list of notes");
