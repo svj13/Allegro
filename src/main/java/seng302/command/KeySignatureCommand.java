@@ -378,7 +378,6 @@ public class KeySignatureCommand implements Command {
 
     @Override
     public String getCommandText() {
-        //need to double check these are correct
         switch (outputType) {
             case "getNotes":
                 return "scale signature with";

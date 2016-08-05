@@ -18,6 +18,12 @@ public class Help implements Command {
         this.keyword = keyword;
     }
 
+    /**
+     * Given a command, creates a nice display of all information known about it.
+     *
+     * @param command The command to display information about
+     * @return A string containing all help information about the given command.
+     */
     private String generateHelpResult(Command command) {
         String output = "";
         output += command.getCommandText() + ":\n";
