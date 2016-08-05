@@ -225,10 +225,10 @@ public class ChordFinder implements Command {
 
     public String getHelp() {
         if (all) {
-            return "Finds the chord which matches the 3 or 4 provided notes.";
-        } else {
             return "Finds all chords which match the 3 or 4 provided notes, " +
                     "regardless of the note order. This allows for matching chord inversions.";
+        } else {
+            return "Finds the chord which matches the 3 or 4 provided notes.";
         }
     }
 
