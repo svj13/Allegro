@@ -27,22 +27,39 @@ public interface Command {
      */
     void execute(Environment env);
 
+    /**
+     * Gets a textual description of what each command does.
+     */
     String getHelp();
 
-//    default ArrayList<String> getParams() {
-//        return params;
-//    }
-
+    /**
+     * Gets a list of parameters required by a command
+     * @return A list containing textual representations of parameters, or an empty list if the
+     * command has no parameters.
+     */
     default ArrayList<String> getParams() {
         return new ArrayList<>();
     }
 
+    /**
+     * Gets a list of options available to a command
+     * @return A list containing textual representations of options, or an empty list if the
+     * command has no options.
+     */
     default ArrayList<String> getOptions() {
         return new ArrayList<>();
     }
 
+    /**
+     * This is the string the user types in to use this command.
+     * @return The string representation of the command
+     */
     String getCommandText();
 
+    /**
+     * Gets an example of a command being used - shows the command along with example parameters/options.
+     * @return A string representation of an example command.
+     */
     String getExample();
 
 }

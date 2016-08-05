@@ -26,11 +26,15 @@ import seng302.command.UndoRedo;
 import seng302.command.Version;
 
 /**
- * Created by emily on 4/08/16.
+ * This Data class holds a single instance of every command, to be used for fetching help info.
+ * Also contains a collection of lists for sorting the commands into type.
  */
 public class CommandData {
 
+    //This map is for getting a command based on the keyword - this allows us to get relevant info
     public static Map<String, Command> keywordToCommand = new HashMap<String, Command>();
+
+    // These lists hold different command "types"
     public static ArrayList<Command> playCommands = new ArrayList<>();
     public static ArrayList<Command> showCommands = new ArrayList<>();
     public static ArrayList<Command> translationCommands = new ArrayList<>();
@@ -40,6 +44,7 @@ public class CommandData {
     public static ArrayList<Command> allCommands = new ArrayList<>();
 
 
+    // Populate the map and lists
     static {
         HashMap chordInfo = new HashMap<>();
         chordInfo.put("scale_type", "major");
@@ -136,12 +141,14 @@ public class CommandData {
         keywordToCommand.put("twinkle", new Twinkle());
 
 
+        //These are the commands we want in the 'terms' category
         ArrayList<String> terms = new ArrayList<>();
         terms.add("origin of");
         terms.add("meaning of");
         terms.add("category of");
         terms.add("add musical term");
 
+        //These are the commands we want in the 'special' category
         ArrayList<String> special = new ArrayList<>();
         special.add("twinkle");
         special.add("undo");
@@ -149,6 +156,7 @@ public class CommandData {
         special.add("version");
         special.add("help");
 
+        //These are the commands we want in the 'translation' category
         ArrayList<String> translation = new ArrayList<>();
         translation.add("note");
         translation.add("midi");
@@ -158,8 +166,10 @@ public class CommandData {
             Command thisCommand = (Command) command.getValue();
             allCommands.add(thisCommand);
             if (thisCommand.getCommandText().contains("play")) {
+                //Put play commands in their own category
                 playCommands.add(thisCommand);
             } else if (thisCommand.getCommandText().contains("set ")) {
+                //Put all settings commands in their own category
                 settingsCommands.add(thisCommand);
             } else if (terms.contains(thisCommand.getCommandText())) {
                 termCommands.add(thisCommand);
@@ -174,6 +184,12 @@ public class CommandData {
 
     }
 
+    /**
+     * Returns a specific category of commands as a list.
+     *
+     * @param commandsToGet The category of command we are looking for
+     * @return an ArrayList of commands belonging to the provided category.
+     */
     public static ArrayList<Command> getCommands(String commandsToGet) {
         if (commandsToGet.equals("Play")) {
             return playCommands;
