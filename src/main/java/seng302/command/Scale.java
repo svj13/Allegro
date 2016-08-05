@@ -23,7 +23,7 @@ public class Scale implements Command {
     /**
      * Type of scale. e.g major, minor, melodic minor, blues
      */
-    String type;
+    static String type;
 
     /**
      * Way to output scale. e.g note, midi or play
@@ -224,12 +224,12 @@ public class Scale implements Command {
         char currentLetter = Character.toUpperCase(startNote.charAt(0));
         for (Note note : scaleNotes) {
             String currentNote;
-            if (scaleNotes.size() > 7) {
-                currentNote = note.getEnharmonicWithLetter(currentLetter);
-            } else if (Character.toUpperCase(startNote.charAt(0)) == 'B' && note.getNote().charAt(1) == '#') {
+            if (type.equals("blues") && Character.toUpperCase(startNote.charAt(0)) == 'B' && note.getNote().charAt(1) == '#') {
                 currentNote = note.getNote();
-            } else {
+            } else if (type.equals("blues")) {
                 currentNote = note.getDescendingEnharmonic();
+            } else {
+                currentNote = note.getEnharmonicWithLetter(currentLetter);
             }
             if (OctaveUtil.octaveSpecifierFlag(startNote)) {
                 scale.add(currentNote);
