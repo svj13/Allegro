@@ -358,14 +358,18 @@ public class KeySignatureCommand implements Command {
         switch (outputType) {
             case "getNotes":
                 params.add("number of sharps and flats|list of notes");
+                break;
             case "get":
                 params.add("number#|numberb");
+                break;
             case "number":
                 params.add("note");
                 params.add("scale type");
+                break;
             case "notes":
                 params.add("note");
                 params.add("scale type");
+                break;
 
         }
 

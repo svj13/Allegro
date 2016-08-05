@@ -115,12 +115,15 @@ public class Diatonic implements Command {
         switch (command) {
             case "quality":
                 params.add("I-VII");
+                break;
             case "chordFunction":
                 params.add("chord");
                 params.add("major key");
+                break;
             case "functionOf":
                 params.add("chord");
                 params.add("major key");
+                break;
         }
 
         return params;
