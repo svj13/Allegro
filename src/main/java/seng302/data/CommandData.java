@@ -10,6 +10,7 @@ import seng302.command.Command;
 import seng302.command.CrotchetDuration;
 import seng302.command.Diatonic;
 import seng302.command.Enharmonic;
+import seng302.command.Help;
 import seng302.command.IntervalCommand;
 import seng302.command.KeySignatureCommand;
 import seng302.command.Midi;
@@ -20,6 +21,8 @@ import seng302.command.Rhythm;
 import seng302.command.Scale;
 import seng302.command.Semitone;
 import seng302.command.Tempo;
+import seng302.command.Twinkle;
+import seng302.command.UndoRedo;
 import seng302.command.Version;
 
 /**
@@ -127,6 +130,11 @@ public class CommandData {
         keywordToCommand.put("tempo", new Tempo());
 
         keywordToCommand.put("version", new Version());
+        keywordToCommand.put("help", new Help());
+        keywordToCommand.put("undo", new UndoRedo(0));
+        keywordToCommand.put("redo", new UndoRedo(1));
+        keywordToCommand.put("twinkle", new Twinkle());
+
 
         ArrayList<String> terms = new ArrayList<>();
         terms.add("origin of");
