@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.*?>
 
 <?import org.controlsfx.control.CheckComboBox?>
-
-<AnchorPane fx:id="scaleTutorAnchor" prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.ScaleRecognitionTutorController">
+<AnchorPane fx:id="scaleTutorAnchor" prefHeight="450.0" prefWidth="700.0"
+            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="seng302.gui.ScaleRecognitionTutorController">
    <children>
       <HBox prefHeight="30.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
          <children>
@@ -25,9 +25,10 @@
       </HBox>
       <HBox fx:id="settings" alignment="CENTER_LEFT" layoutY="36.0" minWidth="400.0" prefHeight="10.0" spacing="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="56.0">
          <children>
-            <VBox minHeight="-Infinity" prefHeight="100.0" prefWidth="551.0" spacing="10.0">
+             <VBox minHeight="-Infinity" prefHeight="100.0" prefWidth="700.0" spacing="10.0">
                            <children>
-                              <HBox alignment="CENTER_LEFT" prefHeight="36.0" prefWidth="610.0" spacing="10.0">
+                               <HBox alignment="CENTER_LEFT" prefHeight="36.0" prefWidth="700.0"
+                                     spacing="10.0">
                                  <children>
                                     <Label text="Direction: " />
                                     <ComboBox fx:id="direction" prefWidth="100.0" promptText="Up" />
@@ -39,10 +40,13 @@
                                     <ComboBox fx:id="octaves" prefWidth="100.0" promptText="1" />
                                     <Label text="Scale types: ">
                                        <HBox.margin>
-                                          <Insets left="5.0"/>
+                                           <Insets left="5.0"/>
                                        </HBox.margin>
                                     </Label>
                                     <CheckComboBox fx:id="ccbScales" prefWidth="100.0"/>
+                                     <Text fx:id="scaleError" strokeType="OUTSIDE" strokeWidth="0.0"
+                                           text="Please select one or more scale types"
+                                           visible="false"/>
 
                                  </children>
                                  <VBox.margin>
@@ -64,25 +68,27 @@
                               </HBox>
                               <HBox prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <Slider fx:id="numQuestions" blockIncrement="1.0" majorTickUnit="49.0" max="50.0"
-                                            maxWidth="300.0" min="1.0" minorTickCount="1" prefHeight="38.0"
-                                            prefWidth="300.0" showTickLabels="true" value="5.0"/>
-                                    <Button id="btnGo" fx:id="btnGo" alignment="CENTER" contentDisplay="CENTER"
-                                            minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
-                                            onAction="#goAction" prefHeight="30.0" prefWidth="90.0" text="Go"
-                                            textAlignment="CENTER">
+                                     <Slider fx:id="numQuestions" blockIncrement="1.0"
+                                             majorTickUnit="49.0" max="50.0" maxWidth="300.0"
+                                             min="1.0" minorTickCount="1" prefHeight="38.0"
+                                             prefWidth="300.0" showTickLabels="true" value="5.0"/>
+                                     <Button id="btnGo" fx:id="btnGo" alignment="CENTER"
+                                             contentDisplay="CENTER" minHeight="-Infinity"
+                                             minWidth="-Infinity" mnemonicParsing="false"
+                                             onAction="#goAction" prefHeight="30.0" prefWidth="90.0"
+                                             text="Go" textAlignment="CENTER">
                                        <font>
-                                          <Font size="14.0"/>
+                                           <Font size="14.0"/>
                                        </font>
                                        <HBox.margin>
-                                          <Insets left="20.0"/>
+                                           <Insets left="20.0"/>
                                        </HBox.margin>
                                     </Button>
                                  </children>
                               </HBox>
                            </children>
                         </VBox>
-            <BorderPane prefHeight="200.0" prefWidth="100.0"/>
+             <BorderPane prefHeight="200.0" prefWidth="100.0"/>
          </children>
       </HBox>
       <ScrollPane fx:id="paneQuestions" fitToHeight="true" fitToWidth="true" layoutY="105.0" minHeight="10.0" minWidth="10.0" prefHeight="50.0" prefViewportHeight="60.0" prefViewportWidth="680.0" prefWidth="700.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5" AnchorPane.rightAnchor="5" AnchorPane.topAnchor="180.0">
