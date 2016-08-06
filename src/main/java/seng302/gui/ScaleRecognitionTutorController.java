@@ -108,15 +108,9 @@ public class ScaleRecognitionTutorController extends TutorController {
      * @return a question pane containing the question information
      */
     public HBox setUpQuestion() {
-        //int type = rand.nextInt(2);
         int type = rand.nextInt(playScaleType.size());
         String scaleType = playScaleType.get(type).toLowerCase();
-//        if (type == 0) {
-//
-//            scaleType = "major";
-//        } else {
-//            scaleType = "minor";
-//        }
+
         return generateQuestionPane(new Pair<>(getRandomNote(), scaleType.toLowerCase()));
     }
 
@@ -258,12 +252,7 @@ public class ScaleRecognitionTutorController extends TutorController {
     private ComboBox<String> generateChoices() {
         ComboBox<String> options = new ComboBox<>();
         options.setPrefHeight(30);
-
         options.getItems().addAll(playScaleType);
-
-//        options.getItems().add("major");
-//        options.getItems().add("minor");
-//        options.getItems().add("melodic minor");
 
         return options;
     }
