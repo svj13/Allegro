@@ -343,7 +343,7 @@ public class PitchComparisonTutorController extends TutorController {
 
             projectHandler.saveSessionStat("pitch", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
             projectHandler.saveCurrentProject();
-            outputText += "\nSession auto saved";
+            outputText += "\nSession auto saved.";
         }
         env.getRootController().setTabTitle("pitchTutor", false);
         // Sets the finished view

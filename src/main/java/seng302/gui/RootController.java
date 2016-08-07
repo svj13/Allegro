@@ -1,11 +1,7 @@
 package seng302.gui;
 
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.control.*;
 import org.json.simple.JSONArray;
-import org.controlsfx.control.PopOver;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +10,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -32,16 +27,12 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import seng302.Environment;
-import seng302.command.UndoRedo;
 import seng302.data.CommandType;
 import seng302.managers.TranscriptManager;
 import seng302.utility.FileHandler;
@@ -64,7 +55,7 @@ public class RootController implements Initializable {
 
 
     @FXML
-    private PitchComparisonTutorController PitchComparisonTabController;
+    public PitchComparisonTutorController PitchComparisonTabController;
 
     @FXML
     private IntervalRecognitionTutorController IntervalRecognitionTabController;

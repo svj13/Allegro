@@ -38,6 +38,7 @@ import seng302.Environment;
 import seng302.data.Term;
 import seng302.utility.InstrumentUtility;
 import seng302.utility.OutputTuple;
+import seng302.utility.TutorRecord;
 
 public class ProjectHandler {
     //private String[] propertyNames = {"tempo"};
@@ -45,29 +46,29 @@ public class ProjectHandler {
     JSONObject projectSettings;
 
 
-    JSONObject overalPitchObject;
-    JSONObject overalPitchSessionObject;
-    Collection<JSONObject> pitchTutorRecordsList = new ArrayList<JSONObject>();
-    String pitchTutorRecordStats = "";
+    JSONArray overallPitchObject;
+    JSONObject overallPitchSessionObject;
+    JSONArray pitchTutorRecordsList = new JSONArray();
+    JSONObject pitchTutorRecordStats;
 
     JSONObject overalIntervalObject;
     JSONObject overalIntervalSessionObject;
-    Collection<JSONObject> intervalTutorRecordsList = new ArrayList<JSONObject>();
+    Collection<JSONObject> intervalTutorRecordsList = new ArrayList<>();
     String intervalTutorRecordStats = "";
 
     JSONObject overalMusicalTermObject;
     JSONObject overalMusicalTermSessionObject;
-    Collection<JSONObject> musicalTermTutorRecordsList = new ArrayList<JSONObject>();
+    Collection<JSONObject> musicalTermTutorRecordsList = new ArrayList<>();
     String musicalTermTutorRecordStats = "";
 
     JSONObject overalScaleObject;
     JSONObject overalScaleSessionObject;
-    Collection<JSONObject> scaleTutorRecordsList = new ArrayList<JSONObject>();
+    Collection<JSONObject> scaleTutorRecordsList = new ArrayList<>();
     String scaleTutorRecordStats = "";
 
     JSONObject overalChordObject;
     JSONObject overalChordSessionObject;
-    Collection<JSONObject> chordTutorRecordsList = new ArrayList<JSONObject>();
+    Collection<JSONObject> chordTutorRecordsList = new ArrayList<>();
     String chordTutorRecordStats = "";
 
     JSONObject overallSpellingObject;
@@ -104,8 +105,8 @@ public class ProjectHandler {
         chordTutorRecords = new JSONObject();
         spellingTutorRecords = new JSONObject();
 
-        overalPitchObject = new JSONObject();
-        overalPitchSessionObject = new JSONObject();
+        overallPitchObject = new JSONArray();
+        overallPitchSessionObject = new JSONObject();
 
         overalIntervalObject = new JSONObject();
         overalIntervalSessionObject = new JSONObject();
@@ -185,10 +186,10 @@ public class ProjectHandler {
     }
 
 
-    public void saveSessionStat(String tutorType, String statString) {
+    public void saveSessionStat(String tutorType, JSONObject statString) {
         if (tutorType.equals("pitch")) {
 
-            pitchTutorRecordStats += (statString);
+            pitchTutorRecordStats = statString;
 
         } else if (tutorType.equals("interval")) {
 
@@ -212,39 +213,36 @@ public class ProjectHandler {
 
     }
 
-    public void saveTutorRecords(String tutorType, String record) {
-        JSONObject jasonOFQuestion = new JSONObject();
+    public void saveTutorRecords(String tutorType, JSONObject record) {
+        JSONObject jsonOfQuestion = new JSONObject();
 
         if (tutorType.equals("pitch")) {
 
-            jasonOFQuestion.put("QuestionInfo", record);
-            pitchTutorRecordsList.add(jasonOFQuestion);
+
+            pitchTutorRecordsList.add(record);
             //System.out.println(pitchTutorRecordsList);
 
         } else if (tutorType.equals("interval")) {
 
-            jasonOFQuestion.put("QuestionInfo", record);
-            intervalTutorRecordsList.add(jasonOFQuestion);
+
+            intervalTutorRecordsList.add(record);
 
 
         } else if (tutorType.equals("musicalTerm")) {
-            jasonOFQuestion.put("QuestionInfo", record);
-            musicalTermTutorRecordsList.add(jasonOFQuestion);
+
+            musicalTermTutorRecordsList.add(record);
             ;
 
         } else if (tutorType.equals("scale")) {
-            jasonOFQuestion.put("QuestionInfo", record);
-            scaleTutorRecordsList.add(jasonOFQuestion);
+            scaleTutorRecordsList.add(record);
 
 
         } else if (tutorType.equals("chord")) {
 
-            jasonOFQuestion.put("QuestionInfo", record);
-            chordTutorRecordsList.add(jasonOFQuestion);
+            chordTutorRecordsList.add(record);
         } else if (tutorType.equals("spelling")) {
 
-            jasonOFQuestion.put("QuestionInfo", record);
-            spellingTutorRecordsList.add(jasonOFQuestion);
+            spellingTutorRecordsList.add(record);
         }
     }
 
@@ -338,8 +336,6 @@ public class ProjectHandler {
      * Handles Saving a .json Project file, for the specified project address
      * @param projectAddress Project directory address.
      */
-
-
     public void saveProject(String projectAddress) {
 
         //Add all settings to such as tempo speed to the project here.
@@ -382,21 +378,8 @@ public class ProjectHandler {
         try {
 
             if (env.getRootController().tabSaveCheck("pitchTutor")) {
-                FileWriter pitchFile = new FileWriter(projectAddress + "/PitchComparisonRecords.json", true);
-                overalPitchSessionObject.put("Questions", pitchTutorRecordsList);
-                overalPitchSessionObject.put("SessionStats", pitchTutorRecordStats);
-
-
-                overalPitchObject.put("Session_" + new Date().toString(), overalPitchSessionObject);
-                pitchFile.write(overalPitchObject.toJSONString());
-                //file1.write(overalpitchSessionObject.toJSONString());
-                pitchTutorRecordsList.clear();
-                pitchTutorRecordStats = "";
-                overalPitchSessionObject.clear();
-                overalPitchObject.clear();
-
-                pitchFile.flush();
-                pitchFile.close();
+                TutorRecord currentRecord = env.getRootController().PitchComparisonTabController.record;
+                currentRecord.writeToFile(projectAddress + "/PitchComparisonTutor.json");
             }
 
             if (env.getRootController().tabSaveCheck("intervalTutor")) {
