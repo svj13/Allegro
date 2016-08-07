@@ -4,6 +4,7 @@ package seng302.gui;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.layout.*;
 import org.json.simple.JSONArray;
 import org.controlsfx.control.PopOver;
 
@@ -31,11 +32,6 @@ import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCombination;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
@@ -142,6 +138,9 @@ public class RootController implements Initializable {
     @FXML
     private Tab transcriptPane;
 
+    @FXML
+    private BorderPane borderPane_DP;
+
 
     @FXML
     public void onTranscriptTab() {
@@ -149,6 +148,19 @@ public class RootController implements Initializable {
     }
 
     public void initialize(URL location, ResourceBundle resources) {
+
+        String cssBordering = "-fx-border-color:darkblue ; \n" //#090a0c
+                + "-fx-border-insets:3;\n"
+                + "-fx-border-radius:7;\n"
+                + "-fx-border-width:5.0";
+
+
+        borderPane_DP.setStyle(cssBordering);
+        System.out.println("this was called!");
+
+
+
+
     }
 
 
