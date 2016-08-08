@@ -222,6 +222,14 @@ public class Note {
     }
 
     /**
+     * @return the note name from a string.
+     */
+    public String getNote() {
+        return this.note;
+    }
+
+
+    /**
      * Returns the descending enharmonic name. So the b value instead of the # value.
      *
      * @return descending enharmonic name.
@@ -426,12 +434,6 @@ public class Note {
         return null;
     }
 
-    /**
-     * @return the note name.
-     */
-    public String getNote() {
-        return this.note;
-    }
 
     /**
      * @return the MIDI value.

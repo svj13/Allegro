@@ -694,6 +694,11 @@ public class KeyboardPaneController {
     public void toggleScaleKeys(ArrayList<Note> scaleNotes) {
         ObservableList<Node> keys = keyboardBox.getChildren();
         Note startNote = scaleNotes.get(0);
+        String startNoteString = startNote.getNote();
+        startNoteString = OctaveUtil.removeOctaveSpecifier(startNoteString);
+        System.out.println("IMMA START NOTE MAFAKKA ");
+        System.out.println(startNoteString);
+        startNote = Note.lookup(startNoteString);
 
         for (Node key : keys) {
             if (key instanceof TouchPane) {
