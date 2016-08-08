@@ -8,6 +8,7 @@ package seng302.command;
  */
 
 import java.util.ArrayList;
+import java.util.List;
 
 import seng302.Environment;
 import seng302.data.Term;
@@ -29,6 +30,7 @@ public class MusicalTerm implements Command {
 
     private ArrayList<String> rawInput;
 
+    private String type;
 
     public ArrayList<Term> terms;
 
@@ -44,6 +46,7 @@ public class MusicalTerm implements Command {
      * If the musical term name is null, it will add it to the dictionary and format it accordingly
      */
     public MusicalTerm(ArrayList<String> musicalTermArray) {
+        infoToGet = "add";
         rawInput = musicalTermArray;
         termAdded = true;
         term = new Term(musicalTermArray.get(0), musicalTermArray.get(2), musicalTermArray.get(1), musicalTermArray.get(3));
@@ -158,5 +161,65 @@ public class MusicalTerm implements Command {
         }
         env.getTranscriptManager().setResult(result);
     }
+
+    public String getHelp() {
+
+        switch (infoToGet) {
+            case "add":
+                return "When followed by a musical term in the format of 'name; origin; " +
+                        "category; definition', it will add the musical term to the Musical " +
+                        "Term dictionary.";
+            case "origin":
+                return "When followed by a musical term, will display the origin of that term.";
+            case "meaning":
+                return "When followed by a musical term, will display the definition of that term.";
+            case "category":
+                return "When followed by a musical term, will display the category of that term.";
+        }
+        return null;
+
+    }
+
+    public List<String> getParams() {
+        List<String> params = new ArrayList<>();
+        if (infoToGet.equals("add")) {
+            params.add("name; origin; category; definition");
+        } else {
+            params.add("musical term name");
+        }
+        return params;
+    }
+
+    @Override
+    public String getCommandText() {
+        switch (infoToGet) {
+            case "add":
+                return "add musical term";
+            case "origin":
+                return "origin of";
+            case "meaning":
+                return "meaning of";
+            case "category":
+                return "category of";
+        }
+        return null;
+    }
+
+    @Override
+    public String getExample() {
+        switch (infoToGet) {
+            case "add":
+                return "add musical term Lento; Italian; Tempo; Slowly";
+            case "origin":
+                return "origin of Lento";
+            case "meaning":
+                return "meaning of Lento";
+            case "category":
+                return "category of Lento";
+        }
+        return null;
+    }
+
+
 }
 

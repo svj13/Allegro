@@ -4,6 +4,7 @@ package seng302.command;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import seng302.Environment;
 import seng302.data.Note;
@@ -123,6 +124,9 @@ public class Scale implements Command {
     /**
      * Moves the current letter to the next letter. If the letter is G, the next letter will be A.
      * This method is used to ensure one of each letter name is in each scale.
+     * @param currentLetter The current letter.
+     * @param backDown Whether to iterate through the letters forwards or backwards.
+     * @return The new letter.
      */
     private static char updateLetter(char currentLetter, boolean backDown) {
         int index = "ABCDEFG".indexOf(currentLetter);
@@ -140,7 +144,13 @@ public class Scale implements Command {
         return currentLetter;
     }
 
-
+    /**
+     * This methods gets a scale in a particular direction. For updown it will get the scale in each
+     * direction and then combine them.
+     *
+     * @param direction the direction of the scale (up, down, updown)
+     * @return An arraylist of notes of the scale in the correct direction.
+     */
     private ArrayList<Note> getScale(String direction) {
         ArrayList<Note> scale = note.getOctaveScale(type, octaves, true);
 
@@ -209,6 +219,7 @@ public class Scale implements Command {
         }
 
     }
+
 
     /**
      * Converts an ArrayList of notes into an ArrayList of Strings where the strings are the correct
@@ -297,5 +308,70 @@ public class Scale implements Command {
         }
 
         return milliseconds;
+    }
+
+    public String getHelp() {
+        switch (outputType) {
+            case "note":
+                return "When followed by a valid scale (made up of a note and a scale type)" +
+                        " the corresponding scale notes will be displayed.";
+            case "play":
+                return "When followed by a valid scale (made up of a note and a scale type)" +
+                        " the corresponding scale will be played. The number of" +
+                        " octaves and direction may optionally be given.";
+
+            case "midi":
+                return "When followed by a valid scale (made up of a note and a scale type) " +
+                        "the corresponding scale midi notes will be displayed. ";
+
+        }
+        return null;
+    }
+
+    public List<String> getParams() {
+        List<String> params = new ArrayList<>();
+        params.add("note");
+        params.add("type");
+        return params;
+    }
+
+    public List<String> getOptions() {
+        List<String> options = new ArrayList<>();
+        if (outputType.equals("play")) {
+            options.add("octaves");
+            options.add("up|down|updown");
+        }
+
+        return options;
+    }
+
+    @Override
+    public String getCommandText() {
+        switch (outputType) {
+            case "note":
+                return "scale";
+            case "play":
+                return "play scale";
+
+            case "midi":
+                return "midi scale";
+
+        }
+        return null;
+    }
+
+    @Override
+    public String getExample() {
+        switch (outputType) {
+            case "note":
+                return "scale A minor";
+            case "play":
+                return "play scale C major updown";
+
+            case "midi":
+                return "midi scale A minor";
+
+        }
+        return null;
     }
 }

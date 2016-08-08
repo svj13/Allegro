@@ -37,3 +37,17 @@ Feature: Diatonic Chords
       | V        | C# major | G# 7th                 |
       | VI       | C# major | A# minor 7th           |
       | VII      | C# major | B# half-diminished 7th |
+
+  Scenario Outline: Retrieve function of a chord and a key
+    Given I am on the transcript pane
+    When I type the command 'function of <chord> <key>'
+    Then The following is printed to the transcript pane - <function>
+
+    Examples:
+      | chord         | key      | function       |
+      | D major 7th   | D major  | I              |
+      | D minor 7th   | D major  | Non Functional |
+      | G minor 7th   | F major  | II             |
+      | F# 7th        | B major  | V              |
+      | F# 7th        | B# major | Non Functional |
+      | Bbb major 7th | Fb major | IV             |
