@@ -23,7 +23,7 @@ public class Scale implements Command {
     /**
      * Type of scale. e.g major, minor, melodic minor, blues
      */
-    static String type;
+    private static String type;
 
     /**
      * Way to output scale. e.g note, midi or play

@@ -128,11 +128,10 @@ public class ScaleRecognitionTutorController extends TutorController {
      * @return Arraylist of notes in a scale
      */
     public ArrayList<Note> getScale(Note startNote, String scaleType) {
-        // Add # octaves and up/down selection here.
         ArrayList<Note> scale;
-        if (direction.getValue().equals("Up")) {
+        if (playDirection.equals("Up")) {
             scale = startNote.getOctaveScale(scaleType, octaves.getValue(), true);
-        } else if (direction.getValue().equals("UpDown")) {
+        } else if (playDirection.equals("UpDown")) {
             scale = startNote.getOctaveScale(scaleType, octaves.getValue(), true);
             ArrayList<Note> notes = new ArrayList<>(scale);
             Collections.reverse(notes);

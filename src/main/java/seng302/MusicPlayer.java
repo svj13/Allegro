@@ -94,7 +94,6 @@ public class MusicPlayer {
      */
 
     public void playBluesNotes(ArrayList<Note> notes, int pause) {
-        //int ticks = 16; //16 (1 crotchet beat)
         int ticks = rh.getBeatResolution();
         try {
             int instrument = 1;

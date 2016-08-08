@@ -295,7 +295,6 @@ public class Note {
             for (int i = 0; i < octaves; i++) {
                 for (int j = 0; j < semitones.size(); j++) {
                     scaleNotes.add(currentNote.semitoneUp(semitones.get(j)));
-//                    System.out.println(currentNote.semitoneUp(semitones.get(j)).getNote());
                 }
                 currentNote = currentNote.semitoneUp(semitones.get(semitones.size()-1));
             }
