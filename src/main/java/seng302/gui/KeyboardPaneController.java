@@ -404,9 +404,26 @@ public class KeyboardPaneController {
 
         Button clearButtonScale1 = new Button("Clear"); //clears the fields of the corresponding drop down
         clearButtonScale1.setOnAction(event->{
+            ArrayList<Note> scaleNotes = Note.lookup(OctaveUtil.addDefaultOctave(scale1NoteInput.getText())).getScale(typeScale1.getValue(), true);
+            ArrayList<String> scaleNotesText = new ArrayList<String>();
+
+            for (Note note : scaleNotes) {
+                scaleNotesText.add(OctaveUtil.removeOctaveSpecifier(note.getNote()));
+            }
+
             scale1NoteInput.clear();
             typeScale1.setValue("Major");
             scale1NoteInput.setStyle("-fx-border-color: lightgray;");
+
+            //clear the images off the keys
+            ObservableList<Node> keys = keyboardBox.getChildren();
+            for (Node key : keys) {
+                if (key instanceof TouchPane) {
+                    ((TouchPane) key).removeScaleImage();
+                }
+            }
+
+
         });
 
 

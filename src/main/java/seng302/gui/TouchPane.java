@@ -2,6 +2,7 @@ package seng302.gui;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.TouchEvent;
@@ -148,9 +149,15 @@ public class TouchPane extends StackPane {
     public void toggleScaleNotes(String imagePath) {
 
         Image symbol = new Image(getClass().getResourceAsStream(imagePath), 10, 10, true, true);
-        this.getChildren().add(new ImageView(symbol)); //should this be "blueTriangle.png"??
+        Node image = new ImageView(symbol);
+        image.setId("blueTriangle");
+        this.getChildren().add(image); //should this be "blueTriangle.png"??
 
     //"/images/triangle.png"
+    }
+
+    public void removeScaleImage() {
+        this.getChildren().remove(this.lookup("#blueTriangle"));
     }
 
     /**
