@@ -10,6 +10,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import seng302.Environment;
 import seng302.command.Scale;
+import seng302.gui.RootController;
 import seng302.managers.TranscriptManager;
 
 import static org.junit.Assert.assertEquals;
@@ -21,28 +22,28 @@ import static org.junit.Assert.assertEquals;
 @CucumberOptions()
 public class pentatonicScalesSteps {
 
-    Environment env = new Environment();
-    TranscriptManager transcriptManager;
+    Environment env;
+    String result;
 
-    @Given("^I am on the transcript pane$")
-    public void iAmOnTheTranscriptPane() throws Throwable {
-        transcriptManager = env.getTranscriptManager();
-
+    @Given("I am on the transcript pane")
+    public void createEnvironment() {
+        env = new Environment();
+        RootController rootController = new RootController();
+        env.setRootController(rootController);
     }
 
-    @When("^I type the command '([^\"]*) scale ([^\"]*) pentatonic ([^\"]*)'$")
+    @When("^I type the command '([^\"]*) scale ([^\"]*) ([^\"]*) pentatonic'$")
     public void iTypeTheCommandScale(String arg0, String arg1, String arg2) throws Throwable {
-        HashMap<String, String> testMap = new HashMap<String, String>();
-        testMap.put("scale_type", arg2.concat(" pentatonic"));
-        testMap.put("note", arg1);
-        new Scale(testMap, arg0).execute(env);
-
+        if (arg0.equals("note")) {
+            env.getExecutor().executeCommand("scale " + arg1 + " " + arg2 + " pentatonic");
+        } else {
+            env.getExecutor().executeCommand("midi scale " + arg1 + " " + arg2 + " pentatonic");
+        }
+        result = env.getTranscriptManager().getTranscriptTuples().get(0).getResult();
     }
 
     @Then("^The following is printed to the transcript pane - ([^\"]*)$")
     public void theFollowingIsPrintedToTheTranscriptPane(String arg0) throws Throwable {
-        String result = env.getTranscriptManager().getTranscriptTuples().get(0).getResult();
-        System.out.println(env.getTranscriptManager().getTranscriptTuples().get(0));
         assertEquals(result, arg0);
     }
 
