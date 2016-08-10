@@ -30,18 +30,12 @@ public class pentatonicScalesSteps {
 
     }
 
-    @When("^I type the command 'pentatonic ([^\"]*) scale ([^\"]*) ([^\"]*)'$")
-    public void iTypeTheCommandPentatonicMidiScale(String arg0, String arg1, String arg2) throws Throwable {
+    @When("^I type the command '([^\"]*) scale ([^\"]*) pentatonic ([^\"]*)'$")
+    public void iTypeTheCommandScale(String arg0, String arg1, String arg2) throws Throwable {
         HashMap<String, String> testMap = new HashMap<String, String>();
-        String return_type;
-        if (arg0.equals("note")) {
-            return_type = "pentatonic_note";
-        } else {
-            return_type = "pentatonic_midi";
-        }
-        testMap.put("scale_type", arg2);
+        testMap.put("scale_type", arg2.concat(" pentatonic"));
         testMap.put("note", arg1);
-        new Scale(testMap, return_type).execute(env);
+        new Scale(testMap, arg0).execute(env);
 
     }
 

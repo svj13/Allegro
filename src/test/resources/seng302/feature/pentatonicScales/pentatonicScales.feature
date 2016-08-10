@@ -2,7 +2,7 @@ Feature: Pentatonic Scales
 
   Scenario Outline: I can get the note representation of a pentatonic scale.
     Given I am on the transcript pane
-    When I type the command 'pentatonic <return type> scale <scale name> <scale type>'
+    When I type the command '<return type> scale <scale name> pentatonic <scale type>'
     Then The following is printed to the transcript pane - <returnedNotes>
     Examples:
       | scale name | scale type | returnedNotes   | return type |
@@ -25,7 +25,7 @@ Feature: Pentatonic Scales
 
   Scenario Outline: I can get the midi representation of a pentatonic scale.
     Given I am on the transcript pane
-    When I type the command 'pentatonic <return type> scale <scale name> <scale type>'
+    When I type the command '<return type> scale <scale name> pentatonic <scale type>'
     Then The following is printed to the transcript pane - <returnedNotes>
     Examples:
       | scale name | scale type | returnedNotes     | return type |

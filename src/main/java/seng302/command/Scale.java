@@ -79,7 +79,6 @@ public class Scale implements Command {
         } else {
             this.octaves = 1;
         }
-        pentatonicCheck();
     }
 
     /**
@@ -96,7 +95,6 @@ public class Scale implements Command {
         currentLetter = Character.toUpperCase(startNote.charAt(0));
         direction = "up";
         octaves = 1;
-        pentatonicCheck();
     }
 
     /**
@@ -111,7 +109,6 @@ public class Scale implements Command {
         this(a, b, outputType);
         this.direction = direction;
         octaves = 1;
-        pentatonicCheck();
     }
 
     /**
@@ -126,7 +123,6 @@ public class Scale implements Command {
     public Scale(String a, String b, String outputType, String direction, String octaves) {
         this(a, b, outputType, direction);
         this.octaves = Integer.parseInt(octaves);
-        pentatonicCheck();
     }
 
     /**
@@ -190,62 +186,22 @@ public class Scale implements Command {
                 } else {
                     if (this.outputType.equals("note")) {
                         String stringOfScale = scaleToString(startNote, scale, true);
-                        if (pentatonic) {
-                            stringOfScale = scaleToPentatonicString(stringOfScale);
-                            if (type.equals("major") || type.equals("minor")) {
-                                env.getTranscriptManager().setResult(stringOfScale);
-                            } else {
-                                env.error((type.substring(0, 1).toUpperCase().concat(type.substring(1))).concat(" pentatonic scales are not currently supported."));
-                            }
-                        } else {
-                            env.getTranscriptManager().setResult(stringOfScale);
-                        }
+                        env.getTranscriptManager().setResult(stringOfScale);
                     } else if (this.outputType.equals("midi")) {
                         String midiScaleString = scaleToMidi(scale);
-                        if (pentatonic) {
-                            midiScaleString = scaleToPentatonicString(midiScaleString);
-                            if (type.equals("major") || type.equals("minor")) {
-                                env.getTranscriptManager().setResult(midiScaleString);
-                            } else {
-                                env.error((type.substring(0, 1).toUpperCase().concat(type.substring(1))).concat(" pentatonic midi scales are not currently supported."));
-                            }
-                        } else {
-                            env.getTranscriptManager().setResult(midiScaleString);
-                        }
+                        env.getTranscriptManager().setResult(midiScaleString);
                     } else { // Play scale.
-                        if (pentatonic) {
-                            if (type.equals("major") || type.equals("minor")) {
-                                if (direction.equals("updown")) {
-                                    env.getTranscriptManager().setResult(scaleToPentatonicString(scaleToStringUpDown(startNote, scale)));
-                                    scale = scaleToPentatonic(scale);
-                                    env.getPlayer().playNotes(scale);
-                                } else if (direction.equals("down")) {
-                                    env.getTranscriptManager().setResult(scaleToPentatonicString(scaleToString(startNote, scale, false)));
-                                    scale = scaleToPentatonic(scale);
-                                    env.getPlayer().playNotes(scale);
-                                } else if (direction.equals("up")) {
-                                    env.getTranscriptManager().setResult(scaleToPentatonicString(scaleToString(startNote, scale, true)));
-                                    scale = scaleToPentatonic(scale);
-                                    env.getPlayer().playNotes(scale);
-                                } else {
-                                    env.error("'" + direction + "' is not a valid scale direction. Try 'up', 'updown' or 'down'.");
-                                }
-                            } else {
-                                env.error((type.substring(0, 1).toUpperCase().concat(type.substring(1))).concat(" pentatonic scales are not currently supported."));
-                            }
+                        if (direction.equals("updown")) {
+                            env.getPlayer().playNotes(scale);
+                            env.getTranscriptManager().setResult(scaleToStringUpDown(startNote, scale));
+                        } else if (direction.equals("down")) {
+                            env.getPlayer().playNotes(scale);
+                            env.getTranscriptManager().setResult(scaleToString(startNote, scale, false));
+                        } else if (direction.equals("up")) {
+                            env.getPlayer().playNotes(scale);
+                            env.getTranscriptManager().setResult(scaleToString(startNote, scale, true));
                         } else {
-                            if (direction.equals("updown")) {
-                                env.getPlayer().playNotes(scale);
-                                env.getTranscriptManager().setResult(scaleToStringUpDown(startNote, scale));
-                            } else if (direction.equals("down")) {
-                                env.getPlayer().playNotes(scale);
-                                env.getTranscriptManager().setResult(scaleToString(startNote, scale, false));
-                            } else if (direction.equals("up")) {
-                                env.getPlayer().playNotes(scale);
-                                env.getTranscriptManager().setResult(scaleToString(startNote, scale, true));
-                            } else {
-                                env.error("'" + direction + "' is not a valid scale direction. Try 'up', 'updown' or 'down'.");
-                            }
+                            env.error("'" + direction + "' is not a valid scale direction. Try 'up', 'updown' or 'down'.");
                         }
                     }
                 }
@@ -269,17 +225,9 @@ public class Scale implements Command {
     public static ArrayList<String> scaleNameList(String startNote, ArrayList<Note> scaleNotes, boolean up) {
         ArrayList<String> scale = new ArrayList<>();
         char currentLetter = Character.toUpperCase(startNote.charAt(0));
+        int count = 0;
         for (Note note : scaleNotes) {
-            String currentNote;
-            if (!type.equals("major pentatonic") && !type.equals("minor pentatonic")) {
-                currentNote = note.getEnharmonicWithLetter(currentLetter);
-            } else {
-                if (type.equals("major pentatonic")) {
-                    currentNote = note.getEnharmonicWithLetter(currentLetter);
-                } else {
-                    currentNote = note.getEnharmonicWithLetter(currentLetter);
-                }
-            }
+            String currentNote = note.getEnharmonicWithLetter(currentLetter);
             if (OctaveUtil.octaveSpecifierFlag(startNote)) {
                 scale.add(currentNote);
             } else {
@@ -287,8 +235,50 @@ public class Scale implements Command {
             }
             if (up) {
                 currentLetter = updateLetter(currentLetter, false);
+                if (type.equals("major pentatonic")) {
+                    if (count == 2) {
+                        currentLetter = updateLetter(currentLetter, false);
+                    } else if (count == 4) {
+                        currentLetter = updateLetter(currentLetter, false);
+                    }
+                    count += 1;
+                    if (count == 5) {
+                        count = 0;
+                    }
+                } else if (type.equals("minor pentatonic")) {
+                    if (count == 0) {
+                        currentLetter = updateLetter(currentLetter, false);
+                    } else if (count == 3) {
+                        currentLetter = updateLetter(currentLetter, false);
+                    }
+                    count += 1;
+                    if (count == 5) {
+                        count = 0;
+                    }
+                }
             } else {
                 currentLetter = updateLetter(currentLetter, true);
+                if (type.equals("major pentatonic")) {
+                    if (count == 0) {
+                        currentLetter = updateLetter(currentLetter, true);
+                    } else if (count == 2) {
+                        currentLetter = updateLetter(currentLetter, true);
+                    }
+                    count += 1;
+                    if (count == 5) {
+                        count = 0;
+                    }
+                } else if (type.equals("minor pentatonic")) {
+                    if (count == 1) {
+                        currentLetter = updateLetter(currentLetter, true);
+                    } else if (count == 4) {
+                        currentLetter = updateLetter(currentLetter, true);
+                    }
+                    count += 1;
+                    if (count == 5) {
+                        count = 0;
+                    }
+                }
             }
         }
         return scale;
@@ -335,81 +325,7 @@ public class Scale implements Command {
         return midiValues.trim();
     }
 
-    /**
-     * Converts the given (7 note) scale to a pentatonic scale
-     */
-    private ArrayList<Note> scaleToPentatonic(ArrayList<Note> scaleNotes) {
-        ArrayList<Note> pentatonicScale = new ArrayList<Note>();
-        if (type.equals("major")) {
-            pentatonicScale.add(scaleNotes.get(0));
-            pentatonicScale.add(scaleNotes.get(1));
-            pentatonicScale.add(scaleNotes.get(2));
-            pentatonicScale.add(scaleNotes.get(4));
-            pentatonicScale.add(scaleNotes.get(5));
-            pentatonicScale.add(scaleNotes.get(7));
-            if (direction.equals("updown")) {
-                ArrayList<Note> notes = new ArrayList<Note>(pentatonicScale);
-                Collections.reverse(notes);
-                pentatonicScale.addAll(notes);
-            }
-        } else if (type.equals("minor")) {
-            pentatonicScale.add(scaleNotes.get(0));
-            pentatonicScale.add(scaleNotes.get(2));
-            pentatonicScale.add(scaleNotes.get(3));
-            pentatonicScale.add(scaleNotes.get(4));
-            pentatonicScale.add(scaleNotes.get(6));
-            pentatonicScale.add(scaleNotes.get(7));
-            if (direction.equals("updown")) {
-                ArrayList<Note> notes = new ArrayList<Note>(pentatonicScale);
-                Collections.reverse(notes);
-                pentatonicScale.addAll(notes);
-            }
-        }
-        return pentatonicScale;
-    }
 
-    private String scaleToPentatonicString(String scale) {
-        String pentScaleStr = "";
-        String[] splitString = scale.split(" ");
-        if (type.equals("major")) {
-            pentScaleStr += splitString[0] + " ";
-            pentScaleStr += splitString[1] + " ";
-            pentScaleStr += splitString[2] + " ";
-            pentScaleStr += splitString[4] + " ";
-            pentScaleStr += splitString[5] + " ";
-            pentScaleStr += splitString[7];
-        } else if (type.equals("minor")) {
-            pentScaleStr += splitString[0] + " ";
-            pentScaleStr += splitString[2] + " ";
-            pentScaleStr += splitString[3] + " ";
-            pentScaleStr += splitString[4] + " ";
-            pentScaleStr += splitString[6] + " ";
-            pentScaleStr += splitString[7];
-        }
-        if (direction.equals("updown")) {
-            String reversedScale = (new StringBuilder().append(pentScaleStr).reverse()).toString();
-            pentScaleStr += " " + reversedScale;
-        }
-
-        return pentScaleStr;
-    }
-
-
-    /**
-     * Checks to see if the output type of a pentatonic scale
-     */
-    private void pentatonicCheck() {
-        if (this.outputType.equals("pentatonic_note")) {
-            this.outputType = "note";
-            this.pentatonic = true;
-        } else if (this.outputType.equals("pentatonic_midi")) {
-            this.outputType = "midi";
-            this.pentatonic = true;
-        } else if (this.outputType.equals("pentatonic_play")) {
-            this.outputType = "play";
-            this.pentatonic = true;
-        }
-    }
 
 
     public long getLength(Environment env) {
