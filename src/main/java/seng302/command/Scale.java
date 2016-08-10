@@ -235,10 +235,15 @@ public class Scale implements Command {
         char currentLetter = Character.toUpperCase(startNote.charAt(0));
         for (Note note : scaleNotes) {
             String currentNote;
-            if (type.equals("blues") && Character.toUpperCase(startNote.charAt(0)) == 'B' && note.getNote().charAt(1) == '#') {
-                currentNote = note.getNote();
-            } else if (type.equals("blues")) {
-                currentNote = note.getDescendingEnharmonic();
+//            System.out.println("Stuff: "+type+", "+Character.toUpperCase(startNote.charAt(0))+", "+note.getNote().charAt(1));
+            if (type != null) {
+                if (type.equals("blues") && Character.toUpperCase(startNote.charAt(0)) == 'B' && note.getNote().charAt(1) == '#') {
+                    currentNote = note.getNote();
+                } else if (type.equals("blues")) {
+                    currentNote = note.getDescendingEnharmonic();
+                } else {
+                    currentNote = note.getEnharmonicWithLetter(currentLetter);
+                }
             } else {
                 currentNote = note.getEnharmonicWithLetter(currentLetter);
             }
