@@ -221,7 +221,8 @@ public class ChordSpellingTutorController extends TutorController {
             skip.setOnAction(event -> {
                 String[] questionInfo = new String[]{
                         String.format(typeOneText, chordName),
-                        chordAsString(chordNotes)
+                        chordAsString(chordNotes),
+                        "2"
 
                 };
 
@@ -321,7 +322,8 @@ public class ChordSpellingTutorController extends TutorController {
             skip.setOnAction(event -> {
                 String[] questionInfo = new String[]{
                         String.format(typeTwoText, chordAsString(chordNotes)),
-                        chordName
+                        chordName,
+                        "2"
 
                 };
                 handleSkippedQuestion(questionInfo, questionRow, finalData, questionType);
@@ -704,7 +706,7 @@ public class ChordSpellingTutorController extends TutorController {
     private void handleCompletedQuestion(HBox completedQuestion, int questionType, Pair data, String selectedAnswer) {
         HBox inputs = (HBox) completedQuestion.getChildren().get(1);
         String questionText;
-        Boolean answeredCorrectly = false;
+        Integer answeredCorrectly = 0;
 
         //0 for wrong, 1 for right, 2 for partially correct
         int correctnessValue;
@@ -731,7 +733,7 @@ public class ChordSpellingTutorController extends TutorController {
             //Shows the correct answer
             completedQuestion.getChildren().get(3).setVisible(true);
         } else {
-            answeredCorrectly = true;
+            answeredCorrectly = 1;
             manager.add(new Pair<Pair, Integer>(data, questionType), 1);
         }
 
@@ -854,9 +856,9 @@ public class ChordSpellingTutorController extends TutorController {
         disableButtons(questionRow, 1, 3);
         formatSkippedQuestion(questionRow);
         manager.questions -= 1;
-        manager.add(new Pair<Pair, Integer>(finalData, questionType), 2);
+        manager.add(new Pair<>(finalData, questionType), 2);
 
-        projectHandler.saveTutorRecords("spelling", record.addSkippedQuestion(questionInfo));
+        projectHandler.saveTutorRecords("spelling", record.addQuestionAnswer(questionInfo));
 
         env.getRootController().setTabTitle("chordSpellingTutor", true);
         if (manager.answered == manager.questions) {

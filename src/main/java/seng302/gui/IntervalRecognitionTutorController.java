@@ -148,9 +148,10 @@ public class IntervalRecognitionTutorController extends TutorController {
             manager.add(pair, 2);
             String[] question = new String[]{
                     String.format("Interval between %s and %s", firstNote.getNote(), secondNote.getNote()),
-                    thisInterval.getName()
+                    thisInterval.getName(),
+                    "2"
             };
-            projectHandler.saveTutorRecords("interval", record.addSkippedQuestion(question));
+            projectHandler.saveTutorRecords("interval", record.addQuestionAnswer(question));
             env.getRootController().setTabTitle("intervalTutor", true);
             if (manager.answered == manager.questions) {
                 finished();
@@ -170,11 +171,15 @@ public class IntervalRecognitionTutorController extends TutorController {
                 manager.add(pair, 0);
             }
             manager.answered += 1;
+            Integer correct = 0;
+            if (options.getValue().equals(thisInterval.getName())) {
+                correct = 1;
+            }
             // Sets up the question to be saved to the record
             String[] question = new String[]{
                     String.format("Interval between %s and %s", firstNote.getNote(), secondNote.getNote()),
                     options.getValue(),
-                    Boolean.toString(options.getValue().equals(thisInterval.getName()))
+                    correct.toString()
             };
             projectHandler.saveTutorRecords("interval", record.addQuestionAnswer(question));
             env.getRootController().setTabTitle("intervalTutor", true);

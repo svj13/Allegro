@@ -35,26 +35,10 @@ public class TutorRecord {
         question.put("Question", questionSet[0]);
         question.put("Answer", questionSet[1]);
         question.put("Correct", questionSet[2]);
-
         tutorRecordList.add(question);
 
         return question;
 
-    }
-
-    /**
-     * Adds a question to the record that the user skipped
-     *
-     * @param question A list of strings containing the question and correct answer.
-     */
-    public JSONObject addSkippedQuestion(String[] question) {
-        JSONObject skippedQuestion = new JSONObject();
-        skippedQuestion.put("Skipped Question", question[0]);
-        skippedQuestion.put("Correct Answer", question[1]);
-
-        tutorRecordList.add(skippedQuestion);
-
-        return skippedQuestion;
     }
 
 

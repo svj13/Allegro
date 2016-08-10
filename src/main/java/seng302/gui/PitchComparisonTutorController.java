@@ -138,7 +138,7 @@ public class PitchComparisonTutorController extends TutorController {
 
         disableButtons(row, 1, 5);
 
-        int correctChoice = 0;
+        Integer correctChoice = 0;
 
 
         if (((ToggleButton) row.getChildren().get(1)).isSelected()) { //Higher\
@@ -147,7 +147,7 @@ public class PitchComparisonTutorController extends TutorController {
             String[] question = new String[]{
                     String.format("Is %s higher or lower than %s", note2.getNote(), note1.getNote()),
                     "Higher",
-                    Boolean.toString(getAnswer(note1, note2).equals("Higher"))
+                    correctChoice.toString()
             };
 
             projectHandler.saveTutorRecords("pitch", record.addQuestionAnswer(question));
@@ -158,7 +158,7 @@ public class PitchComparisonTutorController extends TutorController {
             String[] question = new String[]{
                     String.format("Is %s higher or lower than %s", note2.getNote(), note1.getNote()),
                     "Same",
-                    Boolean.toString(getAnswer(note1, note2).equals("Same"))
+                    correctChoice.toString()
             };
 
             projectHandler.saveTutorRecords("pitch", record.addQuestionAnswer(question));
@@ -171,21 +171,21 @@ public class PitchComparisonTutorController extends TutorController {
             String[] question = new String[]{
                     String.format("Is %s higher or lower than %s", note2.getNote(), note1.getNote()),
                     "Lower",
-                    Boolean.toString(getAnswer(note1, note2).equals("Lower"))
+                    correctChoice.toString()
             };
             projectHandler.saveTutorRecords("pitch", record.addQuestionAnswer(question));
             env.getRootController().setTabTitle("pitchTutor", true);
         } else if (((ToggleButton) row.getChildren().get(4)).isSelected()) { //Skip
             row.getChildren().get(4).setStyle("-fx-text-fill: white;-fx-background-color: black");
-            //row.getChildren().get(4).setStyle("-fx-border-color: black; -fx-border-radius: 2px; -fx-border-width: 2px;");
             correctChoice = 2;
             manager.questions -= 1;
 
             String[] question = new String[]{
                     String.format("Is %s higher or lower than %s", note2.getNote(), note1.getNote()),
-                    getAnswer(note1, note2)
+                    getAnswer(note1, note2),
+                    correctChoice.toString()
             };
-            projectHandler.saveTutorRecords("pitch", record.addSkippedQuestion(question));
+            projectHandler.saveTutorRecords("pitch", record.addQuestionAnswer(question));
             env.getRootController().setTabTitle("pitchTutor", true);
         }
 

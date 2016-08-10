@@ -99,7 +99,7 @@ public class MusicPlayer {
      * @param notes The notes in the order to be played.
      * @param pause The number of ticks to pause between notes. 16 ticks = 1 crotchet beat.
      */
-    public void playNotes(ArrayList<Note> notes, int pause) {
+    public void playNotes(Collection<Note> notes, int pause) {
         //int ticks = 16; //16 (1 crotchet beat)
         int ticks = rh.getBeatResolution();
         try {
@@ -131,7 +131,7 @@ public class MusicPlayer {
      *
      * @param notes The notes to play.
      */
-    public void playNotes(ArrayList<Note> notes) {
+    public void playNotes(Collection<Note> notes) {
         playNotes(notes, 0);
     }
 

@@ -229,12 +229,16 @@ public class MusicalTermsTutorController extends TutorController {
                 originOptions.setStyle("-fx-background-color: red");
                 ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(1)).getChildren().add(new Label(currentTerm.getMusicalTermOrigin()));
             }
+            Integer correct = 0;
+            if (originOptions.getValue().equals(currentTerm.getMusicalTermOrigin())) {
+                correct = 1;
+            }
 
             // Adds to record
             String[] question = new String[]{
                     String.format("Origin of term %s", currentTerm.getMusicalTermName()),
                     originOptions.getValue(),
-                    Boolean.toString(originOptions.getValue().equals(currentTerm.getMusicalTermOrigin()))
+                    correct.toString()
             };
             projectHandler.saveTutorRecords("musicalTerm", record.addQuestionAnswer(question));
             env.getRootController().setTabTitle("musicalTermTutor", true);
@@ -255,12 +259,16 @@ public class MusicalTermsTutorController extends TutorController {
                 categoryOptions.setStyle("-fx-background-color: red");
                 ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(2)).getChildren().add(new Label(currentTerm.getMusicalTermCategory()));
             }
+            Integer correct = 0;
+            if (categoryOptions.getValue().equals(currentTerm.getMusicalTermCategory())) {
+                correct = 1;
+            }
 
             // Adds to record
             String[] question = new String[]{
                     String.format("Category of term %s", currentTerm.getMusicalTermName()),
                     categoryOptions.getValue(),
-                    Boolean.toString(categoryOptions.getValue().equals(currentTerm.getMusicalTermCategory()))
+                    correct.toString()
             };
             projectHandler.saveTutorRecords("musicalTerm", record.addQuestionAnswer(question));
             env.getRootController().setTabTitle("musicalTermTutor", true);
@@ -282,12 +290,16 @@ public class MusicalTermsTutorController extends TutorController {
                 definitionOptions.setStyle("-fx-background-color: red");
                 ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(3)).getChildren().add(new Label(currentTerm.getMusicalTermDefinition()));
             }
+            Integer correct = 0;
+            if (definitionOptions.getValue().equals(currentTerm.getMusicalTermDefinition())) {
+                correct = 1;
+            }
 
             // Adds to record
             String[] question = new String[]{
                     String.format("Definition of term %s", currentTerm.getMusicalTermName()),
                     definitionOptions.getValue(),
-                    Boolean.toString(definitionOptions.getValue().equals(currentTerm.getMusicalTermDefinition()))
+                    correct.toString()
             };
             projectHandler.saveTutorRecords("musicalTerm", record.addQuestionAnswer(question));
             env.getRootController().setTabTitle("musicalTermTutor", true);
@@ -305,9 +317,10 @@ public class MusicalTermsTutorController extends TutorController {
             // Re-write this to be more specific
             String[] question = new String[]{
                     String.format("Information about %s", currentTerm.getMusicalTermName()),
-                    currentTerm.getMusicalTermName()
+                    currentTerm.getMusicalTermName(),
+                    "2"
             };
-            projectHandler.saveTutorRecords("musicalTerm", record.addSkippedQuestion(question));
+            projectHandler.saveTutorRecords("musicalTerm", record.addQuestionAnswer(question));
             env.getRootController().setTabTitle("musicalTermTutor", true);
 
             formatSkippedQuestion(rowPane);
