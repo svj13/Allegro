@@ -287,6 +287,10 @@ public class Note {
                 semitones = Arrays.asList(2, 3, 5, 7, 8, 10, 12);
             } else if (type.equalsIgnoreCase("melodic minor")) {
                 semitones = Arrays.asList(2, 3, 5, 7, 9, 11, 12);
+            } else if (type.equalsIgnoreCase("major pentatonic")) {
+                semitones = Arrays.asList(2, 4, 7, 9, 12);
+            } else if (type.equalsIgnoreCase("minor pentatonic")) {
+                semitones = Arrays.asList(3, 5, 7, 10, 12);
             } else {
                 throw new IllegalArgumentException("Invalid scale type: '" + type + "'.");
             }

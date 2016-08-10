@@ -25,7 +25,7 @@ public class Scale implements Command {
     /**
      * Type of scale. e.g major, minor, melodic minor
      */
-    String type;
+    private static String type;
 
     /**
      * Way to output scale. e.g note, midi or play
@@ -270,7 +270,16 @@ public class Scale implements Command {
         ArrayList<String> scale = new ArrayList<>();
         char currentLetter = Character.toUpperCase(startNote.charAt(0));
         for (Note note : scaleNotes) {
-            String currentNote = note.getEnharmonicWithLetter(currentLetter);
+            String currentNote;
+            if (!type.equals("major pentatonic") && !type.equals("minor pentatonic")) {
+                currentNote = note.getEnharmonicWithLetter(currentLetter);
+            } else {
+                if (type.equals("major pentatonic")) {
+                    currentNote = note.getEnharmonicWithLetter(currentLetter);
+                } else {
+                    currentNote = note.getEnharmonicWithLetter(currentLetter);
+                }
+            }
             if (OctaveUtil.octaveSpecifierFlag(startNote)) {
                 scale.add(currentNote);
             } else {
