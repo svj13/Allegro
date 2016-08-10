@@ -1,5 +1,8 @@
 package seng302.command;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import seng302.Environment;
 import seng302.data.Note;
 import seng302.utility.musicNotation.OctaveUtil;
@@ -25,6 +28,28 @@ public class Midi implements Command {
      */
     public void execute(Environment env) {
         env.getTranscriptManager().setResult(Integer.toString(Note.lookup(s).getMidi()));
+    }
+
+    public String getHelp() {
+        return "When followed by a valid note, it will return its corresponding midi number" +
+                " within the range of 0-127. If an octave is not specified with the note, " +
+                "the default octave (4) will be used.";
+    }
+
+    public List<String> getParams() {
+        List<String> params = new ArrayList<>();
+        params.add("note");
+        return params;
+    }
+
+    @Override
+    public String getCommandText() {
+        return "midi";
+    }
+
+    @Override
+    public String getExample() {
+        return "midi C2";
     }
 
 
