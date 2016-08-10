@@ -235,7 +235,6 @@ public class Scale implements Command {
         char currentLetter = Character.toUpperCase(startNote.charAt(0));
         for (Note note : scaleNotes) {
             String currentNote;
-//            System.out.println("Stuff: "+type+", "+Character.toUpperCase(startNote.charAt(0))+", "+note.getNote().charAt(1));
             if (type != null) {
                 if (type.equals("blues") && Character.toUpperCase(startNote.charAt(0)) == 'B' && note.getNote().charAt(1) == '#') {
                     currentNote = note.getNote();
