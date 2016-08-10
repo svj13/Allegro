@@ -376,7 +376,7 @@ public class KeyboardPaneController {
             //if scale 1 is filled out
             } else if (scale1Note != null && !scale1Note.equals("") && isValidNote1){
                 ArrayList<Note> scale1Notes = fetchScaleNotes(scale1NoteInput.getText(), typeScale1.getValue());
-                toggleScaleKeys(scale1Notes); //displays pic on first key of scale
+                toggleScaleKeys(scale1Notes, true); //displays pic on first key of scale
                 scale1NoteInput.setStyle("-fx-border-color: lightgray;");
                 System.out.println(scale1Notes);
                 cancelButton.setText("Close Scales"); //changes the value of cancel to promt turn off the scales
@@ -386,7 +386,7 @@ public class KeyboardPaneController {
                 //if the optional scale 2 is filled out
                 if (scale2Note != null && !scale2Note.equals("") && isValidNote2) {
                     ArrayList<Note> scale2Notes = fetchScaleNotes(scale2NoteInput.getText(), typeScale2.getValue());
-                    toggleScaleKeys(scale2Notes); //displays pic on first key of scale
+                    toggleScaleKeys(scale2Notes, false); //displays pic on first key of scale
                     scale2NoteInput.setStyle("-fx-border-color: lightgray;");
                     System.out.println(scale2Notes);
                 }
@@ -688,7 +688,7 @@ public class KeyboardPaneController {
     /**
      * Show/Hide first note of scale on keyboard notes
      */
-    public void toggleScaleKeys(ArrayList<Note> scaleNotes) {
+    public void toggleScaleKeys(ArrayList<Note> scaleNotes, Boolean isFirstScale) {
         ObservableList<Node> keys = keyboardBox.getChildren();
         Note startNote = scaleNotes.get(0);
         String startNoteString = startNote.getNote();
@@ -698,10 +698,14 @@ public class KeyboardPaneController {
             if (key instanceof TouchPane) {
                 //System.out.println(((TouchPane) key).getNoteValue().getNote());
                 if (((TouchPane) key).getNoteValue().getNote().startsWith(startNoteString)) {
-                    ((TouchPane) key).toggleScaleNotes("/images/triangle.png");
+                    if (isFirstScale) {
+                        ((TouchPane) key).toggleScaleNotes("/images/triangle.png");
+                    } else {
+                        ((TouchPane) key).toggleScaleNotes("/images/play-icon.png");
+                    }
                 }
             }
-        } for (int i = 1; i < scaleNotes.size(); i++) {
+        } for (int i = 1; i < scaleNotes.size() - 1; i++) {
             Note currentNote = scaleNotes.get(i);
             System.out.println(currentNote.getNote());
             String currentNoteString = currentNote.getNote();
@@ -711,7 +715,11 @@ public class KeyboardPaneController {
                 if (key instanceof TouchPane) {
                     //System.out.println(((TouchPane) key).getNoteValue().getNote());
                     if (((TouchPane) key).getNoteValue().getNote().startsWith(currentNoteString)) {
-                        ((TouchPane) key).toggleScaleNotes("/images/up-arrow.png");
+                        if (isFirstScale) {
+                            ((TouchPane) key).toggleScaleNotes("/images/up-arrow.png");
+                        } else {
+                            ((TouchPane) key).toggleScaleNotes("/images/download-arrow-1.png");
+                        }
                     }
                 }
             }
