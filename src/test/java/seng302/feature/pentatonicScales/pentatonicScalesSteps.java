@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 
 import cucumber.api.CucumberOptions;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -18,7 +19,7 @@ import static org.junit.Assert.assertEquals;
  * Created by dominicjarvis on 5/08/16.
  */
 @CucumberOptions()
-public class pentatonicScalesMidiSteps {
+public class pentatonicScalesSteps {
 
     Environment env = new Environment();
     TranscriptManager transcriptManager;
@@ -29,12 +30,18 @@ public class pentatonicScalesMidiSteps {
 
     }
 
-    @When("^I type the command 'pentatonic midi scale ([^\"]*) ([^\"]*)'$")
-    public void iTypeTheCommandPentatonicMidiScale(String arg0, String arg1) throws Throwable {
+    @When("^I type the command 'pentatonic ([^\"]*) scale ([^\"]*) ([^\"]*)'$")
+    public void iTypeTheCommandPentatonicMidiScale(String arg0, String arg1, String arg2) throws Throwable {
         HashMap<String, String> testMap = new HashMap<String, String>();
-        testMap.put("scale_type", arg1);
-        testMap.put("note", arg0);
-        new Scale(testMap, "pentatonic_midi").execute(env);
+        String return_type;
+        if (arg0.equals("note")) {
+            return_type = "pentatonic_note";
+        } else {
+            return_type = "pentatonic_midi";
+        }
+        testMap.put("scale_type", arg2);
+        testMap.put("note", arg1);
+        new Scale(testMap, return_type).execute(env);
 
     }
 
