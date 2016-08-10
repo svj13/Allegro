@@ -145,13 +145,12 @@ public class TouchPane extends StackPane {
      * displays a picture corresponding to a particular scale on the keys. Used by
      * toggleScaleKeys() in KeyBoardPaneController
      */
-    public void toggleScale() {
+    public void toggleScaleNotes(String imagePath) {
 
+        Image symbol = new Image(getClass().getResourceAsStream(imagePath), 10, 10, true, true);
+        this.getChildren().add(new ImageView(symbol)); //should this be "blueTriangle.png"??
 
-        Image triangle = new Image(getClass().getResourceAsStream("/images/triangle.png"), 10, 10, true, true);
-        this.getChildren().add(new ImageView(triangle)); //should this be "blueTriangle.png"??
-
-
+    //"/images/triangle.png"
     }
 
     /**

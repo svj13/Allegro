@@ -463,9 +463,6 @@ public class KeyboardPaneController {
         scaleNote = OctaveUtil.addDefaultOctave(scaleNote);
         Note scaleStartNote = Note.lookup(scaleNote);
         ArrayList<Note> scaleNotes = scaleStartNote.getScale(scaleType, true);
-        for (Note n: scaleNotes) {
-            System.out.println(n.getNote());
-        }
         return scaleNotes;
 
     }
@@ -696,16 +693,29 @@ public class KeyboardPaneController {
         Note startNote = scaleNotes.get(0);
         String startNoteString = startNote.getNote();
         startNoteString = OctaveUtil.removeOctaveSpecifier(startNoteString);
-        System.out.println("IMMA START NOTE MAFAKKA ");
-        System.out.println(startNoteString);
-        startNote = Note.lookup(startNoteString);
 
         for (Node key : keys) {
             if (key instanceof TouchPane) {
-                if (((TouchPane) key).getNoteValue().equals(startNote)) {
-                    ((TouchPane) key).toggleScale();
+                //System.out.println(((TouchPane) key).getNoteValue().getNote());
+                if (((TouchPane) key).getNoteValue().getNote().startsWith(startNoteString)) {
+                    ((TouchPane) key).toggleScaleNotes("/images/triangle.png");
                 }
             }
+        } for (int i = 1; i < scaleNotes.size(); i++) {
+            Note currentNote = scaleNotes.get(i);
+            System.out.println(currentNote.getNote());
+            String currentNoteString = currentNote.getNote();
+            currentNoteString = OctaveUtil.removeOctaveSpecifier(currentNoteString);
+
+            for (Node key : keys) {
+                if (key instanceof TouchPane) {
+                    //System.out.println(((TouchPane) key).getNoteValue().getNote());
+                    if (((TouchPane) key).getNoteValue().getNote().startsWith(currentNoteString)) {
+                        ((TouchPane) key).toggleScaleNotes("/images/up-arrow.png");
+                    }
+                }
+            }
+
         }
     }
 
