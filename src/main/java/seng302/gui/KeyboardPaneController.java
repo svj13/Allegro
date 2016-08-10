@@ -241,7 +241,7 @@ public class KeyboardPaneController {
 
 
 
-        settings.getChildren().add(new Label("Keyboard Mode:"));
+        settings.getChildren().add(new Label("Keyboard ModeHelper:"));
         modes.getChildren().add(play);
         modes.getChildren().add(text);
         settings.getChildren().add(modes);

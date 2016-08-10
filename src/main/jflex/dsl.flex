@@ -169,6 +169,7 @@ RomanNumerals = (I|II|III|IV|V|VI|VII)
     "quality of"        {return symbol(DslSymbol.COMMAND_QUALITY_OF);}
     "chord function"    {return symbol(DslSymbol.COMMAND_CHORD_FUNCTION);}
     "function of"       {return symbol(DslSymbol.COMMAND_FUNCTION_OF);}
+    "mode of"           {return symbol(DslSymbol.COMMAND_GET_MODE);}
     {RomanNumerals}     {return symbol(DslSymbol.ROMAN_NUMERALS, new String(yytext()));}
     {SharpsFlats}       {return symbol(DslSymbol.SHARPSFLATS, new String(yytext()));}
     {PlayStyle}         {return symbol(DslSymbol.PLAY_STYLE, new String(yytext())); }
