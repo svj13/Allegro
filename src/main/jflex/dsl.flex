@@ -163,6 +163,9 @@ RomanNumerals = (I|II|III|IV|V|VI|VII)
     "scale sig num"     {return symbol(DslSymbol.COMMAND_SHOW_KEYSIGNATURE_NUM);}
     "scale signature with" {return symbol(DslSymbol.COMMAND_SCALE_WITH_KEYSIG);}
     "scale sig with"    {return symbol(DslSymbol.COMMAND_SCALE_WITH_KEYSIG); }
+    "instrument"        {return symbol(DslSymbol.COMMAND_SHOW_CURRENT_INSTRUMENT); }
+    "all instruments"  {return symbol(DslSymbol.COMMAND_SHOW_ALL_INSTRUMENTS); }
+    "set instrument"    {return symbol(DslSymbol.COMMAND_SET_INSTRUMENT); }
     "quality of"        {return symbol(DslSymbol.COMMAND_QUALITY_OF);}
     "chord function"    {return symbol(DslSymbol.COMMAND_CHORD_FUNCTION);}
     "function of"       {return symbol(DslSymbol.COMMAND_FUNCTION_OF);}

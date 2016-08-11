@@ -13,4 +13,19 @@ public class NullCommand implements Command {
      */
     public void execute(Environment env) {
     }
+
+    @Override
+    public String getHelp() {
+        return null;
+    }
+
+    @Override
+    public String getCommandText() {
+        return null;
+    }
+
+    @Override
+    public String getExample() {
+        return null;
+    }
 }

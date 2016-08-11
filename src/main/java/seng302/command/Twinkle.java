@@ -37,5 +37,20 @@ public class Twinkle implements Command {
         env.getTranscriptManager().setResult("Playing...");
     }
 
+    @Override
+    public String getHelp() {
+        return "A mystery command...";
+    }
+
+    @Override
+    public String getCommandText() {
+        return "twinkle";
+    }
+
+    @Override
+    public String getExample() {
+        return getCommandText();
+    }
+
 
 }

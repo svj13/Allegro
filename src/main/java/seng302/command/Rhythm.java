@@ -2,6 +2,7 @@ package seng302.command;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import seng302.Environment;
 import seng302.utility.musicNotation.RhythmFactory;
@@ -104,5 +105,49 @@ public class Rhythm implements Command {
             env.getTranscriptManager().setResult(env.getPlayer().getRhythmHandler().toString());
         }
 
+    }
+
+    public String getHelp() {
+        if (isSetter) {
+            return "Changes the rhythm note timings.\n" +
+                    "Default (no swing, half crotchet duration): 'straight'\n" +
+                    "Preset swing settings:\n\t'straight' - regular 1/2 crotchet timing." +
+                    "\n\t'light' - swing 5/8 3/8 crotchet timings.\n\t'medium' - swing " +
+                    "2/3 1/3 crotchet timings.\n\t'heavy' - swing 3/4 1/4 crotchet timings.\n" +
+                    "Custom setting:\n\tCrotchet duration fractions e.g. 'set rhythm 1/4 1/2 1/4'" +
+                    " where every fraction is separated by a space.";
+
+        } else {
+            return "Returns the current rhythm beat divisions. " +
+                    "The default rhythm is set to 1/2, meaning 1/2 crotchet timings. \n" +
+                    "For information on changing the rhythm, see 'help set rhythm";
+        }
+    }
+
+    public List<String> getParams() {
+        List<String> params = new ArrayList<>();
+        if (isSetter) {
+            params.add("straight|light|medium|heavy|fraction fraction fraction");
+        }
+
+        return params;
+    }
+
+    @Override
+    public String getCommandText() {
+        if (isSetter) {
+            return "set rhythm";
+        } else {
+            return "rhythm";
+        }
+    }
+
+    @Override
+    public String getExample() {
+        if (isSetter) {
+            return "set rhythm 1/3 1/3 1/3";
+        } else {
+            return "rhythm";
+        }
     }
 }
