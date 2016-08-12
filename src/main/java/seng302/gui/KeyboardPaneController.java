@@ -376,12 +376,15 @@ public class KeyboardPaneController {
                 scale1NoteInput.setStyle("-fx-border-color: lightgray;");
 
                 //if the optional scale 2 is filled out
-                if (scale2Note != null && !scale2Note.equals("") && isValidNote2 && !scale2Note.equals(scale1Note)) {
-                    ArrayList<Note> scale2Notes = fetchScaleNotes(scale2NoteInput.getText(), typeScale2.getValue());
-                    toggleScaleKeys(scale2Notes, false); //displays pic on first key of scale
-                    scale2NoteInput.setStyle("-fx-border-color: lightgray;");
-                } else {
-                    scale2NoteInput.setStyle("-fx-border-color: red;");
+                if (scale2Note != null && !scale2Note.equals("") && isValidNote2) {
+                    //error handling for if scale 1 is equivalent to scale 2
+                    if (!scale2Note.equals(scale1Note)) {
+                        ArrayList<Note> scale2Notes = fetchScaleNotes(scale2NoteInput.getText(), typeScale2.getValue());
+                        toggleScaleKeys(scale2Notes, false); //displays pic on first key of scale
+                        scale2NoteInput.setStyle("-fx-border-color: lightgray;");
+                    } else {
+                        scale2NoteInput.setStyle("-fx-border-color: red;");
+                    }
                 }
 
 
