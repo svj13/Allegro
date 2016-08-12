@@ -21,7 +21,6 @@ public class TouchPane extends StackPane {
     private String keyLabel;
     private boolean displayLabel = false;
     private boolean displayLabelOnAction = false;
-    private boolean displayScaleStartNote = false;
     Note noteToPlay;
     private boolean isblackKey;
 
@@ -116,7 +115,7 @@ public class TouchPane extends StackPane {
      */
     public void setHighlightOff() {
         if (this.isblackKey) {
-            this.setStyle("-fx-border-color: black; -fx-border-width: 1px; -fx-background-color: black");
+            this.setStyle("-fx-border-color: black; -fx-border-width: 1px; -fx-background-color: #b0faaf");
         } else {
             this.setStyle("-fx-border-color: black; -fx-border-width: 1px; -fx-background-color: white");
         }
