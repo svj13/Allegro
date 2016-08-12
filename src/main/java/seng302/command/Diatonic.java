@@ -64,6 +64,8 @@ public class Diatonic implements Command {
         } else if (command.equals("chordFunction")) {
             result = ChordUtil.getChordFunction(romanNumeral, startingNote, scaleType);
             env.getTranscriptManager().setResult(this.result);
+        } else if (!this.chordType.contains("7th")) {
+            env.error("Only 7th chords are accepted for this command.");
         } else if (command.equals("functionOf")) {
             result = ChordUtil.getFunctionOf(startingNote, chordNote, chordType);
             env.getTranscriptManager().setResult(this.result);
@@ -81,7 +83,7 @@ public class Diatonic implements Command {
                         "function of this pair.";
 
             case "functionOf":
-                return "When followed by a chord and a major key (e.g. C major), displays the function " +
+                return "When followed by a 7th chord and a major key (e.g. C major), displays the function " +
                         "of this pair.";
 
         }
