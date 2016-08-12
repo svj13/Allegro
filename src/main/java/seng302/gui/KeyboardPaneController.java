@@ -338,15 +338,19 @@ public class KeyboardPaneController {
          * be added to both the scale 1 and scale 2 hboxes
          */
 
-        //closes the pop out and cancels any inputted information
-        Button cancelButton = new Button("Cancel"); //closes the pop toggleScale(scale1Notes);out window without actioning
+        //Clears all inputs and removes all scale indicators
+        Button cancelButton = new Button("Clear Scales");
         cancelButton.setOnAction(event->{
             scale1NoteInput.clear();
             typeScale1.setValue("Major");
+            scale1NoteInput.setStyle("-fx-border-color: lightgray;");
+
             scale2NoteInput.clear();
             typeScale2.setValue("Major");
-            toggleDisplayScales();
-            displayScalesButton.setText("Display Scales");
+            scale2NoteInput.setStyle("-fx-border-color: lightgray;");
+
+            clearScaleIndicators("firstScale");
+            clearScaleIndicators("secondScale");
 
         });
 
@@ -370,9 +374,6 @@ public class KeyboardPaneController {
                 ArrayList<Note> scale1Notes = fetchScaleNotes(scale1NoteInput.getText(), typeScale1.getValue());
                 toggleScaleKeys(scale1Notes, true); //displays pic on first key of scale
                 scale1NoteInput.setStyle("-fx-border-color: lightgray;");
-                cancelButton.setText("Close Scales"); //changes the value of cancel to promt turn off the scales
-                displayScalesButton.setText("Close Scales"); //changes the name of display scales to prompt turn off scales
-                //TODO add in code to turn off the scales here
 
                 //if the optional scale 2 is filled out
                 if (scale2Note != null && !scale2Note.equals("") && isValidNote2) {
@@ -394,13 +395,6 @@ public class KeyboardPaneController {
 
         Button clearButtonScale1 = new Button("Clear"); //clears the fields of the corresponding drop down
         clearButtonScale1.setOnAction(event->{
-            ArrayList<Note> scaleNotes = Note.lookup(OctaveUtil.addDefaultOctave(scale1NoteInput.getText())).getScale(typeScale1.getValue(), true);
-            ArrayList<String> scaleNotesText = new ArrayList<String>();
-
-            for (Note note : scaleNotes) {
-                scaleNotesText.add(OctaveUtil.removeOctaveSpecifier(note.getNote()));
-            }
-
             scale1NoteInput.clear();
             typeScale1.setValue("Major");
             scale1NoteInput.setStyle("-fx-border-color: lightgray;");
@@ -454,6 +448,9 @@ public class KeyboardPaneController {
 
         displayScalesPop = new PopOver(displayScales);
         displayScalesPop.setTitle("Display Scales");
+        displayScalesPop.setOnHiding(event -> {
+            displayScalesButton.setText("Display Scales");
+        });
 
 
     }
@@ -533,8 +530,10 @@ public class KeyboardPaneController {
     private void toggleDisplayScales() {
         if (displayScalesPop.isShowing()) {
             displayScalesPop.hide();
+            displayScalesButton.setText("Display Scales");
         } else {
             displayScalesPop.show(displayScalesButton);
+            displayScalesButton.setText("Hide Display Scales");
         }
     }
 
