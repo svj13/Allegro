@@ -150,11 +150,16 @@ public class TouchPane extends StackPane {
         Image symbol = new Image(getClass().getResourceAsStream(imagePath), 10, 10, true, true);
         Node image = new ImageView(symbol);
         image.setId(imageId);
-        this.getChildren().add(image); //should this be "blueTriangle.png"??
+        this.getChildren().add(image);
 
-    //"/images/triangle.png"
     }
 
+    /**
+     * Searches for and removes all children with the given ID This ID belongs to scale indicator
+     * images
+     *
+     * @param id Either "firstScale" or "secondScale" - the scale indicators to be removed.
+     */
     public void removeScaleImage(String id) {
         while (this.getChildren().contains(this.lookup("#" + id))) {
             this.getChildren().removeAll(this.lookup("#" + id));

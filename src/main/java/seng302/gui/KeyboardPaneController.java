@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import javafx.event.ActionEvent;
 
 
 
@@ -30,7 +29,6 @@ import seng302.Environment;
 import seng302.data.Note;
 import seng302.utility.NoteRangeSlider;
 import seng302.utility.musicNotation.OctaveUtil;
-import seng302.utility.musicNotation.Checker;
 
 import static seng302.utility.musicNotation.Checker.isValidNormalNote;
 
@@ -462,10 +460,22 @@ public class KeyboardPaneController {
 
     }
 
+    /**
+     * Clear scale images of either the first or second scale from the keyboard
+     *
+     * @param scaleId Whether we are clearing the first or second scale
+     */
     private void clearScaleIndicators(String scaleId) {
         //clear the images off the keys
         ObservableList<Node> keys = keyboardBox.getChildren();
         for (Node key : keys) {
+            if (key instanceof TouchPane) {
+                ((TouchPane) key).removeScaleImage(scaleId);
+            }
+        }
+
+        ObservableList<Node> bKeys = blackKeys.getChildren();
+        for (Node key : bKeys) {
             if (key instanceof TouchPane) {
                 ((TouchPane) key).removeScaleImage(scaleId);
             }
