@@ -350,7 +350,7 @@ public class Project {
                     return;
                 } else {
                     //.json project files are corrupt.
-                    env.getRootController().errorAlert("Project properties are corrupt - resetting values.");
+                    //env.getRootController().errorAlert("Project properties are corrupt - resetting values.");
                     saveProject(path);
                 }
 

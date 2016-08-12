@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.*;
@@ -108,6 +109,9 @@ public class RootController implements Initializable {
     private ImageView imageDP;
 
     @FXML
+    private MenuButton userDropDown;
+
+    @FXML
     private MenuItem menuOpen;
 
     @FXML
@@ -176,6 +180,8 @@ public class RootController implements Initializable {
         final Circle clip = new Circle(imageDP.getFitWidth()-25.0, imageDP.getFitHeight()-25.0, 50.0);
 
 
+        imageDP.setImage(new Image("images/moffatProfile.jpg"));
+
 
         clip.setRadius(25.0);
 
@@ -189,6 +195,11 @@ public class RootController implements Initializable {
         imageDP.setEffect(new DropShadow(5, Color.BLACK));
 
         imageDP.setImage(image);
+
+        userDropDown.setEllipsisString("User");
+        userDropDown.setText("User");
+
+
 
 
 
@@ -292,6 +303,13 @@ public class RootController implements Initializable {
     }
 
 
+    /**
+     *  Updates the user menu button text to display the current user's name.
+     */
+    public void updateUserInfo(String name){
+        userDropDown.setEllipsisString(name);
+        userDropDown.setText(name);
+    }
 
     /**
      * Displays a dialog to ask the user whether or not they want to save project changes.

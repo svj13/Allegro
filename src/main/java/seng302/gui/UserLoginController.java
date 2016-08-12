@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import seng302.Environment;
 import seng302.Users.User;
 
@@ -106,6 +107,10 @@ public class UserLoginController {
             System.out.println("sucsess");
 
             env.getUserHandler().setCurrentUser(usernameInput.getText());
+
+            //Close login window.
+            Stage stage = (Stage) btnLogIn.getScene().getWindow();
+            stage.close();
         }else{
             System.out.println("incorrect login info");
         }
