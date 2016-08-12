@@ -470,6 +470,13 @@ public class KeyboardPaneController {
                 ((TouchPane) key).removeScaleImage(scaleId);
             }
         }
+
+        ObservableList<Node> bKeys = blackKeys.getChildren();
+        for (Node key : bKeys) {
+            if (key instanceof TouchPane) {
+                ((TouchPane) key).removeScaleImage(scaleId);
+            }
+        }
     }
 
     /**
