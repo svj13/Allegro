@@ -90,7 +90,11 @@ public class RootController implements Initializable {
     private StackPane stackPane1;
 
     @FXML
+    private MenuBar menuFileBar;
+
+    @FXML
     private MenuItem menuQuit;
+
 
 
     @FXML
@@ -149,14 +153,19 @@ public class RootController implements Initializable {
 
     public void initialize(URL location, ResourceBundle resources) {
 
-        String cssBordering = "-fx-border-color:darkblue ; \n" //#090a0c
+        String cssBordering = "-fx-border-color:dimgray ; \n" //#090a0c
                 + "-fx-border-insets:3;\n"
-                + "-fx-border-radius:7;\n"
-                + "-fx-border-width:5.0";
+                + "-fx-border-radius:1;\n"
+                + "-fx-border-width:2.0";
 
+
+        System.out.println("this was called!" + TabPane.getHeight());
+
+
+        System.out.println("height:" + menuFileBar.getProperties().get("height"));
+        paneMain.setTopAnchor(borderPane_DP, 20.0);
 
         borderPane_DP.setStyle(cssBordering);
-        System.out.println("this was called!");
 
 
 

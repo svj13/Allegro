@@ -13,7 +13,8 @@
        <VBox prefHeight="457.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
            <children>
                <!--<children>-->
-               <MenuBar minHeight="-Infinity" prefHeight="29.0" prefWidth="500.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <MenuBar fx:id="menuFileBar" minHeight="-Infinity" prefHeight="29.0" prefWidth="500.0"
+                        AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                    <menus>
                        <Menu mnemonicParsing="false" onShowing="#bindOpenObjects" text="File">
                      <items>
@@ -122,10 +123,14 @@
                </SplitPane>
            </children>
        </VBox>
-       <BorderPane fx:id="borderPane_DP" AnchorPane.rightAnchor="100">
+       <BorderPane fx:id="borderPane_DP" AnchorPane.rightAnchor="100" AnchorPane.topAnchor="10">
+           <center>
+
+
            <ImageView fx:id="imageDP" fitHeight="50" fitWidth="50">
                <Image url="images/testDP.jpg"/>
            </ImageView>
+           </center>
        </BorderPane>
 
    </children>
