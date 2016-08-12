@@ -282,7 +282,10 @@ public class MusicPlayer {
             seq.setSequence(sequence);
             seq.setTempoInBPM(tempo);
             seq.start();
-        } catch (Exception e) {
+        } catch (NullPointerException npe) {
+            npe.printStackTrace();
+            System.err.println("Can't play Midi sound at the moment.");
+        } catch (InvalidMidiDataException e) {
             e.printStackTrace();
             System.err.println("Can't play Midi sound at the moment.");
         }
