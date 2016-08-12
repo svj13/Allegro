@@ -115,7 +115,7 @@ public class TouchPane extends StackPane {
      */
     public void setHighlightOff() {
         if (this.isblackKey) {
-            this.setStyle("-fx-border-color: black; -fx-border-width: 1px; -fx-background-color: #b0faaf");
+            this.setStyle("-fx-border-color: black; -fx-border-width: 1px; -fx-background-color: black");
         } else {
             this.setStyle("-fx-border-color: black; -fx-border-width: 1px; -fx-background-color: white");
         }
