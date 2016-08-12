@@ -5,6 +5,8 @@ import java.util.Collections;
 
 import seng302.data.Note;
 
+import static javax.swing.UIManager.put;
+
 /**
  * Created by Jonty on 24-May-16.
  */

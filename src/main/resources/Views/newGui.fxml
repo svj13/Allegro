@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.input.*?>
@@ -125,17 +126,16 @@
        </VBox>
       <HBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="50.0" prefWidth="100.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
          <children>
-             <BorderPane fx:id="borderPane_DP">
-                 <center>
-      
-      
-                 <ImageView fx:id="imageDP" fitHeight="50" fitWidth="50">
-         <image>
-                        <Image url="images/testDP.jpg" />
-         </image>
-                 </ImageView>
-                 </center>
-             </BorderPane>
+
+                  
+           <ImageView fx:id="imageDP" fitHeight="50" fitWidth="50">
+   <image>
+                  <Image url="images/testDP.jpg" />
+   </image>
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin>
+           </ImageView>
             <MenuButton alignment="CENTER" contentDisplay="CENTER" ellipsisString="" mnemonicParsing="false" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS">
               <items>
                 <MenuItem mnemonicParsing="false" text="Logout" />
