@@ -16,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.util.Pair;
 import org.controlsfx.control.CheckComboBox;
 import seng302.Environment;
@@ -44,6 +45,9 @@ public class ScaleRecognitionTutorController extends TutorController {
     @FXML
     ComboBox<Integer> octaves;
 
+    @FXML
+    Text scaleError;
+
     private Random rand;
 
 
@@ -56,21 +60,26 @@ public class ScaleRecognitionTutorController extends TutorController {
      * Run when the go button is pressed. Creates a new tutoring session.
      */
     private void goAction(ActionEvent event) {
-        record = new TutorRecord();
-        paneQuestions.setVisible(true);
-        paneResults.setVisible(false);
-        manager.resetEverything();
-        manager.questions = selectedQuestions;
+        if (ccbScales.getCheckModel().getCheckedIndices().size() != 0) {
+            scaleError.setVisible(false);
+            record = new TutorRecord();
+            paneQuestions.setVisible(true);
+            paneResults.setVisible(false);
+            manager.resetEverything();
+            manager.questions = selectedQuestions;
 
-        this.playDirection = direction.getSelectionModel().getSelectedItem();
-        this.playOctaves = octaves.getSelectionModel().getSelectedItem();
-        this.playScaleType = ccbScales.getCheckModel().getCheckedItems();
+            this.playDirection = direction.getSelectionModel().getSelectedItem();
+            this.playOctaves = octaves.getSelectionModel().getSelectedItem();
+            this.playScaleType = ccbScales.getCheckModel().getCheckedItems();
 
-        questionRows.getChildren().clear();
-        for (int i = 0; i < manager.questions; i++) {
-            HBox questionRow = setUpQuestion();
-            questionRows.getChildren().add(questionRow);
-            VBox.setMargin(questionRow, new Insets(10, 10, 10, 10));
+            questionRows.getChildren().clear();
+            for (int i = 0; i < manager.questions; i++) {
+                HBox questionRow = setUpQuestion();
+                questionRows.getChildren().add(questionRow);
+                VBox.setMargin(questionRow, new Insets(10, 10, 10, 10));
+            }
+        } else {
+            scaleError.setVisible(true);
         }
     }
 
@@ -99,15 +108,9 @@ public class ScaleRecognitionTutorController extends TutorController {
      * @return a question pane containing the question information
      */
     public HBox setUpQuestion() {
-        //int type = rand.nextInt(2);
         int type = rand.nextInt(playScaleType.size());
         String scaleType = playScaleType.get(type).toLowerCase();
-//        if (type == 0) {
-//
-//            scaleType = "major";
-//        } else {
-//            scaleType = "minor";
-//        }
+
         return generateQuestionPane(new Pair<>(getRandomNote(), scaleType.toLowerCase()));
     }
 
@@ -250,12 +253,7 @@ public class ScaleRecognitionTutorController extends TutorController {
     private ComboBox<String> generateChoices() {
         ComboBox<String> options = new ComboBox<>();
         options.setPrefHeight(30);
-
         options.getItems().addAll(playScaleType);
-
-//        options.getItems().add("major");
-//        options.getItems().add("minor");
-//        options.getItems().add("melodic minor");
 
         return options;
     }
