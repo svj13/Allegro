@@ -58,25 +58,25 @@ public class RootController implements Initializable {
     public PitchComparisonTutorController PitchComparisonTabController;
 
     @FXML
-    private IntervalRecognitionTutorController IntervalRecognitionTabController;
+    public IntervalRecognitionTutorController IntervalRecognitionTabController;
 
     @FXML
     private TranscriptPaneController transcriptController;
 
     @FXML
-    private MusicalTermsTutorController MusicalTermsTabController;
+    public MusicalTermsTutorController MusicalTermsTabController;
 
     @FXML
-    private ScaleRecognitionTutorController ScaleRecognitionTabController;
+    public ScaleRecognitionTutorController ScaleRecognitionTabController;
 
     @FXML
-    private ChordRecognitionTutorController ChordRecognitionTabController;
+    public ChordRecognitionTutorController ChordRecognitionTabController;
 
     @FXML
-    private ChordSpellingTutorController ChordSpellingTabController;
+    public ChordSpellingTutorController ChordSpellingTabController;
 
     @FXML
-    private KeySignaturesTutorController KeySignaturesTabController;
+    public KeySignaturesTutorController KeySignaturesTabController;
 
     @FXML
     private KeyboardPaneController keyboardPaneController;

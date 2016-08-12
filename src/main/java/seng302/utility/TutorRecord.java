@@ -12,17 +12,10 @@ import java.util.Date;
  */
 public class TutorRecord {
 
-
     JSONArray overallTutorObject = new JSONArray();
     JSONObject overallTutorSessionObject = new JSONObject();
     JSONArray tutorRecordList = new JSONArray();
     JSONObject tutorRecordStats = new JSONObject();
-
-
-    /**
-     * Stores all the information to save as text
-     */
-    //protected ArrayList<String> tutorRecordList = new ArrayList<String>();
 
 
     /**
@@ -32,11 +25,10 @@ public class TutorRecord {
      */
     public JSONObject addQuestionAnswer(String[] questionSet) {
         JSONObject question = new JSONObject();
-        question.put("Question", questionSet[0]);
-        question.put("Answer", questionSet[1]);
-        question.put("Correct", questionSet[2]);
+        question.put("question", questionSet[0]);
+        question.put("answer", questionSet[1]);
+        question.put("correct", questionSet[2]);
         tutorRecordList.add(question);
-
         return question;
 
     }
@@ -49,20 +41,18 @@ public class TutorRecord {
      * @param questionsAnsweredIncorrectly The number of questions the user answered incorrectly
      */
     public JSONObject setStats(int questionsAnsweredCorrectly, int questionsAnsweredIncorrectly, float score) {
-        tutorRecordStats.put("Questions Correct", questionsAnsweredCorrectly);
-        tutorRecordStats.put("Questions Incorrect", questionsAnsweredIncorrectly);
-        tutorRecordStats.put("Percentage Correct", String.format("%.2f", score) + "%");
-
+        tutorRecordStats.put("questionsCorrect", questionsAnsweredCorrectly);
+        tutorRecordStats.put("questionsIncorrect", questionsAnsweredIncorrectly);
+        tutorRecordStats.put("percentageCorrect", String.format("%.2f", score) + "%");
         return tutorRecordStats;
     }
 
 
     private void makeOverallTutorObject() {
-        overallTutorSessionObject.put("Questions", tutorRecordList);
-        overallTutorSessionObject.put("Stats", tutorRecordStats);
-        overallTutorSessionObject.put("Date", new Date().toString());
+        overallTutorSessionObject.put("questions", tutorRecordList);
+        overallTutorSessionObject.put("stats", tutorRecordStats);
+        overallTutorSessionObject.put("date", new Date().toString());
         overallTutorObject.add(overallTutorSessionObject);
-
     }
 
     /**

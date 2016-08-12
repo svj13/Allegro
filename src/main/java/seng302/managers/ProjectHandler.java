@@ -28,7 +28,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Optional;
 
 import javax.sound.midi.Instrument;
@@ -124,7 +123,6 @@ public class ProjectHandler {
         overallSpellingSessionObject = new JSONObject();
 
 
-
         this.env = env;
         try {
             this.projectsInfo = (JSONObject) parser.parse(new FileReader(userDirectory + "/projects.json"));
@@ -214,43 +212,25 @@ public class ProjectHandler {
     }
 
     public void saveTutorRecords(String tutorType, JSONObject record) {
-        JSONObject jsonOfQuestion = new JSONObject();
-
         if (tutorType.equals("pitch")) {
-
-
             pitchTutorRecordsList.add(record);
-            //System.out.println(pitchTutorRecordsList);
-
         } else if (tutorType.equals("interval")) {
-
-
             intervalTutorRecordsList.add(record);
-
-
         } else if (tutorType.equals("musicalTerm")) {
-
             musicalTermTutorRecordsList.add(record);
-            ;
-
         } else if (tutorType.equals("scale")) {
             scaleTutorRecordsList.add(record);
-
-
         } else if (tutorType.equals("chord")) {
-
             chordTutorRecordsList.add(record);
         } else if (tutorType.equals("spelling")) {
-
             spellingTutorRecordsList.add(record);
         }
     }
 
 
     /**
-     * load all saved project properties from the project json file.
-     * This currently supports Tempo, working transcript, musical terms and rhythm setting.
-     *
+     * load all saved project properties from the project json file. This currently supports Tempo,
+     * working transcript, musical terms and rhythm setting.
      */
     private void loadProperties() {
         int tempo;
@@ -319,7 +299,8 @@ public class ProjectHandler {
 
 
     /**
-     * Saves the current project, or if there is no current working project; launches the New project dialog.
+     * Saves the current project, or if there is no current working project; launches the New
+     * project dialog.
      */
     public void saveCurrentProject() {
         if (currentProjectPath != null) {
@@ -334,6 +315,7 @@ public class ProjectHandler {
 
     /**
      * Handles Saving a .json Project file, for the specified project address
+     *
      * @param projectAddress Project directory address.
      */
     public void saveProject(String projectAddress) {
@@ -375,97 +357,34 @@ public class ProjectHandler {
 
 
     private void saveTutorRecordsToFile(String projectAddress) {
-        try {
-
-            if (env.getRootController().tabSaveCheck("pitchTutor")) {
-                TutorRecord currentRecord = env.getRootController().PitchComparisonTabController.record;
-                currentRecord.writeToFile(projectAddress + "/PitchComparisonTutor.json");
-            }
-
-            if (env.getRootController().tabSaveCheck("intervalTutor")) {
-
-                FileWriter intervalFile = new FileWriter(projectAddress + "/IntervalRecognitionRecords.json", true);
-                overalIntervalSessionObject.put("Questions", intervalTutorRecordsList);
-                overalIntervalSessionObject.put("SessionStats", intervalTutorRecordStats);
-                overalIntervalObject.put("Session_" + new Date().toString(), overalIntervalSessionObject);
-                intervalFile.write(overalIntervalObject.toJSONString());
-                intervalTutorRecordsList.clear();
-                intervalTutorRecordStats = "";
-                overalIntervalSessionObject.clear();
-                overalIntervalObject.clear();
-                intervalFile.flush();
-                intervalFile.close();
-            }
-
-            if (env.getRootController().tabSaveCheck("musicalTermTutor")) {
-
-                FileWriter MusicalTermFile = new FileWriter(projectAddress + "/MusicalTermsRecords.json", true);
-                overalMusicalTermSessionObject.put("Questions", musicalTermTutorRecordsList);
-                overalMusicalTermSessionObject.put("SessionStats", musicalTermTutorRecordStats);
-                overalMusicalTermObject.put("Session_" + new Date().toString(), overalMusicalTermSessionObject);
-                MusicalTermFile.write(overalMusicalTermObject.toJSONString());
-                musicalTermTutorRecordsList.clear();
-                musicalTermTutorRecordStats = "";
-                overalMusicalTermSessionObject.clear();
-                overalMusicalTermObject.clear();
-                MusicalTermFile.flush();
-                MusicalTermFile.close();
-            }
-            if (env.getRootController().tabSaveCheck("scaleTutor")) {
-
-                FileWriter scaleFile = new FileWriter(projectAddress + "/ScaleRecognitionRecords.json", true);
-                overalScaleSessionObject.put("Questions", scaleTutorRecordsList);
-                overalScaleSessionObject.put("SessionStats", scaleTutorRecordStats);
-                overalScaleObject.put("Session_" + new Date().toString(), overalScaleSessionObject);
-                scaleFile.write(overalScaleObject.toJSONString());
-                scaleTutorRecordsList.clear();
-                scaleTutorRecordStats = "";
-                overalScaleSessionObject.clear();
-                overalScaleObject.clear();
-                scaleFile.flush();
-                scaleFile.close();
-
-            }
-
-            if (env.getRootController().tabSaveCheck("chordTutor")) {
-                FileWriter chordFile = new FileWriter(projectAddress + "/ChordRecognitionRecords.json", true);
-                overalChordSessionObject.put("Questions", chordTutorRecordsList);
-                overalChordSessionObject.put("SessionStats", chordTutorRecordStats);
-                overalChordObject.put("Session_" + new Date().toString(), overalChordSessionObject);
-                chordFile.write(overalChordObject.toJSONString());
-                chordTutorRecordsList.clear();
-                chordTutorRecordStats = "";
-                overalChordSessionObject.clear();
-                overalChordObject.clear();
-                chordFile.flush();
-                chordFile.close();
-            }
-
-            if (env.getRootController().tabSaveCheck("chordSpellingTutor")) {
-                FileWriter spellingFile = new FileWriter(projectAddress + "/ChordSpellingRecords.json", true);
-                overallSpellingSessionObject.put("Questions", spellingTutorRecordsList);
-                overallSpellingSessionObject.put("SessionStats", spellingTutorRecordStats);
-                overallSpellingObject.put("Session_" + new Date().toString(), overallSpellingSessionObject);
-                spellingFile.write(overallSpellingObject.toJSONString());
-                spellingTutorRecordsList.clear();
-                spellingTutorRecordStats = "";
-                overallSpellingSessionObject.clear();
-                overallSpellingObject.clear();
-                spellingFile.flush();
-                spellingFile.close();
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-
+        if (env.getRootController().tabSaveCheck("pitchTutor")) {
+            TutorRecord currentRecord = env.getRootController().PitchComparisonTabController.record;
+            currentRecord.writeToFile(projectAddress + "/PitchComparisonTutor.json");
         }
-
-
+        if (env.getRootController().tabSaveCheck("intervalTutor")) {
+            TutorRecord currentRecord = env.getRootController().IntervalRecognitionTabController.record;
+            currentRecord.writeToFile(projectAddress + "/IntervalRecognitionTutor.json");
+        }
+        if (env.getRootController().tabSaveCheck("musicalTermTutor")) {
+            TutorRecord currentRecord = env.getRootController().MusicalTermsTabController.record;
+            currentRecord.writeToFile(projectAddress + "/MusicalTermsTutor.json");
+        }
+        if (env.getRootController().tabSaveCheck("scaleTutor")) {
+            TutorRecord currentRecord = env.getRootController().ScaleRecognitionTabController.record;
+            currentRecord.writeToFile(projectAddress + "/ScaleRecognitionTutor.json");
+        }
+        if (env.getRootController().tabSaveCheck("chordTutor")) {
+            TutorRecord currentRecord = env.getRootController().ChordRecognitionTabController.record;
+            currentRecord.writeToFile(projectAddress + "/ChordRecognitionTutor.json");
+        }
+        if (env.getRootController().tabSaveCheck("chordSpellingTutor")) {
+            TutorRecord currentRecord = env.getRootController().ChordSpellingTabController.record;
+            currentRecord.writeToFile(projectAddress + "/ChordSpellingTutor.json");
+        }
     }
 
     /**
      * Updates the json list of project names, used to fill the quick load list.
-     *
      */
     private void updateProjectList() {
         if (!projectList.contains(projectName)) {
@@ -487,8 +406,8 @@ public class ProjectHandler {
 
 
     /**
-     * Compares all current project properties to the saved values
-     * If there are any differences, adds an asterix indicator to the project title
+     * Compares all current project properties to the saved values If there are any differences,
+     * adds an asterix indicator to the project title
      */
     public void checkChanges() {
 
@@ -497,8 +416,9 @@ public class ProjectHandler {
 
 
     /**
-     * Compares a specified project property to the saved value
-     * If there is a difference, adds an asterix indicator to the project title
+     * Compares a specified project property to the saved value If there is a difference, adds an
+     * asterix indicator to the project title
+     *
      * @param propName property id which is stored in the Json project file.
      */
     public void checkChanges(String propName) {
@@ -552,8 +472,9 @@ public class ProjectHandler {
 
 
     /**
-     * Loads a project, specifed by the project name.
-     * All projects must be located in the user's projects directory to be correctly loaded.
+     * Loads a project, specifed by the project name. All projects must be located in the user's
+     * projects directory to be correctly loaded.
+     *
      * @param pName project name string
      */
     public void loadProject(String pName) {
