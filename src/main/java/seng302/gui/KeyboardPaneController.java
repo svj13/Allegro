@@ -372,19 +372,20 @@ public class KeyboardPaneController {
                 scale1NoteInput.setStyle("-fx-border-color: lightgray;");
                 cancelButton.setText("Close Scales"); //changes the value of cancel to promt turn off the scales
                 displayScalesButton.setText("Close Scales"); //changes the name of display scales to prompt turn off scales
-                //TODO add in code to turn off the scales here
+
 
                 //if the optional scale 2 is filled out
-                if (scale2Note != null && !scale2Note.equals("") && isValidNote2) {
+                if (scale2Note != null && !scale2Note.equals("") && isValidNote2 && !scale2Note.equals(scale1Note)) {
                     ArrayList<Note> scale2Notes = fetchScaleNotes(scale2NoteInput.getText(), typeScale2.getValue());
                     toggleScaleKeys(scale2Notes, false); //displays pic on first key of scale
                     scale2NoteInput.setStyle("-fx-border-color: lightgray;");
+                } else {
+                    scale2NoteInput.setStyle("-fx-border-color: red;");
                 }
 
 
             //if the fields are left blank
             } else {
-                System.out.println("You didn't give me an input. Derp");
                 scale1NoteInput.setStyle("-fx-border-color: red;");
                 scale2NoteInput.setStyle("-fx-border-color: red;");
 
