@@ -1,5 +1,6 @@
 package seng302.command;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -48,6 +49,7 @@ public class Diatonic implements Command {
         if (this.chordType != null) {
             this.command = "functionOf";
             this.startingNote = OctaveUtil.capitalise(map.get("scaleNote"));
+            this.scaleType = map.get("scale_type");
             this.chordNote = OctaveUtil.capitalise(map.get("chordNote"));
         }
     }
@@ -56,12 +58,17 @@ public class Diatonic implements Command {
     public void execute(Environment env) {
         if (command.equals("quality")) {
             result = ChordUtil.getDiatonicChordQuality(romanNumeral);
+            env.getTranscriptManager().setResult(this.result);
+        } else if (!this.scaleType.equals("major")) {
+            env.error("Only major scales are accepted for this command.");
         } else if (command.equals("chordFunction")) {
             result = ChordUtil.getChordFunction(romanNumeral, startingNote, scaleType);
+            env.getTranscriptManager().setResult(this.result);
         } else if (command.equals("functionOf")) {
             result = ChordUtil.getFunctionOf(startingNote, chordNote, chordType);
+            env.getTranscriptManager().setResult(this.result);
         }
-        env.getTranscriptManager().setResult(this.result);
+
     }
 
     public String getHelp() {
@@ -74,7 +81,7 @@ public class Diatonic implements Command {
                         "function of this pair.";
 
             case "functionOf":
-                return "When followed by a chord and a major key (e.g. C major), displays the function" +
+                return "When followed by a chord and a major key (e.g. C major), displays the function " +
                         "of this pair.";
 
         }

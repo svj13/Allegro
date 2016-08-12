@@ -1,8 +1,6 @@
 package seng302.gui;
 
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import org.json.simple.JSONArray;
 
 import java.io.File;
@@ -18,7 +16,9 @@ import java.util.ResourceBundle;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Menu;
@@ -34,7 +34,6 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import seng302.Environment;
-import seng302.data.CommandType;
 import seng302.command.Command;
 import seng302.managers.TranscriptManager;
 import seng302.utility.FileHandler;
