@@ -159,11 +159,8 @@ public class RootController implements Initializable {
                 + "-fx-border-width:2.0";
 
 
-        System.out.println("this was called!" + TabPane.getHeight());
 
-
-        System.out.println("height:" + menuFileBar.getProperties().get("height"));
-        paneMain.setTopAnchor(borderPane_DP, 20.0);
+        //paneMain.setTopAnchor(borderPane_DP, 15.0);
 
         borderPane_DP.setStyle(cssBordering);
 
