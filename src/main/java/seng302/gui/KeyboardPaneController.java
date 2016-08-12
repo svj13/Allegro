@@ -370,7 +370,6 @@ public class KeyboardPaneController {
                 ArrayList<Note> scale1Notes = fetchScaleNotes(scale1NoteInput.getText(), typeScale1.getValue());
                 toggleScaleKeys(scale1Notes, true); //displays pic on first key of scale
                 scale1NoteInput.setStyle("-fx-border-color: lightgray;");
-                System.out.println(scale1Notes);
                 cancelButton.setText("Close Scales"); //changes the value of cancel to promt turn off the scales
                 displayScalesButton.setText("Close Scales"); //changes the name of display scales to prompt turn off scales
                 //TODO add in code to turn off the scales here
@@ -380,7 +379,6 @@ public class KeyboardPaneController {
                     ArrayList<Note> scale2Notes = fetchScaleNotes(scale2NoteInput.getText(), typeScale2.getValue());
                     toggleScaleKeys(scale2Notes, false); //displays pic on first key of scale
                     scale2NoteInput.setStyle("-fx-border-color: lightgray;");
-                    System.out.println(scale2Notes);
                 }
 
 
@@ -713,86 +711,69 @@ public class KeyboardPaneController {
     }
 
     /**
-     * Show/Hide first note of scale on keyboard notes
+     * Adds a relevant image to a key, if it is equal to the given note.
+     * @param key The key we are potentially altering
+     * @param currentNoteString The note we are looking for
+     * @param isFirstScale Whether this is scale 1 or scale 2
+     * @param isStartNote whether or not "currentNoteString" is the first note in the scale
+     */
+    private void addVisual(Node key, String currentNoteString, boolean isFirstScale, boolean isStartNote) {
+        String firstScaleImage = "";
+        String secondScaleImage = "";
+        if (key instanceof TouchPane) {
+            String keyString = ((TouchPane) key).getNoteValue().getNote();
+            keyString = OctaveUtil.removeOctaveSpecifier(keyString);
+
+            if (keyString.equals(currentNoteString)) {
+                if (isFirstScale) {
+                    if (isStartNote) {
+                        firstScaleImage = "/images/triangle.png";
+                    } else {
+                        firstScaleImage = "/images/up-arrow.png";
+                    }
+                    ((TouchPane) key).toggleScaleNotes(firstScaleImage, "firstScale");
+                } else {
+                    if (isStartNote) {
+                        secondScaleImage = "/images/play-icon.png";
+                    } else {
+                        secondScaleImage = "/images/download-arrow-1.png";
+                    }
+                    ((TouchPane) key).toggleScaleNotes(secondScaleImage, "secondScale");
+                }
+            }
+        }
+    }
+
+    /**
+     * Show/Hide visualisations of scales on the keyboard
      */
     public void toggleScaleKeys(ArrayList<Note> scaleNotes, Boolean isFirstScale) {
         ObservableList<Node> whiteKeys = keyboardBox.getChildren();
         ObservableList<Node> bKeys = blackKeys.getChildren();
+        Boolean isStartNote;
 
-        //Turns the start note of the scale into a string so it can be compared
-        Note startNote = scaleNotes.get(0);
-        String startNoteString = startNote.getNote();
-        startNoteString = OctaveUtil.removeOctaveSpecifier(startNoteString);
 
-        //Iterates through the white keys
-        for (Node whiteKey : whiteKeys) {
-            if (whiteKey instanceof TouchPane) {
-                //for white keys
-                String keyString = ((TouchPane) whiteKey).getNoteValue().getNote();
-                keyString = OctaveUtil.removeOctaveSpecifier(keyString);
-
-                if (keyString.equals(startNoteString)) {
-                    if (isFirstScale) {
-                        ((TouchPane) whiteKey).toggleScaleNotes("/images/triangle.png", "firstScale");
-                    } else {
-                        ((TouchPane) whiteKey).toggleScaleNotes("/images/play-icon.png", "secondScale");
-                    }
-                }
-            }
-        //iterates through the black keys for the start note
-        } for (Node blackKey : bKeys) {
-            if (blackKey instanceof TouchPane) {
-
-                //for black keys
-                String keyString = ((TouchPane) blackKey).getNoteValue().getNote();
-                keyString = OctaveUtil.removeOctaveSpecifier(keyString);
-
-                if (keyString.equals(startNoteString)) {
-                    if (isFirstScale) {
-                        ((TouchPane) blackKey).toggleScaleNotes("/images/triangle.png", "firstScale");
-                    } else {
-                        ((TouchPane) blackKey).toggleScaleNotes("/images/play-icon.png", "secondScale");
-                    }
-                }
-            }
-
-        //Gets the rest of the notes from the scale and turns them into strings to be compared
-        } for (int i = 1; i < scaleNotes.size() - 1; i++) {
+        for (int i = 0; i < scaleNotes.size() - 1; i++) {
+            //Gets all of the notes from the scale and turns them into strings to be compared
             Note currentNote = scaleNotes.get(i);
-            System.out.println(currentNote.getNote());
             String currentNoteString = currentNote.getNote();
             currentNoteString = OctaveUtil.removeOctaveSpecifier(currentNoteString);
 
+            //Determines whether or not we are working with the 'start note' of a scale
+            if (i == 0) {
+                isStartNote = true;
+            } else {
+                isStartNote = false;
+            }
+
             //iterates through the white keys for the rest of the scale notes
             for (Node whiteKey : whiteKeys) {
-                if (whiteKey instanceof TouchPane) {
-                    String keyString = ((TouchPane) whiteKey).getNoteValue().getNote();
-                    keyString = OctaveUtil.removeOctaveSpecifier(keyString);
-
-                    if (keyString.equals(currentNoteString)) {
-                        if (isFirstScale) {
-                            ((TouchPane) whiteKey).toggleScaleNotes("/images/up-arrow.png", "firstScale");
-                        } else {
-                            ((TouchPane) whiteKey).toggleScaleNotes("/images/download-arrow-1.png", "secondScale");
-                        }
-                    }
-                }
+                addVisual(whiteKey, currentNoteString, isFirstScale, isStartNote);
             }
 
             //iterates through the black keys for the rest of the scale notes
             for (Node blackKey : bKeys) {
-                if (blackKey instanceof TouchPane) {
-                    String keyString = ((TouchPane) blackKey).getNoteValue().getNote();
-                    keyString = OctaveUtil.removeOctaveSpecifier(keyString);
-
-                    if (keyString.equals(currentNoteString)) {
-                        if (isFirstScale) {
-                            ((TouchPane) blackKey).toggleScaleNotes("/images/up-arrow.png", "firstScale");
-                        } else {
-                            ((TouchPane) blackKey).toggleScaleNotes("/images/download-arrow-1.png", "secondScale");
-                        }
-                    }
-                }
+                addVisual(blackKey, currentNoteString, isFirstScale, isStartNote);
             }
 
         }
