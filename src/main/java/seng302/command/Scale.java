@@ -25,7 +25,7 @@ public class Scale implements Command {
     /**
      * Type of scale. e.g major, minor, melodic minor
      */
-    private static String type;
+    private String type = null;
 
     /**
      * Way to output scale. e.g note, midi or play
@@ -185,7 +185,7 @@ public class Scale implements Command {
                     env.error("This scale goes beyond the MIDI notes available.");
                 } else {
                     if (this.outputType.equals("note")) {
-                        String stringOfScale = scaleToString(startNote, scale, true);
+                        String stringOfScale = scaleToString(startNote, scale, true, type);
                         env.getTranscriptManager().setResult(stringOfScale);
                     } else if (this.outputType.equals("midi")) {
                         String midiScaleString = scaleToMidi(scale);
@@ -193,13 +193,13 @@ public class Scale implements Command {
                     } else { // Play scale.
                         if (direction.equals("updown")) {
                             env.getPlayer().playNotes(scale);
-                            env.getTranscriptManager().setResult(scaleToStringUpDown(startNote, scale));
+                            env.getTranscriptManager().setResult(scaleToStringUpDown(startNote, scale, type));
                         } else if (direction.equals("down")) {
                             env.getPlayer().playNotes(scale);
-                            env.getTranscriptManager().setResult(scaleToString(startNote, scale, false));
+                            env.getTranscriptManager().setResult(scaleToString(startNote, scale, false, type));
                         } else if (direction.equals("up")) {
                             env.getPlayer().playNotes(scale);
-                            env.getTranscriptManager().setResult(scaleToString(startNote, scale, true));
+                            env.getTranscriptManager().setResult(scaleToString(startNote, scale, true, type));
                         } else {
                             env.error("'" + direction + "' is not a valid scale direction. Try 'up', 'updown' or 'down'.");
                         }
@@ -222,7 +222,7 @@ public class Scale implements Command {
      * @param up         Whether the scale is going up or down.
      * @return Arraylist of correct note names.
      */
-    public static ArrayList<String> scaleNameList(String startNote, ArrayList<Note> scaleNotes, boolean up) {
+    public static ArrayList<String> scaleNameList(String startNote, ArrayList<Note> scaleNotes, boolean up, String type) {
         ArrayList<String> scale = new ArrayList<>();
         char currentLetter = Character.toUpperCase(startNote.charAt(0));
         int count = 0;
@@ -292,8 +292,8 @@ public class Scale implements Command {
      * @param up Whether the scale is ascending or descending.
      * @return The note names as a String.
      */
-    private static String scaleToString(String startNote, ArrayList<Note> scaleNotes, boolean up) {
-        ArrayList<String> scale = scaleNameList(startNote, scaleNotes, up);
+    private static String scaleToString(String startNote, ArrayList<Note> scaleNotes, boolean up, String type) {
+        ArrayList<String> scale = scaleNameList(startNote, scaleNotes, up, type);
         return String.join(" ", scale);
     }
 
@@ -303,11 +303,11 @@ public class Scale implements Command {
      * @param scaleNotes The notes of the scale.
      * @return The string of the scale notes.
      */
-    private static String scaleToStringUpDown(String startNote, ArrayList<Note> scaleNotes) {
+    private static String scaleToStringUpDown(String startNote, ArrayList<Note> scaleNotes, String type) {
         int size = scaleNotes.size();
-        String up = scaleToString(startNote, new ArrayList<Note>(scaleNotes.subList(0, size / 2)), true);
+        String up = scaleToString(startNote, new ArrayList<Note>(scaleNotes.subList(0, size / 2)), true, type);
         updateLetter(Character.toUpperCase(startNote.charAt(0)), true);
-        String down = scaleToString(startNote, new ArrayList<Note>(scaleNotes.subList(size / 2, size)), false);
+        String down = scaleToString(startNote, new ArrayList<Note>(scaleNotes.subList(size / 2, size)), false, type);
         return up + " " + down;
     }
 
