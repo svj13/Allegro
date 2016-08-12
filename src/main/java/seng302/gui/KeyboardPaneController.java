@@ -729,9 +729,9 @@ public class KeyboardPaneController {
                     }
                 }
             }
-        //iterates through the black keys
+        //iterates through the black keys for the start note
         } for (Node blackKey : bKeys) {
-            if (bKeys instanceof TouchPane) {
+            if (blackKey instanceof TouchPane) {
 
                 //for black keys
                 String keyString = ((TouchPane) blackKey).getNoteValue().getNote();
@@ -753,7 +753,7 @@ public class KeyboardPaneController {
             String currentNoteString = currentNote.getNote();
             currentNoteString = OctaveUtil.removeOctaveSpecifier(currentNoteString);
 
-            //iterates through the white keys
+            //iterates through the white keys for the rest of the scale notes
             for (Node whiteKey : whiteKeys) {
                 if (whiteKey instanceof TouchPane) {
                     String keyString = ((TouchPane) whiteKey).getNoteValue().getNote();
@@ -769,7 +769,7 @@ public class KeyboardPaneController {
                 }
             }
 
-            //iterates through the black keys
+            //iterates through the black keys for the rest of the scale notes
             for (Node blackKey : bKeys) {
                 if (blackKey instanceof TouchPane) {
                     String keyString = ((TouchPane) blackKey).getNoteValue().getNote();
