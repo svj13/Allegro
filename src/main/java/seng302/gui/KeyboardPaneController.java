@@ -730,16 +730,16 @@ public class KeyboardPaneController {
             if (keyString.equals(currentNoteString)) {
                 if (isFirstScale) {
                     if (isStartNote) {
-                        firstScaleImage = "/images/triangle.png";
+                        firstScaleImage = "blueRectangle";
                     } else {
-                        firstScaleImage = "/images/up-arrow.png";
+                        firstScaleImage = "blueCircle";
                     }
                     ((TouchPane) key).toggleScaleNotes(firstScaleImage, "firstScale");
                 } else {
                     if (isStartNote) {
-                        secondScaleImage = "/images/play-icon.png";
+                        secondScaleImage = "greenRectangle";
                     } else {
-                        secondScaleImage = "/images/download-arrow-1.png";
+                        secondScaleImage = "greenCircle";
                     }
                     ((TouchPane) key).toggleScaleNotes(secondScaleImage, "secondScale");
                 }

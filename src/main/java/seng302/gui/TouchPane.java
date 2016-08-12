@@ -7,9 +7,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.TouchEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import seng302.Environment;
 import seng302.data.Note;
+
 
 /**
  * Created by isabelle on 13/05/16.
@@ -142,15 +146,54 @@ public class TouchPane extends StackPane {
     }
 
     /**
-     * displays a picture corresponding to a particular scale on the keys. Used by
+     * displays a shape corresponding to a particular scale on the keys. Used by
      * toggleScaleKeys() in KeyBoardPaneController
      */
-    public void toggleScaleNotes(String imagePath, String imageId) {
+    public void toggleScaleNotes(String imageType, String imageId) {
+        Circle blueCircle = new Circle();
+        blueCircle.setCenterX(100.0f);
+        blueCircle.setCenterY(100.0f);
+        blueCircle.setRadius(5.0f);
+        blueCircle.setFill(Color.BLUE);
 
-        Image symbol = new Image(getClass().getResourceAsStream(imagePath), 10, 10, true, true);
-        Node image = new ImageView(symbol);
-        image.setId(imageId);
-        this.getChildren().add(image);
+        Circle greenCircle = new Circle();
+        greenCircle.setCenterX(100.0f);
+        greenCircle.setCenterY(200.0f);
+        greenCircle.setRadius(5.0f);
+        greenCircle.setFill(Color.GREEN);
+
+        Rectangle blueRectangle = new Rectangle();
+        blueRectangle.setX(50);
+        blueRectangle.setY(50);
+        blueRectangle.setWidth(10);
+        blueRectangle.setHeight(10);
+        blueRectangle.setFill(Color.BLUE);
+
+
+
+        Rectangle greenRectangle = new Rectangle();
+        greenRectangle.setX(50);
+        greenRectangle.setY(100);
+        greenRectangle.setWidth(10);
+        greenRectangle.setHeight(10);
+        greenRectangle.setFill(Color.GREEN);
+        greenRectangle.setStyle("-fx-padding: 15;");
+
+
+        //checks the image type and matches it to the corresponding shape
+        if (imageType.equals("blueCircle")) {
+            blueCircle.setId(imageId);
+            this.getChildren().add(blueCircle);
+        } else if (imageType.equals("greenCircle")) {
+            greenCircle.setId(imageId);
+            this.getChildren().add(greenCircle);
+        } else if (imageType.equals("blueRectangle")) {
+            blueRectangle.setId(imageId);
+            this.getChildren().add(blueRectangle);
+        } else if (imageType.equals("greenRectangle")) {
+            greenRectangle.setId(imageId);
+            this.getChildren().add(greenRectangle);
+        }
 
     }
 
