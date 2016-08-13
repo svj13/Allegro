@@ -223,6 +223,12 @@ public class ProjectHandler {
 
     }
 
+    /**
+     * Saves tutor records for each tutor.
+     *
+     * @param tutorType the tutor to save.
+     * @param record    the info about the question
+     */
     public void saveTutorRecords(String tutorType, String record) {
         JSONObject jsonOfQuestion = new JSONObject();
 

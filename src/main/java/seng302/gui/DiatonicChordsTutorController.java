@@ -171,7 +171,8 @@ public class DiatonicChordsTutorController extends TutorController {
     }
 
     /**
-     * Reacts accordingly to a user's input
+     * Reacts accordingly to a user's input. Formats the question row as to whether the question
+     * was answered correctly or not. Also saves the tutor record.
      *
      * @param userAnswer  The user's selection, as text
      * @param questionAndAnswer        A pair containing the starting note and scale type
@@ -222,6 +223,10 @@ public class DiatonicChordsTutorController extends TutorController {
 
     }
 
+    /**
+     * Outputs the stats for the finished tutor session. Also creates buttons for retest, save and
+     * clear.
+     */
     public void finished() {
         env.getPlayer().stop();
         userScore = getScore(manager.correct, manager.answered);
@@ -281,7 +286,7 @@ public class DiatonicChordsTutorController extends TutorController {
 
     @Override
     void resetInputs() {
-
+        //Diatonic tutor does not have any inputs to reset.
     }
 
     /**
