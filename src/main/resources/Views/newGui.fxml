@@ -79,7 +79,8 @@
                   </Menu>
                    </menus>
                </MenuBar>
-               <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" VBox.vgrow="ALWAYS">
+               <SplitPane fx:id="splitPane" dividerPositions="0.5" orientation="VERTICAL"
+                          prefHeight="200.0" prefWidth="160.0" VBox.vgrow="ALWAYS">
                    <items>
                        <TabPane fx:id="TabPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="698.0" tabClosingPolicy="ALL_TABS">
                            <tabs>

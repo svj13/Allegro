@@ -24,6 +24,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCombination;
@@ -54,6 +55,8 @@ public class RootController implements Initializable {
     @FXML
     AnchorPane paneMain;
 
+    @FXML
+    SplitPane splitPane;
 
     @FXML
     private PitchComparisonTutorController PitchComparisonTabController;
@@ -225,7 +228,10 @@ public class RootController implements Initializable {
         }
     }
 
-
+    public void setStyleSheet(String filepath) {
+        paneMain.getStylesheets().removeAll();
+        paneMain.getStylesheets().add(getClass().getResource(filepath).toExternalForm());
+    }
 
     /**
      * Displays a dialog to ask the user whether or not they want to save project changes.
@@ -822,6 +828,7 @@ public class RootController implements Initializable {
      * Sets the stage for root
      */
     public void setStage(Stage stage) {
+        setStyleSheet("/css/testStyle.css");
         this.stage = stage;
         this.stage.setOnCloseRequest(event -> {
             closeApplication();
