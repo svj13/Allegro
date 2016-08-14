@@ -11,6 +11,7 @@ package seng302.managers;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -28,6 +29,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.sound.midi.Instrument;
@@ -35,6 +37,7 @@ import javax.sound.midi.Instrument;
 import javafx.scene.control.TextInputDialog;
 import seng302.Environment;
 import seng302.data.Term;
+import seng302.gui.PitchComparisonTutorController;
 import seng302.utility.InstrumentUtility;
 import seng302.utility.OutputTuple;
 import seng302.utility.TutorRecord;
@@ -48,7 +51,7 @@ public class ProjectHandler {
     JSONArray overallPitchObject;
     JSONObject overallPitchSessionObject;
     JSONArray pitchTutorRecordsList = new JSONArray();
-    JSONObject pitchTutorRecordStats;
+    Map<String, Number> pitchTutorRecordStats;
 
     JSONObject overalIntervalObject;
     JSONObject overalIntervalSessionObject;
@@ -184,7 +187,7 @@ public class ProjectHandler {
     }
 
 
-    public void saveSessionStat(String tutorType, JSONObject statString) {
+    public void saveSessionStat(String tutorType, Map<String, Number> statString) {
         if (tutorType.equals("pitch")) {
 
             pitchTutorRecordStats = statString;
@@ -211,20 +214,21 @@ public class ProjectHandler {
 
     }
 
-    public void saveTutorRecords(String tutorType, JSONObject record) {
+    public void saveTutorRecords(String tutorType, Map<String, String> record) {
         if (tutorType.equals("pitch")) {
             pitchTutorRecordsList.add(record);
-        } else if (tutorType.equals("interval")) {
-            intervalTutorRecordsList.add(record);
-        } else if (tutorType.equals("musicalTerm")) {
-            musicalTermTutorRecordsList.add(record);
-        } else if (tutorType.equals("scale")) {
-            scaleTutorRecordsList.add(record);
-        } else if (tutorType.equals("chord")) {
-            chordTutorRecordsList.add(record);
-        } else if (tutorType.equals("spelling")) {
-            spellingTutorRecordsList.add(record);
         }
+//        } else if (tutorType.equals("interval")) {
+//            intervalTutorRecordsList.add(record);
+//        } else if (tutorType.equals("musicalTerm")) {
+//            musicalTermTutorRecordsList.add(record);
+//        } else if (tutorType.equals("scale")) {
+//            scaleTutorRecordsList.add(record);
+//        } else if (tutorType.equals("chord")) {
+//            chordTutorRecordsList.add(record);
+//        } else if (tutorType.equals("spelling")) {
+//            spellingTutorRecordsList.add(record);
+//        }
     }
 
 
@@ -268,7 +272,7 @@ public class ProjectHandler {
 
 
         try {
-            rhythms = ((int[]) gson.fromJson((String) projectSettings.get("rhythm"), int[].class));
+            rhythms = (gson.fromJson((String) projectSettings.get("rhythm"), int[].class));
             rhythms = rhythms == null ? new int[]{12} : rhythms;
         } catch (Exception e) {
             rhythms = new int[]{12};
@@ -323,8 +327,6 @@ public class ProjectHandler {
         //Add all settings to such as tempo speed to the project here.
 
         try {
-            Gson gson = new Gson();
-
             saveProperties();
             projectName = projectAddress.substring(projectAddress.lastIndexOf("/") + 1);
 
@@ -356,10 +358,49 @@ public class ProjectHandler {
     }
 
 
+    /**
+     * When finished a tutor session. Or when save is clicked part way through.
+     */
     private void saveTutorRecordsToFile(String projectAddress) {
+        Gson gson = new Gson();
         if (env.getRootController().tabSaveCheck("pitchTutor")) {
-            TutorRecord currentRecord = env.getRootController().PitchComparisonTabController.record;
-            currentRecord.writeToFile(projectAddress + "/PitchComparisonTutor.json");
+            try {
+                ArrayList<TutorRecord> records;
+                try {
+
+                    JsonReader jsonReader = new JsonReader(new FileReader(projectAddress + "PitchComparisonTutor.json"));
+
+                    records = gson.fromJson(jsonReader, new TypeToken<ArrayList<TutorRecord>>() {
+                    }.getType());
+
+                    TutorRecord latest = records.get(records.size() - 1);
+                    if (!latest.isFinished()) {
+                        records.remove(records.size() - 1);
+                    }
+                } catch (FileNotFoundException e) {
+                    records = new ArrayList<>();
+                }
+
+                PitchComparisonTutorController pitch = env.getRootController().PitchComparisonTabController;
+                TutorRecord currentRecord = pitch.record;
+                currentRecord.setDate();
+                currentRecord.setStats(pitch.getManager().correct, pitch.getManager().getTempIncorrectResponses().size(), pitch.getManager().getScore());
+                records.add(currentRecord);
+
+                String json = gson.toJson(records);
+                try {
+                    FileWriter writer = new FileWriter(projectAddress + "/PitchComparisonTutor.json", false);
+                    writer.write(json);
+                    writer.flush();
+                    writer.close();
+                } catch (IOException ex) {
+                    System.err.println("Problem writing to the selected file " + ex.getMessage());
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
         if (env.getRootController().tabSaveCheck("intervalTutor")) {
             TutorRecord currentRecord = env.getRootController().IntervalRecognitionTabController.record;
@@ -411,7 +452,6 @@ public class ProjectHandler {
      */
     public void checkChanges() {
 
-
     }
 
 
@@ -455,7 +495,7 @@ public class ProjectHandler {
         if (projectSettings.containsKey("musicalTerms")) {
             Type termsType = new TypeToken<ArrayList<Term>>() {
             }.getType();
-            if (!projectSettings.get("musicalTerms").equals(new Gson().fromJson((String) projectSettings.get("muscalTerms"), termsType))) {
+            if (!projectSettings.get("musicalTerms").equals(new Gson().fromJson((String) projectSettings.get("musicalTerms"), termsType))) {
                 env.getRootController().setWindowTitle(saveName + "*");
                 saved = false;
             }

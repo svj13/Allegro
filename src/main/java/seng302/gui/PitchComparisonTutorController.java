@@ -338,6 +338,8 @@ public class PitchComparisonTutorController extends TutorController {
                 manager.correct, manager.incorrect, userScore);
 
         record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
+        record.setFinished();
+        record.setDate();
 
         if (projectHandler.currentProjectPath != null) {
 

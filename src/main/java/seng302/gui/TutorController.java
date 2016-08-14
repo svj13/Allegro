@@ -146,6 +146,10 @@ public abstract class TutorController {
         }
     }
 
+    public TutorManager getManager() {
+        return manager;
+    }
+
     /**
      * Saves a record of the tutoring session to a file.
      */
