@@ -333,13 +333,83 @@ public class KeyboardPaneController {
         typeScale2.setValue("Major"); //setting major as the default value
         scaleTwoTypeOptions.getChildren().add(typeScale2);
 
+
+
+
+
+        Button okScale1 = new Button("OK");
+        okScale1.setOnAction(event-> {
+            if (okScale1.getText().equals("OK")) {
+                String scale1Note = scale1NoteInput.getText();
+                String scale2Note = scale2NoteInput.getText();
+                boolean isValidNote1 = isValidNormalNote(scale1Note);
+                boolean isUnique = scaleIsUnique(scale1Note, typeScale1.getValue(), scale2Note, typeScale2.getValue());
+
+
+                if (scale1Note != null && !scale1Note.equals("") && isValidNote1 && isUnique) {
+                    ArrayList<Note> scale1Notes = fetchScaleNotes(scale1NoteInput.getText(), typeScale1.getValue());
+                    toggleScaleKeys(scale1Notes, true); //displays pic on first key of scale
+                    scale1NoteInput.setStyle("-fx-border-color: lightgray;"); //defaults border colour incase it was red
+                    scale2NoteInput.setStyle("-fx-border-color: lightgray;");
+                    okScale1.setText("Hide");
+                } else if (scale1Note.equals(scale2Note)) {
+                    //if scale 1 input matches scale 2 input
+                    scale1NoteInput.setStyle("-fx-border-color: red;");
+                    scale2NoteInput.setStyle("-fx-border-color: red;");
+                } else {
+                    //if scale 1 was given no input
+                    scale1NoteInput.setStyle("-fx-border-color: red;");
+                }
+            } else if (okScale1.getText().equals("Hide")) {
+                scale1NoteInput.setStyle("-fx-border-color: lightgray;");
+                clearScaleIndicators("firstScale");
+                okScale1.setText("OK");
+
+            }
+
+                });
+
+
+
+        Button okScale2 = new Button ("OK");
+        okScale2.setOnAction(event-> {
+            if (okScale2.getText().equals("OK")) {
+                String scale1Note = scale1NoteInput.getText();
+                String scale2Note = scale2NoteInput.getText();
+                boolean isValidNote2 = isValidNormalNote(scale2Note);
+                boolean isUnique = scaleIsUnique(scale1Note, typeScale1.getValue(), scale2Note, typeScale2.getValue());
+
+
+                if (scale2Note != null && !scale2Note.equals("") && isValidNote2 && isUnique) {
+                    ArrayList<Note> scale2Notes = fetchScaleNotes(scale2NoteInput.getText(), typeScale2.getValue());
+                    toggleScaleKeys(scale2Notes, false); //displays pic on first key of scale
+                    scale2NoteInput.setStyle("-fx-border-color: lightgray;"); //defaults border colour incase it was red
+                    scale1NoteInput.setStyle("-fx-border-color: lightgray;");
+                    okScale2.setText("Hide");
+                } else if (scale2Note.equals(scale1Note)) {
+                    //if scale 1 input matches scale 2 input
+                    scale1NoteInput.setStyle("-fx-border-color: red;");
+                    scale2NoteInput.setStyle("-fx-border-color: red;");
+
+
+                } else {
+                    //if scale 2 was given no input
+                    scale2NoteInput.setStyle("-fx-border-color: red;");
+                }
+            } else if (okScale2.getText().equals("Hide")) {
+                scale2NoteInput.setStyle("-fx-border-color: lightgray;");
+                clearScaleIndicators("secondScale");
+                okScale2.setText("OK");
+
+        }
+        });
         /**
          * clear, OK and cancel button. OK and cancel are going into their own HBOX. clear is going to
          * be added to both the scale 1 and scale 2 hboxes
          */
 
         //Clears all inputs and removes all scale indicators
-        Button cancelButton = new Button("Clear Scales");
+        Button cancelButton = new Button("Reset Scales");
         cancelButton.setOnAction(event->{
             scale1NoteInput.clear();
             typeScale1.setValue("Major");
@@ -349,74 +419,14 @@ public class KeyboardPaneController {
             typeScale2.setValue("Major");
             scale2NoteInput.setStyle("-fx-border-color: lightgray;");
 
+            okScale1.setText("OK");
+            okScale2.setText("OK");
+
             clearScaleIndicators("firstScale");
             clearScaleIndicators("secondScale");
 
         });
 
-
-
-        //binding action event to OK button so when OK is clicked, the information in the corresponding
-        //fields will fetch the scale notes
-        Button okButton = new Button("OK"); //actions the fields selected and highlights corresponding keys
-        okButton.setOnAction(event->{
-            String scale1Note =scale1NoteInput.getText();
-            String scale2Note = scale2NoteInput.getText();
-            boolean isValidNote1 = isValidNormalNote(scale1Note);
-            boolean isValidNote2 = isValidNormalNote(scale2Note);
-
-            //if scale 2 is filled out but not scale 1
-            if (scale2Note != null && !scale2Note.equals("") && scale1Note.equals("") && isValidNote2) {
-                System.out.println("You filled out scale 2 but not scale 1");
-                scale1NoteInput.setStyle("-fx-border-color: red;");
-            //if scale 1 is filled out
-            } else if (scale1Note != null && !scale1Note.equals("") && isValidNote1){
-                ArrayList<Note> scale1Notes = fetchScaleNotes(scale1NoteInput.getText(), typeScale1.getValue());
-                toggleScaleKeys(scale1Notes, true); //displays pic on first key of scale
-                scale1NoteInput.setStyle("-fx-border-color: lightgray;");
-
-                //if the optional scale 2 is filled out
-                if (scale2Note != null && !scale2Note.equals("") && isValidNote2) {
-                    //error handling for if scale 1 is equivalent to scale 2
-                    if (!scale2Note.equals(scale1Note)) {
-                        ArrayList<Note> scale2Notes = fetchScaleNotes(scale2NoteInput.getText(), typeScale2.getValue());
-                        toggleScaleKeys(scale2Notes, false); //displays pic on first key of scale
-                        scale2NoteInput.setStyle("-fx-border-color: lightgray;");
-                    } else {
-                        scale2NoteInput.setStyle("-fx-border-color: red;");
-                    }
-                }
-
-
-            //if the fields are left blank
-            } else {
-                scale1NoteInput.setStyle("-fx-border-color: red;");
-                scale2NoteInput.setStyle("-fx-border-color: red;");
-
-            }
-        });
-
-
-        Button clearButtonScale1 = new Button("Clear"); //clears the fields of the corresponding drop down
-        clearButtonScale1.setOnAction(event->{
-            scale1NoteInput.clear();
-            typeScale1.setValue("Major");
-            scale1NoteInput.setStyle("-fx-border-color: lightgray;");
-
-            clearScaleIndicators("firstScale");
-
-
-        });
-
-
-        Button clearButtonScale2 = new Button("Clear"); //clears the fields of the corresponding drop down
-        clearButtonScale2.setOnAction(event->{
-            scale2NoteInput.clear();
-            typeScale2.setValue("Major");
-            scale2NoteInput.setStyle("-fx-border-color: lightgray;");
-
-            clearScaleIndicators("secondScale");
-        });
 
 
 
@@ -424,18 +434,17 @@ public class KeyboardPaneController {
 
         //HBox for the OK and Cancel button
         HBox actionButtonBox = new HBox();
-        actionButtonBox.getChildren().add(okButton);
         actionButtonBox.getChildren().add(cancelButton);
 
         // add note input field, type drop down and clear button to scale 1 HBox
         scale1.getChildren().add(scale1NoteInput);
         scale1.getChildren().add(scaleOneTypeOptions);
-        scale1.getChildren().add(clearButtonScale1);
+        scale1.getChildren().add(okScale1);
 
         // add note input field, type drop down and clear button to scale 1 HBox
         scale2.getChildren().add(scale2NoteInput);
         scale2.getChildren().add(scaleTwoTypeOptions);
-        scale2.getChildren().add(clearButtonScale2);
+        scale2.getChildren().add(okScale2);
 
 
         // Add Hboxes to the display scales vbox
@@ -490,6 +499,25 @@ public class KeyboardPaneController {
         Note scaleStartNote = Note.lookup(scaleNote);
         ArrayList<Note> scaleNotes = scaleStartNote.getScale(scaleType, true);
         return scaleNotes;
+
+    }
+
+    /**
+     * Compares one scale against another to check to see if they are identical
+     * @param scale1Note
+     * @param scale1Type
+     * @param scale2Note
+     * @param scale2Type
+     * @return boolean
+     */
+
+    private boolean scaleIsUnique(String scale1Note, String scale1Type, String scale2Note, String scale2Type) {
+        if (scale1Note.equals(scale2Note) && scale1Type.equals(scale2Type)) {
+            return false;
+        } else {
+            return true;
+        }
+
 
     }
 
