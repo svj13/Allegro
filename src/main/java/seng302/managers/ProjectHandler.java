@@ -10,6 +10,7 @@ package seng302.managers;
  */
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
@@ -296,13 +297,11 @@ public class ProjectHandler {
             projectSettings.put("tempo", env.getPlayer().getTempo());
 
 
-            //System.out.print("pitchTutorRecordList: " + pitchTutorRecordsList);
-
             env.getRootController().setWindowTitle(projectName);
 
             currentProjectPath = projectAddress;
 
-            //Check if it isn't an exisiting stored project
+            //Check if it isn't an existing stored project
             updateProjectList();
 
         } catch (IOException e) {
@@ -317,9 +316,7 @@ public class ProjectHandler {
         try {
             ArrayList<TutorRecord> records;
             try {
-
                 JsonReader jsonReader = new JsonReader(new FileReader(filename));
-
                 records = gson.fromJson(jsonReader, new TypeToken<ArrayList<TutorRecord>>() {
                 }.getType());
 
@@ -328,6 +325,9 @@ public class ProjectHandler {
                     records.remove(records.size() - 1);
                 }
             } catch (FileNotFoundException e) {
+                records = new ArrayList<>();
+            } catch (JsonSyntaxException e) {
+                System.err.println("File was not of the correct type. Overwriting.");
                 records = new ArrayList<>();
             }
             currentRecord.setDate();
@@ -365,6 +365,7 @@ public class ProjectHandler {
             saveTutorRecordsToFile(projectAddress + "/MusicalTermsTutor.json", env.getRootController().MusicalTermsTabController.record);
         }
         if (env.getRootController().tabSaveCheck("scaleTutor")) {
+            saveTutorRecordsToFile(projectAddress + "/ScaleRecognitionTutor.json", env.getRootController().ScaleRecognitionTabController.record);
         }
         if (env.getRootController().tabSaveCheck("chordTutor")) {
             saveTutorRecordsToFile(projectAddress + "/ChordRecognitionTutor.json", env.getRootController().ChordRecognitionTabController.record);

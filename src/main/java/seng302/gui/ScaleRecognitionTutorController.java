@@ -151,8 +151,6 @@ public class ScaleRecognitionTutorController extends TutorController {
      * @param questionRow   The HBox containing GUI question data
      */
     public void handleQuestionAnswer(String userAnswer, Pair correctAnswer, HBox questionRow) {
-
-
         manager.answered += 1;
         Integer correct;
         disableButtons(questionRow, 1, 3);
