@@ -99,7 +99,8 @@ Note = [A-G|a-g]([#|b|x]|(bb))?[0-8]?|[A|B|D|E|F|G|a|b|d|e|f|g]([#|b|x]|(bb))?("
 MidiNote = (0?[0-9]?[0-9]|1[01][0-9]|12[0-7])
 Atom = [^\s|;]+
 SemiColon = ";"
-ScaleType = "major"|"minor"|"melodic minor"|"mel minor"
+ScaleType = "major"|"minor"|"melodic minor"|"mel minor"|"ionian"|"dorian"|"phrygian"|"lydian"|
+            "mixolydian"|"aeolian"|"locrian"
 PlayStyle = "arpeggio"
 SharedChordAndInterval = "diminished 7th"|"diminished seventh"|"major 7th"|"major seventh"|"minor 7th"|"minor seventh"
 ChordType = "seventh"|"7th"|"half dim"|"half diminished"|
