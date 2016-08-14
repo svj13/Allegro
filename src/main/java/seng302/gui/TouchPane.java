@@ -9,7 +9,9 @@ import seng302.Environment;
 import seng302.data.Note;
 
 /**
- * Created by isabelle on 13/05/16.
+ * This class is used by each key on the virtual keyboard.
+ * Each key is a single touch pane, and registers click/touch events.
+ * These events are then dealt with be the KeyboardPaneController.
  */
 
 public class TouchPane extends StackPane {
@@ -22,6 +24,13 @@ public class TouchPane extends StackPane {
     private boolean isblackKey;
 
 
+    /**
+     * Constructor for a single touch pane
+     *
+     * @param note The note that the touch pane is associated with
+     * @param env  The environment in which the touch pane will be located
+     * @param kpc  The keyboard pane controller that the touch pane belongs to
+     */
     public TouchPane(Integer note, Environment env, KeyboardPaneController kpc) {
         super();
         noteToPlay = Note.lookup(String.valueOf(note));
@@ -34,6 +43,7 @@ public class TouchPane extends StackPane {
         this.keyLabel = noteToPlay.getNote();
         this.isblackKey = false;
 
+        // Event handler for on touch
         EventHandler<TouchEvent> touchPress = event -> {
             if (touchId == -1) {
                 touchId = event.getTouchPoint().getId();
@@ -49,6 +59,7 @@ public class TouchPane extends StackPane {
             event.consume();
         };
 
+        // Event handler for release of touch
         EventHandler<TouchEvent> touchRelease = event -> {
             if (event.getTouchPoint().getId() == touchId) {
                 touchId = -1;
@@ -65,6 +76,7 @@ public class TouchPane extends StackPane {
         setOnTouchReleased(touchRelease);
         setOnTouchPressed(touchPress);
 
+        // Event handler for when mouse is released
         setOnMouseReleased(event -> {
             if (kpc.isPlayMode()) {
                 if (!environment.isShiftPressed()) {
@@ -79,22 +91,25 @@ public class TouchPane extends StackPane {
             }
         });
 
+        // Event handler for when mouse is clicked
         setOnMousePressed(event -> {
-            if (kpc.isPlayMode()) {
-                if (environment.isShiftPressed()) {
-                    keyboardPaneController.addMultiNote(noteToPlay, me);
-                    setHighlightOn();
+            if (!event.isSynthesized()) {
+                if (kpc.isPlayMode()) {
+                    if (environment.isShiftPressed()) {
+                        keyboardPaneController.addMultiNote(noteToPlay, me);
+                        setHighlightOn();
+                    } else {
+                        environment.getPlayer().noteOn(noteToPlay);
+                        setHighlightOn();
+                    }
+                    if (displayLabelOnAction) {
+                        getChildren().add(new Text(keyLabel));
+                    }
                 } else {
-                    environment.getPlayer().noteOn(noteToPlay);
-                    setHighlightOn();
+                    String prev = env.getRootController().getTranscriptController().txtCommand.getText();
+                    String newText = prev + " " + this.getNoteValue().getNote();
+                    env.getRootController().getTranscriptController().txtCommand.setText(newText);
                 }
-                if (displayLabelOnAction) {
-                    getChildren().add(new Text(keyLabel));
-                }
-            } else {
-                String prev = env.getRootController().getTranscriptController().txtCommand.getText();
-                String newText = prev + " " + this.getNoteValue().getNote();
-                env.getRootController().getTranscriptController().txtCommand.setText(newText);
             }
         });
 
