@@ -68,7 +68,7 @@ public class DiatonicChordsTutorController extends TutorController {
         // Functional questions:
         ArrayList<Note> scale = randomNote.getOctaveScale("major", 1, true);
         Integer numInScale = rand.nextInt(7) + 1;
-        List<String> scaleNames = Scale.scaleNameList(randomNoteName, scale, true);
+        List<String> scaleNames = Scale.scaleNameList(randomNoteName, scale, true, "");
         String chordNote = scaleNames.get(numInScale - 1);
 
         // About a quarter of questions will be non-functional.
