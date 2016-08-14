@@ -1,7 +1,10 @@
 package seng302.command;
 
+import java.util.ArrayList;
+import java.util.List;
 
 import seng302.Environment;
+import seng302.data.CommandData;
 
 public class Help implements Command {
 
@@ -15,212 +18,69 @@ public class Help implements Command {
         this.keyword = keyword;
     }
 
+    /**
+     * Given a command, creates a nice display of all information known about it.
+     *
+     * @param command The command to display information about
+     * @return A string containing all help information about the given command.
+     */
+    private String generateHelpResult(Command command) {
+        String output = "";
+        output += command.getCommandText() + ":\n";
+        output += command.getHelp() + "\n";
+        if (command.getParams().size() > 0) {
+            output += "Parameters: ";
+            output += String.join(", ", command.getParams());
+            output += "\n";
+        }
+        if (command.getOptions().size() > 0) {
+            output += "Options: ";
+            output += String.join(", ", command.getOptions());
+            output += "\n";
+        }
+        output += "Example: ";
+        output += command.getExample();
+        return output;
+    }
 
     public void execute(Environment env) {
-        String result = "";
-
-        if (keyword.equals("note")) {
-            result = "When followed by a valid midi number (within the range of 0-127), it will" +
-                    " return the corresponding note name and its octave e.g. 'note 60' will return C4.";
-        } else if (keyword.equals("add musical term")) {
-            result = "When followed by a musical term in the format of 'name; origin; " +
-                    "category; definition', it will add the musical term to the Musical Term " +
-                    "dictionary.";
-        } else if (keyword.equals("all enharmonics")) {
-            result = "Return all the enharmonics of a given note.";
-        } else if (keyword.equals("all instruments")) {
-            result = "Shows a list of all instruments that can be selected as the playback instrument.";
-        } else if (keyword.equals("crotchet duration")) {
-            result = "Returns the duration of a crotchet in milliseconds at the current tempo.";
-        } else if (keyword.equals("enharmonic higher")) {
-            result = "Returns the enharmonic that corresponds to the same note, a " +
-                    "'letter' above the current note.";
-        } else if (keyword.equals("enharmonic lower")) {
-            result = "Returns the enharmonic that corresponds to the same note, a " +
-                    "'letter' below the current note.";
-        } else if (keyword.equals("force set tempo")) {
-            result = "When followed by a tempo, it will set the given tempo, even if it" +
-                    " is outside of the recommended range of 20-300BPM.";
-        } else if (keyword.equals("instrument")) {
-            result = "Shows the current playback instrument.";
-        } else if (keyword.equals("meaning of")) {
-            result = "When followed by a musical term, will display the definition of that" +
-                    " term.";
-        } else if (keyword.equals("midi")) {
-            result = "When followed by a valid note, it will return its corresponding midi number" +
-                    " within the range of 0-127. If an octave not specified to the note, it will default " +
-                    " to octave 4. e.g. 'midi' C4 will return 60. It is not case sensitive. ";
-        } else if (keyword.equals("play note")) {
-            result = "When followed by a valid midi number or valid note, the corresponding" +
-                    " note will be played.";
-        } else if (keyword.equals("semitone up")) {
-            result = "semitone up : When followed by a valid note or midi number, it will return" +
-                    " the note that is a semitone higher.";
-        } else if (keyword.equals("semitone down")) {
-            result = "semitone down : When followed by a valid note or midi number, it will return" +
-                    " the note that is a semitone lower.";
-        } else if (keyword.equals("set tempo")) {
-            result = "When followed by a valid tempo (20-300BPM) will change the tempo to that value.";
-        } else if (keyword.equals("tempo")) {
-            result = "Returns the current tempo. When the program is launched, it will have" +
-                    " a default value of 120BPM.";
-
-        } else if (keyword.equals("set instrument")) {
-            result = "When followed by a valid instrument name or number, sets the playback instrument to that instrument.\n" +
-                    "For a list of valid instruments, use the command all instruments.";
-        } else if (keyword.equals("set rhythm")) {
-            result = "Changes the rhythm note timings, syntax: set rhythm 'setting'. \n" +
-                    "Default (no swing, half crotchet duration): 'straight'\n" +
-                    "Preset swing settings:\n" +
-                    "\t'straight' - regular 1/2 crotchet timing.\n\t'light' - swing 5/8 3/8 crotchet timings.\n" +
-                    "\t'medium' - swing 2/3 1/3 crotchet timings.\n\t'heavy' - swing 3/4 1/4 crotchet timings.\n" +
-                    "Custom setting:\n\tCrotchet duration fractions e.g. 'set rhythm 1/4 1/2 1/4' where every fraction" +
-                    "is seperated by a space."
-            ;
-        } else if (keyword.equals("rhythm")) {
-            result = "Returns the current rhythm beat divisions. The default rhythm is set to 1/2," +
-                    " meaning 1/2 crotchet timings.\nFor information changing the rhythm, see 'help set rhythm'";
-
-        } else if (keyword.equals("version")) {
-            result = "Returns the current version number of the application.";
-        } else if (keyword.equals("origin of")) {
-            result = "When followed by a musical term, will display the origin of that" +
-                    " term.";
-        } else if (keyword.equals("category of")) {
-            result = "When followed by a musical term, will display the category of that" +
-                    " term.";
-        } else if (keyword.equals("scale")) {
-            result = "When followed by a valid scale (made up of a note and a scale type) " +
-                    "the corresponding scale notes will be returned. e.g scale c major. ";
-        } else if (keyword.equals("midi scale")) {
-            result = "When followed by a valid scale (made up of a note and a scale type) " +
-                    " the corresponding scale midi notes will be returned. ";
-        } else if (keyword.equals("play scale")) {
-            result = "When followed by a valid scale (made up of a note and a scale type)" +
-                    " the corresponding scale will be played. Options for the number of octaves and direction" +
-                    " can be given. E.g play scale c major [number of octaves] [up|updown|down]";
-        } else if (keyword.equals("interval")) {
-            result = "When followed by an interval name, it returns the number of semitones in that interval." +
-                    " When followed by an interval name and a note, it returns the note that is the specified interval above the given note." +
-                    " e.g interval perfect fifth C4 will return G4.";
-        } else if (keyword.equals("play interval")) {
-            result = "When followed by an interval name and a note, it will play the given note and then the note that is the specified interval above the given note.";
-        } else if (keyword.equals("play chord")) {
-            result = "When followed by a valid chord and a valid chord type (i.e. major, minor), will" +
-                    " play the given chord";
-        } else if (keyword.equals("chord")) {
-            result = "When followed by a valid chord and a valid chord type (i.e. major, minor), will" +
-                    " return the corresponding notes that make up the given chord. Type 'help " +
-                    "chord types' for more information on valid chord types\n\n" + "Valid chords:\n" +
-                    "major: when put after a valid chord, will show/play the chord in major. " +
-                    "A major chord that has a root note, a major third above this root, and a perfect " +
-                    "fifth above this root note\n\n" +
-                    "minor: when put after a valid chord, will show/play the chord in. A minor" +
-                    " chord is a chord having a root, a minor third, and a perfect fifth. \n\n" +
-                    "minor 7th/minor seventh: when put after a valid chord, will show/play the chord " +
-                    "in minor seventh. A minor seventh chord is any nondominant seventh chord where " +
-                    "the \"third\" note is a minor third above the root. \n\n" +
-                    "major 7th/major seventh: when put after a valid chord, will show/play the " +
-                    "chord in major 7th. A major seventh chord is a seventh chord where the" +
-                    " \"third\" note is a major third above the root, and the \"seventh\" note " +
-                    "is a major seventh above the root \n\n" +
-                    "7th/seventh: when put after a valid chord, will show/play the chord in " +
-                    "seventh. A seventh chord is a chord consisting of a triad plus a note " +
-                    "forming an interval of a seventh above the chord's root.\n\n" +
-                    "diminished: when put after a valid chord, will show/play the chord in " +
-                    "diminished. It is a triad chord " +
-                    "consisting of two minor thirds above the root\n\n" +
-                    "diminished seventh/diminished 7th: when put after a valid chord, will show/" +
-                    "play the chord in diminished 7th. A diminished seventh chord is a four note " +
-                    "chord that comprises a diminished triad plus the interval of a diminished " +
-                    "seventh above the root\n\n" +
-                    "half diminished: when put after a valid chord, will show/play the chord in " +
-                    "half diminished. the half-diminished seventh chord also known as a " +
-                    "half-diminished chord or a minor seventh flat five is formed " +
-                    "by a root note, a minor third, a diminished fifth, and a minor " +
-                    "seventh return the corresponding notes that make up the given chord";
-        } else if (keyword.equals("interval enharmonic")) {
-            result = "When followed by a valid interval name, it returns any enharmonically equivalent intervals";
-        } else if (keyword.equals("scale signature") || keyword.equals("scale sig")) {
-            result = "When followed by a scale, shows that scale's key signature";
-        } else if (keyword.equals("scale signature num") || keyword.equals("scale sig num")) {
-            result = "When followed by a scale, shows the number of flats and sharps in " +
-                    "that scale's key signature.";
-        } else if (keyword.equals("scale signature with") || keyword.equals("scale sig with")) {
-            result = "When followed by either a number of sharps or flats (i.e. 2#, 7b) or " +
-                    "a specific list of notes (i.e. F# C#), will return the scales whose " +
-                    "key signatures contain that information";
-        } else if (keyword.equals("find chord") || keyword.equals("find chords all")) {
-            result = "Finds a chord which matches the pattern of 3 or 4 provided notes.\n" +
-                    "Can use 'all' extender to match inversion enharmonic chords.\n" +
-                    " \texample: 'find chord F A C' returns F MAJOR.\n" +
-                    "\t and 'find chord all C F A' also returns F MAJOR";
-        } else if (keyword.equals("")) {
-            result = "" +
-                    "\nadd musical term:\nWhen followed by a musical term in the format of 'name; origin; " +
-                    "category; definition', will add the musical term to the Musical Term " +
-                    "dictionary. \n\n" +
-                    "all enharmonics:\nReturns all of the enharmonics of a given note. \n\n" +
-                    "category of:\nWhen followed by a musical term, it returns the category of that term. \n\n" +
-                    "chord:\nWhen followed by a valid chord and a valid chord type (i.e. major, minor), will" +
-                    " return the corresponding notes that make up the given chord\n\n" +
-                    "crotchet duration:\nReturns the duration of a crotchet in milliseconds at the current tempo.\n\n" +
-                    "enharmonic higher:\nReturns the enharmonic that corresponds to the same note, a " +
-                    "'letter' above the current note.\n\n" +
-                    "enharmonic lower:\nReturns the enharmonic that corresponds to the same note, a " +
-                    "'letter' below the current note. \n\n" +
-                    "force set tempo:\nWhen followed by a tempo, it will set the given tempo, even if it" +
-                    " is outside of the recommended range of 20-300BPM. \n\n" +
-                    "interval:\nWhen followed by an interval name, it returns the number of semitones in that interval." +
-                    " When followed by an interval name and a note, it returns the note that is the specified interval above the given note." +
-                    " e.g interval perfect fifth C4 will return G4. \n\n" +
-                    "interval enharmonic:\nWhen followed by a valid interval name, it returns any enharmonically equivalent intervals. \n\n" +
-                    "meaning of:\nWhen followed by a musical term, it returns the definition of that" +
-                    " term. \n\n" +
-                    "midi:\nWhen followed by a valid note, it will return its corresponding midi number" +
-                    " within the range of 0-127. If an octave not specified to the note, it will default " +
-                    "to octave 4. e.g. 'midi' C4 will return 60. \n\n" +
-                    "midi scale:\nWhen followed by a valid scale (made up of a note and a scale type) " +
-                    " the corresponding scale midi notes will be returned. \n\n" +
-                    "note:\nWhen followed by a valid midi number (within the range of 0-127), it will" +
-                    " return the corresponding note name and its octave e.g. 'note 60' will return C4. \n\n" +
-                    "origin of:\nWhen followed by a musical term, it returns the origin of that term. \n\n" +
-                    "play chord:\n When followed by a valid chord and a valid chord type (i.e. major, minor), will" +
-                    " play the given chord\n\n" +
-                    "play interval:\nWhen followed by an interval name and a note, it will play the given " +
-                    "note and then the note that is the specified interval above the given note.\n\n" +
-                    "play note:\nWhen followed by a valid midi number or valid note, the corresponding" +
-                    " note will be played. \n\n" +
-                    "play scale:\nWhen followed by a valid scale (made up of a note and a scale type) " +
-                    "the corresponding scale will be played. Options for the number of octaves and direction " +
-                    "can be given. E.g play scale c major [number of octaves] [up|updown|down] \n\n" +
-                    "scale:\nWhen followed by a valid scale (made up of a note and a scale type) " +
-                    " the corresponding scale notes will be returned. \n\n" +
-                    "scale signature:\nWhen followed by a scale, shows that scale's key signature. \n\n" +
-                    "scale signature num:\nWhen followed by a scale, shows the number of " +
-                    "flats and sharps in that scale's key signature.\n\n" +
-                    "scale signature with:\nWhen followed by either a number of sharps or flats " +
-                    "(i.e. 2#, 7b) or a specific list of notes (i.e. F#, C#), will return the " +
-                    "scales whose key signatures contain that information\n\n" +
-                    "semitone up:\nWhen followed by a valid note or midi number, it will return" +
-                    " the note that is a semitone higher.  \n\n" +
-                    "semitone down:\nWhen followed by a valid note or midi number, it will return" +
-                    " the note that is a semitone lower. \n\n" +
-                    "set tempo:\nWhen followed by a valid tempo (20-300BPM) will change the tempo to that value. \n\n" +
-                    "tempo:\nReturns the current tempo. When the program is launched, it will have" +
-                    " a default value of 120BPM. \n\n" +
-                    "rhythm: Returns the current beat timing division. Default timing of 1/2 (half crotchet).\n\n" +
-                    "set rhythm:\nSets the rhythm timing to the specified beat divisions. " +
-                    "See 'help set rhythm' for more info.\n\n" +
-                    "version:\nReturns the current version number of the application. \n\n" +
-                    "find chord:\nFinds a chord that matches the provided notes. See 'help find chord' for more.\n\n";
-
-
+        try {
+            Command result = CommandData.keywordToCommand.get(keyword);
+            if (result != null) {
+                env.getTranscriptManager().setResult(generateHelpResult(result));
+            } else {
+                env.getTranscriptManager().setResult("Showing DSL Reference");
+                env.getRootController().getTranscriptController().showDslRef();
+            }
+        } catch (Exception e) {
+            env.getTranscriptManager().setResult("Showing DSL Reference");
+            env.getRootController().getTranscriptController().showDslRef();
         }
 
-        env.getTranscriptManager().setResult(result);
 
     }
 
+    @Override
+    public String getHelp() {
+        return "When typed alone, opens the DSL reference menu. When followed by a command name, " +
+                "gives more information about that command.";
+    }
+
+    @Override
+    public String getCommandText() {
+        return "help";
+    }
+
+    @Override
+    public List<String> getOptions() {
+        List<String> options = new ArrayList<>();
+        options.add("command");
+        return options;
+    }
+
+    @Override
+    public String getExample() {
+        return "help play scale";
+    }
 
 }

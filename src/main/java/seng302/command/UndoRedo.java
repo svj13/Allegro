@@ -20,4 +20,27 @@ public class UndoRedo implements Command {
             env.getEditManager().redoCommand();
         }
     }
+
+    @Override
+    public String getHelp() {
+        if (action == 0) {
+            return "Undoes the most recent reversible command.";
+        } else {
+            return "Re-executes the most recently undone command.";
+        }
+    }
+
+    @Override
+    public String getCommandText() {
+        if (action == 0) {
+            return "undo";
+        } else {
+            return "redo";
+        }
+    }
+
+    @Override
+    public String getExample() {
+        return getCommandText();
+    }
 }

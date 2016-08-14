@@ -15,7 +15,8 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import seng302.data.CommandType;
+import seng302.command.Command;
+import seng302.data.CommandData;
 
 /**
  * This class contains the logic for a popover containing help info of all commands.
@@ -113,8 +114,8 @@ public class DslReferenceController {
         VBox allCommands = new VBox();
         popoverContent.getChildren().add(allCommands);
 
-        for (Map.Entry<String, CommandType> entry : CommandType.allCommands.entrySet()) {
-            prepareCommand(entry, allCommands);
+        for (Command command : CommandData.allCommands) {
+            prepareCommand(command, allCommands);
         }
     }
 
@@ -137,8 +138,8 @@ public class DslReferenceController {
             categories.getChildren().add(category);
             category.setOnMouseClicked(event -> {
                 categoryContent.getChildren().clear();
-                for (Map.Entry<String, CommandType> entry : CommandType.getCommands(categoryName).entrySet()) {
-                    prepareCommand(entry, categoryContent);
+                for (Command command : CommandData.getCommands(categoryName)) {
+                    prepareCommand(command, categoryContent);
                 }
             });
 
@@ -154,12 +155,12 @@ public class DslReferenceController {
      * @param entry     A single command
      * @param container Where the command text box will display
      */
-    private void prepareCommand(Map.Entry<String, CommandType> entry, VBox container) {
-        final CommandType data = entry.getValue();
+    private void prepareCommand(Command entry, VBox container) {
+        final Command data = entry;
         HBox commandInfo = new HBox();
         VBox infoAndExample = new VBox();
 
-        final Text content = new Text("-" + data.getDisplayText());
+        final Text content = new Text("-" + getDisplayText(entry));
         commandInfo.setCursor(Cursor.HAND);
         commandInfo.setOnMouseClicked(event -> {
             //copy to input field
@@ -176,9 +177,9 @@ public class DslReferenceController {
      *
      * @param command The command to display information about
      */
-    public void setCommandText(CommandType command) {
+    public void setCommandText(Command command) {
         parentController.getTxtCommand().clear();
-        parentController.getTxtCommand().setText(command.getDisplayText());
+        parentController.getTxtCommand().setText(getDisplayText(command));
     }
 
     /**
@@ -186,5 +187,50 @@ public class DslReferenceController {
      */
     public PopOver getPopover() {
         return dslRef;
+    }
+
+    /**
+     * Turns all the parameters of a command into a pretty string
+     *
+     * @return A string containing all parameters of a command, surrounded in ()
+     */
+    public String getParamText(Command command) {
+        String parameterString = "";
+        for (String parameter : command.getParams()) {
+            if (!parameter.equals("")) {
+                parameterString += "(" + parameter + ") ";
+            }
+        }
+        return parameterString;
+    }
+
+    /**
+     * Turns all the options of a command into a pretty string
+     *
+     * @return A string containing all options of a command, surrounded in []
+     */
+    public String getOptionText(Command command) {
+        String optionsString = "";
+        for (String option : command.getOptions()) {
+            if (!option.equals("")) {
+                optionsString += "[" + option + "] ";
+            }
+        }
+        return optionsString;
+    }
+
+
+    /**
+     * Displays all information of a command in a pretty string
+     *
+     * @return A string of the form command name (parameters) [options]
+     */
+    public String getDisplayText(Command command) {
+        String displayText = "";
+        displayText += command.getCommandText() + " " + getParamText(command);
+        if (!getOptionText(command).equals("")) {
+            displayText += getOptionText(command);
+        }
+        return displayText;
     }
 }
