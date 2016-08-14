@@ -188,13 +188,13 @@ public class Scale implements Command {
                     } else if (type.equals("blues")) {
                         if (direction.equals("updown")) {
                             env.getPlayer().playBluesNotes(scale);
-                            env.getTranscriptManager().setResult(scaleToStringUpDown(startNote, scale));
+                            env.getTranscriptManager().setResult(scaleToStringUpDown(startNote, scale, type));
                         } else if (direction.equals("down")) {
                             env.getPlayer().playBluesNotes(scale);
-                            env.getTranscriptManager().setResult(scaleToString(startNote, scale, false));
+                            env.getTranscriptManager().setResult(scaleToString(startNote, scale, false, type));
                         } else if (direction.equals("up")) {
                             env.getPlayer().playBluesNotes(scale);
-                            env.getTranscriptManager().setResult(scaleToString(startNote, scale, true));
+                            env.getTranscriptManager().setResult(scaleToString(startNote, scale, true, type));
                         } else {
                             env.error("'" + direction + "' is not a valid scale direction. Try 'up', 'updown' or 'down'.");
                         }
