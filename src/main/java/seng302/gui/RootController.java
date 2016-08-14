@@ -93,6 +93,9 @@ public class RootController implements Initializable {
     private ChordSpellingTutorController ChordSpellingTabController;
 
     @FXML
+    private UserSettingsController UserSettingsTabController;
+
+    @FXML
     private KeySignaturesTutorController KeySignaturesTabController;
 
     @FXML
@@ -185,7 +188,7 @@ public class RootController implements Initializable {
         final Circle clip = new Circle(imageDP.getFitWidth()-25.0, imageDP.getFitHeight()-25.0, 50.0);
 
 
-        imageDP.setImage(new Image("images/moffatProfile.jpg"));
+        imageDP.setImage(new Image("images/testDP.jpg"));
 
 
         clip.setRadius(25.0);
@@ -1098,8 +1101,36 @@ public class RootController implements Initializable {
         return transcriptController;
     }
 
+
     @FXML
     private void launchUserSettings() {
+        boolean alreadyExists = false;
+        for (Tab tab : TabPane.getTabs()) {
+            if (tab.getId().equals("userSettings")) {
+                TabPane.getSelectionModel().select(tab);
+                alreadyExists = true;
+            }
 
+        }
+
+        if (!alreadyExists) {
+
+            Tab settingsTab = new Tab("User Settings");
+            settingsTab.setId("userSettings");
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/Views/UserSettings.fxml"));
+
+            try {
+                settingsTab.setContent((Node) loader.load());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            TabPane.getTabs().add(settingsTab);
+            TabPane.getSelectionModel().select(settingsTab);
+            UserSettingsTabController = loader.getController();
+            UserSettingsTabController.create(env);
+        }
     }
 }
