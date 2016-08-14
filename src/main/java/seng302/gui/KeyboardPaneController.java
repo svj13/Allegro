@@ -2,6 +2,7 @@ package seng302.gui;
 
 import javafx.collections.FXCollections;
 import javafx.scene.control.*;
+import javafx.scene.shape.Circle;
 import org.controlsfx.control.PopOver;
 
 import java.util.ArrayList;
@@ -29,6 +30,8 @@ import seng302.Environment;
 import seng302.data.Note;
 import seng302.utility.NoteRangeSlider;
 import seng302.utility.musicNotation.OctaveUtil;
+import javafx.scene.paint.Color;
+
 
 import static seng302.utility.musicNotation.Checker.isValidNormalNote;
 
@@ -336,7 +339,8 @@ public class KeyboardPaneController {
 
 
 
-
+        //OK button for display scale 1. Contains all of the error handling and toggles to Hide when clicked.
+        //OK displays the given scale on the keyboard. Hide removes them but doesnt clear the input fields
         Button okScale1 = new Button("OK");
         okScale1.setOnAction(event-> {
             if (okScale1.getText().equals("OK")) {
@@ -370,7 +374,8 @@ public class KeyboardPaneController {
                 });
 
 
-
+        //OK button for display scale 2. Contains all of the error handling and toggles to Hide when clicked.
+        //OK displays the given scale on the keyboard. Hide removes them but doesnt clear the input fields
         Button okScale2 = new Button ("OK");
         okScale2.setOnAction(event-> {
             if (okScale2.getText().equals("OK")) {
@@ -428,7 +433,18 @@ public class KeyboardPaneController {
         });
 
 
+        Circle scale1Key = new Circle();
+        scale1Key.setCenterX(100.0f);
+        scale1Key.setCenterY(100.0f);
+        scale1Key.setRadius(5.0f);
+        scale1Key.setFill(Color.BLUE);
 
+
+        Circle scale2Key = new Circle();
+        scale2Key.setCenterX(100.0f);
+        scale2Key.setCenterY(200.0f);
+        scale2Key.setRadius(5.0f);
+        scale2Key.setFill(Color.GREEN);
 
 
 
@@ -437,11 +453,13 @@ public class KeyboardPaneController {
         actionButtonBox.getChildren().add(cancelButton);
 
         // add note input field, type drop down and clear button to scale 1 HBox
+        scale1.getChildren().add(scale1Key);
         scale1.getChildren().add(scale1NoteInput);
         scale1.getChildren().add(scaleOneTypeOptions);
         scale1.getChildren().add(okScale1);
 
         // add note input field, type drop down and clear button to scale 1 HBox
+        scale2.getChildren().add(scale2Key);
         scale2.getChildren().add(scale2NoteInput);
         scale2.getChildren().add(scaleTwoTypeOptions);
         scale2.getChildren().add(okScale2);
