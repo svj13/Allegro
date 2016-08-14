@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 import java.util.Set;
 
 import seng302.utility.musicNotation.Checker;
@@ -289,6 +290,10 @@ public class Note {
                 semitones = Arrays.asList(2, 3, 5, 7, 9, 11, 12);
             } else if (type.equalsIgnoreCase("blues")) {
                 semitones = Arrays.asList(3, 5, 6, 7, 10, 12);
+            } else if (type.equalsIgnoreCase("major pentatonic")) {
+                semitones = Arrays.asList(2, 4, 7, 9, 12);
+            } else if (type.equalsIgnoreCase("minor pentatonic")) {
+                semitones = Arrays.asList(3, 5, 7, 10, 12);
             } else {
                 throw new IllegalArgumentException("Invalid scale type: '" + type + "'.");
             }
@@ -307,6 +312,10 @@ public class Note {
                 semitones = Arrays.asList(2, 4, 5, 7, 9, 10, 12);
             } else if (type.equalsIgnoreCase("blues")) {
                 semitones = Arrays.asList(2, 5, 6, 7, 9, 12);
+            } else if (type.equalsIgnoreCase("major pentatonic")) {
+                semitones = Arrays.asList(3, 5, 8, 10, 12);
+            } else if (type.equalsIgnoreCase("minor pentatonic")) {
+                semitones = Arrays.asList(2, 5, 7, 9, 12);
             } else {
                 throw new IllegalArgumentException("Invalid scale type: '" + type + "'.");
             }
@@ -381,6 +390,16 @@ public class Note {
      */
     public Integer getMidi() {
         return this.midi;
+    }
+
+    /**
+     * Generates a note in the octave of middle C
+     *
+     * @return the random note
+     */
+    public static Note getRandomNote() {
+        Random rand = new Random();
+        return Note.lookup(Integer.toString(rand.nextInt(11) + 60));
     }
 
     @Override
