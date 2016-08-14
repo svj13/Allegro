@@ -34,7 +34,10 @@ import java.util.Optional;
 import javafx.scene.control.TextInputDialog;
 import seng302.Environment;
 import seng302.data.Term;
+import seng302.utility.InstrumentUtility;
 import seng302.utility.OutputTuple;
+
+import javax.sound.midi.Instrument;
 
 public class Project {
 
@@ -135,6 +138,8 @@ public class Project {
 
         projectSettings.put("rhythm", gson.toJson(env.getPlayer().getRhythmHandler().getRhythmTimings()));
 
+        projectSettings.put("instrument", gson.toJson(env.getPlayer().getInstrument().getName()));
+
     }
 
 
@@ -188,6 +193,24 @@ public class Project {
             rhythms = new int[]{12};
         }
         env.getPlayer().getRhythmHandler().setRhythmTimings(rhythms);
+
+
+        //Instrument
+        //Uses the default instrument to start with
+        Instrument instrument;
+        try {
+            String instrumentName = gson.fromJson((String) projectSettings.get("instrument"), String.class);
+            instrument = InstrumentUtility.getInstrumentByName(instrumentName, env);
+            if (instrument == null) {
+                // Uses the default instrument if there's a problem
+                instrument = InstrumentUtility.getDefaultInstrument(env);
+            }
+        } catch (Exception e) {
+            // Uses the default instrument if there's a problem
+            System.err.println("Could not load instrument - setting to default.");
+            instrument = InstrumentUtility.getDefaultInstrument(env);
+        }
+        env.getPlayer().setInstrument(instrument);
 
 
         env.getTranscriptManager().unsavedChanges = false;
@@ -287,6 +310,14 @@ public class Project {
                 env.getRootController().setWindowTitle(saveName + "*");
                 saved = false;
             }
+        } else if (propName.equals("instrument")) {
+
+
+            if (projectSettings.containsKey("instrument") && !(projectSettings.get("instrument").equals(env.getPlayer().getInstrument().getName()))) { //If not equal
+
+                env.getRootController().setWindowTitle(saveName + "*");
+                saved = false;
+            }
         }
 
 
@@ -324,13 +355,18 @@ public class Project {
     public void loadProject(String pName) {
         try {
 
+
             env.resetEnvironment();
             String path = projectDirectory.toString();
+            System.out.println("project dir: " + path.toString() + "... " + pName);
             try {
+
                 projectSettings = (JSONObject) parser.parse(new FileReader(path + "/" + pName + ".json"));
+
 
             } catch (FileNotFoundException f) {
                 //Project doesn't exist? Create it.
+                System.err.println("Tried to load project but the path didn't exist");
 
                 if (!Paths.get(path).toFile().isDirectory()) {
                     //If the Project directory folder doesn't exist.

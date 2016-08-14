@@ -29,4 +29,18 @@ public class Version implements Command {
     public void execute(Environment env) {
         env.getTranscriptManager().setResult("Current Version: " + getCurrentVersion());
     }
+
+    public String getHelp() {
+        return "Returns the current version number of the application.";
+    }
+
+    @Override
+    public String getCommandText() {
+        return "version";
+    }
+
+    @Override
+    public String getExample() {
+        return getCommandText();
+    }
 }

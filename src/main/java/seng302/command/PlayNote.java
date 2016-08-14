@@ -1,5 +1,8 @@
 package seng302.command;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import seng302.Environment;
 import seng302.data.Note;
 import seng302.utility.musicNotation.OctaveUtil;
@@ -71,6 +74,27 @@ public class PlayNote implements Command {
             env.error("\'" + note + "\'" + " is not a valid note.");
         }
 
+    }
+
+    public String getHelp() {
+        return "When followed by a valid midi number or valid note, " +
+                "the corresponding note will be played.";
+    }
+
+    public List<String> getParams() {
+        List<String> params = new ArrayList<>();
+        params.add("note|midi");
+        return params;
+    }
+
+    @Override
+    public String getCommandText() {
+        return "play";
+    }
+
+    @Override
+    public String getExample() {
+        return "play C5";
     }
 }
 

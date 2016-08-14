@@ -138,7 +138,7 @@
            </ImageView>
             <MenuButton alignment="CENTER" contentDisplay="CENTER" ellipsisString="" mnemonicParsing="false" textAlignment="CENTER" textOverrun="LEADING_WORD_ELLIPSIS">
               <items>
-                <MenuItem mnemonicParsing="false" text="Logout" />
+                  <MenuItem mnemonicParsing="false" text="Logout" onAction="#logOutUser"/>
                 <MenuItem mnemonicParsing="false" text="User Settings" />
               </items>
             </MenuButton>

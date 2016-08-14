@@ -2,6 +2,7 @@ package seng302.command;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import seng302.Environment;
 
@@ -92,6 +93,58 @@ public class Tempo implements Command {
             env.getTranscriptManager().setResult(env.getPlayer().getTempo() + " BPM");
         }
 
+    }
+
+    public String getHelp() {
+        if (isSetter) {
+            if (force) {
+                return "When followed by a tempo, it will set the given tempo, " +
+                        "even if it is outside of the recommended range of 20-300BPM.";
+            } else {
+                return "When followed by a valid tempo (20-300BPM), sets the tempo to that value.";
+            }
+        } else {
+            return "Returns the current tempo. The default value is 120BPM.";
+        }
+    }
+
+    public List<String> getParams() {
+        List<String> params = new ArrayList<>();
+        if (isSetter) {
+            if (force) {
+                params.add("1 or higher");
+            } else {
+                params.add("20-300");
+            }
+        }
+
+        return params;
+    }
+
+    @Override
+    public String getCommandText() {
+        if (isSetter) {
+            if (force) {
+                return "force set tempo";
+            } else {
+                return "set tempo";
+            }
+        } else {
+            return "tempo";
+        }
+    }
+
+    @Override
+    public String getExample() {
+        if (isSetter) {
+            if (force) {
+                return "force set tempo 3000";
+            } else {
+                return "set tempo 150";
+            }
+        } else {
+            return "tempo";
+        }
     }
 }
 

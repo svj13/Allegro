@@ -10,8 +10,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 import seng302.command.Command;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 
 /**
@@ -254,6 +255,12 @@ public class DslExecutorTest {
     }
 
     @Test
+    public void parsesPlayMelodicScale() {
+        Command command = executor.parseCommandString("play scale c melodic minor updown 3");
+        assertThat(command, instanceOf(seng302.command.Scale.class));
+    }
+
+    @Test
     public void logsErrorOnPlayBadScale() {
         Command command = executor.parseCommandString("play scale c major cake");
         verify(env).error("Invalid input for this command. Please type 'help' and the command you want to use for more information.");
@@ -268,6 +275,18 @@ public class DslExecutorTest {
     @Test
     public void parsesMinorScaleCommand() {
         Command command = executor.parseCommandString("scale c minor");
+        assertThat(command, instanceOf(seng302.command.Scale.class));
+    }
+
+    @Test
+    public void parsesMelodicMinorScaleCommand() {
+        Command command = executor.parseCommandString("scale c melodic minor");
+        assertThat(command, instanceOf(seng302.command.Scale.class));
+    }
+
+    @Test
+    public void parsesMelodicMinorShortcut() {
+        Command command = executor.parseCommandString("scale c mel minor");
         assertThat(command, instanceOf(seng302.command.Scale.class));
     }
 
@@ -300,6 +319,7 @@ public class DslExecutorTest {
         Command command = executor.parseCommandString("scale C blah");
         verify(env).error("'blah' is not a valid scale type.");
     }
+
 
     @Test
     public void logsErrorOnInvalidScaleExtraCommand() {
@@ -577,6 +597,26 @@ public class DslExecutorTest {
     public void testIntervalPerfectOctave() {
         Command command = executor.parseCommandString("interval perfect octave");
         assertThat(command, instanceOf(seng302.command.IntervalCommand.class));
+    }
+
+    // DIATONIC TESTS
+
+    @Test
+    public void testQualityOfCommand() {
+        Command command = executor.parseCommandString("quality of II");
+        assertThat(command, instanceOf(seng302.command.Diatonic.class));
+    }
+
+    @Test
+    public void testChordFunctionCommand() {
+        Command command = executor.parseCommandString("chord function D major IV");
+        assertThat(command, instanceOf(seng302.command.Diatonic.class));
+    }
+
+    @Test
+    public void testFunctionOfCommand() {
+        Command command = executor.parseCommandString("function of c major d minor 7th");
+        assertThat(command, instanceOf(seng302.command.Diatonic.class));
     }
 
 
