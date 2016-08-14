@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import seng302.App;
 import seng302.Environment;
 import seng302.data.Term;
 import seng302.utility.FileHandler;
@@ -91,6 +92,7 @@ public class User {
         loadBasicProperties();
         this.profilePic = new Image(userDirectory.toUri() + "/profilePicture");
 
+
     }
 
     public void loadFullProperties(){
@@ -120,7 +122,9 @@ public class User {
     }
 
 
-    public ProjectHandler getProjectHandler(){return projectHandler;}
+    public ProjectHandler getProjectHandler(){
+        System.out.println("project handler: " + projectHandler.toString());
+        return projectHandler;}
 
     private void loadBasicProperties() {
         /**

@@ -86,7 +86,8 @@ public class Tempo implements Command {
 
             env.getTranscriptManager().setResult(result);
             //Update project saved state
-            env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().checkChanges("tempo");
+            if(env.getUserHandler().getCurrentUser() != null)
+                env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().checkChanges("tempo");
 
         } else {
             //is getting the tempo

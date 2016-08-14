@@ -115,11 +115,20 @@ public class UserLoginController {
 
     }
 
+    private Boolean validCredentials(String username, String password){
+        if(username.length() > 0 && password.length() > 0) //Must be atleast one character.
+            return true;
+
+        return false;
+
+
+    }
+
     @FXML
     protected void register(){
 
 
-        if (!(env.getUserHandler().getUserNames().contains(usernameInput.getText()))){
+        if (!(env.getUserHandler().getUserNames().contains(usernameInput.getText())) && validCredentials(usernameInput.getText(), passwordInput.getText())){
             env.getUserHandler().createUser(usernameInput.getText(), passwordInput.getText());
             logIn();
         }
