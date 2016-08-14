@@ -1,7 +1,9 @@
 package seng302.command;
 
 import seng302.Environment;
+import seng302.data.ModeHelper;
 import seng302.data.Note;
+import seng302.utility.musicNotation.OctaveUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +14,9 @@ import java.util.List;
  */
 public class MajorModes implements Command {
 
-    private String tonic;
+    //private String tonic;
+    private Note tonic;
+    private boolean octaveSpecified;
     private String mode;
     private Integer degree;
     private String startNote;
@@ -29,10 +33,10 @@ public class MajorModes implements Command {
     // This one is used for mode of command
     public MajorModes(String tonic, String degree ){
         this.commandType = "modeOf";
-        this.tonic = tonic;
+        octaveSpecified = OctaveUtil.octaveSpecifierFlag(tonic);
+        this.tonic = Note.lookup(OctaveUtil.addDefaultOctave(tonic));
         this.degree = Integer.valueOf(degree);
 
-        generateModes();
     }
 
     // Used for finding parent of
@@ -45,28 +49,33 @@ public class MajorModes implements Command {
 
     }
 
-    private void generateModes(){
-        modes.put(1, "Ionian");
-        modes.put(2, "Dorian");
-        modes.put(3, "Phrygian");
-        modes.put(4, "Lydian");
-        modes.put(5, "Mixolydian");
-        modes.put(6, "Aeolian");
-        modes.put(7, "Locrian");
-    }
 
+    public void getCorrespondingScale(Note key, Integer degree, Environment env) {
+        System.out.println(degree);
+        ArrayList<Note> majorScale = key.getScale("major", true);
+        Note parentNote = majorScale.get(degree - 1);
+        String mode = ModeHelper.getModes().get(degree);
 
+        String displayNote;
 
+        if (octaveSpecified) {
+            displayNote = parentNote.getNote();
+        } else {
+            displayNote = OctaveUtil.removeOctaveSpecifier(parentNote.getNote());
+        }
 
-    public void getCorresponingScale(Note key, Integer degree){
-        //next note = get next note in scale * degree
-        //String outputString = note + modes.get(degree);
+        env.getTranscriptManager().setResult(displayNote + " " + mode);
+
 
 
 
     }
 
     public void execute(Environment env){
+        if (commandType.equals("modeOf")) {
+            getCorrespondingScale(tonic, degree, env);
+
+        }
 
     }
 
