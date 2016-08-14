@@ -61,7 +61,7 @@ public class UserHandler {
 
     public ArrayList<User> getRecentUsers(){
         ArrayList<User> recentUsersTemp = new ArrayList<User>();
-        System.out.println(userList);
+
 
         for (Object user: recentUsers) {
             User tempUser = new User(env, user.toString());
@@ -79,7 +79,7 @@ public class UserHandler {
         try {
             UsersInfo = (JSONObject) parser.parse(new FileReader(userDirectory + "/user_list.json"));
             this.userList = (JSONArray) UsersInfo.get("users");
-            System.out.println(userList);
+
             this.recentUsers = (JSONArray) UsersInfo.get("recentUsers");
 
         } catch (FileNotFoundException e) {

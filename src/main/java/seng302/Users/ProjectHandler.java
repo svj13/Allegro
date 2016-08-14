@@ -65,8 +65,7 @@ public class ProjectHandler {
 
 
     public void loadDefaultProject(){
-        //Handle Nulls
-        System.out.println("loading default project: "+ lastOpened);
+
         if(lastOpened == null){
             setCurrentProject("default");
         }

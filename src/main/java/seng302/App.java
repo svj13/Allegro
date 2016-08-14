@@ -32,6 +32,7 @@ public class App extends Application {
 
 
             Stage stage = new Stage();
+            /*
             stage.setTitle("Allegro");
             stage.setScene(new Scene(new Group()));
             stage.show();
@@ -49,7 +50,7 @@ public class App extends Application {
             userLoginController.setEnv(env);
             userLoginController.displayRecentUsers();
 
-
+            */
 
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/Views/newGui.fxml"));
@@ -95,6 +96,8 @@ public class App extends Application {
                 });
 
                 controller.setStage(primaryStage);
+
+                controller.showLoginWindow(true);
                 //primaryStage.show();
                 //controller.setPrimaryStage(primaryStage);
             } catch (NullPointerException e) {
