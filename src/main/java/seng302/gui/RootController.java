@@ -1,6 +1,8 @@
 package seng302.gui;
 
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import org.json.simple.JSONArray;
 
 import java.io.File;
@@ -10,14 +12,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Menu;
@@ -33,6 +34,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import seng302.Environment;
+import seng302.command.Command;
 import seng302.data.CommandType;
 import seng302.managers.TranscriptManager;
 import seng302.utility.FileHandler;
@@ -205,10 +207,10 @@ public class RootController implements Initializable {
         keyboardPaneController.stopShowingNotesOnKeyboard();
     }
 
-    private void setCommandText(CommandType command) {
+    private void setCommandText(Command command) {
         transcriptController.txtCommand.clear();
-        String[] parameters = command.getParams();
-        String[] options = command.getOptions();
+        List<String> parameters = command.getParams();
+        List<String> options = command.getOptions();
         String parameterString = "";
         String optionsString = "";
         for (String parameter : parameters) {
@@ -217,7 +219,7 @@ public class RootController implements Initializable {
         for (String option : options) {
             optionsString += "[" + option + "] ";
         }
-        transcriptController.txtCommand.setText(command.getName() +
+        transcriptController.txtCommand.setText(command.getCommandText() +
                 " Parameters: " + parameterString);
         if (!optionsString.equals("[]")) {
             transcriptController.txtCommand.appendText("Options: " + optionsString);

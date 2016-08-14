@@ -331,4 +331,78 @@ public class KeySignatureCommand implements Command {
         }
 
     }
+
+    public String getHelp() {
+        switch (outputType) {
+            case "getNotes":
+                return "When followed by either a number of sharps or flats (i.e. 2#, 7b)" +
+                        " or a specific list of notes (i.e. F# C#), will return the scales" +
+                        " whose key signatures contain that information";
+            case "get":
+                return "When followed by either a number of sharps or flats (i.e. 2#, 7b)" +
+                        " or a specific list of notes (i.e. F# C#), will return the scales" +
+                        " whose key signatures contain that information";
+
+            case "number":
+                return "When followed by a scale, shows the number of flats and sharps in that " +
+                        "scale's key signature.";
+
+            case "notes":
+                return "When followed by a note and scale type, shows that scale's key signature";
+        }
+        return null;
+    }
+
+    public List<String> getParams() {
+        List<String> params = new ArrayList<>();
+        switch (outputType) {
+            case "getNotes":
+                params.add("number of sharps and flats|list of notes");
+                break;
+            case "get":
+                params.add("number#|numberb");
+                break;
+            case "number":
+                params.add("note");
+                params.add("scale type");
+                break;
+            case "notes":
+                params.add("note");
+                params.add("scale type");
+                break;
+
+        }
+
+        return params;
+    }
+
+    @Override
+    public String getCommandText() {
+        switch (outputType) {
+            case "getNotes":
+                return "scale signature with";
+            case "get":
+                return "scale signature with";
+            case "number":
+                return "scale signature num";
+            case "notes":
+                return "scale signature";
+        }
+        return null;
+    }
+
+    @Override
+    public String getExample() {
+        switch (outputType) {
+            case "getNotes":
+                return "scale signature with A# B#";
+            case "get":
+                return "scale signature with 2#";
+            case "number":
+                return "scale signature num A major";
+            case "notes":
+                return "scale signature A major";
+        }
+        return null;
+    }
 }

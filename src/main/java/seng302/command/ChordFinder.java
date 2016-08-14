@@ -1,6 +1,7 @@
 package seng302.command;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import seng302.Environment;
 import seng302.data.Note;
@@ -221,6 +222,40 @@ public class ChordFinder implements Command {
 
         env.getTranscriptManager().setResult(result);
 
+    }
+
+    public String getHelp() {
+        if (all) {
+            return "Finds all chords which match the 3 or 4 provided notes, " +
+                    "regardless of the note order. This allows for matching chord inversions.";
+        } else {
+            return "Finds the chord which matches the 3 or 4 provided notes.";
+        }
+    }
+
+    public List<String> getParams() {
+        List<String> params = new ArrayList<>();
+        params.add("note note note");
+        return params;
+
+    }
+
+    @Override
+    public String getCommandText() {
+        if (all) {
+            return "find chord all";
+        } else {
+            return "find chord";
+        }
+    }
+
+    @Override
+    public String getExample() {
+        if (all) {
+            return "find chord all F A C";
+        } else {
+            return "find chord F A C";
+        }
     }
 
 
