@@ -25,14 +25,18 @@
          <children>
             <HBox layoutX="14.0" layoutY="40.0" VBox.vgrow="ALWAYS">
                <children>
-                  <TextField fx:id="firstNameField" editable="false" text="firstName" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="editFirstNameButton" mnemonicParsing="false" text="Edit" HBox.hgrow="ALWAYS" />
+                  <TextField fx:id="firstNameField" disable="true" editable="false"
+                             promptText="First Name" HBox.hgrow="ALWAYS"/>
+                  <Button fx:id="editFirstNameButton" mnemonicParsing="false"
+                          onAction="#editFirstName" text="Edit" HBox.hgrow="ALWAYS"/>
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                <children>
-                  <TextField fx:id="lastNameField" editable="false" text="lsatname" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="editLastNameButton" mnemonicParsing="false" text="Edit" HBox.hgrow="ALWAYS" />
+                  <TextField fx:id="lastNameField" disable="true" editable="false"
+                             promptText="Last Name" HBox.hgrow="ALWAYS"/>
+                  <Button fx:id="editLastNameButton" mnemonicParsing="false"
+                          onAction="#editLastName" text="Edit" HBox.hgrow="ALWAYS"/>
                </children>
             </HBox>
          </children>

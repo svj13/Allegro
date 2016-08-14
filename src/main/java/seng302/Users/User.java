@@ -44,6 +44,10 @@ public class User {
 
     private Path userDirectory;
 
+    private String userFirstName;
+
+    private String userLastName;
+
 
 
 
@@ -166,6 +170,18 @@ public class User {
             userFullName = userName;
         }
 
+        try {
+            userFirstName = (properties.get("firstName")).toString();
+        } catch (NullPointerException e) {
+            userFirstName = "";
+        }
+
+        try {
+            userLastName = (properties.get("lastName")).toString();
+        } catch (NullPointerException e) {
+            userLastName = "";
+        }
+
 
         //Password
         userPassword = (properties.get("password")).toString();
@@ -180,12 +196,14 @@ public class User {
     }
 
 
-    private void updateProperties() {
+    public void updateProperties() {
         Gson gson = new Gson();
         properties.put("userName", userName);
         properties.put("fullName", userFullName);
         properties.put("password", this.userPassword);
         properties.put("themeColor", this.themeColor);
+        properties.put("firstName", this.userFirstName);
+        properties.put("lastName", this.userLastName);
 
 
         String musicalTermsJSON = gson.toJson(env.getMttDataManager().getTerms());
@@ -198,7 +216,7 @@ public class User {
 
     }
 
-    private void saveProperties(){
+    public void saveProperties() {
         try {
             Gson gson = new Gson();
             updateProperties();
@@ -299,9 +317,21 @@ public class User {
         return this.profilePic;
     }
 
+    public void setUserFirstName(String name) {
+        userFirstName = name;
+    }
 
+    public void setUserLastName(String name) {
+        userLastName = name;
+    }
 
+    public String getUserFirstName() {
+        return userFirstName;
+    }
 
+    public String getUserLastName() {
+        return userLastName;
+    }
 
 
 
