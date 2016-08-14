@@ -8,15 +8,14 @@ Feature: major modes
     Examples:
       | tonic | degree  | majorMode     |
       | C     | 2       | D dorian      |
-      | C     | 4       | D lydian      |
+      | C     | 4      | F lydian      |
       | G     | 3       | B phrygian    |
-      | G     | 3       | F# locrain    |
-      | D     | 3       | F# phrygian   |
+      | G     | 7      | F# locrian    |
       | A     | 1       | A ionian      |
       | A     | 6       | F# aeolian    |
       | Bb    | 4       | Eb lydian     |
       | Eb    | 5       | Bb mixolydian |
-      | Gb    | 3       | Eb Aeolian    |
+      | Gb    | 3      | Bb phrygian   |
 
 
 

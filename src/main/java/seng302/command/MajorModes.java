@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class MajorModes implements Command {
 
-    //private String tonic;
+    private String typedTonic;
     private Note tonic;
     private boolean octaveSpecified;
     private String mode;
@@ -34,6 +34,7 @@ public class MajorModes implements Command {
     public MajorModes(String tonic, String degree ){
         this.commandType = "modeOf";
         octaveSpecified = OctaveUtil.octaveSpecifierFlag(tonic);
+        this.typedTonic = tonic;
         this.tonic = Note.lookup(OctaveUtil.addDefaultOctave(tonic));
         this.degree = Integer.valueOf(degree);
 
@@ -52,19 +53,11 @@ public class MajorModes implements Command {
 
     public void getCorrespondingScale(Environment env) {
         if (degree >= 1 && degree <= 7) {
-            ArrayList<Note> majorScale = tonic.getScale("major", true);
-            Note parentNote = majorScale.get(degree - 1);
+            ArrayList<String> majorScale = Scale.scaleNameList(typedTonic, tonic.getScale("major", true), true);
+            String parentNote = majorScale.get(degree - 1);
             String mode = ModeHelper.getModes().get(degree);
 
-            String displayNote;
-
-            if (octaveSpecified) {
-                displayNote = parentNote.getNote();
-            } else {
-                displayNote = OctaveUtil.removeOctaveSpecifier(parentNote.getNote());
-            }
-
-            env.getTranscriptManager().setResult(displayNote + " " + mode);
+            env.getTranscriptManager().setResult(parentNote + " " + mode);
         } else {
             env.error("Invalid degree: " + degree + ". Please use degree in range 1-7.");
         }

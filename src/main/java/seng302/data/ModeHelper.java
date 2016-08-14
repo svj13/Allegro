@@ -13,13 +13,13 @@ public class ModeHelper {
 
     static {
 
-        modes.put(1, "Ionian");
-        modes.put(2, "Dorian");
-        modes.put(3, "Phrygian");
-        modes.put(4, "Lydian");
-        modes.put(5, "Mixolydian");
-        modes.put(6, "Aeolian");
-        modes.put(7, "Locrian");
+        modes.put(1, "ionian");
+        modes.put(2, "dorian");
+        modes.put(3, "phrygian");
+        modes.put(4, "lydian");
+        modes.put(5, "mixolydian");
+        modes.put(6, "aeolian");
+        modes.put(7, "locrian");
 
     }
 
