@@ -138,7 +138,7 @@ public class PitchComparisonTutorController extends TutorController {
 
         disableButtons(row, 1, 5);
 
-        int correctChoice = 0;
+        Integer correctChoice = 0;
 
 
         if (((ToggleButton) row.getChildren().get(1)).isSelected()) { //Higher\
@@ -147,22 +147,22 @@ public class PitchComparisonTutorController extends TutorController {
             String[] question = new String[]{
                     String.format("Is %s higher or lower than %s", note2.getNote(), note1.getNote()),
                     "Higher",
-                    Boolean.toString(getAnswer(note1, note2).equals("Higher"))
+                    correctChoice.toString()
             };
 
-            projectHandler.saveTutorRecords("pitch", record.addQuestionAnswer(question));
-            env.getRootController().setTabTitle("pitchTutor", true);
+            record.addQuestionAnswer(question);
+            env.getRootController().setTabTitle(getTabID(), true);
         } else if (((ToggleButton) row.getChildren().get(2)).isSelected()) { //Same
             row.getChildren().get(2).setStyle("-fx-text-fill: white;-fx-background-color: black");
             if (note1 == note2) correctChoice = 1;
             String[] question = new String[]{
                     String.format("Is %s higher or lower than %s", note2.getNote(), note1.getNote()),
                     "Same",
-                    Boolean.toString(getAnswer(note1, note2).equals("Same"))
+                    correctChoice.toString()
             };
 
-            projectHandler.saveTutorRecords("pitch", record.addQuestionAnswer(question));
-            env.getRootController().setTabTitle("pitchTutor", true);
+            record.addQuestionAnswer(question);
+            env.getRootController().setTabTitle(getTabID(), true);
         } else if (((ToggleButton) row.getChildren().get(3)).isSelected()) { //Lower
             row.getChildren().get(3).setStyle("-fx-text-fill: white;-fx-background-color: black");
             if (noteComparison(false, note1, note2)) {
@@ -171,22 +171,22 @@ public class PitchComparisonTutorController extends TutorController {
             String[] question = new String[]{
                     String.format("Is %s higher or lower than %s", note2.getNote(), note1.getNote()),
                     "Lower",
-                    Boolean.toString(getAnswer(note1, note2).equals("Lower"))
+                    correctChoice.toString()
             };
-            projectHandler.saveTutorRecords("pitch", record.addQuestionAnswer(question));
-            env.getRootController().setTabTitle("pitchTutor", true);
+            record.addQuestionAnswer(question);
+            env.getRootController().setTabTitle(getTabID(), true);
         } else if (((ToggleButton) row.getChildren().get(4)).isSelected()) { //Skip
             row.getChildren().get(4).setStyle("-fx-text-fill: white;-fx-background-color: black");
-            //row.getChildren().get(4).setStyle("-fx-border-color: black; -fx-border-radius: 2px; -fx-border-width: 2px;");
             correctChoice = 2;
             manager.questions -= 1;
 
             String[] question = new String[]{
                     String.format("Is %s higher or lower than %s", note2.getNote(), note1.getNote()),
-                    getAnswer(note1, note2)
+                    getAnswer(note1, note2),
+                    correctChoice.toString()
             };
-            projectHandler.saveTutorRecords("pitch", record.addSkippedQuestion(question));
-            env.getRootController().setTabTitle("pitchTutor", true);
+            record.addQuestionAnswer(question);
+            env.getRootController().setTabTitle(getTabID(), true);
         }
 
         if (correctChoice == 1) {
@@ -322,70 +322,5 @@ public class PitchComparisonTutorController extends TutorController {
         rangeSlider.setHighValue(72);
     }
 
-
-    /**
-     * This function is run once a tutoring session has been completed.
-     */
-    public void finished() {
-
-        env.getPlayer().stop();
-        userScore = getScore(manager.correct, manager.answered);
-        outputText = String.format("You have finished the tutor.\n" +
-                        "You answered %d questions, and skipped %d questions.\n" +
-                        "You answered %d questions correctly, %d questions incorrectly.\n" +
-                        "This gives a score of %.2f percent.",
-                manager.questions, manager.skipped,
-                manager.correct, manager.incorrect, userScore);
-
-        record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
-
-        if (projectHandler.currentProjectPath != null) {
-
-            projectHandler.saveSessionStat("pitch", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
-            projectHandler.saveCurrentProject();
-            outputText += "\nSession auto saved";
-        }
-        env.getRootController().setTabTitle("pitchTutor", false);
-        // Sets the finished view
-        resultsContent.setText(outputText);
-
-        paneQuestions.setVisible(false);
-        paneResults.setVisible(true);
-        questionRows.getChildren().clear();
-
-        Button retestBtn = new Button("Retest");
-        Button clearBtn = new Button("Clear");
-        final Button saveBtn = new Button("Save");
-
-        clearBtn.setOnAction(event -> {
-            //promptSaveRecord();
-            manager.saveTempIncorrect();
-            paneResults.setVisible(false);
-            paneQuestions.setVisible(true);
-        });
-        paneResults.setPadding(new Insets(10, 10, 10, 10));
-        retestBtn.setOnAction(event -> {
-            paneResults.setVisible(false);
-            paneQuestions.setVisible(true);
-            retest();
-        });
-        saveBtn.setOnAction(event -> saveRecord());
-
-        if (manager.getTempIncorrectResponses().size() > 0) {
-            //Can re-test
-            buttons.getChildren().setAll(retestBtn, clearBtn, saveBtn);
-        } else {
-            //Perfect score
-            buttons.getChildren().setAll(clearBtn, saveBtn);
-        }
-
-        HBox.setMargin(retestBtn, new Insets(10, 10, 10, 10));
-        HBox.setMargin(clearBtn, new Insets(10, 10, 10, 10));
-        HBox.setMargin(saveBtn, new Insets(10, 10, 10, 10));
-
-
-        // Clear the current session
-        manager.resetStats();
-    }
 
 }

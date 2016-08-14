@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Random;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -210,13 +209,13 @@ public class KeySignaturesTutorController extends TutorController {
                 disableButtons(questionRow, 1, 3);
             }
 
-
             String[] recordQuestion = new String[]{
                     String.format("Keys signature of %s %s", question, pair.getKey()),
-                    correctAnswer
+                    correctAnswer,
+                    "2"
             };
-            projectHandler.saveTutorRecords("keySignature", record.addSkippedQuestion(recordQuestion));
-            env.getRootController().setTabTitle("keySignatureTutor", true);
+            record.addQuestionAnswer(recordQuestion);
+            env.getRootController().setTabTitle(getTabID(), true);
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -224,14 +223,13 @@ public class KeySignaturesTutorController extends TutorController {
 
 
         options.setOnAction(event -> {
-            // This handler colors the GUI depending on the user's input
             disableButtons(questionRow, 1, 3);
-            boolean isCorrect = false;
+            Integer isCorrect = 0;
             String correctAnswer = findCorrectAnswerNumSharpFlat(pair, question.toString());
 
 
             if (type1QuestionCorrectCheck(pair.getKey().toString(), question, true, options.getValue(), null)) {
-                isCorrect = true;
+                isCorrect = 1;
                 formatCorrectQuestion(questionRow);
                 manager.add(pair, 1);
 
@@ -249,8 +247,8 @@ public class KeySignaturesTutorController extends TutorController {
                     options.getValue(),
                     String.valueOf(isCorrect)
             };
-            projectHandler.saveTutorRecords("keySignature", record.addQuestionAnswer(recordQuestion));
-            env.getRootController().setTabTitle("keySignatureTutor", true);
+            record.addQuestionAnswer(recordQuestion);
+            env.getRootController().setTabTitle(getTabID(), true);
             // Shows the correct answer
             if (manager.answered == manager.questions) {
                 finished();
@@ -258,19 +256,18 @@ public class KeySignaturesTutorController extends TutorController {
         });
 
         majorOptions.setOnAction(event -> {
-            // This handler colors the GUI depending on the user's input
             disableButtons(questionRow, 1, 2);
             if (!(minorOptions.getValue() == (null))) {
                 disableButtons(questionRow, 1, 4);
                 manager.answered += 1;
 
                 disableButtons(questionRow, 1, 3);
-                boolean isCorrect = false;
+                Integer isCorrect = 0;
                 String correctAnswer = findCorrectAnswerNumSharpFlat(pair, question.toString());
 
 
                 if (type1QuestionCorrectCheck(pair.getKey().toString(), question, true, majorOptions.getValue(), minorOptions.getValue())) {
-                    isCorrect = true;
+                    isCorrect = 1;
                     formatCorrectQuestion(questionRow);
                     manager.add(pair, 1);
 
@@ -287,8 +284,8 @@ public class KeySignaturesTutorController extends TutorController {
                         options.getValue(),
                         String.valueOf(isCorrect)
                 };
-                projectHandler.saveTutorRecords("keySignature", record.addQuestionAnswer(recordQuestion));
-                env.getRootController().setTabTitle("keySignatureTutor", true);
+                record.addQuestionAnswer(recordQuestion);
+                env.getRootController().setTabTitle(getTabID(), true);
                 // Shows the correct answer
                 if (manager.answered == manager.questions) {
                     finished();
@@ -305,15 +302,15 @@ public class KeySignaturesTutorController extends TutorController {
                 manager.answered += 1;
 
 
-                disableButtons(questionRow, 1, 3);
-                boolean isCorrect = false;
-                String correctAnswer = findCorrectAnswerNumSharpFlat(pair, question.toString());
+                    disableButtons(questionRow, 1, 3);
+                    Integer isCorrect = 0;
+                    String correctAnswer = findCorrectAnswerNumSharpFlat(pair, question.toString());
 
 
-                if (type1QuestionCorrectCheck(pair.getKey().toString(), question, true, majorOptions.getValue(), minorOptions.getValue())) {
-                    isCorrect = true;
-                    formatCorrectQuestion(questionRow);
-                    manager.add(pair, 1);
+                    if (type1QuestionCorrectCheck(pair.getKey().toString(), question, true, majorOptions.getValue(), minorOptions.getValue())) {
+                        isCorrect = 1;
+                        formatCorrectQuestion(questionRow);
+                        manager.add(pair, 1);
 
                 } else {
                     correctAnswerLabel.setText(correctAnswer);
@@ -322,19 +319,19 @@ public class KeySignaturesTutorController extends TutorController {
                     manager.add(pair, 0);
                 }
 
-                // Sets up the question to be saved to the record
-                String[] recordQuestion = new String[]{
-                        String.format("Key signature of %s %s", question, pair.getKey()),
-                        options.getValue(),
-                        String.valueOf(isCorrect)
-                };
-                projectHandler.saveTutorRecords("keySignature", record.addQuestionAnswer(recordQuestion));
-                env.getRootController().setTabTitle("keySignatureTutor", true);
-                // Shows the correct answer
-                if (manager.answered == manager.questions) {
-                    finished();
+                    // Sets up the question to be saved to the record
+                    String[] recordQuestion = new String[]{
+                            String.format("Key signature of %s %s", question, pair.getKey()),
+                            options.getValue(),
+                            String.valueOf(isCorrect)
+                    };
+                    record.addQuestionAnswer(recordQuestion);
+                    env.getRootController().setTabTitle(getTabID(), true);
+                    // Shows the correct answer
+                    if (manager.answered == manager.questions) {
+                        finished();
+                    }
                 }
-            }
 
 
         });
@@ -445,7 +442,7 @@ public class KeySignaturesTutorController extends TutorController {
         final List<String> question;
 
 
-        ArrayList<KeySignature> possibleQuestions = new ArrayList<KeySignature>(KeySignature.getMajorKeySignatures().values());
+        ArrayList<KeySignature> possibleQuestions = new ArrayList<>(KeySignature.getMajorKeySignatures().values());
         possibleQuestions.addAll(KeySignature.getMinorKeySignatures().values());
 
         question = possibleQuestions.get(rand.nextInt(possibleQuestions.size())).getNotes();
@@ -459,60 +456,59 @@ public class KeySignaturesTutorController extends TutorController {
         minorOptions = generateType1ComboBox(question.toString(), false);
 
 
-        skip.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                // Disables only input buttons
-                formatSkippedQuestion(questionRow);
-                manager.questions -= 1;
-                manager.add(pair, 2);
-                String correctAnswer = "";
+        skip.setOnAction(event -> {
+            // Disables only input buttons
+            formatSkippedQuestion(questionRow);
+            manager.questions -= 1;
+            manager.add(pair, 2);
+            String correctAnswer = "";
 
-                Boolean isBoth = false;
+            Boolean isBoth = false;
 
-                if (pair.getKey().equals("both")) {
-                    isBoth = true;
-                    disableButtons(questionRow, 1, 4);
-                } else {
-                    disableButtons(questionRow, 1, 3);
-                }
+            if (pair.getKey().equals("both")) {
+                isBoth = true;
+                disableButtons(questionRow, 1, 4);
+            } else {
+                disableButtons(questionRow, 1, 3);
+            }
 
 
-                if ((pair.getKey().equals("major") || isBoth)) {
-                    for (Map.Entry<String, KeySignature> entry : KeySignature.getMajorKeySignatures().entrySet()) {
-                        if (question.equals(entry.getValue().getNotes())) {
-                            correctAnswer = correctAnswer + entry.getKey() + " major ";
-                        }
+            if ((pair.getKey().equals("major") || isBoth)) {
+                for (Map.Entry<String, KeySignature> entry : KeySignature.getMajorKeySignatures().entrySet()) {
+                    if (question.equals(entry.getValue().getNotes())) {
+                        correctAnswer = correctAnswer + entry.getKey() + " major ";
                     }
                 }
-                if ((pair.getKey().equals("minor")) || isBoth) {
-                    for (Map.Entry<String, KeySignature> entry : KeySignature.getMinorKeySignatures().entrySet()) {
-                        if (question.equals(entry.getValue().getNotes())) {
-                            correctAnswer = correctAnswer + entry.getKey() + " minor";
-                        }
+            }
+            if ((pair.getKey().equals("minor")) || isBoth) {
+                for (Map.Entry<String, KeySignature> entry : KeySignature.getMinorKeySignatures().entrySet()) {
+                    if (question.equals(entry.getValue().getNotes())) {
+                        correctAnswer = correctAnswer + entry.getKey() + " minor";
                     }
                 }
+            }
 
 
-                String[] recordQuestion = new String[]{
-                        String.format("Keys signature of %s %s", question, pair.getKey()),
-                        correctAnswer
-                };
-                projectHandler.saveTutorRecords("keySignature", record.addSkippedQuestion(recordQuestion));
-                env.getRootController().setTabTitle("keySignatureTutor", true);
-                if (manager.answered == manager.questions) {
-                    finished();
-                }
+            String[] recordQuestion = new String[]{
+                    String.format("Keys signature of %s %s", question, pair.getKey()),
+                    correctAnswer,
+                    "2"
+            };
+            record.addQuestionAnswer(recordQuestion);
+            env.getRootController().setTabTitle(getTabID(), true);
+            if (manager.answered == manager.questions) {
+                finished();
             }
         });
 
-        // This handler colors the GUI depending on the user's input
+
         options.setOnAction(event -> {
             disableButtons(questionRow, 1, 3);
-            boolean isCorrect = false;
+            Integer isCorrect = 0;
             String correctAnswer = findCorrectAnswer(pair, question.toString());
 
             if (type1QuestionCorrectCheck(pair.getKey().toString(), question.toString(), false, options.getValue(), null)) {
-                isCorrect = true;
+                isCorrect = 1;
                 formatCorrectQuestion(questionRow);
                 manager.add(pair, 1);
 
@@ -530,15 +526,14 @@ public class KeySignaturesTutorController extends TutorController {
                     options.getValue(),
                     String.valueOf(isCorrect)
             };
-            projectHandler.saveTutorRecords("keySignature", record.addQuestionAnswer(recordQuestion));
-            env.getRootController().setTabTitle("keySignatureTutor", true);
+            record.addQuestionAnswer(recordQuestion);
+            env.getRootController().setTabTitle(getTabID(), true);
             // Shows the correct answer
             if (manager.answered == manager.questions) {
                 finished();
             }
         });
 
-        // This handler colors the GUI depending on the user's input
         majorOptions.setOnAction(event -> {
             disableButtons(questionRow, 1, 2);
             if (!(minorOptions.getValue() == (null))) {
@@ -546,12 +541,12 @@ public class KeySignaturesTutorController extends TutorController {
                 manager.answered += 1;
 
                 disableButtons(questionRow, 1, 3);
-                boolean isCorrect = false;
+                Integer isCorrect = 0;
 
                 String correctAnswer = findCorrectAnswer(pair, question.toString());
 
                 if (type1QuestionCorrectCheck(pair.getKey().toString(), question.toString(), false, majorOptions.getValue(), minorOptions.getValue())) {
-                    isCorrect = true;
+                    isCorrect = 1;
                     formatCorrectQuestion(questionRow);
                     manager.add(pair, 1);
 
@@ -568,8 +563,8 @@ public class KeySignaturesTutorController extends TutorController {
                         options.getValue(),
                         String.valueOf(isCorrect)
                 };
-                projectHandler.saveTutorRecords("keySignature", record.addQuestionAnswer(recordQuestion));
-                env.getRootController().setTabTitle("keySignatureTutor", true);
+                record.addQuestionAnswer(recordQuestion);
+                env.getRootController().setTabTitle(getTabID(), true);
                 // Shows the correct answer
                 if (manager.answered == manager.questions) {
                     finished();
@@ -579,7 +574,6 @@ public class KeySignaturesTutorController extends TutorController {
 
         });
 
-        // This handler colors the GUI depending on the user's input
         minorOptions.setOnAction(event -> {
             disableButtons(questionRow, 2, 3);
             if (!(majorOptions.getValue() == null)) {
@@ -588,10 +582,10 @@ public class KeySignaturesTutorController extends TutorController {
                 String correctAnswer = findCorrectAnswer(pair, question.toString());
 
                 disableButtons(questionRow, 1, 3);
-                boolean isCorrect = false;
+                Integer isCorrect = 0;
 
                 if (type1QuestionCorrectCheck(pair.getKey().toString(), question.toString(), false, majorOptions.getValue(), minorOptions.getValue())) {
-                    isCorrect = true;
+                    isCorrect = 1;
                     formatCorrectQuestion(questionRow);
                     manager.add(pair, 1);
 
@@ -608,8 +602,8 @@ public class KeySignaturesTutorController extends TutorController {
                         options.getValue(),
                         String.valueOf(isCorrect)
                 };
-                projectHandler.saveTutorRecords("keySignature", record.addQuestionAnswer(recordQuestion));
-                env.getRootController().setTabTitle("keySignatureTutor", true);
+                record.addQuestionAnswer(recordQuestion);
+                env.getRootController().setTabTitle(getTabID(), true);
                 // Shows the correct answer
                 if (manager.answered == manager.questions) {
                     finished();
@@ -679,7 +673,7 @@ public class KeySignaturesTutorController extends TutorController {
      * Generates a combobox filled with potential answers to given question for type 1 questions
      *
      * @param question - the current question that the comboBox is being generated for
-     * @param isMajor  - varible representing the scale type of the current question
+     * @param isMajor  - variable representing the scale type of the current question
      * @return - returns a filled comboBox
      */
     private ComboBox<String> generateType1ComboBox(String question, Boolean isMajor) {
@@ -781,63 +775,61 @@ public class KeySignaturesTutorController extends TutorController {
 
         final Boolean fIsMajor = isMajor;
 
-        skip.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                // Disables only input buttons
-                disableButtons(questionRow, 1, 3);
-                formatSkippedQuestion(questionRow);
-                manager.questions -= 1;
-                manager.add(pair, 2);
-                String correctAnswer;
+        skip.setOnAction(event -> {
+            // Disables only input buttons
+            disableButtons(questionRow, 1, 3);
+            formatSkippedQuestion(questionRow);
+            manager.questions -= 1;
+            manager.add(pair, 2);
+            String correctAnswer;
 
-                if (fIsMajor) {
+            if (fIsMajor) {
 
-                    if (!(Boolean) ((Pair) pair.getValue()).getValue()) {
+                if (!(Boolean) ((Pair) pair.getValue()).getValue()) {
 
-                        if ((KeySignature.getMajorKeySignatures().get(question)).getNotes().get(0).contains("#")) {
-                            correctAnswer = (KeySignature.getMajorKeySignatures().get(question)).getNumberOfSharps() + "#";
-                        } else {
-                            correctAnswer = (KeySignature.getMajorKeySignatures().get(question)).getNumberOfFlats() + "b";
-                        }
+                    if ((KeySignature.getMajorKeySignatures().get(question)).getNotes().get(0).contains("#")) {
+                        correctAnswer = (KeySignature.getMajorKeySignatures().get(question)).getNumberOfSharps() + "#";
                     } else {
-                        correctAnswer = KeySignature.getMajorKeySignatures().get(question).getNotes().toString();
+                        correctAnswer = (KeySignature.getMajorKeySignatures().get(question)).getNumberOfFlats() + "b";
                     }
-
                 } else {
-                    if (!(Boolean) ((Pair) pair.getValue()).getValue()) {
+                    correctAnswer = KeySignature.getMajorKeySignatures().get(question).getNotes().toString();
+                }
 
-                        if ((KeySignature.getMinorKeySignatures().get(question)).getNotes().get(0).contains("#")) {
-                            correctAnswer = (KeySignature.getMinorKeySignatures().get(question)).getNumberOfSharps() + "#";
-                        } else {
-                            correctAnswer = (KeySignature.getMinorKeySignatures().get(question)).getNumberOfFlats() + "b";
-                        }
+            } else {
+                if (!(Boolean) ((Pair) pair.getValue()).getValue()) {
+
+                    if ((KeySignature.getMinorKeySignatures().get(question)).getNotes().get(0).contains("#")) {
+                        correctAnswer = (KeySignature.getMinorKeySignatures().get(question)).getNumberOfSharps() + "#";
                     } else {
-                        correctAnswer = KeySignature.getMinorKeySignatures().get(question).getNotes().toString();
+                        correctAnswer = (KeySignature.getMinorKeySignatures().get(question)).getNumberOfFlats() + "b";
                     }
+                } else {
+                    correctAnswer = KeySignature.getMinorKeySignatures().get(question).getNotes().toString();
                 }
+            }
 
 
-                String[] recordQuestion = new String[]{
-                        String.format("Keys signature of %s %s", question, pair.getKey()),
-                        correctAnswer
-                };
-                projectHandler.saveTutorRecords("keySignature", record.addSkippedQuestion(recordQuestion));
-                env.getRootController().setTabTitle("keySignatureTutor", true);
-                if (manager.answered == manager.questions) {
-                    finished();
-                }
+            String[] recordQuestion = new String[]{
+                    String.format("Keys signature of %s %s", question, pair.getKey()),
+                    correctAnswer,
+                    "2"
+            };
+            record.addQuestionAnswer(recordQuestion);
+            env.getRootController().setTabTitle(getTabID(), true);
+            if (manager.answered == manager.questions) {
+                finished();
             }
         });
 
         // This handler colors the GUI depending on the user's input
         options.setOnAction(event -> {
             disableButtons(questionRow, 1, 3);
-            boolean isCorrect = false;
+            Integer isCorrect = 0;
             String correctAnswerStr;
 
 
             if (fIsMajor) {
-
                 if (!(Boolean) ((Pair) pair.getValue()).getValue()) {
 
                     if ((KeySignature.getMajorKeySignatures().get(question)).getNotes().get(0).contains("#")) {
@@ -863,7 +855,7 @@ public class KeySignaturesTutorController extends TutorController {
             }
 
             if (type2QuestionCorrectCheck(((Boolean) ((Pair) pair.getValue()).getValue()), fIsMajor, question, options.getValue())) {
-                isCorrect = true;
+                isCorrect = 1;
                 formatCorrectQuestion(questionRow);
                 manager.add(pair, 1);
 
@@ -881,8 +873,8 @@ public class KeySignaturesTutorController extends TutorController {
                     options.getValue(),
                     String.valueOf(isCorrect)
             };
-            projectHandler.saveTutorRecords("keySignature", record.addQuestionAnswer(recordQuestion));
-            env.getRootController().setTabTitle("keySignatureTutor", true);
+            record.addQuestionAnswer(recordQuestion);
+            env.getRootController().setTabTitle(getTabID(), true);
             // Shows the correct answer
             if (manager.answered == manager.questions) {
                 finished();
@@ -1144,67 +1136,6 @@ public class KeySignaturesTutorController extends TutorController {
 
         return options;
     }
-
-
-    /**
-     * This function is run once a tutoring session has been completed.
-     */
-    public void finished() {
-        env.getPlayer().stop();
-        userScore = getScore(manager.correct, manager.answered);
-        outputText = String.format("You have finished the tutor.\n" +
-                        "You answered %d questions, and skipped %d questions.\n" +
-                        "You answered %d questions correctly, %d questions incorrectly.\n" +
-                        "This gives a score of %.2f percent.",
-                manager.questions, manager.skipped,
-                manager.correct, manager.incorrect, userScore);
-        if (projectHandler.currentProjectPath != null) {
-            projectHandler.saveSessionStat("keySignature", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
-            projectHandler.saveCurrentProject();
-            outputText += "\nSession auto saved.";
-        }
-        env.getRootController().setTabTitle("keySignatureTutor", false);
-        // Sets the finished view
-        resultsContent.setText(outputText);
-
-        paneQuestions.setVisible(false);
-        paneResults.setVisible(true);
-        questionRows.getChildren().clear();
-
-        Button retestBtn = new Button("Retest");
-        Button clearBtn = new Button("Clear");
-        Button saveBtn = new Button("Save");
-
-        clearBtn.setOnAction(event -> {
-            manager.saveTempIncorrect();
-            paneResults.setVisible(false);
-            paneQuestions.setVisible(true);
-        });
-
-        paneResults.setPadding(new Insets(10, 10, 10, 10));
-        retestBtn.setOnAction(event -> {
-            paneResults.setVisible(false);
-            paneQuestions.setVisible(true);
-            retest();
-
-        });
-        saveBtn.setOnAction(event -> saveRecord());
-
-        if (manager.getTempIncorrectResponses().size() > 0) {
-            //Can re-test
-            buttons.getChildren().setAll(retestBtn, clearBtn, saveBtn);
-        } else {
-            //Perfect score
-            buttons.getChildren().setAll(clearBtn, saveBtn);
-        }
-
-        buttons.setMargin(retestBtn, new Insets(10, 10, 10, 10));
-        buttons.setMargin(clearBtn, new Insets(10, 10, 10, 10));
-        buttons.setMargin(saveBtn, new Insets(10, 10, 10, 10));
-        // Clear the current session
-        manager.resetStats();
-    }
-
 
     /**
      * Returns the option combo boxes to their default states.

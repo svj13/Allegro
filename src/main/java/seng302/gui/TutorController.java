@@ -77,6 +77,8 @@ public abstract class TutorController {
     @FXML
     Label questions;
 
+    private String tabID;
+
     /**
      * An empty constructor, required for sub-classes.
      */
@@ -131,6 +133,67 @@ public abstract class TutorController {
         }
     }
 
+    protected void finished() {
+        env.getPlayer().stop();
+        userScore = getScore(manager.correct, manager.answered);
+        outputText = String.format("You have finished the tutor.\n" +
+                        "You answered %d questions, and skipped %d questions.\n" +
+                        "You answered %d questions correctly, %d questions incorrectly.\n" +
+                        "This gives a score of %.2f percent.",
+                manager.questions, manager.skipped,
+                manager.correct, manager.incorrect, userScore);
+
+        record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
+        record.setFinished();
+        record.setDate();
+        if (projectHandler.currentProjectPath != null) {
+            record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
+            projectHandler.saveCurrentProject();
+            outputText += "\nSession auto saved.";
+        }
+        env.getRootController().setTabTitle(tabID, false);
+
+        // Sets the finished view
+        resultsContent.setText(outputText);
+
+        paneQuestions.setVisible(false);
+        paneResults.setVisible(true);
+        questionRows.getChildren().clear();
+
+        Button retestBtn = new Button("Retest");
+        Button clearBtn = new Button("Clear");
+        Button saveBtn = new Button("Save");
+
+        clearBtn.setOnAction(event -> {
+            manager.saveTempIncorrect();
+            paneResults.setVisible(false);
+            paneQuestions.setVisible(true);
+        });
+
+        paneResults.setPadding(new Insets(10, 10, 10, 10));
+        retestBtn.setOnAction(event -> {
+            paneResults.setVisible(false);
+            paneQuestions.setVisible(true);
+            retest();
+
+        });
+        saveBtn.setOnAction(event -> saveRecord());
+
+        if (manager.getTempIncorrectResponses().size() > 0) {
+            //Can re-test
+            buttons.getChildren().setAll(retestBtn, clearBtn, saveBtn);
+        } else {
+            //Perfect score
+            buttons.getChildren().setAll(clearBtn, saveBtn);
+        }
+
+        buttons.setMargin(retestBtn, new Insets(10, 10, 10, 10));
+        buttons.setMargin(clearBtn, new Insets(10, 10, 10, 10));
+        buttons.setMargin(saveBtn, new Insets(10, 10, 10, 10));
+        // Clear the current session
+        manager.resetStats();
+    }
+
     /**
      * An empty function which is overridden by each tutor
      */
@@ -150,11 +213,14 @@ public abstract class TutorController {
         }
     }
 
+    public TutorManager getManager() {
+        return manager;
+    }
+
     /**
      * Saves a record of the tutoring session to a file.
      */
     public void saveRecord() {
-
 
         //show a file picker
         FileChooser fileChooser = new FileChooser();
@@ -171,7 +237,7 @@ public abstract class TutorController {
             fileDir = file.getParentFile();
             path = file.getAbsolutePath();
             env.setRecordLocation(path);
-            record.writeToFile(path);
+            projectHandler.saveTutorRecordsToFile(path, record);
         }
     }
 
@@ -327,5 +393,13 @@ public abstract class TutorController {
         questionRows.getChildren().clear();
         manager.resetEverything();
         resetInputs();
+    }
+
+    public String getTabID() {
+        return tabID;
+    }
+
+    public void setTabID(String tabID) {
+        this.tabID = tabID;
     }
 }

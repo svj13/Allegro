@@ -145,17 +145,15 @@ public class ScaleRecognitionTutorController extends TutorController {
      * @param questionRow   The HBox containing GUI question data
      */
     public void handleQuestionAnswer(String userAnswer, Pair correctAnswer, HBox questionRow) {
-
-
         manager.answered += 1;
-        boolean correct;
+        Integer correct;
         disableButtons(questionRow, 1, 3);
         if (userAnswer.equals(correctAnswer.getValue())) {
-            correct = true;
+            correct = 1;
             manager.add(correctAnswer, 1);
             formatCorrectQuestion(questionRow);
         } else {
-            correct = false;
+            correct = 0;
             manager.add(correctAnswer, 0);
             formatIncorrectQuestion(questionRow);
             //Shows the correct answer
@@ -167,9 +165,9 @@ public class ScaleRecognitionTutorController extends TutorController {
                         correctAnswer.getValue(),
                         startingNote.getNote()),
                 userAnswer,
-                Boolean.toString(correct)
+                correct.toString()
         };
-        projectHandler.saveTutorRecords("scale", record.addQuestionAnswer(question));
+        record.addQuestionAnswer(question);
         env.getRootController().setTabTitle("scaleTutor", true);
 
         if (manager.answered == manager.questions) {
@@ -216,10 +214,11 @@ public class ScaleRecognitionTutorController extends TutorController {
             manager.add(noteAndScaleType, 2);
             String[] question = new String[]{
                     String.format("%s scale from %s", scaleType, startNote.getNote()),
-                    scaleType
+                    scaleType,
+                    "2"
             };
-            projectHandler.saveTutorRecords("scale", record.addSkippedQuestion(question));
-            env.getRootController().setTabTitle("scaleTutor", true);
+            record.addQuestionAnswer(question);
+            env.getRootController().setTabTitle(getTabID(), true);
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -255,65 +254,6 @@ public class ScaleRecognitionTutorController extends TutorController {
         ccbScales.getCheckModel().clearChecks();
         ccbScales.getCheckModel().check(0);
         ccbScales.getCheckModel().check(1);
-    }
-
-
-    /**
-     * This function is run once a tutoring session has been completed.
-     */
-    public void finished() {
-        env.getPlayer().stop();
-        userScore = getScore(manager.correct, manager.answered);
-        outputText = String.format("You have finished the tutor.\n" +
-                        "You answered %d questions, and skipped %d questions.\n" +
-                        "You answered %d questions correctly, %d questions incorrectly.\n" +
-                        "This gives a score of %.2f percent.",
-                manager.questions, manager.skipped,
-                manager.correct, manager.incorrect, userScore);
-
-        if (projectHandler.currentProjectPath != null) {
-            projectHandler.saveSessionStat("scale", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
-            projectHandler.saveCurrentProject();
-            outputText += "\nSession auto saved";
-        }
-        env.getRootController().setTabTitle("scaleTutor", false);
-        // Sets the finished view
-        resultsContent.setText(outputText);
-
-        paneQuestions.setVisible(false);
-        paneResults.setVisible(true);
-        questionRows.getChildren().clear();
-
-        Button retestBtn = new Button("Retest");
-        Button clearBtn = new Button("Clear");
-        final Button saveBtn = new Button("Save");
-
-        clearBtn.setOnAction(event -> {
-            manager.saveTempIncorrect();
-            paneResults.setVisible(false);
-            paneQuestions.setVisible(true);
-        });
-        paneResults.setPadding(new Insets(10, 10, 10, 10));
-        retestBtn.setOnAction(event -> {
-            paneResults.setVisible(false);
-            paneQuestions.setVisible(true);
-            retest();
-        });
-        saveBtn.setOnAction(event -> saveRecord());
-
-        if (manager.getTempIncorrectResponses().size() > 0) {
-            //Can re-test
-            buttons.getChildren().setAll(retestBtn, clearBtn, saveBtn);
-        } else {
-            //Perfect score
-            buttons.getChildren().setAll(clearBtn, saveBtn);
-        }
-
-        HBox.setMargin(retestBtn, new Insets(10, 10, 10, 10));
-        HBox.setMargin(clearBtn, new Insets(10, 10, 10, 10));
-        HBox.setMargin(saveBtn, new Insets(10, 10, 10, 10));
-        // Clear the current session
-        manager.resetStats();
     }
 
 }
