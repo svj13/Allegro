@@ -10,12 +10,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.*;
 import javafx.stage.Stage;
 import seng302.Environment;
 import seng302.Users.User;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by jmw280 on 21/07/16.
@@ -33,6 +36,9 @@ public class UserLoginController {
 
     @FXML
     Button btnRegister;
+
+    @FXML
+    Label labelError;
 
     @FXML
     Button btnLogIn;
@@ -110,20 +116,25 @@ public class UserLoginController {
     @FXML
     protected void register(){
 
-        if (!(env.getUserHandler().getUserNames().contains(usernameInput))){
+
+        if (!(env.getUserHandler().getUserNames().contains(usernameInput.getText()))){
             env.getUserHandler().createUser(usernameInput.getText(), passwordInput.getText());
+            logIn();
         }
         else{
-            System.out.println("user already exists");
+            System.out.println("user already exists!");
+            labelError.setText("User already exists!");
+            labelError.setTextFill(javafx.scene.paint.Color.RED);
         }
     }
 
     @FXML
     protected void logIn(){
-        System.out.println("login");
+
+
 
         if(env.getUserHandler().userPassExists(usernameInput.getText(), passwordInput.getText())){
-            System.out.println("sucsess");
+
 
             env.getUserHandler().setCurrentUser(usernameInput.getText());
 
@@ -133,7 +144,11 @@ public class UserLoginController {
 
             env.getRootController().showWindow(true);
         }else{
-            System.out.println("incorrect login info");
+
+            final Label message = new Label("");
+            labelError.setText("Invalid username or password.");
+            labelError.setTextFill(javafx.scene.paint.Color.RED);
+
         }
 
     }

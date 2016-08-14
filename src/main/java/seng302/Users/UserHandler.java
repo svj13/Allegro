@@ -79,6 +79,7 @@ public class UserHandler {
         try {
             UsersInfo = (JSONObject) parser.parse(new FileReader(userDirectory + "/user_list.json"));
             this.userList = (JSONArray) UsersInfo.get("users");
+            System.out.println(userList);
             this.recentUsers = (JSONArray) UsersInfo.get("recentUsers");
 
         } catch (FileNotFoundException e) {

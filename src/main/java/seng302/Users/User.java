@@ -260,7 +260,7 @@ public class User {
                 }
 
             } else {
-                env.getRootController().errorAlert("The user: " + userName + " already exists.");
+                env.getRootController().errorAlert("The user " + userName + " already exists.");
                 //createNewProject();
             }
 
