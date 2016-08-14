@@ -155,7 +155,6 @@ public abstract class TutorController {
      */
     public void saveRecord() {
 
-
         //show a file picker
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
@@ -171,7 +170,7 @@ public abstract class TutorController {
             fileDir = file.getParentFile();
             path = file.getAbsolutePath();
             env.setRecordLocation(path);
-            record.writeToFile(path);
+            projectHandler.saveTutorRecordsToFile(path, record);
         }
     }
 

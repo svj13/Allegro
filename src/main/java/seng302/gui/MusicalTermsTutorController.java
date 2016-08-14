@@ -408,7 +408,9 @@ public class MusicalTermsTutorController extends TutorController {
                         "This gives a score of %.2f percent.",
                 manager.questions, manager.skipped,
                 manager.correct, manager.incorrect, userScore);
-
+        record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
+        record.setFinished();
+        record.setDate();
         if (projectHandler.currentProjectPath != null) {
             projectHandler.saveSessionStat("musicalTerm", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
             projectHandler.saveCurrentProject();

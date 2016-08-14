@@ -37,7 +37,6 @@ import javax.sound.midi.Instrument;
 import javafx.scene.control.TextInputDialog;
 import seng302.Environment;
 import seng302.data.Term;
-import seng302.gui.PitchComparisonTutorController;
 import seng302.utility.InstrumentUtility;
 import seng302.utility.OutputTuple;
 import seng302.utility.TutorRecord;
@@ -357,70 +356,66 @@ public class ProjectHandler {
 
     }
 
+    public void saveTutorRecordsToFile(String filename, TutorRecord currentRecord) {
+        Gson gson = new Gson();
+        try {
+            ArrayList<TutorRecord> records;
+            try {
+
+                JsonReader jsonReader = new JsonReader(new FileReader(filename));
+
+                records = gson.fromJson(jsonReader, new TypeToken<ArrayList<TutorRecord>>() {
+                }.getType());
+
+                TutorRecord latest = records.get(records.size() - 1);
+                if (!latest.isFinished()) {
+                    records.remove(records.size() - 1);
+                }
+            } catch (FileNotFoundException e) {
+                records = new ArrayList<>();
+            }
+            currentRecord.setDate();
+            records.add(currentRecord);
+
+            String json = gson.toJson(records);
+            try {
+                FileWriter writer = new FileWriter(filename, false);
+                writer.write(json);
+                writer.flush();
+                writer.close();
+            } catch (IOException ex) {
+                System.err.println("Problem writing to the selected file " + ex.getMessage());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     /**
      * When finished a tutor session. Or when save is clicked part way through.
      */
     private void saveTutorRecordsToFile(String projectAddress) {
-        Gson gson = new Gson();
         if (env.getRootController().tabSaveCheck("pitchTutor")) {
-            try {
-                ArrayList<TutorRecord> records;
-                try {
-
-                    JsonReader jsonReader = new JsonReader(new FileReader(projectAddress + "PitchComparisonTutor.json"));
-
-                    records = gson.fromJson(jsonReader, new TypeToken<ArrayList<TutorRecord>>() {
-                    }.getType());
-
-                    TutorRecord latest = records.get(records.size() - 1);
-                    if (!latest.isFinished()) {
-                        records.remove(records.size() - 1);
-                    }
-                } catch (FileNotFoundException e) {
-                    records = new ArrayList<>();
-                }
-
-                PitchComparisonTutorController pitch = env.getRootController().PitchComparisonTabController;
-                TutorRecord currentRecord = pitch.record;
-                currentRecord.setDate();
-                currentRecord.setStats(pitch.getManager().correct, pitch.getManager().getTempIncorrectResponses().size(), pitch.getManager().getScore());
-                records.add(currentRecord);
-
-                String json = gson.toJson(records);
-                try {
-                    FileWriter writer = new FileWriter(projectAddress + "/PitchComparisonTutor.json", false);
-                    writer.write(json);
-                    writer.flush();
-                    writer.close();
-                } catch (IOException ex) {
-                    System.err.println("Problem writing to the selected file " + ex.getMessage());
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
+            saveTutorRecordsToFile(projectAddress + "/PitchComparisonTutor.json", env.getRootController().PitchComparisonTabController.record);
         }
         if (env.getRootController().tabSaveCheck("intervalTutor")) {
-            TutorRecord currentRecord = env.getRootController().IntervalRecognitionTabController.record;
-            currentRecord.writeToFile(projectAddress + "/IntervalRecognitionTutor.json");
+
+            saveTutorRecordsToFile(projectAddress + "/IntervalRecognitionTutor.json", env.getRootController().IntervalRecognitionTabController.record);
         }
         if (env.getRootController().tabSaveCheck("musicalTermTutor")) {
-            TutorRecord currentRecord = env.getRootController().MusicalTermsTabController.record;
-            currentRecord.writeToFile(projectAddress + "/MusicalTermsTutor.json");
+            saveTutorRecordsToFile(projectAddress + "/MusicalTermsTutor.json", env.getRootController().MusicalTermsTabController.record);
         }
         if (env.getRootController().tabSaveCheck("scaleTutor")) {
-            TutorRecord currentRecord = env.getRootController().ScaleRecognitionTabController.record;
-            currentRecord.writeToFile(projectAddress + "/ScaleRecognitionTutor.json");
+            saveTutorRecordsToFile(projectAddress + "/ScaleRecognitionTutor.json", env.getRootController().ScaleRecognitionTabController.record);
         }
         if (env.getRootController().tabSaveCheck("chordTutor")) {
-            TutorRecord currentRecord = env.getRootController().ChordRecognitionTabController.record;
-            currentRecord.writeToFile(projectAddress + "/ChordRecognitionTutor.json");
+            saveTutorRecordsToFile(projectAddress + "/ChordRecognitionTutor.json", env.getRootController().ChordRecognitionTabController.record);
         }
         if (env.getRootController().tabSaveCheck("chordSpellingTutor")) {
-            TutorRecord currentRecord = env.getRootController().ChordSpellingTabController.record;
-            currentRecord.writeToFile(projectAddress + "/ChordSpellingTutor.json");
+            saveTutorRecordsToFile(projectAddress + "/ChordSpellingTutor.json", env.getRootController().ChordSpellingTabController.record);
         }
     }
 
