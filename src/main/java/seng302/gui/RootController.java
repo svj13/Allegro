@@ -229,7 +229,7 @@ public class RootController implements Initializable {
     }
 
     public void setStyleSheet(String filepath) {
-        paneMain.getStylesheets().removeAll();
+        paneMain.getStylesheets().clear();
         paneMain.getStylesheets().add(getClass().getResource(filepath).toExternalForm());
     }
 
@@ -828,7 +828,6 @@ public class RootController implements Initializable {
      * Sets the stage for root
      */
     public void setStage(Stage stage) {
-        setStyleSheet("/css/testStyle.css");
         this.stage = stage;
         this.stage.setOnCloseRequest(event -> {
             closeApplication();
@@ -965,6 +964,16 @@ public class RootController implements Initializable {
 
         }
 
+    }
+
+    @FXML
+    private void switchThemeDefault() {
+        setStyleSheet("/css/themes/default.css");
+    }
+
+    @FXML
+    private void switchThemeBlue() {
+        setStyleSheet("/css/themes/blue.css");
     }
 
     public TranscriptPaneController getTranscriptController() {
