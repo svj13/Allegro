@@ -21,15 +21,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Menu;
@@ -38,13 +36,15 @@ import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import seng302.Environment;
-import seng302.command.UndoRedo;
-import seng302.data.CommandType;
+import seng302.command.Command;
 import seng302.managers.TranscriptManager;
 import seng302.utility.FileHandler;
 import seng302.utility.OutputTuple;
@@ -153,6 +153,7 @@ public class RootController implements Initializable {
 
     @FXML
     private Tab transcriptPane;
+
 
     @FXML
     public void onTranscriptTab() {
@@ -272,10 +273,10 @@ public class RootController implements Initializable {
         keyboardPaneController.stopShowingNotesOnKeyboard();
     }
 
-    private void setCommandText(CommandType command) {
+    private void setCommandText(Command command) {
         transcriptController.txtCommand.clear();
-        String[] parameters = command.getParams();
-        String[] options = command.getOptions();
+        List<String> parameters = command.getParams();
+        List<String> options = command.getOptions();
         String parameterString = "";
         String optionsString = "";
         for (String parameter : parameters) {
@@ -284,7 +285,7 @@ public class RootController implements Initializable {
         for (String option : options) {
             optionsString += "[" + option + "] ";
         }
-        transcriptController.txtCommand.setText(command.getName() +
+        transcriptController.txtCommand.setText(command.getCommandText() +
                 " Parameters: " + parameterString);
         if (!optionsString.equals("[]")) {
             transcriptController.txtCommand.appendText("Options: " + optionsString);

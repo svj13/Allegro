@@ -137,7 +137,7 @@ public class TranscriptPaneController {
     }
 
     @FXML
-    private void showDslRef() {
+    public void showDslRef() {
         dslRefControl.getPopover().show(helpButton);
     }
 
