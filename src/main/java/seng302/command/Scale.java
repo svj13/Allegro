@@ -59,10 +59,6 @@ public class Scale implements Command {
      */
     private int octaves;
 
-    /**
-     *
-     */
-    private Boolean pentatonic = false;
 
     public Scale(HashMap<String, String> scale, String outputType) {
         this.startNote = scale.get("note");
@@ -220,6 +216,7 @@ public class Scale implements Command {
      * @param startNote  The note the scale begins on.
      * @param scaleNotes An ArrayList containing the notes of the scale.
      * @param up         Whether the scale is going up or down.
+     * @param type       The type of the scale
      * @return Arraylist of correct note names.
      */
     public static ArrayList<String> scaleNameList(String startNote, ArrayList<Note> scaleNotes, boolean up, String type) {
@@ -290,6 +287,7 @@ public class Scale implements Command {
      * @param startNote The note the scale begins on.
      * @param scaleNotes The notes to display.
      * @param up Whether the scale is ascending or descending.
+     * @param type The type of the scale
      * @return The note names as a String.
      */
     private static String scaleToString(String startNote, ArrayList<Note> scaleNotes, boolean up, String type) {
@@ -324,8 +322,6 @@ public class Scale implements Command {
         }
         return midiValues.trim();
     }
-
-
 
 
     public long getLength(Environment env) {
