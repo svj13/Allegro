@@ -281,15 +281,42 @@ public class Note {
         Note currentNote = this;
         scaleNotes.add(currentNote);
         if (up) {
-            if (type.equalsIgnoreCase("major")) {
-                semitones = Arrays.asList(2, 4, 5, 7, 9, 11, 12);
-            } else if (type.equalsIgnoreCase("minor")) {
-                semitones = Arrays.asList(2, 3, 5, 7, 8, 10, 12);
-            } else if (type.equalsIgnoreCase("melodic minor")) {
-                semitones = Arrays.asList(2, 3, 5, 7, 9, 11, 12);
-            } else {
-                throw new IllegalArgumentException("Invalid scale type: '" + type + "'.");
+            switch (type.toLowerCase()) {
+                case "major":
+                    semitones = Arrays.asList(2, 4, 5, 7, 9, 11, 12);
+                    break;
+                case "minor":
+                    semitones = Arrays.asList(2, 3, 5, 7, 8, 10, 12);
+                    break;
+                case "melodic minor":
+                    semitones = Arrays.asList(2, 3, 5, 7, 9, 11, 12);
+                    break;
+                case "ionian":
+                    //D E F G A B C
+                    semitones = Arrays.asList(2, 4, 5, 7, 9, 11, 12);
+                    break;
+                case "dorian":
+                    semitones = Arrays.asList(2, 3, 5, 7, 9, 10, 12);
+                    break;
+                case "phrygian":
+                    semitones = Arrays.asList(1, 3, 5, 7, 8, 10, 12);
+                    break;
+                case "lydian":
+                    semitones = Arrays.asList(2, 4, 6, 7, 9, 11, 12);
+                    break;
+                case "mixolydian":
+                    semitones = Arrays.asList(2, 4, 5, 7, 9, 10, 12);
+                    break;
+                case "aeolian":
+                    semitones = Arrays.asList(2, 3, 5, 7, 8, 10, 12);
+                    break;
+                case "locrian":
+                    semitones = Arrays.asList(1, 3, 5, 6, 8, 10, 12);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid scale type: '" + type + "'.");
             }
+
             for (int i = 0; i < octaves; i++) {
                 scaleNotes.add(currentNote.semitoneUp(semitones.get(0)));
                 scaleNotes.add(currentNote.semitoneUp(semitones.get(1)));
@@ -301,14 +328,39 @@ public class Note {
                 currentNote = currentNote.semitoneUp(semitones.get(6));
             }
         } else {
-            if (type.equalsIgnoreCase("major")) {
-                semitones = Arrays.asList(1, 3, 5, 7, 8, 10, 12);
-            } else if (type.equalsIgnoreCase("minor")) {
-                semitones = Arrays.asList(2, 4, 5, 7, 9, 10, 12);
-            } else if (type.equalsIgnoreCase("melodic minor")) {
-                semitones = Arrays.asList(2, 4, 5, 7, 9, 10, 12);
-            } else {
-                throw new IllegalArgumentException("Invalid scale type: '" + type + "'.");
+            switch (type.toLowerCase()) {
+                case "major":
+                    semitones = Arrays.asList(1, 3, 5, 7, 8, 10, 12);
+                    break;
+                case "minor":
+                    semitones = Arrays.asList(2, 4, 5, 7, 9, 10, 12);
+                    break;
+                case "melodic minor":
+                    semitones = Arrays.asList(2, 4, 5, 7, 9, 10, 12);
+                    break;
+                case "ionian":
+                    semitones = Arrays.asList(1, 3, 5, 7, 8, 10, 12);
+                    break;
+                case "dorian":
+                    semitones = Arrays.asList(2, 3, 5, 7, 9, 10, 12);
+                    break;
+                case "phrygian":
+                    semitones = Arrays.asList(2, 4, 5, 7, 9, 11, 12);
+                    break;
+                case "lydian":
+                    semitones = Arrays.asList(1, 3, 5, 6, 8, 10, 12);
+                    break;
+                case "mixolydian":
+                    semitones = Arrays.asList(2, 3, 5, 7, 8, 10, 12);
+                    break;
+                case "aeolian":
+                    semitones = Arrays.asList(2, 4, 5, 7, 9, 10, 12);
+                    break;
+                case "locrian":
+                    semitones = Arrays.asList(2, 4, 6, 7, 9, 11, 12);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid scale type: '" + type + "'.");
             }
             for (int i = 0; i < octaves; i++) {
                 scaleNotes.add(currentNote.semitoneDown(semitones.get(0)));
