@@ -111,6 +111,8 @@ public class UserLoginController {
             //Close login window.
             Stage stage = (Stage) btnLogIn.getScene().getWindow();
             stage.close();
+
+            env.getRootController().showWindow(true);
         }else{
             System.out.println("incorrect login info");
         }

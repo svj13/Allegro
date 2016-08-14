@@ -2,6 +2,7 @@ package seng302.gui;
 
 
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,6 +15,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.stage.Screen;
 import org.json.simple.JSONArray;
 import org.controlsfx.control.PopOver;
 
@@ -59,6 +61,7 @@ public class RootController implements Initializable {
 
     String path;
     File fileDir;
+
 
 
     @FXML
@@ -218,8 +221,14 @@ public class RootController implements Initializable {
         //borderPane_DP.setStyle(cssBordering);
 
 
+    }
 
 
+
+
+    public void showWindow(Boolean show){
+        if(show) stage.show();
+        else stage.hide();
     }
 
 
@@ -312,23 +321,35 @@ public class RootController implements Initializable {
         userDropDown.setEllipsisString(name);
         userDropDown.setText(name);
     }
+
+    public void showLoginWindow(Boolean show) throws IOException {
+        if(show){
+            FXMLLoader loader1 = new FXMLLoader();
+            loader1.setLocation(getClass().getResource("/Views/userLogin.fxml"));
+
+            Parent root1 = loader1.load();
+            Scene scene1 = new Scene(root1);
+            Stage loginStage = new Stage();
+            loginStage.setTitle("Allegro");
+            loginStage.setScene(scene1);
+            loginStage.show();
+            UserLoginController userLoginController = loader1.getController();
+            userLoginController.setEnv(env);
+            userLoginController.displayRecentUsers();
+
+
+        }
+
+    }
+
     @FXML
     protected void logOutUser() throws IOException {
-        Stage stage = (Stage) paneMain.getScene().getWindow();
         stage.close();
 
-        FXMLLoader loader1 = new FXMLLoader();
-        loader1.setLocation(getClass().getResource("/Views/userLogin.fxml"));
+        showLoginWindow(true);
 
-        Parent root1 = loader1.load();
-        Scene scene1 = new Scene(root1);
 
-        stage.setTitle("Allegro2");
-        stage.setScene(scene1);
-        stage.show();
-        UserLoginController userLoginController = loader1.getController();
-        userLoginController.setEnv(env);
-        userLoginController.displayRecentUsers();
+
 
 
 

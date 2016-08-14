@@ -39,12 +39,10 @@ public class App extends Application {
             FXMLLoader loader1 = new FXMLLoader();
             loader1.setLocation(getClass().getResource("/Views/userLogin.fxml"));
 
-            //Parent root1 = FXMLLoader.load(getClass().getResource("/Views/userLogin.fxml"));
-
             Parent root1 = loader1.load();
             Scene scene1 = new Scene(root1);
 
-            stage.setTitle("Allegro2");
+            stage.setTitle("Allegro");
             stage.setScene(scene1);
             stage.show();
             UserLoginController userLoginController = loader1.getController();
@@ -57,10 +55,6 @@ public class App extends Application {
             loader.setLocation(getClass().getResource("/Views/newGui.fxml"));
 
             Parent root = loader.load();
-
-
-
-
 
 
             //Parent root = loader;
@@ -101,10 +95,17 @@ public class App extends Application {
                 });
 
                 controller.setStage(primaryStage);
-                primaryStage.show();
+                //primaryStage.show();
+                //controller.setPrimaryStage(primaryStage);
             } catch (NullPointerException e) {
                 System.err.println("Controller is null");
             }
+
+
+
+            //controller.createWindow(scene);
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
