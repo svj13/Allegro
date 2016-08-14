@@ -8,6 +8,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.*;
@@ -60,7 +62,7 @@ public class UserLoginController {
 
     protected void deselectUsers(){
         for(RecentUserController recentUser: recentUsers){
-            System.out.println(recentUser.getStyle());
+
             recentUser.deselect();
         }
     }
@@ -102,7 +104,7 @@ public class UserLoginController {
         //Image image = new Image(getClass().getResourceAsStream
                 //("/images/gear-1119298_960_720.png"), 10, 10, true, true);
 
-        System.out.println(env.getUserHandler().getRecentUsers());
+
         for(User user: env.getUserHandler().getRecentUsers()) {
             name = user.getUserName();
 
@@ -122,11 +124,19 @@ public class UserLoginController {
             logIn();
         }
         else{
-            System.out.println("user already exists!");
+
             labelError.setText("User already exists!");
             labelError.setTextFill(javafx.scene.paint.Color.RED);
         }
     }
+
+    @FXML
+    public void handleKeyPressed(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            logIn();
+        }
+    }
+
 
     @FXML
     protected void logIn(){

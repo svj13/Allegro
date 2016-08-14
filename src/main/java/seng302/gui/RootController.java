@@ -245,7 +245,7 @@ public class RootController implements Initializable {
      */
     @FXML
     private void closeApplication() {
-        if (!env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().isSaved()) {
+        if (env.getUserHandler().getCurrentUser() != null && !env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().isSaved()) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("Unsaved changes");
 
@@ -339,6 +339,14 @@ public class RootController implements Initializable {
             Stage loginStage = new Stage();
             loginStage.setTitle("Allegro");
             loginStage.setScene(scene1);
+
+
+            loginStage.setOnCloseRequest(event -> {
+                System.exit(0);
+                event.consume();
+            });
+
+
             loginStage.show();
             UserLoginController userLoginController = loader1.getController();
             userLoginController.setEnv(env);
@@ -595,7 +603,7 @@ public class RootController implements Initializable {
 
     @FXML
     private void bindOpenObjects() {
-        //System.out.println(env.getUserHandler().getCurrentUser());
+
         JSONArray projects = env.getUserHandler().getCurrentUser().getProjectHandler().getProjectList();
         menuOpenProjects.getItems().clear();
         MenuItem selectItem = new MenuItem("Select Project");

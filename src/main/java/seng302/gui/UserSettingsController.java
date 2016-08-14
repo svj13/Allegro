@@ -65,7 +65,7 @@ public class UserSettingsController {
 
         UserHandler userHandler = env.getUserHandler();
         Path userPath = userHandler.getCurrentUserPath();
-        System.out.println(userPath.toString());
+
         Path filePath = Paths.get(userPath.toString()+"/profilePicture");
 
         try {
@@ -76,7 +76,7 @@ public class UserSettingsController {
         }
         catch (Exception e){
             e.printStackTrace();
-            System.out.println("nooooooooooooooooooooooooooooooooooooooooooo");
+
         }
     }
 }

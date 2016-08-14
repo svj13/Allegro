@@ -136,7 +136,8 @@
                   <Insets right="5.0" />
                </HBox.margin>
            </ImageView>
-            <MenuButton fx:id="userDropDown" alignment="CENTER" contentDisplay="CENTER" ellipsisString="user" mnemonicParsing="false" text="user" textOverrun="CENTER_ELLIPSIS">
+             <MenuButton fx:id="userDropDown" alignment="CENTER" contentDisplay="LEFT" ellipsisString="user"
+                         mnemonicParsing="false" text="user" textOverrun="CENTER_ELLIPSIS">
               <items>
                   <MenuItem mnemonicParsing="false" onAction="#logOutUser" text="Logout" />
                   <MenuItem fx:id="userSettingsButton" mnemonicParsing="false" onAction="#launchUserSettings" text="User Settings" />

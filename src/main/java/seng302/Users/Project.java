@@ -358,7 +358,7 @@ public class Project {
 
             env.resetEnvironment();
             String path = projectDirectory.toString();
-            System.out.println("project dir: " + path.toString() + "... " + pName);
+
             try {
 
                 projectSettings = (JSONObject) parser.parse(new FileReader(path + "/" + pName + ".json"));

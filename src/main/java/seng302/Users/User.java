@@ -70,7 +70,7 @@ public class User {
         }
         catch (Exception e){
             e.printStackTrace();
-            System.out.println("nooooooooooooooooooooooooooooooooooooooooooo");
+
         }
         this.profilePic = new Image(userDirectory.toUri() + "/profilePicture");
 
@@ -152,7 +152,7 @@ public class User {
             Type dateType = new TypeToken<Date>() {
             }.getType();
             lastSignIn = gson.fromJson((String) properties.get("signInTime"), dateType);
-            System.out.println("lsit:" + lastSignIn);
+
             if(lastSignIn == null)  lastSignIn = new Date();
         }catch(Exception e){
             lastSignIn = new Date();
