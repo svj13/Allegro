@@ -369,7 +369,7 @@ public class ChordUtil {
         String result;
         Note noteScaleStart = Note.lookup(OctaveUtil.addDefaultOctave(startingNote));
         ArrayList<Note> scale = noteScaleStart.getScale("major", true);
-        ArrayList<String> scaleNoteNames = Scale.scaleNameList(startingNote, scale, true);
+        ArrayList<String> scaleNoteNames = Scale.scaleNameList(startingNote, scale, true, "");
         if (scaleNoteNames.contains(chordNote)) {
             // The note is in the scale.
             Integer numberOfNote = scaleNoteNames.indexOf(chordNote);
