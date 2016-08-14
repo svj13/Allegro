@@ -181,6 +181,10 @@ public class UserHandler {
         return currentUser;
     }
 
+    public Path getCurrentUserPath(){
+        return Paths.get("UserData/"+getCurrentUser().getUserName());
+    }
+
 
     public void setCurrentUser(String userName){
         this.currentUser = new User(env, userName);

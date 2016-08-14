@@ -138,9 +138,8 @@
            </ImageView>
             <MenuButton fx:id="userDropDown" alignment="CENTER" contentDisplay="CENTER" ellipsisString="user" mnemonicParsing="false" text="user" textOverrun="CENTER_ELLIPSIS">
               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#logOutUser" text="Logout"/>
-                  <MenuItem fx:id="launchUserSettings" mnemonicParsing="false"
-                            text="User Settings"/>
+                  <MenuItem mnemonicParsing="false" onAction="#logOutUser" text="Logout" />
+                  <MenuItem fx:id="userSettingsButton" mnemonicParsing="false" onAction="#launchUserSettings" text="User Settings" />
               </items>
             </MenuButton>
          </children>

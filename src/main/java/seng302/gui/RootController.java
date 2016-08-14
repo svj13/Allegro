@@ -2,7 +2,6 @@ package seng302.gui;
 
 
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,9 +14,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.stage.Screen;
 import org.json.simple.JSONArray;
-import org.controlsfx.control.PopOver;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,7 +41,6 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -185,24 +181,6 @@ public class RootController implements Initializable {
         //final Circle clip = new Circle(300, 200, 200);
 //        imageDP.setClip(circleDP);
 
-        final Circle clip = new Circle(imageDP.getFitWidth()-25.0, imageDP.getFitHeight()-25.0, 50.0);
-
-
-        imageDP.setImage(new Image("images/testDP.jpg"));
-
-
-        clip.setRadius(25.0);
-
-        imageDP.setClip(clip);
-
-        SnapshotParameters parameters = new SnapshotParameters();
-        parameters.setFill(Color.TRANSPARENT);
-        WritableImage image = imageDP.snapshot(parameters, null);
-
-        imageDP.setClip(null);
-        imageDP.setEffect(new DropShadow(5, Color.BLACK));
-
-        imageDP.setImage(image);
 
         userDropDown.setEllipsisString("User");
         userDropDown.setText("User");
@@ -226,12 +204,38 @@ public class RootController implements Initializable {
 
     }
 
+    public void updateImage(){
+        final Circle clip = new Circle(imageDP.getFitWidth()-25.0, imageDP.getFitHeight()-25.0, 50.0);
 
+
+        imageDP.setImage(env.getUserHandler().getCurrentUser().getUserPicture());
+
+
+        clip.setRadius(25.0);
+
+        imageDP.setClip(clip);
+
+        SnapshotParameters parameters = new SnapshotParameters();
+        parameters.setFill(Color.TRANSPARENT);
+        WritableImage image = imageDP.snapshot(parameters, null);
+
+        imageDP.setClip(null);
+        imageDP.setEffect(new DropShadow(5, Color.BLACK));
+
+        imageDP.setImage(image);
+    }
 
 
     public void showWindow(Boolean show){
-        if(show) stage.show();
+        if(show) {
+            stage.show();
+            updateImage();
+
+        }
         else stage.hide();
+
+
+
     }
 
 
@@ -348,7 +352,6 @@ public class RootController implements Initializable {
     @FXML
     protected void logOutUser() throws IOException {
         stage.close();
-
         showLoginWindow(true);
 
     }

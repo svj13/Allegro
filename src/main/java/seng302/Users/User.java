@@ -8,13 +8,12 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import seng302.Environment;
 import seng302.data.Term;
+import seng302.utility.FileHandler;
 import seng302.utility.OutputTuple;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Type;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
@@ -33,13 +32,11 @@ public class User {
 
     private String userName;
 
-
     private Image profilePic;
 
     private ProjectHandler projectHandler;
 
     private Environment env;
-
 
     private JSONObject properties;
 
@@ -58,11 +55,24 @@ public class User {
         this.userPassword = password;
         this.env = env;
 
+
+
         properties = new JSONObject();
 
         createUserFiles();
         loadBasicProperties();
         saveProperties();
+
+        Path filePath = Paths.get(this.userDirectory.toString()+"/profilePicture");
+        try {
+            URI defaultPath = getClass().getResource("/images/testDP.jpg").toURI();
+            FileHandler.copyFolder(new File(defaultPath), filePath.toFile());
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            System.out.println("nooooooooooooooooooooooooooooooooooooooooooo");
+        }
+        this.profilePic = new Image(userDirectory.toUri() + "/profilePicture");
 
         projectHandler = new ProjectHandler(env, userName);
         //loadFullProperties();
@@ -79,6 +89,8 @@ public class User {
         this.userName = user;
         properties = new JSONObject();
         loadBasicProperties();
+        this.profilePic = new Image(userDirectory.toUri() + "/profilePicture");
+
     }
 
     public void loadFullProperties(){
@@ -279,8 +291,13 @@ public class User {
     public String getUserName(){return  userName;}
 
 
+    public void setUserPicture(Image image) {
+        this.profilePic = image;
+    }
 
-
+    public Image getUserPicture() {
+        return this.profilePic;
+    }
 
 
 

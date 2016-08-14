@@ -99,14 +99,14 @@ public class UserLoginController {
 
     public void displayRecentUsers(){
         String name;
-        Image image = new Image(getClass().getResourceAsStream
-                ("/images/gear-1119298_960_720.png"), 10, 10, true, true);
+        //Image image = new Image(getClass().getResourceAsStream
+                //("/images/gear-1119298_960_720.png"), 10, 10, true, true);
 
         System.out.println(env.getUserHandler().getRecentUsers());
         for(User user: env.getUserHandler().getRecentUsers()) {
             name = user.getUserName();
 
-
+            Image image = user.getUserPicture();
             recentUsersHbox.getChildren().add(generateRecentUser(name, image));
         }
 

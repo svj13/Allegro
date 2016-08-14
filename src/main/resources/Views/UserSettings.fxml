@@ -42,7 +42,7 @@
             <Image url="images/testDP.jpg" />
          </image>
       </ImageView>
-      <Button fx:id="editDpButton" layoutX="90.0" layoutY="163.0" mnemonicParsing="false" text="Edit" />
+      <Button fx:id="uploadPhotoButton" layoutX="90.0" layoutY="163.0" mnemonicParsing="false" onAction="#launchPhotoChooser" text="Upload" />
       <Label alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="46.0" text="Basic information" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="16.0" />
