@@ -23,9 +23,6 @@ public class TouchPane extends StackPane {
     Note noteToPlay;
     private boolean isblackKey;
 
-    // Used to avoid the bug where both a touch and a click is registered
-    private boolean isTouch;
-
 
     /**
      * Constructor for a single touch pane
@@ -48,7 +45,6 @@ public class TouchPane extends StackPane {
 
         // Event handler for on touch
         EventHandler<TouchEvent> touchPress = event -> {
-            isTouch = true;
             if (touchId == -1) {
                 touchId = event.getTouchPoint().getId();
                 if (kpc.isPlayMode()) {
@@ -65,7 +61,6 @@ public class TouchPane extends StackPane {
 
         // Event handler for release of touch
         EventHandler<TouchEvent> touchRelease = event -> {
-            isTouch = false;
             if (event.getTouchPoint().getId() == touchId) {
                 touchId = -1;
                 if (kpc.isPlayMode()) {
@@ -98,7 +93,7 @@ public class TouchPane extends StackPane {
 
         // Event handler for when mouse is clicked
         setOnMousePressed(event -> {
-            if (!isTouch) {
+            if (!event.isSynthesized()) {
                 if (kpc.isPlayMode()) {
                     if (environment.isShiftPressed()) {
                         keyboardPaneController.addMultiNote(noteToPlay, me);
