@@ -151,8 +151,8 @@ public class IntervalRecognitionTutorController extends TutorController {
                     thisInterval.getName(),
                     "2"
             };
-            projectHandler.saveTutorRecords("interval", record.addQuestionAnswer(question));
-            env.getRootController().setTabTitle("intervalTutor", true);
+            record.addQuestionAnswer(question);
+            env.getRootController().setTabTitle(getTabID(), true);
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -181,8 +181,8 @@ public class IntervalRecognitionTutorController extends TutorController {
                     options.getValue(),
                     correct.toString()
             };
-            projectHandler.saveTutorRecords("interval", record.addQuestionAnswer(question));
-            env.getRootController().setTabTitle("intervalTutor", true);
+            record.addQuestionAnswer(question);
+            env.getRootController().setTabTitle(getTabID(), true);
             // Shows the correct answer
             if (manager.answered == manager.questions) {
                 finished();
@@ -312,64 +312,5 @@ public class IntervalRecognitionTutorController extends TutorController {
         rangeSlider.setHighValue(72);
     }
 
-    /**
-     * This function is run once a tutoring session has been completed.
-     */
-    public void finished() {
-        env.getPlayer().stop();
-        userScore = getScore(manager.correct, manager.answered);
-        outputText = String.format("You have finished the tutor.\n" +
-                        "You answered %d questions, and skipped %d questions.\n" +
-                        "You answered %d questions correctly, %d questions incorrectly.\n" +
-                        "This gives a score of %.2f percent.",
-                manager.questions, manager.skipped,
-                manager.correct, manager.incorrect, userScore);
-        record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
-        record.setFinished();
-        record.setDate();
-        if (projectHandler.currentProjectPath != null) {
-            projectHandler.saveSessionStat("interval", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
-            projectHandler.saveCurrentProject();
-            outputText += "\nSession auto saved.";
-        }
-        env.getRootController().setTabTitle("intervalTutor", false);
-
-        resultsContent.setText(outputText);
-
-        paneQuestions.setVisible(false);
-        paneResults.setVisible(true);
-        questionRows.getChildren().clear();
-
-        Button retestBtn = new Button("Retest");
-        Button clearBtn = new Button("Clear");
-        final Button saveBtn = new Button("Save");
-
-        clearBtn.setOnAction(event -> {
-            manager.saveTempIncorrect();
-            paneResults.setVisible(false);
-            paneQuestions.setVisible(true);
-        });
-        paneResults.setPadding(new Insets(10, 10, 10, 10));
-        retestBtn.setOnAction(event -> {
-            paneResults.setVisible(false);
-            paneQuestions.setVisible(true);
-            retest();
-        });
-        saveBtn.setOnAction(event -> saveRecord());
-
-        if (manager.getTempIncorrectResponses().size() > 0) {
-            //Can re-test
-            buttons.getChildren().setAll(retestBtn, clearBtn, saveBtn);
-        } else {
-            //Perfect score
-            buttons.getChildren().setAll(clearBtn, saveBtn);
-        }
-
-        HBox.setMargin(retestBtn, new Insets(10, 10, 10, 10));
-        HBox.setMargin(clearBtn, new Insets(10, 10, 10, 10));
-        HBox.setMargin(saveBtn, new Insets(10, 10, 10, 10));
-        // Clear the current session
-        manager.resetStats();
-    }
 
 }

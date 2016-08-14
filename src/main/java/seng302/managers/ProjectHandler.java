@@ -186,50 +186,6 @@ public class ProjectHandler {
     }
 
 
-    public void saveSessionStat(String tutorType, Map<String, Number> statString) {
-        if (tutorType.equals("pitch")) {
-
-            pitchTutorRecordStats = statString;
-
-        } else if (tutorType.equals("interval")) {
-
-            intervalTutorRecordStats += (statString);
-
-        } else if (tutorType.equals("musicalTerm")) {
-            musicalTermTutorRecordStats += (statString);
-
-        } else if (tutorType.equals("scale")) {
-
-            scaleTutorRecordStats += (statString);
-
-        } else if (tutorType.equals("chord")) {
-
-            chordTutorRecordStats += (statString);
-        } else if (tutorType.equals("spelling")) {
-
-            spellingTutorRecordStats += (statString);
-        }
-
-
-    }
-
-    public void saveTutorRecords(String tutorType, Map<String, String> record) {
-        if (tutorType.equals("pitch")) {
-            pitchTutorRecordsList.add(record);
-        }
-//        } else if (tutorType.equals("interval")) {
-//            intervalTutorRecordsList.add(record);
-//        } else if (tutorType.equals("musicalTerm")) {
-//            musicalTermTutorRecordsList.add(record);
-//        } else if (tutorType.equals("scale")) {
-//            scaleTutorRecordsList.add(record);
-//        } else if (tutorType.equals("chord")) {
-//            chordTutorRecordsList.add(record);
-//        } else if (tutorType.equals("spelling")) {
-//            spellingTutorRecordsList.add(record);
-//        }
-    }
-
 
     /**
      * load all saved project properties from the project json file. This currently supports Tempo,
@@ -409,13 +365,15 @@ public class ProjectHandler {
             saveTutorRecordsToFile(projectAddress + "/MusicalTermsTutor.json", env.getRootController().MusicalTermsTabController.record);
         }
         if (env.getRootController().tabSaveCheck("scaleTutor")) {
-            saveTutorRecordsToFile(projectAddress + "/ScaleRecognitionTutor.json", env.getRootController().ScaleRecognitionTabController.record);
         }
         if (env.getRootController().tabSaveCheck("chordTutor")) {
             saveTutorRecordsToFile(projectAddress + "/ChordRecognitionTutor.json", env.getRootController().ChordRecognitionTabController.record);
         }
         if (env.getRootController().tabSaveCheck("chordSpellingTutor")) {
             saveTutorRecordsToFile(projectAddress + "/ChordSpellingTutor.json", env.getRootController().ChordSpellingTabController.record);
+        }
+        if (env.getRootController().tabSaveCheck("keySignatureTutor")) {
+            saveTutorRecordsToFile(projectAddress + "/KeySignatureTutor.json", env.getRootController().KeySignaturesTabController.record);
         }
     }
 

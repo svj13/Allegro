@@ -745,7 +745,8 @@ public class ChordSpellingTutorController extends TutorController {
                 selectedAnswer,
                 answeredCorrectly.toString()
         };
-        projectHandler.saveTutorRecords("spelling", record.addQuestionAnswer(question));
+        record.addQuestionAnswer(question);
+        env.getRootController().setTabTitle(getTabID(), true);
 
         updateManagerCompletedQuestion();
     }
@@ -780,69 +781,6 @@ public class ChordSpellingTutorController extends TutorController {
         }
     }
 
-    /**
-     * Runs once the tutoring session has finished.
-     * Shows the statistics of the session, and saves information.
-     */
-    private void finished() {
-        userScore = getScore(manager.correct, manager.answered);
-        outputText = String.format("You have finished the tutor.\n" +
-                        "You answered %d questions, and skipped %d questions.\n" +
-                        "You answered %d questions correctly, %d questions incorrectly.\n" +
-                        "This gives a score of %.2f percent.",
-                manager.questions, manager.skipped,
-                manager.correct, manager.incorrect, userScore);
-        record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
-        record.setFinished();
-        record.setDate();
-        if (projectHandler.currentProjectPath != null) {
-            projectHandler.saveSessionStat("spelling", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
-            projectHandler.saveCurrentProject();
-            outputText += "\nSession auto saved";
-        }
-        env.getRootController().setTabTitle("chordSpellingTutor", false);
-        // Sets the finished view
-        resultsContent.setText(outputText);
-
-        paneQuestions.setVisible(false);
-        paneResults.setVisible(true);
-        questionRows.getChildren().clear();
-
-        Button retestBtn = new Button("Retest");
-        Button clearBtn = new Button("Clear");
-        final Button saveBtn = new Button("Save");
-
-
-        clearBtn.setOnAction(event -> {
-            manager.saveTempIncorrect();
-            paneResults.setVisible(false);
-            paneQuestions.setVisible(true);
-
-        });
-        paneResults.setPadding(new Insets(10, 10, 10, 10));
-        retestBtn.setOnAction(event -> {
-            paneResults.setVisible(false);
-            paneQuestions.setVisible(true);
-            retest();
-
-        });
-        saveBtn.setOnAction(event -> saveRecord());
-
-
-        if (manager.getTempIncorrectResponses().size() > 0) {
-            //Can re-test
-            buttons.getChildren().setAll(retestBtn, clearBtn, saveBtn);
-        } else {
-            //Perfect score
-            buttons.getChildren().setAll(clearBtn, saveBtn);
-        }
-
-        HBox.setMargin(retestBtn, new Insets(10, 10, 10, 10));
-        HBox.setMargin(clearBtn, new Insets(10, 10, 10, 10));
-        HBox.setMargin(saveBtn, new Insets(10, 10, 10, 10));
-        // Clear the current session
-        manager.resetStats();
-    }
 
     /**
      * Run when a user elects to skip a question. Saves that question to the manager as skipped, and
@@ -860,9 +798,9 @@ public class ChordSpellingTutorController extends TutorController {
         manager.questions -= 1;
         manager.add(new Pair<>(finalData, questionType), 2);
 
-        projectHandler.saveTutorRecords("spelling", record.addQuestionAnswer(questionInfo));
+        record.addQuestionAnswer(questionInfo);
 
-        env.getRootController().setTabTitle("chordSpellingTutor", true);
+        env.getRootController().setTabTitle(getTabID(), true);
         if (manager.answered == manager.questions) {
             finished();
         }

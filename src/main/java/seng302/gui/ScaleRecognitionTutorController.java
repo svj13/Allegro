@@ -175,7 +175,7 @@ public class ScaleRecognitionTutorController extends TutorController {
                 userAnswer,
                 correct.toString()
         };
-        projectHandler.saveTutorRecords("scale", record.addQuestionAnswer(question));
+        record.addQuestionAnswer(question);
         env.getRootController().setTabTitle("scaleTutor", true);
 
         if (manager.answered == manager.questions) {
@@ -225,8 +225,8 @@ public class ScaleRecognitionTutorController extends TutorController {
                     scaleType,
                     "2"
             };
-            projectHandler.saveTutorRecords("scale", record.addQuestionAnswer(question));
-            env.getRootController().setTabTitle("scaleTutor", true);
+            record.addQuestionAnswer(question);
+            env.getRootController().setTabTitle(getTabID(), true);
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -251,11 +251,6 @@ public class ScaleRecognitionTutorController extends TutorController {
         options.setPrefHeight(30);
 
         options.getItems().addAll(playScaleType);
-
-//        options.getItems().add("major");
-//        options.getItems().add("minor");
-//        options.getItems().add("melodic minor");
-
         return options;
     }
 
@@ -268,67 +263,6 @@ public class ScaleRecognitionTutorController extends TutorController {
         ccbScales.getCheckModel().clearChecks();
         ccbScales.getCheckModel().check(0);
         ccbScales.getCheckModel().check(1);
-    }
-
-
-    /**
-     * This function is run once a tutoring session has been completed.
-     */
-    public void finished() {
-        env.getPlayer().stop();
-        userScore = getScore(manager.correct, manager.answered);
-        outputText = String.format("You have finished the tutor.\n" +
-                        "You answered %d questions, and skipped %d questions.\n" +
-                        "You answered %d questions correctly, %d questions incorrectly.\n" +
-                        "This gives a score of %.2f percent.",
-                manager.questions, manager.skipped,
-                manager.correct, manager.incorrect, userScore);
-        record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
-        record.setFinished();
-        record.setDate();
-        if (projectHandler.currentProjectPath != null) {
-            projectHandler.saveSessionStat("scale", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
-            projectHandler.saveCurrentProject();
-            outputText += "\nSession auto saved";
-        }
-        env.getRootController().setTabTitle("scaleTutor", false);
-        // Sets the finished view
-        resultsContent.setText(outputText);
-
-        paneQuestions.setVisible(false);
-        paneResults.setVisible(true);
-        questionRows.getChildren().clear();
-
-        Button retestBtn = new Button("Retest");
-        Button clearBtn = new Button("Clear");
-        final Button saveBtn = new Button("Save");
-
-        clearBtn.setOnAction(event -> {
-            manager.saveTempIncorrect();
-            paneResults.setVisible(false);
-            paneQuestions.setVisible(true);
-        });
-        paneResults.setPadding(new Insets(10, 10, 10, 10));
-        retestBtn.setOnAction(event -> {
-            paneResults.setVisible(false);
-            paneQuestions.setVisible(true);
-            retest();
-        });
-        saveBtn.setOnAction(event -> saveRecord());
-
-        if (manager.getTempIncorrectResponses().size() > 0) {
-            //Can re-test
-            buttons.getChildren().setAll(retestBtn, clearBtn, saveBtn);
-        } else {
-            //Perfect score
-            buttons.getChildren().setAll(clearBtn, saveBtn);
-        }
-
-        HBox.setMargin(retestBtn, new Insets(10, 10, 10, 10));
-        HBox.setMargin(clearBtn, new Insets(10, 10, 10, 10));
-        HBox.setMargin(saveBtn, new Insets(10, 10, 10, 10));
-        // Clear the current session
-        manager.resetStats();
     }
 
 }

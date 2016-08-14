@@ -1,7 +1,5 @@
 package seng302.utility;
 
-import com.google.gson.Gson;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -57,18 +55,6 @@ public class TutorRecord {
 
     public boolean isFinished() {
         return finished;
-    }
-
-    /**
-     * Saves a tutoring record to a text file
-     *
-     * @param recordLocation Where to save the the record
-     */
-    public void writeToFile(String recordLocation) {
-        setDate();
-        Gson gson = new Gson();
-
-
     }
 
 //    public static void readFromFile(String recordLocation) {

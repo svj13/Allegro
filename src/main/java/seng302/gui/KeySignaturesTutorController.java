@@ -43,6 +43,7 @@ public class KeySignaturesTutorController extends TutorController {
     Label formLabel;
 
 
+
     /**
      * ArrayLists containing the major and minor notes thats are used to populate the answer
      * comboboxs used for question type 2
@@ -215,8 +216,8 @@ public class KeySignaturesTutorController extends TutorController {
                     correctAnswer,
                     "2"
             };
-            projectHandler.saveTutorRecords("keySignature", record.addQuestionAnswer(recordQuestion));
-            env.getRootController().setTabTitle("keySignatureTutor", true);
+            record.addQuestionAnswer(recordQuestion);
+            env.getRootController().setTabTitle(getTabID(), true);
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -248,8 +249,8 @@ public class KeySignaturesTutorController extends TutorController {
                     options.getValue(),
                     String.valueOf(isCorrect)
             };
-            projectHandler.saveTutorRecords("keySignature", record.addQuestionAnswer(recordQuestion));
-            env.getRootController().setTabTitle("keySignatureTutor", true);
+            record.addQuestionAnswer(recordQuestion);
+            env.getRootController().setTabTitle(getTabID(), true);
             // Shows the correct answer
             if (manager.answered == manager.questions) {
                 finished();
@@ -285,8 +286,8 @@ public class KeySignaturesTutorController extends TutorController {
                         options.getValue(),
                         String.valueOf(isCorrect)
                 };
-                projectHandler.saveTutorRecords("keySignature", record.addQuestionAnswer(recordQuestion));
-                env.getRootController().setTabTitle("keySignatureTutor", true);
+                record.addQuestionAnswer(recordQuestion);
+                env.getRootController().setTabTitle(getTabID(), true);
                 // Shows the correct answer
                 if (manager.answered == manager.questions) {
                     finished();
@@ -327,8 +328,8 @@ public class KeySignaturesTutorController extends TutorController {
                             options.getValue(),
                             String.valueOf(isCorrect)
                     };
-                    projectHandler.saveTutorRecords("keySignature", record.addQuestionAnswer(recordQuestion));
-                    env.getRootController().setTabTitle("keySignatureTutor", true);
+                    record.addQuestionAnswer(recordQuestion);
+                    env.getRootController().setTabTitle(getTabID(), true);
                     // Shows the correct answer
                     if (manager.answered == manager.questions) {
                         finished();
@@ -497,8 +498,8 @@ public class KeySignaturesTutorController extends TutorController {
                     correctAnswer,
                     "2"
             };
-            projectHandler.saveTutorRecords("keySignature", record.addQuestionAnswer(recordQuestion));
-            env.getRootController().setTabTitle("keySignatureTutor", true);
+            record.addQuestionAnswer(recordQuestion);
+            env.getRootController().setTabTitle(getTabID(), true);
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -529,8 +530,8 @@ public class KeySignaturesTutorController extends TutorController {
                     options.getValue(),
                     String.valueOf(isCorrect)
             };
-            projectHandler.saveTutorRecords("keySignature", record.addQuestionAnswer(recordQuestion));
-            env.getRootController().setTabTitle("keySignatureTutor", true);
+            record.addQuestionAnswer(recordQuestion);
+            env.getRootController().setTabTitle(getTabID(), true);
             // Shows the correct answer
             if (manager.answered == manager.questions) {
                 finished();
@@ -566,8 +567,8 @@ public class KeySignaturesTutorController extends TutorController {
                         options.getValue(),
                         String.valueOf(isCorrect)
                 };
-                projectHandler.saveTutorRecords("keySignature", record.addQuestionAnswer(recordQuestion));
-                env.getRootController().setTabTitle("keySignatureTutor", true);
+                record.addQuestionAnswer(recordQuestion);
+                env.getRootController().setTabTitle(getTabID(), true);
                 // Shows the correct answer
                 if (manager.answered == manager.questions) {
                     finished();
@@ -605,8 +606,8 @@ public class KeySignaturesTutorController extends TutorController {
                         options.getValue(),
                         String.valueOf(isCorrect)
                 };
-                projectHandler.saveTutorRecords("keySignature", record.addQuestionAnswer(recordQuestion));
-                env.getRootController().setTabTitle("keySignatureTutor", true);
+                record.addQuestionAnswer(recordQuestion);
+                env.getRootController().setTabTitle(getTabID(), true);
                 // Shows the correct answer
                 if (manager.answered == manager.questions) {
                     finished();
@@ -818,8 +819,8 @@ public class KeySignaturesTutorController extends TutorController {
                     correctAnswer,
                     "2"
             };
-            projectHandler.saveTutorRecords("keySignature", record.addQuestionAnswer(recordQuestion));
-            env.getRootController().setTabTitle("keySignatureTutor", true);
+            record.addQuestionAnswer(recordQuestion);
+            env.getRootController().setTabTitle(getTabID(), true);
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -878,8 +879,8 @@ public class KeySignaturesTutorController extends TutorController {
                         options.getValue(),
                         String.valueOf(isCorrect)
                 };
-                projectHandler.saveTutorRecords("keySignature", record.addQuestionAnswer(recordQuestion));
-                env.getRootController().setTabTitle("keySignatureTutor", true);
+                record.addQuestionAnswer(recordQuestion);
+                env.getRootController().setTabTitle(getTabID(), true);
                 // Shows the correct answer
                 if (manager.answered == manager.questions) {
                     finished();
@@ -1142,71 +1143,6 @@ public class KeySignaturesTutorController extends TutorController {
 
         return options;
     }
-
-
-    /**
-     * This function is run once a tutoring session has been completed.
-     */
-    public void finished() {
-        env.getPlayer().stop();
-        userScore = getScore(manager.correct, manager.answered);
-        outputText = String.format("You have finished the tutor.\n" +
-                        "You answered %d questions, and skipped %d questions.\n" +
-                        "You answered %d questions correctly, %d questions incorrectly.\n" +
-                        "This gives a score of %.2f percent.",
-                manager.questions, manager.skipped,
-                manager.correct, manager.incorrect, userScore);
-
-        record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
-        record.setFinished();
-        record.setDate();
-        if (projectHandler.currentProjectPath != null) {
-            projectHandler.saveSessionStat("keySignature", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
-            projectHandler.saveCurrentProject();
-            outputText += "\nSession auto saved.";
-        }
-        env.getRootController().setTabTitle("keySignatureTutor", false);
-        // Sets the finished view
-        resultsContent.setText(outputText);
-
-        paneQuestions.setVisible(false);
-        paneResults.setVisible(true);
-        questionRows.getChildren().clear();
-
-        Button retestBtn = new Button("Retest");
-        Button clearBtn = new Button("Clear");
-        Button saveBtn = new Button("Save");
-
-        clearBtn.setOnAction(event -> {
-            manager.saveTempIncorrect();
-            paneResults.setVisible(false);
-            paneQuestions.setVisible(true);
-        });
-
-        paneResults.setPadding(new Insets(10, 10, 10, 10));
-        retestBtn.setOnAction(event -> {
-            paneResults.setVisible(false);
-            paneQuestions.setVisible(true);
-            retest();
-
-        });
-        saveBtn.setOnAction(event -> saveRecord());
-
-        if (manager.getTempIncorrectResponses().size() > 0) {
-            //Can re-test
-            buttons.getChildren().setAll(retestBtn, clearBtn, saveBtn);
-        } else {
-            //Perfect score
-            buttons.getChildren().setAll(clearBtn, saveBtn);
-        }
-
-        buttons.setMargin(retestBtn, new Insets(10, 10, 10, 10));
-        buttons.setMargin(clearBtn, new Insets(10, 10, 10, 10));
-        buttons.setMargin(saveBtn, new Insets(10, 10, 10, 10));
-        // Clear the current session
-        manager.resetStats();
-    }
-
 
     /**
      * Returns the option combo boxes to their default states.
