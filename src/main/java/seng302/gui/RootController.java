@@ -3,6 +3,8 @@ package seng302.gui;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.*;
 import javafx.scene.effect.DropShadow;
@@ -311,7 +313,23 @@ public class RootController implements Initializable {
         userDropDown.setText(name);
     }
     @FXML
-    protected void logOutUser() {
+    protected void logOutUser() throws IOException {
+        Stage stage = (Stage) paneMain.getScene().getWindow();
+        stage.close();
+
+        FXMLLoader loader1 = new FXMLLoader();
+        loader1.setLocation(getClass().getResource("/Views/userLogin.fxml"));
+
+        Parent root1 = loader1.load();
+        Scene scene1 = new Scene(root1);
+
+        stage.setTitle("Allegro2");
+        stage.setScene(scene1);
+        stage.show();
+        UserLoginController userLoginController = loader1.getController();
+        userLoginController.setEnv(env);
+        userLoginController.displayRecentUsers();
+
 
 
     }

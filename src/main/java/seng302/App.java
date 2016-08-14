@@ -44,7 +44,7 @@ public class App extends Application {
             Parent root1 = loader1.load();
             Scene scene1 = new Scene(root1);
 
-            stage.setTitle("Allegro");
+            stage.setTitle("Allegro2");
             stage.setScene(scene1);
             stage.show();
             UserLoginController userLoginController = loader1.getController();
