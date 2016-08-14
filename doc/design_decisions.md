@@ -75,3 +75,10 @@ Answer: The zoom gesture is a little bit of gold plating at this stage as you ha
 4. My last question is more vague. We basically said that we would discuss the keyboard input options once we had the keyboard working, but unfortunately the holidays have been busy for our whole team and the keyboard is only done now which doesn't really leave time for a meeting. So would you like to be able to press a key and enter that key as text in the command? If so, would that involve some way of changing mode, from playing mode to input mode? 
 
 Answer: Yes to a toggle button that toggles between “input” and “play” (or suitable words).
+
+## Decision regarding reading from tutor files
+
+It was discovered that the tutor files would have to be manually parsed if we left them as is, so we are going to change the way they are saved.
+Moffat is happy for us to do this. For old tutor files he would like us to just have a message that files relate to a previous version and are not compatible.
+
+If we have time and the PO approves, we will create a utility to convert the old files to the new format.

@@ -111,6 +111,31 @@ public class DiatonicChordsTutorController extends TutorController {
         Button skip = new Button("Skip");
         styleSkipButton(skip);
 
+        skip.setOnAction(event -> {
+            // Disables only input buttons
+            disableButtons(questionRow, 1, 3);
+            formatSkippedQuestion(questionRow);
+            manager.questions -= 1;
+            manager.add(data, 2);
+            String questionString;
+            if (getTypeOfQuestion(questionAnswer) == 1) {
+                questionString = String.format(typeOneText, data.getKey(), data.getValue());
+            } else {
+                Pair chord = (Pair) data.getValue();
+                questionString = String.format(typeTwoText, data.getKey(), chord.getKey() + " " + chord.getValue());
+            }
+            String[] questionList = new String[]{
+                    questionString,
+                    answer,
+                    "2"
+            };
+            record.addQuestionAnswer(questionList);
+            env.getRootController().setTabTitle(getTabID(), true);
+            if (manager.answered == manager.questions) {
+                finished();
+            }
+        });
+
         questionRow.getChildren().add(0, question);
         questionRow.getChildren().add(1, options);
         questionRow.getChildren().add(2, skip);
@@ -180,15 +205,15 @@ public class DiatonicChordsTutorController extends TutorController {
      */
     public void handleQuestionAnswer(String userAnswer, Pair questionAndAnswer, HBox questionRow) {
         manager.answered += 1;
-        boolean correct;
+        Integer correct;
         disableButtons(questionRow, 1, 2);
         String correctAnswer = (String) questionAndAnswer.getValue();
         if (userAnswer.equalsIgnoreCase(correctAnswer)) {
-            correct = true;
+            correct = 1;
             manager.add(questionAndAnswer, 1);
             formatCorrectQuestion(questionRow);
         } else {
-            correct = false;
+            correct = 0;
             manager.add(questionAndAnswer, 0);
             formatIncorrectQuestion(questionRow);
             //Shows the correct answer
@@ -202,7 +227,7 @@ public class DiatonicChordsTutorController extends TutorController {
                             questionPair.getKey(),
                             questionPair.getValue()),
                     userAnswer,
-                    Boolean.toString(correct)
+                    String.valueOf(correct)
             };
         } else {
             Pair chord = (Pair) questionPair.getValue();
@@ -211,11 +236,11 @@ public class DiatonicChordsTutorController extends TutorController {
                             questionPair.getKey(),
                             chord.getKey() + " " + chord.getValue()),
                     userAnswer,
-                    Boolean.toString(correct)
+                    String.valueOf(correct)
             };
         }
-        projectHandler.saveTutorRecords("diatonic", record.addQuestionAnswer(question));
-        env.getRootController().setTabTitle("diatonicChordTutor", true);
+        record.addQuestionAnswer(question);
+        env.getRootController().setTabTitle(getTabID(), true);
 
         if (manager.answered == manager.questions) {
             finished();
@@ -223,66 +248,6 @@ public class DiatonicChordsTutorController extends TutorController {
 
     }
 
-    /**
-     * Outputs the stats for the finished tutor session. Also creates buttons for retest, save and
-     * clear.
-     */
-    public void finished() {
-        env.getPlayer().stop();
-        userScore = getScore(manager.correct, manager.answered);
-        outputText = String.format("You have finished the tutor.\n" +
-                        "You answered %d questions, and skipped %d questions.\n" +
-                        "You answered %d questions correctly, %d questions incorrectly.\n" +
-                        "This gives a score of %.2f percent.",
-                manager.questions, manager.skipped,
-                manager.correct, manager.incorrect, userScore);
-        record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
-        if (projectHandler.currentProjectPath != null) {
-            projectHandler.saveSessionStat("diatonic", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
-            projectHandler.saveCurrentProject();
-            outputText += "\nSession auto saved.";
-        }
-        env.getRootController().setTabTitle("diatonicChordTutor", false);
-        // Sets the finished view
-        resultsContent.setText(outputText);
-
-        paneQuestions.setVisible(false);
-        paneResults.setVisible(true);
-        questionRows.getChildren().clear();
-
-        Button retestBtn = new Button("Retest");
-        Button clearBtn = new Button("Clear");
-        Button saveBtn = new Button("Save");
-
-        clearBtn.setOnAction(event -> {
-            manager.saveTempIncorrect();
-            paneResults.setVisible(false);
-            paneQuestions.setVisible(true);
-        });
-
-        paneResults.setPadding(new Insets(10, 10, 10, 10));
-        retestBtn.setOnAction(event -> {
-            paneResults.setVisible(false);
-            paneQuestions.setVisible(true);
-            retest();
-
-        });
-        saveBtn.setOnAction(event -> saveRecord());
-
-        if (manager.getTempIncorrectResponses().size() > 0) {
-            //Can re-test
-            buttons.getChildren().setAll(retestBtn, clearBtn, saveBtn);
-        } else {
-            //Perfect score
-            buttons.getChildren().setAll(clearBtn, saveBtn);
-        }
-
-        buttons.setMargin(retestBtn, new Insets(10, 10, 10, 10));
-        buttons.setMargin(clearBtn, new Insets(10, 10, 10, 10));
-        buttons.setMargin(saveBtn, new Insets(10, 10, 10, 10));
-        // Clear the current session
-        manager.resetStats();
-    }
 
     @Override
     void resetInputs() {
