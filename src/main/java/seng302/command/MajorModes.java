@@ -6,6 +6,7 @@ import seng302.data.Note;
 import seng302.utility.musicNotation.OctaveUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class MajorModes implements Command {
     private String outputString;
 
 
-    private HashMap<Integer, String> modes = new HashMap();
+    private ArrayList<String> majorNotes = new ArrayList<>(Arrays.asList("C", "G", "D", "A", "E", "B", "F", "Bb", "Eb", "Ab", "Db", "Gb"));
 
 
     /**
@@ -57,8 +58,27 @@ public class MajorModes implements Command {
         this.commandType = "parentOf";
         this.startNote = scale.get("note");
         this.scaleType = scale.get("scale_type");
+        this.tonic = Note.lookup(OctaveUtil.addDefaultOctave(startNote));
 
-        //continue doing things here
+
+
+    }
+
+
+    /**
+     *  The logic for the "parent of" command.
+     *  Gets the name of the parent scale given a major mode scale
+     * @param env
+     */
+    public void getParentscale(Environment env){
+        degree = ModeHelper.getkeyModes().get(scaleType);
+        for(String note : majorNotes){
+            Note tonic = Note.lookup(OctaveUtil.addDefaultOctave(note));
+            ArrayList<String> majorScale = Scale.scaleNameList(note, tonic.getScale("major", true), true);
+            if(majorScale.get(degree - 1).equals(startNote)){
+                env.getTranscriptManager().setResult(note + " major");
+            }
+        }
 
     }
 
@@ -74,7 +94,7 @@ public class MajorModes implements Command {
         if (degree >= 1 && degree <= 7) {
             ArrayList<String> majorScale = Scale.scaleNameList(typedTonic, tonic.getScale("major", true), true);
             String parentNote = majorScale.get(degree - 1);
-            String mode = ModeHelper.getModes().get(degree);
+            String mode = ModeHelper.getValueModes().get(degree);
 
             env.getTranscriptManager().setResult(parentNote + " " + mode);
         } else {
@@ -87,6 +107,8 @@ public class MajorModes implements Command {
     public void execute(Environment env){
         if (commandType.equals("modeOf")) {
             getCorrespondingScale(env);
+        }else if( commandType.equals("parentOf")){
+            getParentscale(env);
         }
     }
 

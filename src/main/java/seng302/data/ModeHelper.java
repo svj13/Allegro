@@ -4,27 +4,46 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Utility class to store a list of major modes, along with their corresponding degree.
+ * Utility class to store a list of major valueModes, along with their corresponding degree.
  */
 public class ModeHelper {
 
 
-    private static Map modes = new HashMap<Integer, String>();
+    private static Map valueModes = new HashMap<Integer, String>();
+    private static Map keyModes = new HashMap<String, Integer>();
 
     static {
 
-        modes.put(1, "ionian");
-        modes.put(2, "dorian");
-        modes.put(3, "phrygian");
-        modes.put(4, "lydian");
-        modes.put(5, "mixolydian");
-        modes.put(6, "aeolian");
-        modes.put(7, "locrian");
+        valueModes.put(1, "ionian");
+        valueModes.put(2, "dorian");
+        valueModes.put(3, "phrygian");
+        valueModes.put(4, "lydian");
+        valueModes.put(5, "mixolydian");
+        valueModes.put(6, "aeolian");
+        valueModes.put(7, "locrian");
 
     }
 
-    public static Map<Integer, String> getModes() {
-        return modes;
+    static {
+
+        keyModes.put("ionian", 1);
+        keyModes.put("dorian", 2);
+        keyModes.put("phrygian", 3);
+        keyModes.put("lydian", 4);
+        keyModes.put("mixolydian", 5);
+        keyModes.put("aeolian", 6);
+        keyModes.put("locrian", 7);
+
+    }
+
+
+
+
+    public static Map<Integer, String> getValueModes() {
+        return valueModes;
+    }
+    public static Map<String, Integer> getkeyModes() {
+        return keyModes;
     }
 
 

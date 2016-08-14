@@ -30,9 +30,10 @@ public class MajorModesSteps {
         result = env.getTranscriptManager().getTranscriptTuples().get(0).getResult();
     }
 
-    @When("I type the command 'parent of (.+)(.+)'")
-    public void executeParentCommand(final String tonic, final String majorMode) {
-        env.getExecutor().executeCommand("mode of " + tonic + " " + majorMode);
+    @When("I type the command 'parent of (.+)'")
+    public void executeParentCommand(final String scale) {
+        System.out.println("parent of" + scale);
+        env.getExecutor().executeCommand("parent of " + scale);
         result = env.getTranscriptManager().getTranscriptTuples().get(0).getResult();
     }
 
