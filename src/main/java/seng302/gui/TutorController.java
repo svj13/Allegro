@@ -1,6 +1,13 @@
 package seng302.gui;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -289,23 +296,49 @@ public abstract class TutorController {
         return noteName;
     }
 
+    public ArrayList<TutorRecord> getTutorData() {
+        String id = getTabID();
+        String projectAddress = projectHandler.getCurrentProjectPath();
+        String filename = "";
+        if (id.equals("pitchTutor")) {
+            filename = projectAddress + "/PitchComparisonTutor.json";
+        }
+        if (id.equals("scaleTutor")) {
+            filename = projectAddress + "/ScaleRecognitionTutor.json";
+        }
+        if (id.equals("intervalTutor")) {
+            filename = projectAddress + "/IntervalRecognitionTutor.json";
+        }
+        if (id.equals("musicalTermTutor")) {
+            filename = projectAddress + "/MusicalTermsTutor.json";
+        }
+        if (id.equals("chordTutor")) {
+            filename = projectAddress + "/ChordRecognitionTutor.json";
+        }
+        if (id.equals("chordSpellingTutor")) {
+            filename = projectAddress + "/ChordSpellingTutor.json";
+        }
+        if (id.equals("keySignatureTutor")) {
+            filename = projectAddress + "/KeySignatureTutor.json";
+        }
+        if (id.equals("diatonicChordTutor")) {
+            filename = projectAddress + "/DiatonicChordTutor.json";
+        }
+        Gson gson = new Gson();
+        ArrayList<TutorRecord> records = new ArrayList<>();
+        try {
+            JsonReader jsonReader = new JsonReader(new FileReader(filename));
+            records = gson.fromJson(jsonReader, new TypeToken<ArrayList<TutorRecord>>() {
+            }.getType());
 
-//    /**
-//     * Creates an alert to ask the user whether or not to save a record to file.
-//     */
-//    public void promptSaveRecord() {
-//        Alert savePrompt = new Alert(Alert.AlertType.NONE);
-//        savePrompt.setContentText("Would you like to save this tutoring session?");
-//        savePrompt.setHeaderText("Save Record?");
-//        ButtonType save = new ButtonType("Save");
-//        ButtonType cancel = new ButtonType("Discard");
-//        savePrompt.getButtonTypes().setAll(save, cancel);
-//        ButtonType result = savePrompt.showAndWait().get();
-//
-//        if (result.equals(save)) {
-//            saveRecord();
-//        }
-//    }
+        } catch (FileNotFoundException e) {
+            System.err.println("File not found.");
+        } catch (JsonSyntaxException e) {
+            System.err.println("File was not of the correct type.");
+        }
+        return records;
+
+    }
 
     /**
      * Formats a GUI question to indicate it was skipped
