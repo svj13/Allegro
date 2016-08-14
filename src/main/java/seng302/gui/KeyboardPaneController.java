@@ -3,6 +3,7 @@ package seng302.gui;
 import javafx.collections.FXCollections;
 import javafx.scene.control.*;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import org.controlsfx.control.PopOver;
 
 import java.util.ArrayList;
@@ -336,6 +337,28 @@ public class KeyboardPaneController {
         typeScale2.setValue("Major"); //setting major as the default value
         scaleTwoTypeOptions.getChildren().add(typeScale2);
 
+        // Hbox for label of start note key
+        HBox startNoteKey = new HBox();
+        Label startKey = new Label("  Start note of scale");
+        Rectangle startNoteKeySymbol = new Rectangle();
+        startNoteKeySymbol.setWidth(15);
+        startNoteKeySymbol.setHeight(15);
+        startNoteKeySymbol.setFill(Color.BLACK);
+        startNoteKey.getChildren().add(startNoteKeySymbol);
+        startNoteKey.getChildren().add(startKey);
+
+
+        //Hbox for label of other note key
+        HBox otherNoteKey = new HBox();
+        Circle otherNoteKeySymbol = new Circle();
+        otherNoteKeySymbol.setCenterX(100.0f);
+        otherNoteKeySymbol.setCenterY(100.0f);
+        otherNoteKeySymbol.setRadius(7.0f);
+        otherNoteKeySymbol.setFill(Color.BLACK);
+        Label otherKey = new Label("  Other notes of scale");
+        otherNoteKey.getChildren().add(otherNoteKeySymbol);
+        otherNoteKey.getChildren().add(otherKey);
+
 
 
 
@@ -470,6 +493,8 @@ public class KeyboardPaneController {
         displayScales.getChildren().add(scale1);
         displayScales.getChildren().add(scale2Label);
         displayScales.getChildren().add(scale2);
+        displayScales.getChildren().add(startNoteKey);
+        displayScales.getChildren().add(otherNoteKey);
         displayScales.getChildren().add(actionButtonBox);
 
 
