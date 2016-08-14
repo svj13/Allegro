@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import seng302.Environment;
-import seng302.data.Note;
 import seng302.utility.musicNotation.ChordUtil;
 import seng302.utility.musicNotation.OctaveUtil;
 
@@ -50,47 +49,28 @@ public class Diatonic implements Command {
         if (this.chordType != null) {
             this.command = "functionOf";
             this.startingNote = OctaveUtil.capitalise(map.get("scaleNote"));
+            this.scaleType = map.get("scale_type");
             this.chordNote = OctaveUtil.capitalise(map.get("chordNote"));
         }
     }
 
-    /**
-     * For the 'function of' command this method looks up the scale and checks if the chord note
-     * is in the scale. If it is in the scale, it finds which number note it is and finds the
-     * function (roman numeral) for the number note. It then checks that the quality of the chords
-     * matches the quality of that chord function.
-     * @return If this is all ok, it will return the function. Otherwise it return 'Non Functional'.
-     */
-    private String getFunctionOf() {
-        Note noteScaleStart = Note.lookup(OctaveUtil.addDefaultOctave(startingNote));
-        ArrayList<Note> scale = noteScaleStart.getScale("major", true);
-        ArrayList<String> scaleNoteNames = Scale.scaleNameList(startingNote, scale, true, "");
-        if (scaleNoteNames.contains(chordNote)) {
-            // The note is in the scale.
-            Integer numberOfNote = scaleNoteNames.indexOf(chordNote);
-            String romanNumeral = ChordUtil.integerToRomanNumeral(numberOfNote + 1);
-            String quality = ChordUtil.getDiatonicChordQuality(romanNumeral);
-            if (quality.equals(chordType)) {
-                result = romanNumeral;
-            } else {
-                result = "Non Functional";
-            }
-        } else {
-            result = "Non Functional";
-        }
-        return result;
-    }
-
     @Override
     public void execute(Environment env) {
-        if (command == "quality") {
+        if (command.equals("quality")) {
             result = ChordUtil.getDiatonicChordQuality(romanNumeral);
-        } else if (command == "chordFunction") {
+            env.getTranscriptManager().setResult(this.result);
+        } else if (!this.scaleType.equals("major")) {
+            env.error("Only major scales are accepted for this command.");
+        } else if (command.equals("chordFunction")) {
             result = ChordUtil.getChordFunction(romanNumeral, startingNote, scaleType);
-        } else if (command == "functionOf") {
-            result = getFunctionOf();
+            env.getTranscriptManager().setResult(this.result);
+        } else if (!this.chordType.contains("7th")) {
+            env.error("Only 7th chords are accepted for this command.");
+        } else if (command.equals("functionOf")) {
+            result = ChordUtil.getFunctionOf(startingNote, chordNote, chordType);
+            env.getTranscriptManager().setResult(this.result);
         }
-        env.getTranscriptManager().setResult(this.result);
+
     }
 
     public String getHelp() {
@@ -103,7 +83,7 @@ public class Diatonic implements Command {
                         "function of this pair.";
 
             case "functionOf":
-                return "When followed by a chord and a major key (e.g. C major), displays the function" +
+                return "When followed by a 7th chord and a major key (e.g. C major), displays the function " +
                         "of this pair.";
 
         }

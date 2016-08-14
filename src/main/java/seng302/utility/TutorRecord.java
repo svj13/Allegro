@@ -78,6 +78,7 @@ public class TutorRecord {
         tutorRecordStats += "Questions answered correctly: " + questionsAnsweredCorrectly;
         tutorRecordStats += "Questions answered incorrectly: " + questionsAnsweredIncorrectly;
         tutorRecordStats += "Percentage answered correctly: " + String.format("%.2f", score) + "%";
+        System.out.println(tutorRecordStats + "fds");
 
         return tutorRecordStats;
     }
@@ -96,10 +97,12 @@ public class TutorRecord {
      * @param recordLocation Where to save the the record
      */
     public JSONObject writeToFile(String recordLocation) {
-        if (overalTutorObject.isEmpty()) {
+//        if (overalTutorObject.isEmpty()) {
+//
+//        }
+        makeOverallTutorObject();
+        System.out.println(overalTutorSessionObject);
 
-            makeOverallTutorObject();
-        }
 
         try {
             FileWriter writer = new FileWriter(recordLocation, true);

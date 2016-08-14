@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 import java.util.Set;
 
 import seng302.utility.musicNotation.Checker;
@@ -385,6 +386,16 @@ public class Note {
      */
     public Integer getMidi() {
         return this.midi;
+    }
+
+    /**
+     * Generates a note in the octave of middle C
+     *
+     * @return the random note
+     */
+    public static Note getRandomNote() {
+        Random rand = new Random();
+        return Note.lookup(Integer.toString(rand.nextInt(11) + 60));
     }
 
     @Override
