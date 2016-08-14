@@ -50,21 +50,25 @@ public class MajorModes implements Command {
     }
 
 
-    public void getCorrespondingScale(Note key, Integer degree, Environment env) {
-        System.out.println(degree);
-        ArrayList<Note> majorScale = key.getScale("major", true);
-        Note parentNote = majorScale.get(degree - 1);
-        String mode = ModeHelper.getModes().get(degree);
+    public void getCorrespondingScale(Environment env) {
+        if (degree >= 1 && degree <= 7) {
+            ArrayList<Note> majorScale = tonic.getScale("major", true);
+            Note parentNote = majorScale.get(degree - 1);
+            String mode = ModeHelper.getModes().get(degree);
 
-        String displayNote;
+            String displayNote;
 
-        if (octaveSpecified) {
-            displayNote = parentNote.getNote();
+            if (octaveSpecified) {
+                displayNote = parentNote.getNote();
+            } else {
+                displayNote = OctaveUtil.removeOctaveSpecifier(parentNote.getNote());
+            }
+
+            env.getTranscriptManager().setResult(displayNote + " " + mode);
         } else {
-            displayNote = OctaveUtil.removeOctaveSpecifier(parentNote.getNote());
+            env.error("Invalid degree: " + degree + ". Please use degree in range 1-7.");
         }
 
-        env.getTranscriptManager().setResult(displayNote + " " + mode);
 
 
 
@@ -73,7 +77,7 @@ public class MajorModes implements Command {
 
     public void execute(Environment env){
         if (commandType.equals("modeOf")) {
-            getCorrespondingScale(tonic, degree, env);
+            getCorrespondingScale(env);
 
         }
 
