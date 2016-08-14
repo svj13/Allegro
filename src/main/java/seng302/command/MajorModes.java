@@ -14,6 +14,8 @@ public class MajorModes implements Command {
     private String tonic;
     private String mode;
     private Integer degree;
+    private String startNote;
+    private String type;
 
     private String outputString;
 
@@ -21,12 +23,21 @@ public class MajorModes implements Command {
     private HashMap<Integer, String> modes = new HashMap();
 
 
-
+    // This one is used for mode of command
     public MajorModes(String tonic, String degree ){
         this.tonic = tonic;
         this.degree = Integer.valueOf(degree);
 
         generateModes();
+    }
+
+    // Used for finding parent of
+    public MajorModes(HashMap<String, String> scale) {
+        this.startNote = scale.get("note");
+        this.type = scale.get("scale_type");
+
+        //continue doing things here
+
     }
 
     private void generateModes(){

@@ -170,6 +170,7 @@ RomanNumerals = (I|II|III|IV|V|VI|VII)
     "chord function"    {return symbol(DslSymbol.COMMAND_CHORD_FUNCTION);}
     "function of"       {return symbol(DslSymbol.COMMAND_FUNCTION_OF);}
     "mode of"           {return symbol(DslSymbol.COMMAND_GET_MODE);}
+    "parent of"         {return symbol(DslSymbol.COMMAND_PARENT_OF);}
     {RomanNumerals}     {return symbol(DslSymbol.ROMAN_NUMERALS, new String(yytext()));}
     {SharpsFlats}       {return symbol(DslSymbol.SHARPSFLATS, new String(yytext()));}
     {PlayStyle}         {return symbol(DslSymbol.PLAY_STYLE, new String(yytext())); }
