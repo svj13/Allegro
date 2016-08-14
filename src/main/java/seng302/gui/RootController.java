@@ -1041,4 +1041,9 @@ public class RootController implements Initializable {
     public TranscriptPaneController getTranscriptController() {
         return transcriptController;
     }
+
+    @FXML
+    private void launchUserSettings() {
+
+    }
 }
