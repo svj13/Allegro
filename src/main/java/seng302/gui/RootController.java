@@ -353,6 +353,7 @@ public class RootController implements Initializable {
     protected void logOutUser() throws IOException {
         stage.close();
         showLoginWindow(true);
+        reset();
 
     }
 
@@ -1092,7 +1093,8 @@ public class RootController implements Initializable {
             KeySignaturesTabController.clearTutor();
 
         }
-
+        int total_tabs = TabPane.getTabs().size();
+        TabPane.getTabs().remove(1,total_tabs);
     }
 
     public TranscriptPaneController getTranscriptController() {
