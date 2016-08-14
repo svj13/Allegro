@@ -35,3 +35,22 @@ Feature: major modes
       | F#    | mixolydian | B major      |
       | C#    | aeolian    | E major      |
       | Cb    | lydian     | Gb major     |
+
+
+
+  Scenario Outline: Retrieve the scale when given a tonic and major mode
+    Given I am on the transcript pane
+    When I type the command 'scale of  <tonic> <majorMode>'
+    Then The following is printed to the transcript pane - <outputScale>
+
+    Examples:
+      | tonic | majorMode  | outputScale            |
+      | D     | dorian     | D E F G A B C D        |
+      | A     | phrygian   | A Bb C D E F G A       |
+      | C     | mixolydian | C D E F G A Bb C       |
+      | Bb    | ionian     | Bb C D Eb F G A        |
+      | D     | locrian    | D Eb F G Ab Bb C       |
+      | F     | locrain    | F Gb Ab Bb Cb Db Eb F  |
+      | F#    | mixolydian | F# G# A# B C# D# E F#  |
+      | C#    | aeolian    | C# D# E F# G# A B C#   |
+      | Cb    | lydian     | Cb Db Eb F Gb Ab Bb Cb |

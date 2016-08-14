@@ -36,6 +36,12 @@ public class MajorModesSteps {
         result = env.getTranscriptManager().getTranscriptTuples().get(0).getResult();
     }
 
+    @When("I type the command 'scale of (.+)(.+)'")
+    public void executeScaleCommand(final String tonic, final String majorMode) {
+        env.getExecutor().executeCommand("scale of " + tonic + " " + majorMode);
+        result = env.getTranscriptManager().getTranscriptTuples().get(0).getResult();
+    }
+
     @Then("The following is printed to the transcript pane - (.+)")
     public void verifyResult(final String quality) {
         assertThat(result, equalTo(quality));
