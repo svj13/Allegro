@@ -1,13 +1,16 @@
 package seng302;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
+import javax.sound.midi.Instrument;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
+import javax.sound.midi.Patch;
 import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
 import javax.sound.midi.ShortMessage;
@@ -23,12 +26,16 @@ import seng302.utility.musicNotation.RhythmHandler;
 public class MusicPlayer {
     Sequencer seq;
     RhythmHandler rh;
+    Instrument instrument = null;
+    Patch instrumentPatch;
+    int instrumentInt;
 
     /**
      * Default tempo is 120 BPM.
      */
     private int tempo = 120;
     Synthesizer synthesizer;
+    Instrument[] availableInstruments;
 
     /**
      * Music Player constructor opens the sequencers and synthesizer. It also sets the receiver.
@@ -42,13 +49,48 @@ public class MusicPlayer {
             synthesizer = MidiSystem.getSynthesizer();
             synthesizer.open();
             seq.getTransmitter().setReceiver(synthesizer.getReceiver());
+            availableInstruments = synthesizer.getAvailableInstruments();
+            setStarterInstrument();
+
         } catch (MidiUnavailableException e) {
             System.err.println("Can't play Midi sound at the moment.");
         }
     }
 
+    /**
+     * When the music player is initialised, this function sets the default instrument. The default
+     * instrument is the first available instrument on the synthesizer - usually a piano.
+     */
+    private void setStarterInstrument() {
+        instrument = availableInstruments[0];
+        instrumentInt = 0;
+        instrumentPatch = instrument.getPatch();
+    }
+
     public void setSeq(Sequencer seq) {
         this.seq = seq;
+    }
+
+    public Instrument getInstrument() {
+        return instrument;
+    }
+
+    public Instrument[] getAvailableInstruments() {
+        return availableInstruments;
+    }
+
+
+    /**
+     * Sets the synthesizer to synthesize playback with a given instrument.
+     *
+     * @param instrument The instrument which will be used for playback
+     */
+    public void setInstrument(Instrument instrument) {
+        instrumentInt = Arrays.asList(availableInstruments).indexOf(instrument);
+        this.instrument = instrument;
+        this.instrumentPatch = this.instrument.getPatch();
+        synthesizer.getChannels()[0].programChange(
+                instrumentPatch.getBank(), instrumentPatch.getProgram());
     }
 
     /**
@@ -61,14 +103,12 @@ public class MusicPlayer {
         //int ticks = 16; //16 (1 crotchet beat)
         int ticks = rh.getBeatResolution();
         try {
-            int instrument = 1;
             // 16 ticks per crotchet note.
             Sequence sequence = new Sequence(Sequence.PPQ, ticks);
             Track track = sequence.createTrack();
 
-            // Set the instrument on channel 0
             ShortMessage sm = new ShortMessage();
-            sm.setMessage(ShortMessage.PROGRAM_CHANGE, 0, instrument, 0);
+            sm.setMessage(ShortMessage.PROGRAM_CHANGE, 0, instrumentInt, 0);
             track.add(new MidiEvent(sm, 0));
 
             int currenttick = 0;
@@ -113,12 +153,11 @@ public class MusicPlayer {
      */
     public void playSimultaneousNotes(Collection<Note> notes) {
         try {
-            int instrument = 1;
             Sequence sequence = new Sequence(Sequence.PPQ, 16);
             Track track = sequence.createTrack();
 
             ShortMessage sm = new ShortMessage();
-            sm.setMessage(ShortMessage.PROGRAM_CHANGE, 0, instrument, 0);
+            sm.setMessage(ShortMessage.PROGRAM_CHANGE, 0, instrumentInt, 0);
             track.add(new MidiEvent(sm, 0));
 
             // Add all notes to the start of the sequence

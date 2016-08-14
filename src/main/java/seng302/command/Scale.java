@@ -1,9 +1,11 @@
 package seng302.command;
 
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import seng302.Environment;
 import seng302.data.Note;
@@ -23,7 +25,7 @@ public class Scale implements Command {
     /**
      * Type of scale. e.g major, minor, melodic minor
      */
-    String type;
+    private String type = null;
 
     /**
      * Way to output scale. e.g note, midi or play
@@ -89,7 +91,6 @@ public class Scale implements Command {
         currentLetter = Character.toUpperCase(startNote.charAt(0));
         direction = "up";
         octaves = 1;
-
     }
 
     /**
@@ -123,10 +124,13 @@ public class Scale implements Command {
     /**
      * Moves the current letter to the next letter. If the letter is G, the next letter will be A.
      * This method is used to ensure one of each letter name is in each scale.
+     * @param currentLetter The current letter.
+     * @param backDown Whether to iterate through the letters forwards or backwards.
+     * @return The new letter.
      */
-    private void updateLetter(boolean switchBack) {
+    private static char updateLetter(char currentLetter, boolean backDown) {
         int index = "ABCDEFG".indexOf(currentLetter);
-        if (switchBack) {
+        if (backDown) {
             if (index - 1 < 0) {
                 index = 7;
             }
@@ -137,9 +141,16 @@ public class Scale implements Command {
             }
             currentLetter = "ABCDEFG".charAt(index + 1);
         }
+        return currentLetter;
     }
 
-
+    /**
+     * This methods gets a scale in a particular direction. For updown it will get the scale in each
+     * direction and then combine them.
+     *
+     * @param direction the direction of the scale (up, down, updown)
+     * @return An arraylist of notes of the scale in the correct direction.
+     */
     private ArrayList<Note> getScale(String direction) {
         ArrayList<Note> scale = note.getOctaveScale(type, octaves, true);
 
@@ -163,73 +174,125 @@ public class Scale implements Command {
         if (Checker.isDoubleFlat(startNote) || Checker.isDoubleSharp(startNote)) {
             env.error("Invalid scale: '" + startNote + ' ' + type + "'.");
         } else {
+            this.note = Note.lookup(OctaveUtil.addDefaultOctave(startNote));
             try {
-                if (OctaveUtil.octaveSpecifierFlag(this.startNote)) {
-                    octaveSpecified = true;
-                    this.note = Note.lookup(startNote);
+                ArrayList<Note> scale = getScale(direction);
+                if (scale == null) {
+                    env.error("This scale goes beyond the MIDI notes available.");
                 } else {
-                    octaveSpecified = false;
-                    this.note = Note.lookup(OctaveUtil.addDefaultOctave(startNote));
-                }
-                try {
-                    ArrayList<Note> scale = getScale(direction);
-
-
-                    if (scale == null) {
-                        env.error("This scale goes beyond the MIDI notes available.");
-                    } else {
-                        if (this.outputType.equals("note")) {
-                            env.getTranscriptManager().setResult(scaleToString(scale, true));
-                        } else if (this.outputType.equals("midi")) {
-                            env.getTranscriptManager().setResult(scaleToMidi(scale));
-                        } else { // Play scale.
-
-                            if (direction.equals("updown")) {
-                                env.getPlayer().playNotes(scale);
-                                env.getTranscriptManager().setResult(scaleToStringUpDown(scale));
-                            } else if (direction.equals("down")) {
-                                env.getPlayer().playNotes(scale);
-                                env.getTranscriptManager().setResult(scaleToString(scale, false));
-                            } else if (direction.equals("up")) {
-                                env.getPlayer().playNotes(scale);
-                                env.getTranscriptManager().setResult(scaleToString(scale, true));
-                            } else {
-                                env.error("'" + direction + "' is not a valid scale direction. Try 'up', 'updown' or 'down'.");
-                            }
+                    if (this.outputType.equals("note")) {
+                        String stringOfScale = scaleToString(startNote, scale, true, type);
+                        env.getTranscriptManager().setResult(stringOfScale);
+                    } else if (this.outputType.equals("midi")) {
+                        String midiScaleString = scaleToMidi(scale);
+                        env.getTranscriptManager().setResult(midiScaleString);
+                    } else { // Play scale.
+                        if (direction.equals("updown")) {
+                            env.getPlayer().playNotes(scale);
+                            env.getTranscriptManager().setResult(scaleToStringUpDown(startNote, scale, type));
+                        } else if (direction.equals("down")) {
+                            env.getPlayer().playNotes(scale);
+                            env.getTranscriptManager().setResult(scaleToString(startNote, scale, false, type));
+                        } else if (direction.equals("up")) {
+                            env.getPlayer().playNotes(scale);
+                            env.getTranscriptManager().setResult(scaleToString(startNote, scale, true, type));
+                        } else {
+                            env.error("'" + direction + "' is not a valid scale direction. Try 'up', 'updown' or 'down'.");
                         }
                     }
-                } catch (IllegalArgumentException i) {
-                    env.error(i.getMessage());
                 }
             } catch (Exception e) {
                 env.error("This scale goes beyond the MIDI notes available.");
             }
         }
+
+    }
+
+
+    /**
+     * Converts an ArrayList of notes into an ArrayList of Strings where the strings are the correct
+     * enharmonic name for the each name.
+     *
+     * @param startNote  The note the scale begins on.
+     * @param scaleNotes An ArrayList containing the notes of the scale.
+     * @param up         Whether the scale is going up or down.
+     * @param type       The type of the scale
+     * @return Arraylist of correct note names.
+     */
+    public static ArrayList<String> scaleNameList(String startNote, ArrayList<Note> scaleNotes, boolean up, String type) {
+        ArrayList<String> scale = new ArrayList<>();
+        char currentLetter = Character.toUpperCase(startNote.charAt(0));
+        int count = 0;
+        for (Note note : scaleNotes) {
+            String currentNote = note.getEnharmonicWithLetter(currentLetter);
+            if (OctaveUtil.octaveSpecifierFlag(startNote)) {
+                scale.add(currentNote);
+            } else {
+                scale.add(OctaveUtil.removeOctaveSpecifier(currentNote));
+            }
+            if (up) {
+                currentLetter = updateLetter(currentLetter, false);
+                if (type.equals("major pentatonic")) {
+                    if (count == 2) {
+                        currentLetter = updateLetter(currentLetter, false);
+                    } else if (count == 4) {
+                        currentLetter = updateLetter(currentLetter, false);
+                    }
+                    count += 1;
+                    if (count == 5) {
+                        count = 0;
+                    }
+                } else if (type.equals("minor pentatonic")) {
+                    if (count == 0) {
+                        currentLetter = updateLetter(currentLetter, false);
+                    } else if (count == 3) {
+                        currentLetter = updateLetter(currentLetter, false);
+                    }
+                    count += 1;
+                    if (count == 5) {
+                        count = 0;
+                    }
+                }
+            } else {
+                currentLetter = updateLetter(currentLetter, true);
+                if (type.equals("major pentatonic")) {
+                    if (count == 0) {
+                        currentLetter = updateLetter(currentLetter, true);
+                    } else if (count == 2) {
+                        currentLetter = updateLetter(currentLetter, true);
+                    }
+                    count += 1;
+                    if (count == 5) {
+                        count = 0;
+                    }
+                } else if (type.equals("minor pentatonic")) {
+                    if (count == 1) {
+                        currentLetter = updateLetter(currentLetter, true);
+                    } else if (count == 4) {
+                        currentLetter = updateLetter(currentLetter, true);
+                    }
+                    count += 1;
+                    if (count == 5) {
+                        count = 0;
+                    }
+                }
+            }
+        }
+        return scale;
     }
 
     /**
      * Converts an ArrayList of Notes into a String of note names.
      *
+     * @param startNote The note the scale begins on.
      * @param scaleNotes The notes to display.
+     * @param up Whether the scale is ascending or descending.
+     * @param type The type of the scale
      * @return The note names as a String.
      */
-    private String scaleToString(ArrayList<Note> scaleNotes, boolean up) {
-        String notesAsText = "";
-        for (Note note : scaleNotes) {
-            String currentNote = note.getEnharmonicWithLetter(currentLetter);
-            if (octaveSpecified) {
-                notesAsText += currentNote + " ";
-            } else {
-                notesAsText += OctaveUtil.removeOctaveSpecifier(currentNote) + " ";
-            }
-            if (up) {
-                updateLetter(false);
-            } else {
-                updateLetter(true);
-            }
-        }
-
-        return notesAsText.trim();
+    private static String scaleToString(String startNote, ArrayList<Note> scaleNotes, boolean up, String type) {
+        ArrayList<String> scale = scaleNameList(startNote, scaleNotes, up, type);
+        return String.join(" ", scale);
     }
 
     /**
@@ -238,11 +301,11 @@ public class Scale implements Command {
      * @param scaleNotes The notes of the scale.
      * @return The string of the scale notes.
      */
-    private String scaleToStringUpDown(ArrayList<Note> scaleNotes) {
+    private static String scaleToStringUpDown(String startNote, ArrayList<Note> scaleNotes, String type) {
         int size = scaleNotes.size();
-        String up = scaleToString(new ArrayList<Note>(scaleNotes.subList(0, size / 2)), true);
-        updateLetter(true);
-        String down = scaleToString(new ArrayList<Note>(scaleNotes.subList(size / 2, size)), false);
+        String up = scaleToString(startNote, new ArrayList<Note>(scaleNotes.subList(0, size / 2)), true, type);
+        updateLetter(Character.toUpperCase(startNote.charAt(0)), true);
+        String down = scaleToString(startNote, new ArrayList<Note>(scaleNotes.subList(size / 2, size)), false, type);
         return up + " " + down;
     }
 
@@ -260,6 +323,7 @@ public class Scale implements Command {
         return midiValues.trim();
     }
 
+
     public long getLength(Environment env) {
         long milliseconds = 0;
 
@@ -271,5 +335,70 @@ public class Scale implements Command {
         }
 
         return milliseconds;
+    }
+
+    public String getHelp() {
+        switch (outputType) {
+            case "note":
+                return "When followed by a valid scale (made up of a note and a scale type)" +
+                        " the corresponding scale notes will be displayed.";
+            case "play":
+                return "When followed by a valid scale (made up of a note and a scale type)" +
+                        " the corresponding scale will be played. The number of" +
+                        " octaves and direction may optionally be given.";
+
+            case "midi":
+                return "When followed by a valid scale (made up of a note and a scale type) " +
+                        "the corresponding scale midi notes will be displayed. ";
+
+        }
+        return null;
+    }
+
+    public List<String> getParams() {
+        List<String> params = new ArrayList<>();
+        params.add("note");
+        params.add("type");
+        return params;
+    }
+
+    public List<String> getOptions() {
+        List<String> options = new ArrayList<>();
+        if (outputType.equals("play")) {
+            options.add("octaves");
+            options.add("up|down|updown");
+        }
+
+        return options;
+    }
+
+    @Override
+    public String getCommandText() {
+        switch (outputType) {
+            case "note":
+                return "scale";
+            case "play":
+                return "play scale";
+
+            case "midi":
+                return "midi scale";
+
+        }
+        return null;
+    }
+
+    @Override
+    public String getExample() {
+        switch (outputType) {
+            case "note":
+                return "scale A minor";
+            case "play":
+                return "play scale C major updown";
+
+            case "midi":
+                return "midi scale A minor";
+
+        }
+        return null;
     }
 }

@@ -31,9 +31,12 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
 
+import javax.sound.midi.Instrument;
+
 import javafx.scene.control.TextInputDialog;
 import seng302.Environment;
 import seng302.data.Term;
+import seng302.utility.InstrumentUtility;
 import seng302.utility.OutputTuple;
 
 public class ProjectHandler {
@@ -72,12 +75,18 @@ public class ProjectHandler {
     Collection<JSONObject> spellingTutorRecordsList = new ArrayList<>();
     String spellingTutorRecordStats = "";
 
+    JSONObject overallDiatonicObject;
+    JSONObject overallDiatonicSessionObject;
+    Collection<JSONObject> diatonicTutorRecordsList = new ArrayList<>();
+    String diatonicTutorRecordStats = "";
+
 
     JSONObject intervalTutorRecords;
     JSONObject musicalTermsTutorRecords;
     JSONObject scaleTutorRecords;
     JSONObject chordTutorRecords;
     JSONObject spellingTutorRecords;
+    JSONObject diatonicTutorRecords;
 
     JSONParser parser = new JSONParser(); //parser for reading project
 
@@ -100,6 +109,7 @@ public class ProjectHandler {
         scaleTutorRecords = new JSONObject();
         chordTutorRecords = new JSONObject();
         spellingTutorRecords = new JSONObject();
+        diatonicTutorRecords = new JSONObject();
 
         overalPitchObject = new JSONObject();
         overalPitchSessionObject = new JSONObject();
@@ -119,6 +129,8 @@ public class ProjectHandler {
         overallSpellingObject = new JSONObject();
         overallSpellingSessionObject = new JSONObject();
 
+        overallDiatonicObject = new JSONObject();
+        overallDiatonicSessionObject = new JSONObject();
 
 
         this.env = env;
@@ -178,6 +190,7 @@ public class ProjectHandler {
 
         projectSettings.put("rhythm", gson.toJson(env.getPlayer().getRhythmHandler().getRhythmTimings()));
 
+        projectSettings.put("instrument", gson.toJson(env.getPlayer().getInstrument().getName()));
     }
 
 
@@ -203,52 +216,63 @@ public class ProjectHandler {
         } else if (tutorType.equals("spelling")) {
 
             spellingTutorRecordStats += (statString);
+        } else if (tutorType.equals("diatonic")) {
+            diatonicTutorRecordStats += (statString);
         }
 
 
     }
 
+    /**
+     * Saves tutor records for each tutor.
+     *
+     * @param tutorType the tutor to save.
+     * @param record    the info about the question
+     */
     public void saveTutorRecords(String tutorType, String record) {
-        JSONObject jasonOFQuestion = new JSONObject();
+        JSONObject jsonOfQuestion = new JSONObject();
 
         if (tutorType.equals("pitch")) {
 
-            jasonOFQuestion.put("QuestionInfo", record);
-            pitchTutorRecordsList.add(jasonOFQuestion);
+            jsonOfQuestion.put("QuestionInfo", record);
+            pitchTutorRecordsList.add(jsonOfQuestion);
             //System.out.println(pitchTutorRecordsList);
 
         } else if (tutorType.equals("interval")) {
 
-            jasonOFQuestion.put("QuestionInfo", record);
-            intervalTutorRecordsList.add(jasonOFQuestion);
+            jsonOfQuestion.put("QuestionInfo", record);
+            intervalTutorRecordsList.add(jsonOfQuestion);
 
 
         } else if (tutorType.equals("musicalTerm")) {
-            jasonOFQuestion.put("QuestionInfo", record);
-            musicalTermTutorRecordsList.add(jasonOFQuestion);
+            jsonOfQuestion.put("QuestionInfo", record);
+            musicalTermTutorRecordsList.add(jsonOfQuestion);
             ;
 
         } else if (tutorType.equals("scale")) {
-            jasonOFQuestion.put("QuestionInfo", record);
-            scaleTutorRecordsList.add(jasonOFQuestion);
+            jsonOfQuestion.put("QuestionInfo", record);
+            scaleTutorRecordsList.add(jsonOfQuestion);
 
 
         } else if (tutorType.equals("chord")) {
 
-            jasonOFQuestion.put("QuestionInfo", record);
-            chordTutorRecordsList.add(jasonOFQuestion);
+            jsonOfQuestion.put("QuestionInfo", record);
+            chordTutorRecordsList.add(jsonOfQuestion);
         } else if (tutorType.equals("spelling")) {
 
-            jasonOFQuestion.put("QuestionInfo", record);
-            spellingTutorRecordsList.add(jasonOFQuestion);
+            jsonOfQuestion.put("QuestionInfo", record);
+            spellingTutorRecordsList.add(jsonOfQuestion);
+        } else if (tutorType.equals("diatonic")) {
+
+            jsonOfQuestion.put("QuestionInfo", record);
+            diatonicTutorRecordsList.add(jsonOfQuestion);
         }
     }
 
 
     /**
-     * load all saved project properties from the project json file.
-     * This currently supports Tempo, working transcript, musical terms and rhythm setting.
-     *
+     * load all saved project properties from the project json file. This currently supports Tempo,
+     * working transcript, musical terms and rhythm setting.
      */
     private void loadProperties() {
         int tempo;
@@ -293,6 +317,22 @@ public class ProjectHandler {
         }
         env.getPlayer().getRhythmHandler().setRhythmTimings(rhythms);
 
+        //Instrument
+        //Uses the default instrument to start with
+        Instrument instrument;
+        try {
+            String instrumentName = gson.fromJson((String) projectSettings.get("instrument"), String.class);
+            instrument = InstrumentUtility.getInstrumentByName(instrumentName, env);
+            if (instrument == null) {
+                // Uses the default instrument if there's a problem
+                instrument = InstrumentUtility.getDefaultInstrument(env);
+            }
+        } catch (Exception e) {
+            // Uses the default instrument if there's a problem
+            instrument = InstrumentUtility.getDefaultInstrument(env);
+        }
+        env.getPlayer().setInstrument(instrument);
+
 
         env.getTranscriptManager().unsavedChanges = false;
 
@@ -301,7 +341,8 @@ public class ProjectHandler {
 
 
     /**
-     * Saves the current project, or if there is no current working project; launches the New project dialog.
+     * Saves the current project, or if there is no current working project; launches the New
+     * project dialog.
      */
     public void saveCurrentProject() {
         if (currentProjectPath != null) {
@@ -316,6 +357,7 @@ public class ProjectHandler {
 
     /**
      * Handles Saving a .json Project file, for the specified project address
+     *
      * @param projectAddress Project directory address.
      */
 
@@ -452,6 +494,20 @@ public class ProjectHandler {
                 spellingFile.close();
             }
 
+            if (env.getRootController().tabSaveCheck("diatonicChordsTutor")) {
+                FileWriter diatonicFile = new FileWriter(projectAddress + "/DiatonicChordsRecords.json", true);
+                overallDiatonicSessionObject.put("Questions", diatonicTutorRecordsList);
+                overallDiatonicSessionObject.put("SessionStats", diatonicTutorRecordStats);
+                overallDiatonicObject.put("Session_" + new Date().toString(), overallDiatonicSessionObject);
+                diatonicFile.write(overallDiatonicObject.toJSONString());
+                diatonicTutorRecordsList.clear();
+                diatonicTutorRecordStats = "";
+                overallDiatonicSessionObject.clear();
+                overallDiatonicObject.clear();
+                diatonicFile.flush();
+                diatonicFile.close();
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
 
@@ -462,7 +518,6 @@ public class ProjectHandler {
 
     /**
      * Updates the json list of project names, used to fill the quick load list.
-     *
      */
     private void updateProjectList() {
         if (!projectList.contains(projectName)) {
@@ -484,18 +539,9 @@ public class ProjectHandler {
 
 
     /**
-     * Compares all current project properties to the saved values
-     * If there are any differences, adds an asterix indicator to the project title
-     */
-    public void checkChanges() {
-
-
-    }
-
-
-    /**
-     * Compares a specified project property to the saved value
-     * If there is a difference, adds an asterix indicator to the project title
+     * Compares a specified project property to the saved value If there is a difference, adds an
+     * asterix indicator to the project title
+     *
      * @param propName property id which is stored in the Json project file.
      */
     public void checkChanges(String propName) {
@@ -549,8 +595,9 @@ public class ProjectHandler {
 
 
     /**
-     * Loads a project, specifed by the project name.
-     * All projects must be located in the user's projects directory to be correctly loaded.
+     * Loads a project, specifed by the project name. All projects must be located in the user's
+     * projects directory to be correctly loaded.
+     *
      * @param pName project name string
      */
     public void loadProject(String pName) {

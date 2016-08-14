@@ -1,6 +1,7 @@
 package seng302.command;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import seng302.Environment;
 import seng302.data.Note;
@@ -93,4 +94,63 @@ public class Enharmonic implements Command {
         }
     }
 
+    public String getHelp() {
+        switch (comm) {
+            case 1:
+                return "Returns the enharmonic that corresponds to the same note," +
+                        " a 'letter' below the current note.";
+
+            case 0:
+                return "Returns the enharmonic that corresponds to the same note," +
+                        " a 'letter' above the current note.";
+
+            case 2:
+                return "Returns the standard enharmonic that corresponds to the same note.";
+
+            case 3:
+                return "Returns all enharmonics of a given note.";
+        }
+        return null;
+    }
+
+    public List<String> getParams() {
+        List<String> params = new ArrayList<>();
+        params.add("note");
+        return params;
+    }
+
+    @Override
+    public String getCommandText() {
+        switch (comm) {
+            case 1:
+                return "enharmonic lower";
+            case 0:
+                return "enharmonic higher";
+
+            case 2:
+                return "simple enharmonic";
+
+            case 3:
+                return "all enharmonics";
+        }
+        return null;
+
+    }
+
+    @Override
+    public String getExample() {
+        switch (comm) {
+            case 1:
+                return "enharmonic lower C";
+            case 0:
+                return "enharmonic higher B";
+
+            case 2:
+                return "simple enharmonic B";
+
+            case 3:
+                return "all enharmonics A";
+        }
+        return null;
+    }
 }

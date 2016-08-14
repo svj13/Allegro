@@ -6,13 +6,13 @@ import seng302.Environment;
 import seng302.command.MusicalTerm;
 import seng302.command.Rhythm;
 import seng302.command.Tempo;
+import seng302.command.InstrumentCommand;
 
 /**
  * Undo/redo history manager for the application Created by team 5 on 24/04/16.
  */
 public class EditHistory {
-    // Stack of commands to redo operations
-    // Stack of commands to undo operations
+    // Stack of commands to undo/redo operations
     private ArrayList<ArrayList<String>> commandStack = new ArrayList<ArrayList<String>>();
     private int location = 0;
     // Set true when there are actions that can be undone
@@ -92,6 +92,10 @@ public class EditHistory {
                 case 3:
                     undoTranscriptClear();
                     break;
+                case 4:
+                    //undo change instrument
+                    changeInstrument(commandStack.get(location).get(1));
+                    break;
             }
             ath = true;
             location += 1;
@@ -128,6 +132,9 @@ public class EditHistory {
                 case 3:
                     redoTranscriptClear();
                     break;
+                case 4:
+                    changeInstrument(commandStack.get(location - 1).get(2));
+                    break;
             }
             ath = true;
             location -= 1;
@@ -160,13 +167,18 @@ public class EditHistory {
         new Rhythm(newRhythm, false).execute(env);
     }
 
+    /**
+     * Convenience method for re-executing the "clear transcript" command
+     */
     private void redoTranscriptClear() {
         env.getRootController().clearTranscript();
-
     }
 
+    /**
+     * Undoes the "clear transcript" command. Returns all text that was deleted from the transcript,
+     * back into the transcript.
+     */
     private void undoTranscriptClear() {
-
         env.getTranscriptManager().setTranscriptContent(env.getTranscriptManager().getBackUpTranscript());
         env.getTranscriptManager().setBackupTranscript(new ArrayList<OutputTuple>());
         env.getRootController().setTranscriptPaneText(env.getTranscriptManager().convertToText());
@@ -193,6 +205,18 @@ public class EditHistory {
         termArgs.add(termToAdd.get(4));
 
         new MusicalTerm(termArgs).execute(env);
+    }
+
+    /**
+     * Helper function called by undo or redo change of instrument. Changes the instrument, either
+     * to the previous or to an undone instrument
+     *
+     * @param newInstrument The instrument which will be set
+     */
+    private void changeInstrument(String newInstrument) {
+        ArrayList<String> instrumentName = new ArrayList<>();
+        instrumentName.add(newInstrument);
+        new InstrumentCommand(true, instrumentName).execute(env);
     }
 
 }

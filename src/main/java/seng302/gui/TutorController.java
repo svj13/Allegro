@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -21,9 +22,11 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import seng302.Environment;
+import seng302.data.Note;
 import seng302.managers.ProjectHandler;
 import seng302.managers.TutorManager;
 import seng302.utility.TutorRecord;
+import seng302.utility.musicNotation.OctaveUtil;
 
 public abstract class TutorController {
 
@@ -106,6 +109,7 @@ public abstract class TutorController {
         // occurred. This handles that situation.
         numQuestions.setOnMouseReleased(event -> {
             Double val = numQuestions.getValue();
+            selectedQuestions = val.intValue();
             questions.setText(Integer.toString(val.intValue()));
         });
     }
@@ -154,8 +158,8 @@ public abstract class TutorController {
 
         //show a file picker
         FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
-        fileChooser.getExtensionFilters().add(textFilter);
+        //FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+        //fileChooser.getExtensionFilters().add(textFilter);
 
         if (env.getProjectHandler().isProject()) {
             env.getRootController().checkProjectDirectory();
@@ -197,6 +201,26 @@ public abstract class TutorController {
         questionRow.setPadding(new Insets(10, 10, 10, 10));
         questionRow.setSpacing(10);
         questionRow.setStyle("-fx-border-color: #336699; -fx-border-width: 2px;");
+    }
+
+    /**
+     * Using random numbers, "randomises" whether a note will display with a sharp or flat. Only
+     * uses sharps/flats when applicable.
+     *
+     * @param noteToRandomise A Note which is being "randomised"
+     * @return A 'randomised' string representation of a note.
+     */
+    protected String randomiseNoteName(Note noteToRandomise) {
+        Random rand = new Random();
+        String noteName = OctaveUtil.removeOctaveSpecifier(noteToRandomise.getNote());
+
+        //As the default is sharp, we randomise to get some flats
+        if (rand.nextInt(2) != 0) {
+            if (!noteToRandomise.simpleEnharmonic().equals("")) {
+                noteName = OctaveUtil.removeOctaveSpecifier(noteToRandomise.simpleEnharmonic());
+            }
+        }
+        return noteName;
     }
 
 
