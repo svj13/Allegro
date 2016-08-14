@@ -7,6 +7,7 @@ package seng302.command;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import seng302.Environment;
 import seng302.data.Interval;
@@ -351,6 +352,71 @@ public class IntervalCommand implements Command {
             env.error("Unknown command");
         }
 
+    }
+
+    public String getHelp() {
+        switch (outputType) {
+            case "note":
+                return "When followed by an interval name, it returns the number of semitones in" +
+                        " that interval. When followed by an interval name and a note, it returns" +
+                        " the note that is the specified interval above the given note. ";
+            case "play":
+                return "When followed by an interval name and a note, it will play the given note" +
+                        " and then the note that is the specified interval above the given note.";
+            case "equivalent":
+                return "When followed by a valid interval name, any enharmonically equivalent " +
+                        "intervals will be displayed.";
+        }
+        return null;
+    }
+
+    public List<String> getParams() {
+        List<String> params = new ArrayList<>();
+        params.add("name");
+        if (outputType.equals("play")) {
+            params.add("note");
+        }
+
+        return params;
+    }
+
+    public List<String> getOptions() {
+        List<String> options = new ArrayList<>();
+        if (outputType.equals("semitones") || outputType.equals("note")) {
+            options.add("note");
+        }
+
+        return options;
+    }
+
+    @Override
+    public String getCommandText() {
+        switch (outputType) {
+            case "semitones":
+                return "interval";
+            case "note":
+                return "interval";
+            case "play":
+                return "play interval";
+            case "equivalent":
+                return "interval enharmonic";
+        }
+        return null;
+    }
+
+    @Override
+    public String getExample() {
+        switch (outputType) {
+            case "semitones":
+                return "interval minor 2nd C";
+            case "note":
+                return "interval minor 2nd C";
+            case "play":
+                return "play interval unison D";
+            case "equivalent":
+                return "interval enharmonic minor 2nd C";
+        }
+        return null;
     }
 }
 

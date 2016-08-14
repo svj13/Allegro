@@ -2,8 +2,8 @@ package seng302.command;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import seng302.Environment;
 import seng302.data.Note;
@@ -253,4 +253,48 @@ public class Chord implements Command {
 
     }
 
+
+    public String getHelp() {
+        if (outputType.equals("play")) {
+            return "When followed by a valid note and a valid chord type (i.e. major, minor), " +
+                    "will play the given chord";
+        } else {
+            return "When followed by a valid note and a valid chord type (i.e. major, minor)," +
+                    " will display the notes that make up the given chord.";
+        }
+    }
+
+    public List<String> getParams() {
+        List<String> params = new ArrayList<>();
+        params.add("note");
+        params.add("type");
+        return params;
+    }
+
+    public List<String> getOptions() {
+        List<String> options = new ArrayList<>();
+        options.add("inversion number");
+        if (outputType.equals("play")) {
+            options.add("arpeggio");
+        }
+        return options;
+    }
+
+    @Override
+    public String getCommandText() {
+        if (outputType.equals("play")) {
+            return "play chord";
+        } else {
+            return "chord";
+        }
+    }
+
+    @Override
+    public String getExample() {
+        if (outputType.equals("play")) {
+            return "play chord C# major inversion 1";
+        } else {
+            return "chord D minor";
+        }
+    }
 }

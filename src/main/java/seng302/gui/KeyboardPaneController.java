@@ -20,6 +20,12 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TitledPane;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -315,8 +321,8 @@ public class KeyboardPaneController {
         ObservableList<String> typeOptions =
                 FXCollections.observableArrayList(
                         "Major",
-                        "Minor",
-                        "Blues"
+                        "Minor"
+
                 );
 
         // HBox for the options of the first scale
@@ -565,7 +571,6 @@ public class KeyboardPaneController {
     }
 
 
-
     /**
      * Each time the keyboard notes are change the keyboard needs to be remade, black keys
      * repositioned and labels added if the setting is on.
@@ -575,6 +580,7 @@ public class KeyboardPaneController {
         positionBlackKeys();
         checkLabelStatusForNewNotes();
     }
+
     /**
      * When a note is created, check if it should be showing a label and toggle as needed.
      */

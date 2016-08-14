@@ -72,13 +72,6 @@ public class ScaleTest {
     }
 
     @Test
-    public void setsCorrectErrorMessage() {
-        new Scale("C4", "cake", "note").execute(env);
-        verify(transcriptManager).setResult("[ERROR] Invalid scale type: 'cake'.");
-    }
-
-
-    @Test
     public void correctResultWithCaseInsensitivity() {
         new Scale("c#", "major", "note").execute(env);
         verify(transcriptManager).setResult("C# D# E# F# G# A# B# C#");
@@ -102,12 +95,6 @@ public class ScaleTest {
     public void setsCorrectScaleResultMidi() {
         new Scale("C4", "major", "midi").execute(env);
         verify(transcriptManager).setResult("60 62 64 65 67 69 71 72");
-    }
-
-    @Test
-    public void setsCorrectErrorMessageMidi() {
-        new Scale("C4", "cake", "midi").execute(env);
-        verify(transcriptManager).setResult("[ERROR] Invalid scale type: 'cake'.");
     }
 
     @Test
@@ -246,8 +233,7 @@ public class ScaleTest {
     }
 
     /**
-     * Melodic Minor scale testing
-     * ###############################################
+     * Melodic Minor scale testing ###############################################
      */
 
     @Test
@@ -304,7 +290,6 @@ public class ScaleTest {
     /**
      * #########################################
      */
-
 
 
 }
