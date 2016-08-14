@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Random;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -880,7 +879,6 @@ public class KeySignaturesTutorController extends TutorController {
             if (manager.answered == manager.questions) {
                 finished();
             }
-        }
         });
 
         questionRow.getChildren().add(0, questionText);

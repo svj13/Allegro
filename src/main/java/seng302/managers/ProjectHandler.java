@@ -29,8 +29,6 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
 import java.util.Optional;
 
 import javax.sound.midi.Instrument;
@@ -47,50 +45,6 @@ public class ProjectHandler {
 
     JSONObject projectSettings;
 
-
-    JSONArray overallPitchObject;
-    JSONObject overallPitchSessionObject;
-    JSONArray pitchTutorRecordsList = new JSONArray();
-    Map<String, Number> pitchTutorRecordStats;
-
-    JSONObject overalIntervalObject;
-    JSONObject overalIntervalSessionObject;
-    Collection<JSONObject> intervalTutorRecordsList = new ArrayList<>();
-    String intervalTutorRecordStats = "";
-
-    JSONObject overalMusicalTermObject;
-    JSONObject overalMusicalTermSessionObject;
-    Collection<JSONObject> musicalTermTutorRecordsList = new ArrayList<>();
-    String musicalTermTutorRecordStats = "";
-
-    JSONObject overalScaleObject;
-    JSONObject overalScaleSessionObject;
-    Collection<JSONObject> scaleTutorRecordsList = new ArrayList<>();
-    String scaleTutorRecordStats = "";
-
-    JSONObject overalChordObject;
-    JSONObject overalChordSessionObject;
-    Collection<JSONObject> chordTutorRecordsList = new ArrayList<>();
-    String chordTutorRecordStats = "";
-
-    JSONObject overallSpellingObject;
-    JSONObject overallSpellingSessionObject;
-    Collection<JSONObject> spellingTutorRecordsList = new ArrayList<>();
-    String spellingTutorRecordStats = "";
-
-    JSONObject overallDiatonicObject;
-    JSONObject overallDiatonicSessionObject;
-    Collection<JSONObject> diatonicTutorRecordsList = new ArrayList<>();
-    String diatonicTutorRecordStats = "";
-
-
-    JSONObject intervalTutorRecords;
-    JSONObject musicalTermsTutorRecords;
-    JSONObject scaleTutorRecords;
-    JSONObject chordTutorRecords;
-    JSONObject spellingTutorRecords;
-    JSONObject diatonicTutorRecords;
-
     JSONParser parser = new JSONParser(); //parser for reading project
 
     JSONArray projectList;
@@ -106,34 +60,6 @@ public class ProjectHandler {
     public ProjectHandler(Environment env) {
 
         projectSettings = new JSONObject();
-        //pitchTutorRecords = new JSONObject();
-        intervalTutorRecords = new JSONObject();
-        musicalTermsTutorRecords = new JSONObject();
-        scaleTutorRecords = new JSONObject();
-        chordTutorRecords = new JSONObject();
-        spellingTutorRecords = new JSONObject();
-        diatonicTutorRecords = new JSONObject();
-
-        overallPitchObject = new JSONArray();
-        overallPitchSessionObject = new JSONObject();
-
-        overalIntervalObject = new JSONObject();
-        overalIntervalSessionObject = new JSONObject();
-
-        overalMusicalTermObject = new JSONObject();
-        overalMusicalTermSessionObject = new JSONObject();
-
-        overalScaleObject = new JSONObject();
-        overalScaleSessionObject = new JSONObject();
-
-        overalChordObject = new JSONObject();
-        overalChordSessionObject = new JSONObject();
-
-        overallSpellingObject = new JSONObject();
-        overallSpellingSessionObject = new JSONObject();
-
-        overallDiatonicObject = new JSONObject();
-        overallDiatonicSessionObject = new JSONObject();
 
         this.env = env;
         try {
@@ -183,10 +109,7 @@ public class ProjectHandler {
         Gson gson = new Gson();
         projectSettings.put("tempo", env.getPlayer().getTempo());
         String transcriptString = gson.toJson(env.getTranscriptManager().getTranscriptTuples());
-        //System.out.println("saveProperties called! " + env.getTranscriptManager().getTranscriptTuples().size());
         projectSettings.put("transcript", transcriptString);
-
-
         String musicalTermsJSON = gson.toJson(env.getMttDataManager().getTerms());
         projectSettings.put("musicalTerms", musicalTermsJSON);
 
@@ -384,6 +307,9 @@ public class ProjectHandler {
         }
         if (env.getRootController().tabSaveCheck("keySignatureTutor")) {
             saveTutorRecordsToFile(projectAddress + "/KeySignatureTutor.json", env.getRootController().KeySignaturesTabController.record);
+        }
+        if (env.getRootController().tabSaveCheck("diatonicChordTutor")) {
+            saveTutorRecordsToFile(projectAddress + "/DiatonicChordTutor.json", env.getRootController().DiatonicChordsController.record);
         }
     }
 

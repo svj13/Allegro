@@ -35,7 +35,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import seng302.Environment;
 import seng302.command.Command;
-import seng302.data.CommandType;
 import seng302.managers.TranscriptManager;
 import seng302.utility.FileHandler;
 import seng302.utility.OutputTuple;
@@ -81,7 +80,7 @@ public class RootController implements Initializable {
     public KeySignaturesTutorController KeySignaturesTabController;
 
     @FXML
-    private DiatonicChordsTutorController diatonicChordsTabController;
+    public DiatonicChordsTutorController DiatonicChordsController;
 
     @FXML
     private KeyboardPaneController keyboardPaneController;
@@ -718,8 +717,9 @@ public class RootController implements Initializable {
 
             TabPane.getTabs().add(tab);
             TabPane.getSelectionModel().select(tab);
-            diatonicChordsTabController = loader.getController();
-            diatonicChordsTabController.create(env);
+            DiatonicChordsController = loader.getController();
+            DiatonicChordsController.create(env);
+            DiatonicChordsController.setTabID("diatonicChordTutor");
         }
 
     }
