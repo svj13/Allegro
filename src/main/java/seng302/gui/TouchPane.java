@@ -151,33 +151,24 @@ public class TouchPane extends StackPane {
      */
     public void toggleScaleNotes(String imageType, String imageId) {
         Circle blueCircle = new Circle();
-        blueCircle.setCenterX(100.0f);
-        blueCircle.setCenterY(100.0f);
         blueCircle.setRadius(5.0f);
         blueCircle.setFill(Color.BLUE);
 
         Circle greenCircle = new Circle();
-        greenCircle.setCenterX(100.0f);
-        greenCircle.setCenterY(200.0f);
         greenCircle.setRadius(5.0f);
         greenCircle.setFill(Color.GREEN);
+        greenCircle.setTranslateY(-20);
 
         Rectangle blueRectangle = new Rectangle();
-        blueRectangle.setX(50);
-        blueRectangle.setY(50);
         blueRectangle.setWidth(10);
         blueRectangle.setHeight(10);
         blueRectangle.setFill(Color.BLUE);
 
-
-
         Rectangle greenRectangle = new Rectangle();
-        greenRectangle.setX(50);
-        greenRectangle.setY(100);
         greenRectangle.setWidth(10);
         greenRectangle.setHeight(10);
         greenRectangle.setFill(Color.GREEN);
-        greenRectangle.setStyle("-fx-padding: 15;");
+        greenRectangle.setTranslateY(-20);
 
 
         //checks the image type and matches it to the corresponding shape
