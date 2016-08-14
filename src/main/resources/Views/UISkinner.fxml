@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.UISkinnerController">
+   <children>
+      <HBox layoutX="10.0" layoutY="10.0" prefHeight="30.0">
+         <children>
+            <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="UI Skinner" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="21.0" />
+               </font>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+      <HBox fx:id="settings" alignment="CENTER_LEFT" layoutX="10.0" layoutY="46.0" minWidth="400.0" prefHeight="10.0" spacing="5.0">
+         <children>
+            <VBox minHeight="-Infinity" prefHeight="100.0" prefWidth="400.0" spacing="10.0">
+               <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                     <VBox.margin>
+                        <Insets left="5.0" />
+                     </VBox.margin>
+                     <children>
+                        <Label text="Pick a colour:" />
+                        <ColorPicker fx:id="colourPicker" editable="true" />
+                     </children>
+                  </HBox>
+                  <Button mnemonicParsing="false" onAction="#skinGui" text="Skin" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
