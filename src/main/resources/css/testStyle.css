@@ -1,0 +1,31 @@
+.split-pane {
+    -fx-base: #f1f0f0;
+    /*-fx-background-color: derive(purple, 80%);*/
+    -fx-border-color: purple;
+    -fx-control-inner-background: #FFFFFF;
+    -fx-body-color: linear-gradient(to bottom, derive(-fx-color, 35.0%) 0%, derive(-fx-color, -6.0%) 100%);
+    -fx-text-box-border: derive(-fx-background, 9.189189189189179%);
+    -fx-focus-color: derive(purple, 50%);
+    -fx-accent: derive(purple, 40%);
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab:selected:top {
+    -fx-background-color: derive(purple, 80%);
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
+    -fx-border-color: derive(purple, 80%);
+}
+
+.menu-bar {
+    -fx-accent: derive(purple, 80%)
+}
+
+.text-area {
+    -fx-border-color: purple;
+}
+
+.tab-header-background {
+    -fx-background-color: purple;
+}
+
