@@ -19,6 +19,7 @@ import java.lang.Math;
 import java.lang.reflect.Array;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 public class UISkinnerController {
@@ -73,17 +74,18 @@ public class UISkinnerController {
         Color comp_colour = getComplementaryColour(base);
         String complementary_rgb = toRGBString(comp_colour);
         String styleString = "";
-//        generateStyleSheet(baseRgb);
+        generateStyleSheet(baseRgb);
 
-//        baseNode.getStylesheets().clear();
-//        System.out.println(System.getProperty("user.dir"));
-//        Path filePath = Paths.get(""+"/userstyle.css");
-//        baseNode.getStylesheets().add("userstyle.css");
+        baseNode.getStylesheets().clear();
+        String filePath = "userstyle.css";
+        File f = new File(filePath);
+        baseNode.getStylesheets().clear();
+        baseNode.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
 
-        for (String rule : rules) {
-            styleString = styleString.concat(String.format(rule, baseRgb) + "; ");
-        }
-        baseNode.setStyle(styleString);
+//        for (String rule : rules) {
+//            styleString = styleString.concat(String.format(rule, baseRgb) + "; ");
+//        }
+//        baseNode.setStyle(styleString);
     }
 
     private void generateRules() {
@@ -92,54 +94,50 @@ public class UISkinnerController {
         rules.add("-fx-background: %s");
     }
 
-//    private void generateStyleSheet(String rgb) {
-//        ArrayList<String> templateCSS = new ArrayList<String>();
-//
-//        String line = null;
-//
-//        try {
-//            FileReader fileReader =
-//                    new FileReader(getClass().getResource("/css/templatecss.txt").getFile());
-//
-//            BufferedReader bufferedReader =
-//                    new BufferedReader(fileReader);
-//
-//            while((line = bufferedReader.readLine()) != null) {
-//                templateCSS.add(line);
-//            }
-//
-//            bufferedReader.close();
-//        }
-//        catch(FileNotFoundException ex) {
-//            ex.printStackTrace();
-//        }
-//        catch(IOException ex) {
-//            ex.printStackTrace();
-//        }
-//
-//        for (String cssLine : templateCSS) {
-//            cssLine = String.format(cssLine, rgb);
-//        }
-//
-//        // The name of the file to open.
-//        String fileName = "css/userstyle.css";
-//
-//        try {
-//            FileWriter fileWriter =
-//                    new FileWriter(fileName);
-//
-//            BufferedWriter bufferedWriter =
-//                    new BufferedWriter(fileWriter);
-//
-//            for (String rule : templateCSS) {
-//                bufferedWriter.write(rule);
-//                bufferedWriter.newLine();
-//            }
-//
-//            bufferedWriter.close();
-//        }
-//        catch(IOException ex) {
-//            ex.printStackTrace();
-//        }
-//    }
+    private void generateStyleSheet(String rgb) {
+        ArrayList<String> templateCSS = new ArrayList<String>();
+
+        String line = null;
+
+        try {
+            FileReader fileReader =
+                    new FileReader(getClass().getResource("/css/templatecss.txt").getFile());
+
+            BufferedReader bufferedReader =
+                    new BufferedReader(fileReader);
+
+            while ((line = bufferedReader.readLine()) != null) {
+                if (line.contains("{0}")) {
+                    templateCSS.add(MessageFormat.format(line, rgb));
+                } else {
+                    templateCSS.add(line);
+                }
+            }
+
+            bufferedReader.close();
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        String fileName = "userstyle.css";
+
+        try {
+            FileWriter fileWriter =
+                    new FileWriter(fileName);
+
+            BufferedWriter bufferedWriter =
+                    new BufferedWriter(fileWriter);
+
+            for (String rule : templateCSS) {
+                bufferedWriter.write(rule);
+                bufferedWriter.newLine();
+            }
+
+            bufferedWriter.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
 }
