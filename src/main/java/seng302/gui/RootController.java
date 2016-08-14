@@ -348,11 +348,6 @@ public class RootController implements Initializable {
 
         showLoginWindow(true);
 
-
-
-
-
-
     }
 
 

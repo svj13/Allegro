@@ -5,11 +5,11 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.RecentUserController">
+<VBox onMouseClicked="#selectUser" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.RecentUserController">
    <children>
-      <StackPane VBox.vgrow="ALWAYS">
+      <StackPane fx:id="userPane" onMouseClicked="#selectUser" VBox.vgrow="ALWAYS">
          <children>
-            <ImageView fx:id="userPic" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
+            <ImageView  onMouseClicked="#selectUser" fx:id="userPic" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER">
                <image>
                   <Image url="@../images/stop.png" />
                </image>

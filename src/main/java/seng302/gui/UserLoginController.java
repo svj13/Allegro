@@ -15,6 +15,7 @@ import seng302.Environment;
 import seng302.Users.User;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by jmw280 on 21/07/16.
@@ -38,6 +39,8 @@ public class UserLoginController {
 
     Environment env;
 
+    ArrayList<RecentUserController> recentUsers = new ArrayList<>();
+
 
     public UserLoginController(){
 
@@ -49,6 +52,18 @@ public class UserLoginController {
 
 
 
+    protected void deselectUsers(){
+        for(RecentUserController recentUser: recentUsers){
+            System.out.println(recentUser.getStyle());
+            recentUser.deselect();
+        }
+    }
+
+    protected void onRecentSelect(String username){
+        usernameInput.setText(username);
+        passwordInput.clear();
+        passwordInput.requestFocus();
+    }
 
 
     private Node generateRecentUser(String username, Image image){
@@ -59,9 +74,12 @@ public class UserLoginController {
         try {
             recentUser = loader.load();
             RecentUserController recentUserController = loader.getController();
-            System.out.println(recentUser);
+            recentUserController.setParentController(this);
+
             recentUserController.setUsername(username);
             recentUserController.setUserPic(image);
+
+            recentUsers.add(recentUserController);
             return recentUser;
 
         }catch(IOException e){
@@ -81,6 +99,7 @@ public class UserLoginController {
         System.out.println(env.getUserHandler().getRecentUsers());
         for(User user: env.getUserHandler().getRecentUsers()) {
             name = user.getUserName();
+
 
             recentUsersHbox.getChildren().add(generateRecentUser(name, image));
         }
