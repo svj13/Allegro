@@ -10,7 +10,11 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by jmw280 on 10/08/16.
+ * The Major Modes command class deals with two command types.
+ * The first is the "mode of" command. This takes a tonic and degree, and displays the corresponding
+ * major mode.
+ * The second is the "parent of" command. This takes a note and major mode, and displays the major
+ * scale of which this is a mode.
  */
 public class MajorModes implements Command {
 
@@ -30,7 +34,12 @@ public class MajorModes implements Command {
     private HashMap<Integer, String> modes = new HashMap();
 
 
-    // This one is used for mode of command
+    /**
+     * This constructor is used for the "mode of" command.
+     *
+     * @param tonic  The note of the major scale we are finding modes of
+     * @param degree The degree of the mode we are looking for - 1 through 7 are valid
+     */
     public MajorModes(String tonic, String degree ){
         this.commandType = "modeOf";
         octaveSpecified = OctaveUtil.octaveSpecifierFlag(tonic);
@@ -40,7 +49,10 @@ public class MajorModes implements Command {
 
     }
 
-    // Used for finding parent of
+    /**
+     * This constructor is used for the "parent of" command.
+     * @param scale The major mode scale to find the parent of.
+     */
     public MajorModes(HashMap<String, String> scale) {
         this.commandType = "parentOf";
         this.startNote = scale.get("note");
@@ -51,6 +63,13 @@ public class MajorModes implements Command {
     }
 
 
+    /**
+     * The logic for the "mode of" command.
+     * Gets the name of the major mode, given a tonic and mode degree.
+     * Displays this information in the transcript.
+     * An error is shown if the provided degree is outside the accepted range
+     * @param env The environment in which the result will be shown.
+     */
     public void getCorrespondingScale(Environment env) {
         if (degree >= 1 && degree <= 7) {
             ArrayList<String> majorScale = Scale.scaleNameList(typedTonic, tonic.getScale("major", true), true);
@@ -62,18 +81,13 @@ public class MajorModes implements Command {
             env.error("Invalid degree: " + degree + ". Please use degree in range 1-7.");
         }
 
-
-
-
-
     }
 
+    @Override
     public void execute(Environment env){
         if (commandType.equals("modeOf")) {
             getCorrespondingScale(env);
-
         }
-
     }
 
     @Override

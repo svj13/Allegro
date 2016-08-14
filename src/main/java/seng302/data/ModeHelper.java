@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by jmw280 on 10/08/16.
+ * Utility class to store a list of major modes, along with their corresponding degree.
  */
 public class ModeHelper {
 
