@@ -310,6 +310,14 @@ public class Project {
                 env.getRootController().setWindowTitle(saveName + "*");
                 saved = false;
             }
+        } else if (propName.equals("instrument")) {
+
+
+            if (projectSettings.containsKey("instrument") && !(projectSettings.get("instrument").equals(env.getPlayer().getInstrument().getName()))) { //If not equal
+
+                env.getRootController().setWindowTitle(saveName + "*");
+                saved = false;
+            }
         }
 
 
