@@ -229,15 +229,19 @@ public class MusicalTermsTutorController extends TutorController {
                 originOptions.setStyle("-fx-background-color: red");
                 ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(1)).getChildren().add(new Label(currentTerm.getMusicalTermOrigin()));
             }
+            Integer correct = 0;
+            if (originOptions.getValue().equals(currentTerm.getMusicalTermOrigin())) {
+                correct = 1;
+            }
 
             // Adds to record
             String[] question = new String[]{
                     String.format("Origin of term %s", currentTerm.getMusicalTermName()),
                     originOptions.getValue(),
-                    Boolean.toString(originOptions.getValue().equals(currentTerm.getMusicalTermOrigin()))
+                    correct.toString()
             };
-            tutorHandler.saveTutorRecords("musicalTerm", record.addQuestionAnswer(question));
-            env.getRootController().setTabTitle("musicalTermTutor", true);
+            record.addQuestionAnswer(question);
+            env.getRootController().setTabTitle(getTabID(), true);
 
             styleAnswer(rowPane, currentTerm, originOptions, categoryOptions, definitionOptions);
 
@@ -255,15 +259,19 @@ public class MusicalTermsTutorController extends TutorController {
                 categoryOptions.setStyle("-fx-background-color: red");
                 ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(2)).getChildren().add(new Label(currentTerm.getMusicalTermCategory()));
             }
+            Integer correct = 0;
+            if (categoryOptions.getValue().equals(currentTerm.getMusicalTermCategory())) {
+                correct = 1;
+            }
 
             // Adds to record
             String[] question = new String[]{
                     String.format("Category of term %s", currentTerm.getMusicalTermName()),
                     categoryOptions.getValue(),
-                    Boolean.toString(categoryOptions.getValue().equals(currentTerm.getMusicalTermCategory()))
+                    correct.toString()
             };
-            tutorHandler.saveTutorRecords("musicalTerm", record.addQuestionAnswer(question));
-            env.getRootController().setTabTitle("musicalTermTutor", true);
+            record.addQuestionAnswer(question);
+            env.getRootController().setTabTitle(getTabID(), true);
 
             styleAnswer(rowPane, currentTerm, categoryOptions, definitionOptions, originOptions);
 
@@ -282,15 +290,19 @@ public class MusicalTermsTutorController extends TutorController {
                 definitionOptions.setStyle("-fx-background-color: red");
                 ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(3)).getChildren().add(new Label(currentTerm.getMusicalTermDefinition()));
             }
+            Integer correct = 0;
+            if (definitionOptions.getValue().equals(currentTerm.getMusicalTermDefinition())) {
+                correct = 1;
+            }
 
             // Adds to record
             String[] question = new String[]{
                     String.format("Definition of term %s", currentTerm.getMusicalTermName()),
                     definitionOptions.getValue(),
-                    Boolean.toString(definitionOptions.getValue().equals(currentTerm.getMusicalTermDefinition()))
+                    correct.toString()
             };
-            tutorHandler.saveTutorRecords("musicalTerm", record.addQuestionAnswer(question));
-            env.getRootController().setTabTitle("musicalTermTutor", true);
+            record.addQuestionAnswer(question);
+            env.getRootController().setTabTitle(getTabID(), true);
 
             styleAnswer(rowPane, currentTerm, definitionOptions, categoryOptions, originOptions);
 
@@ -305,9 +317,10 @@ public class MusicalTermsTutorController extends TutorController {
             // Re-write this to be more specific
             String[] question = new String[]{
                     String.format("Information about %s", currentTerm.getMusicalTermName()),
-                    currentTerm.getMusicalTermName()
+                    currentTerm.getMusicalTermName(),
+                    "2"
             };
-            tutorHandler.saveTutorRecords("musicalTerm", record.addSkippedQuestion(question));
+            record.addQuestionAnswer(question);
             env.getRootController().setTabTitle("musicalTermTutor", true);
 
             formatSkippedQuestion(rowPane);
@@ -381,68 +394,6 @@ public class MusicalTermsTutorController extends TutorController {
     public void resetInputs() {
         dataManager = env.getMttDataManager();
         numQuestions.setValue(1);
-    }
-
-    /**
-     * This function is run once a tutoring session has been completed.
-     */
-    public void finished() {
-        env.getPlayer().stop();
-        userScore = getScore(manager.correct, manager.answered);
-        outputText = String.format("You have finished the tutor.\n" +
-                        "You answered %d questions, and skipped %d questions.\n" +
-                        "You answered %d questions correctly, %d questions incorrectly.\n" +
-                        "This gives a score of %.2f percent.",
-                manager.questions, manager.skipped,
-                manager.correct, manager.incorrect, userScore);
-
-        if (projectHandler.getCurrentProject() != null) {
-            tutorHandler.saveSessionStat("musicalTerm", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
-            projectHandler.getCurrentProject().saveCurrentProject();
-            outputText += "\nSession auto saved";
-        }
-        env.getRootController().setTabTitle("musicalTermTutor", false);
-        // Sets the finished view
-        resultsContent.setText(outputText);
-
-        paneQuestions.setVisible(false);
-        paneResults.setVisible(true);
-        questionRows.getChildren().clear();
-
-        Button retestBtn = new Button("Retest");
-        Button clearBtn = new Button("Clear");
-        final Button saveBtn = new Button("Save");
-
-
-        clearBtn.setOnAction(event -> {
-            manager.saveTempIncorrect();
-            paneResults.setVisible(false);
-            paneQuestions.setVisible(true);
-
-        });
-        paneResults.setPadding(new Insets(10, 10, 10, 10));
-        retestBtn.setOnAction(event -> {
-            paneResults.setVisible(false);
-            paneQuestions.setVisible(true);
-            retest();
-
-        });
-        saveBtn.setOnAction(event -> saveRecord());
-
-
-        if (manager.getTempIncorrectResponses().size() > 0) {
-            //Can re-test
-            buttons.getChildren().setAll(retestBtn, clearBtn, saveBtn);
-        } else {
-            //Perfect score
-            buttons.getChildren().setAll(clearBtn, saveBtn);
-        }
-
-        HBox.setMargin(retestBtn, new Insets(10, 10, 10, 10));
-        HBox.setMargin(clearBtn, new Insets(10, 10, 10, 10));
-        HBox.setMargin(saveBtn, new Insets(10, 10, 10, 10));
-        // Clear the current session
-        manager.resetStats();
     }
 
 }

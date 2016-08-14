@@ -1,8 +1,9 @@
 package seng302.gui;
 
+import org.controlsfx.control.CheckComboBox;
+
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Observable;
 import java.util.Random;
 
 import javafx.collections.ObservableList;
@@ -10,7 +11,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -18,7 +18,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Pair;
-import org.controlsfx.control.CheckComboBox;
 import seng302.Environment;
 import seng302.data.Note;
 import seng302.utility.TutorRecord;
@@ -92,7 +91,7 @@ public class ScaleRecognitionTutorController extends TutorController {
         initialiseQuestionSelector();
         rand = new Random();
         direction.getItems().addAll("Up", "Down", "UpDown");
-        ccbScales.getItems().addAll("Major", "Minor", "Melodic Minor");
+        ccbScales.getItems().addAll("Major", "Minor", "Melodic Minor", "Major Pentatonic", "Minor Pentatonic");
 
         ccbScales.getCheckModel().check(0); //Only major/minor selected by default
         ccbScales.getCheckModel().check(1);
@@ -110,18 +109,9 @@ public class ScaleRecognitionTutorController extends TutorController {
     public HBox setUpQuestion() {
         int type = rand.nextInt(playScaleType.size());
         String scaleType = playScaleType.get(type).toLowerCase();
-
-        return generateQuestionPane(new Pair<>(getRandomNote(), scaleType.toLowerCase()));
+        return generateQuestionPane(new Pair<>(Note.getRandomNote(), scaleType.toLowerCase()));
     }
 
-    /**
-     * Generates a note in the octave of middle C
-     *
-     * @return the random note
-     */
-    public Note getRandomNote() {
-        return Note.lookup(Integer.toString(rand.nextInt(11) + 60));
-    }
 
     /**
      * Given a type of scale (major or minor) and a starting note, returns a list of notes of scale
@@ -155,17 +145,15 @@ public class ScaleRecognitionTutorController extends TutorController {
      * @param questionRow   The HBox containing GUI question data
      */
     public void handleQuestionAnswer(String userAnswer, Pair correctAnswer, HBox questionRow) {
-
-
         manager.answered += 1;
-        boolean correct;
+        Integer correct;
         disableButtons(questionRow, 1, 3);
         if (userAnswer.equals(correctAnswer.getValue())) {
-            correct = true;
+            correct = 1;
             manager.add(correctAnswer, 1);
             formatCorrectQuestion(questionRow);
         } else {
-            correct = false;
+            correct = 0;
             manager.add(correctAnswer, 0);
             formatIncorrectQuestion(questionRow);
             //Shows the correct answer
@@ -177,9 +165,9 @@ public class ScaleRecognitionTutorController extends TutorController {
                         correctAnswer.getValue(),
                         startingNote.getNote()),
                 userAnswer,
-                Boolean.toString(correct)
+                correct.toString()
         };
-        tutorHandler.saveTutorRecords("scale", record.addQuestionAnswer(question));
+        record.addQuestionAnswer(question);
         env.getRootController().setTabTitle("scaleTutor", true);
 
         if (manager.answered == manager.questions) {
@@ -226,10 +214,11 @@ public class ScaleRecognitionTutorController extends TutorController {
             manager.add(noteAndScaleType, 2);
             String[] question = new String[]{
                     String.format("%s scale from %s", scaleType, startNote.getNote()),
-                    scaleType
+                    scaleType,
+                    "2"
             };
-            tutorHandler.saveTutorRecords("scale", record.addSkippedQuestion(question));
-            env.getRootController().setTabTitle("scaleTutor", true);
+            record.addQuestionAnswer(question);
+            env.getRootController().setTabTitle(getTabID(), true);
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -253,7 +242,6 @@ public class ScaleRecognitionTutorController extends TutorController {
         ComboBox<String> options = new ComboBox<>();
         options.setPrefHeight(30);
         options.getItems().addAll(playScaleType);
-
         return options;
     }
 
@@ -266,65 +254,6 @@ public class ScaleRecognitionTutorController extends TutorController {
         ccbScales.getCheckModel().clearChecks();
         ccbScales.getCheckModel().check(0);
         ccbScales.getCheckModel().check(1);
-    }
-
-
-    /**
-     * This function is run once a tutoring session has been completed.
-     */
-    public void finished() {
-        env.getPlayer().stop();
-        userScore = getScore(manager.correct, manager.answered);
-        outputText = String.format("You have finished the tutor.\n" +
-                        "You answered %d questions, and skipped %d questions.\n" +
-                        "You answered %d questions correctly, %d questions incorrectly.\n" +
-                        "This gives a score of %.2f percent.",
-                manager.questions, manager.skipped,
-                manager.correct, manager.incorrect, userScore);
-
-        if (projectHandler.getCurrentProject() != null) {
-            tutorHandler.saveSessionStat("scale", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
-            projectHandler.getCurrentProject().saveCurrentProject();
-            outputText += "\nSession auto saved";
-        }
-        env.getRootController().setTabTitle("scaleTutor", false);
-        // Sets the finished view
-        resultsContent.setText(outputText);
-
-        paneQuestions.setVisible(false);
-        paneResults.setVisible(true);
-        questionRows.getChildren().clear();
-
-        Button retestBtn = new Button("Retest");
-        Button clearBtn = new Button("Clear");
-        final Button saveBtn = new Button("Save");
-
-        clearBtn.setOnAction(event -> {
-            manager.saveTempIncorrect();
-            paneResults.setVisible(false);
-            paneQuestions.setVisible(true);
-        });
-        paneResults.setPadding(new Insets(10, 10, 10, 10));
-        retestBtn.setOnAction(event -> {
-            paneResults.setVisible(false);
-            paneQuestions.setVisible(true);
-            retest();
-        });
-        saveBtn.setOnAction(event -> saveRecord());
-
-        if (manager.getTempIncorrectResponses().size() > 0) {
-            //Can re-test
-            buttons.getChildren().setAll(retestBtn, clearBtn, saveBtn);
-        } else {
-            //Perfect score
-            buttons.getChildren().setAll(clearBtn, saveBtn);
-        }
-
-        HBox.setMargin(retestBtn, new Insets(10, 10, 10, 10));
-        HBox.setMargin(clearBtn, new Insets(10, 10, 10, 10));
-        HBox.setMargin(saveBtn, new Insets(10, 10, 10, 10));
-        // Clear the current session
-        manager.resetStats();
     }
 
 }

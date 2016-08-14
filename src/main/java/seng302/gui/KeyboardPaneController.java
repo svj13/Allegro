@@ -240,7 +240,6 @@ public class KeyboardPaneController {
         });
 
 
-
         settings.getChildren().add(new Label("Keyboard Mode:"));
         modes.getChildren().add(play);
         modes.getChildren().add(text);
@@ -250,15 +249,15 @@ public class KeyboardPaneController {
 
 
     /**
-     * display scales pop up option on keyboard. Will enable tuser to display 1 or more scales. They can select
-     * note of scale, what type of scale and its octave. Clear buttons for each scale to clear fields.
-     * OK button to confirm and execute and close window. Cancel button to cancel and close window
+     * display scales pop up option on keyboard. Will enable tuser to display 1 or more scales. They
+     * can select note of scale, what type of scale and its octave. Clear buttons for each scale to
+     * clear fields. OK button to confirm and execute and close window. Cancel button to cancel and
+     * close window
      */
     private void createDisplayScalesPop() {
 
 
     }
-
 
 
     /**
@@ -270,6 +269,7 @@ public class KeyboardPaneController {
         positionBlackKeys();
         checkLabelStatusForNewNotes();
     }
+
     /**
      * When a note is created, check if it should be showing a label and toggle as needed.
      */

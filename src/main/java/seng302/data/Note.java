@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 import java.util.Set;
 
 import seng302.utility.musicNotation.Checker;
@@ -287,18 +288,18 @@ public class Note {
                 semitones = Arrays.asList(2, 3, 5, 7, 8, 10, 12);
             } else if (type.equalsIgnoreCase("melodic minor")) {
                 semitones = Arrays.asList(2, 3, 5, 7, 9, 11, 12);
+            } else if (type.equalsIgnoreCase("major pentatonic")) {
+                semitones = Arrays.asList(2, 4, 7, 9, 12);
+            } else if (type.equalsIgnoreCase("minor pentatonic")) {
+                semitones = Arrays.asList(3, 5, 7, 10, 12);
             } else {
                 throw new IllegalArgumentException("Invalid scale type: '" + type + "'.");
             }
             for (int i = 0; i < octaves; i++) {
-                scaleNotes.add(currentNote.semitoneUp(semitones.get(0)));
-                scaleNotes.add(currentNote.semitoneUp(semitones.get(1)));
-                scaleNotes.add(currentNote.semitoneUp(semitones.get(2)));
-                scaleNotes.add(currentNote.semitoneUp(semitones.get(3)));
-                scaleNotes.add(currentNote.semitoneUp(semitones.get(4)));
-                scaleNotes.add(currentNote.semitoneUp(semitones.get(5)));
-                scaleNotes.add(currentNote.semitoneUp(semitones.get(6)));
-                currentNote = currentNote.semitoneUp(semitones.get(6));
+                for (int j = 0; j < semitones.size(); j++) {
+                    scaleNotes.add(currentNote.semitoneUp(semitones.get(j)));
+                }
+                currentNote = currentNote.semitoneUp(semitones.get(semitones.size() - 1));
             }
         } else {
             if (type.equalsIgnoreCase("major")) {
@@ -307,18 +308,18 @@ public class Note {
                 semitones = Arrays.asList(2, 4, 5, 7, 9, 10, 12);
             } else if (type.equalsIgnoreCase("melodic minor")) {
                 semitones = Arrays.asList(2, 4, 5, 7, 9, 10, 12);
+            } else if (type.equalsIgnoreCase("major pentatonic")) {
+                semitones = Arrays.asList(3, 5, 8, 10, 12);
+            } else if (type.equalsIgnoreCase("minor pentatonic")) {
+                semitones = Arrays.asList(2, 5, 7, 9, 12);
             } else {
                 throw new IllegalArgumentException("Invalid scale type: '" + type + "'.");
             }
             for (int i = 0; i < octaves; i++) {
-                scaleNotes.add(currentNote.semitoneDown(semitones.get(0)));
-                scaleNotes.add(currentNote.semitoneDown(semitones.get(1)));
-                scaleNotes.add(currentNote.semitoneDown(semitones.get(2)));
-                scaleNotes.add(currentNote.semitoneDown(semitones.get(3)));
-                scaleNotes.add(currentNote.semitoneDown(semitones.get(4)));
-                scaleNotes.add(currentNote.semitoneDown(semitones.get(5)));
-                scaleNotes.add(currentNote.semitoneDown(semitones.get(6)));
-                currentNote = currentNote.semitoneDown(semitones.get(6));
+                for (int j = 0; j < semitones.size(); j++) {
+                    scaleNotes.add(currentNote.semitoneDown(semitones.get(j)));
+                }
+                currentNote = currentNote.semitoneDown(semitones.get(semitones.size() - 1));
             }
         }
         if (scaleNotes.contains(null)) {
@@ -385,6 +386,16 @@ public class Note {
      */
     public Integer getMidi() {
         return this.midi;
+    }
+
+    /**
+     * Generates a note in the octave of middle C
+     *
+     * @return the random note
+     */
+    public static Note getRandomNote() {
+        Random rand = new Random();
+        return Note.lookup(Integer.toString(rand.nextInt(11) + 60));
     }
 
     @Override

@@ -28,8 +28,8 @@ import seng302.utility.musicNotation.ChordUtil;
 import seng302.utility.musicNotation.OctaveUtil;
 
 /**
- * This class is responsible for the GUI and logic of the Chord Spelling Tutor.
- * It works similarly to all other tutors, and is based off the abstract TutorController class.
+ * This class is responsible for the GUI and logic of the Chord Spelling Tutor. It works similarly
+ * to all other tutors, and is based off the abstract TutorController class.
  */
 public class ChordSpellingTutorController extends TutorController {
     @FXML
@@ -160,15 +160,6 @@ public class ChordSpellingTutorController extends TutorController {
         return generateQuestionPane(question);
     }
 
-    /**
-     * Generates a note in the octave of middle C
-     *
-     * @return the random note
-     */
-    public Note getRandomNote() {
-        return Note.lookup(Integer.toString(rand.nextInt(11) + 60));
-    }
-
     @Override
     /**
      * Generates a GUI containing question data.
@@ -221,7 +212,8 @@ public class ChordSpellingTutorController extends TutorController {
             skip.setOnAction(event -> {
                 String[] questionInfo = new String[]{
                         String.format(typeOneText, chordName),
-                        chordAsString(chordNotes)
+                        chordAsString(chordNotes),
+                        "2"
 
                 };
 
@@ -321,7 +313,8 @@ public class ChordSpellingTutorController extends TutorController {
             skip.setOnAction(event -> {
                 String[] questionInfo = new String[]{
                         String.format(typeTwoText, chordAsString(chordNotes)),
-                        chordName
+                        chordName,
+                        "2"
 
                 };
                 handleSkippedQuestion(questionInfo, questionRow, finalData, questionType);
@@ -424,7 +417,7 @@ public class ChordSpellingTutorController extends TutorController {
             int numberOfNotes = rand.nextInt(2) + 3;
 
             for (int i = 0; i < numberOfNotes; i++) {
-                Note randomNote = getRandomNote();
+                Note randomNote = Note.getRandomNote();
                 randomNotes.add(randomNote);
                 noteMidis.add(randomNote.getMidi());
             }
@@ -480,7 +473,7 @@ public class ChordSpellingTutorController extends TutorController {
         ArrayList<Note> chordNotes = null;
 
         while (!validChord) {
-            Note startNote = getRandomNote();
+            Note startNote = Note.getRandomNote();
             if (ChordUtil.getChord(startNote, chordType) != null) {
                 validChord = true;
                 chordNotes = ChordUtil.getChord(startNote, chordType);
@@ -513,14 +506,22 @@ public class ChordSpellingTutorController extends TutorController {
             //example, if you're +7 above the note, you take that one and go down 7 semitones?
             for (int i = 0; i < 8; i++) {
                 Note thisNote = startingNote.semitoneDown(i);
-                surroundingNotes.add(randomiseNoteName(thisNote, correctNote));
+                if (thisNote != correctNote) {
+                    surroundingNotes.add(randomiseNoteName(thisNote));
+                } else {
+                    surroundingNotes.add(OctaveUtil.removeOctaveSpecifier(correctNote.getNote()));
+                }
             }
         } else {
             //goes to below the note
             //so, if you're -7 below the note, you take that and go up 7 semitones
             for (int i = 0; i < 8; i++) {
                 Note thisNote = startingNote.semitoneUp(i);
-                surroundingNotes.add(randomiseNoteName(thisNote, correctNote));
+                if (thisNote != correctNote) {
+                    surroundingNotes.add(randomiseNoteName(thisNote));
+                } else {
+                    surroundingNotes.add(OctaveUtil.removeOctaveSpecifier(correctNote.getNote()));
+                }
             }
         }
 
@@ -581,30 +582,13 @@ public class ChordSpellingTutorController extends TutorController {
         return chordNames;
     }
 
+
+
     /**
-     * Using random numbers, "randomises" whether a note will display with a sharp or flat. Only
-     * uses sharps/flats when applicable.
+     * Checks if the note a user has selected is the correct note. Essentially just a nice
+     * comparison function.
      *
-     * @param noteToRandomise A Note which is being "randomised"
-     * @param correctNote     A note we don't want to randomise, ever
-     * @return A 'randomised' string representation of a note.
-     */
-    private String randomiseNoteName(Note noteToRandomise, Note correctNote) {
-        String noteName = OctaveUtil.removeOctaveSpecifier(noteToRandomise.getNote());
-
-        //As the default is sharp, we randomise to get some flats
-        if (!noteToRandomise.equals(correctNote) && rand.nextInt(2) != 0) {
-            if (!noteToRandomise.simpleEnharmonic().equals("")) {
-                noteName = OctaveUtil.removeOctaveSpecifier(noteToRandomise.simpleEnharmonic());
-            }
-        }
-        return noteName;
-    }
-
-    /**
-     * Checks if the note a user has selected is the correct note.
-     * Essentially just a nice comparison function.
-     * @param correctNote The correct value
+     * @param correctNote  The correct value
      * @param selectedNote The value the user has selected
      * @return True if the user selected the right note, False otherwise
      */
@@ -613,9 +597,10 @@ public class ChordSpellingTutorController extends TutorController {
     }
 
     /**
-     * Once a user has selected a note (type 1 questions), it is styled.
-     * The relevant combo box is styled green if the answer was correct, red if it was incorrect.
-     * @param note The combo box a note was selected from
+     * Once a user has selected a note (type 1 questions), it is styled. The relevant combo box is
+     * styled green if the answer was correct, red if it was incorrect.
+     *
+     * @param note      The combo box a note was selected from
      * @param isCorrect Whether or not the correct answer was selected
      */
     private void styleNoteInput(ComboBox<String> note, boolean isCorrect) {
@@ -650,6 +635,7 @@ public class ChordSpellingTutorController extends TutorController {
 
     /**
      * Checks if all inputs to a type 1 question were correct.
+     *
      * @param inputs The HBox containing the combo box inputs
      * @return 0 if all inputs are wrong, 1 if all are correct, and 2 if some inputs are correct
      */
@@ -679,6 +665,7 @@ public class ChordSpellingTutorController extends TutorController {
 
     /**
      * Checks whether the user correctly answered a type 2 question or not
+     *
      * @param inputs The HBox containing the user's input
      * @return true if the user was correct, false otherwise
      */
@@ -693,18 +680,18 @@ public class ChordSpellingTutorController extends TutorController {
 
 
     /**
-     * This method is called when a question is completed.
-     * It styles the GUI based on the correctness of the question, and also saves the question's
-     * information.
+     * This method is called when a question is completed. It styles the GUI based on the
+     * correctness of the question, and also saves the question's information.
+     *
      * @param completedQuestion The HBox containing the GUI of the question
-     * @param questionType Whether it was a type 1 or type 2 question
-     * @param data The question data - chord name and notes
-     * @param selectedAnswer - The answer that the user input. For saving
+     * @param questionType      Whether it was a type 1 or type 2 question
+     * @param data              The question data - chord name and notes
+     * @param selectedAnswer    - The answer that the user input. For saving
      */
     private void handleCompletedQuestion(HBox completedQuestion, int questionType, Pair data, String selectedAnswer) {
         HBox inputs = (HBox) completedQuestion.getChildren().get(1);
         String questionText;
-        Boolean answeredCorrectly = false;
+        Integer answeredCorrectly = 0;
 
         //0 for wrong, 1 for right, 2 for partially correct
         int correctnessValue;
@@ -731,7 +718,7 @@ public class ChordSpellingTutorController extends TutorController {
             //Shows the correct answer
             completedQuestion.getChildren().get(3).setVisible(true);
         } else {
-            answeredCorrectly = true;
+            answeredCorrectly = 1;
             manager.add(new Pair<Pair, Integer>(data, questionType), 1);
         }
 
@@ -743,7 +730,8 @@ public class ChordSpellingTutorController extends TutorController {
                 selectedAnswer,
                 answeredCorrectly.toString()
         };
-        tutorHandler.saveTutorRecords("spelling", record.addQuestionAnswer(question));
+        record.addQuestionAnswer(question);
+        env.getRootController().setTabTitle(getTabID(), true);
 
         updateManagerCompletedQuestion();
     }
@@ -778,67 +766,6 @@ public class ChordSpellingTutorController extends TutorController {
         }
     }
 
-    /**
-     * Runs once the tutoring session has finished.
-     * Shows the statistics of the session, and saves information.
-     */
-    private void finished() {
-        userScore = getScore(manager.correct, manager.answered);
-        outputText = String.format("You have finished the tutor.\n" +
-                        "You answered %d questions, and skipped %d questions.\n" +
-                        "You answered %d questions correctly, %d questions incorrectly.\n" +
-                        "This gives a score of %.2f percent.",
-                manager.questions, manager.skipped,
-                manager.correct, manager.incorrect, userScore);
-
-        if (projectHandler.getCurrentProject() != null) {
-            tutorHandler.saveSessionStat("spelling", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
-            projectHandler.getCurrentProject().saveCurrentProject();
-            outputText += "\nSession auto saved";
-        }
-        env.getRootController().setTabTitle("chordSpellingTutor", false);
-        // Sets the finished view
-        resultsContent.setText(outputText);
-
-        paneQuestions.setVisible(false);
-        paneResults.setVisible(true);
-        questionRows.getChildren().clear();
-
-        Button retestBtn = new Button("Retest");
-        Button clearBtn = new Button("Clear");
-        final Button saveBtn = new Button("Save");
-
-
-        clearBtn.setOnAction(event -> {
-            manager.saveTempIncorrect();
-            paneResults.setVisible(false);
-            paneQuestions.setVisible(true);
-
-        });
-        paneResults.setPadding(new Insets(10, 10, 10, 10));
-        retestBtn.setOnAction(event -> {
-            paneResults.setVisible(false);
-            paneQuestions.setVisible(true);
-            retest();
-
-        });
-        saveBtn.setOnAction(event -> saveRecord());
-
-
-        if (manager.getTempIncorrectResponses().size() > 0) {
-            //Can re-test
-            buttons.getChildren().setAll(retestBtn, clearBtn, saveBtn);
-        } else {
-            //Perfect score
-            buttons.getChildren().setAll(clearBtn, saveBtn);
-        }
-
-        HBox.setMargin(retestBtn, new Insets(10, 10, 10, 10));
-        HBox.setMargin(clearBtn, new Insets(10, 10, 10, 10));
-        HBox.setMargin(saveBtn, new Insets(10, 10, 10, 10));
-        // Clear the current session
-        manager.resetStats();
-    }
 
     /**
      * Run when a user elects to skip a question. Saves that question to the manager as skipped, and
@@ -854,11 +781,11 @@ public class ChordSpellingTutorController extends TutorController {
         disableButtons(questionRow, 1, 3);
         formatSkippedQuestion(questionRow);
         manager.questions -= 1;
-        manager.add(new Pair<Pair, Integer>(finalData, questionType), 2);
+        manager.add(new Pair<>(finalData, questionType), 2);
 
-        tutorHandler.saveTutorRecords("spelling", record.addSkippedQuestion(questionInfo));
+        record.addQuestionAnswer(questionInfo);
 
-        env.getRootController().setTabTitle("chordSpellingTutor", true);
+        env.getRootController().setTabTitle(getTabID(), true);
         if (manager.answered == manager.questions) {
             finished();
         }
