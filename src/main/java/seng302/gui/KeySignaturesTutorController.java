@@ -43,7 +43,6 @@ public class KeySignaturesTutorController extends TutorController {
     Label formLabel;
 
 
-
     /**
      * ArrayLists containing the major and minor notes thats are used to populate the answer
      * comboboxs used for question type 2
@@ -296,13 +295,12 @@ public class KeySignaturesTutorController extends TutorController {
 
 
         });
-        minorOptions.setOnAction(new EventHandler<ActionEvent>() {
+        minorOptions.setOnAction(event -> {
             // This handler colors the GUI depending on the user's input
-            public void handle(ActionEvent event) {
-                disableButtons(questionRow, 2, 3);
-                if (!(majorOptions.getValue() == null)) {
-                    disableButtons(questionRow, 1, 4);
-                    manager.answered += 1;
+            disableButtons(questionRow, 2, 3);
+            if (!(majorOptions.getValue() == null)) {
+                disableButtons(questionRow, 1, 4);
+                manager.answered += 1;
 
 
                     disableButtons(questionRow, 1, 3);
@@ -315,12 +313,12 @@ public class KeySignaturesTutorController extends TutorController {
                         formatCorrectQuestion(questionRow);
                         manager.add(pair, 1);
 
-                    } else {
-                        correctAnswerLabel.setText(correctAnswer);
-                        correctAnswerLabel.setVisible(true);
-                        formatIncorrectQuestion(questionRow);
-                        manager.add(pair, 0);
-                    }
+                } else {
+                    correctAnswerLabel.setText(correctAnswer);
+                    correctAnswerLabel.setVisible(true);
+                    formatIncorrectQuestion(questionRow);
+                    manager.add(pair, 0);
+                }
 
                     // Sets up the question to be saved to the record
                     String[] recordQuestion = new String[]{
@@ -337,7 +335,6 @@ public class KeySignaturesTutorController extends TutorController {
                 }
 
 
-            }
         });
 
         questionRow.getChildren().add(0, questionText);
@@ -677,7 +674,7 @@ public class KeySignaturesTutorController extends TutorController {
      * Generates a combobox filled with potential answers to given question for type 1 questions
      *
      * @param question - the current question that the comboBox is being generated for
-     * @param isMajor  - varible representing the scale type of the current question
+     * @param isMajor  - variable representing the scale type of the current question
      * @return - returns a filled comboBox
      */
     private ComboBox<String> generateType1ComboBox(String question, Boolean isMajor) {
@@ -826,66 +823,64 @@ public class KeySignaturesTutorController extends TutorController {
             }
         });
 
-        options.setOnAction(new EventHandler<ActionEvent>() {
-            // This handler colors the GUI depending on the user's input
-            public void handle(ActionEvent event) {
-                disableButtons(questionRow, 1, 3);
-                Integer isCorrect = 0;
-                String correctAnswerStr;
+        // This handler colors the GUI depending on the user's input
+        options.setOnAction(event -> {
+            disableButtons(questionRow, 1, 3);
+            Integer isCorrect = 0;
+            String correctAnswerStr;
 
 
-                if (fIsMajor) {
+            if (fIsMajor) {
+                if (!(Boolean) ((Pair) pair.getValue()).getValue()) {
 
-                    if (!(Boolean) ((Pair) pair.getValue()).getValue()) {
-
-                        if ((KeySignature.getMajorKeySignatures().get(question)).getNotes().get(0).contains("#")) {
-                            correctAnswerStr = (KeySignature.getMajorKeySignatures().get(question)).getNumberOfSharps() + "#";
-                        } else {
-                            correctAnswerStr = (KeySignature.getMajorKeySignatures().get(question)).getNumberOfFlats() + "b";
-                        }
+                    if ((KeySignature.getMajorKeySignatures().get(question)).getNotes().get(0).contains("#")) {
+                        correctAnswerStr = (KeySignature.getMajorKeySignatures().get(question)).getNumberOfSharps() + "#";
                     } else {
-                        correctAnswerStr = KeySignature.getMajorKeySignatures().get(question).getNotes().toString();
+                        correctAnswerStr = (KeySignature.getMajorKeySignatures().get(question)).getNumberOfFlats() + "b";
                     }
-
                 } else {
-                    if (!(Boolean) ((Pair) pair.getValue()).getValue()) {
-
-                        if ((KeySignature.getMinorKeySignatures().get(question)).getNotes().get(0).contains("#")) {
-                            correctAnswerStr = (KeySignature.getMinorKeySignatures().get(question)).getNumberOfSharps() + "#";
-                        } else {
-                            correctAnswerStr = (KeySignature.getMinorKeySignatures().get(question)).getNumberOfFlats() + "b";
-                        }
-                    } else {
-                        correctAnswerStr = KeySignature.getMinorKeySignatures().get(question).getNotes().toString();
-                    }
+                    correctAnswerStr = KeySignature.getMajorKeySignatures().get(question).getNotes().toString();
                 }
 
-                if (type2QuestionCorrectCheck(((Boolean) ((Pair) pair.getValue()).getValue()), fIsMajor, question, options.getValue())) {
-                    isCorrect = 1;
-                    formatCorrectQuestion(questionRow);
-                    manager.add(pair, 1);
+            } else {
+                if (!(Boolean) ((Pair) pair.getValue()).getValue()) {
 
+                    if ((KeySignature.getMinorKeySignatures().get(question)).getNotes().get(0).contains("#")) {
+                        correctAnswerStr = (KeySignature.getMinorKeySignatures().get(question)).getNumberOfSharps() + "#";
+                    } else {
+                        correctAnswerStr = (KeySignature.getMinorKeySignatures().get(question)).getNumberOfFlats() + "b";
+                    }
                 } else {
-                    correctAnswerLabel.setText(correctAnswerStr);
-                    correctAnswerLabel.setVisible(true);
-                    formatIncorrectQuestion(questionRow);
-                    manager.add(pair, 0);
-                }
-
-                manager.answered += 1;
-                // Sets up the question to be saved to the record
-                String[] recordQuestion = new String[]{
-                        String.format("Key signature of %s %s", question, pair.getKey()),
-                        options.getValue(),
-                        String.valueOf(isCorrect)
-                };
-                record.addQuestionAnswer(recordQuestion);
-                env.getRootController().setTabTitle(getTabID(), true);
-                // Shows the correct answer
-                if (manager.answered == manager.questions) {
-                    finished();
+                    correctAnswerStr = KeySignature.getMinorKeySignatures().get(question).getNotes().toString();
                 }
             }
+
+            if (type2QuestionCorrectCheck(((Boolean) ((Pair) pair.getValue()).getValue()), fIsMajor, question, options.getValue())) {
+                isCorrect = 1;
+                formatCorrectQuestion(questionRow);
+                manager.add(pair, 1);
+
+            } else {
+                correctAnswerLabel.setText(correctAnswerStr);
+                correctAnswerLabel.setVisible(true);
+                formatIncorrectQuestion(questionRow);
+                manager.add(pair, 0);
+            }
+
+            manager.answered += 1;
+            // Sets up the question to be saved to the record
+            String[] recordQuestion = new String[]{
+                    String.format("Key signature of %s %s", question, pair.getKey()),
+                    options.getValue(),
+                    String.valueOf(isCorrect)
+            };
+            record.addQuestionAnswer(recordQuestion);
+            env.getRootController().setTabTitle(getTabID(), true);
+            // Shows the correct answer
+            if (manager.answered == manager.questions) {
+                finished();
+            }
+        }
         });
 
         questionRow.getChildren().add(0, questionText);

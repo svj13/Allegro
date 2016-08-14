@@ -78,12 +78,18 @@ public class ProjectHandler {
     Collection<JSONObject> spellingTutorRecordsList = new ArrayList<>();
     String spellingTutorRecordStats = "";
 
+    JSONObject overallDiatonicObject;
+    JSONObject overallDiatonicSessionObject;
+    Collection<JSONObject> diatonicTutorRecordsList = new ArrayList<>();
+    String diatonicTutorRecordStats = "";
+
 
     JSONObject intervalTutorRecords;
     JSONObject musicalTermsTutorRecords;
     JSONObject scaleTutorRecords;
     JSONObject chordTutorRecords;
     JSONObject spellingTutorRecords;
+    JSONObject diatonicTutorRecords;
 
     JSONParser parser = new JSONParser(); //parser for reading project
 
@@ -106,6 +112,7 @@ public class ProjectHandler {
         scaleTutorRecords = new JSONObject();
         chordTutorRecords = new JSONObject();
         spellingTutorRecords = new JSONObject();
+        diatonicTutorRecords = new JSONObject();
 
         overallPitchObject = new JSONArray();
         overallPitchSessionObject = new JSONObject();
@@ -125,6 +132,8 @@ public class ProjectHandler {
         overallSpellingObject = new JSONObject();
         overallSpellingSessionObject = new JSONObject();
 
+        overallDiatonicObject = new JSONObject();
+        overallDiatonicSessionObject = new JSONObject();
 
         this.env = env;
         try {
@@ -397,15 +406,6 @@ public class ProjectHandler {
         } catch (Exception e2) {
             e2.printStackTrace();
         }
-    }
-
-
-    /**
-     * Compares all current project properties to the saved values If there are any differences,
-     * adds an asterix indicator to the project title
-     */
-    public void checkChanges() {
-
     }
 
 
