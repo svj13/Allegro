@@ -1,8 +1,6 @@
 package seng302.gui;
 
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import org.json.simple.JSONArray;
 
 import java.io.File;
@@ -18,7 +16,9 @@ import java.util.ResourceBundle;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Menu;
@@ -78,6 +78,9 @@ public class RootController implements Initializable {
 
     @FXML
     private KeySignaturesTutorController KeySignaturesTabController;
+
+    @FXML
+    private DiatonicChordsTutorController diatonicChordsTabController;
 
     @FXML
     private KeyboardPaneController keyboardPaneController;
@@ -224,7 +227,6 @@ public class RootController implements Initializable {
             transcriptController.txtCommand.appendText("Options: " + optionsString);
         }
     }
-
 
 
     /**
@@ -679,22 +681,60 @@ public class RootController implements Initializable {
     }
 
     /**
-     * opens the keySignatures tutor when the key signatures tutor menu option is pressed
-     * If there is already an open tutor of the same form then it sets focus to the already open tutor
+     * Opens the diatonic chord tutor when the diatonic chord tutor menu option is pressed. If there
+     * is already an open tutor of the same form then it sets focus to the already open tutor.
      */
     @FXML
-    private void openKeySignatureTutor(){
+    private void openDiatonicChordTutor() {
 
         boolean alreadyExists = false;
-        for(Tab tab:TabPane.getTabs()){
-            if(tab.getId().equals("keySignatureTutor")){
+        for (Tab tab : TabPane.getTabs()) {
+            if (tab.getId().equals("diatonicChordTutor")) {
                 TabPane.getSelectionModel().select(tab);
                 alreadyExists = true;
             }
 
         }
 
-        if(!alreadyExists) {
+        if (!alreadyExists) {
+
+            Tab tab = new Tab("Diatonic Chord Tutor");
+            tab.setId("diatonicChordTutor");
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/Views/DiatonicChordPane.fxml"));
+
+            try {
+                tab.setContent(loader.load());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            TabPane.getTabs().add(tab);
+            TabPane.getSelectionModel().select(tab);
+            diatonicChordsTabController = loader.getController();
+            diatonicChordsTabController.create(env);
+        }
+
+    }
+
+    /**
+     * opens the keySignatures tutor when the key signatures tutor menu option is pressed If there
+     * is already an open tutor of the same form then it sets focus to the already open tutor
+     */
+    @FXML
+    private void openKeySignatureTutor() {
+
+        boolean alreadyExists = false;
+        for (Tab tab : TabPane.getTabs()) {
+            if (tab.getId().equals("keySignatureTutor")) {
+                TabPane.getSelectionModel().select(tab);
+                alreadyExists = true;
+            }
+
+        }
+
+        if (!alreadyExists) {
 
             Tab ScaleTab = new Tab("Key Signature Tutor");
             ScaleTab.setId("keySignatureTutor");
@@ -950,10 +990,10 @@ public class RootController implements Initializable {
         if (ChordSpellingTabController != null) {
             ChordSpellingTabController.clearTutor();
         }
-        if (ChordRecognitionTabController != null){
+        if (ChordRecognitionTabController != null) {
             ChordRecognitionTabController.clearTutor();
         }
-        if(KeySignaturesTabController != null){
+        if (KeySignaturesTabController != null) {
             KeySignaturesTabController.clearTutor();
 
         }

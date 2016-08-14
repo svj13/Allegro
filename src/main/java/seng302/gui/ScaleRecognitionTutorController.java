@@ -1,8 +1,9 @@
 package seng302.gui;
 
+import org.controlsfx.control.CheckComboBox;
+
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Observable;
 import java.util.Random;
 
 import javafx.collections.ObservableList;
@@ -10,7 +11,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -18,7 +18,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Pair;
-import org.controlsfx.control.CheckComboBox;
 import seng302.Environment;
 import seng302.data.Note;
 import seng302.utility.TutorRecord;
@@ -110,18 +109,9 @@ public class ScaleRecognitionTutorController extends TutorController {
     public HBox setUpQuestion() {
         int type = rand.nextInt(playScaleType.size());
         String scaleType = playScaleType.get(type).toLowerCase();
-
-        return generateQuestionPane(new Pair<>(getRandomNote(), scaleType.toLowerCase()));
+        return generateQuestionPane(new Pair<>(Note.getRandomNote(), scaleType.toLowerCase()));
     }
 
-    /**
-     * Generates a note in the octave of middle C
-     *
-     * @return the random note
-     */
-    public Note getRandomNote() {
-        return Note.lookup(Integer.toString(rand.nextInt(11) + 60));
-    }
 
     /**
      * Given a type of scale (major or minor) and a starting note, returns a list of notes of scale
@@ -253,7 +243,6 @@ public class ScaleRecognitionTutorController extends TutorController {
         ComboBox<String> options = new ComboBox<>();
         options.setPrefHeight(30);
         options.getItems().addAll(playScaleType);
-
         return options;
     }
 
