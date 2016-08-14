@@ -355,13 +355,18 @@ public class Project {
     public void loadProject(String pName) {
         try {
 
+
             env.resetEnvironment();
             String path = projectDirectory.toString();
+            System.out.println("project dir: " + path.toString() + "... " + pName);
             try {
+
                 projectSettings = (JSONObject) parser.parse(new FileReader(path + "/" + pName + ".json"));
+
 
             } catch (FileNotFoundException f) {
                 //Project doesn't exist? Create it.
+                System.err.println("Tried to load project but the path didn't exist");
 
                 if (!Paths.get(path).toFile().isDirectory()) {
                     //If the Project directory folder doesn't exist.

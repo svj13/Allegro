@@ -140,6 +140,10 @@ public class UserHandler {
 
     }
 
+    public void logOut() {
+
+    }
+
 
     /**
      * Updates the json list of user names, used to fill the quick load list.

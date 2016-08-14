@@ -293,6 +293,13 @@ public class RootController implements Initializable {
     }
 
 
+    @FXML
+    protected void logOutUser() {
+
+
+    }
+
+
 
     /**
      * Displays a dialog to ask the user whether or not they want to save project changes.
@@ -548,7 +555,9 @@ public class RootController implements Initializable {
 
             MenuItem projectItem = new MenuItem(projectName);
             projectItem.setOnAction(event -> {
-                if (saveChangesDialog()) env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().loadProject(projectName);
+                //if (saveChangesDialog()) env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().loadProject(projectName);
+                if (saveChangesDialog())
+                    env.getUserHandler().getCurrentUser().getProjectHandler().setCurrentProject(projectName);
             });
 
             menuOpenProjects.getItems().add(projectItem); //Add to Open projects menu
