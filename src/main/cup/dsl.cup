@@ -291,6 +291,7 @@ keyword ::= COMMAND_HELP                                {: RESULT = "help"; :}
           | COMMAND_REDO                                {: RESULT = "redo";:}
           | COMMAND_TWINKLE                             {: RESULT = "twinkle";:}
           | COMMAND_GET_MODE                            {: RESULT = "get mode"; :}
+          | COMMAND_PARENT_OF                           {: RESULT = "parent of"; :}
 ;
 
 singleTerm ::= keyword:s {: RESULT = s;:}
