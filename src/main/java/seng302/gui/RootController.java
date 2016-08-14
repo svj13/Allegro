@@ -56,31 +56,31 @@ public class RootController implements Initializable {
 
 
     @FXML
-    private PitchComparisonTutorController PitchComparisonTabController;
+    public PitchComparisonTutorController PitchComparisonTabController;
 
     @FXML
-    private IntervalRecognitionTutorController IntervalRecognitionTabController;
+    public IntervalRecognitionTutorController IntervalRecognitionTabController;
 
     @FXML
     private TranscriptPaneController transcriptController;
 
     @FXML
-    private MusicalTermsTutorController MusicalTermsTabController;
+    public MusicalTermsTutorController MusicalTermsTabController;
 
     @FXML
-    private ScaleRecognitionTutorController ScaleRecognitionTabController;
+    public ScaleRecognitionTutorController ScaleRecognitionTabController;
 
     @FXML
-    private ChordRecognitionTutorController ChordRecognitionTabController;
+    public ChordRecognitionTutorController ChordRecognitionTabController;
 
     @FXML
-    private ChordSpellingTutorController ChordSpellingTabController;
+    public ChordSpellingTutorController ChordSpellingTabController;
 
     @FXML
-    private KeySignaturesTutorController KeySignaturesTabController;
+    public KeySignaturesTutorController KeySignaturesTabController;
 
     @FXML
-    private DiatonicChordsTutorController diatonicChordsTabController;
+    public DiatonicChordsTutorController DiatonicChordsController;
 
     @FXML
     private KeyboardPaneController keyboardPaneController;
@@ -524,6 +524,7 @@ public class RootController implements Initializable {
             TabPane.getSelectionModel().select(pitchTab);
             PitchComparisonTabController = loader.getController();
             PitchComparisonTabController.create(env);
+            PitchComparisonTabController.setTabID("pitchTutor");
         }
 
     }
@@ -562,6 +563,7 @@ public class RootController implements Initializable {
             TabPane.getSelectionModel().select(intervalTab);
             IntervalRecognitionTabController = loader.getController();
             IntervalRecognitionTabController.create(env);
+            IntervalRecognitionTabController.setTabID("intervalTutor");
         }
 
     }
@@ -600,6 +602,7 @@ public class RootController implements Initializable {
             TabPane.getSelectionModel().select(musicalTermTab);
             MusicalTermsTabController = loader.getController();
             MusicalTermsTabController.create(env);
+            MusicalTermsTabController.setTabID("musicalTermTutor");
         }
 
     }
@@ -638,6 +641,7 @@ public class RootController implements Initializable {
             TabPane.getSelectionModel().select(ScaleTab);
             ScaleRecognitionTabController = loader.getController();
             ScaleRecognitionTabController.create(env);
+            ScaleRecognitionTabController.setTabID("scaleTutor");
         }
 
     }
@@ -676,6 +680,7 @@ public class RootController implements Initializable {
             TabPane.getSelectionModel().select(ScaleTab);
             ChordRecognitionTabController = loader.getController();
             ChordRecognitionTabController.create(env);
+            ChordRecognitionTabController.setTabID("chordTutor");
         }
 
     }
@@ -712,8 +717,9 @@ public class RootController implements Initializable {
 
             TabPane.getTabs().add(tab);
             TabPane.getSelectionModel().select(tab);
-            diatonicChordsTabController = loader.getController();
-            diatonicChordsTabController.create(env);
+            DiatonicChordsController = loader.getController();
+            DiatonicChordsController.create(env);
+            DiatonicChordsController.setTabID("diatonicChordTutor");
         }
 
     }
@@ -752,6 +758,7 @@ public class RootController implements Initializable {
             TabPane.getSelectionModel().select(ScaleTab);
             KeySignaturesTabController = loader.getController();
             KeySignaturesTabController.create(env);
+            KeySignaturesTabController.setTabID("keySignatureTutor");
         }
 
     }
@@ -788,6 +795,7 @@ public class RootController implements Initializable {
             TabPane.getSelectionModel().select(spellingTab);
             ChordSpellingTabController = loader.getController();
             ChordSpellingTabController.create(env);
+            ChordSpellingTabController.setTabID("chordSpellingTutor");
         }
     }
 
