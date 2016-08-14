@@ -42,6 +42,8 @@ public class UserSettingsController {
 
     private Environment env;
 
+    private UserHandler userHandler;
+
     public UserSettingsController() {
 
     }
@@ -50,6 +52,14 @@ public class UserSettingsController {
     public void create(Environment env) {
         this.env = env;
         this.imageDP.setImage(env.getUserHandler().getCurrentUser().getUserPicture());
+        userHandler = env.getUserHandler();
+        try {
+            firstNameField.setText(userHandler.getCurrentUser().getUserFirstName());
+            lastNameField.setText(userHandler.getCurrentUser().getUserLastName());
+        } catch (Exception e) {
+            firstNameField.clear();
+            lastNameField.clear();
+        }
     }
 
     @FXML
@@ -63,7 +73,6 @@ public class UserSettingsController {
 
         File file = fileChooser.showOpenDialog(stage);
 
-        UserHandler userHandler = env.getUserHandler();
         Path userPath = userHandler.getCurrentUserPath();
 
         Path filePath = Paths.get(userPath.toString()+"/profilePicture");
@@ -77,6 +86,42 @@ public class UserSettingsController {
         catch (Exception e){
             e.printStackTrace();
 
+        }
+    }
+
+    @FXML
+    private void editFirstName() {
+        if (editFirstNameButton.getText().equals("Edit")) {
+            firstNameField.setDisable(false);
+            firstNameField.setEditable(true);
+            firstNameField.requestFocus();
+            editFirstNameButton.setText("Save");
+        } else {
+            // Save changes
+            firstNameField.setDisable(true);
+            userHandler.getCurrentUser().setUserFirstName(firstNameField.getText());
+            userHandler.getCurrentUser().updateProperties();
+            userHandler.getCurrentUser().saveProperties();
+            firstNameField.setEditable(false);
+            editFirstNameButton.setText("Edit");
+        }
+    }
+
+    @FXML
+    private void editLastName() {
+        if (editLastNameButton.getText().equals("Edit")) {
+            lastNameField.setDisable(false);
+            lastNameField.setEditable(true);
+            lastNameField.requestFocus();
+            editLastNameButton.setText("Save");
+        } else {
+            // Save changes
+            lastNameField.setDisable(true);
+            userHandler.getCurrentUser().setUserLastName(lastNameField.getText());
+            userHandler.getCurrentUser().updateProperties();
+            userHandler.getCurrentUser().saveProperties();
+            lastNameField.setEditable(false);
+            editLastNameButton.setText("Edit");
         }
     }
 }
