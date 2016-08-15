@@ -323,7 +323,7 @@ public class Project {
                 if (!Paths.get(path).toFile().isDirectory()) {
                     //If the Project directory folder doesn't exist.
                     System.err.println("Project directory missing - Might have been moved, renamed or deleted.\n Will remove the project from the projects json");
-                    env.getRootController().errorAlert("Project directory is missing - possibly moved, renamed or deleted - recreating.");
+                    //env.getRootController().errorAlert("Project directory is missing - possibly moved, renamed or deleted - recreating.");
 
                     try {
                         Files.createDirectories(projectDirectory);
