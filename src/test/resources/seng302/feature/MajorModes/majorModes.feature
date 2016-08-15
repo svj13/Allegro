@@ -48,9 +48,9 @@ Feature: major modes
       | D     | dorian     | D E F G A B C D        |
       | A     | phrygian   | A Bb C D E F G A       |
       | C     | mixolydian | C D E F G A Bb C       |
-      | Bb    | ionian     | Bb C D Eb F G A        |
-      | D     | locrian    | D Eb F G Ab Bb C       |
-      | F     | locrain    | F Gb Ab Bb Cb Db Eb F  |
+      | Bb    | ionian     | Bb C D Eb F G A Bb     |
+      | D     | locrian    | D Eb F G Ab Bb C D     |
+      | F     | locrian    | F Gb Ab Bb Cb Db Eb F  |
       | F#    | mixolydian | F# G# A# B C# D# E F#  |
       | C#    | aeolian    | C# D# E F# G# A B C#   |
       | Cb    | lydian     | Cb Db Eb F Gb Ab Bb Cb |
