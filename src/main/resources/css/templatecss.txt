@@ -6,7 +6,9 @@
     -fx-body-color: linear-gradient(to bottom, derive(-fx-color, 35.0%) 0%, derive(-fx-color, -6.0%) 100%);
     -fx-text-box-border: derive(-fx-background, 9.189189189189179%);
     -fx-focus-color: derive({0}, 50%);
+    -fx-faint-focus-color: derive({0}, 70%);
     -fx-accent: derive({0}, 40%);
+
 }
 .tab-pane > .tab-header-area > .headers-region > .tab {
     -fx-background-color: derive({0}, 80%);
@@ -17,7 +19,7 @@
 }
 
 .tab-pane > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
-    -fx-border-color: derive({0}, 80%);
+    -fx-border-color: {0}{1};
 }
 
 .menu-bar {
