@@ -20,7 +20,9 @@ import java.util.ResourceBundle;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Menu;
@@ -61,28 +63,31 @@ public class RootController implements Initializable {
     SplitPane splitPane;
 
     @FXML
-    private PitchComparisonTutorController PitchComparisonTabController;
+    public PitchComparisonTutorController PitchComparisonTabController;
 
     @FXML
-    private IntervalRecognitionTutorController IntervalRecognitionTabController;
+    public IntervalRecognitionTutorController IntervalRecognitionTabController;
 
     @FXML
     private TranscriptPaneController transcriptController;
 
     @FXML
-    private MusicalTermsTutorController MusicalTermsTabController;
+    public MusicalTermsTutorController MusicalTermsTabController;
 
     @FXML
-    private ScaleRecognitionTutorController ScaleRecognitionTabController;
+    public ScaleRecognitionTutorController ScaleRecognitionTabController;
 
     @FXML
-    private ChordRecognitionTutorController ChordRecognitionTabController;
+    public ChordRecognitionTutorController ChordRecognitionTabController;
 
     @FXML
-    private ChordSpellingTutorController ChordSpellingTabController;
+    public ChordSpellingTutorController ChordSpellingTabController;
 
     @FXML
-    private KeySignaturesTutorController KeySignaturesTabController;
+    public KeySignaturesTutorController KeySignaturesTabController;
+
+    @FXML
+    public DiatonicChordsTutorController DiatonicChordsController;
 
     @FXML
     private KeyboardPaneController keyboardPaneController;
@@ -150,7 +155,6 @@ public class RootController implements Initializable {
     public void onTranscriptTab() {
         Platform.runLater(() -> transcriptController.txtCommand.requestFocus());
     }
-
 
     public void initialize(URL location, ResourceBundle resources) {
     }
@@ -237,10 +241,6 @@ public class RootController implements Initializable {
         }
     }
 
-    public void setStyleSheet(String filepath) {
-        paneMain.getStylesheets().clear();
-        paneMain.getStylesheets().add(getClass().getResource(filepath).toExternalForm());
-    }
 
     /**
      * Displays a dialog to ask the user whether or not they want to save project changes.
@@ -537,6 +537,7 @@ public class RootController implements Initializable {
             TabPane.getSelectionModel().select(pitchTab);
             PitchComparisonTabController = loader.getController();
             PitchComparisonTabController.create(env);
+            PitchComparisonTabController.setTabID("pitchTutor");
         }
 
     }
@@ -575,6 +576,7 @@ public class RootController implements Initializable {
             TabPane.getSelectionModel().select(intervalTab);
             IntervalRecognitionTabController = loader.getController();
             IntervalRecognitionTabController.create(env);
+            IntervalRecognitionTabController.setTabID("intervalTutor");
         }
 
     }
@@ -613,6 +615,7 @@ public class RootController implements Initializable {
             TabPane.getSelectionModel().select(musicalTermTab);
             MusicalTermsTabController = loader.getController();
             MusicalTermsTabController.create(env);
+            MusicalTermsTabController.setTabID("musicalTermTutor");
         }
 
     }
@@ -651,6 +654,7 @@ public class RootController implements Initializable {
             TabPane.getSelectionModel().select(ScaleTab);
             ScaleRecognitionTabController = loader.getController();
             ScaleRecognitionTabController.create(env);
+            ScaleRecognitionTabController.setTabID("scaleTutor");
         }
 
     }
@@ -689,27 +693,67 @@ public class RootController implements Initializable {
             TabPane.getSelectionModel().select(ScaleTab);
             ChordRecognitionTabController = loader.getController();
             ChordRecognitionTabController.create(env);
+            ChordRecognitionTabController.setTabID("chordTutor");
         }
 
     }
 
     /**
-     * opens the keySignatures tutor when the key signatures tutor menu option is pressed
-     * If there is already an open tutor of the same form then it sets focus to the already open tutor
+     * Opens the diatonic chord tutor when the diatonic chord tutor menu option is pressed. If there
+     * is already an open tutor of the same form then it sets focus to the already open tutor.
      */
     @FXML
-    private void openKeySignatureTutor(){
+    private void openDiatonicChordTutor() {
 
         boolean alreadyExists = false;
-        for(Tab tab:TabPane.getTabs()){
-            if(tab.getId().equals("keySignatureTutor")){
+        for (Tab tab : TabPane.getTabs()) {
+            if (tab.getId().equals("diatonicChordTutor")) {
                 TabPane.getSelectionModel().select(tab);
                 alreadyExists = true;
             }
 
         }
 
-        if(!alreadyExists) {
+        if (!alreadyExists) {
+
+            Tab tab = new Tab("Diatonic Chord Tutor");
+            tab.setId("diatonicChordTutor");
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/Views/DiatonicChordPane.fxml"));
+
+            try {
+                tab.setContent(loader.load());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            TabPane.getTabs().add(tab);
+            TabPane.getSelectionModel().select(tab);
+            DiatonicChordsController = loader.getController();
+            DiatonicChordsController.create(env);
+            DiatonicChordsController.setTabID("diatonicChordTutor");
+        }
+
+    }
+
+    /**
+     * opens the keySignatures tutor when the key signatures tutor menu option is pressed If there
+     * is already an open tutor of the same form then it sets focus to the already open tutor
+     */
+    @FXML
+    private void openKeySignatureTutor() {
+
+        boolean alreadyExists = false;
+        for (Tab tab : TabPane.getTabs()) {
+            if (tab.getId().equals("keySignatureTutor")) {
+                TabPane.getSelectionModel().select(tab);
+                alreadyExists = true;
+            }
+
+        }
+
+        if (!alreadyExists) {
 
             Tab ScaleTab = new Tab("Key Signature Tutor");
             ScaleTab.setId("keySignatureTutor");
@@ -727,6 +771,7 @@ public class RootController implements Initializable {
             TabPane.getSelectionModel().select(ScaleTab);
             KeySignaturesTabController = loader.getController();
             KeySignaturesTabController.create(env);
+            KeySignaturesTabController.setTabID("keySignatureTutor");
         }
 
     }
@@ -763,6 +808,7 @@ public class RootController implements Initializable {
             TabPane.getSelectionModel().select(spellingTab);
             ChordSpellingTabController = loader.getController();
             ChordSpellingTabController.create(env);
+            ChordSpellingTabController.setTabID("chordSpellingTutor");
         }
     }
 
@@ -965,10 +1011,10 @@ public class RootController implements Initializable {
         if (ChordSpellingTabController != null) {
             ChordSpellingTabController.clearTutor();
         }
-        if (ChordRecognitionTabController != null){
+        if (ChordRecognitionTabController != null) {
             ChordRecognitionTabController.clearTutor();
         }
-        if(KeySignaturesTabController != null){
+        if (KeySignaturesTabController != null) {
             KeySignaturesTabController.clearTutor();
 
         }

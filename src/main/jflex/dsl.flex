@@ -99,12 +99,10 @@ Note = [A-G|a-g]([#|b|x]|(bb))?[0-8]?|[A|B|D|E|F|G|a|b|d|e|f|g]([#|b|x]|(bb))?("
 MidiNote = (0?[0-9]?[0-9]|1[01][0-9]|12[0-7])
 Atom = [^\s|;]+
 SemiColon = ";"
-ScaleType = "major"|"minor"|"melodic minor"|"mel minor"
+ScaleType = "major"|"minor"|"melodic minor"|"mel minor"|"blues"|"major pentatonic"|"minor pentatonic"
 PlayStyle = "arpeggio"
 SharedChordAndInterval = "diminished 7th"|"diminished seventh"|"major 7th"|"major seventh"|"minor 7th"|"minor seventh"
-ChordType = "seventh"|"7th"|"half dim"|"half diminished"|
-            "half diminished 7th"|"half diminished seventh"|
-            "half dim seventh"|"half dim 7th"|"dim seventh"|"dim 7th"|"dim"|"diminished"
+ChordType = "seventh"|"7th"|"half dim"|"half diminished"|"half diminished 7th"|"half diminished seventh"|"half dim seventh"|"half dim 7th"|"dim seventh"|"dim 7th"|"dim"|"diminished"
 Direction = "updown"|"up"|"down"
 InversionSpecifier = "inversion 1"|"inversion 2"|"inversion 3"|"inv 1"|"inv 2"|"inv 3"
 PosNum = \p{Digit}+
@@ -158,7 +156,7 @@ RomanNumerals = (I|II|III|IV|V|VI|VII)
     "chord"             {return symbol(DslSymbol.COMMAND_CHORD);}
     "interval enharmonic" {return symbol(DslSymbol.COMMAND_INTERVAL_ENHARMONIC);}
     "scale signature"    {return symbol(DslSymbol.COMMAND_SHOW_KEYSIGNATURE);}
-    "scale sig"    {return symbol(DslSymbol.COMMAND_SHOW_KEYSIGNATURE);}
+    "scale sig"          {return symbol(DslSymbol.COMMAND_SHOW_KEYSIGNATURE);}
     "scale signature num"    {return symbol(DslSymbol.COMMAND_SHOW_KEYSIGNATURE_NUM);}
     "scale sig num"     {return symbol(DslSymbol.COMMAND_SHOW_KEYSIGNATURE_NUM);}
     "scale signature with" {return symbol(DslSymbol.COMMAND_SCALE_WITH_KEYSIG);}
