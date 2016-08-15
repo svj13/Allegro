@@ -1021,8 +1021,11 @@ public class RootController implements Initializable {
 
     }
 
+    /**
+     * Creates the gui skinner tab
+     */
     @FXML
-    private void createColorPopover() {
+    private void createColorTab() {
         boolean alreadyExists = false;
         for (Tab tab : TabPane.getTabs()) {
             if (tab.getId().equals("uiSkinner")) {
@@ -1034,7 +1037,7 @@ public class RootController implements Initializable {
 
         if (!alreadyExists) {
 
-            Tab skinnerTab = new Tab("UI Skinner");
+            Tab skinnerTab = new Tab("Interface Skinner");
             skinnerTab.setId("uiSkinner");
 
             FXMLLoader loader = new FXMLLoader();
@@ -1053,15 +1056,6 @@ public class RootController implements Initializable {
         }
     }
 
-    @FXML
-    private void switchThemeDefault() {
-        setStyleSheet("/css/themes/default.css");
-    }
-
-    @FXML
-    private void switchThemeBlue() {
-        setStyleSheet("/css/themes/blue.css");
-    }
 
     public TranscriptPaneController getTranscriptController() {
         return transcriptController;

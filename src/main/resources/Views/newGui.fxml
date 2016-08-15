@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.input.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -13,6 +18,7 @@
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+
 <AnchorPane fx:id="paneMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="457.0" minWidth="700.0" prefHeight="457.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.RootController">
    <children>
        <VBox prefHeight="457.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -71,13 +77,8 @@
                                        <RadioMenuItem mnemonicParsing="false" onAction="#stopShowingNotesOnKeyboard" selected="true" text="Do not show note names" toggleGroup="$keyboardOptions" />
                            </items>
                                </Menu>
-                        <Menu mnemonicParsing="false" text="Color Themes">
-                          <items>
-                            <MenuItem mnemonicParsing="false" onAction="#switchThemeDefault" text="Default" />
-                              <MenuItem mnemonicParsing="false" onAction="#switchThemeBlue" text="Blue" />
-                          </items>
-                        </Menu>
-                        <MenuItem fx:id="skinGuiButton" mnemonicParsing="false" onAction="#createColorPopover" text="Skin GUI" />
+                               <MenuItem fx:id="skinGuiButton" mnemonicParsing="false"
+                                         onAction="#createColorTab" text="Skin GUI"/>
                            </items>
                        </Menu>
                   <Menu mnemonicParsing="false" onShowing="#bindOpenObjects" text="Tutors">
