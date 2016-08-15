@@ -224,6 +224,8 @@ public class ChordUtil {
         if (type.toLowerCase().equals("major")) {
             Note currentNote = note;
             chordNotes.add(currentNote);
+            System.out.println(currentNote.getNote());
+            System.out.println(currentNote.semitoneUp(7).getNote()+", "+getFollowingNote(currentNote, 4));
             chordNotes.add(Note.lookup(currentNote.semitoneUp(4).getEnharmonicWithLetter(fourthNote)));
             chordNotes.add(Note.lookup(currentNote.semitoneUp(7).getEnharmonicWithLetter(seventhNote)));
             if (chordNotes.contains(null)) {
@@ -336,6 +338,29 @@ public class ChordUtil {
             return null;
         }
         return chordMidiNotes;
+    }
+
+    /**
+     * Finds the letter of the note that is two notes above the current note
+     *
+     * @param currentNote the current note in the chord
+     * @param lettersUp how many letters the next letter needs to be greater than the current letter
+     * @return nextLetter the letter of the note that comes next in the chord
+     */
+    public static char getFollowingNote(Note currentNote, int lettersUp) {
+        char currentLetter = currentNote.getNote().charAt(0);
+
+        char nextLetter = (char) (currentLetter + 2);
+        while (lettersUp > 0) {
+            if (nextLetter == 'H') {
+                nextLetter = 'A';
+            }
+            else if (nextLetter == 'I') {
+                nextLetter = 'B';
+            }
+            lettersUp = lettersUp-2;
+        }
+        return nextLetter;
     }
 
     /**
