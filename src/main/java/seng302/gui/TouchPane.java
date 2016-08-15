@@ -2,11 +2,18 @@ package seng302.gui;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.TouchEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import seng302.Environment;
 import seng302.data.Note;
+
 
 /**
  * This class is used by each key on the virtual keyboard.
@@ -115,6 +122,38 @@ public class TouchPane extends StackPane {
 
     }
 
+    //public pinchZoom (KeyboardPaneController kpc, Environment env, TouchEvent touch1, TouchEvent touch2) {
+
+
+
+
+//        //Event handler for pinch zooming the size of the keyboard
+//        key.setOnZoom(event -> {
+//            System.out.println(event.getZoomFactor());
+//
+//            Integer newTop = Double.valueOf(topNote * event.getZoomFactor()).intValue();
+//            if (topNote.equals(0) && event.getZoomFactor() > 1) {
+//                newTop = 2;
+//            }
+//            System.out.println("newTop: " + newTop.toString());
+//            Integer newBottom = Double.valueOf(bottomNote * event.getZoomFactor()).intValue();
+//            if (bottomNote.equals(0) && event.getZoomFactor() < 1) {
+//                newBottom = 2;
+//            }
+//            System.out.println("newBottom: " + newBottom.toString());
+//
+//            topNote = Integer.min(newTop, 127);
+//            bottomNote = Integer.max(0, newBottom);
+//            System.out.println(topNote);
+//            System.out.println(bottomNote);
+//
+//            resetKeyboard();
+//            event.consume();
+//        });
+    //}
+
+
+
     /**
      * Turn click highlight on.
      */
@@ -136,6 +175,9 @@ public class TouchPane extends StackPane {
         }
     }
 
+    /**
+     * displays the keynote name on the keyboard when display label is selected
+     */
     public void toggleDisplayLabel() {
         if (displayLabelOnAction) {
             toggleDisplayLabelOnAction();
@@ -149,6 +191,67 @@ public class TouchPane extends StackPane {
         }
 
     }
+
+    /**
+     * displays a shape corresponding to a particular scale on the keys. Used by
+     * toggleScaleKeys() in KeyBoardPaneController
+     * @param imageType: Detemines whether it is a circle or rectangle
+     * @param imageId: gives the image an ID so it can be associated with a scale/startnote/other note
+     */
+    public void toggleScaleNotes(String imageType, String imageId) {
+        Circle blueCircle = new Circle();
+        blueCircle.setRadius(5.0f);
+        blueCircle.setFill(Color.BLUE);
+
+        Circle greenCircle = new Circle();
+        greenCircle.setRadius(5.0f);
+        greenCircle.setFill(Color.GREEN);
+        greenCircle.setTranslateY(-20);
+
+        Rectangle blueRectangle = new Rectangle();
+        blueRectangle.setWidth(10);
+        blueRectangle.setHeight(10);
+        blueRectangle.setFill(Color.BLUE);
+
+        Rectangle greenRectangle = new Rectangle();
+        greenRectangle.setWidth(10);
+        greenRectangle.setHeight(10);
+        greenRectangle.setFill(Color.GREEN);
+        greenRectangle.setTranslateY(-20);
+
+
+        //checks the image type and matches it to the corresponding shape
+        if (imageType.equals("blueCircle")) {
+            blueCircle.setId(imageId);
+            this.getChildren().add(blueCircle);
+        } else if (imageType.equals("greenCircle")) {
+            greenCircle.setId(imageId);
+            this.getChildren().add(greenCircle);
+        } else if (imageType.equals("blueRectangle")) {
+            blueRectangle.setId(imageId);
+            this.getChildren().add(blueRectangle);
+        } else if (imageType.equals("greenRectangle")) {
+            greenRectangle.setId(imageId);
+            this.getChildren().add(greenRectangle);
+        }
+
+    }
+
+    /**
+     * Searches for and removes all children with the given ID This ID belongs to scale indicator
+     * images
+     *
+     * @param id Either "firstScale" or "secondScale" - the scale indicators to be removed.
+     */
+    public void removeScaleImage(String id) {
+        while (this.getChildren().contains(this.lookup("#" + id))) {
+            this.getChildren().removeAll(this.lookup("#" + id));
+        }
+    }
+
+    /**
+     * displays the label of the key on click when show on click is selected
+     */
 
     public void toggleDisplayLabelOnAction() {
         if (displayLabel) {
