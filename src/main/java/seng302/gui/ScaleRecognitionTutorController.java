@@ -4,6 +4,7 @@ import org.controlsfx.control.CheckComboBox;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Observable;
 import java.util.Random;
 
 import javafx.collections.ObservableList;
@@ -11,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -18,6 +20,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Pair;
+import org.controlsfx.control.CheckComboBox;
 import seng302.Environment;
 import seng302.data.Note;
 import seng302.utility.TutorRecord;
@@ -91,7 +94,7 @@ public class ScaleRecognitionTutorController extends TutorController {
         initialiseQuestionSelector();
         rand = new Random();
         direction.getItems().addAll("Up", "Down", "UpDown");
-        ccbScales.getItems().addAll("Major", "Minor", "Melodic Minor", "Major Pentatonic", "Minor Pentatonic");
+        ccbScales.getItems().addAll("Major", "Minor", "Melodic Minor", "Blues", "Major Pentatonic", "Minor Pentatonic");
 
         ccbScales.getCheckModel().check(0); //Only major/minor selected by default
         ccbScales.getCheckModel().check(1);
@@ -124,14 +127,14 @@ public class ScaleRecognitionTutorController extends TutorController {
         // Add # octaves and up/down selection here.
         ArrayList<Note> scale;
         if (playDirection.equals("Up")) {
-            scale = startNote.getOctaveScale(scaleType, playOctaves, true);
+            scale = startNote.getOctaveScale(scaleType, octaves.getValue(), true);
         } else if (playDirection.equals("UpDown")) {
-            scale = startNote.getOctaveScale(scaleType, playOctaves, true);
+            scale = startNote.getOctaveScale(scaleType, octaves.getValue(), true);
             ArrayList<Note> notes = new ArrayList<>(scale);
             Collections.reverse(notes);
             scale.addAll(notes);
         } else {
-            scale = startNote.getOctaveScale(scaleType, playOctaves, false);
+            scale = startNote.getOctaveScale(scaleType, octaves.getValue(), false);
         }
 
         return scale;
@@ -194,7 +197,11 @@ public class ScaleRecognitionTutorController extends TutorController {
 
         play.setOnAction(event -> {
             //Play the scale
-            env.getPlayer().playNotes(getScale(startNote, scaleType));
+            if (scaleType.equals("blues")) {
+                env.getPlayer().playBluesNotes(getScale(startNote, scaleType));
+            } else {
+                env.getPlayer().playNotes(getScale(startNote, scaleType));
+            }
         });
 
         final ComboBox<String> options = generateChoices();
