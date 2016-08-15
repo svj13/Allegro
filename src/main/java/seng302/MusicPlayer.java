@@ -127,6 +127,48 @@ public class MusicPlayer {
     }
 
     /**
+     * Plays an array of notes as a blues scale directly after each other.
+     *
+     * @param notes The notes in the order to be played.
+     * @param pause The number of ticks to pause between notes. 16 ticks = 1 crotchet beat.
+     */
+
+    public void playBluesNotes(ArrayList<Note> notes, int pause) {
+        int ticks = rh.getBeatResolution();
+        try {
+            int instrument = 1;
+            // 16 ticks per crotchet note.
+            Sequence sequence = new Sequence(Sequence.PPQ, ticks);
+            Track track = sequence.createTrack();
+
+            // Set the instrument on channel 0
+            ShortMessage sm = new ShortMessage();
+            sm.setMessage(ShortMessage.PROGRAM_CHANGE, 0, instrument, 0);
+            track.add(new MidiEvent(sm, 0));
+
+            int currenttick = 0;
+            int noteNum = 2;
+            rh.resetIndex(); //Reset rhythm to first crotchet.
+            for (Note note : notes) {
+                noteNum++;
+                int timing = rh.getNextTickTiming();
+                if (noteNum == 3) {
+                    noteNum = 0;
+                    addNote(track, currenttick, timing, note.getMidi(), 120);
+                } else {
+                    addNote(track, currenttick, timing, note.getMidi(), 64); //velocity 64
+                }
+                currenttick += (timing + pause);
+            }
+            playSequence(sequence);
+
+        } catch (InvalidMidiDataException e) {
+            System.err.println("The notes you are trying to play were invalid");
+        }
+    }
+
+
+    /**
      * Convenience method to play notes with no pause.
      *
      * @param notes The notes to play.
@@ -135,12 +177,31 @@ public class MusicPlayer {
         playNotes(notes, 0);
     }
 
+    /**
+     * Method to play blues notes with no pause.
+     *
+     * @param notes The notes to play.
+     */
+    public void playBluesNotes(ArrayList<Note> notes) {
+        playBluesNotes(notes, 0);
+    }
 
+
+    /**
+     * The action touch event for when a key is pressed and a note is "turned on"
+     *
+     * @param note the note to be played
+     */
     public void noteOn(Note note) {
         MidiChannel channel = synthesizer.getChannels()[0];
         channel.noteOn(note.getMidi(), 64);
     }
 
+    /**
+     * The action touch event for when a key is pressed and a note is "turned off"
+     *
+     * @param note the note to be discontinued playing
+     */
     public void noteOff(Note note) {
         MidiChannel channel = synthesizer.getChannels()[0];
         channel.noteOff(note.getMidi(), 64);
@@ -231,7 +292,10 @@ public class MusicPlayer {
             seq.setSequence(sequence);
             seq.setTempoInBPM(tempo);
             seq.start();
-        } catch (Exception e) {
+        } catch (NullPointerException npe) {
+            npe.printStackTrace();
+            System.err.println("Can't play Midi sound at the moment.");
+        } catch (InvalidMidiDataException e) {
             e.printStackTrace();
             System.err.println("Can't play Midi sound at the moment.");
         }

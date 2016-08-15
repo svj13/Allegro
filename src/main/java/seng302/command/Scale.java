@@ -23,9 +23,9 @@ public class Scale implements Command {
     String startNote;
 
     /**
-     * Type of scale. e.g major, minor, melodic minor
+     * Type of scale. e.g major, minor, melodic minor, blues
      */
-    private String type = null;
+    private static String type = null;
 
     /**
      * Way to output scale. e.g note, midi or play
@@ -184,8 +184,21 @@ public class Scale implements Command {
                         String stringOfScale = scaleToString(startNote, scale, true, type);
                         env.getTranscriptManager().setResult(stringOfScale);
                     } else if (this.outputType.equals("midi")) {
-                        String midiScaleString = scaleToMidi(scale);
-                        env.getTranscriptManager().setResult(midiScaleString);
+                        env.getTranscriptManager().setResult(scaleToMidi(scale));
+                    } else if (type.equals("blues")) {
+                        if (direction.equals("updown")) {
+                            env.getPlayer().playBluesNotes(scale);
+                            env.getTranscriptManager().setResult(scaleToStringUpDown(startNote, scale, type));
+                        } else if (direction.equals("down")) {
+                            env.getPlayer().playBluesNotes(scale);
+                            env.getTranscriptManager().setResult(scaleToString(startNote, scale, false, type));
+                        } else if (direction.equals("up")) {
+                            env.getPlayer().playBluesNotes(scale);
+                            env.getTranscriptManager().setResult(scaleToString(startNote, scale, true, type));
+                        } else {
+                            env.error("'" + direction + "' is not a valid scale direction. Try 'up', 'updown' or 'down'.");
+                        }
+
                     } else { // Play scale.
                         if (direction.equals("updown")) {
                             env.getPlayer().playNotes(scale);
@@ -224,7 +237,18 @@ public class Scale implements Command {
         char currentLetter = Character.toUpperCase(startNote.charAt(0));
         int count = 0;
         for (Note note : scaleNotes) {
-            String currentNote = note.getEnharmonicWithLetter(currentLetter);
+            String currentNote;
+            if (type != null) {
+                if (type.equals("blues") && Character.toUpperCase(startNote.charAt(0)) == 'B' && note.getNote().charAt(1) == '#') {
+                    currentNote = note.getNote();
+                } else if (type.equals("blues")) {
+                    currentNote = note.getDescendingEnharmonic();
+                } else {
+                    currentNote = note.getEnharmonicWithLetter(currentLetter);
+                }
+            } else {
+                currentNote = note.getEnharmonicWithLetter(currentLetter);
+            }
             if (OctaveUtil.octaveSpecifierFlag(startNote)) {
                 scale.add(currentNote);
             } else {

@@ -296,6 +296,8 @@ public class Note {
                 semitones = Arrays.asList(2, 3, 5, 7, 8, 10, 12);
             } else if (type.equalsIgnoreCase("melodic minor")) {
                 semitones = Arrays.asList(2, 3, 5, 7, 9, 11, 12);
+            } else if (type.equalsIgnoreCase("blues")) {
+                semitones = Arrays.asList(3, 5, 6, 7, 10, 12);
             } else if (type.equalsIgnoreCase("major pentatonic")) {
                 semitones = Arrays.asList(2, 4, 7, 9, 12);
             } else if (type.equalsIgnoreCase("minor pentatonic")) {
@@ -307,7 +309,7 @@ public class Note {
                 for (int j = 0; j < semitones.size(); j++) {
                     scaleNotes.add(currentNote.semitoneUp(semitones.get(j)));
                 }
-                currentNote = currentNote.semitoneUp(semitones.get(semitones.size() - 1));
+                currentNote = currentNote.semitoneUp(semitones.get(semitones.size()-1));
             }
         } else {
             if (type.equalsIgnoreCase("major")) {
@@ -316,6 +318,8 @@ public class Note {
                 semitones = Arrays.asList(2, 4, 5, 7, 9, 10, 12);
             } else if (type.equalsIgnoreCase("melodic minor")) {
                 semitones = Arrays.asList(2, 4, 5, 7, 9, 10, 12);
+            } else if (type.equalsIgnoreCase("blues")) {
+                semitones = Arrays.asList(2, 5, 6, 7, 9, 12);
             } else if (type.equalsIgnoreCase("major pentatonic")) {
                 semitones = Arrays.asList(3, 5, 8, 10, 12);
             } else if (type.equalsIgnoreCase("minor pentatonic")) {
