@@ -1,8 +1,15 @@
 package seng302.Users;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 import org.json.simple.JSONObject;
 import seng302.Environment;
+import seng302.utility.TutorRecord;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -150,105 +157,73 @@ public class TutorHandler {
     }
 
 
+    /**
+     * When finished a tutor session. Or when save is clicked part way through.
+     */
     public void saveTutorRecordsToFile(String projectAddress) {
-        try {
-
-            if (env.getRootController().tabSaveCheck("pitchTutor")) {
-                FileWriter pitchFile = new FileWriter(projectAddress + "/PitchComparisonRecords.json", true);
-                overalPitchSessionObject.put("Questions", pitchTutorRecordsList);
-                overalPitchSessionObject.put("SessionStats", pitchTutorRecordStats);
-
-
-                overalPitchObject.put("Session_" + new Date().toString(), overalPitchSessionObject);
-                pitchFile.write(overalPitchObject.toJSONString());
-                //file1.write(overalpitchSessionObject.toJSONString());
-                pitchTutorRecordsList.clear();
-                pitchTutorRecordStats = "";
-                overalPitchSessionObject.clear();
-                overalPitchObject.clear();
-
-                pitchFile.flush();
-                pitchFile.close();
-            }
-
-            if (env.getRootController().tabSaveCheck("intervalTutor")) {
-
-                FileWriter intervalFile = new FileWriter(projectAddress + "/IntervalRecognitionRecords.json", true);
-                overalIntervalSessionObject.put("Questions", intervalTutorRecordsList);
-                overalIntervalSessionObject.put("SessionStats", intervalTutorRecordStats);
-                overalIntervalObject.put("Session_" + new Date().toString(), overalIntervalSessionObject);
-                intervalFile.write(overalIntervalObject.toJSONString());
-                intervalTutorRecordsList.clear();
-                intervalTutorRecordStats = "";
-                overalIntervalSessionObject.clear();
-                overalIntervalObject.clear();
-                intervalFile.flush();
-                intervalFile.close();
-            }
-
-            if (env.getRootController().tabSaveCheck("musicalTermTutor")) {
-
-                FileWriter MusicalTermFile = new FileWriter(projectAddress + "/MusicalTermsRecords.json", true);
-                overalMusicalTermSessionObject.put("Questions", musicalTermTutorRecordsList);
-                overalMusicalTermSessionObject.put("SessionStats", musicalTermTutorRecordStats);
-                overalMusicalTermObject.put("Session_" + new Date().toString(), overalMusicalTermSessionObject);
-                MusicalTermFile.write(overalMusicalTermObject.toJSONString());
-                musicalTermTutorRecordsList.clear();
-                musicalTermTutorRecordStats = "";
-                overalMusicalTermSessionObject.clear();
-                overalMusicalTermObject.clear();
-                MusicalTermFile.flush();
-                MusicalTermFile.close();
-            }
-            if (env.getRootController().tabSaveCheck("scaleTutor")) {
-
-                FileWriter scaleFile = new FileWriter(projectAddress + "/ScaleRecognitionRecords.json", true);
-                overalScaleSessionObject.put("Questions", scaleTutorRecordsList);
-                overalScaleSessionObject.put("SessionStats", scaleTutorRecordStats);
-                overalScaleObject.put("Session_" + new Date().toString(), overalScaleSessionObject);
-                scaleFile.write(overalScaleObject.toJSONString());
-                scaleTutorRecordsList.clear();
-                scaleTutorRecordStats = "";
-                overalScaleSessionObject.clear();
-                overalScaleObject.clear();
-                scaleFile.flush();
-                scaleFile.close();
-
-            }
-
-            if (env.getRootController().tabSaveCheck("chordTutor")) {
-                FileWriter chordFile = new FileWriter(projectAddress + "/ChordRecognitionRecords.json", true);
-                overalChordSessionObject.put("Questions", chordTutorRecordsList);
-                overalChordSessionObject.put("SessionStats", chordTutorRecordStats);
-                overalChordObject.put("Session_" + new Date().toString(), overalChordSessionObject);
-                chordFile.write(overalChordObject.toJSONString());
-                chordTutorRecordsList.clear();
-                chordTutorRecordStats = "";
-                overalChordSessionObject.clear();
-                overalChordObject.clear();
-                chordFile.flush();
-                chordFile.close();
-            }
-
-            if (env.getRootController().tabSaveCheck("chordSpellingTutor")) {
-                FileWriter spellingFile = new FileWriter(projectAddress + "/ChordSpellingRecords.json", true);
-                overallSpellingSessionObject.put("Questions", spellingTutorRecordsList);
-                overallSpellingSessionObject.put("SessionStats", spellingTutorRecordStats);
-                overallSpellingObject.put("Session_" + new Date().toString(), overallSpellingSessionObject);
-                spellingFile.write(overallSpellingObject.toJSONString());
-                spellingTutorRecordsList.clear();
-                spellingTutorRecordStats = "";
-                overallSpellingSessionObject.clear();
-                overallSpellingObject.clear();
-                spellingFile.flush();
-                spellingFile.close();
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-
+        if (env.getRootController().tabSaveCheck("pitchTutor")) {
+            saveTutorRecordsToFile(projectAddress + "/PitchComparisonTutor.json", env.getRootController().PitchComparisonTabController.record);
         }
+        if (env.getRootController().tabSaveCheck("intervalTutor")) {
 
+            saveTutorRecordsToFile(projectAddress + "/IntervalRecognitionTutor.json", env.getRootController().IntervalRecognitionTabController.record);
+        }
+        if (env.getRootController().tabSaveCheck("musicalTermTutor")) {
+            saveTutorRecordsToFile(projectAddress + "/MusicalTermsTutor.json", env.getRootController().MusicalTermsTabController.record);
+        }
+        if (env.getRootController().tabSaveCheck("scaleTutor")) {
+            saveTutorRecordsToFile(projectAddress + "/ScaleRecognitionTutor.json", env.getRootController().ScaleRecognitionTabController.record);
+        }
+        if (env.getRootController().tabSaveCheck("chordTutor")) {
+            saveTutorRecordsToFile(projectAddress + "/ChordRecognitionTutor.json", env.getRootController().ChordRecognitionTabController.record);
+        }
+        if (env.getRootController().tabSaveCheck("chordSpellingTutor")) {
+            saveTutorRecordsToFile(projectAddress + "/ChordSpellingTutor.json", env.getRootController().ChordSpellingTabController.record);
+        }
+        if (env.getRootController().tabSaveCheck("keySignatureTutor")) {
+            saveTutorRecordsToFile(projectAddress + "/KeySignatureTutor.json", env.getRootController().KeySignaturesTabController.record);
+        }
+        if (env.getRootController().tabSaveCheck("diatonicChordTutor")) {
+            saveTutorRecordsToFile(projectAddress + "/DiatonicChordTutor.json", env.getRootController().DiatonicChordsController.record);
+        }
+    }
+
+
+    public void saveTutorRecordsToFile(String filename, TutorRecord currentRecord) {
+        Gson gson = new Gson();
+        try {
+            ArrayList<TutorRecord> records;
+            try {
+                JsonReader jsonReader = new JsonReader(new FileReader(filename));
+                records = gson.fromJson(jsonReader, new TypeToken<ArrayList<TutorRecord>>() {
+                }.getType());
+
+                TutorRecord latest = records.get(records.size() - 1);
+                if (!latest.isFinished()) {
+                    records.remove(records.size() - 1);
+                }
+            } catch (FileNotFoundException e) {
+                records = new ArrayList<>();
+            } catch (JsonSyntaxException e) {
+                System.err.println("File was not of the correct type. Overwriting.");
+                records = new ArrayList<>();
+            }
+            currentRecord.setDate();
+            records.add(currentRecord);
+
+            String json = gson.toJson(records);
+            try {
+                FileWriter writer = new FileWriter(filename, false);
+                writer.write(json);
+                writer.flush();
+                writer.close();
+            } catch (IOException ex) {
+                System.err.println("Problem writing to the selected file " + ex.getMessage());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

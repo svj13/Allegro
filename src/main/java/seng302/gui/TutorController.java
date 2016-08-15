@@ -23,7 +23,7 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 import seng302.Environment;
 import seng302.data.Note;
-import seng302.managers.ProjectHandler;
+
 import seng302.Users.ProjectHandler;
 import seng302.Users.TutorHandler;
 import seng302.managers.TutorManager;
@@ -151,9 +151,9 @@ public abstract class TutorController {
         record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
         record.setFinished();
         record.setDate();
-        if (projectHandler.currentProjectPath != null) {
+        if (projectHandler.getCurrentProject() != null) {
             record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
-            projectHandler.saveCurrentProject();
+            projectHandler.getCurrentProject().saveCurrentProject();
             outputText += "\nSession auto saved.";
         }
         env.getRootController().setTabTitle(tabID, false);
@@ -229,9 +229,6 @@ public abstract class TutorController {
 
         //show a file picker
         FileChooser fileChooser = new FileChooser();
-        //FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
-        //fileChooser.getExtensionFilters().add(textFilter);
-
         if (projectHandler.getCurrentProject().isProject()) {
             env.getRootController().checkProjectDirectory();
             fileChooser.setInitialDirectory(Paths.get(projectHandler.getCurrentProject().getCurrentProjectPath()).toFile());
@@ -242,7 +239,7 @@ public abstract class TutorController {
             fileDir = file.getParentFile();
             path = file.getAbsolutePath();
             env.setRecordLocation(path);
-            projectHandler.saveTutorRecordsToFile(path, record);
+            projectHandler.getCurrentProject().getTutorHandler().saveTutorRecordsToFile(path, record);
         }
     }
 
