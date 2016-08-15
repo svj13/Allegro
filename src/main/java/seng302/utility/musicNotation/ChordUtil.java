@@ -211,11 +211,21 @@ public class ChordUtil {
     public static ArrayList<Note> getChord(Note note, String type) {
         ArrayList<Note> chordNotes = new ArrayList<Note>();
         //for major chords (triads)
+        char noteLetter = note.getNote().charAt(0);
+
+        char fourthNote = (char)(noteLetter+2);
+        if (fourthNote == 'H') { fourthNote = 'A';}
+        if (fourthNote == 'I') { fourthNote = 'B';}
+        char seventhNote = (char)(fourthNote+2);
+        if (seventhNote == 'H') { seventhNote = 'A';}
+        if (seventhNote == 'I') { seventhNote = 'B';}
+
+        //for major chords (triads)
         if (type.toLowerCase().equals("major")) {
             Note currentNote = note;
             chordNotes.add(currentNote);
-            chordNotes.add(currentNote.semitoneUp(4));
-            chordNotes.add(currentNote.semitoneUp(7));
+            chordNotes.add(Note.lookup(currentNote.semitoneUp(4).getEnharmonicWithLetter(fourthNote)));
+            chordNotes.add(Note.lookup(currentNote.semitoneUp(7).getEnharmonicWithLetter(seventhNote)));
             if (chordNotes.contains(null)) {
                 return null;
             }
