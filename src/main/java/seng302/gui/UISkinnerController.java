@@ -22,6 +22,7 @@ import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
+
 public class UISkinnerController {
 
     @FXML
@@ -297,6 +298,7 @@ public class UISkinnerController {
 
         return rgbVals;
     }
+
 
     private float hue2rgb(float p, float q, float t) {
         if(t < (float) 0) {

@@ -1,6 +1,6 @@
 .split-pane {
     -fx-base: #f1f0f0;
-    -fx-background-color: derive({0}{1}, 80%);
+    -fx-background-color: {0}{1};
     -fx-border-color: {0};
     -fx-control-inner-background: #FFFFFF;
     -fx-body-color: linear-gradient(to bottom, derive(-fx-color, 35.0%) 0%, derive(-fx-color, -6.0%) 100%);
