@@ -187,11 +187,21 @@ public class MusicPlayer {
     }
 
 
+    /**
+     * The action touch event for when a key is pressed and a note is "turned on"
+     *
+     * @param note the note to be played
+     */
     public void noteOn(Note note) {
         MidiChannel channel = synthesizer.getChannels()[0];
         channel.noteOn(note.getMidi(), 64);
     }
 
+    /**
+     * The action touch event for when a key is pressed and a note is "turned off"
+     *
+     * @param note the note to be discontinued playing
+     */
     public void noteOff(Note note) {
         MidiChannel channel = synthesizer.getChannels()[0];
         channel.noteOff(note.getMidi(), 64);
