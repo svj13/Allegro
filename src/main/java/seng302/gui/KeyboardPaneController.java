@@ -267,6 +267,7 @@ public class KeyboardPaneController {
         });
 
 
+
         settings.getChildren().add(new Label("Keyboard Mode:"));
         modes.getChildren().add(play);
         modes.getChildren().add(text);
@@ -277,10 +278,10 @@ public class KeyboardPaneController {
 
 
     /**
-     * display scales pop up option on keyboard. Will enable tuser to display 1 or more scales. They
-     * can select note of scale, what type of scale and its octave. Clear buttons for each scale to
-     * clear fields. OK button to confirm and execute and close window. Cancel button to cancel and
-     * close window
+     * display scales pop up option on keyboard. Will enable user to display 1 or 2 scales. They can select
+     * note of scale, what type of scale and its octave. Clear buttons for each scale to clear fields.
+     * OK button to confirm and execute and close window. Cancel button to cancel and close window.
+     * Error handling for invalid inputs
      */
     private void createDisplayScalesPop() {
 
@@ -316,11 +317,15 @@ public class KeyboardPaneController {
         TextField scale2NoteInput = new TextField();
         scale2NoteInput.setPrefColumnCount(3); // setting column size (user can input 3 characters)
 
-        // TODO make major default. add the rest of the scale options
+        //The scales available
         ObservableList<String> typeOptions =
                 FXCollections.observableArrayList(
                         "Major",
-                        "Minor"
+                        "Minor",
+                        "Melodic Minor",
+                        "Major Pentatonic",
+                        "minor Pentatonic"
+
 
                 );
 
@@ -436,12 +441,10 @@ public class KeyboardPaneController {
 
         }
         });
-        /**
-         * clear, OK and cancel button. OK and cancel are going into their own HBOX. clear is going to
-         * be added to both the scale 1 and scale 2 hboxes
-         */
 
-        //Clears all inputs and removes all scale indicators
+
+        //Clears all inputs and removes all scale indicators back to default. resets the input text borders to default
+        //and resets the button back to the OK state
         Button cancelButton = new Button("Reset Scales");
         cancelButton.setOnAction(event->{
             scale1NoteInput.clear();
@@ -460,20 +463,19 @@ public class KeyboardPaneController {
 
         });
 
-
+        //Symbol to indicate the colour for scale 1
         Circle scale1Key = new Circle();
         scale1Key.setCenterX(100.0f);
         scale1Key.setCenterY(100.0f);
         scale1Key.setRadius(5.0f);
         scale1Key.setFill(Color.BLUE);
 
-
+        //Symbol to inidicate the colour for scale 2
         Circle scale2Key = new Circle();
         scale2Key.setCenterX(100.0f);
         scale2Key.setCenterY(200.0f);
         scale2Key.setRadius(5.0f);
         scale2Key.setFill(Color.GREEN);
-
 
 
         //HBox for the OK and Cancel button
@@ -507,6 +509,7 @@ public class KeyboardPaneController {
         displayScales.setSpacing(10);
         displayScales.setPadding(new Insets(10));
 
+        //Declaring the popover
         displayScalesPop = new PopOver(displayScales);
         displayScalesPop.setTitle("Display Scales");
         displayScalesPop.setOnHiding(event -> {
@@ -822,9 +825,10 @@ public class KeyboardPaneController {
             }
         }
     }
-
     /**
-     * Show/Hide visualisations of scales on the keyboard
+     * Show/Hide scale visualizations on the keyboard
+     * @param scaleNotes: an array that contains all of the notes of a scale
+     * @param isFirstScale: determines whether the scale is scale 1 or scale 2
      */
     public void toggleScaleKeys(ArrayList<Note> scaleNotes, Boolean isFirstScale) {
         ObservableList<Node> whiteKeys = keyboardBox.getChildren();
