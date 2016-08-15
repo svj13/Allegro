@@ -825,9 +825,10 @@ public class KeyboardPaneController {
             }
         }
     }
-
     /**
-     * Show/Hide visualisations of scales on the keyboard
+     * Show/Hide scale visualizations on the keyboard
+     * @param scaleNotes: an array that contains all of the notes of a scale
+     * @param isFirstScale: determines whether the scale is scale 1 or scale 2
      */
     public void toggleScaleKeys(ArrayList<Note> scaleNotes, Boolean isFirstScale) {
         ObservableList<Node> whiteKeys = keyboardBox.getChildren();
