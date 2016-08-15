@@ -48,11 +48,6 @@ public class UISkinnerController {
     private Environment env;
     private ArrayList<String> rules = new ArrayList<String>();
 
-    /**
-     * Constructor - does nothing.
-     */
-    public UISkinnerController() {
-    }
 
     /**
      * initialises parameters needed for the gui
@@ -68,7 +63,7 @@ public class UISkinnerController {
     /**
      *  Returns a string of formatted rgb values that can be used to format the stylesheet.
      * @param color Color to convert
-     * @return
+     * @return Returns a string of formatted rgb values that can be used to format the stylesheet.
      */
     private String toRGBString(Color color) {
         int red = (int) (color.getRed()*255);
@@ -79,8 +74,8 @@ public class UISkinnerController {
 
     /**
      * Gets the complementary colour of the given colour
-     * @param color
-     * @return Color
+     * @param color Color value
+     * @return Complementary Colour
      */
     private Color getComplementaryColourString(Color color) {
         Color comp_color;
@@ -179,49 +174,52 @@ public class UISkinnerController {
 
     /**
      * Sets a colour lighter than the user selected colour to be used in the theme
-     * @param color
+     * @param color Color vaue
      */
     private void setLighterRGB(Color color) {
         float[] hsl = rgbToHsl(colorToRgb(color));
-        System.out.println(toRGBString(color));
-        System.out.println(colorToRgb(color)[0]*255 + " " + colorToRgb(color)[1]*255 + " " + colorToRgb(color)[2]*255);
-        System.out.println(hsl[0] + " " + hsl[1] + " " + hsl[2]);
         float lightness = hsl[2];
-        double somevar;
-        if (lightness > 0.8) { somevar = 3; }
-        else if (lightness < 0.6) { somevar = 2; }
-        else {somevar = 1.5;}
+        double lCoefficient;
+        if (lightness > 0.8) {
+            lCoefficient = 3;
+        } else if (lightness < 0.6) {
+            lCoefficient = 2;
+        } else {
+            lCoefficient = 1.5;
+        }
         float[] lighterHslArray = new float[3];
         lighterHslArray[0] = hsl[0];
         lighterHslArray[1] = hsl[1];
         if (hsl[2] < 0.05) {
             lighterHslArray[2] = (float) 0.15;
         } else {
-            lighterHslArray[2] = (float) (hsl[2] * somevar);
+            lighterHslArray[2] = (float) (hsl[2] * lCoefficient);
         }
-        System.out.println(lighterHslArray[0] +" "+ lighterHslArray[1] +" "+ lighterHslArray[2]);
 
         float[] lighterRGBArray = hslToRgb(lighterHslArray);
-        System.out.println(lighterRGBArray[0] + " " + lighterRGBArray[1] + " " + lighterRGBArray[2]);
 
         lighterRGB = lighterRGBArray;
     }
 
     /**
      * Sets a colour darker than the user selected colour to be used in the theme
-     * @param color
+     * @param color Color value
      */
     private void setDarkerRGB(Color color) {
         float[] hsl = rgbToHsl(colorToRgb(color));
         float lightness = hsl[2];
-        double somevar;
-        if (lightness > 0.8) { somevar = 0.7; }
-        else if (lightness > 0.4) { somevar = 0.5; }
-        else {somevar = 0.2;}
+        double lCoefficient;
+        if (lightness > 0.8) {
+            lCoefficient = 0.7;
+        } else if (lightness > 0.4) {
+            lCoefficient = 0.5;
+        } else {
+            lCoefficient = 0.2;
+        }
         float[] darkerHslArray = new float[3];
         darkerHslArray[0] = hsl[0];
         darkerHslArray[1] = hsl[1];
-        darkerHslArray[2] = (float) (hsl[2] * somevar);
+        darkerHslArray[2] = (float) (hsl[2] * lCoefficient);
 
 
         float[] darkerRGBArray = hslToRgb(darkerHslArray);
@@ -232,8 +230,8 @@ public class UISkinnerController {
 
     /**
      * converts a color to rgb values
-     * @param color
-     * @return
+     * @param color Color value
+     * @return Float array of rgb values
      */
     private float[] colorToRgb(Color color) {
         float[] rgbVals = new float[3];
@@ -246,8 +244,8 @@ public class UISkinnerController {
 
     /**
      * converts rgb values to hsl values
-     * @param rgb
-     * @return
+     * @param rgb Float array of rgb values
+     * @return Returns a float array of hsl values
      */
     private float[] rgbToHsl(float[] rgb) {
         float r = rgb[0];
@@ -258,9 +256,6 @@ public class UISkinnerController {
         float min = Math.min(Math.min(r, g), b);
         float h, s, l;
         h = s = l = ((max+min)/(float)2);
-        System.out.println("h"+ h);
-        System.out.println(s);
-        System.out.println(l);
 
         if(max == min){
             h = s = 0; // achromatic
@@ -270,14 +265,12 @@ public class UISkinnerController {
 
             if(l > (float)0.5) {s = d / (2 - max - min);}
             else{s = d / (max + min);}
-            System.out.println("s" + s);
 
             if (r == max) {
                 float tempVar = 0;
                 if (g < b) {tempVar = (float) 6;}
                 else {tempVar = (float) 0;}
                 h = (g - b) / d + tempVar;
-                System.out.println("h" + h);
             }
             else if (r == max) {
                 h = (b - r) / d + (float) 2;
@@ -286,7 +279,6 @@ public class UISkinnerController {
                 h = (r - g) / d + (float) 4;
             }
             h = h / (float) 6;
-            System.out.println("h "+h);
         }
 
         float[] hslVals = new float[3];
@@ -299,8 +291,8 @@ public class UISkinnerController {
 
     /**
      * converts hsl colours to rgb colours
-     * @param hsl
-     * @return
+     * @param hsl Float array of hsl values
+     * @return Float array of rgb values
      */
     private float[] hslToRgb(float[] hsl) {
         float h = hsl[0];
@@ -310,22 +302,20 @@ public class UISkinnerController {
 
         float r, g, b;
 
+        //Implements formula
         if(s == (float) 0){
             r = g = b = l; // achromatic
         }else{
-            float q = 0;
+            float temp1 = 0;
             if(l < (float) 0.5) {
-                q = l * (1 + s);
+                temp1 = l * (1 + s);
             } else {
-                q = (l + s) - (l * s);
+                temp1 = (l + s) - (l * s);
             }
-            float p = (float) 2 * l - q;
-            r = hue2rgb(p, q, h + (float) 1/3);
-            g = hue2rgb(p, q, h);
-            b = hue2rgb(p, q, h - (float) 1/3);
-            System.out.println(r);
-            System.out.println(g);
-            System.out.println(b);
+            float temp2 = (float) 2 * l - temp1;
+            r = hueToRGB(temp2, temp1, h + (float) 1 / 3);
+            g = hueToRGB(temp2, temp1, h);
+            b = hueToRGB(temp2, temp1, h - (float) 1 / 3);
         }
 
         float[] rgbVals = new float[3];
@@ -337,13 +327,13 @@ public class UISkinnerController {
     }
 
     /**
-     * helper for the hsl to rgb values.
-     * @param p
-     * @param q
-     * @param t
-     * @return
+     * helper for the hsl to rgb values. Implements part of algorithm to convert hsl value to rgb
+     * @param p temporary variable used to store part of the formula
+     * @param q temporary variable used to store part of the formula
+     * @param t temporary variable used to determine part of the formula, red, green, or blue - outcome.
+     * @return Float representation of specific rgb value
      */
-    private float hue2rgb(float p, float q, float t) {
+    private float hueToRGB(float p, float q, float t) {
         if(t < (float) 0) {
             t += 1;
         }
