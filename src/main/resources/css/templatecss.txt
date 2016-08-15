@@ -8,9 +8,12 @@
     -fx-focus-color: derive({0}, 50%);
     -fx-accent: derive({0}, 40%);
 }
+.tab-pane > .tab-header-area > .headers-region > .tab {
+    -fx-background-color: derive({0}, 80%);
+}
 
 .tab-pane > .tab-header-area > .headers-region > .tab:selected:top {
-    -fx-background-color: derive({0}, 80%);
+    -fx-background-color: {0}{1};
 }
 
 .tab-pane > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
