@@ -47,7 +47,7 @@
        </HBox>
        <HBox alignment="TOP_CENTER" layoutY="21.0" prefHeight="46.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
            <children>
-               <Label text="Quintus Software" textAlignment="CENTER" textFill="#f28b15">
+               <Label text="Allegro" textAlignment="CENTER" textFill="#f28b15">
                    <font>
                        <Font name="System Bold" size="32.0" />
                    </font>
