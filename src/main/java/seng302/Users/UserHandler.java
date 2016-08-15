@@ -31,9 +31,6 @@ public class UserHandler {
     JSONObject UsersInfo = new JSONObject();
     JSONArray recentUsers = new JSONArray();
 
-
-
-
     final Path userDirectory = Paths.get("UserData"); //Default user path for now, before user compatibility is set up.
 
 
@@ -59,6 +56,10 @@ public class UserHandler {
     }
 
 
+    /**
+     * Returns a collection of recent users to be displayed on the login screen.
+     * @return
+     */
     public ArrayList<User> getRecentUsers(){
         ArrayList<User> recentUsersTemp = new ArrayList<User>();
 
@@ -73,9 +74,11 @@ public class UserHandler {
 
     }
 
+    /**
+     * Populates the list of users from the users json file.
+     *
+     */
     private void populateUsers(){
-
-
         try {
             UsersInfo = (JSONObject) parser.parse(new FileReader(userDirectory + "/user_list.json"));
             this.userList = (JSONArray) UsersInfo.get("users");
@@ -122,7 +125,12 @@ public class UserHandler {
     }
 
 
-
+    /**
+     * Checks if the given login credentials are valid.
+     * @param userName
+     * @param password
+     * @return true/false depending on login result.
+     */
     public boolean userPassExists(String userName, String password){
         if(userList.contains(userName)){
             User tempUser = new User(env,userName);
@@ -187,6 +195,10 @@ public class UserHandler {
     }
 
 
+    /**
+     * Sets the current user and loads user related properties.
+     * @param userName
+     */
     public void setCurrentUser(String userName){
         this.currentUser = new User(env, userName);
         currentUser.loadFullProperties();

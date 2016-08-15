@@ -101,7 +101,7 @@ public class User {
     }
 
     /**
-     *
+     * loads extensive user properties (after user login)
      */
     public void loadFullProperties(){
         /**
@@ -131,9 +131,12 @@ public class User {
 
 
     public ProjectHandler getProjectHandler(){
-        System.out.println("project handler: " + projectHandler.toString());
+
         return projectHandler;}
 
+    /**
+     * Loads basic properties which need be readed in login screen.
+     */
     private void loadBasicProperties() {
         /**
          * Properties:
@@ -154,11 +157,6 @@ public class User {
         }catch(Exception e){
 
         }
-
-
-
-        //env.getTranscriptManager().unsavedChanges = false;
-
 
         try {
             Type dateType = new TypeToken<Date>() {
@@ -204,6 +202,9 @@ public class User {
     }
 
 
+    /**
+     * Updates project property JSON files to be written to disc.
+     */
     public void updateProperties() {
         Gson gson = new Gson();
         properties.put("userName", userName);
@@ -224,6 +225,9 @@ public class User {
 
     }
 
+    /**
+     * Writes JSON properties to disc
+     */
     public void saveProperties() {
         try {
             Gson gson = new Gson();
@@ -240,41 +244,14 @@ public class User {
 
             e.printStackTrace();
         }
-        /*catch (FileNotFoundException e) {
-            try {
-                System.err.println("user_properties.json Does not exist! - Creating new one");
-                properties = new JSONArray();
-
-
-                projectsInfo.put("projects", projectList);
-
-                if (!Files.isDirectory(userDirectory)) {
-                    //Create Projects path doesn't exist.
-                    try {
-                        Files.createDirectories(userDirectory);
-
-
-                    } catch (IOException eIO3) {
-                        //Failed to create the directory.
-                        System.err.println("Well UserData directory failed to create.. lost cause.");
-                    }
-                }
-
-                FileWriter file = new FileWriter(userDirectory + "/projects.json");
-                file.write(projectsInfo.toJSONString());
-                file.flush();
-                file.close();
-
-            } catch (IOException e2) {
-                System.err.println("Failed to create projects.json file.");
-
-            }
-            */
 
 
     }
 
 
+    /**
+     * Creates user directory files.
+     */
     private void createUserFiles(){
         //Add all settings to such as tempo speed to the project here.
 
