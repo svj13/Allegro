@@ -25,18 +25,14 @@
          <children>
             <HBox layoutX="14.0" layoutY="40.0" VBox.vgrow="ALWAYS">
                <children>
-                  <TextField fx:id="firstNameField" disable="true" editable="false"
-                             promptText="First Name" HBox.hgrow="ALWAYS"/>
-                  <Button fx:id="editFirstNameButton" mnemonicParsing="false"
-                          onAction="#editFirstName" text="Edit" HBox.hgrow="ALWAYS"/>
+                  <TextField fx:id="firstNameField" disable="true" editable="false" promptText="First Name" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="editFirstNameButton" mnemonicParsing="false" onAction="#editFirstName" text="Edit" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                <children>
-                  <TextField fx:id="lastNameField" disable="true" editable="false"
-                             promptText="Last Name" HBox.hgrow="ALWAYS"/>
-                  <Button fx:id="editLastNameButton" mnemonicParsing="false"
-                          onAction="#editLastName" text="Edit" HBox.hgrow="ALWAYS"/>
+                  <TextField fx:id="lastNameField" disable="true" editable="false" promptText="Last Name" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="editLastNameButton" mnemonicParsing="false" onAction="#editLastName" text="Edit" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
          </children>
@@ -48,11 +44,6 @@
       </ImageView>
       <Button fx:id="uploadPhotoButton" layoutX="90.0" layoutY="163.0" mnemonicParsing="false" onAction="#launchPhotoChooser" text="Upload" />
       <Label alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="46.0" text="Basic information" textAlignment="CENTER">
-         <font>
-            <Font name="System Bold" size="16.0" />
-         </font>
-      </Label>
-      <Label alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="215.0" text="Color Theme" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>

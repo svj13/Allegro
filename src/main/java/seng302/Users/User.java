@@ -50,8 +50,12 @@ public class User {
     private String userLastName;
 
 
-
-
+    /**
+     *  User constructor used for generating new users.
+     * @param userName
+     * @param password
+     * @param env
+     */
 
 
     public User(String userName, String password, Environment env){
@@ -59,9 +63,6 @@ public class User {
         this.userName = userName;
         this.userPassword = password;
         this.env = env;
-
-
-
         properties = new JSONObject();
 
         createUserFiles();
@@ -99,6 +100,9 @@ public class User {
 
     }
 
+    /**
+     *
+     */
     public void loadFullProperties(){
         /**
          * Current Theme
