@@ -23,138 +23,14 @@ public class TutorHandler {
     Environment env;
 
 
-    JSONObject overalPitchObject;
-    JSONObject overalPitchSessionObject;
-    Collection<JSONObject> pitchTutorRecordsList = new ArrayList<JSONObject>();
-    String pitchTutorRecordStats = "";
-
-    JSONObject overalIntervalObject;
-    JSONObject overalIntervalSessionObject;
-    Collection<JSONObject> intervalTutorRecordsList = new ArrayList<JSONObject>();
-    String intervalTutorRecordStats = "";
-
-    JSONObject overalMusicalTermObject;
-    JSONObject overalMusicalTermSessionObject;
-    Collection<JSONObject> musicalTermTutorRecordsList = new ArrayList<JSONObject>();
-    String musicalTermTutorRecordStats = "";
-
-    JSONObject overalScaleObject;
-    JSONObject overalScaleSessionObject;
-    Collection<JSONObject> scaleTutorRecordsList = new ArrayList<JSONObject>();
-    String scaleTutorRecordStats = "";
-
-    JSONObject overalChordObject;
-    JSONObject overalChordSessionObject;
-    Collection<JSONObject> chordTutorRecordsList = new ArrayList<JSONObject>();
-    String chordTutorRecordStats = "";
-
-    JSONObject overallSpellingObject;
-    JSONObject overallSpellingSessionObject;
-    Collection<JSONObject> spellingTutorRecordsList = new ArrayList<>();
-    String spellingTutorRecordStats = "";
-
-
-    JSONObject intervalTutorRecords;
-    JSONObject musicalTermsTutorRecords;
-    JSONObject scaleTutorRecords;
-    JSONObject chordTutorRecords;
-    JSONObject spellingTutorRecords;
-
-
 
 
     public TutorHandler(Environment env){
         this.env = env;
 
-        intervalTutorRecords = new JSONObject();
-        musicalTermsTutorRecords = new JSONObject();
-        scaleTutorRecords = new JSONObject();
-        chordTutorRecords = new JSONObject();
-        spellingTutorRecords = new JSONObject();
-
-        overalPitchObject = new JSONObject();
-        overalPitchSessionObject = new JSONObject();
-
-        overalIntervalObject = new JSONObject();
-        overalIntervalSessionObject = new JSONObject();
-
-        overalMusicalTermObject = new JSONObject();
-        overalMusicalTermSessionObject = new JSONObject();
-
-        overalScaleObject = new JSONObject();
-        overalScaleSessionObject = new JSONObject();
-
-        overalChordObject = new JSONObject();
-        overalChordSessionObject = new JSONObject();
-
-        overallSpellingObject = new JSONObject();
-        overallSpellingSessionObject = new JSONObject();
     }
 
 
-    public void saveSessionStat(String tutorType, String statString) {
-        if (tutorType.equals("pitch")) {
-
-            pitchTutorRecordStats += (statString);
-
-        } else if (tutorType.equals("interval")) {
-
-            intervalTutorRecordStats += (statString);
-
-        } else if (tutorType.equals("musicalTerm")) {
-            musicalTermTutorRecordStats += (statString);
-
-        } else if (tutorType.equals("scale")) {
-
-            scaleTutorRecordStats += (statString);
-
-        } else if (tutorType.equals("chord")) {
-
-            chordTutorRecordStats += (statString);
-        } else if (tutorType.equals("spelling")) {
-
-            spellingTutorRecordStats += (statString);
-        }
-
-
-    }
-
-
-    public void saveTutorRecords(String tutorType, String record) {
-        JSONObject jasonOFQuestion = new JSONObject();
-
-        if (tutorType.equals("pitch")) {
-
-            jasonOFQuestion.put("QuestionInfo", record);
-            pitchTutorRecordsList.add(jasonOFQuestion);
-            //System.out.println(pitchTutorRecordsList);
-
-        } else if (tutorType.equals("interval")) {
-
-            jasonOFQuestion.put("QuestionInfo", record);
-            intervalTutorRecordsList.add(jasonOFQuestion);
-
-
-        } else if (tutorType.equals("musicalTerm")) {
-            jasonOFQuestion.put("QuestionInfo", record);
-            musicalTermTutorRecordsList.add(jasonOFQuestion);
-            ;
-
-        } else if (tutorType.equals("scale")) {
-            jasonOFQuestion.put("QuestionInfo", record);
-            scaleTutorRecordsList.add(jasonOFQuestion);
-
-
-        } else if (tutorType.equals("chord")) {
-
-            jasonOFQuestion.put("QuestionInfo", record);
-            chordTutorRecordsList.add(jasonOFQuestion);
-        } else if (tutorType.equals("spelling")) {
-
-            jasonOFQuestion.put("QuestionInfo", record);
-            spellingTutorRecordsList.add(jasonOFQuestion);
-        }
-    }
 
 
     /**
@@ -188,7 +64,12 @@ public class TutorHandler {
         }
     }
 
-
+    /**
+     * Saves the tutor records to disc.
+     *
+     * @param filename
+     * @param currentRecord
+     */
     public void saveTutorRecordsToFile(String filename, TutorRecord currentRecord) {
         Gson gson = new Gson();
         try {

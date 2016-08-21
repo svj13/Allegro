@@ -45,8 +45,6 @@ public class Project {
 
     JSONParser parser = new JSONParser(); //parser for reading project
 
-
-
     ProjectHandler projectHandler;
 
     Path projectDirectory;
@@ -77,6 +75,11 @@ public class Project {
         return tutorHandler;
     }
 
+
+    /**
+     * Updates the Project properties variable to contain the latest project settings
+     * (Does not write to disk)
+     */
     private void saveProperties() {
         Gson gson = new Gson();
         projectSettings.put("tempo", env.getPlayer().getTempo());
@@ -197,10 +200,7 @@ public class Project {
 
         try {
             Gson gson = new Gson();
-
             saveProperties();
-           // projectName = projectAddress.substring(projectAddress.lastIndexOf("/") + 1);
-
 
             FileWriter file = new FileWriter(projectAddress + "/" + projectName + ".json");
             file.write(projectSettings.toJSONString());
@@ -212,15 +212,9 @@ public class Project {
 
             projectSettings.put("tempo", env.getPlayer().getTempo());
 
-
-            //System.out.print("pitchTutorRecordList: " + pitchTutorRecordsList);
-
             env.getRootController().setWindowTitle(projectName);
 
             currentProjectPath = projectAddress;
-
-            //Check if it isn't an exisiting stored project
-            //projectHandler.updateProjectList();
 
         } catch (IOException e) {
 
@@ -228,10 +222,6 @@ public class Project {
         }
 
     }
-
-
-
-
 
 
 
@@ -370,6 +360,9 @@ public class Project {
     }
 
 
+    /**
+     * @return true if the project JSON is up to date.
+     */
     public boolean isSaved() {
         return saved;
     }

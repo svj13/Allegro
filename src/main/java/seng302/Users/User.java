@@ -56,8 +56,6 @@ public class User {
      * @param password
      * @param env
      */
-
-
     public User(String userName, String password, Environment env){
         userDirectory = Paths.get("UserData/"+userName);
         this.userName = userName;
@@ -86,6 +84,7 @@ public class User {
 
     /**
      * Loads basic user properties (Picture, Name, Password etc.)
+     * Used when loading a collection of users (Login screen)
      * @param env
      * @param user user name
      */

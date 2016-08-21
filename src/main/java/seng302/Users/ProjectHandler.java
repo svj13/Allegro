@@ -63,7 +63,9 @@ public class ProjectHandler {
     }
 
 
-
+    /**
+     * Loads last opened project, or if there are no projects, the default project.
+     */
     public void loadDefaultProject(){
 
         if(lastOpened == null){
@@ -112,8 +114,9 @@ public class ProjectHandler {
     }
 
 
-
-
+    /**
+     * Loads the JSON file containing the list of projects.
+     */
     private void loadProjectList(){
         JSONObject projectsInfo = new JSONObject();
 
