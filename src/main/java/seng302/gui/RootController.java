@@ -14,6 +14,10 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.layout.VBox;
+import org.controlsfx.control.PopOver;
 import org.json.simple.JSONArray;
 
 import java.io.File;
@@ -37,6 +41,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCombination;
@@ -68,6 +73,8 @@ public class RootController implements Initializable {
     @FXML
     AnchorPane paneMain;
 
+    @FXML
+    SplitPane splitPane;
 
     @FXML
     public PitchComparisonTutorController PitchComparisonTabController;
@@ -103,6 +110,9 @@ public class RootController implements Initializable {
     private KeyboardPaneController keyboardPaneController;
 
     @FXML
+    private UISkinnerController uiSkinnerController;
+
+    @FXML
     private StackPane stackPane1;
 
     @FXML
@@ -125,8 +135,6 @@ public class RootController implements Initializable {
 
     @FXML
     private MenuItem menuSave;
-
-
 
     @FXML
     private MenuItem menuSaveCommands;
@@ -151,6 +159,9 @@ public class RootController implements Initializable {
 
     @FXML
     private MenuItem menuKST;
+
+    @FXML
+    private MenuItem skinGuiButton;
 
     @FXML
     private Menu menuOpenProjects;
@@ -181,30 +192,10 @@ public class RootController implements Initializable {
 
 
 
-        //paneMain.setTopAnchor(borderPane_DP, 15.0);
-
-        //final Circle clip = new Circle(300, 200, 200);
-//        imageDP.setClip(circleDP);
-
-
         userDropDown.setEllipsisString("User");
         userDropDown.setText("User");
 
 
-
-
-
-        //hbUser.getChildren().add(clip);
-
-
-        //hbUser.getChildren().add(dp);
-
-
-
-
-
-        //borderPane_DP.setStyle(cssBordering);
-        //borderPane_DP.setStyle(cssBordering);
 
 
     }
@@ -1155,6 +1146,42 @@ public class RootController implements Initializable {
         int total_tabs = TabPane.getTabs().size();
         TabPane.getTabs().remove(1,total_tabs);
     }
+
+    /**
+     * Creates the gui skinner tab
+     */
+    @FXML
+    private void createColorTab() {
+        boolean alreadyExists = false;
+        for (Tab tab : TabPane.getTabs()) {
+            if (tab.getId().equals("uiSkinner")) {
+                TabPane.getSelectionModel().select(tab);
+                alreadyExists = true;
+            }
+
+        }
+
+        if (!alreadyExists) {
+
+            Tab skinnerTab = new Tab("Interface Skinner");
+            skinnerTab.setId("uiSkinner");
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/Views/UISkinner.fxml"));
+
+            try {
+                skinnerTab.setContent((Node) loader.load());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            TabPane.getTabs().add(skinnerTab);
+            TabPane.getSelectionModel().select(skinnerTab);
+            uiSkinnerController = loader.getController();
+            uiSkinnerController.create(env, paneMain);
+        }
+    }
+
 
     public TranscriptPaneController getTranscriptController() {
         return transcriptController;
