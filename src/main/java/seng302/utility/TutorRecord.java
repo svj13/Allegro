@@ -57,23 +57,5 @@ public class TutorRecord {
         return finished;
     }
 
-//    public static void readFromFile(String recordLocation) {
-//        try {
-//            JSONParser parser = new JSONParser();
-//            FileReader reader = new FileReader(recordLocation);
-//            JSONObject readStuff =  (JSONObject) parser.parse(reader);
-//            String gross = readStuff.toJSONString();
-//            Integer start = gross.indexOf("{\"SessionStats");
-//            String smallerGross = gross.substring(start,gross.length()-1);
-//            Object obj = parser.parse(smallerGross);
-//            JSONObject jObj = (JSONObject) obj;
-//            System.out.println(jObj.get("SessionStats"));
-//
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-
 
 }
