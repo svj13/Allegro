@@ -14,7 +14,6 @@ import java.util.Map;
 
 import javafx.util.Pair;
 import seng302.Environment;
-import seng302.gui.TutorController;
 import seng302.utility.TutorRecord;
 
 /**
@@ -32,25 +31,29 @@ public class TutorHandler {
     /**
      * This method will give the total number of correct and incorrect answers for a given tutor.
      *
-     * @param controller The controller for the tutor
+     * @param tabId The tabid of the tutor
      * @return a pair containing two integers. The number of answers correct and the number of
      * incorrect answers.
      */
-    public Pair<Integer, Integer> getTutorTotals(TutorController controller) {
-        ArrayList<TutorRecord> records = getTutorData(controller);
-        Integer correct = 0;
-        Integer incorrect = 0;
-        for (TutorRecord record : records) {
-            Map<String, Number> stats = record.getStats();
-            correct += (Integer) stats.get("questionsCorrect");
-            incorrect += (Integer) stats.get("questionsIncorrect");
+    public Pair<Integer, Integer> getTutorTotals(String tabId) {
+        try {
+            ArrayList<TutorRecord> records = getTutorData(tabId);
+            Integer correct = 0;
+            Integer incorrect = 0;
+            for (TutorRecord record : records) {
+                Map<String, Number> stats = record.getStats();
+                correct += stats.get("questionsCorrect").intValue();
+                incorrect += stats.get("questionsIncorrect").intValue();
+            }
+            return new Pair<>(correct, incorrect);
+        } catch (NullPointerException e) {
+            System.out.println(e.getLocalizedMessage());
+            return new Pair<>(123, 123);
         }
-        return new Pair<>(correct, incorrect);
     }
 
-    public ArrayList<TutorRecord> getTutorData(TutorController controller) {
-        String id = controller.getTabID();
-        String projectAddress = controller.currentProject.getCurrentProjectPath();
+    public ArrayList<TutorRecord> getTutorData(String id) {
+        String projectAddress = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().currentProjectPath;
         String filename = "";
         if (id.equals("pitchTutor")) {
             filename = projectAddress + "/PitchComparisonTutor.json";

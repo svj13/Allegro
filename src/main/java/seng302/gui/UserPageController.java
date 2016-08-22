@@ -1,8 +1,14 @@
 package seng302.gui;
 
+import java.util.ArrayList;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.SnapshotParameters;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -11,9 +17,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.util.Pair;
 import seng302.Environment;
-
-import java.util.ArrayList;
 
 /**
  * Created by jmw280 on 22/08/16.
@@ -31,6 +36,12 @@ public class UserPageController {
     VBox scrollPaneVbox;
 
     @FXML
+    Label chartTitle;
+
+    @FXML
+    PieChart pieChart;
+
+    @FXML
     ImageView imageDP;
 
     private Environment env;
@@ -40,7 +51,7 @@ public class UserPageController {
     }
 
 
-    public void setEnviroment(Environment env){
+    public void setEnvironment(Environment env) {
         this.env = env;
     }
 
@@ -48,7 +59,7 @@ public class UserPageController {
 
     public void populateUserOptions(){
 
-        ArrayList<String> options = new ArrayList();
+        ArrayList<String> options = new ArrayList<>();
         options.add("Pitch Comparison Tutor");
         options.add("Interval Recognition Tutor");
         options.add("Scale Recognition Tutor");
@@ -60,14 +71,35 @@ public class UserPageController {
             Button optionBtn;
             if(option.equals("Scale Recognition Tutor")){
                 optionBtn = new Button(option, new ImageView(lockImg));
+                optionBtn.setDisable(true);
+
             }else{
                 optionBtn = new Button(option);
+                optionBtn.setOnAction(event -> {
+                    displayGraph(option);
+                });
 
             }
             optionBtn.setPrefWidth(191);
             scrollPaneVbox.getChildren().add(optionBtn);
 
         }
+
+
+    }
+
+    private void displayGraph(String tutor) {
+        Pair<Integer, Integer> correctIncorrect = new Pair<>(0, 0);
+        chartTitle.setText(tutor);
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+        if (tutor.equals("Pitch Comparison Tutor")) {
+            correctIncorrect = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("pitchTutor");
+        }
+
+        pieChartData.add(new PieChart.Data("Correct", correctIncorrect.getKey()));
+        pieChartData.add(new PieChart.Data("Incorrect", correctIncorrect.getValue()));
+        pieChart.dataProperty().setValue(pieChartData);
+
 
 
     }
