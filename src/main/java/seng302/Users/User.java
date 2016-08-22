@@ -352,6 +352,7 @@ public class User {
 
     public void addExperience(int addedExperience) {
         experience += addedExperience;
+        saveProperties();
     }
 
 
