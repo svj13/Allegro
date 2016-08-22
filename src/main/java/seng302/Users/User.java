@@ -205,6 +205,14 @@ public class User {
         }catch(NullPointerException e){
             themeColor = "white";
         }
+
+        //User experience
+        try {
+            experience = Integer.parseInt(properties.get("experience").toString());
+        } catch (NullPointerException e) {
+            //If XP has never been set (ie old account), default to 0
+            experience = 0;
+        }
     }
 
 
