@@ -4,17 +4,18 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
-import org.json.simple.JSONObject;
-import seng302.Environment;
-import seng302.utility.TutorRecord;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
+import java.util.Map;
+
+import javafx.util.Pair;
+import seng302.Environment;
+import seng302.gui.TutorController;
+import seng302.utility.TutorRecord;
 
 /**
  * Created by jmw280 on 25/07/16.
@@ -23,14 +24,73 @@ public class TutorHandler {
     Environment env;
 
 
-
-
-    public TutorHandler(Environment env){
+    public TutorHandler(Environment env) {
         this.env = env;
 
     }
 
+    /**
+     * This method will give the total number of correct and incorrect answers for a given tutor.
+     *
+     * @param controller The controller for the tutor
+     * @return a pair containing two integers. The number of answers correct and the number of
+     * incorrect answers.
+     */
+    public Pair<Integer, Integer> getTutorTotals(TutorController controller) {
+        ArrayList<TutorRecord> records = getTutorData(controller);
+        Integer correct = 0;
+        Integer incorrect = 0;
+        for (TutorRecord record : records) {
+            Map<String, Number> stats = record.getStats();
+            correct += (Integer) stats.get("questionsCorrect");
+            incorrect += (Integer) stats.get("questionsIncorrect");
+        }
+        return new Pair<>(correct, incorrect);
+    }
 
+    public ArrayList<TutorRecord> getTutorData(TutorController controller) {
+        String id = controller.getTabID();
+        String projectAddress = controller.currentProject.getCurrentProjectPath();
+        String filename = "";
+        if (id.equals("pitchTutor")) {
+            filename = projectAddress + "/PitchComparisonTutor.json";
+        }
+        if (id.equals("scaleTutor")) {
+            filename = projectAddress + "/ScaleRecognitionTutor.json";
+        }
+        if (id.equals("intervalTutor")) {
+            filename = projectAddress + "/IntervalRecognitionTutor.json";
+        }
+        if (id.equals("musicalTermTutor")) {
+            filename = projectAddress + "/MusicalTermsTutor.json";
+        }
+        if (id.equals("chordTutor")) {
+            filename = projectAddress + "/ChordRecognitionTutor.json";
+        }
+        if (id.equals("chordSpellingTutor")) {
+            filename = projectAddress + "/ChordSpellingTutor.json";
+        }
+        if (id.equals("keySignatureTutor")) {
+            filename = projectAddress + "/KeySignatureTutor.json";
+        }
+        if (id.equals("diatonicChordTutor")) {
+            filename = projectAddress + "/DiatonicChordTutor.json";
+        }
+        Gson gson = new Gson();
+        ArrayList<TutorRecord> records = new ArrayList<>();
+        try {
+            JsonReader jsonReader = new JsonReader(new FileReader(filename));
+            records = gson.fromJson(jsonReader, new TypeToken<ArrayList<TutorRecord>>() {
+            }.getType());
+
+        } catch (FileNotFoundException e) {
+            System.err.println("File not found.");
+        } catch (JsonSyntaxException e) {
+            System.err.println("File was not of the correct type.");
+        }
+        return records;
+
+    }
 
 
     /**
@@ -66,9 +126,6 @@ public class TutorHandler {
 
     /**
      * Saves the tutor records to disc.
-     *
-     * @param filename
-     * @param currentRecord
      */
     public void saveTutorRecordsToFile(String filename, TutorRecord currentRecord) {
         Gson gson = new Gson();
@@ -107,8 +164,6 @@ public class TutorHandler {
         }
 
     }
-
-
 
 
 }

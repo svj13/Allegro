@@ -30,6 +30,17 @@ public class TutorRecord {
         return question;
     }
 
+    public List getQuestions() {
+        return questions;
+    }
+
+    public Map<String, Number> getStats() {
+        return stats;
+    }
+
+    public Date getDate() {
+        return date;
+    }
 
     /**
      * Sets the user's score, etc
