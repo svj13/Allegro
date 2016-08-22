@@ -236,6 +236,7 @@ public class User {
         properties.put("firstName", this.userFirstName);
         properties.put("lastName", this.userLastName);
         properties.put("experience", this.experience);
+        properties.put("level", this.level);
 
 
         String musicalTermsJSON = gson.toJson(env.getMttDataManager().getTerms());
