@@ -1,7 +1,12 @@
 package seng302.gui;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -11,10 +16,6 @@ import javafx.stage.Stage;
 import seng302.Environment;
 import seng302.Users.UserHandler;
 import seng302.utility.FileHandler;
-
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 
 public class UserSettingsController {
@@ -40,6 +41,9 @@ public class UserSettingsController {
     @FXML
     private TextField firstNameField;
 
+    @FXML
+    private Label levelLabel;
+
     private Environment env;
 
     private UserHandler userHandler;
@@ -56,6 +60,7 @@ public class UserSettingsController {
         try {
             firstNameField.setText(userHandler.getCurrentUser().getUserFirstName());
             lastNameField.setText(userHandler.getCurrentUser().getUserLastName());
+            levelLabel.setText(Integer.toString(userHandler.getCurrentUser().getUserLevel()));
         } catch (Exception e) {
             firstNameField.clear();
             lastNameField.clear();
