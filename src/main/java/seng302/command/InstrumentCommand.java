@@ -107,6 +107,7 @@ public class InstrumentCommand implements Command {
                 env.getTranscriptManager().setResult("Selected Instrument: " + chosenInstrument.getName());
                 saveInstrumentEditHistory(chosenInstrument, env);
                 player.setInstrument(chosenInstrument);
+                env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().checkChanges("instrument");
             } catch (Exception e) {
                 env.error("Invalid instrument name");
             }
@@ -117,6 +118,7 @@ public class InstrumentCommand implements Command {
                 env.getTranscriptManager().setResult("Selected Instrument: " + chosenInstrument.getName());
                 saveInstrumentEditHistory(chosenInstrument, env);
                 player.setInstrument(chosenInstrument);
+                env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().checkChanges("instrument");
             } catch (Exception e) {
                 env.error("Invalid instrument number");
             }
@@ -138,6 +140,7 @@ public class InstrumentCommand implements Command {
         }
         if (type.equals("setting")) {
             setInstrument(env);
+
         }
 
     }

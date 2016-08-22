@@ -1,6 +1,23 @@
 package seng302.gui;
 
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
+import javafx.scene.control.*;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.layout.VBox;
+import org.controlsfx.control.PopOver;
 import org.json.simple.JSONArray;
 
 import java.io.File;
@@ -24,6 +41,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCombination;
@@ -48,12 +66,15 @@ public class RootController implements Initializable {
     File fileDir;
 
 
+
     @FXML
     private Pane pane1;
 
     @FXML
     AnchorPane paneMain;
 
+    @FXML
+    SplitPane splitPane;
 
     @FXML
     public PitchComparisonTutorController PitchComparisonTabController;
@@ -77,6 +98,9 @@ public class RootController implements Initializable {
     public ChordSpellingTutorController ChordSpellingTabController;
 
     @FXML
+    private UserSettingsController UserSettingsTabController;
+
+    @FXML
     public KeySignaturesTutorController KeySignaturesTabController;
 
     @FXML
@@ -86,11 +110,25 @@ public class RootController implements Initializable {
     private KeyboardPaneController keyboardPaneController;
 
     @FXML
+    private UISkinnerController uiSkinnerController;
+
+    @FXML
     private StackPane stackPane1;
 
     @FXML
     private MenuItem menuQuit;
 
+    @FXML
+    private Circle circleDP;
+
+    @FXML
+    private HBox hbUser;
+
+    @FXML
+    private ImageView imageDP;
+
+    @FXML
+    private MenuButton userDropDown;
 
     @FXML
     private MenuItem menuOpen;
@@ -123,6 +161,9 @@ public class RootController implements Initializable {
     private MenuItem menuKST;
 
     @FXML
+    private MenuItem skinGuiButton;
+
+    @FXML
     private Menu menuOpenProjects;
 
     @FXML
@@ -137,13 +178,60 @@ public class RootController implements Initializable {
     @FXML
     private Tab transcriptPane;
 
-
     @FXML
     public void onTranscriptTab() {
         Platform.runLater(() -> transcriptController.txtCommand.requestFocus());
     }
 
     public void initialize(URL location, ResourceBundle resources) {
+
+        String cssBordering = "-fx-border-color:dimgray ; \n" //#090a0c
+                + "-fx-border-insets:3;\n"
+                + "-fx-border-radius:1;\n"
+                + "-fx-border-width:2.0";
+
+
+
+        userDropDown.setEllipsisString("User");
+        userDropDown.setText("User");
+
+
+
+
+    }
+
+    public void updateImage(){
+        final Circle clip = new Circle(imageDP.getFitWidth()-25.0, imageDP.getFitHeight()-25.0, 50.0);
+
+
+        imageDP.setImage(env.getUserHandler().getCurrentUser().getUserPicture());
+
+
+        clip.setRadius(25.0);
+
+        imageDP.setClip(clip);
+
+        SnapshotParameters parameters = new SnapshotParameters();
+        parameters.setFill(Color.TRANSPARENT);
+        WritableImage image = imageDP.snapshot(parameters, null);
+
+        imageDP.setClip(null);
+        imageDP.setEffect(new DropShadow(5, Color.BLACK));
+
+        imageDP.setImage(image);
+    }
+
+
+    public void showWindow(Boolean show){
+        if(show) {
+            stage.show();
+            updateImage();
+
+        }
+        else stage.hide();
+
+
+
     }
 
 
@@ -153,7 +241,7 @@ public class RootController implements Initializable {
      */
     @FXML
     private void closeApplication() {
-        if (!env.getProjectHandler().isSaved()) {
+        if (env.getUserHandler().getCurrentUser() != null && !env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().isSaved()) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("Unsaved changes");
 
@@ -170,15 +258,15 @@ public class RootController implements Initializable {
             Optional<ButtonType> result = alert.showAndWait();
 
             if (result.get() == btnSaveProject) {
-                env.getProjectHandler().saveCurrentProject();
+                env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().saveCurrentProject();
                 System.exit(0);
             } else if (result.get() == btnQuit) {
                 System.exit(0);
             }
 
 
-        } else if (env.getProjectHandler().isProject() && env.getTranscriptManager().unsavedChanges) {
-            env.getProjectHandler().saveCurrentProject();
+        } else if (env.getTranscriptManager().unsavedChanges) {
+            env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().saveCurrentProject();
             System.exit(0);
         } else {
 
@@ -230,12 +318,58 @@ public class RootController implements Initializable {
 
 
     /**
+     *  Updates the user menu button text to display the current user's name.
+     */
+    public void updateUserInfo(String name){
+        userDropDown.setEllipsisString(name);
+        userDropDown.setText(name);
+    }
+
+    public void showLoginWindow(Boolean show) throws IOException {
+        if(show){
+            FXMLLoader loader1 = new FXMLLoader();
+            loader1.setLocation(getClass().getResource("/Views/userLogin.fxml"));
+
+            Parent root1 = loader1.load();
+            Scene scene1 = new Scene(root1);
+            Stage loginStage = new Stage();
+            loginStage.setTitle("Allegro");
+            loginStage.setScene(scene1);
+
+
+            loginStage.setOnCloseRequest(event -> {
+                System.exit(0);
+                event.consume();
+            });
+
+
+            loginStage.show();
+            UserLoginController userLoginController = loader1.getController();
+            userLoginController.setEnv(env);
+            userLoginController.displayRecentUsers();
+
+
+        }
+
+    }
+
+    @FXML
+    protected void logOutUser() throws IOException {
+        stage.close();
+        showLoginWindow(true);
+        reset();
+
+    }
+
+
+
+    /**
      * Displays a dialog to ask the user whether or not they want to save project changes.
      *
      * @return a boolean - true for save, false for cancel
      */
     public Boolean saveChangesDialog() {
-        if (!env.getProjectHandler().isSaved()) {
+        if (!env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().isSaved()) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("Unsaved project changes");
 
@@ -254,16 +388,16 @@ public class RootController implements Initializable {
 
             if (result.get() == btnSaveProject) {
                 checkProjectDirectory();
-                env.getProjectHandler().saveCurrentProject();
+                env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().saveCurrentProject();
 
             } else if (result.get() == btnCancel) {
                 return false;
             }
 
 
-        } else if (env.getProjectHandler().isProject() && env.getTranscriptManager().unsavedChanges) {
+        } else if (env.getTranscriptManager().unsavedChanges) {
 
-            env.getProjectHandler().saveCurrentProject();
+            env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().saveCurrentProject();
         }
         return true;
     }
@@ -310,11 +444,11 @@ public class RootController implements Initializable {
 
         if (file != null) {
             fileDir = file.getParentFile();
-            if (env.getProjectHandler().isProject()) {
+            //if (env.getProjectHandler().getCurrentProject().isProject()) {
 
-                fileDir = Paths.get(env.getProjectHandler().getCurrentProjectPath()).toFile();
+            fileDir = Paths.get(env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().getCurrentProjectPath()).toFile();
 
-            }
+            //}
             path = file.getAbsolutePath();
             env.getTranscriptManager().saveCommandsOnly(path);
         }
@@ -347,11 +481,11 @@ public class RootController implements Initializable {
         FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(textFilter);
 
-        if (env.getProjectHandler().isProject()) {
-            checkProjectDirectory();
-            fileDir = Paths.get(env.getProjectHandler().getCurrentProjectPath()).toFile();
+        //if (env.getProjectHandler().getCurrentProject().isProject()) {
+        checkProjectDirectory();
+        fileDir = Paths.get(env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().getCurrentProjectPath()).toFile();
 
-        }
+        //}
 
         fileChooser.setInitialDirectory(fileDir);
         File file = fileChooser.showSaveDialog(stage);
@@ -367,11 +501,11 @@ public class RootController implements Initializable {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(textFilter);
-        if (env.getProjectHandler().isProject()) {
-            checkProjectDirectory();
-            fileDir = Paths.get(env.getProjectHandler().getCurrentProjectPath()).toFile();
+        //if (env.getProjectHandler().getCurrentProject().isProject()) {
+        checkProjectDirectory();
+        fileDir = Paths.get(env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().getCurrentProjectPath()).toFile();
 
-        }
+        //}
         fileChooser.setInitialDirectory(fileDir);
 
         File file = fileChooser.showOpenDialog(stage);
@@ -452,7 +586,7 @@ public class RootController implements Initializable {
     @FXML
     public void newProject() {
         env.resetEnvironment();
-        env.getProjectHandler().createNewProject();
+        env.getUserHandler().getCurrentUser().getProjectHandler().createNewProject();
     }
 
     /**
@@ -460,12 +594,13 @@ public class RootController implements Initializable {
      */
     @FXML
     private void saveProject() {
-        env.getProjectHandler().saveCurrentProject();
+        env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().saveCurrentProject();
     }
 
     @FXML
     private void bindOpenObjects() {
-        JSONArray projects = env.getProjectHandler().getProjectList();
+
+        JSONArray projects = env.getUserHandler().getCurrentUser().getProjectHandler().getProjectList();
         menuOpenProjects.getItems().clear();
         MenuItem selectItem = new MenuItem("Select Project");
         selectItem.setOnAction(event -> {
@@ -482,7 +617,9 @@ public class RootController implements Initializable {
 
             MenuItem projectItem = new MenuItem(projectName);
             projectItem.setOnAction(event -> {
-                if (saveChangesDialog()) env.getProjectHandler().loadProject(projectName);
+                //if (saveChangesDialog()) env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().loadProject(projectName);
+                if (saveChangesDialog())
+                    env.getUserHandler().getCurrentUser().getProjectHandler().setCurrentProject(projectName);
             });
 
             menuOpenProjects.getItems().add(projectItem); //Add to Open projects menu
@@ -850,11 +987,11 @@ public class RootController implements Initializable {
 
 
                             //project with said name does not exist in the projects directory.. import it.
-                            //env.getProjectHandler().importProject(folder);
+                            env.getUserHandler().getCurrentUser().getProjectHandler().setCurrentProject(folder.getName());
 
                         }
 
-                        env.getProjectHandler().loadProject(folder.getName());
+                        env.getUserHandler().getCurrentUser().getProjectHandler().setCurrentProject(folder.getName());
                         return;
                     }
                 }
@@ -886,6 +1023,7 @@ public class RootController implements Initializable {
         tm = env.getTranscriptManager();
         transcriptController.setEnv(this.env);
         transcriptPane.setClosable(false);
+
         //PitchComparisonTabController.create(env);
         //IntervalRecognitionTabController.create(env);
         //MusicalTermsTabController.create(env);
@@ -1005,10 +1143,80 @@ public class RootController implements Initializable {
             KeySignaturesTabController.clearTutor();
 
         }
-
+        int total_tabs = TabPane.getTabs().size();
+        TabPane.getTabs().remove(1,total_tabs);
     }
+
+    /**
+     * Creates the gui skinner tab
+     */
+    @FXML
+    private void createColorTab() {
+        boolean alreadyExists = false;
+        for (Tab tab : TabPane.getTabs()) {
+            if (tab.getId().equals("uiSkinner")) {
+                TabPane.getSelectionModel().select(tab);
+                alreadyExists = true;
+            }
+
+        }
+
+        if (!alreadyExists) {
+
+            Tab skinnerTab = new Tab("Interface Skinner");
+            skinnerTab.setId("uiSkinner");
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/Views/UISkinner.fxml"));
+
+            try {
+                skinnerTab.setContent((Node) loader.load());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            TabPane.getTabs().add(skinnerTab);
+            TabPane.getSelectionModel().select(skinnerTab);
+            uiSkinnerController = loader.getController();
+            uiSkinnerController.create(env, paneMain);
+        }
+    }
+
 
     public TranscriptPaneController getTranscriptController() {
         return transcriptController;
+    }
+
+
+    @FXML
+    private void launchUserSettings() {
+        boolean alreadyExists = false;
+        for (Tab tab : TabPane.getTabs()) {
+            if (tab.getId().equals("userSettings")) {
+                TabPane.getSelectionModel().select(tab);
+                alreadyExists = true;
+            }
+
+        }
+
+        if (!alreadyExists) {
+
+            Tab settingsTab = new Tab("User Settings");
+            settingsTab.setId("userSettings");
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/Views/UserSettings.fxml"));
+
+            try {
+                settingsTab.setContent((Node) loader.load());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            TabPane.getTabs().add(settingsTab);
+            TabPane.getSelectionModel().select(settingsTab);
+            UserSettingsTabController = loader.getController();
+            UserSettingsTabController.create(env);
+        }
     }
 }

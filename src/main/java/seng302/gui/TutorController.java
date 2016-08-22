@@ -30,7 +30,9 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 import seng302.Environment;
 import seng302.data.Note;
-import seng302.managers.ProjectHandler;
+
+import seng302.Users.ProjectHandler;
+import seng302.Users.TutorHandler;
 import seng302.managers.TutorManager;
 import seng302.utility.TutorRecord;
 import seng302.utility.musicNotation.OctaveUtil;
@@ -50,6 +52,8 @@ public abstract class TutorController {
     public int selectedQuestions;
 
     public ProjectHandler projectHandler;
+
+    public TutorHandler tutorHandler;
 
     Stage stage;
 
@@ -98,7 +102,8 @@ public abstract class TutorController {
     public void create(Environment env) {
         this.env = env;
         manager = new TutorManager();
-        projectHandler = env.getProjectHandler();
+        projectHandler = env.getUserHandler().getCurrentUser().getProjectHandler();
+        tutorHandler = projectHandler.getCurrentProject().getTutorHandler();
     }
 
     /**
@@ -153,9 +158,9 @@ public abstract class TutorController {
         record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
         record.setFinished();
         record.setDate();
-        if (projectHandler.currentProjectPath != null) {
+        if (projectHandler.getCurrentProject() != null) {
             record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
-            projectHandler.saveCurrentProject();
+            projectHandler.getCurrentProject().saveCurrentProject();
             outputText += "\nSession auto saved.";
         }
         env.getRootController().setTabTitle(tabID, false);
@@ -231,12 +236,9 @@ public abstract class TutorController {
 
         //show a file picker
         FileChooser fileChooser = new FileChooser();
-        //FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
-        //fileChooser.getExtensionFilters().add(textFilter);
-
-        if (env.getProjectHandler().isProject()) {
+        if (projectHandler.getCurrentProject().isProject()) {
             env.getRootController().checkProjectDirectory();
-            fileChooser.setInitialDirectory(Paths.get(env.getProjectHandler().getCurrentProjectPath()).toFile());
+            fileChooser.setInitialDirectory(Paths.get(projectHandler.getCurrentProject().getCurrentProjectPath()).toFile());
         }
         File file = fileChooser.showSaveDialog(stage);
 
@@ -244,7 +246,7 @@ public abstract class TutorController {
             fileDir = file.getParentFile();
             path = file.getAbsolutePath();
             env.setRecordLocation(path);
-            projectHandler.saveTutorRecordsToFile(path, record);
+            projectHandler.getCurrentProject().getTutorHandler().saveTutorRecordsToFile(path, record);
         }
     }
 
