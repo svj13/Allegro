@@ -2,26 +2,27 @@ package seng302.Users;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import javafx.scene.image.Image;
-import org.json.simple.JSONArray;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import seng302.App;
-import seng302.Environment;
-import seng302.data.Term;
-import seng302.utility.FileHandler;
-import seng302.utility.OutputTuple;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
+
+import javafx.scene.image.Image;
+import seng302.Environment;
+import seng302.data.Term;
+import seng302.utility.FileHandler;
 
 /**
  * Created by jmw280 on 22/07/16.
@@ -48,6 +49,10 @@ public class User {
     private String userFirstName;
 
     private String userLastName;
+
+    private int experience;
+
+    private int level;
 
 
     /**
@@ -315,6 +320,18 @@ public class User {
 
     public String getUserLastName() {
         return userLastName;
+    }
+
+    public int getUserExperience() {
+        return experience;
+    }
+
+    public int getUserLevel() {
+        return level;
+    }
+
+    public void addExperience(int addedExperience) {
+        experience += addedExperience;
     }
 
 
