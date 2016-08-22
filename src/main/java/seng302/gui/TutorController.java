@@ -22,11 +22,11 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import seng302.Environment;
-import seng302.data.Note;
-
 import seng302.Users.ProjectHandler;
 import seng302.Users.TutorHandler;
+import seng302.data.Note;
 import seng302.managers.TutorManager;
+import seng302.utility.ExperienceCalculator;
 import seng302.utility.TutorRecord;
 import seng302.utility.musicNotation.OctaveUtil;
 
@@ -141,8 +141,11 @@ public abstract class TutorController {
     protected void finished() {
         env.getPlayer().stop();
 
-        //Gives the user XP - default XP for now
-        env.getUserHandler().getCurrentUser().addExperience(100);
+        //Calculates and gives a user their experience.
+        //Note: I've ignored "skipped questions" here, as you won't be able to "skip" a
+        //question in competition mode.
+        int expGained = ExperienceCalculator.calculateExperience(manager.correct, manager.questions);
+        env.getUserHandler().getCurrentUser().addExperience(expGained);
 
         userScore = getScore(manager.correct, manager.answered);
         outputText = String.format("You have finished the tutor.\n" +
