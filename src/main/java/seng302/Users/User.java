@@ -65,6 +65,8 @@ public class User {
         userDirectory = Paths.get("UserData/"+userName);
         this.userName = userName;
         this.userPassword = password;
+        this.experience = 0;
+        this.level = 1;
         this.env = env;
         properties = new JSONObject();
 
