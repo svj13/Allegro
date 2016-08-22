@@ -235,6 +235,7 @@ public class User {
         properties.put("themeColor", this.themeColor);
         properties.put("firstName", this.userFirstName);
         properties.put("lastName", this.userLastName);
+        properties.put("experience", this.experience);
 
 
         String musicalTermsJSON = gson.toJson(env.getMttDataManager().getTerms());
