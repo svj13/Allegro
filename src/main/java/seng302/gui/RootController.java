@@ -219,6 +219,16 @@ public class RootController implements Initializable {
         imageDP.setEffect(new DropShadow(5, Color.BLACK));
 
         imageDP.setImage(image);
+        imageDP.setOnMouseClicked(event -> {
+            System.out.println("hello");
+            try{
+                showUserPage();
+            }catch(Exception e){
+
+            }
+
+
+        });
     }
 
 
@@ -324,6 +334,35 @@ public class RootController implements Initializable {
         userDropDown.setEllipsisString(name);
         userDropDown.setText(name);
     }
+
+
+
+    public void showUserPage() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/Views/UserPage.fxml"));
+
+
+
+        Parent root1 = loader.load();
+        Scene scene1 = new Scene(root1);
+        Stage userPageStage = new Stage();
+        userPageStage.setTitle("Allegro");
+        userPageStage.setScene(scene1);
+
+
+        userPageStage.show();
+        UserPageController userPageController = loader.getController();
+        userPageController.populateUserOptions();
+
+
+
+
+
+
+    }
+
+
+
 
     public void showLoginWindow(Boolean show) throws IOException {
         if(show){
