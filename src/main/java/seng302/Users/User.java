@@ -213,6 +213,14 @@ public class User {
             //If XP has never been set (ie old account), default to 0
             experience = 0;
         }
+
+        //Level
+        try {
+            level = (int) properties.get("level");
+        } catch (NullPointerException e) {
+            //If level has never been set, (ie old account), default to 1
+            level = 1;
+        }
     }
 
 
