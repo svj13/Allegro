@@ -44,6 +44,9 @@ public class UserSettingsController {
     @FXML
     private Label levelLabel;
 
+    @FXML
+    private Label xpLabel;
+
     private Environment env;
 
     private UserHandler userHandler;
@@ -61,6 +64,7 @@ public class UserSettingsController {
             firstNameField.setText(userHandler.getCurrentUser().getUserFirstName());
             lastNameField.setText(userHandler.getCurrentUser().getUserLastName());
             levelLabel.setText(Integer.toString(userHandler.getCurrentUser().getUserLevel()));
+            xpLabel.setText(Integer.toString(userHandler.getCurrentUser().getUserExperience()));
         } catch (Exception e) {
             firstNameField.clear();
             lastNameField.clear();

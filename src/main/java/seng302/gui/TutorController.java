@@ -140,6 +140,10 @@ public abstract class TutorController {
 
     protected void finished() {
         env.getPlayer().stop();
+
+        //Gives the user XP - default XP for now
+        env.getUserHandler().getCurrentUser().addExperience(100);
+
         userScore = getScore(manager.correct, manager.answered);
         outputText = String.format("You have finished the tutor.\n" +
                         "You answered %d questions, and skipped %d questions.\n" +
