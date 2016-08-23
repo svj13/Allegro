@@ -70,9 +70,15 @@ public class UserPageController {
     public void populateUserOptions(){
 
         ArrayList<String> options = new ArrayList<>();
+        options.add("Musical Terms Tutor");
         options.add("Pitch Comparison Tutor");
-        options.add("Interval Recognition Tutor");
         options.add("Scale Recognition Tutor");
+        options.add("Chord Recognition Tutor");
+        options.add("Interval Recognition Tutor");
+        options.add("Chord Spelling Tutor");
+        options.add("Key Signature Tutor");
+        options.add("Diatonic Chord Tutor");
+        //options.add("Modes Tutor");
 
         Image lockImg = new Image(getClass().getResourceAsStream("/images/lock.png"), 10, 10, false, false);
 
@@ -86,8 +92,7 @@ public class UserPageController {
             }else{
                 optionBtn = new Button(option);
                 optionBtn.setOnAction(event -> {
-                    displayGraphInLine(option);
-                    displayRecentGraph(option);
+                    displayGraphs(option);
 
                 });
 
@@ -118,55 +123,98 @@ public class UserPageController {
 
 
 
-    private void displayRecentGraph(String tutor) {
-        Pair<Integer, Integer> correctIncorrect = new Pair<>(0, 0);
+    private void displayGraphs(String tutor) {
+        Pair<Integer, Integer> correctIncorrectRecent = new Pair<>(0, 0);
+        Pair<Integer, Integer> correctIncorrectOverall = new Pair<>(0, 0);
         chartTitle.setText(tutor + " total questions");
 
-        final CategoryAxis xAxis = new CategoryAxis();
-        final NumberAxis yAxis = new NumberAxis();
+        final CategoryAxis xAxisRecent = new CategoryAxis();
+        final NumberAxis yAxisRecent = new NumberAxis();
 
-        StackedBarChart<Number, String> newChart = new StackedBarChart<>(yAxis, xAxis);
-        newChart.setMaxWidth(351);
-        newChart.setMaxHeight(85);
-        newChart.setLegendVisible(false);
-        newChart.setAlternativeColumnFillVisible(false);
-        newChart.setAlternativeRowFillVisible(false);
-        newChart.setHorizontalZeroLineVisible(false);
-        newChart.setHorizontalGridLinesVisible(false);
-        newChart.setVerticalGridLinesVisible(false);
-        newChart.setVerticalZeroLineVisible(false);
-        xAxis.setTickLabelsVisible(false);
-        yAxis.setTickLabelsVisible(false);
-        xAxis.setTickMarkVisible(false);
-        yAxis.setTickMarkVisible(false);
+        StackedBarChart<Number, String> recentChart = new StackedBarChart<>(yAxisRecent, xAxisRecent);
+        recentChart.setMaxWidth(351);
+        recentChart.setMaxHeight(85);
+        recentChart.setLegendVisible(false);
+        recentChart.setAlternativeColumnFillVisible(false);
+        recentChart.setAlternativeRowFillVisible(false);
+        recentChart.setHorizontalZeroLineVisible(false);
+        recentChart.setHorizontalGridLinesVisible(false);
+        recentChart.setVerticalGridLinesVisible(false);
+        recentChart.setVerticalZeroLineVisible(false);
+        xAxisRecent.setTickLabelsVisible(false);
+        yAxisRecent.setTickLabelsVisible(false);
+        xAxisRecent.setTickMarkVisible(false);
+        yAxisRecent.setTickMarkVisible(false);
 
-        xAxis.setVisible(false);
-        yAxis.setVisible(false);
+        xAxisRecent.setVisible(false);
+        yAxisRecent.setVisible(false);
 
-        recentGraphPane.getChildren().add(newChart);
+        final CategoryAxis xAxisOverall = new CategoryAxis();
+        final NumberAxis yAxisOverall = new NumberAxis();
+
+        StackedBarChart<Number, String> overallChart = new StackedBarChart<>(yAxisOverall, xAxisOverall);
+        overallChart.setMaxWidth(351);
+        overallChart.setMaxHeight(85);
+        overallChart.setLegendVisible(false);
+        overallChart.setAlternativeColumnFillVisible(false);
+        overallChart.setAlternativeRowFillVisible(false);
+        overallChart.setHorizontalZeroLineVisible(false);
+        overallChart.setHorizontalGridLinesVisible(false);
+        overallChart.setVerticalGridLinesVisible(false);
+        overallChart.setVerticalZeroLineVisible(false);
+        xAxisOverall.setTickLabelsVisible(false);
+        yAxisOverall.setTickLabelsVisible(false);
+        xAxisOverall.setTickMarkVisible(false);
+        yAxisOverall.setTickMarkVisible(false);
+
+        xAxisOverall.setVisible(false);
+        yAxisOverall.setVisible(false);
 
 
+        recentGraphPane.getChildren().add(recentChart);
+        graphPane.getChildren().add(overallChart);
 
-        XYChart.Series< Number, String> series1 = new XYChart.Series<>();
-        XYChart.Series<Number, String> series2 = new XYChart.Series<>();
+
+        XYChart.Series< Number, String> recentSeries1 = new XYChart.Series<>();
+        XYChart.Series<Number, String> recentSeries2 = new XYChart.Series<>();
+
+        XYChart.Series< Number, String> overallSeries1 = new XYChart.Series<>();
+        XYChart.Series<Number, String> overallSeries2 = new XYChart.Series<>();
+
+
         if (tutor.equals("Pitch Comparison Tutor")) {
-            correctIncorrect = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("pitchTutor");
+            correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("pitchTutor");
+            correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("pitchTutor");
         }else if(tutor.equals("Interval Recognition Tutor")){
-            correctIncorrect = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("intervalTutor");
+            correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("intervalTutor");
+            correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("intervalTutor");
         }else if(tutor.equals("Scale Recognition Tutor")){
-            correctIncorrect = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("scaleTutor");
+            correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("scaleTutor");
+            correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("scaleTutor");
         }else if(tutor.equals("Musical Terms Tutor")){
-            correctIncorrect = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("musicalTermTutor");
+            correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("musicalTermTutor");
+            correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("musicalTermTutor");
         }else if(tutor.equals("Chord Recognition Tutor")){
-            correctIncorrect = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("musicalTermTutor");
+            correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("chordTutor");
+            correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("chordTutor");
         }else if(tutor.equals("Chord Spelling Tutor")){
-            correctIncorrect = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("chordSpellingTutor");
+            correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("chordSpellingTutor");
+            correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("chordSpellingTutor");
+        }else if(tutor.equals("Key Signature Tutor")){
+            correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("keySignatureTutor");
+            correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("keySignatureTutor");
+        }else if(tutor.equals("Diatonic Chord Tutor")){
+            correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("diatonicChordTutor");
+            correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("diatonicChordTutor");
         }
 
-        series1.getData().add(new XYChart.Data<>(correctIncorrect.getKey(), ""));
-        series2.getData().add(new XYChart.Data<>(correctIncorrect.getValue(), ""));
-        newChart.getData().addAll(series1, series2);
+        recentSeries1.getData().add(new XYChart.Data<>(correctIncorrectRecent.getKey(), ""));
+        recentSeries2.getData().add(new XYChart.Data<>(correctIncorrectRecent.getValue(), ""));
+        recentChart.getData().addAll(recentSeries1, recentSeries2);
 
+        overallSeries1.getData().add(new XYChart.Data<>(correctIncorrectOverall.getKey(), ""));
+        overallSeries2.getData().add(new XYChart.Data<>(correctIncorrectOverall.getValue(), ""));
+        overallChart.getData().addAll(overallSeries1, overallSeries2);
 
 
     }
