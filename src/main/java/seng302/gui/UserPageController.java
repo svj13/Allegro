@@ -1,12 +1,13 @@
 package seng302.gui;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.SnapshotParameters;
-import javafx.scene.chart.PieChart;
+import javafx.scene.chart.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
@@ -30,6 +31,9 @@ public class UserPageController {
     AnchorPane contentPane;
 
     @FXML
+    AnchorPane graphPane;
+
+    @FXML
     AnchorPane topPane;
 
     @FXML
@@ -40,6 +44,9 @@ public class UserPageController {
 
     @FXML
     PieChart pieChart;
+
+    @FXML
+    StackedBarChart stackChart;
 
     @FXML
     ImageView imageDP;
@@ -76,7 +83,7 @@ public class UserPageController {
             }else{
                 optionBtn = new Button(option);
                 optionBtn.setOnAction(event -> {
-                    displayGraph(option);
+                    displayGraphInLine(option);
                 });
 
             }
@@ -99,6 +106,50 @@ public class UserPageController {
         pieChartData.add(new PieChart.Data("Correct", correctIncorrect.getKey()));
         pieChartData.add(new PieChart.Data("Incorrect", correctIncorrect.getValue()));
         pieChart.dataProperty().setValue(pieChartData);
+
+
+
+    }
+
+
+    private void displayGraphInLine(String tutor) {
+        Pair<Integer, Integer> correctIncorrect = new Pair<>(0, 0);
+        chartTitle.setText(tutor + " total questions");
+
+        final CategoryAxis xAxis = new CategoryAxis();
+        final NumberAxis yAxis = new NumberAxis();
+
+        StackedBarChart<Number, String> newChart = new StackedBarChart<>(yAxis, xAxis);
+        newChart.setMaxWidth(351);
+        newChart.setMaxHeight(85);
+        newChart.setLegendVisible(false);
+        newChart.setAlternativeColumnFillVisible(false);
+        newChart.setAlternativeRowFillVisible(false);
+        newChart.setHorizontalZeroLineVisible(false);
+        newChart.setHorizontalGridLinesVisible(false);
+        newChart.setVerticalGridLinesVisible(false);
+        newChart.setVerticalZeroLineVisible(false);
+        xAxis.setTickLabelsVisible(false);
+        yAxis.setTickLabelsVisible(false);
+        xAxis.setTickMarkVisible(false);
+        yAxis.setTickMarkVisible(false);
+
+        xAxis.setVisible(false);
+        yAxis.setVisible(false);
+
+        graphPane.getChildren().add(newChart);
+
+
+
+        XYChart.Series< Number, String> series1 = new XYChart.Series<>();
+        XYChart.Series<Number, String> series2 = new XYChart.Series<>();
+        if (tutor.equals("Pitch Comparison Tutor")) {
+            correctIncorrect = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("pitchTutor");
+        }
+
+        series1.getData().add(new XYChart.Data<>(correctIncorrect.getKey(), ""));
+        series2.getData().add(new XYChart.Data<>(correctIncorrect.getValue(), ""));
+        newChart.getData().addAll(series1, series2);
 
 
 
