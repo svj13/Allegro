@@ -8,8 +8,8 @@ public class ExperienceCalculator {
     public static int calculateExperience(int correctQuestions, int answeredQuestions) {
         int totalExperience = 0;
 
-        //User gets 100 points for every correct question
-        totalExperience += correctQuestions * 100;
+        //User gets 10 points for every correct question
+        totalExperience += correctQuestions * 10;
 
         float percentage = correctQuestions / answeredQuestions;
 
