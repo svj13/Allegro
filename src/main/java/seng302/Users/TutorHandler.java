@@ -10,6 +10,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import javafx.util.Pair;
@@ -36,20 +38,15 @@ public class TutorHandler {
      * incorrect answers.
      */
     public Pair<Integer, Integer> getTutorTotals(String tabId) {
-        try {
-            ArrayList<TutorRecord> records = getTutorData(tabId);
-            Integer correct = 0;
-            Integer incorrect = 0;
-            for (TutorRecord record : records) {
-                Map<String, Number> stats = record.getStats();
-                correct += stats.get("questionsCorrect").intValue();
-                incorrect += stats.get("questionsIncorrect").intValue();
-            }
-            return new Pair<>(correct, incorrect);
-        } catch (NullPointerException e) {
-            System.out.println(e.getLocalizedMessage());
-            return new Pair<>(123, 123);
+        ArrayList<TutorRecord> records = getTutorData(tabId);
+        Integer correct = 0;
+        Integer incorrect = 0;
+        for (TutorRecord record : records) {
+            Map<String, Number> stats = record.getStats();
+            correct += stats.get("questionsCorrect").intValue();
+            incorrect += stats.get("questionsIncorrect").intValue();
         }
+        return new Pair<>(correct, incorrect);
     }
 
     public ArrayList<TutorRecord> getTutorData(String id) {
@@ -57,26 +54,19 @@ public class TutorHandler {
         String filename = "";
         if (id.equals("pitchTutor")) {
             filename = projectAddress + "/PitchComparisonTutor.json";
-        }
-        if (id.equals("scaleTutor")) {
+        } else if (id.equals("scaleTutor")) {
             filename = projectAddress + "/ScaleRecognitionTutor.json";
-        }
-        if (id.equals("intervalTutor")) {
+        } else if (id.equals("intervalTutor")) {
             filename = projectAddress + "/IntervalRecognitionTutor.json";
-        }
-        if (id.equals("musicalTermTutor")) {
+        } else if (id.equals("musicalTermTutor")) {
             filename = projectAddress + "/MusicalTermsTutor.json";
-        }
-        if (id.equals("chordTutor")) {
+        } else if (id.equals("chordTutor")) {
             filename = projectAddress + "/ChordRecognitionTutor.json";
-        }
-        if (id.equals("chordSpellingTutor")) {
+        } else if (id.equals("chordSpellingTutor")) {
             filename = projectAddress + "/ChordSpellingTutor.json";
-        }
-        if (id.equals("keySignatureTutor")) {
+        } else if (id.equals("keySignatureTutor")) {
             filename = projectAddress + "/KeySignatureTutor.json";
-        }
-        if (id.equals("diatonicChordTutor")) {
+        } else if (id.equals("diatonicChordTutor")) {
             filename = projectAddress + "/DiatonicChordTutor.json";
         }
         Gson gson = new Gson();
@@ -93,6 +83,18 @@ public class TutorHandler {
         }
         return records;
 
+    }
+
+    public List<Pair<Date, Float>> getTimeAndScores(String tabID) {
+        ArrayList<TutorRecord> records = getTutorData(tabID);
+        List<Pair<Date, Float>> scores = new ArrayList<>();
+        for (TutorRecord record : records) {
+            Date date = record.getDate();
+            Map<String, Number> scoreMap = record.getStats();
+            float score = scoreMap.get("percentageCorrect").floatValue();
+            scores.add(new Pair<>(date, score));
+        }
+        return scores;
     }
 
 
