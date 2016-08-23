@@ -23,6 +23,7 @@ import javafx.scene.image.Image;
 import seng302.Environment;
 import seng302.data.Term;
 import seng302.utility.FileHandler;
+import seng302.utility.LevelCalculator;
 
 /**
  * Stores information about a single user.
@@ -362,6 +363,12 @@ public class User {
      */
     public void addExperience(int addedExperience) {
         experience += addedExperience;
+
+        // Increases user levels one by one until the user cannot level up any further
+        while (LevelCalculator.isLevelUp(level, experience)) {
+            level += 1;
+        }
+
         saveProperties();
     }
 
