@@ -1,9 +1,10 @@
-package seng302.feature.TutorExperience;
+package seng302.feature.ExperienceCalculator;
 
 import org.junit.runner.RunWith;
 
 import cucumber.api.junit.Cucumber;
 
 @RunWith(Cucumber.class)
-public class TutorExperienceTest {
+public class ExperienceCalculatorTest {
+
 }
