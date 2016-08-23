@@ -43,11 +43,10 @@
                                          verticalZeroLineVisible="false">
                             <xAxis>
                                 <NumberAxis minorTickVisible="false" opacity="0.0"
-                                            tickLabelsVisible="false" tickMarkVisible="false"
-                                            fx:id="xAxis1"/>
+                                            tickLabelsVisible="false" tickMarkVisible="false"/>
                             </xAxis>
                             <yAxis>
-                                <CategoryAxis fx:id="yAxis1" disable="true" opacity="0.0"
+                                <CategoryAxis disable="true" opacity="0.0"
                                               tickLabelsVisible="false" tickMarkVisible="false"
                                               visible="false"/>
                             </yAxis>
@@ -62,18 +61,17 @@
                                          verticalZeroLineVisible="false">
                             <xAxis>
                                 <NumberAxis minorTickVisible="false" opacity="0.0"
-                                            tickLabelsVisible="false" tickMarkVisible="false"
-                                            fx:id="xAxis"/>
+                                            tickLabelsVisible="false" tickMarkVisible="false"/>
                             </xAxis>
                             <yAxis>
-                                <CategoryAxis fx:id="yAxis" disable="true" opacity="0.0"
+                                <CategoryAxis disable="true" opacity="0.0"
                                               tickLabelsVisible="false" tickMarkVisible="false"
                                               visible="false"/>
                             </yAxis>
                         </StackedBarChart>
                         <Label prefHeight="15.0" prefWidth="56.0" text="Badges"
                                textAlignment="CENTER"/>
-                        <AnchorPane fx:id="badgePane" maxHeight="85.0" maxWidth="351.0"
+                        <AnchorPane maxHeight="85.0" maxWidth="351.0"
                                     minHeight="-Infinity" minWidth="-Infinity" prefHeight="85.0"
                                     prefWidth="351.0"/>
                     </children>
