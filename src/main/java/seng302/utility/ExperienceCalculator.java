@@ -2,9 +2,18 @@ package seng302.utility;
 
 /**
  * Calculates how much experience a user has earned
+ * Currently, only used to calculate experience based on tutoring sessions.
+ * This may be extended if experience gaining is introduced through other means.
  */
 public class ExperienceCalculator {
 
+    /**
+     * Calculates how much experience a user will gain from a completed tutoring session.
+     *
+     * @param correctQuestions  How many questions the user answered correctly
+     * @param answeredQuestions How many questions the user answered in total
+     * @return The integer value of experience gained by the user in this tutoring session
+     */
     public static int calculateExperience(int correctQuestions, int answeredQuestions) {
         int totalExperience = 0;
 

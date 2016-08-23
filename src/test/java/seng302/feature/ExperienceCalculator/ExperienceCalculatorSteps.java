@@ -6,7 +6,7 @@ import cucumber.api.java.en.When;
 import seng302.utility.ExperienceCalculator;
 
 /**
- * Created by emily on 23/08/16.
+ * Cucumber tests for ensuring the experience calculator returns the correct values.
  */
 public class ExperienceCalculatorSteps {
     int correct;
