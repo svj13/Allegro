@@ -1,13 +1,19 @@
 package seng302.gui;
 
-import java.util.ArrayList;
+import com.jfoenix.controls.JFXListCell;
+import com.jfoenix.controls.JFXListView;
 
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.SnapshotParameters;
-import javafx.scene.chart.PieChart;
+import javafx.scene.chart.LineChart;
 import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -42,13 +48,13 @@ public class UserPageController {
     AnchorPane topPane;
 
     @FXML
-    VBox scrollPaneVbox;
+    JFXListView listView;
 
     @FXML
     Label chartTitle;
 
     @FXML
-    PieChart pieChart;
+    LineChart lineChart;
 
     @FXML
     ImageView imageDP;
@@ -80,32 +86,48 @@ public class UserPageController {
 
         Image lockImg = new Image(getClass().getResourceAsStream("/images/lock.png"), 10, 10, false, false);
 
+        listView.getItems().addAll(FXCollections.observableArrayList(options));
+        listView.setOnMouseClicked(e -> {
+            displayGraphs((String) listView.getSelectionModel().getSelectedItem());
+        });
 
-        for (String option : options) {
-            Button optionBtn;
-            if (option.equals("Scale Recognition Tutor")) {
-                optionBtn = new Button(option, new ImageView(lockImg));
-                optionBtn.setDisable(true);
+        // This allows images to be displayed in the listview. Still trying to
+        // make the text centered and the height and width the same as the others.
+        listView.setCellFactory(listView -> new JFXListCell<String>() {
+            private ImageView imageView = new ImageView();
 
-            } else {
-                optionBtn = new Button(option);
-                optionBtn.setOnAction(event -> {
-                    displayGraphs(option);
-
-                    //displayGraphInLine(option);
-                    //displayScoresOverTime(option);
-                });
-
+            @Override
+            public void updateItem(String tutor, boolean empty) {
+                super.updateItem(tutor, empty);
+                if (empty) {
+                    setText(null);
+                    setGraphic(null);
+                } else if (tutor.equals("Scale Recognition Tutor")) {
+                    imageView.setImage(lockImg);
+                    setText(tutor);
+                    setGraphic(imageView);
+                    setDisable(true);
+                }
             }
-            optionBtn.setPrefWidth(191);
-            scrollPaneVbox.getChildren().add(optionBtn);
+        });
 
-        }
 
 
     }
 
-    private void displayScoresOverTime(String tutor) {
+    /**
+     * Makes a line graph showing the scores over time. Still figuring out the scale.
+     */
+    private void makeLineGraph(List<Pair<Date, Float>> dateAndTimeList) {
+
+        XYChart.Series<Instant, Float> lineSeries = new XYChart.Series<>();
+        for (Pair<Date, Float> dateTime : dateAndTimeList) {
+            Date date = dateTime.getKey();
+            Instant milli = date.toInstant();
+            lineSeries.getData().add(new XYChart.Data<>(milli, dateTime.getValue()));
+        }
+        lineChart.getData().clear();
+        lineChart.getData().add(lineSeries);
 
     }
 
@@ -116,6 +138,8 @@ public class UserPageController {
     private void displayGraphs(String tutor) {
         Pair<Integer, Integer> correctIncorrectRecent = new Pair<>(0, 0);
         Pair<Integer, Integer> correctIncorrectOverall = new Pair<>(0, 0);
+        List<Pair<Date, Float>> dateAndTime = new ArrayList<>();
+        dateAndTime.add(new Pair<>(new Date(0), 0f));
 
         XYChart.Series<Number, String> recentSeries1 = new XYChart.Series<>();
         XYChart.Series<Number, String> recentSeries2 = new XYChart.Series<>();
@@ -128,10 +152,12 @@ public class UserPageController {
             case "Pitch Comparison Tutor":
                 correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("pitchTutor");
                 correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("pitchTutor");
+                dateAndTime = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTimeAndScores("pitchTutor");
                 break;
             case "Interval Recognition Tutor":
                 correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("intervalTutor");
                 correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("intervalTutor");
+                dateAndTime = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTimeAndScores("intervalTutor");
                 break;
             case "Scale Recognition Tutor":
                 correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("scaleTutor");
@@ -170,6 +196,7 @@ public class UserPageController {
         stackedBar.getData().addAll(overallSeries1, overallSeries2);
 
 
+        //makeLineGraph(dateAndTime);
     }
 
     public void updateImage(){
