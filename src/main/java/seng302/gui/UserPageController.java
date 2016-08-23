@@ -34,6 +34,9 @@ public class UserPageController {
     AnchorPane graphPane;
 
     @FXML
+    AnchorPane recentGraphPane;
+
+    @FXML
     AnchorPane topPane;
 
     @FXML
@@ -84,6 +87,8 @@ public class UserPageController {
                 optionBtn = new Button(option);
                 optionBtn.setOnAction(event -> {
                     displayGraphInLine(option);
+                    displayRecentGraph(option);
+
                 });
 
             }
@@ -110,6 +115,62 @@ public class UserPageController {
 
 
     }
+
+
+
+    private void displayRecentGraph(String tutor) {
+        Pair<Integer, Integer> correctIncorrect = new Pair<>(0, 0);
+        chartTitle.setText(tutor + " total questions");
+
+        final CategoryAxis xAxis = new CategoryAxis();
+        final NumberAxis yAxis = new NumberAxis();
+
+        StackedBarChart<Number, String> newChart = new StackedBarChart<>(yAxis, xAxis);
+        newChart.setMaxWidth(351);
+        newChart.setMaxHeight(85);
+        newChart.setLegendVisible(false);
+        newChart.setAlternativeColumnFillVisible(false);
+        newChart.setAlternativeRowFillVisible(false);
+        newChart.setHorizontalZeroLineVisible(false);
+        newChart.setHorizontalGridLinesVisible(false);
+        newChart.setVerticalGridLinesVisible(false);
+        newChart.setVerticalZeroLineVisible(false);
+        xAxis.setTickLabelsVisible(false);
+        yAxis.setTickLabelsVisible(false);
+        xAxis.setTickMarkVisible(false);
+        yAxis.setTickMarkVisible(false);
+
+        xAxis.setVisible(false);
+        yAxis.setVisible(false);
+
+        recentGraphPane.getChildren().add(newChart);
+
+
+
+        XYChart.Series< Number, String> series1 = new XYChart.Series<>();
+        XYChart.Series<Number, String> series2 = new XYChart.Series<>();
+        if (tutor.equals("Pitch Comparison Tutor")) {
+            correctIncorrect = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("pitchTutor");
+        }else if(tutor.equals("Interval Recognition Tutor")){
+            correctIncorrect = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("intervalTutor");
+        }else if(tutor.equals("Scale Recognition Tutor")){
+            correctIncorrect = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("scaleTutor");
+        }else if(tutor.equals("Musical Terms Tutor")){
+            correctIncorrect = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("musicalTermTutor");
+        }else if(tutor.equals("Chord Recognition Tutor")){
+            correctIncorrect = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("musicalTermTutor");
+        }else if(tutor.equals("Chord Spelling Tutor")){
+            correctIncorrect = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("chordSpellingTutor");
+        }
+
+        series1.getData().add(new XYChart.Data<>(correctIncorrect.getKey(), ""));
+        series2.getData().add(new XYChart.Data<>(correctIncorrect.getValue(), ""));
+        newChart.getData().addAll(series1, series2);
+
+
+
+    }
+
 
 
     private void displayGraphInLine(String tutor) {

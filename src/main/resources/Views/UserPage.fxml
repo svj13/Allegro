@@ -34,6 +34,7 @@
             <Label layoutX="137.0" layoutY="22.0" prefHeight="15.0" prefWidth="151.0" text="Most Recent Attempt" />
             <Label layoutX="170.0" layoutY="327.0" prefHeight="15.0" prefWidth="56.0" text="Badges" textAlignment="CENTER" />
             <AnchorPane fx:id="graphPane" layoutX="26.0" layoutY="207.0" maxHeight="85.0" maxWidth="351.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="85.0" prefWidth="351.0" />
+            <AnchorPane fx:id="recentGraphPane" layoutX="32.0" layoutY="42.0" maxHeight="85.0" maxWidth="351.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="85.0" prefWidth="351.0" />
          </children>
       </AnchorPane>
    </children>

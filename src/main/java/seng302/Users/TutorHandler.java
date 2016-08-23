@@ -49,6 +49,31 @@ public class TutorHandler {
         return new Pair<>(correct, incorrect);
     }
 
+    /**
+     * This method will give the total number of correct and incorrect answers for a given tutor.
+     *
+     * @param tabId The tabid of the tutor
+     * @return a pair containing two integers. The number of answers correct and the number of
+     * incorrect answers.
+     */
+    public Pair<Integer, Integer> getRecentTutorTotals(String tabId) {
+        try {
+            ArrayList<TutorRecord> records = getTutorData(tabId);
+            Integer correct = 0;
+            Integer incorrect = 0;
+            for (TutorRecord record : records) {
+                Map<String, Number> stats = record.getStats();
+                correct = stats.get("questionsCorrect").intValue();
+                incorrect = stats.get("questionsIncorrect").intValue();
+            }
+            return new Pair<>(correct, incorrect);
+        } catch (NullPointerException e) {
+            System.out.println(e.getLocalizedMessage());
+            return new Pair<>(123, 123);
+        }
+    }
+
+
     public ArrayList<TutorRecord> getTutorData(String id) {
         String projectAddress = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().currentProjectPath;
         String filename = "";
