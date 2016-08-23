@@ -11,20 +11,19 @@ public class ExperienceCalculator {
         //User gets 10 points for every correct question
         totalExperience += correctQuestions * 10;
 
-        float percentage = correctQuestions / answeredQuestions;
+        float percentage = 100 * correctQuestions / answeredQuestions;
 
         //User gets different bonuses based on their overall percentage
         int bonus = 0;
-        if (percentage > 90) {
+        if (percentage >= 90) {
             //If the user gets 90% to 100%, they get a ~10% point bonus
             bonus = (int) (0.1 * totalExperience);
-        } else if (percentage > 75) {
+        } else if (percentage >= 75) {
             //If the user gets 75% to 90%, they get a ~5% point bonus
             bonus = (int) (0.05 * totalExperience);
         }
 
         totalExperience += bonus;
-
         return totalExperience;
     }
 
