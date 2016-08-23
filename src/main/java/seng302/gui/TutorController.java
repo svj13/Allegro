@@ -58,6 +58,9 @@ public abstract class TutorController {
     VBox questionRows;
 
     @FXML
+    ScrollPane paneInit;
+
+    @FXML
     ScrollPane paneQuestions;
 
     @FXML

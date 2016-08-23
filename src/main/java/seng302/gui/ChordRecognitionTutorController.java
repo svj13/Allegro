@@ -51,6 +51,7 @@ public class ChordRecognitionTutorController extends TutorController {
      */
     private void goAction(ActionEvent event) {
         record = new TutorRecord();
+        paneInit.setVisible(false);
         paneQuestions.setVisible(true);
         paneResults.setVisible(false);
         manager.resetEverything();
