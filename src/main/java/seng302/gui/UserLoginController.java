@@ -3,6 +3,8 @@ package seng302.gui;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -128,15 +130,46 @@ public class UserLoginController {
     protected void register(){
 
 
-        if (!(env.getUserHandler().getUserNames().contains(usernameInput.getText())) && validCredentials(usernameInput.getText(), passwordInput.getText())){
-            env.getUserHandler().createUser(usernameInput.getText(), passwordInput.getText());
-            logIn();
-        }
-        else{
+//        if (!(env.getUserHandler().getUserNames().contains(usernameInput.getText())) && validCredentials(usernameInput.getText(), passwordInput.getText())){
+//            env.getUserHandler().createUser(usernameInput.getText(), passwordInput.getText());
+//            logIn();
+//        }
+//        else{
+//
+//            labelError.setText("User already exists!");
+//            labelError.setTextFill(javafx.scene.paint.Color.RED);
+//        }
 
-            labelError.setText("User already exists!");
-            labelError.setTextFill(javafx.scene.paint.Color.RED);
+        FXMLLoader loader1 = new FXMLLoader();
+        loader1.setLocation(getClass().getResource("/Views/UserRegistration.fxml"));
+
+        Parent root1 = null;
+        try {
+            root1 = loader1.load();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        Scene scene1 = new Scene(root1);
+        Stage registerStage = (Stage) btnLogIn.getScene().getWindow();
+
+        registerStage.setTitle("Register new user");
+        registerStage.setScene(scene1);
+
+
+        registerStage.setOnCloseRequest(event -> {
+            System.exit(0);
+            event.consume();
+        });
+
+
+        registerStage.show();
+        UserRegisterController userRegisterController = loader1.getController();
+        userRegisterController.setEnv(env);
+
+
+
+
+
     }
 
     @FXML

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import com.jfoenix.validation.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            nodeOrientation="LEFT_TO_RIGHT" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.UserRegisterController">
+    <children>
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="10.0"
+              AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0"/>
+        <StackPane layoutX="178.0" layoutY="232.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="150.0" prefWidth="200.0"
+                   AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0"
+                   AnchorPane.topAnchor="10.0">
+            <children>
+                <Pane maxHeight="-Infinity" maxWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="315.0"
+                      prefWidth="295.0" style="-fx-background-color: white;" StackPane.alignment="CENTER">
+                    <children>
+                        <VBox alignment="CENTER" prefHeight="196.0" prefWidth="291.0">
+                            <children>
+                                <HBox alignment="TOP_CENTER" prefHeight="46.0" prefWidth="600.0">
+                                    <children>
+                                        <BorderPane prefHeight="47.0" prefWidth="297.0">
+                                            <center>
+                                                <Label text="Register" textAlignment="CENTER" textFill="#f28b15"
+                                                       BorderPane.alignment="CENTER">
+                                                    <font>
+                                                        <Font name="System Bold" size="32.0"/>
+                                                    </font>
+                                                </Label>
+                                            </center>
+                                            <left>
+                                                <JFXButton fx:id="btnReturn" alignment="CENTER" buttonType="RAISED"
+                                                           onAction="#Return" prefHeight="47.0" prefWidth="33.0"
+                                                           ripplerFill="#6745e1"
+                                                           style="-fx-background-color: lightblue;" text="&lt;-"
+                                                           BorderPane.alignment="CENTER_RIGHT">
+                                                    <BorderPane.margin>
+                                                        <Insets/>
+                                                    </BorderPane.margin>
+                                                </JFXButton>
+                                            </left>
+                                            <right>
+                                                <Pane prefHeight="47.0" prefWidth="33.0" BorderPane.alignment="CENTER"/>
+                                            </right>
+                                        </BorderPane>
+                                    </children>
+                                </HBox>
+                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                    <children>
+                                        <JFXTextField promptText="First Name">
+                                            <font>
+                                                <Font size="14.0"/>
+                                            </font>
+                                        </JFXTextField>
+                                        <JFXTextField promptText="Last Name">
+                                            <font>
+                                                <Font size="14.0"/>
+                                            </font>
+                                        </JFXTextField>
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets top="20.0"/>
+                                    </VBox.margin>
+                                </HBox>
+                                <JFXTextField fx:id="txtUsername" maxWidth="298.0" minWidth="178.0" prefHeight="31.0"
+                                              prefWidth="178.0" promptText="UserName">
+                                    <VBox.margin>
+                                        <Insets top="10.0"/>
+                                    </VBox.margin>
+                                    <font>
+                                        <Font size="14.0"/>
+                                    </font>
+                                </JFXTextField>
+                                <JFXPasswordField fx:id="txtPassword" maxWidth="292.0" minWidth="178.0"
+                                                  prefHeight="31.0" promptText="Password">
+                                    <VBox.margin>
+                                        <Insets top="10.0"/>
+                                    </VBox.margin>
+                                    <font>
+                                        <Font size="14.0"/>
+                                    </font>
+                                </JFXPasswordField>
+                                <JFXPasswordField fx:id="txtPasswordConfirm" maxWidth="1.7976931348623157E308"
+                                                  minWidth="178.0" prefHeight="31.0" prefWidth="318.0"
+                                                  promptText="Confirm Password">
+                                    <VBox.margin>
+                                        <Insets top="10.0"/>
+                                    </VBox.margin>
+                                    <font>
+                                        <Font size="14.0"/>
+                                    </font>
+                                </JFXPasswordField>
+                                <JFXButton fx:id="btnRegister" buttonType="RAISED" onAction="#register"
+                                           prefHeight="25.0" prefWidth="189.0" ripplerFill="#ff0a0a"
+                                           style="-fx-background-color: #f28b15;" text="Register">
+                                    <VBox.margin>
+                                        <Insets top="30.0"/>
+                                    </VBox.margin>
+                                    <font>
+                                        <Font size="14.0"/>
+                                    </font>
+                                </JFXButton>
+                            </children>
+                        </VBox>
+                    </children>
+                    <effect>
+                        <DropShadow/>
+                    </effect>
+                </Pane>
+            </children>
+        </StackPane>
+    </children>
+</AnchorPane>
