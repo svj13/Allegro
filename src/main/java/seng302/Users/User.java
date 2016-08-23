@@ -216,7 +216,7 @@ public class User {
 
         //Level
         try {
-            level = (int) properties.get("level");
+            level = ((Long) properties.get("level")).intValue();
         } catch (NullPointerException e) {
             //If level has never been set, (ie old account), default to 1
             level = 1;
