@@ -6,79 +6,8 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="chordTutorAnchor" prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.ChordRecognitionTutorController">
+<AnchorPane fx:id="chordTutorAnchor" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.ChordRecognitionTutorController">
     <children>
-        <ScrollPane fx:id="paneInit" fitToHeight="true" fitToWidth="true" layoutX="51.0" layoutY="6.0" minHeight="10.0" minWidth="10.0" prefHeight="439.0" prefViewportHeight="60.0" prefViewportWidth="680.0" prefWidth="644.0" visible="true" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="51.0" AnchorPane.rightAnchor="5" AnchorPane.topAnchor="6.0">
-            <content>
-                <HBox prefHeight="30.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
-                    <children>
-                        <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="Chord Recognition Tutor" textAlignment="CENTER">
-                            <font>
-                                <Font name="System Bold" size="21.0" />
-                            </font>
-                            <HBox.margin>
-                                <Insets />
-                            </HBox.margin>
-                        </Label>
-                    </children>
-                </HBox>
-                <HBox fx:id="settings" alignment="CENTER_LEFT" layoutY="36.0" minWidth="400.0" prefHeight="10.0" spacing="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="56.0">
-                    <children>
-                        <VBox minHeight="-Infinity" prefHeight="100.0" prefWidth="600.0" spacing="10.0">
-                            <children>
-                                <HBox alignment="BOTTOM_CENTER" prefHeight="182.0" prefWidth="600.0">
-                                    <children>
-                                        <Label alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="51.0" prefWidth="120.0" text="Number of Questions: " />
-                                        <Label fx:id="questions" prefHeight="69.0" prefWidth="26.0">
-                                            <font>
-                                                <Font name="System Bold" size="13.0" />
-                                            </font>
-                                 <padding>
-                                    <Insets top="50.0" />
-                                 </padding>
-                                        </Label>
-                                      <Slider fx:id="numQuestions" blockIncrement="1.0" majorTickUnit="49.0" max="50.0" maxWidth="300.0" min="1.0" minorTickCount="1" prefHeight="66.0" prefWidth="300.0" showTickLabels="true" value="5.0">
-                                 <padding>
-                                    <Insets top="20.0" />
-                                 </padding>
-                              </Slider>
-                                    </children>
-                                    <padding>
-                                        <Insets left="5.0" />
-                                    </padding>
-                                </HBox>
-                                <HBox alignment="CENTER_LEFT" prefHeight="68.0" prefWidth="595.0" spacing="10.0">
-                                    <children>
-                                        <Label text="Play chords: " />
-                                        <ComboBox fx:id="playChords" prefWidth="100.0" promptText="Up" />
-                                <Label text="Chord Type:" />
-                                <ComboBox fx:id="chordTypeBox" prefWidth="100.0" promptText="Up" />
-                                        <Label text="Octaves: ">
-                                            <HBox.margin>
-                                                <Insets left="5.0" />
-                                            </HBox.margin>
-                                        </Label>
-                                        <ComboBox fx:id="octaves" prefWidth="100.0" promptText="1" />
-                                    </children>
-                                    <VBox.margin>
-                                        <Insets left="5.0" />
-                                    </VBox.margin>
-                                </HBox>
-                        <HBox alignment="CENTER" prefHeight="62.0" prefWidth="600.0">
-                           <children>
-                                      <Button id="btnGo" fx:id="btnGo" alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#goAction" prefHeight="30.0" prefWidth="90.0" text="Go" textAlignment="CENTER">
-                                          <font>
-                                              <Font size="14.0" />
-                                          </font>
-                                      </Button>
-                           </children>
-                        </HBox>
-                            </children>
-                        </VBox>
-                    </children>
-                </HBox>
-            </content>
-        </ScrollPane>
         <ScrollPane fx:id="paneQuestions" fitToHeight="true" fitToWidth="true" layoutY="105.0" minHeight="10.0" minWidth="10.0" prefHeight="50.0" prefViewportHeight="60.0" prefViewportWidth="680.0" prefWidth="700.0" visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5" AnchorPane.rightAnchor="5" AnchorPane.topAnchor="180.0">
             <content>
                 <VBox fx:id="questionRows" />
@@ -102,5 +31,56 @@
                 </VBox>
             </content>
         </ScrollPane>
+      <VBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="450.0" prefWidth="710.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox alignment="BOTTOM_CENTER" prefHeight="182.0" prefWidth="600.0">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="69.0" prefWidth="120.0" text="Number of Questions: " />
+                  <Label fx:id="questions" prefHeight="69.0" prefWidth="26.0">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                     <padding>
+                        <Insets top="50.0" />
+                     </padding>
+                  </Label>
+                  <Slider fx:id="numQuestions" blockIncrement="1.0" majorTickUnit="49.0" max="50.0" maxWidth="300.0" min="1.0" minorTickCount="5" prefHeight="66.0" prefWidth="300.0" showTickLabels="true" showTickMarks="true" value="5.0">
+                     <padding>
+                        <Insets top="20.0" />
+                     </padding>
+                  </Slider>
+               </children>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="68.0" prefWidth="595.0" spacing="10.0">
+               <children>
+                  <Label text="Play chords: " />
+                  <ComboBox fx:id="playChords" prefWidth="100.0" promptText="Up" />
+                  <Label text="Chord Type:" />
+                  <ComboBox fx:id="chordTypeBox" prefWidth="100.0" promptText="Up" />
+                  <Label text="Octaves: ">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <ComboBox fx:id="octaves" prefWidth="100.0" promptText="1" />
+               </children>
+               <VBox.margin>
+                  <Insets left="5.0" />
+               </VBox.margin>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="62.0" prefWidth="600.0">
+               <children>
+                  <Button id="btnGo" fx:id="btnGo" alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#goAction" prefHeight="30.0" prefWidth="90.0" text="Go" textAlignment="CENTER">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
     </children>
 </AnchorPane>
