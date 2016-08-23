@@ -35,7 +35,7 @@ public class User {
 
     private String userName;
 
-    private Image profilePic;
+    private Path profilePicPath;
 
     private ProjectHandler projectHandler;
 
@@ -84,7 +84,8 @@ public class User {
             e.printStackTrace();
 
         }
-        this.profilePic = new Image(userDirectory.toUri() + "/profilePicture");
+
+        profilePicPath = Paths.get(userDirectory.toString() + "/profilePicture");
 
         projectHandler = new ProjectHandler(env, userName);
         //loadFullProperties();
@@ -102,7 +103,7 @@ public class User {
         this.userName = user;
         properties = new JSONObject();
         loadBasicProperties();
-        this.profilePic = new Image(userDirectory.toUri() + "/profilePicture");
+        profilePicPath = Paths.get(userDirectory.toString() + "/profilePicture");
 
 
     }
@@ -322,12 +323,12 @@ public class User {
         return userName;
     }
 
-    public void setUserPicture(Image image) {
-        this.profilePic = image;
+    public void setUserPicture(Path imagePath) {
+        this.profilePicPath = imagePath;
     }
 
     public Image getUserPicture() {
-        return this.profilePic;
+        return new Image(profilePicPath.toUri().toString());
     }
 
     public void setUserFirstName(String name) {
