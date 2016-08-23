@@ -122,7 +122,10 @@ public class UserPageController {
     }
 
 
-
+    /**
+     * creates the most recent tutor record graph and the overall tutor record graph
+     * @param tutor the specific tutor that the graphs will getting data from
+     */
     private void displayGraphs(String tutor) {
         Pair<Integer, Integer> correctIncorrectRecent = new Pair<>(0, 0);
         Pair<Integer, Integer> correctIncorrectOverall = new Pair<>(0, 0);
@@ -218,52 +221,6 @@ public class UserPageController {
 
 
     }
-
-
-
-    private void displayGraphInLine(String tutor) {
-        Pair<Integer, Integer> correctIncorrect = new Pair<>(0, 0);
-        chartTitle.setText(tutor + " total questions");
-
-        final CategoryAxis xAxis = new CategoryAxis();
-        final NumberAxis yAxis = new NumberAxis();
-
-        StackedBarChart<Number, String> newChart = new StackedBarChart<>(yAxis, xAxis);
-        newChart.setMaxWidth(351);
-        newChart.setMaxHeight(85);
-        newChart.setLegendVisible(false);
-        newChart.setAlternativeColumnFillVisible(false);
-        newChart.setAlternativeRowFillVisible(false);
-        newChart.setHorizontalZeroLineVisible(false);
-        newChart.setHorizontalGridLinesVisible(false);
-        newChart.setVerticalGridLinesVisible(false);
-        newChart.setVerticalZeroLineVisible(false);
-        xAxis.setTickLabelsVisible(false);
-        yAxis.setTickLabelsVisible(false);
-        xAxis.setTickMarkVisible(false);
-        yAxis.setTickMarkVisible(false);
-
-        xAxis.setVisible(false);
-        yAxis.setVisible(false);
-
-        graphPane.getChildren().add(newChart);
-
-
-
-        XYChart.Series< Number, String> series1 = new XYChart.Series<>();
-        XYChart.Series<Number, String> series2 = new XYChart.Series<>();
-        if (tutor.equals("Pitch Comparison Tutor")) {
-            correctIncorrect = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("pitchTutor");
-        }
-
-        series1.getData().add(new XYChart.Data<>(correctIncorrect.getKey(), ""));
-        series2.getData().add(new XYChart.Data<>(correctIncorrect.getValue(), ""));
-        newChart.getData().addAll(series1, series2);
-
-
-
-    }
-
 
 
     public void updateImage(){
