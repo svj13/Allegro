@@ -34,6 +34,14 @@
     <orderEntry type="library" name="Maven: org.controlsfx:controlsfx:8.40.10" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: info.cukes:cucumber-junit:1.2.4" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-collections4:4.1" level="project" />
-    <orderEntry type="library" name="Maven: org.jfoenix:jfoenix:1.0" level="project" />
+    <orderEntry type="module-library">
+      <library name="Maven: org.jfoenix:jfoenix:1.0">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/src/main/resources/jfoenix.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
