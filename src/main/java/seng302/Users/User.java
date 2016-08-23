@@ -25,12 +25,12 @@ import seng302.data.Term;
 import seng302.utility.FileHandler;
 
 /**
- * Created by jmw280 on 22/07/16.
+ * Stores information about a single user.
+ * Includes getter/setter functions for updating all this information
  */
 public class User {
 
     private String userFullName, userPassword, themeColor;
-
 
     private String userName;
 
@@ -313,10 +313,13 @@ public class User {
     }
 
 
-    public String getUserPassword(){return userPassword;}
+    public String getUserPassword() {
+        return userPassword;
+    }
 
-    public String getUserName(){return  userName;}
-
+    public String getUserName() {
+        return userName;
+    }
 
     public void setUserPicture(Image image) {
         this.profilePic = image;
@@ -350,6 +353,13 @@ public class User {
         return level;
     }
 
+    /**
+     * When a user gains XP, eg by completing a tutoring session, this function is called. It adds
+     * their newly gained experience to their overall experience, and saves this info to their user
+     * file.
+     *
+     * @param addedExperience The integer amount of gained experience, to be added to the user
+     */
     public void addExperience(int addedExperience) {
         experience += addedExperience;
         saveProperties();
