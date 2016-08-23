@@ -58,13 +58,13 @@ public abstract class TutorController {
     VBox questionRows;
 
     @FXML
-    ScrollPane paneInit;
-
-    @FXML
     ScrollPane paneQuestions;
 
     @FXML
     ScrollPane paneResults;
+
+    @FXML
+    VBox paneInit;
 
     @FXML
     Text resultsTitle;
