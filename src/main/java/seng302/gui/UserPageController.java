@@ -62,7 +62,7 @@ public class UserPageController {
     ImageView imageDP;
 
     @FXML
-    Label recentAttempt;
+    Label latestAttempt;
 
     @FXML
     Label overallStats;
@@ -239,7 +239,7 @@ public class UserPageController {
         if (tutor.equals("Summary")) {
             recentBar.setVisible(false);
             overallStats.setVisible(false);
-            recentAttempt.setVisible(false);
+            latestAttempt.setVisible(false);
 
 
         } else {
@@ -248,6 +248,8 @@ public class UserPageController {
             recentSeries2.getData().add(new XYChart.Data<>(correctIncorrectRecent.getValue(), ""));
             recentBar.getData().clear();
             recentBar.setVisible(true);
+            latestAttempt.setVisible(true);
+            overallStats.setVisible(true);
             recentBar.getData().addAll(recentSeries1, recentSeries2);
 
             overallSeries1.getData().add(new XYChart.Data<>(correctIncorrectOverall.getKey(), ""));

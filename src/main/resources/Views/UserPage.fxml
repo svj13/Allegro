@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import com.jfoenix.controls.JFXListView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.CategoryAxis?>
@@ -24,8 +23,8 @@
                 <VBox fx:id="stats" alignment="CENTER" prefWidth="500.0" spacing="10.0"
                       BorderPane.alignment="CENTER">
                     <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="20.0"
-                               prefWidth="200.0" text="Latest Attempt">
+                        <Label fx:id="latestAttempt" alignment="CENTER" contentDisplay="CENTER"
+                               prefHeight="20.0" prefWidth="200.0" text="Latest Attempt">
                             <font>
                                 <Font size="17.0"/>
                             </font>
@@ -45,7 +44,7 @@
                                               tickMarkVisible="false" visible="false"/>
                             </yAxis>
                         </StackedBarChart>
-                        <Label fx:id="chartTitle" alignment="CENTER" contentDisplay="CENTER"
+                        <Label fx:id="overallStats" alignment="CENTER" contentDisplay="CENTER"
                                text="Overall Stats" textAlignment="CENTER">
                             <font>
                                 <Font size="17.0"/>
