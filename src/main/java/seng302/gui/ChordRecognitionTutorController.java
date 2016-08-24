@@ -3,14 +3,17 @@ package seng302.gui;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Random;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Pair;
@@ -32,6 +35,9 @@ public class ChordRecognitionTutorController extends TutorController {
 
     @FXML
     Button btnGo;
+
+    @FXML
+    Accordion qAccordion;
 
     @FXML
     ComboBox<String> playChords;
@@ -56,13 +62,20 @@ public class ChordRecognitionTutorController extends TutorController {
         paneResults.setVisible(false);
         manager.resetEverything();
         manager.questions = selectedQuestions;
+        List qPanes = new ArrayList<>();
 
         questionRows.getChildren().clear();
         for (int i = 0; i < manager.questions; i++) {
             HBox questionRow = setUpQuestion();
-            questionRows.getChildren().add(questionRow);
+//            questionRows.getChildren().add(questionRow);
+            TitledPane qPane = new TitledPane("Question " + (i + 1), questionRow);
+            qPanes.add(qPane);
             questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
         }
+        System.out.println(qPanes);
+        qAccordion.getPanes().removeAll();
+        qAccordion.getPanes().addAll(qPanes);
+        questionRows.getChildren().add(qAccordion);
     }
 
 
@@ -128,33 +141,8 @@ public class ChordRecognitionTutorController extends TutorController {
                 chordType = "major";
         }
         Note randNote = Note.getRandomNote();
-//        return generateQuestionPane(randNote, chordType);
         return generateQuestionPane(new Pair<>(randNote, chordType));
     }
-
-
-    /**
-     * Given a type of scale (major or minor) and a starting note, returns a list of notes of scale
-     * @param startNote The first note in the scale
-     * @param scaleType Either major or minor
-     * @return Arraylist of notes in a scale
-     */
-//    public ArrayList<Note> getScale(Note startNote, String scaleType) {
-//        // Add # octaves and up/down selection here.
-//        ArrayList<Note> scale;
-//        if (playChords.getValue().equals("Up")) {
-//            scale = startNote.getOctaveScale(scaleType, octaves.getValue(), true);
-//        } else if (playChords.getValue().equals("UpDown")) {
-//            scale = startNote.getOctaveScale(scaleType, octaves.getValue(), true);
-//            ArrayList<Note> notes = new ArrayList<Note>(scale);
-//            Collections.reverse(notes);
-//            scale.addAll(notes);
-//        } else {
-//            scale = startNote.getOctaveScale(scaleType, octaves.getValue(), false);
-//        }
-//
-//        return scale;
-//    }
 
 
     /**
