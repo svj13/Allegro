@@ -67,13 +67,11 @@ public class ChordRecognitionTutorController extends TutorController {
         questionRows.getChildren().clear();
         for (int i = 0; i < manager.questions; i++) {
             HBox questionRow = setUpQuestion();
-//            questionRows.getChildren().add(questionRow);
             TitledPane qPane = new TitledPane("Question " + (i + 1), questionRow);
             qPanes.add(qPane);
             questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
         }
-        System.out.println(qPanes);
-        qAccordion.getPanes().removeAll();
+        qAccordion.getPanes().remove(0,3); // Accordion initialises with 3 entries
         qAccordion.getPanes().addAll(qPanes);
         questionRows.getChildren().add(qAccordion);
     }
