@@ -50,10 +50,6 @@ public class UserSettingsController {
 
     private UserHandler userHandler;
 
-    public UserSettingsController() {
-
-    }
-
 
     public void create(Environment env) {
         this.env = env;

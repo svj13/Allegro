@@ -1,23 +1,6 @@
 package seng302.gui;
 
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.SnapshotParameters;
-import javafx.scene.control.*;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.layout.VBox;
-import org.controlsfx.control.PopOver;
 import org.json.simple.JSONArray;
 
 import java.io.File;
@@ -36,18 +19,28 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Menu;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -64,7 +57,6 @@ public class RootController implements Initializable {
 
     String path;
     File fileDir;
-
 
 
     @FXML
@@ -191,17 +183,14 @@ public class RootController implements Initializable {
                 + "-fx-border-width:2.0";
 
 
-
         userDropDown.setEllipsisString("User");
         userDropDown.setText("User");
 
 
-
-
     }
 
-    public void updateImage(){
-        final Circle clip = new Circle(imageDP.getFitWidth()-25.0, imageDP.getFitHeight()-25.0, 50.0);
+    public void updateImage() {
+        final Circle clip = new Circle(imageDP.getFitWidth() - 25.0, imageDP.getFitHeight() - 25.0, 50.0);
 
 
         imageDP.setImage(env.getUserHandler().getCurrentUser().getUserPicture());
@@ -219,17 +208,25 @@ public class RootController implements Initializable {
         imageDP.setEffect(new DropShadow(5, Color.BLACK));
 
         imageDP.setImage(image);
+        imageDP.setOnMouseClicked(event -> {
+            System.out.println("hello");
+            try {
+                showUserPage();
+            } catch (Exception e) {
+
+            }
+
+
+        });
     }
 
 
-    public void showWindow(Boolean show){
-        if(show) {
+    public void showWindow(Boolean show) {
+        if (show) {
             stage.show();
             updateImage();
 
-        }
-        else stage.hide();
-
+        } else stage.hide();
 
 
     }
@@ -318,15 +315,38 @@ public class RootController implements Initializable {
 
 
     /**
-     *  Updates the user menu button text to display the current user's name.
+     * Updates the user menu button text to display the current user's name.
      */
-    public void updateUserInfo(String name){
+    public void updateUserInfo(String name) {
         userDropDown.setEllipsisString(name);
         userDropDown.setText(name);
     }
 
+
+    public void showUserPage() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/Views/UserPage.fxml"));
+
+
+        Parent root1 = loader.load();
+        Scene scene1 = new Scene(root1);
+        Stage userPageStage = new Stage();
+        userPageStage.setTitle("Allegro");
+        userPageStage.setScene(scene1);
+
+
+        userPageStage.show();
+        UserPageController userPageController = loader.getController();
+        userPageController.setEnvironment(env);
+        userPageController.populateUserOptions();
+        userPageController.updateImage();
+
+
+    }
+
+
     public void showLoginWindow(Boolean show) throws IOException {
-        if(show){
+        if (show) {
             FXMLLoader loader1 = new FXMLLoader();
             loader1.setLocation(getClass().getResource("/Views/userLogin.fxml"));
 
@@ -360,7 +380,6 @@ public class RootController implements Initializable {
         reset();
 
     }
-
 
 
     /**
@@ -1144,7 +1163,7 @@ public class RootController implements Initializable {
 
         }
         int total_tabs = TabPane.getTabs().size();
-        TabPane.getTabs().remove(1,total_tabs);
+        TabPane.getTabs().remove(1, total_tabs);
     }
 
     /**

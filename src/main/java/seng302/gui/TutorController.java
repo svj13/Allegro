@@ -22,7 +22,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import seng302.Environment;
-import seng302.Users.ProjectHandler;
+import seng302.Users.Project;
 import seng302.Users.TutorHandler;
 import seng302.data.Note;
 import seng302.managers.TutorManager;
@@ -44,7 +44,7 @@ public abstract class TutorController {
 
     public int selectedQuestions;
 
-    public ProjectHandler projectHandler;
+    public Project currentProject;
 
     public TutorHandler tutorHandler;
 
@@ -95,8 +95,8 @@ public abstract class TutorController {
     public void create(Environment env) {
         this.env = env;
         manager = new TutorManager();
-        projectHandler = env.getUserHandler().getCurrentUser().getProjectHandler();
-        tutorHandler = projectHandler.getCurrentProject().getTutorHandler();
+        currentProject = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject();
+        tutorHandler = currentProject.getTutorHandler();
     }
 
     /**
@@ -158,9 +158,9 @@ public abstract class TutorController {
         record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
         record.setFinished();
         record.setDate();
-        if (projectHandler.getCurrentProject() != null) {
+        if (currentProject != null) {
             record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
-            projectHandler.getCurrentProject().saveCurrentProject();
+            currentProject.saveCurrentProject();
             outputText += "\nSession auto saved.";
         }
         env.getRootController().setTabTitle(tabID, false);
@@ -236,9 +236,9 @@ public abstract class TutorController {
 
         //show a file picker
         FileChooser fileChooser = new FileChooser();
-        if (projectHandler.getCurrentProject().isProject()) {
+        if (currentProject.isProject()) {
             env.getRootController().checkProjectDirectory();
-            fileChooser.setInitialDirectory(Paths.get(projectHandler.getCurrentProject().getCurrentProjectPath()).toFile());
+            fileChooser.setInitialDirectory(Paths.get(currentProject.getCurrentProjectPath()).toFile());
         }
         File file = fileChooser.showSaveDialog(stage);
 
@@ -246,7 +246,7 @@ public abstract class TutorController {
             fileDir = file.getParentFile();
             path = file.getAbsolutePath();
             env.setRecordLocation(path);
-            projectHandler.getCurrentProject().getTutorHandler().saveTutorRecordsToFile(path, record);
+            tutorHandler.saveTutorRecordsToFile(path, record);
         }
     }
 
@@ -297,24 +297,6 @@ public abstract class TutorController {
         }
         return noteName;
     }
-
-
-//    /**
-//     * Creates an alert to ask the user whether or not to save a record to file.
-//     */
-//    public void promptSaveRecord() {
-//        Alert savePrompt = new Alert(Alert.AlertType.NONE);
-//        savePrompt.setContentText("Would you like to save this tutoring session?");
-//        savePrompt.setHeaderText("Save Record?");
-//        ButtonType save = new ButtonType("Save");
-//        ButtonType cancel = new ButtonType("Discard");
-//        savePrompt.getButtonTypes().setAll(save, cancel);
-//        ButtonType result = savePrompt.showAndWait().get();
-//
-//        if (result.equals(save)) {
-//            saveRecord();
-//        }
-//    }
 
     /**
      * Formats a GUI question to indicate it was skipped
