@@ -8,6 +8,13 @@
 
   <name>app</name>
   <url>https://eng-git.canterbury.ac.nz/SENG302-2016/team-5</url>
+  <repositories>
+    <repository>
+      <id>in-project</id>
+      <name>In Project Repo</name>
+      <url>file://${project.basedir}/libs</url>
+    </repository>
+  </repositories>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -61,8 +68,6 @@
       <groupId>org.jfoenix</groupId>
       <artifactId>jfoenix</artifactId>
       <version>1.0</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/src/main/resources/jfoenix.jar</systemPath>
     </dependency>
   </dependencies>
   <build>
