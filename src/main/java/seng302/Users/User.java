@@ -368,7 +368,9 @@ public class User {
         // Increases user levels one by one until the user cannot level up any further
         while (LevelCalculator.isLevelUp(level, experience)) {
             level += 1;
+            env.getRootController().updateLevelBadge();
         }
+        env.getRootController().getUserSettingsTabController().updateLevelAndExp();
 
         saveProperties();
     }

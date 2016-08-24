@@ -195,6 +195,7 @@ public class RootController implements Initializable {
     }
 
     public void updateImage() {
+        updateLevelBadge();
         final Circle clip = new Circle(imageDP.getFitWidth() - 25.0, imageDP.getFitHeight() - 25.0, 50.0);
 
 
@@ -223,6 +224,10 @@ public class RootController implements Initializable {
 
 
         });
+    }
+
+    public void updateLevelBadge() {
+        levelBadge.setText(Integer.toString(env.getUserHandler().getCurrentUser().getUserLevel()));
     }
 
 
@@ -1242,5 +1247,9 @@ public class RootController implements Initializable {
             UserSettingsTabController = loader.getController();
             UserSettingsTabController.create(env);
         }
+    }
+
+    public UserSettingsController getUserSettingsTabController() {
+        return UserSettingsTabController;
     }
 }

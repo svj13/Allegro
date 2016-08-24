@@ -128,4 +128,9 @@ public class UserSettingsController {
             editLastNameButton.setText("Edit");
         }
     }
+
+    public void updateLevelAndExp() {
+        levelLabel.setText(Integer.toString(userHandler.getCurrentUser().getUserLevel()));
+        xpLabel.setText(Integer.toString(userHandler.getCurrentUser().getUserExperience()));
+    }
 }
