@@ -61,6 +61,12 @@ public class UserPageController {
     @FXML
     ImageView imageDP;
 
+    @FXML
+    Label recentAttempt;
+
+    @FXML
+    Label overallStats;
+
     private Environment env;
 
 
@@ -76,6 +82,7 @@ public class UserPageController {
     public void populateUserOptions() {
 
         ArrayList<String> options = new ArrayList<>();
+        options.add("Summary");
         options.add("Musical Terms Tutor");
         options.add("Pitch Comparison Tutor");
         options.add("Scale Recognition Tutor");
@@ -86,17 +93,19 @@ public class UserPageController {
         options.add("Diatonic Chord Tutor");
         //options.add("Modes Tutor");
 
-        Image lockImg = new Image(getClass().getResourceAsStream("/images/lock.png"), 10, 10, false, false);
+        Image lockImg = new Image(getClass().getResourceAsStream("/images/lock.png"), 20, 20, false, false);
 
         listView.getItems().addAll(FXCollections.observableArrayList(options));
-        listView.setOnMouseClicked(e -> {
-            displayGraphs((String) listView.getSelectionModel().getSelectedItem());
-        });
 
+        listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            displayGraphs((String) newValue);
+        });
+        listView.getSelectionModel().selectFirst();
+        listView.setMaxWidth(200);
+        listView.setMinWidth(200);
         // This allows images to be displayed in the listview. Still trying to
         // make the text centered and the height and width the same as the others.
         listView.setCellFactory(listView -> new JFXListCell<String>() {
-            private ImageView imageView = new ImageView();
 
             @Override
             public void updateItem(String tutor, boolean empty) {
@@ -105,10 +114,12 @@ public class UserPageController {
                     setText(null);
                     setGraphic(null);
                 } else if (tutor.equals("Scale Recognition Tutor")) {
-                    imageView.setImage(lockImg);
-                    setText(tutor);
-                    setGraphic(imageView);
+//                    imageView.setImage(lockImg);
+//                    setText(tutor);
+//                    setGraphic(imageView);
                     setDisable(true);
+                    setMouseTransparent(true);
+
                 }
             }
         });
@@ -170,7 +181,6 @@ public class UserPageController {
     }
 
 
-
     /**
      * creates the most recent tutor record graph and the overall tutor record graph
      *
@@ -226,18 +236,28 @@ public class UserPageController {
                 break;
         }
 
-        recentSeries1.getData().add(new XYChart.Data<>(correctIncorrectRecent.getKey(), ""));
-        recentSeries2.getData().add(new XYChart.Data<>(correctIncorrectRecent.getValue(), ""));
-        recentBar.getData().clear();
-        recentBar.getData().addAll(recentSeries1, recentSeries2);
-
-        overallSeries1.getData().add(new XYChart.Data<>(correctIncorrectOverall.getKey(), ""));
-        overallSeries2.getData().add(new XYChart.Data<>(correctIncorrectOverall.getValue(), ""));
-        stackedBar.getData().clear();
-        stackedBar.getData().addAll(overallSeries1, overallSeries2);
+        if (tutor.equals("Summary")) {
+            recentBar.setVisible(false);
+            overallStats.setVisible(false);
+            recentAttempt.setVisible(false);
 
 
-        makeLineGraph(dateAndTime);
+        } else {
+
+            recentSeries1.getData().add(new XYChart.Data<>(correctIncorrectRecent.getKey(), ""));
+            recentSeries2.getData().add(new XYChart.Data<>(correctIncorrectRecent.getValue(), ""));
+            recentBar.getData().clear();
+            recentBar.setVisible(true);
+            recentBar.getData().addAll(recentSeries1, recentSeries2);
+
+            overallSeries1.getData().add(new XYChart.Data<>(correctIncorrectOverall.getKey(), ""));
+            overallSeries2.getData().add(new XYChart.Data<>(correctIncorrectOverall.getValue(), ""));
+            stackedBar.getData().clear();
+            stackedBar.getData().addAll(overallSeries1, overallSeries2);
+
+
+            makeLineGraph(dateAndTime);
+        }
     }
 
     public void updateImage() {
