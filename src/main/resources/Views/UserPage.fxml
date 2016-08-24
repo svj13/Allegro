@@ -83,7 +83,8 @@
                                     <yAxis>
                                         <NumberAxis autoRanging="false" minorTickVisible="false"
                                                     prefHeight="300.0" side="LEFT"
-                                                    tickLabelGap="2.0" tickMarkVisible="false"/>
+                                                    tickLabelGap="2.0" tickMarkVisible="false"
+                                                    tickUnit="20.0"/>
                                     </yAxis>
                                 </LineChart>
                                 <Label prefHeight="15.0" prefWidth="56.0" text="Badges"

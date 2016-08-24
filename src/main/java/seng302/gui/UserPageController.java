@@ -10,6 +10,8 @@ import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.StackedBarChart;
@@ -112,7 +114,6 @@ public class UserPageController {
         });
 
 
-
     }
 
     /**
@@ -127,15 +128,52 @@ public class UserPageController {
         for (Pair<Date, Float> dateTime : dateAndTimeList) {
             Date date = dateTime.getKey();
             String milli = formatter.format(date);
-            lineSeries.getData().add(new XYChart.Data<>(milli, dateTime.getValue()));
+            XYChart.Data data = new XYChart.Data<>(milli, dateTime.getValue());
+            data.setNode(new hoverPane(date, dateTime.getValue()));
+            lineSeries.getData().add(data);
         }
         lineChart.getData().clear();
         lineChart.getData().add(lineSeries);
 
     }
 
+    class hoverPane extends VBox {
+        hoverPane(Date date, float value) {
+            setPrefSize(10, 10);
+            final Label label = createDataLabel(date, value);
+            this.setAlignment(Pos.CENTER);
+
+            setOnMouseEntered(e -> {
+                getChildren().setAll(label);
+                setCursor(Cursor.NONE);
+                toFront();
+            });
+            setOnMouseExited(e -> {
+                getChildren().clear();
+                setCursor(Cursor.CROSSHAIR);
+            });
+
+        }
+
+        private Label createDataLabel(Date date, float value) {
+            String score = String.format("%.0f", value);
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/YY H:mm");
+            String dateformat = formatter.format(date);
+            final Label label = new Label(score + "%\n" + dateformat);
+            label.getStyleClass().addAll("default-color0", "chart-line-symbol", "chart-series-line");
+            label.setStyle("-fx-font-size: 8; -fx-font-weight: normal;");
+            label.setMinSize(Label.USE_PREF_SIZE, Label.USE_PREF_SIZE);
+            label.setMaxWidth(Double.MAX_VALUE);
+            label.setAlignment(Pos.CENTER);
+            return label;
+        }
+    }
+
+
+
     /**
      * creates the most recent tutor record graph and the overall tutor record graph
+     *
      * @param tutor the specific tutor that the graphs will getting data from
      */
     private void displayGraphs(String tutor) {
@@ -202,8 +240,8 @@ public class UserPageController {
         makeLineGraph(dateAndTime);
     }
 
-    public void updateImage(){
-        final Circle clip = new Circle(imageDP.getFitWidth()-50.0, imageDP.getFitHeight()-50.0, 100.0);
+    public void updateImage() {
+        final Circle clip = new Circle(imageDP.getFitWidth() - 50.0, imageDP.getFitHeight() - 50.0, 100.0);
 
         imageDP.setImage(env.getUserHandler().getCurrentUser().getUserPicture());
 
