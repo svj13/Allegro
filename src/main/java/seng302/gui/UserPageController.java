@@ -3,7 +3,7 @@ package seng302.gui;
 import com.jfoenix.controls.JFXListCell;
 import com.jfoenix.controls.JFXListView;
 
-import java.time.Instant;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -120,10 +120,13 @@ public class UserPageController {
      */
     private void makeLineGraph(List<Pair<Date, Float>> dateAndTimeList) {
 
-        XYChart.Series<Instant, Float> lineSeries = new XYChart.Series<>();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM H:mm:ss");
+
+
+        XYChart.Series<String, Float> lineSeries = new XYChart.Series<>();
         for (Pair<Date, Float> dateTime : dateAndTimeList) {
             Date date = dateTime.getKey();
-            Instant milli = date.toInstant();
+            String milli = formatter.format(date);
             lineSeries.getData().add(new XYChart.Data<>(milli, dateTime.getValue()));
         }
         lineChart.getData().clear();
@@ -196,7 +199,7 @@ public class UserPageController {
         stackedBar.getData().addAll(overallSeries1, overallSeries2);
 
 
-        //makeLineGraph(dateAndTime);
+        makeLineGraph(dateAndTime);
     }
 
     public void updateImage(){

@@ -26,7 +26,7 @@
         <SplitPane dividerPositions="0.5" prefHeight="500.0" prefWidth="500.0"
                    BorderPane.alignment="CENTER">
             <items>
-                <JFXListView fx:id="listView"/>
+                <JFXListView fx:id="listView" prefWidth="172.0"/>
                 <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER"
                             prefHeight="500.0" prefViewportHeight="436.0" prefViewportWidth="500.0">
                     <content>
@@ -39,7 +39,7 @@
                                                  horizontalGridLinesVisible="false"
                                                  horizontalZeroLineVisible="false" layoutX="10.0"
                                                  layoutY="247.0" legendVisible="false"
-                                                 maxHeight="50.0" maxWidth="500.0"
+                                                 maxHeight="30.0" maxWidth="500.0"
                                                  verticalGridLinesVisible="false"
                                                  verticalZeroLineVisible="false">
                                     <xAxis>
@@ -59,7 +59,7 @@
                                                  alternativeRowFillVisible="false"
                                                  horizontalGridLinesVisible="false"
                                                  horizontalZeroLineVisible="false"
-                                                 legendVisible="false" maxHeight="50.0"
+                                                 legendVisible="false" maxHeight="30.0"
                                                  maxWidth="500.0" verticalGridLinesVisible="false"
                                                  verticalZeroLineVisible="false">
                                     <xAxis>
@@ -73,13 +73,17 @@
                                                       tickMarkVisible="false" visible="false"/>
                                     </yAxis>
                                 </StackedBarChart>
-                                <LineChart fx:id="lineChart" title="Past Results">
+                                <LineChart fx:id="lineChart" prefHeight="228.0" prefWidth="379.0"
+                                           title="Past Results">
                                     <xAxis>
-                                        <NumberAxis lowerBound="1.0E8" minorTickVisible="false"
-                                                    side="BOTTOM" upperBound="1.0E9"/>
+                                        <CategoryAxis side="BOTTOM" tickLabelGap="1.0"
+                                                      tickLabelsVisible="false"
+                                                      tickMarkVisible="false"/>
                                     </xAxis>
                                     <yAxis>
-                                        <NumberAxis side="LEFT"/>
+                                        <NumberAxis autoRanging="false" minorTickVisible="false"
+                                                    prefHeight="300.0" side="LEFT"
+                                                    tickLabelGap="2.0" tickMarkVisible="false"/>
                                     </yAxis>
                                 </LineChart>
                                 <Label prefHeight="15.0" prefWidth="56.0" text="Badges"
