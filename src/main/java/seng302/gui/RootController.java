@@ -227,6 +227,7 @@ public class RootController implements Initializable {
     }
 
     public void updateLevelBadge() {
+        levelBadge.refreshBadge();
         levelBadge.setText(Integer.toString(env.getUserHandler().getCurrentUser().getUserLevel()));
     }
 
