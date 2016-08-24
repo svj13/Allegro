@@ -2,10 +2,9 @@ package seng302;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import seng302.Users.TutorHandler;
+import seng302.Users.ProjectHandler;
 import seng302.Users.UserHandler;
 import seng302.gui.RootController;
-import seng302.Users.ProjectHandler;
 import seng302.managers.TranscriptManager;
 import seng302.utility.EditHistory;
 import seng302.utility.MusicalTermsTutorBackEnd;
@@ -19,7 +18,6 @@ public class Environment {
     private String recordLocation;
     private EditHistory em = new EditHistory(this);
     private BooleanProperty shiftPressed;
-    private TutorHandler tutorHandler;
 
     public RootController getRootController() {
         return rootController;
@@ -115,9 +113,6 @@ public class Environment {
     public UserHandler getUserHandler() {
         return userHandler;
     }
-
-    public TutorHandler getTutorHandler(){ return tutorHandler;}
-
 
     public EditHistory getEditManager() {
         return this.em;
