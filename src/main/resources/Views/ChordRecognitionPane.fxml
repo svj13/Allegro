@@ -6,6 +6,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
+<?import com.jfoenix.controls.JFXSlider?>
 <AnchorPane fx:id="chordTutorAnchor" prefHeight="531.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.ChordRecognitionTutorController">
     <children>
         <HBox prefHeight="30.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
@@ -32,11 +33,11 @@
                                         <Font name="System Bold" size="13.0" />
                                     </font>
                                 </Label>
-                              <Slider fx:id="numQuestions" blockIncrement="1.0" majorTickUnit="49.0" max="50.0" maxWidth="300.0" min="1.0" minorTickCount="1" prefHeight="41.0" prefWidth="300.0" showTickLabels="true" value="5.0">
-                           <padding>
-                              <Insets top="15.0" />
-                           </padding>
-                        </Slider>
+                              <JFXSlider fx:id="numQuestions" max="50.0" min="1.0" value="5.0">
+                                <padding>
+                                    <Insets top="15.0" />
+                                </padding>
+                            </JFXSlider>
                             </children>
                             <padding>
                                 <Insets left="5.0" />
