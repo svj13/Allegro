@@ -1,6 +1,8 @@
 package seng302.gui;
 
 
+import com.jfoenix.controls.JFXBadge;
+
 import org.json.simple.JSONArray;
 
 import java.io.File;
@@ -115,6 +117,9 @@ public class RootController implements Initializable {
 
     @FXML
     private HBox hbUser;
+
+    @FXML
+    private JFXBadge levelBadge;
 
     @FXML
     private ImageView imageDP;
