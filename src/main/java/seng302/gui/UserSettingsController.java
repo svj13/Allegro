@@ -1,5 +1,9 @@
 package seng302.gui;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -11,10 +15,6 @@ import javafx.stage.Stage;
 import seng302.Environment;
 import seng302.Users.UserHandler;
 import seng302.utility.FileHandler;
-
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 
 public class UserSettingsController {
@@ -43,10 +43,6 @@ public class UserSettingsController {
     private Environment env;
 
     private UserHandler userHandler;
-
-    public UserSettingsController() {
-
-    }
 
 
     public void create(Environment env) {
