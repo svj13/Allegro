@@ -37,9 +37,6 @@ public class ChordRecognitionTutorController extends TutorController {
     Button btnGo;
 
     @FXML
-    Accordion qAccordion;
-
-    @FXML
     ComboBox<String> playChords;
 
     @FXML
@@ -73,6 +70,7 @@ public class ChordRecognitionTutorController extends TutorController {
         }
         qAccordion.getPanes().remove(0,3); // Accordion initialises with 3 entries
         qAccordion.getPanes().addAll(qPanes);
+        qAccordion.setStyle("spacing = 3px");
         questionRows.getChildren().add(qAccordion);
     }
 

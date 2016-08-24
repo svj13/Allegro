@@ -8,6 +8,7 @@ import java.util.Random;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -59,6 +60,9 @@ public abstract class TutorController {
 
     @FXML
     ScrollPane paneQuestions;
+
+    @FXML
+    Accordion qAccordion;
 
     @FXML
     ScrollPane paneResults;
@@ -271,7 +275,7 @@ public abstract class TutorController {
     public void formatQuestionRow(HBox questionRow) {
         questionRow.setPadding(new Insets(10, 10, 10, 10));
         questionRow.setSpacing(10);
-        questionRow.setStyle("-fx-border-color: #336699; -fx-border-width: 2px;");
+//        questionRow.setStyle("-fx-border-color: #336699; -fx-border-width: 2px;");
     }
 
     /**
@@ -295,30 +299,13 @@ public abstract class TutorController {
     }
 
 
-//    /**
-//     * Creates an alert to ask the user whether or not to save a record to file.
-//     */
-//    public void promptSaveRecord() {
-//        Alert savePrompt = new Alert(Alert.AlertType.NONE);
-//        savePrompt.setContentText("Would you like to save this tutoring session?");
-//        savePrompt.setHeaderText("Save Record?");
-//        ButtonType save = new ButtonType("Save");
-//        ButtonType cancel = new ButtonType("Discard");
-//        savePrompt.getButtonTypes().setAll(save, cancel);
-//        ButtonType result = savePrompt.showAndWait().get();
-//
-//        if (result.equals(save)) {
-//            saveRecord();
-//        }
-//    }
-
     /**
      * Formats a GUI question to indicate it was skipped
      *
      * @param question The HBox containing info about a question
      */
     public void formatSkippedQuestion(HBox question) {
-        question.setStyle("-fx-border-color: grey; -fx-border-width: 2px;");
+        question.getParent().getParent().setStyle("-fx-border-color: grey; -fx-border-width: 2px;");
     }
 
     /**
@@ -327,7 +314,7 @@ public abstract class TutorController {
      * @param question The HBox containing info about a question
      */
     public void formatCorrectQuestion(HBox question) {
-        question.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
+        question.getParent().getParent().setStyle("-fx-border-color: green; -fx-border-width: 2px;");
     }
 
     /**
@@ -336,7 +323,7 @@ public abstract class TutorController {
      * @param question The HBox containing info about a question
      */
     public void formatIncorrectQuestion(HBox question) {
-        question.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+        question.getParent().getParent().setStyle("-fx-border-color: red; -fx-border-width: 2px;");
     }
 
     /**
@@ -345,7 +332,7 @@ public abstract class TutorController {
      * @param question The HBox containing info about a question
      */
     public void formatPartiallyCorrectQuestion(HBox question) {
-        question.setStyle("-fx-border-color: yellow; -fx-border-width: 2px;");
+        question.getParent().getParent().setStyle("-fx-border-color: yellow; -fx-border-width: 2px;");
     }
 
     /**
