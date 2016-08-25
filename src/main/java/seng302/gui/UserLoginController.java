@@ -1,5 +1,9 @@
 package seng302.gui;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.RequiredFieldValidator;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -19,6 +23,7 @@ import javafx.stage.Stage;
 import seng302.Environment;
 import seng302.Users.User;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,27 +38,39 @@ public class UserLoginController {
     HBox recentUsersHbox;
 
     @FXML
-    TextField usernameInput;
+    JFXTextField usernameInput;
 
     @FXML
-    PasswordField passwordInput;
+    JFXPasswordField passwordInput;
 
     @FXML
-    Button btnRegister;
+    JFXButton btnRegister;
 
     @FXML
     Label labelError;
 
     @FXML
-    Button btnLogIn;
+    JFXButton btnLogIn;
 
     Environment env;
+    RequiredFieldValidator passwordValidator;
 
     ArrayList<RecentUserController> recentUsers = new ArrayList<>();
 
 
     public UserLoginController(){
 
+    }
+
+    @FXML
+    public void initialize() {
+        passwordValidator = new RequiredFieldValidator();
+        passwordValidator.setMessage("Password Required");
+        //validator.setAwsomeIcon(new Icon(AwesomeIcon.WARNING,"2em",";","error"));
+        passwordInput.getValidators().add(passwordValidator);
+        passwordInput.focusedProperty().addListener((o, oldVal, newVal) -> {
+            if (!newVal) passwordInput.validate();
+        });
     }
 
     public void setEnv(Environment env){
@@ -197,9 +214,11 @@ public class UserLoginController {
             env.getRootController().showWindow(true);
         }else{
 
-            final Label message = new Label("");
-            labelError.setText("Invalid username or password.");
-            labelError.setTextFill(javafx.scene.paint.Color.RED);
+//            final Label message = new Label("");
+//            labelError.setText("Invalid username or password.");
+//            labelError.setTextFill(javafx.scene.paint.Color.RED);
+            passwordValidator.setMessage("Invalid username or password.");
+            passwordInput.validate();
 
         }
 
