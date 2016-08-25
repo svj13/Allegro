@@ -5,8 +5,8 @@
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.*?>
 
-<?import com.jfoenix.controls.JFXSlider?>
 <AnchorPane fx:id="chordTutorAnchor" prefHeight="531.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.ChordRecognitionTutorController">
     <children>
         <HBox prefHeight="30.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
@@ -78,9 +78,9 @@
         </HBox>
         <ScrollPane fx:id="paneQuestions" fitToHeight="true" fitToWidth="true" layoutY="459.0" minHeight="10.0" minWidth="10.0" prefHeight="67.0" prefViewportHeight="60.0" prefViewportWidth="680.0" prefWidth="722.0" visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5" AnchorPane.rightAnchor="5" AnchorPane.topAnchor="5.0">
             <content>
-                <VBox fx:id="questionRows" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="486.0" prefWidth="719.0">
+                <VBox fx:id="questionRows" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="486.0" prefWidth="719.0">
                <children>
-                  <Accordion fx:id="qAccordion" prefHeight="410.0" prefWidth="719.0">
+                  <Accordion fx:id="qAccordion" prefHeight="150.0" prefWidth="650.0">
                     <panes>
                       <TitledPane animated="false" text="untitled 1">
                         <content>
@@ -99,7 +99,10 @@
                       </TitledPane>
                     </panes>
                   </Accordion>
-               </children></VBox>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding></VBox>
             </content>
         </ScrollPane>
         <ScrollPane fx:id="paneResults" fitToWidth="true" layoutX="20.0" layoutY="180.0" prefHeight="265.0" prefWidth="690.0" visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="180.0">
