@@ -52,13 +52,13 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                             <children>
-                                <JFXTextField labelFloat="true" maxWidth="1.7976931348623157E308"
+                                <JFXTextField fx:id="txtfname" labelFloat="true" maxWidth="1.7976931348623157E308"
                                               promptText="First Name">
                                     <font>
                                         <Font size="14.0"/>
                                     </font>
                                 </JFXTextField>
-                                <JFXTextField labelFloat="true" maxWidth="1.7976931348623157E308"
+                                <JFXTextField fx:id="txtlname" labelFloat="true" maxWidth="1.7976931348623157E308"
                                               promptText="Last Name">
                                     <font>
                                         <Font size="14.0"/>

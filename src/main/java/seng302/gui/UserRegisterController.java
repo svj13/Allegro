@@ -58,6 +58,14 @@ public class UserRegisterController {
     @FXML
     private JFXButton btnRegister;
 
+    @FXML
+    private JFXTextField txtfname;
+
+    @FXML
+    private JFXTextField txtlname;
+
+
+
 
 
     Environment env;
@@ -109,6 +117,7 @@ public class UserRegisterController {
 
             return true;
         }
+        txtUsername.setFocusColor(Paint.valueOf("#4059a9"));
         return false;
 
     }
@@ -168,11 +177,22 @@ public class UserRegisterController {
 
         if (!(env.getUserHandler().getUserNames().contains(txtUsername.getText())) && validCredentials()) {
             env.getUserHandler().createUser(txtUsername.getText(), txtPassword.getText());
-            logIn();
-        } else {
 
-//            labelError.setText("User already exists!");
-//            labelError.setTextFill(javafx.scene.paint.Color.RED);
+            if (env.getUserHandler().userPassExists(txtUsername.getText(), txtPassword.getText())) {
+
+
+                env.getUserHandler().setCurrentUser(txtUsername.getText());
+
+                env.getUserHandler().getCurrentUser().setUserFirstName(txtfname.getText());
+                env.getUserHandler().getCurrentUser().setUserLastName(txtlname.getText());
+
+
+                env.getRootController().showWindow(true);
+
+            }
+
+
+
         }
     }
 
@@ -207,21 +227,7 @@ public class UserRegisterController {
     }
 
 
-    @FXML
-    protected void logIn() {
 
 
-        if (env.getUserHandler().userPassExists(txtUsername.getText(), txtPassword.getText())) {
-
-
-            env.getUserHandler().setCurrentUser(txtUsername.getText());
-
-            env.getRootController().showWindow(true);
-        } else {
-
-
-        }
-
-    }
 
 }
