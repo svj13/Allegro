@@ -347,12 +347,17 @@ public class RootController implements Initializable {
 
     public void showLoginWindow(Boolean show) throws IOException {
         if (show) {
+
+            //Close current window.
+            if (stage.isShowing()) stage.close();
+
             FXMLLoader loader1 = new FXMLLoader();
             loader1.setLocation(getClass().getResource("/Views/userLogin.fxml"));
 
             Parent root1 = loader1.load();
             Scene scene1 = new Scene(root1);
             Stage loginStage = new Stage();
+
             loginStage.setTitle("Allegro");
             loginStage.setScene(scene1);
 
@@ -509,6 +514,10 @@ public class RootController implements Initializable {
         fileChooser.setInitialDirectory(fileDir);
         File file = fileChooser.showSaveDialog(stage);
         return file;
+    }
+
+    public Stage getStage() {
+        return this.stage;
     }
 
     /**

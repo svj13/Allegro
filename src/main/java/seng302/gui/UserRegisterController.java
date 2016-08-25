@@ -178,6 +178,7 @@ public class UserRegisterController {
         if (!(env.getUserHandler().getUserNames().contains(txtUsername.getText())) && validCredentials()) {
             env.getUserHandler().createUser(txtUsername.getText(), txtPassword.getText());
 
+            //Log in user.
             if (env.getUserHandler().userPassExists(txtUsername.getText(), txtPassword.getText())) {
 
 
@@ -186,7 +187,7 @@ public class UserRegisterController {
                 env.getUserHandler().getCurrentUser().setUserFirstName(txtfname.getText());
                 env.getUserHandler().getCurrentUser().setUserLastName(txtlname.getText());
 
-
+                ((Stage) btnRegister.getScene().getWindow()).close();
                 env.getRootController().showWindow(true);
 
             }

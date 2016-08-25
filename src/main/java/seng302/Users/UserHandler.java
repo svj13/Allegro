@@ -1,5 +1,7 @@
 package seng302.Users;
 
+import org.apache.commons.io.FileDeleteStrategy;
+import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -215,6 +217,7 @@ public class UserHandler {
 
     public void deleteUser(String username) {
 
+
         //Step 1. Delete from list of users.
         this.userList.remove(username);
 
@@ -223,11 +226,34 @@ public class UserHandler {
 
         this.recentUsers.remove(username);
         saveUserList();
-        //Step 2. Delete all user folders
 
+
+        //First need to close all open instances of user related files..
+        env.getRootController().getStage().close();
+
+
+        //Step 2. Delete all user folders
         File userDir = Paths.get("UserData/" + username).toFile();
         if (userDir.isDirectory()) {
-            FileHandler.recursiveDelete(userDir);
+
+            try {
+                FileUtils.forceDelete(userDir);
+                //FileDeleteStrategy.FORCE.delete(userDir);
+            } catch (IOException e) {
+                e.printStackTrace();
+                try {
+                    Thread.sleep(1000);
+                    try {
+                        FileUtils.forceDelete(userDir);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
+
+            }
+
         } else {
             System.err.println("Could not delete the user directory");
         }
@@ -235,12 +261,12 @@ public class UserHandler {
 
         //Step 3. logout/reset environment.
 
-        try {
+       /* try {
             this.env.getRootController().logOutUser();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+*/
 
     }
 
