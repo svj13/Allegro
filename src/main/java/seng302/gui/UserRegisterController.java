@@ -3,6 +3,8 @@ package seng302.gui;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.validation.RequiredFieldValidator;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -18,11 +20,13 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.*;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import seng302.Environment;
 import seng302.Users.User;
 
 import java.awt.*;
+import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,15 +50,19 @@ public class UserRegisterController {
     private JFXPasswordField txtPasswordConfirm;
 
     @FXML
+    private JFXPasswordField txtPassword;
+
+    @FXML
     private JFXButton btnReturn;
 
     @FXML
     private JFXButton btnRegister;
 
-    @FXML
-    private JFXPasswordField txtPassword;
+
 
     Environment env;
+
+    RequiredFieldValidator passwprdValidator, usernameValidator;
 
 
     public UserRegisterController() {
@@ -66,15 +74,90 @@ public class UserRegisterController {
     }
 
 
-    private Boolean validCredentials(String username, String password, String confirmPassword) {
+    @FXML
+    public void initialize() {
 
-        if (password.equals(confirmPassword)) {
-            if (username.length() > 0 && password.length() > 0) //Must be atleast one character.
-                return true;
+
+        usernameValidator = new RequiredFieldValidator();
+        passwprdValidator = new RequiredFieldValidator();
+
+        //validator.setAwsomeIcon(new Icon(AwesomeIcon.WARNING,"2em",";","error"));
+        txtPasswordConfirm.getValidators().add(passwprdValidator);
+        txtUsername.getValidators().add(usernameValidator);
+
+        txtUsername.focusedProperty().addListener((o, oldVal, newVal) -> {
+            if (checkUserNameExists()) {
+                usernameValidator.setMessage("User already exists!");
+
+            }
+            txtUsername.validate();
+
+        });
+
+
+    }
+
+    private Boolean checkUserNameExists() {
+        if (env.getUserHandler().getUsers().containsKey(txtUsername.getText())) {
+            //If the User already exists!
+
+            usernameValidator.setMessage(String.format("user '%s' already exists.", txtUsername.getText()));
+            txtUsername.clear();
+            txtUsername.validate();
+            txtUsername.setFocusColor(javafx.scene.paint.Color.RED);
+            txtUsername.requestFocus();
+
+            return true;
+        }
+        return false;
+
+    }
+
+
+    private Boolean validCredentials() {
+
+        Boolean valid = true;
+        //Validating username
+        if (txtUsername.getText().length() > 0) {
+            if (env.getUserHandler().getUsers().containsKey(txtUsername.getText())) {
+                //If the User already exists!
+
+                valid = !checkUserNameExists();
+
+            }
+        } else { //username needs to be atleast 1 character.
+            usernameValidator.setMessage("Username must be atleast 1 character.");
+            txtUsername.validate();
+            txtUsername.setFocusColor(javafx.scene.paint.Color.RED);
+            return false;
+        }
+
+        //Validating password
+
+        if (txtPassword.getText().length() > 0 && txtPasswordConfirm.getText().length() > 0) {
+            if (!txtPassword.getText().equals(txtPasswordConfirm.getText())) {
+                //Passwords didn't match.
+                passwprdValidator.setMessage("Password and Confirm password didn't match!");
+                txtPassword.clear();
+                txtPasswordConfirm.clear();
+
+                txtPassword.validate();
+
+                return false;
+            }
+        } else {
+            passwprdValidator.setMessage("Password must be atleast 1 character.");
+            txtPassword.clear();
+            txtPasswordConfirm.clear();
+            txtPassword.validate();
+            txtPassword.requestFocus();
+            return false;
+
 
         }
 
-        return false;
+
+        return valid;
 
 
     }
@@ -83,7 +166,7 @@ public class UserRegisterController {
     protected void register() {
 
 
-        if (!(env.getUserHandler().getUserNames().contains(txtUsername.getText())) && validCredentials(txtUsername.getText(), txtPassword.getText(), txtPasswordConfirm.getText())) {
+        if (!(env.getUserHandler().getUserNames().contains(txtUsername.getText())) && validCredentials()) {
             env.getUserHandler().createUser(txtUsername.getText(), txtPassword.getText());
             logIn();
         } else {

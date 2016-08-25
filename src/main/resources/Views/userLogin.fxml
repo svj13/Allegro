@@ -13,10 +13,10 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#handleKeyPressed" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.UserLoginController">
    <children>
-       <StackPane layoutX="178.0" layoutY="232.0" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT"
-                  prefHeight="150.0" prefWidth="500.0" style="-fx-background-color: white;"
-                  AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0"
-                  AnchorPane.topAnchor="20.0">
+       <StackPane layoutX="178.0" layoutY="232.0" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity"
+                  nodeOrientation="LEFT_TO_RIGHT" prefHeight="150.0" prefWidth="500.0"
+                  style="-fx-background-color: white;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="50.0"
+                  AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="20.0">
            <children>
                <HBox alignment="CENTER" layoutY="221.0" prefHeight="114.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0"
                      AnchorPane.rightAnchor="0.0"/>
@@ -38,10 +38,11 @@
                        <HBox fx:id="recentUsersHbox" alignment="CENTER" maxHeight="191.0" maxWidth="450.0"
                              minHeight="95.0" minWidth="336.0" prefHeight="114.0" prefWidth="450.0">
                            <VBox.margin>
-                               <Insets bottom="20.0"/>
+                               <Insets bottom="30.0"/>
                            </VBox.margin>
                        </HBox>
-                       <JFXTextField fx:id="usernameInput" focusColor="#d98921" maxWidth="300.0" promptText="Username">
+                       <JFXTextField fx:id="usernameInput" focusColor="#d98921" labelFloat="true" maxWidth="300.0"
+                                     promptText="Username">
                            <font>
                                <Font size="14.0"/>
                            </font>
@@ -49,7 +50,7 @@
                                <Insets bottom="20.0"/>
                            </VBox.margin>
                        </JFXTextField>
-                       <JFXPasswordField fx:id="passwordInput" focusColor="#d98921" maxWidth="300.0"
+                       <JFXPasswordField fx:id="passwordInput" focusColor="#d98921" labelFloat="true" maxWidth="300.0"
                                          promptText="Password">
                            <VBox.margin>
                                <Insets bottom="30.0"/>

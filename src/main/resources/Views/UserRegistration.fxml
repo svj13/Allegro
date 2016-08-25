@@ -10,7 +10,6 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             nodeOrientation="LEFT_TO_RIGHT" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.UserRegisterController">
@@ -53,12 +52,14 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                             <children>
-                                <JFXTextField maxWidth="1.7976931348623157E308" promptText="First Name">
+                                <JFXTextField labelFloat="true" maxWidth="1.7976931348623157E308"
+                                              promptText="First Name">
                                     <font>
                                         <Font size="14.0"/>
                                     </font>
                                 </JFXTextField>
-                                <JFXTextField maxWidth="1.7976931348623157E308" promptText="Last Name">
+                                <JFXTextField labelFloat="true" maxWidth="1.7976931348623157E308"
+                                              promptText="Last Name">
                                     <font>
                                         <Font size="14.0"/>
                                     </font>
@@ -68,8 +69,8 @@
                                 <Insets top="20.0"/>
                             </VBox.margin>
                         </HBox>
-                        <JFXTextField fx:id="txtUsername" maxWidth="350.0" minWidth="178.0" prefHeight="31.0"
-                                      prefWidth="178.0" promptText="UserName">
+                        <JFXTextField fx:id="txtUsername" labelFloat="true" maxWidth="350.0" minWidth="178.0"
+                                      prefHeight="31.0" prefWidth="178.0" promptText="UserName">
                             <VBox.margin>
                                 <Insets top="10.0"/>
                             </VBox.margin>
@@ -77,17 +78,17 @@
                                 <Font size="14.0"/>
                             </font>
                         </JFXTextField>
-                        <JFXPasswordField fx:id="txtPassword" maxWidth="350.0" minWidth="178.0" prefHeight="31.0"
-                                          promptText="Password">
+                        <JFXPasswordField fx:id="txtPassword" labelFloat="true" maxWidth="350.0" minWidth="178.0"
+                                          prefHeight="31.0" promptText="Password">
                             <VBox.margin>
-                                <Insets top="10.0"/>
+                                <Insets top="20.0"/>
                             </VBox.margin>
                             <font>
                                 <Font size="14.0"/>
                             </font>
                         </JFXPasswordField>
-                        <JFXPasswordField fx:id="txtPasswordConfirm" maxWidth="350.0" minWidth="178.0" prefHeight="31.0"
-                                          promptText="Confirm Password">
+                        <JFXPasswordField fx:id="txtPasswordConfirm" labelFloat="true" maxWidth="350.0" minWidth="178.0"
+                                          prefHeight="31.0" promptText="Confirm Password">
                             <VBox.margin>
                                 <Insets top="10.0"/>
                             </VBox.margin>

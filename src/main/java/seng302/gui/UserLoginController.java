@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RequiredFieldValidator;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -50,7 +51,7 @@ public class UserLoginController {
     Label labelError;
 
     @FXML
-    JFXButton btnLogIn;
+    JFXButton btnLogin;
 
     Environment env;
     RequiredFieldValidator passwordValidator;
@@ -64,12 +65,18 @@ public class UserLoginController {
 
     @FXML
     public void initialize() {
+
+
         passwordValidator = new RequiredFieldValidator();
-        passwordValidator.setMessage("Password Required");
+
         //validator.setAwsomeIcon(new Icon(AwesomeIcon.WARNING,"2em",";","error"));
         passwordInput.getValidators().add(passwordValidator);
         passwordInput.focusedProperty().addListener((o, oldVal, newVal) -> {
-            if (!newVal) passwordInput.validate();
+            if (!newVal) {
+                passwordValidator.setMessage("Password Required");
+                passwordInput.validate();
+            }
+
         });
     }
 
@@ -167,7 +174,7 @@ public class UserLoginController {
             e.printStackTrace();
         }
         Scene scene1 = new Scene(root1);
-        Stage registerStage = (Stage) btnLogIn.getScene().getWindow();
+        Stage registerStage = (Stage) btnLogin.getScene().getWindow();
 
         registerStage.setTitle("Register new user");
         registerStage.setScene(scene1);
@@ -208,7 +215,7 @@ public class UserLoginController {
             env.getUserHandler().setCurrentUser(usernameInput.getText());
 
             //Close login window.
-            Stage stage = (Stage) btnLogIn.getScene().getWindow();
+            Stage stage = (Stage) btnLogin.getScene().getWindow();
             stage.close();
 
             env.getRootController().showWindow(true);
@@ -218,7 +225,11 @@ public class UserLoginController {
 //            labelError.setText("Invalid username or password.");
 //            labelError.setTextFill(javafx.scene.paint.Color.RED);
             passwordValidator.setMessage("Invalid username or password.");
+            passwordInput.clear();
             passwordInput.validate();
+            passwordInput.requestFocus();
+
+
 
         }
 
