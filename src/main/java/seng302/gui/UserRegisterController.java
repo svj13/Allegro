@@ -106,7 +106,7 @@ public class UserRegisterController {
     }
 
     private Boolean checkUserNameExists() {
-        if (env.getUserHandler().getUsers().containsKey(txtUsername.getText())) {
+        if (env.getUserHandler().getUserNames().contains(txtUsername.getText())) {
             //If the User already exists!
 
             usernameValidator.setMessage(String.format("user '%s' already exists.", txtUsername.getText()));
@@ -128,7 +128,7 @@ public class UserRegisterController {
         Boolean valid = true;
         //Validating username
         if (txtUsername.getText().length() > 0) {
-            if (env.getUserHandler().getUsers().containsKey(txtUsername.getText())) {
+            if (env.getUserHandler().getUserNames().contains(txtUsername.getText())) {
                 //If the User already exists!
 
                 valid = !checkUserNameExists();

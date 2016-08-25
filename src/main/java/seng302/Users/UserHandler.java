@@ -5,11 +5,9 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import seng302.Environment;
+import seng302.utility.FileHandler;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -168,7 +166,12 @@ public class UserHandler {
             }
             recentUsers.add(username);
         }
+        saveUserList();
 
+
+    }
+
+    private void saveUserList() {
         try { //Save list of projects.
             UsersInfo.put("users", userList);
             UsersInfo.put("recentUsers", recentUsers);
@@ -206,6 +209,38 @@ public class UserHandler {
 
         //update User drop down to display user's name
         env.getRootController().updateUserInfo(userName);
+
+    }
+
+
+    public void deleteUser(String username) {
+
+        //Step 1. Delete from list of users.
+        this.userList.remove(username);
+
+
+        //Step 2. Delete from recent users list
+
+        this.recentUsers.remove(username);
+        saveUserList();
+        //Step 2. Delete all user folders
+
+        File userDir = Paths.get("UserData/" + username).toFile();
+        if (userDir.isDirectory()) {
+            FileHandler.recursiveDelete(userDir);
+        } else {
+            System.err.println("Could not delete the user directory");
+        }
+
+
+        //Step 3. logout/reset environment.
+
+        try {
+            this.env.getRootController().logOutUser();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
     }
 

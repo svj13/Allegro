@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -39,6 +40,10 @@ public class UserSettingsController {
 
     @FXML
     private TextField firstNameField;
+
+    @FXML
+    private JFXButton btnDeleteUser;
+
 
     private Environment env;
 
@@ -119,5 +124,12 @@ public class UserSettingsController {
             lastNameField.setEditable(false);
             editLastNameButton.setText("Edit");
         }
+    }
+
+    @FXML
+    private void deleteUser() {
+
+        env.getUserHandler().deleteUser(env.getUserHandler().getCurrentUser().getUserName());
+
     }
 }
