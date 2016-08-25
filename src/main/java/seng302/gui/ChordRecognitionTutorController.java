@@ -1,6 +1,8 @@
 package seng302.gui;
 
 
+import com.jfoenix.controls.JFXComboBox;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -43,7 +45,7 @@ public class ChordRecognitionTutorController extends TutorController {
     ComboBox<Integer> octaves;
 
     @FXML
-    ComboBox<String> chordTypeBox;
+    JFXComboBox<String> chordTypeBox;
 
     private Random rand;
 
@@ -65,12 +67,12 @@ public class ChordRecognitionTutorController extends TutorController {
         for (int i = 0; i < manager.questions; i++) {
             HBox questionRow = setUpQuestion();
             TitledPane qPane = new TitledPane("Question " + (i + 1), questionRow);
+            qPane.setPadding(new Insets(2, 2, 2, 2));
             qPanes.add(qPane);
             questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
         }
-        qAccordion.getPanes().remove(0,3); // Accordion initialises with 3 entries
+//        qAccordion.getPanes().remove(0, 3); // Accordion initialises with 3 entries
         qAccordion.getPanes().addAll(qPanes);
-        qAccordion.setStyle("spacing = 3px");
         questionRows.getChildren().add(qAccordion);
     }
 

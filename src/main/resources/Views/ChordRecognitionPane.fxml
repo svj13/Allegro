@@ -48,7 +48,7 @@
                                 <Label text="Play chords: " />
                                 <ComboBox fx:id="playChords" prefWidth="100.0" promptText="Up" />
                         <Label text="Chord Type:" />
-                        <ComboBox fx:id="chordTypeBox" prefWidth="100.0" promptText="Up" />
+                        <JFXComboBox fx:id="chordTypeBox" prefWidth="100.0" promptText="Up" />
                                 <Label text="Octaves: ">
                                     <HBox.margin>
                                         <Insets left="5.0" />
@@ -61,43 +61,27 @@
                             </VBox.margin>
                         </HBox>
                       <BorderPane>
-                     <center>
-                              <Button id="btnGo" fx:id="btnGo" alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#goAction" prefHeight="30.0" prefWidth="90.0" text="Go" textAlignment="CENTER" BorderPane.alignment="CENTER">
-                                  <font>
-                                      <Font size="14.0" />
-                                  </font>
-                                  <BorderPane.margin>
-                                      <Insets bottom="5.0" left="20.0" />
-                                  </BorderPane.margin>
-                              </Button>
-                     </center>
+                     <bottom>
+                        <JFXButton id="btnGo" fx:id="btnGo" alignment="CENTER" onAction="#goAction" prefHeight="30.0" prefWidth="90.0" ripplerFill="#a4a4a4" style="-fx-background-color: #5683bf;" text="Go" BorderPane.alignment="CENTER">
+                           <BorderPane.margin>
+                              <Insets bottom="5.0" left="20.0" />
+                           </BorderPane.margin>
+                        </JFXButton>
+                     </bottom>
                       </BorderPane>
                     </children>
                 </VBox>
             </children>
         </HBox>
-        <ScrollPane fx:id="paneQuestions" fitToHeight="true" fitToWidth="true" layoutY="459.0" minHeight="10.0" minWidth="10.0" prefHeight="67.0" prefViewportHeight="60.0" prefViewportWidth="680.0" prefWidth="722.0" visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5" AnchorPane.rightAnchor="5" AnchorPane.topAnchor="5.0">
+        <ScrollPane fx:id="paneQuestions" fitToHeight="true" fitToWidth="true" layoutY="45.0" minHeight="10.0" minWidth="10.0" prefHeight="481.0" prefViewportHeight="60.0" prefViewportWidth="680.0" prefWidth="722.0" visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5" AnchorPane.rightAnchor="5" AnchorPane.topAnchor="45.0">
             <content>
                 <VBox fx:id="questionRows" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="486.0" prefWidth="719.0">
                <children>
                   <Accordion fx:id="qAccordion" prefHeight="150.0" prefWidth="650.0">
-                    <panes>
-                      <TitledPane animated="false" text="untitled 1">
-                        <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                        </content>
-                      </TitledPane>
-                      <TitledPane animated="false" text="untitled 2">
-                        <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                        </content>
-                      </TitledPane>
-                      <TitledPane animated="false" text="untitled 3">
-                        <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                        </content>
-                      </TitledPane>
-                    </panes>
+                    <panes></panes>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
                   </Accordion>
                </children>
                <padding>

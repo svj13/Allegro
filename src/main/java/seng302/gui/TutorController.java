@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 import javafx.fxml.FXML;
@@ -13,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -137,11 +139,18 @@ public abstract class TutorController {
         manager.clearTempIncorrect();
         Collections.shuffle(tempIncorrectResponses);
         manager.questions = tempIncorrectResponses.size();
+        List retestPanes = new ArrayList<>();
+
         for (Pair pair : tempIncorrectResponses) {
             HBox questionRow = generateQuestionPane(pair);
-            questionRows.getChildren().add(questionRow);
+            TitledPane qPane = new TitledPane("Question " + (tempIncorrectResponses.indexOf(pair) + 1), questionRow);
+            qPane.setPadding(new Insets(2, 2, 2, 2));
+            retestPanes.add(qPane);
             VBox.setMargin(questionRow, new Insets(10, 10, 10, 10));
         }
+        qAccordion.getPanes().remove(0, qAccordion.getPanes().size());
+        qAccordion.getPanes().addAll(retestPanes);
+        questionRows.getChildren().add(qAccordion);
     }
 
     protected void finished() {
