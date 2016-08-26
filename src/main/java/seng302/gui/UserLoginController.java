@@ -211,7 +211,7 @@ public class UserLoginController {
 
         if(env.getUserHandler().userPassExists(usernameInput.getText(), passwordInput.getText())){
 
-
+            System.out.println("login method called!");
             env.getUserHandler().setCurrentUser(usernameInput.getText());
 
             //Close login window.

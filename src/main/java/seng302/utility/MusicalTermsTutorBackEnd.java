@@ -21,6 +21,7 @@ public class MusicalTermsTutorBackEnd {
     }
 
     public void setTerms(ArrayList<Term> t) {
+        System.out.println("set terms has been called with terms of size: " + t.size());
         this.terms = t;
     }
 

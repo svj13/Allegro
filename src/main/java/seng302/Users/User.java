@@ -106,8 +106,9 @@ public class User {
         /**
          * Current Theme
          * Musical Terms
+         * Full name
          * Project Handler
-         *
+         * Theme
          */
 
         //Load musical terms property
@@ -117,9 +118,31 @@ public class User {
         ArrayList<Term> terms = gson.fromJson((String) properties.get("musicalTerms"), termsType);
 
         if (terms != null) {
+            System.out.println("in load advanced terms, the musical terms are NOT null");
 
             env.getMttDataManager().setTerms(terms);
         }
+
+        try {
+            userFirstName = (properties.get("firstName")).toString();
+        } catch (NullPointerException e) {
+            userFirstName = "";
+        }
+
+        try {
+            userLastName = (properties.get("lastName")).toString();
+        } catch (NullPointerException e) {
+            userLastName = "";
+        }
+
+        try {
+            //Theme
+            themeColor = (properties.get("themeColor")).toString();
+        } catch (NullPointerException e) {
+            themeColor = "white";
+        }
+
+
 
         projectHandler = new ProjectHandler(env, userName);
 
@@ -134,18 +157,15 @@ public class User {
         return projectHandler;}
 
     /**
-     * Loads basic properties which need be readed in login screen.
+     * Loads basic properties which need be read by the login screen.
      */
     private void loadBasicProperties() {
         /**
-         * Properties:
+         * Basic properties:
          *  PhotoID - Stored as default 'userPicture.png'
          *  Last sign in time
-         *  name
+         *  username
          *  Password
-         *  Musical terms
-         *  Maybe default tempo?
-         *  Theme
          *
          */
         Gson gson = new Gson();
@@ -168,36 +188,19 @@ public class User {
 
         }
 
-        try {
-            //name
-            userFullName = (properties.get("fullName")).toString();
-        }catch (NullPointerException e){
-            userFullName = userName;
-        }
-
-        try {
-            userFirstName = (properties.get("firstName")).toString();
-        } catch (NullPointerException e) {
-            userFirstName = "";
-        }
-
-        try {
-            userLastName = (properties.get("lastName")).toString();
-        } catch (NullPointerException e) {
-            userLastName = "";
-        }
+//        try {
+//            //name
+//            userFullName = (properties.get("fullName")).toString();
+//        }catch (NullPointerException e){
+//            userFullName = userName;
+//        }
 
 
         //Password
         userPassword = (properties.get("password")).toString();
 
 
-        try {
-            //Theme
-            themeColor = (properties.get("themeColor")).toString();
-        }catch(NullPointerException e){
-            themeColor = "white";
-        }
+
     }
 
 
@@ -219,7 +222,6 @@ public class User {
 
         String lastSignInJSON = gson.toJson(lastSignIn);
         properties.put("signInTime", lastSignInJSON);
-
 
 
     }
@@ -282,6 +284,30 @@ public class User {
             //invalid path (Poor project naming)
             env.getRootController().errorAlert("Invalid file name - try again.");
             //createNewProject();
+        }
+
+
+    }
+
+
+    /**
+     * Checking functionality specifically for musical saved musical terms.
+     */
+    public void checkmusicTerms() {
+        //String saveName = (projectName == null || projectName.length() < 1) ? "No Project" : this.projectName;
+        if (properties.containsKey("musicalTerms")) {
+            Type termsType = new TypeToken<ArrayList<Term>>() {
+            }.getType();
+            if (!properties.get("musicalTerms").equals(new Gson().fromJson((String) properties.get("muscalTerms"), termsType))) {
+                env.getRootController().setWindowTitle(getProjectHandler().getCurrentProject().projectName + "*");
+                getProjectHandler().getCurrentProject().saved = false;
+            }
+        } else {
+            if (env.getRootController() != null) {
+                env.getRootController().setWindowTitle(getProjectHandler().getCurrentProject().projectName + "*");
+                getProjectHandler().getCurrentProject().saved = false;
+            }
+
         }
 
 

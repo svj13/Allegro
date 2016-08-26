@@ -613,7 +613,8 @@ public class RootController implements Initializable {
      */
     @FXML
     public void newProject() {
-        env.resetEnvironment();
+        //env.resetEnvironment();
+        env.resetProjectEnvironment();
         env.getUserHandler().getCurrentUser().getProjectHandler().createNewProject();
     }
 
@@ -622,6 +623,7 @@ public class RootController implements Initializable {
      */
     @FXML
     private void saveProject() {
+        env.getUserHandler().getCurrentUser().saveProperties();
         env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().saveCurrentProject();
     }
 

@@ -44,10 +44,28 @@ public class Environment {
         userHandler = new UserHandler(this);
     }
 
+
+    public void resetProjectEnvironment() {
+        executor = new DslExecutor(this);
+        player = new MusicPlayer();
+        transcriptManager = new TranscriptManager();
+        //mttDataManager = new MusicalTermsTutorBackEnd();
+
+
+        recordLocation = null;
+        em = new EditHistory(this);
+
+        if (rootController != null) {
+            //reset this too
+            rootController.reset();
+        }
+    }
+
     /**
      * Resets the environment so it clears the existing saved information.
      */
     public void resetEnvironment() {
+        System.out.println("RESET ENVIRONMENT CALLED");
         executor = new DslExecutor(this);
         player = new MusicPlayer();
         transcriptManager = new TranscriptManager();
