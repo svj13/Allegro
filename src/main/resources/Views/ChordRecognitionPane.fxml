@@ -36,7 +36,7 @@
                                 <padding>
                                     <Insets top="15.0" />
                                 </padding>
-                            </JFXSlider>
+                              </JFXSlider>
                             </children>
                             <padding>
                                 <Insets left="5.0" />
@@ -46,8 +46,8 @@
                             <children>
                                 <Label text="Play chords: " />
                                 <ComboBox fx:id="playChords" prefWidth="100.0" promptText="Up" />
-                        <Label text="Chord Type:" />
-                        <JFXComboBox fx:id="chordTypeBox" prefWidth="100.0" promptText="Up" />
+                                <Label text="Chord Type:" />
+                                <ComboBox fx:id="chordTypeBox" prefWidth="100.0" promptText="Up" />
                                 <Label text="Octaves: ">
                                     <HBox.margin>
                                         <Insets left="5.0" />

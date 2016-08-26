@@ -45,7 +45,7 @@ public class ChordRecognitionTutorController extends TutorController {
     ComboBox<Integer> octaves;
 
     @FXML
-    JFXComboBox<String> chordTypeBox;
+    ComboBox<String> chordTypeBox;
 
     private Random rand;
 
