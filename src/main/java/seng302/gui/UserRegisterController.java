@@ -64,6 +64,9 @@ public class UserRegisterController {
     @FXML
     private JFXTextField txtlname;
 
+    @FXML
+    private Label lblValidator;
+
 
 
 
@@ -92,13 +95,19 @@ public class UserRegisterController {
         //validator.setAwsomeIcon(new Icon(AwesomeIcon.WARNING,"2em",";","error"));
         txtPasswordConfirm.getValidators().add(passwprdValidator);
         txtUsername.getValidators().add(usernameValidator);
+        lblValidator.setVisible(false);
 
         txtUsername.focusedProperty().addListener((o, oldVal, newVal) -> {
             if (checkUserNameExists()) {
                 usernameValidator.setMessage("User already exists!");
+                lblValidator.setText("User already exists!");
+                lblValidator.setVisible(true);
 
+
+            } else {
+                lblValidator.setVisible(false);
             }
-            txtUsername.validate();
+            //txtUsername.validate();
 
         });
 
@@ -109,9 +118,12 @@ public class UserRegisterController {
         if (env.getUserHandler().getUserNames().contains(txtUsername.getText())) {
             //If the User already exists!
 
-            usernameValidator.setMessage(String.format("user '%s' already exists.", txtUsername.getText()));
+           /* usernameValidator.setMessage(String.format("user '%s' already exists.", txtUsername.getText()));
             txtUsername.clear();
             txtUsername.validate();
+            txtUsername.setFocusColor(javafx.scene.paint.Color.RED);
+            txtUsername.requestFocus();
+            */
             txtUsername.setFocusColor(javafx.scene.paint.Color.RED);
             txtUsername.requestFocus();
 
@@ -130,15 +142,16 @@ public class UserRegisterController {
         if (txtUsername.getText().length() > 0) {
             if (env.getUserHandler().getUserNames().contains(txtUsername.getText())) {
                 //If the User already exists!
-
+                lblValidator.setText("User already exists!");
                 valid = !checkUserNameExists();
 
             }
         } else { //username needs to be atleast 1 character.
             usernameValidator.setMessage("Username must be atleast 1 character.");
-            txtUsername.validate();
+            // txtUsername.validate();
             txtUsername.setFocusColor(javafx.scene.paint.Color.RED);
-            return false;
+            lblValidator.setText("Username must contain at least 1 character.");
+            valid = false;
         }
 
         //Validating password
@@ -150,17 +163,18 @@ public class UserRegisterController {
                 txtPassword.clear();
                 txtPasswordConfirm.clear();
 
-                txtPassword.validate();
-
-                return false;
+                //txtPassword.validate();
+                lblValidator.setText("Entered passwords did not match.");
+                valid = false;
             }
         } else {
             passwprdValidator.setMessage("Password must be atleast 1 character.");
             txtPassword.clear();
             txtPasswordConfirm.clear();
-            txtPassword.validate();
+            //txtPassword.validate();
             txtPassword.requestFocus();
-            return false;
+            lblValidator.setText("Password must contain at least 1 character.");
+            valid = false;
 
 
         }
@@ -175,7 +189,7 @@ public class UserRegisterController {
     protected void register() {
 
 
-        if (!(env.getUserHandler().getUserNames().contains(txtUsername.getText())) && validCredentials()) {
+        if (validCredentials()) {
             env.getUserHandler().createUser(txtUsername.getText(), txtPassword.getText());
 
             //Log in user.
@@ -192,7 +206,9 @@ public class UserRegisterController {
 
             }
 
-
+        } else {
+            //Show validation label.
+            lblValidator.setVisible(true);
 
         }
     }

@@ -69,6 +69,7 @@ public class UserLoginController {
 
         passwordValidator = new RequiredFieldValidator();
 
+
         //validator.setAwsomeIcon(new Icon(AwesomeIcon.WARNING,"2em",";","error"));
         passwordInput.getValidators().add(passwordValidator);
         passwordInput.focusedProperty().addListener((o, oldVal, newVal) -> {
