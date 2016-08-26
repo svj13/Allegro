@@ -340,6 +340,7 @@ public class RootController implements Initializable {
         userPageStage.show();
         UserPageController userPageController = loader.getController();
         userPageController.setEnvironment(env);
+        userPageController.setModeManager(env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().getModeManager());
         userPageController.populateUserOptions();
         userPageController.updateImage();
 

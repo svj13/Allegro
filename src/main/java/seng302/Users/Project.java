@@ -34,6 +34,7 @@ import java.util.Optional;
 import javafx.scene.control.TextInputDialog;
 import seng302.Environment;
 import seng302.data.Term;
+import seng302.managers.ModeManager;
 import seng302.utility.InstrumentUtility;
 import seng302.utility.OutputTuple;
 
@@ -49,6 +50,7 @@ public class Project {
 
     Path projectDirectory;
     public String currentProjectPath, projectName;
+    public ModeManager modeManager;
 
     boolean saved = true;
 
@@ -62,6 +64,7 @@ public class Project {
         projectSettings = new JSONObject();
         tutorHandler = new TutorHandler(env);
         projectHandler = projectH;
+        modeManager = new ModeManager();
 
         loadProject(projectName);
         loadProperties();
@@ -376,5 +379,7 @@ public class Project {
     public String getCurrentProjectPath() {
         return currentProjectPath;
     }
+
+    public ModeManager getModeManager(){return modeManager;}
 
 }
