@@ -999,7 +999,7 @@ public class RootController implements Initializable {
         File folder = dirChooser.showDialog(stage);
 
         if (folder != null) {
-            if (folder.isDirectory()) {
+            if (folder.isDirectory() && folder.getParent().equals(env.getUserHandler().getCurrentUser().getUserName())) {
                 for (File f : folder.listFiles()) {
 
                     if (f.getName().endsWith(".json") && f.getName().substring(0, f.getName().length() - 5).equals(folder.getName())) {
@@ -1028,6 +1028,9 @@ public class RootController implements Initializable {
                 errorAlert("Not a valid Project folder - Try again!");
                 selectProjectDirectory();
                 return;
+            } else {
+                System.out.println(folder.getParent());
+                errorAlert("Project must be contained in the current user's Projects folder.");
             }
         }
     }
