@@ -1,14 +1,14 @@
 package seng302.command;
 
-import seng302.Environment;
-import seng302.data.ModeHelper;
-import seng302.data.Note;
-import seng302.utility.musicNotation.OctaveUtil;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+
+import seng302.Environment;
+import seng302.data.ModeHelper;
+import seng302.data.Note;
+import seng302.utility.musicNotation.OctaveUtil;
 
 /**
  * The Major Modes command class deals with two command types.
@@ -74,7 +74,7 @@ public class MajorModes implements Command {
         degree = ModeHelper.getkeyModes().get(scaleType);
         for(String note : majorNotes){
             Note tonic = Note.lookup(OctaveUtil.addDefaultOctave(note));
-            ArrayList<String> majorScale = Scale.scaleNameList(note, tonic.getScale("major", true), true);
+            ArrayList<String> majorScale = Scale.scaleNameList(note, tonic.getScale("major", true), true, scaleType);
             if(majorScale.get(degree - 1).equals(startNote)){
                 env.getTranscriptManager().setResult(note + " major");
             }
@@ -92,7 +92,7 @@ public class MajorModes implements Command {
      */
     public void getCorrespondingScale(Environment env) {
         if (degree >= 1 && degree <= 7) {
-            ArrayList<String> majorScale = Scale.scaleNameList(typedTonic, tonic.getScale("major", true), true);
+            ArrayList<String> majorScale = Scale.scaleNameList(typedTonic, tonic.getScale("major", true), true, "major");
             String parentNote = majorScale.get(degree - 1);
             String mode = ModeHelper.getValueModes().get(degree);
 
