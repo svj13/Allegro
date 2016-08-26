@@ -991,7 +991,7 @@ public class RootController implements Initializable {
         DirectoryChooser dirChooser = new DirectoryChooser();
 
         dirChooser.setTitle("Select a project directory");
-        Path path = Paths.get("UserData/Projects/");
+        Path path = Paths.get(env.getUserHandler().getCurrentUserPath().toString() + "/Projects/");
         checkProjectDirectory();
         dirChooser.setInitialDirectory(path.toFile());
 
