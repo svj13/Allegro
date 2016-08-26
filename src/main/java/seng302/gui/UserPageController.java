@@ -2,6 +2,9 @@ package seng302.gui;
 
 import com.jfoenix.controls.JFXListCell;
 import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.JFXSlider;
+
+import org.controlsfx.control.spreadsheet.StringConverterWithFormat;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -67,6 +70,9 @@ public class UserPageController {
     @FXML
     Label overallStats;
 
+    @FXML
+    JFXSlider timeSlider;
+
     private Environment env;
 
 
@@ -103,6 +109,48 @@ public class UserPageController {
         listView.getSelectionModel().selectFirst();
         listView.setMaxWidth(200);
         listView.setMinWidth(200);
+        timeSlider.setMaxWidth(200);
+        timeSlider.setLabelFormatter(new StringConverterWithFormat<Double>() {
+            @Override
+            public String toString(Double object) {
+                if (object == 0) {
+                    return "Today";
+                } else if (object == 1) {
+                    return "Last Week";
+                } else if (object == 2) {
+                    return "Last Month";
+                } else if (object == 3) {
+                    return "Last Six Months";
+                } else if (object == 4) {
+                    return "Last Year";
+                } else if (object == 5) {
+                    return "All Time";
+                }
+                return null;
+
+            }
+
+            @Override
+            public Double fromString(String string) {
+                if (string.equals("Today")) {
+                    return 0d;
+                } else if (string.equals("Last Week")) {
+                    return 1d;
+                } else if (string.equals("Last Month")) {
+                    return 2d;
+                } else if (string.equals("Last Six Months")) {
+                    return 3d;
+                } else if (string.equals("Last Year")) {
+                    return 4d;
+                } else if (string.equals("All Time")) {
+                    return 5d;
+                }
+                return null;
+            }
+        });
+        timeSlider.setShowTickLabels(true);
+        timeSlider.setId("time-slider");
+
         // This allows images to be displayed in the listview. Still trying to
         // make the text centered and the height and width the same as the others.
         listView.setCellFactory(listView -> new JFXListCell<String>() {
