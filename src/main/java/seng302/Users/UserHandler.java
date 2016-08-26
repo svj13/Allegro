@@ -217,40 +217,34 @@ public class UserHandler {
 
     public void deleteUser(String username) {
 
+        //For some reason this needs to be called?
+        this.getCurrentUser().delete();
 
         //Step 1. Delete from list of users.
         this.userList.remove(username);
-
 
         //Step 2. Delete from recent users list
 
         this.recentUsers.remove(username);
         saveUserList();
 
-
         //First need to close all open instances of user related files..
         env.getRootController().getStage().close();
+        //env.resetEnvironment();
 
-
+        System.gc();
         //Step 2. Delete all user folders
         File userDir = Paths.get("UserData/" + username).toFile();
         if (userDir.isDirectory()) {
+
 
             try {
                 FileUtils.forceDelete(userDir);
                 //FileDeleteStrategy.FORCE.delete(userDir);
             } catch (IOException e) {
                 e.printStackTrace();
-                try {
-                    Thread.sleep(1000);
-                    try {
-                        FileUtils.forceDelete(userDir);
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-                } catch (InterruptedException e1) {
-                    e1.printStackTrace();
-                }
+                System.out.println("trying again");
+                env.getRootController().errorAlert("Failed to fully remove the deleted user directory.");
 
             }
 
@@ -261,12 +255,12 @@ public class UserHandler {
 
         //Step 3. logout/reset environment.
 
-       /* try {
+        try {
             this.env.getRootController().logOutUser();
         } catch (IOException e) {
             e.printStackTrace();
         }
-*/
+
 
     }
 

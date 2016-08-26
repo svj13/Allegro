@@ -151,6 +151,16 @@ public class User {
 
     }
 
+    /**
+     * This needs to be called to unlock the project folders to allow them to be deleted.
+     */
+    public void delete() {
+
+        this.projectHandler = null;
+
+
+    }
+
 
     public ProjectHandler getProjectHandler(){
 
