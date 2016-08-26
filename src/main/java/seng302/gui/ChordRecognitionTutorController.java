@@ -71,7 +71,7 @@ public class ChordRecognitionTutorController extends TutorController {
             qPanes.add(qPane);
             questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
         }
-//        qAccordion.getPanes().remove(0, 3); // Accordion initialises with 3 entries
+
         qAccordion.getPanes().addAll(qPanes);
         questionRows.getChildren().add(qAccordion);
     }
