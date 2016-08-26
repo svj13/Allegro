@@ -4,6 +4,7 @@ import org.controlsfx.control.CheckComboBox;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -17,6 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
@@ -124,20 +126,25 @@ public class ChordSpellingTutorController extends TutorController {
      */
     private void goAction(ActionEvent event) {
         if (chordTypes.getCheckModel().getCheckedIndices().size() != 0) {
-            chordError.setVisible(false);
             record = new TutorRecord();
+            paneInit.setVisible(false);
             paneQuestions.setVisible(true);
             paneResults.setVisible(false);
             manager.resetEverything();
             manager.questions = selectedQuestions;
             enharmonicsRequired = (String) numEnharmonics.getValue();
+            List qPanes = new ArrayList<>();
 
             questionRows.getChildren().clear();
             for (int i = 0; i < manager.questions; i++) {
                 HBox questionRow = setUpQuestion();
-                questionRows.getChildren().add(questionRow);
+                TitledPane qPane = new TitledPane("Question " + (i + 1), questionRow);
+                qPane.setPadding(new Insets(2, 2, 2, 2));
+                qPanes.add(qPane);
                 questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
             }
+            qAccordion.getPanes().addAll(qPanes);
+            questionRows.getChildren().add(qAccordion);
         } else {
             chordError.setVisible(true);
         }
