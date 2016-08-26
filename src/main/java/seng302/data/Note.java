@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 import java.util.Set;
 
 import seng302.utility.musicNotation.Checker;
@@ -222,6 +223,14 @@ public class Note {
     }
 
     /**
+     * @return the note name from a string.
+     */
+    public String getNote() {
+        return this.note;
+    }
+
+
+    /**
      * Returns the descending enharmonic name. So the b value instead of the # value.
      *
      * @return descending enharmonic name.
@@ -313,19 +322,24 @@ public class Note {
                 case "locrian":
                     semitones = Arrays.asList(1, 3, 5, 6, 8, 10, 12);
                     break;
+                case "blues":
+                    semitones = Arrays.asList(3, 5, 6, 7, 10, 12);
+                    break;
+                case "major pentatonic":
+                    semitones = Arrays.asList(2, 4, 7, 9, 12);
+                    break;
+                case "minor pentatonic":
+                    semitones = Arrays.asList(3, 5, 7, 10, 12);
+                    break;
                 default:
                     throw new IllegalArgumentException("Invalid scale type: '" + type + "'.");
             }
 
             for (int i = 0; i < octaves; i++) {
-                scaleNotes.add(currentNote.semitoneUp(semitones.get(0)));
-                scaleNotes.add(currentNote.semitoneUp(semitones.get(1)));
-                scaleNotes.add(currentNote.semitoneUp(semitones.get(2)));
-                scaleNotes.add(currentNote.semitoneUp(semitones.get(3)));
-                scaleNotes.add(currentNote.semitoneUp(semitones.get(4)));
-                scaleNotes.add(currentNote.semitoneUp(semitones.get(5)));
-                scaleNotes.add(currentNote.semitoneUp(semitones.get(6)));
-                currentNote = currentNote.semitoneUp(semitones.get(6));
+                for (int j = 0; j < semitones.size(); j++) {
+                    scaleNotes.add(currentNote.semitoneUp(semitones.get(j)));
+                }
+                currentNote = currentNote.semitoneUp(semitones.get(semitones.size()-1));
             }
         } else {
             switch (type.toLowerCase()) {
@@ -359,18 +373,23 @@ public class Note {
                 case "locrian":
                     semitones = Arrays.asList(2, 4, 6, 7, 9, 11, 12);
                     break;
+                case "blues":
+                    semitones = Arrays.asList(2, 5, 6, 7, 9, 12);
+                    break;
+                case "major pentatonic":
+                    semitones = Arrays.asList(3, 5, 8, 10, 12);
+                    break;
+                case "minor pentatonic":
+                    semitones = Arrays.asList(2, 5, 7, 9, 12);
+                    break;
                 default:
                     throw new IllegalArgumentException("Invalid scale type: '" + type + "'.");
             }
             for (int i = 0; i < octaves; i++) {
-                scaleNotes.add(currentNote.semitoneDown(semitones.get(0)));
-                scaleNotes.add(currentNote.semitoneDown(semitones.get(1)));
-                scaleNotes.add(currentNote.semitoneDown(semitones.get(2)));
-                scaleNotes.add(currentNote.semitoneDown(semitones.get(3)));
-                scaleNotes.add(currentNote.semitoneDown(semitones.get(4)));
-                scaleNotes.add(currentNote.semitoneDown(semitones.get(5)));
-                scaleNotes.add(currentNote.semitoneDown(semitones.get(6)));
-                currentNote = currentNote.semitoneDown(semitones.get(6));
+                for (int j = 0; j < semitones.size(); j++) {
+                    scaleNotes.add(currentNote.semitoneDown(semitones.get(j)));
+                }
+                currentNote = currentNote.semitoneDown(semitones.get(semitones.size() - 1));
             }
         }
         if (scaleNotes.contains(null)) {
@@ -425,18 +444,22 @@ public class Note {
         return null;
     }
 
-    /**
-     * @return the note name.
-     */
-    public String getNote() {
-        return this.note;
-    }
 
     /**
      * @return the MIDI value.
      */
     public Integer getMidi() {
         return this.midi;
+    }
+
+    /**
+     * Generates a note in the octave of middle C
+     *
+     * @return the random note
+     */
+    public static Note getRandomNote() {
+        Random rand = new Random();
+        return Note.lookup(Integer.toString(rand.nextInt(11) + 60));
     }
 
     @Override

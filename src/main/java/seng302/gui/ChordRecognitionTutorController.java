@@ -92,11 +92,9 @@ public class ChordRecognitionTutorController extends TutorController {
 
         if (chordTypeBox.getValue().equals("Both")) {
             type = rand.nextInt(8);
-        }
-        else if (chordTypeBox.getValue().equals("3 Notes")) {
+        } else if (chordTypeBox.getValue().equals("3 Notes")) {
             type = rand.nextInt(3);
-        }
-        else {
+        } else {
             type = rand.nextInt(5) + 3;
         }
 
@@ -128,19 +126,11 @@ public class ChordRecognitionTutorController extends TutorController {
             default:
                 chordType = "major";
         }
-        Note randNote = getRandomNote();
+        Note randNote = Note.getRandomNote();
 //        return generateQuestionPane(randNote, chordType);
         return generateQuestionPane(new Pair<>(randNote, chordType));
     }
 
-    /**
-     * Generates a note in the octave of middle C
-     *
-     * @return the random note
-     */
-    public Note getRandomNote() {
-        return Note.lookup(Integer.toString(rand.nextInt(11) + 60));
-    }
 
     /**
      * Given a type of scale (major or minor) and a starting note, returns a list of notes of scale
@@ -177,13 +167,9 @@ public class ChordRecognitionTutorController extends TutorController {
         formatQuestionRow(questionRow);
         final Label correctAnswer = correctAnswer(noteAndChordType.getValue());
         final Note startNote = noteAndChordType.getKey();
-//        System.out.println("startNote" + startNote);
         final String chordType = noteAndChordType.getValue();
 
         final Collection<Note> theChord = new ArrayList<Note>(ChordUtil.getChord(startNote, chordType));
-//        final Pair<Collection<Note>, String> answer = new Pair<Collection<Note>, String>(theChord, chordType);
-//        final ChordUtil myChord;
-//        System.out.println("theChord?: " + theChord);
 
         Button play = new Button();
         stylePlayButton(play);
@@ -202,8 +188,7 @@ public class ChordRecognitionTutorController extends TutorController {
                     Integer wait;
                     if (chordTypeBox.getValue().equals("Both") || chordTypeBox.getValue().equals("4 Notes")) {
                         wait = 1000 * 240 / currentTempo + 40;
-                    }
-                    else {
+                    } else {
                         wait = 1000 * 180 / currentTempo + 40;
                     }
                     Thread.sleep(wait);
@@ -217,7 +202,6 @@ public class ChordRecognitionTutorController extends TutorController {
 
         final ComboBox<String> options = generateChoices();
         options.setOnAction(event -> {
-//                System.out.println("Options.getVal: " + options.getValue());
             handleQuestionAnswer(options.getValue().toLowerCase(), noteAndChordType, questionRow);
         });
 
@@ -233,10 +217,11 @@ public class ChordRecognitionTutorController extends TutorController {
             manager.add(noteAndChordType, 2);
             String[] question = new String[]{
                     String.format("%s scale from %s", chordType, startNote.getNote()),
-                    chordType
+                    chordType,
+                    "2"
             };
-            projectHandler.saveTutorRecords("chord", record.addSkippedQuestion(question));
-            env.getRootController().setTabTitle("chordTutor", true);
+            record.addQuestionAnswer(question);
+            env.getRootController().setTabTitle(getTabID(), true);
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -268,13 +253,11 @@ public class ChordRecognitionTutorController extends TutorController {
             options.getItems().add("7th");
             options.getItems().add("half diminished");
             options.getItems().add("diminished 7th");
-        }
-        else if (chordTypeBox.getValue().equals("3 Notes")){
+        } else if (chordTypeBox.getValue().equals("3 Notes")) {
             options.getItems().add("major");
             options.getItems().add("minor");
             options.getItems().add("diminished");
-        }
-        else {
+        } else {
             options.getItems().add("minor 7th");
             options.getItems().add("major 7th");
             options.getItems().add("7th");
@@ -294,14 +277,14 @@ public class ChordRecognitionTutorController extends TutorController {
      */
     public void handleQuestionAnswer(String userAnswer, Pair correctAnswer, HBox questionRow) {
         manager.answered += 1;
-        boolean correct;
+        Integer correct;
         disableButtons(questionRow, 1, 3);
         if (userAnswer.equals(correctAnswer.getValue())) {
-            correct = true;
+            correct = 1;
             manager.add(correctAnswer, 1);
             formatCorrectQuestion(questionRow);
         } else {
-            correct = false;
+            correct = 0;
             manager.add(correctAnswer, 0);
             formatIncorrectQuestion(questionRow);
             //Shows the correct answer
@@ -313,10 +296,10 @@ public class ChordRecognitionTutorController extends TutorController {
                         correctAnswer.getValue(),
                         startingNote.getNote()),
                 userAnswer,
-                Boolean.toString(correct)
+                Integer.toString(correct)
         };
-        projectHandler.saveTutorRecords("chord", record.addQuestionAnswer(question));
-        env.getRootController().setTabTitle("chordTutor", true);
+        record.addQuestionAnswer(question);
+        env.getRootController().setTabTitle(getTabID(), true);
 
         if (manager.answered == manager.questions) {
             finished();
@@ -331,62 +314,4 @@ public class ChordRecognitionTutorController extends TutorController {
         octaves.getSelectionModel().selectFirst();
     }
 
-    /**
-     * This function is run once a tutoring session has been completed.
-     */
-    public void finished() {
-        env.getPlayer().stop();
-        userScore = getScore(manager.correct, manager.answered);
-        outputText = String.format("You have finished the tutor.\n" +
-                        "You answered %d questions, and skipped %d questions.\n" +
-                        "You answered %d questions correctly, %d questions incorrectly.\n" +
-                        "This gives a score of %.2f percent.",
-                manager.questions, manager.skipped,
-                manager.correct, manager.incorrect, userScore);
-        if (projectHandler.currentProjectPath != null) {
-            projectHandler.saveSessionStat("chord", record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore));
-            projectHandler.saveCurrentProject();
-            outputText += "\nSession auto saved.";
-        }
-        env.getRootController().setTabTitle("chordTutor", false);
-        // Sets the finished view
-        resultsContent.setText(outputText);
-
-        paneQuestions.setVisible(false);
-        paneResults.setVisible(true);
-        questionRows.getChildren().clear();
-
-        Button retestBtn = new Button("Retest");
-        Button clearBtn = new Button("Clear");
-        Button saveBtn = new Button("Save");
-
-        clearBtn.setOnAction(event -> {
-            manager.saveTempIncorrect();
-            paneResults.setVisible(false);
-            paneQuestions.setVisible(true);
-        });
-
-        paneResults.setPadding(new Insets(10, 10, 10, 10));
-        retestBtn.setOnAction(event -> {
-            paneResults.setVisible(false);
-            paneQuestions.setVisible(true);
-            retest();
-
-        });
-        saveBtn.setOnAction(event -> saveRecord());
-
-        if (manager.getTempIncorrectResponses().size() > 0) {
-            //Can re-test
-            buttons.getChildren().setAll(retestBtn, clearBtn, saveBtn);
-        } else {
-            //Perfect score
-            buttons.getChildren().setAll(clearBtn, saveBtn);
-        }
-
-        HBox.setMargin(retestBtn, new Insets(10, 10, 10, 10));
-        HBox.setMargin(clearBtn, new Insets(10, 10, 10, 10));
-        HBox.setMargin(saveBtn, new Insets(10, 10, 10, 10));
-        // Clear the current session
-        manager.resetStats();
-    }
 }

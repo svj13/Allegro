@@ -1,0 +1,10 @@
+.root {
+    -fx-base: #f1f0f0;
+    -fx-background: #F9F9F9;
+    -fx-control-inner-background: #FFFFFF;
+    -fx-body-color: linear-gradient(to bottom, derive(-fx-color, 35.0%) 0%, derive(-fx-color, -6.0%) 100%);
+    -fx-text-box-border: derive(-fx-background, 9.189189189189179%);
+}
+
+
+

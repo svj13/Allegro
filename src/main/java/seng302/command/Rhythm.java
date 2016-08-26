@@ -93,8 +93,8 @@ public class Rhythm implements Command {
 
 
             env.getTranscriptManager().setResult(result);
-            //Update project saved state
-            env.getProjectHandler().checkChanges("rhythm");
+            if(env.getUserHandler().getCurrentUser() != null)//Update project saved state
+                env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().checkChanges("rhythm");
 
             editHistoryArray.add(String.valueOf(env.getPlayer().getRhythmHandler().toString()));
             env.getEditManager().addToHistory("2", editHistoryArray); //Add Edit history changes after they are made.s

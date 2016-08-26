@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -21,9 +22,13 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import seng302.Environment;
-import seng302.managers.ProjectHandler;
+import seng302.data.Note;
+
+import seng302.Users.ProjectHandler;
+import seng302.Users.TutorHandler;
 import seng302.managers.TutorManager;
 import seng302.utility.TutorRecord;
+import seng302.utility.musicNotation.OctaveUtil;
 
 public abstract class TutorController {
 
@@ -40,6 +45,8 @@ public abstract class TutorController {
     public int selectedQuestions;
 
     public ProjectHandler projectHandler;
+
+    public TutorHandler tutorHandler;
 
     Stage stage;
 
@@ -74,6 +81,8 @@ public abstract class TutorController {
     @FXML
     Label questions;
 
+    private String tabID;
+
     /**
      * An empty constructor, required for sub-classes.
      */
@@ -86,7 +95,8 @@ public abstract class TutorController {
     public void create(Environment env) {
         this.env = env;
         manager = new TutorManager();
-        projectHandler = env.getProjectHandler();
+        projectHandler = env.getUserHandler().getCurrentUser().getProjectHandler();
+        tutorHandler = projectHandler.getCurrentProject().getTutorHandler();
     }
 
     /**
@@ -106,6 +116,7 @@ public abstract class TutorController {
         // occurred. This handles that situation.
         numQuestions.setOnMouseReleased(event -> {
             Double val = numQuestions.getValue();
+            selectedQuestions = val.intValue();
             questions.setText(Integer.toString(val.intValue()));
         });
     }
@@ -127,6 +138,67 @@ public abstract class TutorController {
         }
     }
 
+    protected void finished() {
+        env.getPlayer().stop();
+        userScore = getScore(manager.correct, manager.answered);
+        outputText = String.format("You have finished the tutor.\n" +
+                        "You answered %d questions, and skipped %d questions.\n" +
+                        "You answered %d questions correctly, %d questions incorrectly.\n" +
+                        "This gives a score of %.2f percent.",
+                manager.questions, manager.skipped,
+                manager.correct, manager.incorrect, userScore);
+
+        record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
+        record.setFinished();
+        record.setDate();
+        if (projectHandler.getCurrentProject() != null) {
+            record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
+            projectHandler.getCurrentProject().saveCurrentProject();
+            outputText += "\nSession auto saved.";
+        }
+        env.getRootController().setTabTitle(tabID, false);
+
+        // Sets the finished view
+        resultsContent.setText(outputText);
+
+        paneQuestions.setVisible(false);
+        paneResults.setVisible(true);
+        questionRows.getChildren().clear();
+
+        Button retestBtn = new Button("Retest");
+        Button clearBtn = new Button("Clear");
+        Button saveBtn = new Button("Save");
+
+        clearBtn.setOnAction(event -> {
+            manager.saveTempIncorrect();
+            paneResults.setVisible(false);
+            paneQuestions.setVisible(true);
+        });
+
+        paneResults.setPadding(new Insets(10, 10, 10, 10));
+        retestBtn.setOnAction(event -> {
+            paneResults.setVisible(false);
+            paneQuestions.setVisible(true);
+            retest();
+
+        });
+        saveBtn.setOnAction(event -> saveRecord());
+
+        if (manager.getTempIncorrectResponses().size() > 0) {
+            //Can re-test
+            buttons.getChildren().setAll(retestBtn, clearBtn, saveBtn);
+        } else {
+            //Perfect score
+            buttons.getChildren().setAll(clearBtn, saveBtn);
+        }
+
+        buttons.setMargin(retestBtn, new Insets(10, 10, 10, 10));
+        buttons.setMargin(clearBtn, new Insets(10, 10, 10, 10));
+        buttons.setMargin(saveBtn, new Insets(10, 10, 10, 10));
+        // Clear the current session
+        manager.resetStats();
+    }
+
     /**
      * An empty function which is overridden by each tutor
      */
@@ -146,20 +218,20 @@ public abstract class TutorController {
         }
     }
 
+    public TutorManager getManager() {
+        return manager;
+    }
+
     /**
      * Saves a record of the tutoring session to a file.
      */
     public void saveRecord() {
 
-
         //show a file picker
         FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
-        fileChooser.getExtensionFilters().add(textFilter);
-
-        if (env.getProjectHandler().isProject()) {
+        if (projectHandler.getCurrentProject().isProject()) {
             env.getRootController().checkProjectDirectory();
-            fileChooser.setInitialDirectory(Paths.get(env.getProjectHandler().getCurrentProjectPath()).toFile());
+            fileChooser.setInitialDirectory(Paths.get(projectHandler.getCurrentProject().getCurrentProjectPath()).toFile());
         }
         File file = fileChooser.showSaveDialog(stage);
 
@@ -167,7 +239,7 @@ public abstract class TutorController {
             fileDir = file.getParentFile();
             path = file.getAbsolutePath();
             env.setRecordLocation(path);
-            record.writeToFile(path);
+            projectHandler.getCurrentProject().getTutorHandler().saveTutorRecordsToFile(path, record);
         }
     }
 
@@ -197,6 +269,26 @@ public abstract class TutorController {
         questionRow.setPadding(new Insets(10, 10, 10, 10));
         questionRow.setSpacing(10);
         questionRow.setStyle("-fx-border-color: #336699; -fx-border-width: 2px;");
+    }
+
+    /**
+     * Using random numbers, "randomises" whether a note will display with a sharp or flat. Only
+     * uses sharps/flats when applicable.
+     *
+     * @param noteToRandomise A Note which is being "randomised"
+     * @return A 'randomised' string representation of a note.
+     */
+    protected String randomiseNoteName(Note noteToRandomise) {
+        Random rand = new Random();
+        String noteName = OctaveUtil.removeOctaveSpecifier(noteToRandomise.getNote());
+
+        //As the default is sharp, we randomise to get some flats
+        if (rand.nextInt(2) != 0) {
+            if (!noteToRandomise.simpleEnharmonic().equals("")) {
+                noteName = OctaveUtil.removeOctaveSpecifier(noteToRandomise.simpleEnharmonic());
+            }
+        }
+        return noteName;
     }
 
 
@@ -303,5 +395,13 @@ public abstract class TutorController {
         questionRows.getChildren().clear();
         manager.resetEverything();
         resetInputs();
+    }
+
+    public String getTabID() {
+        return tabID;
+    }
+
+    public void setTabID(String tabID) {
+        this.tabID = tabID;
     }
 }

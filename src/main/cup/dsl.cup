@@ -139,7 +139,7 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_SEMITONE_UP note:s                  {: RESULT = new Semitone(s, true); :}
           | COMMAND_SEMITONE_DOWN note:s                {: RESULT = new Semitone(s, false); :}
           | COMMAND_TEMPO                               {: RESULT = new Tempo(); :}
-          | COMMAND_RHYTHM                               {: RESULT = new Rhythm(); :}
+          | COMMAND_RHYTHM                              {: RESULT = new Rhythm(); :}
           | COMMAND_SCALE scale:s                       {: RESULT = new Scale(s, "note"); :}
           | COMMAND_MIDI_SCALE scale:s                  {: RESULT = new Scale(s, "midi"); :}
           | COMMAND_ENHARMONIC_HIGHER note:s            {: RESULT = new Enharmonic(s, 0); :}
