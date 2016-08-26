@@ -154,17 +154,6 @@ public class UserLoginController {
     @FXML
     protected void register(){
 
-
-//        if (!(env.getUserHandler().getUserNames().contains(usernameInput.getText())) && validCredentials(usernameInput.getText(), passwordInput.getText())){
-//            env.getUserHandler().createUser(usernameInput.getText(), passwordInput.getText());
-//            logIn();
-//        }
-//        else{
-//
-//            labelError.setText("User already exists!");
-//            labelError.setTextFill(javafx.scene.paint.Color.RED);
-//        }
-
         FXMLLoader loader1 = new FXMLLoader();
         loader1.setLocation(getClass().getResource("/Views/UserRegistration.fxml"));
 
@@ -179,7 +168,6 @@ public class UserLoginController {
 
         registerStage.setTitle("Register new user");
         registerStage.setScene(scene1);
-
 
         registerStage.setOnCloseRequest(event -> {
             System.exit(0);

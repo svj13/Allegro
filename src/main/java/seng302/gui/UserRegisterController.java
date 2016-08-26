@@ -186,6 +186,13 @@ public class UserRegisterController {
     }
 
     @FXML
+    public void handleKeyPressed(KeyEvent event) {
+        if (event.getCode() == KeyCode.ENTER) {
+            register();
+        }
+    }
+
+    @FXML
     protected void register() {
 
 
