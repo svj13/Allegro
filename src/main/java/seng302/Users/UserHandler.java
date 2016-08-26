@@ -142,14 +142,15 @@ public class UserHandler {
     }
 
 
-
+    /**
+     * Creates a new user.
+     *
+     * @param user     username
+     * @param password password
+     */
     public void createUser(String user, String password){
         this.currentUser = new User(user, password, env);
         updateUserList(user);
-
-    }
-
-    public void logOut() {
 
     }
 
@@ -173,6 +174,9 @@ public class UserHandler {
 
     }
 
+    /**
+     * Writes the currently saved user settings to disc.
+     */
     private void saveUserList() {
         try { //Save list of projects.
             UsersInfo.put("users", userList);
@@ -215,46 +219,36 @@ public class UserHandler {
     }
 
 
+    /**
+     * Full deletes the specified user incl. project files.
+     * @param username
+     */
     public void deleteUser(String username) {
 
-        //For some reason this needs to be called?
+        //Step 1.For some reason this needs to be called? (all it does is delete the project handler
         this.getCurrentUser().delete();
 
-        //Step 1. Delete from list of users.
+        //Step 2. Delete from list of users/recent users.
         this.userList.remove(username);
-
-        //Step 2. Delete from recent users list
-
         this.recentUsers.remove(username);
         saveUserList();
 
-        //First need to close all open instances of user related files..
+        //Step 3. Close the main window, which helps remove any file locks and request garbage collection.
         env.getRootController().getStage().close();
-        //env.resetEnvironment();
-
         System.gc();
-        //Step 2. Delete all user folders
+
+        //Step 4. Delete all user folders and files.
         File userDir = Paths.get("UserData/" + username).toFile();
+
         if (userDir.isDirectory()) {
-
-
-            try {
-                FileUtils.forceDelete(userDir);
-                //FileDeleteStrategy.FORCE.delete(userDir);
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.out.println("trying again");
-                env.getRootController().errorAlert("Failed to fully remove the deleted user directory.");
-
-            }
-
+            Boolean res = FileHandler.deleteDirectory(userDir);
+            if (!res) env.getRootController().errorAlert("Failed to fully remove the deleted user directory.");
         } else {
             System.err.println("Could not delete the user directory");
         }
 
 
-        //Step 3. logout/reset environment.
-
+        //Step 5. Open the User login window.
         try {
             this.env.getRootController().logOutUser();
         } catch (IOException e) {

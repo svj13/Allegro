@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -73,9 +74,6 @@ public class UserRegisterController {
 
     Environment env;
 
-    RequiredFieldValidator passwprdValidator, usernameValidator;
-
-
     public UserRegisterController() {
 
     }
@@ -88,18 +86,11 @@ public class UserRegisterController {
     @FXML
     public void initialize() {
 
-
-        usernameValidator = new RequiredFieldValidator();
-        passwprdValidator = new RequiredFieldValidator();
-
-        //validator.setAwsomeIcon(new Icon(AwesomeIcon.WARNING,"2em",";","error"));
-        txtPasswordConfirm.getValidators().add(passwprdValidator);
-        txtUsername.getValidators().add(usernameValidator);
         lblValidator.setVisible(false);
 
         txtUsername.focusedProperty().addListener((o, oldVal, newVal) -> {
             if (checkUserNameExists()) {
-                usernameValidator.setMessage("User already exists!");
+
                 lblValidator.setText("User already exists!");
                 lblValidator.setVisible(true);
 
@@ -107,23 +98,23 @@ public class UserRegisterController {
             } else {
                 lblValidator.setVisible(false);
             }
-            //txtUsername.validate();
 
         });
+
+        btnReturn.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/images/back_32dp.png"))));
 
 
     }
 
+    /**
+     * Checks if the user for the given text input already exists
+     *
+     * @return
+     */
     private Boolean checkUserNameExists() {
         if (env.getUserHandler().getUserNames().contains(txtUsername.getText())) {
             //If the User already exists!
 
-           /* usernameValidator.setMessage(String.format("user '%s' already exists.", txtUsername.getText()));
-            txtUsername.clear();
-            txtUsername.validate();
-            txtUsername.setFocusColor(javafx.scene.paint.Color.RED);
-            txtUsername.requestFocus();
-            */
             txtUsername.setFocusColor(javafx.scene.paint.Color.RED);
             txtUsername.requestFocus();
 
@@ -135,6 +126,10 @@ public class UserRegisterController {
     }
 
 
+    /**
+     * Validates credentials (input lengths + validity.
+     * @return True if username/passwords are valid, false otherwise
+     */
     private Boolean validCredentials() {
 
         Boolean valid = true;
@@ -144,10 +139,9 @@ public class UserRegisterController {
                 //If the User already exists!
                 lblValidator.setText("User already exists!");
                 valid = !checkUserNameExists();
-
             }
         } else { //username needs to be atleast 1 character.
-            usernameValidator.setMessage("Username must be atleast 1 character.");
+
             // txtUsername.validate();
             txtUsername.setFocusColor(javafx.scene.paint.Color.RED);
             lblValidator.setText("Username must contain at least 1 character.");
@@ -159,7 +153,7 @@ public class UserRegisterController {
         if (txtPassword.getText().length() > 0 && txtPasswordConfirm.getText().length() > 0) {
             if (!txtPassword.getText().equals(txtPasswordConfirm.getText())) {
                 //Passwords didn't match.
-                passwprdValidator.setMessage("Password and Confirm password didn't match!");
+
                 txtPassword.clear();
                 txtPasswordConfirm.clear();
 
@@ -168,7 +162,7 @@ public class UserRegisterController {
                 valid = false;
             }
         } else {
-            passwprdValidator.setMessage("Password must be atleast 1 character.");
+
             txtPassword.clear();
             txtPasswordConfirm.clear();
             //txtPassword.validate();
@@ -192,9 +186,11 @@ public class UserRegisterController {
         }
     }
 
+    /**
+     * Registers a user and then logs that user in and opens the main window.
+     */
     @FXML
     protected void register() {
-
 
         if (validCredentials()) {
             env.getUserHandler().createUser(txtUsername.getText(), txtPassword.getText());
@@ -221,33 +217,19 @@ public class UserRegisterController {
     }
 
 
+    /**
+     * Replaces the registration window with a log in window.
+     */
     @FXML
     protected void Return() {
-        FXMLLoader loader1 = new FXMLLoader();
-        loader1.setLocation(getClass().getResource("/Views/userLogin.fxml"));
 
-        Parent root1 = null;
+        Stage loginStage = (Stage) btnRegister.getScene().getWindow();
+
         try {
-            root1 = loader1.load();
+            env.getRootController().showLoginWindow(loginStage);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Scene scene1 = new Scene(root1);
-        Stage loginStage = (Stage) btnRegister.getScene().getWindow();
-        loginStage.setTitle("Allegro - Login");
-        loginStage.setScene(scene1);
-
-
-        loginStage.setOnCloseRequest(event -> {
-            System.exit(0);
-            event.consume();
-        });
-
-
-        loginStage.show();
-        UserLoginController userLoginController = loader1.getController();
-        userLoginController.setEnv(env);
-        userLoginController.displayRecentUsers();
     }
 
 

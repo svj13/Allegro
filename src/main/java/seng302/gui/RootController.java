@@ -345,8 +345,16 @@ public class RootController implements Initializable {
     }
 
 
-    public void showLoginWindow(Boolean show) throws IOException {
-        if (show) {
+    private void showLoginWindow() {
+        try {
+            showLoginWindow(new Stage());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showLoginWindow(Stage loginStage) throws IOException {
+        //if (show) {
 
             //Close current window.
             if (stage.isShowing()) stage.close();
@@ -356,7 +364,7 @@ public class RootController implements Initializable {
 
             Parent root1 = loader1.load();
             Scene scene1 = new Scene(root1);
-            Stage loginStage = new Stage();
+
 
             loginStage.setTitle("Allegro");
             loginStage.setScene(scene1);
@@ -367,6 +375,9 @@ public class RootController implements Initializable {
                 event.consume();
             });
 
+        loginStage.setMinWidth(600);
+        Double initialHeight = loginStage.getHeight();
+        loginStage.setMinHeight(initialHeight);
 
             loginStage.show();
             UserLoginController userLoginController = loader1.getController();
@@ -374,14 +385,14 @@ public class RootController implements Initializable {
             userLoginController.displayRecentUsers();
 
 
-        }
+        //}
 
     }
 
     @FXML
     public void logOutUser() throws IOException {
         stage.close();
-        showLoginWindow(true);
+        showLoginWindow();
         reset();
 
     }

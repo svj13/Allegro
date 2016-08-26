@@ -11,16 +11,19 @@
 <?import com.jfoenix.validation.*?>
 <?import com.jfoenix.controls.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#handleKeyPressed" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.UserLoginController">
+<AnchorPane minHeight="400.0" minWidth="600.0" onKeyPressed="#handleKeyPressed" prefHeight="400.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="seng302.gui.UserLoginController">
    <children>
-       <StackPane layoutX="178.0" layoutY="232.0" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity"
-                  nodeOrientation="LEFT_TO_RIGHT" prefHeight="150.0" prefWidth="500.0"
+       <StackPane layoutX="178.0" layoutY="232.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500"
+                  minWidth="500.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="500.0" prefWidth="500.0"
                   style="-fx-background-color: white;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="50.0"
                   AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="20.0">
            <children>
                <HBox alignment="CENTER" layoutY="221.0" prefHeight="114.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0"
                      AnchorPane.rightAnchor="0.0"/>
-               <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" StackPane.alignment="CENTER">
+               <VBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0"
+                     StackPane.alignment="CENTER">
                    <children>
                        <HBox alignment="TOP_CENTER" prefHeight="46.0" prefWidth="600.0">
                            <children>
@@ -65,7 +68,7 @@
                                <!--</Button>-->
 
                                <JFXButton fx:id="btnLogin" buttonType="RAISED" onAction="#logIn" prefHeight="25.0"
-                                          prefWidth="100.0" ripplerFill="#0cff43" style="-fx-background-color: #0CFF43;"
+                                          prefWidth="100.0" ripplerFill="#00bfa5" style="-fx-background-color: #1DE9B6;"
                                           text="Sign in">
                                    <VBox.margin>
                                        <Insets bottom="20.0" top="30.0"/>
@@ -80,8 +83,8 @@
 
                                <!--<Button fx:id="btnRegister" mnemonicParsing="false" onAction="#register" prefWidth="80.0" text="Register" HBox.hgrow="NEVER" />-->
                                <JFXButton fx:id="btnRegister" buttonType="RAISED" mnemonicParsing="false"
-                                          onAction="#register" prefHeight="25.0" prefWidth="100.0" ripplerFill="#ff0a0a"
-                                          style="-fx-background-color: #f28b15;" text="Register">
+                                          onAction="#register" prefHeight="25.0" prefWidth="100.0" ripplerFill="#fb8c00"
+                                          style="-fx-background-color: #FFB74D;" text="Register">
                                    <VBox.margin>
                                        <Insets bottom="20.0" top="30.0"/>
                                    </VBox.margin>

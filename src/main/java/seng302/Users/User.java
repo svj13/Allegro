@@ -52,8 +52,8 @@ public class User {
 
     /**
      *  User constructor used for generating new users.
-     * @param userName
-     * @param password
+     * @param userName username
+     * @param password password to set for the corresponding user.
      * @param env
      */
     public User(String userName, String password, Environment env){
@@ -85,6 +85,7 @@ public class User {
     /**
      * Loads basic user properties (Picture, Name, Password etc.)
      * Used when loading a collection of users (Login screen)
+     * This should only load properties which NEED to be loaded before the user logs in.
      * @param env
      * @param user user name
      */
@@ -101,6 +102,7 @@ public class User {
 
     /**
      * loads extensive user properties (after user login)
+     * This should load all properties which aren't neccessary before the user logs in.
      */
     public void loadFullProperties(){
         /**
@@ -197,13 +199,6 @@ public class User {
             lastSignIn = new Date();
 
         }
-
-//        try {
-//            //name
-//            userFullName = (properties.get("fullName")).toString();
-//        }catch (NullPointerException e){
-//            userFullName = userName;
-//        }
 
 
         //Password

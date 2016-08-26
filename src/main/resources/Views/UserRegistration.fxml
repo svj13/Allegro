@@ -30,22 +30,24 @@
                                         <Label text="Register" textAlignment="CENTER" textFill="#f28b15"
                                                BorderPane.alignment="CENTER">
                                             <font>
-                                                <Font name="System Bold" size="32.0"/>
+                                                <Font name="Times New Roman Bold" size="32.0"/>
                                             </font>
                                         </Label>
                                     </center>
                                     <left>
-                                        <JFXButton fx:id="btnReturn" alignment="CENTER" buttonType="RAISED"
-                                                   onAction="#Return" prefHeight="47.0" prefWidth="33.0"
-                                                   ripplerFill="#6745e1" style="-fx-background-color: lightblue;"
-                                                   text="&lt;-" BorderPane.alignment="CENTER_RIGHT">
+                                        <JFXButton fx:id="btnReturn" alignment="CENTER" contentDisplay="CENTER"
+                                                   ellipsisString="" graphicTextGap="0.0" maxHeight="40.0"
+                                                   maxWidth="33.0" minHeight="30.0" minWidth="33.0" onAction="#Return"
+                                                   ripplerFill="#6745e1" style="-fx-background-color: lightgrey;"
+                                                   BorderPane.alignment="CENTER_RIGHT">
                                             <BorderPane.margin>
                                                 <Insets/>
                                             </BorderPane.margin>
                                         </JFXButton>
                                     </left>
                                     <right>
-                                        <Pane prefHeight="47.0" prefWidth="33.0" BorderPane.alignment="CENTER"/>
+                                        <Pane maxHeight="40.0" maxWidth="33.0" minHeight="30.0" minWidth="33.0"
+                                              prefHeight="47.0" prefWidth="33.0" BorderPane.alignment="CENTER"/>
                                     </right>
                                 </BorderPane>
                             </children>
@@ -98,7 +100,7 @@
                         </JFXPasswordField>
                         <Label fx:id="lblValidator" textFill="RED"/>
                         <JFXButton fx:id="btnRegister" buttonType="RAISED" onAction="#register" prefHeight="25.0"
-                                   prefWidth="189.0" ripplerFill="#ff0a0a" style="-fx-background-color: #f28b15;"
+                                   prefWidth="189.0" ripplerFill="#ff0a0a" style="-fx-background-color: #FFB74D;"
                                    text="Register">
                             <VBox.margin>
                                 <Insets bottom="20.0" top="15.0"/>

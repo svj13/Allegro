@@ -69,8 +69,6 @@ public class UserLoginController {
 
         passwordValidator = new RequiredFieldValidator();
 
-
-        //validator.setAwsomeIcon(new Icon(AwesomeIcon.WARNING,"2em",";","error"));
         passwordInput.getValidators().add(passwordValidator);
         passwordInput.focusedProperty().addListener((o, oldVal, newVal) -> {
             if (!newVal) {
@@ -101,6 +99,13 @@ public class UserLoginController {
     }
 
 
+    /**
+     * Loads all recent users and collects information about them (dp, password etc)
+     *
+     * @param username
+     * @param image
+     * @return
+     */
     private Node generateRecentUser(String username, Image image){
 
         Node recentUser;
@@ -125,7 +130,9 @@ public class UserLoginController {
     }
 
 
-
+    /**
+     * Displays imageBoxs of recent users.
+     */
     public void displayRecentUsers(){
         String name;
         //Image image = new Image(getClass().getResourceAsStream
@@ -142,15 +149,10 @@ public class UserLoginController {
 
     }
 
-    private Boolean validCredentials(String username, String password){
-        if(username.length() > 0 && password.length() > 0) //Must be atleast one character.
-            return true;
 
-        return false;
-
-
-    }
-
+    /**
+     * Creates a register scene and opens it.
+     */
     @FXML
     protected void register(){
 
@@ -174,6 +176,9 @@ public class UserLoginController {
             event.consume();
         });
 
+        registerStage.setMinWidth(600);
+        Double initialHeight = registerStage.getHeight();
+        registerStage.setMinHeight(initialHeight);
 
         registerStage.show();
         UserRegisterController userRegisterController = loader1.getController();
@@ -210,9 +215,6 @@ public class UserLoginController {
             env.getRootController().showWindow(true);
         }else{
 
-//            final Label message = new Label("");
-//            labelError.setText("Invalid username or password.");
-//            labelError.setTextFill(javafx.scene.paint.Color.RED);
             passwordValidator.setMessage("Invalid username or password.");
             passwordInput.clear();
             passwordInput.validate();

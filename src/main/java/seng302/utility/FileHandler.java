@@ -1,5 +1,7 @@
 package seng302.utility;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -40,85 +42,20 @@ public class FileHandler {
     }
 
     /**
-     * Remove a directory and all of its contents.
-     * <p>
-     * The results of executing File.delete() on a File object
-     * that represents a directory seems to be platform
-     * dependent. This method removes the directory
-     * and all of its contents.
-     *
-     * @return true if the complete directory was removed, false if it could not be.
-     * If false is returned then some of the files in the directory may have been removed.
+     * Recursibvely deletes a directory and all it's content
+     * @param dir
+     * @return successful. (true if successfully deleted everything, false otherwise)
      */
-    public static boolean removeDirectory(File directory) {
-
-        // System.out.println("removeDirectory " + directory);
-
-        if (directory == null)
-            return false;
-        if (!directory.exists())
+    public static Boolean deleteDirectory(File dir) {
+        try {
+            FileUtils.forceDelete(dir);
             return true;
-        if (!directory.isDirectory())
+        } catch (IOException e) {
             return false;
 
-        String[] list = directory.list();
 
-        // Some JVMs return null for File.list() when the
-        // directory is empty.
-        if (list != null) {
-            for (int i = 0; i < list.length; i++) {
-                File entry = new File(directory, list[i]);
-
-                //        System.out.println("\tremoving entry " + entry);
-
-                if (entry.isDirectory()) {
-                    if (!removeDirectory(entry))
-                        return false;
-                } else {
-                    if (!entry.delete())
-                        return false;
-                }
-            }
         }
 
-        return directory.delete();
-    }
-
-    public static void recursiveDelete(File file) {
-        //to end the recursive loop
-        if (!file.exists())
-            return;
-
-        //if directory, go inside and call recursively
-        if (file.isDirectory()) {
-            for (File f : file.listFiles()) {
-                //call recursively
-                recursiveDelete(f);
-            }
-        }
-        //call delete to delete files and empty directory
-        file.delete();
-        System.out.println("Deleted file/folder: " + file.getAbsolutePath());
-    }
-
-
-    public static void rmdir(final File folder) {
-        // check if folder file is a real folder
-        if (folder.isDirectory()) {
-            File[] list = folder.listFiles();
-            if (list != null) {
-                for (int i = 0; i < list.length; i++) {
-                    File tmpF = list[i];
-                    if (tmpF.isDirectory()) {
-                        rmdir(tmpF);
-                    }
-                    tmpF.delete();
-                }
-            }
-            if (!folder.delete()) {
-                System.out.println("can't delete folder : " + folder);
-            }
-        }
     }
 
 
