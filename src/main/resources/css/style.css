@@ -15,10 +15,6 @@
     -fx-background-color: #80807f;
 }
 
-#time-slider.axis {
-    -fx-rotate: -90;
-}
-
 /*.blackkey {*/
 /*-fx-background-color: #333;*/
 /*-fx-border-width:1px 2px 7px;*/

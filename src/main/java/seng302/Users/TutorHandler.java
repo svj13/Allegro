@@ -10,7 +10,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +25,9 @@ import seng302.utility.TutorRecord;
  */
 public class TutorHandler {
     Environment env;
+
+    private Map<String, Date> dates;
+
 
     private static final List<String> tutorIds = new ArrayList<String>() {{
         add("pitchTutor");
@@ -37,6 +42,24 @@ public class TutorHandler {
 
     public TutorHandler(Environment env) {
         this.env = env;
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -7);
+        dates = new HashMap<>();
+        dates.put("Today", new Date());
+        dates.put("Last Week", cal.getTime());
+        cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, -1);
+        dates.put("Last Month", cal.getTime());
+        cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, -6);
+        dates.put("Last Six Months", cal.getTime());
+        cal = Calendar.getInstance();
+        cal.add(Calendar.YEAR, -1);
+        dates.put("Last Year", cal.getTime());
+        cal = Calendar.getInstance();
+        cal.add(Calendar.YEAR, -1000);
+        dates.put("All Time", cal.getTime());
+        System.out.println(dates);
 
     }
 
@@ -113,14 +136,17 @@ public class TutorHandler {
 
     }
 
-    public List<Pair<Date, Float>> getTimeAndScores(String tabID) {
+    public List<Pair<Date, Float>> getTimeAndScores(String tabID, String timePeriod) {
         ArrayList<TutorRecord> records = getTutorData(tabID);
         List<Pair<Date, Float>> scores = new ArrayList<>();
         for (TutorRecord record : records) {
             Date date = record.getDate();
-            Map<String, Number> scoreMap = record.getStats();
-            float score = scoreMap.get("percentageCorrect").floatValue();
-            scores.add(new Pair<>(date, score));
+            Date compare = dates.get(timePeriod);
+            if (date.after(compare)) {
+                Map<String, Number> scoreMap = record.getStats();
+                float score = scoreMap.get("percentageCorrect").floatValue();
+                scores.add(new Pair<>(date, score));
+            }
         }
         return scores;
     }

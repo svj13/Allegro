@@ -76,7 +76,10 @@ public class UserPageController {
     private Environment env;
 
 
+
     public UserPageController() {
+
+
     }
 
 
@@ -103,14 +106,13 @@ public class UserPageController {
 
         listView.getItems().addAll(FXCollections.observableArrayList(options));
 
-        listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            displayGraphs((String) newValue);
-        });
+
         listView.getSelectionModel().selectFirst();
         listView.setMaxWidth(200);
         listView.setMinWidth(200);
         timeSlider.setMaxWidth(200);
-        timeSlider.setLabelFormatter(new StringConverterWithFormat<Double>() {
+        //
+        StringConverterWithFormat convert = new StringConverterWithFormat<Double>() {
             @Override
             public String toString(Double object) {
                 if (object == 0) {
@@ -147,10 +149,18 @@ public class UserPageController {
                 }
                 return null;
             }
-        });
+        };
+        timeSlider.setLabelFormatter(convert);
         timeSlider.setShowTickLabels(true);
-        timeSlider.setId("time-slider");
+        timeSlider.valueChangingProperty().addListener(((observable, oldValue, newValue) -> {
+            if (newValue.equals(false)) {
+                updateGraphs(convert.toString(timeSlider.valueProperty().get()));
+            }
+        }));
 
+        listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            displayGraphs((String) newValue, convert.toString(timeSlider.valueProperty().get()));
+        });
         // This allows images to be displayed in the listview. Still trying to
         // make the text centered and the height and width the same as the others.
         listView.setCellFactory(listView -> new JFXListCell<String>() {
@@ -175,10 +185,15 @@ public class UserPageController {
 
     }
 
+    private void updateGraphs(String timePeriod) {
+        displayGraphs((String) listView.getSelectionModel().getSelectedItem(), timePeriod);
+
+    }
+
     /**
      * Makes a line graph showing the scores over time. Still figuring out the scale.
      */
-    private void makeLineGraph(List<Pair<Date, Float>> dateAndTimeList) {
+    private void makeLineGraph(List<Pair<Date, Float>> dateAndTimeList, String timePeriod) {
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM H:mm:ss");
 
@@ -234,7 +249,7 @@ public class UserPageController {
      *
      * @param tutor the specific tutor that the graphs will getting data from
      */
-    private void displayGraphs(String tutor) {
+    private void displayGraphs(String tutor, String timePeriod) {
         Pair<Integer, Integer> correctIncorrectRecent = new Pair<>(0, 0);
         Pair<Integer, Integer> correctIncorrectOverall = new Pair<>(0, 0);
         List<Pair<Date, Float>> dateAndTime = new ArrayList<>();
@@ -251,36 +266,42 @@ public class UserPageController {
             case "Pitch Comparison Tutor":
                 correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("pitchTutor");
                 correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("pitchTutor");
-                dateAndTime = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTimeAndScores("pitchTutor");
+                dateAndTime = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTimeAndScores("pitchTutor", timePeriod);
                 break;
             case "Interval Recognition Tutor":
                 correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("intervalTutor");
                 correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("intervalTutor");
-                dateAndTime = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTimeAndScores("intervalTutor");
+                dateAndTime = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTimeAndScores("intervalTutor", timePeriod);
                 break;
             case "Scale Recognition Tutor":
                 correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("scaleTutor");
                 correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("scaleTutor");
+                dateAndTime = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTimeAndScores("scaleTutor", timePeriod);
                 break;
             case "Musical Terms Tutor":
                 correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("musicalTermTutor");
                 correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("musicalTermTutor");
+                dateAndTime = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTimeAndScores("musicalTermTutor", timePeriod);
                 break;
             case "Chord Recognition Tutor":
                 correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("chordTutor");
                 correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("chordTutor");
+                dateAndTime = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTimeAndScores("chordTutor", timePeriod);
                 break;
             case "Chord Spelling Tutor":
                 correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("chordSpellingTutor");
                 correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("chordSpellingTutor");
+                dateAndTime = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTimeAndScores("chordSpellingTutor", timePeriod);
                 break;
             case "Key Signature Tutor":
                 correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("keySignatureTutor");
                 correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("keySignatureTutor");
+                dateAndTime = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTimeAndScores("keySignatureTutor", timePeriod);
                 break;
             case "Diatonic Chord Tutor":
                 correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("diatonicChordTutor");
                 correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("diatonicChordTutor");
+                dateAndTime = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTimeAndScores("diatonicChordTutor", timePeriod);
                 break;
         }
 
@@ -311,7 +332,7 @@ public class UserPageController {
             stackedBar.getData().addAll(overallSeries1, overallSeries2);
 
 
-            makeLineGraph(dateAndTime);
+            makeLineGraph(dateAndTime, timePeriod);
         }
     }
 
