@@ -180,8 +180,6 @@ public class Project {
      * Handles Saving a .json Project file, for the specified project address
      * @param projectAddress Project directory address.
      */
-
-
     public void saveProject(String projectAddress) {
 
         //Add all settings to such as tempo speed to the project here.
@@ -197,13 +195,9 @@ public class Project {
 
             tutorHandler.saveTutorRecordsToFile(projectAddress);
             env.getRootController().clearAllIndicators();
-
             projectSettings.put("tempo", env.getPlayer().getTempo());
-
             env.getRootController().setWindowTitle(projectName);
-
             currentProjectPath = projectAddress;
-
         } catch (IOException e) {
 
             e.printStackTrace();
@@ -254,8 +248,6 @@ public class Project {
     }
 
 
-
-
     /**
      * Loads a project, specifed by the project name.
      * All projects must be located in the user's projects directory to be correctly loaded.
@@ -264,8 +256,6 @@ public class Project {
     public void loadProject(String pName) {
         try {
 
-
-            //env.resetEnvironment();
             env.resetProjectEnvironment();
             String path = projectDirectory.toString();
 
@@ -291,26 +281,19 @@ public class Project {
                         System.err.println("Well UserData directory failed to create.. lost cause.");
                     }
 
-                    //projectHandler.projectList.remove(pName);
                     return;
                 } else {
                     //.json project files are corrupt.
-                    //env.getRootController().errorAlert("Project properties are corrupt - resetting values.");
                     saveProject(path);
                 }
 
             }
 
             this.projectName = pName;
-
             loadProperties();
-
             currentProjectPath = path;
-            //projectHandler.updateProjectList();
-
             env.getRootController().setWindowTitle(pName);
             //ignore
-
 
         } catch (FileNotFoundException e) {
             System.err.println("File not found, printing exception..");
@@ -333,8 +316,6 @@ public class Project {
     public boolean isSaved() {
         return saved;
     }
-
-
 
     public Boolean isProject() {
         return currentProjectPath != null;

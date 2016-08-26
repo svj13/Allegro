@@ -51,9 +51,6 @@ public class ProjectHandler {
         loadProjectList();
         loadDefaultProject();
 
-
-
-
     }
 
 

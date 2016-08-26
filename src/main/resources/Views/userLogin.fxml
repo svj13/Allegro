@@ -61,13 +61,9 @@
                        </JFXPasswordField>
                        <HBox alignment="CENTER" prefHeight="19.0" prefWidth="188.0">
                            <children>
-                               <!--<Button fx:id="btnLogIn" mnemonicParsing="false" onAction="#logIn" prefHeight="25.0" prefWidth="80.0" text="Sign in">-->
-                               <!--<HBox.margin>-->
-                               <!--<Insets right="20.0" />-->
-                               <!--</HBox.margin>-->
-                               <!--</Button>-->
 
-                               <JFXButton fx:id="btnLogin" buttonType="RAISED" onAction="#logIn" prefHeight="25.0"
+
+                           <JFXButton fx:id="btnLogin" buttonType="RAISED" onAction="#logIn" prefHeight="25.0"
                                           prefWidth="100.0" ripplerFill="#00bfa5" style="-fx-background-color: #1DE9B6;"
                                           text="Sign in">
                                    <VBox.margin>
@@ -80,8 +76,6 @@
                                        <Insets right="30.0"/>
                                    </HBox.margin>
                                </JFXButton>
-
-                               <!--<Button fx:id="btnRegister" mnemonicParsing="false" onAction="#register" prefWidth="80.0" text="Register" HBox.hgrow="NEVER" />-->
                                <JFXButton fx:id="btnRegister" buttonType="RAISED" mnemonicParsing="false"
                                           onAction="#register" prefHeight="25.0" prefWidth="100.0" ripplerFill="#fb8c00"
                                           style="-fx-background-color: #FFB74D;" text="Register">

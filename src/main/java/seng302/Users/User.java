@@ -120,8 +120,6 @@ public class User {
         ArrayList<Term> terms = gson.fromJson((String) properties.get("musicalTerms"), termsType);
 
         if (terms != null) {
-            System.out.println("in load advanced terms, the musical terms are NOT null");
-
             env.getMttDataManager().setTerms(terms);
         }
 

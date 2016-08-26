@@ -45,6 +45,12 @@ public class UserHandler {
         return userList;
     }
 
+    /**
+     * Returns a Collection of User Objects, which containing basic information about users.
+     * To be used before logging into a user.
+     *
+     * @return
+     */
     public HashMap<String, User> getUsers(){
         ArrayList<String> names = (ArrayList<String>) userList;
         HashMap<String, User> users = new HashMap<>();
@@ -143,14 +149,17 @@ public class UserHandler {
 
 
     /**
-     * Creates a new user.
-     *
-     * @param user     username
-     * @param password password
+     * Creates a new user for the given username/password.
+     * @param user
+     * @param password
      */
     public void createUser(String user, String password){
         this.currentUser = new User(user, password, env);
         updateUserList(user);
+
+    }
+
+    public void logOut() {
 
     }
 

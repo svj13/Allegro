@@ -191,13 +191,8 @@ public class RootController implements Initializable {
 
     public void updateImage() {
         final Circle clip = new Circle(imageDP.getFitWidth() - 25.0, imageDP.getFitHeight() - 25.0, 50.0);
-
-
         imageDP.setImage(env.getUserHandler().getCurrentUser().getUserPicture());
-
-
         clip.setRadius(25.0);
-
         imageDP.setClip(clip);
 
         SnapshotParameters parameters = new SnapshotParameters();
@@ -209,14 +204,12 @@ public class RootController implements Initializable {
 
         imageDP.setImage(image);
         imageDP.setOnMouseClicked(event -> {
-            System.out.println("hello");
+
             try {
                 showUserPage();
             } catch (Exception e) {
 
             }
-
-
         });
     }
 
@@ -227,7 +220,6 @@ public class RootController implements Initializable {
             updateImage();
 
         } else stage.hide();
-
 
     }
 
@@ -323,6 +315,11 @@ public class RootController implements Initializable {
     }
 
 
+    /**
+     * Opens the user page.
+     *
+     * @throws IOException
+     */
     public void showUserPage() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/Views/UserPage.fxml"));
@@ -334,7 +331,6 @@ public class RootController implements Initializable {
         userPageStage.setTitle("Allegro");
         userPageStage.setScene(scene1);
 
-
         userPageStage.show();
         UserPageController userPageController = loader.getController();
         userPageController.setEnvironment(env);
@@ -345,6 +341,9 @@ public class RootController implements Initializable {
     }
 
 
+    /**
+     * Opens the login in a new stage.
+     */
     private void showLoginWindow() {
         try {
             showLoginWindow(new Stage());
@@ -353,6 +352,11 @@ public class RootController implements Initializable {
         }
     }
 
+    /**
+     * Opens a login page in a specified stage (window)
+     * @param loginStage
+     * @throws IOException
+     */
     public void showLoginWindow(Stage loginStage) throws IOException {
         //if (show) {
 
@@ -1025,8 +1029,6 @@ public class RootController implements Initializable {
                                 ce.printStackTrace();
                                 errorAlert("Could not Import the project! Maybe it already exists in the Projects folder?");
                             }
-
-
                             //project with said name does not exist in the projects directory.. import it.
                             env.getUserHandler().getCurrentUser().getProjectHandler().setCurrentProject(folder.getName());
 
@@ -1040,7 +1042,7 @@ public class RootController implements Initializable {
                 selectProjectDirectory();
                 return;
             } else {
-                System.out.println(folder.getParent());
+
                 errorAlert("Project must be contained in the current user's Projects folder.");
             }
         }

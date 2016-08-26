@@ -68,7 +68,7 @@ public class TutorHandler {
             }
             return new Pair<>(correct, incorrect);
         } catch (NullPointerException e) {
-            System.out.println(e.getLocalizedMessage());
+
             return new Pair<>(123, 123);
         }
     }

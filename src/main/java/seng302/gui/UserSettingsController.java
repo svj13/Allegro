@@ -63,19 +63,17 @@ public class UserSettingsController {
         }
     }
 
+    /**
+     * Opens a photo chooser.
+     */
     @FXML
     private void launchPhotoChooser() {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter imageFilter = new FileChooser.ExtensionFilter("All Images", "*.*");
         fileChooser.getExtensionFilters().add(imageFilter);
-
         Stage stage = new Stage();
-
-
         File file = fileChooser.showOpenDialog(stage);
-
         Path userPath = userHandler.getCurrentUserPath();
-
         Path filePath = Paths.get(userPath.toString()+"/profilePicture");
 
         try {
