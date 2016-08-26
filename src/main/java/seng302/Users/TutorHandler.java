@@ -24,6 +24,16 @@ import seng302.utility.TutorRecord;
 public class TutorHandler {
     Environment env;
 
+    private static final List<String> tutorIds = new ArrayList<String>() {{
+        add("pitchTutor");
+        add("scaleTutor");
+        add("intervalTutor");
+        add("musicalTermsTutor");
+        add("chordTutor");
+        add("chordSpellingTutor");
+        add("keySignatureTutor");
+        add("diatonicChordTutor");
+    }};
 
     public TutorHandler(Environment env) {
         this.env = env;
@@ -50,27 +60,20 @@ public class TutorHandler {
     }
 
     /**
-     * This method will give the total number of correct and incorrect answers for a given tutor.
+     * This method will give the number of correct and incorrect answers for a given tutor for it's
+     * most recent attempt.
      *
      * @param tabId The tabid of the tutor
      * @return a pair containing two integers. The number of answers correct and the number of
      * incorrect answers.
      */
     public Pair<Integer, Integer> getRecentTutorTotals(String tabId) {
-        try {
-            ArrayList<TutorRecord> records = getTutorData(tabId);
-            Integer correct = 0;
-            Integer incorrect = 0;
-            for (TutorRecord record : records) {
-                Map<String, Number> stats = record.getStats();
-                correct = stats.get("questionsCorrect").intValue();
-                incorrect = stats.get("questionsIncorrect").intValue();
-            }
-            return new Pair<>(correct, incorrect);
-        } catch (NullPointerException e) {
-            System.out.println(e.getLocalizedMessage());
-            return new Pair<>(123, 123);
-        }
+        ArrayList<TutorRecord> records = getTutorData(tabId);
+        TutorRecord lastRecord = records.get(records.size() - 1);
+        Map<String, Number> stats = lastRecord.getStats();
+        Integer correct = stats.get("questionsCorrect").intValue();
+        Integer incorrect = stats.get("questionsIncorrect").intValue();
+        return new Pair<>(correct, incorrect);
     }
 
 
@@ -120,6 +123,22 @@ public class TutorHandler {
             scores.add(new Pair<>(date, score));
         }
         return scores;
+    }
+
+    /**
+     * Return the total number of questions answered correctly or incorrectly in all tutors.
+     *
+     * @return Pair consisting of total correct and total incorrect.
+     */
+    public Pair<Integer, Integer> getTotalsForAllTutors() {
+        Integer totalCorrect = 0;
+        Integer totalIncorrect = 0;
+        for (String tutor : tutorIds) {
+            Pair<Integer, Integer> total = getTutorTotals(tutor);
+            totalCorrect += total.getKey();
+            totalIncorrect += total.getValue();
+        }
+        return new Pair<>(totalCorrect, totalIncorrect);
     }
 
 

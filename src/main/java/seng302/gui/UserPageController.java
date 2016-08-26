@@ -240,6 +240,11 @@ public class UserPageController {
             recentBar.setVisible(false);
             overallStats.setVisible(false);
             latestAttempt.setVisible(false);
+            Pair<Integer, Integer> totals = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTotalsForAllTutors();
+            overallSeries1.getData().add(new XYChart.Data<>(totals.getKey(), ""));
+            overallSeries2.getData().add(new XYChart.Data<>(totals.getValue(), ""));
+            stackedBar.getData().clear();
+            stackedBar.getData().addAll(overallSeries1, overallSeries2);
 
 
         } else {

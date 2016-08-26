@@ -342,6 +342,8 @@ public class RootController implements Initializable {
         Parent root1 = loader.load();
         Scene scene1 = new Scene(root1);
         Stage userPageStage = new Stage();
+        scene1.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+
         userPageStage.setTitle("Allegro");
         userPageStage.setScene(scene1);
 
