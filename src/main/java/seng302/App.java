@@ -3,6 +3,7 @@ package seng302;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -10,6 +11,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import seng302.gui.RootController;
+import seng302.gui.UserLoginController;
 
 
 public class App extends Application {
@@ -27,6 +29,28 @@ public class App extends Application {
 
         env = new Environment();
         try {
+
+
+            Stage stage = new Stage();
+            /*
+            stage.setTitle("Allegro");
+            stage.setScene(new Scene(new Group()));
+            stage.show();
+
+            FXMLLoader loader1 = new FXMLLoader();
+            loader1.setLocation(getClass().getResource("/Views/userLogin.fxml"));
+
+            Parent root1 = loader1.load();
+            Scene scene1 = new Scene(root1);
+
+            stage.setTitle("Allegro");
+            stage.setScene(scene1);
+            stage.show();
+            UserLoginController userLoginController = loader1.getController();
+            userLoginController.setEnv(env);
+            userLoginController.displayRecentUsers();
+
+            */
 
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/Views/newGui.fxml"));
@@ -72,10 +96,19 @@ public class App extends Application {
                 });
 
                 controller.setStage(primaryStage);
-                primaryStage.show();
+
+                controller.showLoginWindow(true);
+                //primaryStage.show();
+                //controller.setPrimaryStage(primaryStage);
             } catch (NullPointerException e) {
                 System.err.println("Controller is null");
             }
+
+
+
+            //controller.createWindow(scene);
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }

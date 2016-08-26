@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="chordSpellingAnchor" prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.UserSettingsController">
+   <children>
+      <HBox layoutX="10.0" layoutY="10.0" prefHeight="30.0">
+         <children>
+            <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="User Settings" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="21.0" />
+               </font>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+      <VBox layoutX="14.0" layoutY="88.0" prefHeight="50.0" prefWidth="275.0">
+         <children>
+            <HBox layoutX="14.0" layoutY="40.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <TextField fx:id="firstNameField" disable="true" editable="false" promptText="First Name" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="editFirstNameButton" mnemonicParsing="false" onAction="#editFirstName" text="Edit" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <TextField fx:id="lastNameField" disable="true" editable="false" promptText="Last Name" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="editLastNameButton" mnemonicParsing="false" onAction="#editLastName" text="Edit" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <ImageView fx:id="imageDP" fitHeight="50" fitWidth="50" layoutX="14.0" layoutY="150.0">
+         <image>
+            <Image url="images/testDP.jpg" />
+         </image>
+      </ImageView>
+      <Button fx:id="uploadPhotoButton" layoutX="90.0" layoutY="163.0" mnemonicParsing="false" onAction="#launchPhotoChooser" text="Upload" />
+      <Label alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="46.0" text="Basic information" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="30.0" />
+        <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" percentWidth="70.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
+    </rowConstraints>
+    <children>
+        <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" HBox.hgrow="ALWAYS">
+            <children>
+            <StackPane VBox.vgrow="NEVER">
+               <children>
+                  <Label text="username" VBox.vgrow="ALWAYS">
+                     <font>
+                        <Font name="System Bold" size="21.0" />
+                     </font>
+                  </Label>
+               </children>
+            </StackPane>
+            <StackPane VBox.vgrow="ALWAYS">
+               <children>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="CENTER" />
+               </children>
+            </StackPane>
+            </children>
+        </VBox>
+        <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+            <children>
+                <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                    <children>
+                  <StackPane VBox.vgrow="NEVER">
+                     <children>
+                        <Label text="Tutor Scores" StackPane.alignment="CENTER_LEFT">
+                           <font>
+                              <Font name="System Bold" size="21.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </StackPane>
+                        <TitledPane VBox.vgrow="ALWAYS">
+                            <content>
+                                <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                                <VBox />
+                            </content>
+                            <graphic>
+                                <HBox>
+                                    <children>
+                                        <Label text="Other tutors:" />
+                                        <ProgressBar maxWidth="1.7976931348623157E308" progress="1.0" style="-fx-accent: green;" />
+                                        <ProgressBar maxWidth="1.7976931348623157E308" progress="1.0" style="-fx-accent: red;" />
+                                        <ProgressBar maxWidth="1.7976931348623157E308" progress="1.0" style="-fx-accent: grey;" />
+                                    </children>
+                                </HBox>
+                            </graphic>
+                        </TitledPane>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+    </children>
+</GridPane>

@@ -10,6 +10,8 @@ import java.util.Map;
 import seng302.command.Scale;
 import seng302.data.Note;
 
+import static javax.swing.UIManager.put;
+
 /**
  * Created by Jonty on 24-May-16.
  */
@@ -210,12 +212,13 @@ public class ChordUtil {
      */
     public static ArrayList<Note> getChord(Note note, String type) {
         ArrayList<Note> chordNotes = new ArrayList<Note>();
+
         //for major chords (triads)
         if (type.toLowerCase().equals("major")) {
             Note currentNote = note;
             chordNotes.add(currentNote);
-            chordNotes.add(currentNote.semitoneUp(4));
-            chordNotes.add(currentNote.semitoneUp(7));
+            chordNotes.add(Note.lookup(currentNote.semitoneUp(4).getEnharmonicWithLetter(lettersUp(note.getNote(), 2))));
+            chordNotes.add(Note.lookup(currentNote.semitoneUp(7).getEnharmonicWithLetter(lettersUp(note.getNote(), 4))));
             if (chordNotes.contains(null)) {
                 return null;
             }
@@ -224,8 +227,8 @@ public class ChordUtil {
         } else if (type.toLowerCase().equals("minor")) {
             Note currentNote = note;
             chordNotes.add(currentNote);
-            chordNotes.add(currentNote.semitoneUp(3));
-            chordNotes.add(currentNote.semitoneUp(7));
+            chordNotes.add(Note.lookup(currentNote.semitoneUp(3).getEnharmonicWithLetter(lettersUp(note.getNote(), 2))));
+            chordNotes.add(Note.lookup(currentNote.semitoneUp(7).getEnharmonicWithLetter(lettersUp(note.getNote(), 4))));
             if (chordNotes.contains(null)) {
                 return null;
             }
@@ -234,9 +237,9 @@ public class ChordUtil {
                 type.toLowerCase().equals("minor seventh")) {
             Note currentNote = note;
             chordNotes.add(currentNote);
-            chordNotes.add(currentNote.semitoneUp(3));
-            chordNotes.add(currentNote.semitoneUp(7));
-            chordNotes.add(currentNote.semitoneUp(10));
+            chordNotes.add(Note.lookup(currentNote.semitoneUp(3).getEnharmonicWithLetter(lettersUp(note.getNote(), 2))));
+            chordNotes.add(Note.lookup(currentNote.semitoneUp(7).getEnharmonicWithLetter(lettersUp(note.getNote(), 4))));
+            chordNotes.add(Note.lookup(currentNote.semitoneUp(10).getEnharmonicWithLetter(lettersUp(note.getNote(), 6))));
             if (chordNotes.contains(null)) {
                 return null;
             }
@@ -245,9 +248,9 @@ public class ChordUtil {
                 type.toLowerCase().equals("major seventh")) {
             Note currentNote = note;
             chordNotes.add(currentNote);
-            chordNotes.add(currentNote.semitoneUp(4));
-            chordNotes.add(currentNote.semitoneUp(7));
-            chordNotes.add(currentNote.semitoneUp(11));
+            chordNotes.add(Note.lookup(currentNote.semitoneUp(4).getEnharmonicWithLetter(lettersUp(note.getNote(), 2))));
+            chordNotes.add(Note.lookup(currentNote.semitoneUp(7).getEnharmonicWithLetter(lettersUp(note.getNote(), 4))));
+            chordNotes.add(Note.lookup(currentNote.semitoneUp(11).getEnharmonicWithLetter(lettersUp(note.getNote(), 6))));
             if (chordNotes.contains(null)) {
                 return null;
             }
@@ -257,9 +260,9 @@ public class ChordUtil {
                 type.toLowerCase().equals("seven")) {
             Note currentNote = note;
             chordNotes.add(currentNote);
-            chordNotes.add(currentNote.semitoneUp(4));
-            chordNotes.add(currentNote.semitoneUp(7));
-            chordNotes.add(currentNote.semitoneUp(10));
+            chordNotes.add(Note.lookup(currentNote.semitoneUp(4).getEnharmonicWithLetter(lettersUp(note.getNote(), 2))));
+            chordNotes.add(Note.lookup(currentNote.semitoneUp(7).getEnharmonicWithLetter(lettersUp(note.getNote(), 4))));
+            chordNotes.add(Note.lookup(currentNote.semitoneUp(10).getEnharmonicWithLetter(lettersUp(note.getNote(), 6))));
             if (chordNotes.contains(null)) {
                 return null;
             }
@@ -268,8 +271,8 @@ public class ChordUtil {
                 type.toLowerCase().equals("dim")) {
             Note currentNote = note;
             chordNotes.add(currentNote);
-            chordNotes.add(currentNote.semitoneUp(3));
-            chordNotes.add(currentNote.semitoneUp(6));
+            chordNotes.add(Note.lookup(currentNote.semitoneUp(3).getEnharmonicWithLetter(lettersUp(note.getNote(), 2))));
+            chordNotes.add(Note.lookup(currentNote.semitoneUp(6).getEnharmonicWithLetter(lettersUp(note.getNote(), 4))));
             if (chordNotes.contains(null)) {
                 return null;
             }
@@ -282,9 +285,9 @@ public class ChordUtil {
                 type.toLowerCase().equals("half diminished")) {
             Note currentNote = note;
             chordNotes.add(currentNote);
-            chordNotes.add(currentNote.semitoneUp(3));
-            chordNotes.add(currentNote.semitoneUp(6));
-            chordNotes.add(currentNote.semitoneUp(10));
+            chordNotes.add(Note.lookup(currentNote.semitoneUp(3).getEnharmonicWithLetter(lettersUp(note.getNote(), 2))));
+            chordNotes.add(Note.lookup(currentNote.semitoneUp(6).getEnharmonicWithLetter(lettersUp(note.getNote(), 4))));
+            chordNotes.add(Note.lookup(currentNote.semitoneUp(10).getEnharmonicWithLetter(lettersUp(note.getNote(), 6))));
             if (chordNotes.contains(null)) {
                 return null;
             }
@@ -295,9 +298,9 @@ public class ChordUtil {
                 type.toLowerCase().equals("diminished 7th")) {
             Note currentNote = note;
             chordNotes.add(currentNote);
-            chordNotes.add(currentNote.semitoneUp(3));
-            chordNotes.add(currentNote.semitoneUp(6));
-            chordNotes.add(currentNote.semitoneUp(9));
+            chordNotes.add(Note.lookup(currentNote.semitoneUp(3).getEnharmonicWithLetter(lettersUp(note.getNote(), 2))));
+            chordNotes.add(Note.lookup(currentNote.semitoneUp(6).getEnharmonicWithLetter(lettersUp(note.getNote(), 4))));
+            chordNotes.add(Note.lookup(currentNote.semitoneUp(9).getEnharmonicWithLetter(lettersUp(note.getNote(), 6))));
             if (chordNotes.contains(null)) {
                 return null;
             }
@@ -327,6 +330,7 @@ public class ChordUtil {
         }
         return chordMidiNotes;
     }
+
 
     /**
      * Returns the diatonic chord quality when given a chord function (roman numeral)
