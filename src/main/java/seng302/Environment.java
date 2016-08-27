@@ -44,6 +44,21 @@ public class Environment {
         userHandler = new UserHandler(this);
     }
 
+
+    /**
+     * Similar to the restEnvironment function, except it doesn't reset the MusicalTermsManager.
+     */
+    public void resetProjectEnvironment() {
+        executor = new DslExecutor(this);
+        player = new MusicPlayer();
+        transcriptManager = new TranscriptManager();
+        recordLocation = null;
+        em = new EditHistory(this);
+
+        if (rootController != null) rootController.reset();
+
+    }
+
     /**
      * Resets the environment so it clears the existing saved information.
      */
@@ -52,15 +67,11 @@ public class Environment {
         player = new MusicPlayer();
         transcriptManager = new TranscriptManager();
         mttDataManager = new MusicalTermsTutorBackEnd();
-
-
         recordLocation = null;
         em = new EditHistory(this);
 
-        if (rootController != null) {
-            //reset this too
-            rootController.reset();
-        }
+        if (rootController != null) rootController.reset();
+
 
     }
 
