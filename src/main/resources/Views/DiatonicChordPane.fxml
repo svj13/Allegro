@@ -12,7 +12,7 @@
     <children>
         <HBox prefHeight="30.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
             <children>
-                <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="Pitch Comparison Tutor" textAlignment="CENTER">
+                <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="Diatonic Chords Tutor" textAlignment="CENTER">
                     <font>
                         <Font name="System Bold" size="21.0" />
                     </font>
