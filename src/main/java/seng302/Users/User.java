@@ -350,7 +350,6 @@ public class User {
     }
 
 
-    public String getUserPassword(){return userPassword;}
     public String getUserPassword() {
         return userPassword;
     }
