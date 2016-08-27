@@ -107,6 +107,9 @@ public class RootController implements Initializable {
     public DiatonicChordsTutorController DiatonicChordsController;
 
     @FXML
+    public ScaleModesTutorController ScaleModesController;
+
+    @FXML
     private KeyboardPaneController keyboardPaneController;
 
     @FXML
@@ -896,6 +899,41 @@ public class RootController implements Initializable {
             KeySignaturesTabController = loader.getController();
             KeySignaturesTabController.create(env);
             KeySignaturesTabController.setTabID("keySignatureTutor");
+        }
+
+    }
+
+    /**
+     * opens the scale modes tutor when the scale modes tutor menu option is pressed If there
+     * is already an open tutor of the same form then it sets focus to the already open tutor
+     */
+    @FXML
+    private void openScaleModesTutor() {
+
+        boolean alreadyExists = false;
+        for (Tab tab : TabPane.getTabs()) {
+            if (tab.getId().equals("scaleModesTutor")) {
+                TabPane.getSelectionModel().select(tab);
+                alreadyExists = true;
+            }
+        }
+        if (!alreadyExists) {
+            Tab ScaleTab = new Tab("Scale Modes Tutor");
+            ScaleTab.setId("scaleModesTutor");
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/Views/ScaleModesPane.fxml"));
+
+            try {
+                ScaleTab.setContent((Node) loader.load());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            TabPane.getTabs().add(ScaleTab);
+            TabPane.getSelectionModel().select(ScaleTab);
+            KeySignaturesTabController = loader.getController();
+            KeySignaturesTabController.create(env);
+            KeySignaturesTabController.setTabID("scaleModesTutor");
         }
 
     }
