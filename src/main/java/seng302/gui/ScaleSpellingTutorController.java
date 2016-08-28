@@ -83,6 +83,12 @@ public class ScaleSpellingTutorController extends TutorController {
         initialiseScaleTypeSelector();
     }
 
+    /**
+     * Uses the selected scale types to generate a random scale. Creates a hash map with a start
+     * note and a scale type.
+     *
+     * @return A hash map of start note and type of a random scale.
+     */
     private Map generateRandomScale() {
         Map scaleInfo = new HashMap<String, Object>();
 
@@ -107,6 +113,9 @@ public class ScaleSpellingTutorController extends TutorController {
 
     }
 
+    /**
+     * Sets up the scale type CheckComboBox for selecting which scale types to be tested on.
+     */
     private void initialiseScaleTypeSelector() {
         scaleTypes.setMaxWidth(100);
 
