@@ -133,8 +133,11 @@ public class ScaleSpellingTutorController extends TutorController {
         // Every question needs a random scale
         Map scaleInfo = generateRandomScale();
 
+        // Randomly decides whether question will be type 1, 2, or 3
+        int questionType = rand.nextInt(3) + 1;
+
         // Creates a pair with question type, and the scale info
-        Pair question = new Pair(3, scaleInfo);
+        Pair question = new Pair(questionType, scaleInfo);
 
         // Delegates actual generation of question
         return generateQuestionPane(question);
