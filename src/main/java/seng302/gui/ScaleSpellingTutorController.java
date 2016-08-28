@@ -134,7 +134,7 @@ public class ScaleSpellingTutorController extends TutorController {
         Map scaleInfo = generateRandomScale();
 
         // Creates a pair with question type, and the scale info
-        Pair question = new Pair(1, scaleInfo);
+        Pair question = new Pair(2, scaleInfo);
 
         // Delegates actual generation of question
         return generateQuestionPane(question);
@@ -204,11 +204,76 @@ public class ScaleSpellingTutorController extends TutorController {
         return questionRow;
     }
 
+    private HBox generateQuestionTypeTwo(Map scaleInfo) {
+        final HBox questionRow = new HBox();
+        formatQuestionRow(questionRow);
+
+        // Get scale info
+        Note startNote = (Note) scaleInfo.get("startNote");
+        String scaleType = (String) scaleInfo.get("scaleType");
+
+        // Set up textual representation of question
+        Label question = new Label();
+        ArrayList<Note> correctNotes = startNote.getScale(scaleType, true);
+        ArrayList<String> correctNoteNames = Scale.scaleNameList(OctaveUtil.removeOctaveSpecifier(startNote.getNote()), correctNotes, true, scaleType.toLowerCase());
+        question.setText(String.join(" ", correctNoteNames));
+
+        // Set up answer and textual representation of answer
+        String answer = OctaveUtil.removeOctaveSpecifier(startNote.getNote()) + " " + scaleType;
+        Label correctAnswer = correctAnswer(answer);
+
+        // This question type only has two inputs
+        final HBox inputs = new HBox();
+        ComboBox<String> noteOptions = new ComboBox<>();
+        ComboBox<String> scaleTypeOptions = new ComboBox<>();
+
+        List<String> textNoteOptions = new ArrayList<>();
+
+        // Generate the note options
+        textNoteOptions.add(OctaveUtil.removeOctaveSpecifier(startNote.getNote()));
+
+        for (int i = 0; i < 7; i++) {
+            String randomNote = OctaveUtil.removeOctaveSpecifier(Note.getRandomNote().getNote());
+            while (textNoteOptions.contains(randomNote)) {
+                randomNote = OctaveUtil.removeOctaveSpecifier(Note.getRandomNote().getNote());
+            }
+            textNoteOptions.add(randomNote);
+
+        }
+        Collections.shuffle(textNoteOptions);
+        noteOptions.getItems().addAll(textNoteOptions);
+
+        // Generate the scale options - all the selected scale types.
+        scaleTypeOptions.getItems().addAll(selectedScaleTypes);
+
+        inputs.getChildren().add(noteOptions);
+        inputs.getChildren().add(scaleTypeOptions);
+
+
+        Button skip = new Button("Skip");
+        styleSkipButton(skip);
+        skip.setOnAction(event -> {
+            formatSkippedQuestion(questionRow);
+            disableButtons(questionRow, 1, questionRow.getChildren().size() - 1);
+        });
+
+
+        questionRow.getChildren().add(0, question);
+        questionRow.getChildren().add(1, inputs);
+        questionRow.getChildren().add(2, skip);
+        questionRow.getChildren().add(3, correctAnswer);
+
+        questionRow.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
+        return questionRow;
+    }
+
     @Override
     HBox generateQuestionPane(Pair data) {
         int questionType = (int) data.getKey();
         if (questionType == 1) {
             return generateQuestionTypeOne((Map) data.getValue());
+        } else if (questionType == 2) {
+            return generateQuestionTypeTwo((Map) data.getValue());
         }
         return null;
     }
