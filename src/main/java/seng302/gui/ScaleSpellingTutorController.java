@@ -158,10 +158,9 @@ public class ScaleSpellingTutorController extends TutorController {
         question.setText(OctaveUtil.removeOctaveSpecifier(startNote.getNote()) + " " + scaleType);
 
         // Set up answer and textual representation of answer
-        Label correctAnswer = new Label();
         ArrayList<Note> correctNotes = startNote.getScale(scaleType, true);
-        //TODO: find out why this is throwing null pointer exceptions
-        ArrayList<String> correctNoteNames = Scale.scaleNameList(OctaveUtil.removeOctaveSpecifier(startNote.getNote()), correctNotes, true, scaleType);
+        ArrayList<String> correctNoteNames = Scale.scaleNameList(OctaveUtil.removeOctaveSpecifier(startNote.getNote()), correctNotes, true, scaleType.toLowerCase());
+        Label correctAnswer = correctAnswer(String.join(" ", correctNoteNames));
 
         // Creates a selection of ComboBoxes to pick notes from
         final HBox inputs = new HBox();
