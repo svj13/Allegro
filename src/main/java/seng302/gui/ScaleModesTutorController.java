@@ -50,31 +50,13 @@ public class ScaleModesTutorController extends TutorController {
      */
     private Pair generateQuestionTypeOne() {
 
-//        type2answers = new ArrayList<>();
-//        type2answers.add("C");
-//        type2answers.add("G");
-//        type2answers.add("D");
-//        type2answers.add("E");
-//        type2answers.add("B");
-//        type2answers.add("F");
-//        type2answers.add("Bb");
-//        type2answers.add("Eb");
-//        type2answers.add("Ab");
-//        type2answers.add("Db");
-//        type2answers.add("Gb");
-
-
-
-        Integer mode = rand.nextInt(7) + 1; //generates random degree of mode
+        Integer degree = rand.nextInt(7) + 1; //generates random degree of mode
         Integer idx = rand.nextInt(majorNotes.size()); //random index to select random tonic note
         String randomScaleName = (majorNotes.get(idx)); //gets random scale name
+        String functionInRomanNumeral = ChordUtil.integerToRomanNumeral(degree);
+        Pair question = new Pair(degree, randomScaleName);
 
-
-        String functionInRomanNumeral = ChordUtil.integerToRomanNumeral(mode);
-        Note randomNote = Note.getRandomNote();
-        String randomNoteName = randomiseNoteName(randomNote);
-        Pair question = new Pair(functionInRomanNumeral, randomNoteName);
-        String answer = ChordUtil.getChordFunction(functionInRomanNumeral, randomNoteName, "major");
+        String answer = MajorModes.getParentScaleString(randomScaleName, degree);
         return new Pair(question, answer);
     }
 

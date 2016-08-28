@@ -71,16 +71,19 @@ public class MajorModes implements Command {
      */
     public String getParentScaleString(String mode, Integer degree) {
         degree = ModeHelper.getkeyModes().get(scaleType);
-        for(String note : majorNotes) {
+        for (String note : majorNotes) {
             Note tonic = Note.lookup(OctaveUtil.addDefaultOctave(note));
             ArrayList<String> majorScale = Scale.scaleNameList(note, tonic.getScale("major", true), true, scaleType);
             if (majorScale.get(degree - 1).equals(startNote)) {
                 String parentScale = note + " major";
                 return parentScale;
-            }
-        }
+            } else {
 
+            }
+        } return "I didn't equal start note trololol";
     }
+
+
 
     /**
      * Takes a parent scale note and a degree, and returns the mode of the corresponding parent scale and degree as a
@@ -97,7 +100,7 @@ public class MajorModes implements Command {
             String result = parentNote + " " + mode;
             return result;
         } else {
-            System.out.println("Invalid degree: " + degree + ". Please use degree in range 1-7.");
+            return "Invalid degree: " + degree + ". Please use degree in range 1-7.";
         }
 
     }
