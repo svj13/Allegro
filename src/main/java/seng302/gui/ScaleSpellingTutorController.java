@@ -134,7 +134,7 @@ public class ScaleSpellingTutorController extends TutorController {
         Map scaleInfo = generateRandomScale();
 
         // Creates a pair with question type, and the scale info
-        Pair question = new Pair(2, scaleInfo);
+        Pair question = new Pair(3, scaleInfo);
 
         // Delegates actual generation of question
         return generateQuestionPane(question);
@@ -267,6 +267,46 @@ public class ScaleSpellingTutorController extends TutorController {
         return questionRow;
     }
 
+    private HBox generateQuestionTypeThree(Map scaleInfo) {
+        final HBox questionRow = new HBox();
+        formatQuestionRow(questionRow);
+
+        // Get scale info
+        Note startNote = (Note) scaleInfo.get("startNote");
+        String scaleType = (String) scaleInfo.get("scaleType");
+
+        Button play = new Button();
+        stylePlayButton(play);
+        play.setOnAction(event -> {
+            if (scaleType.equalsIgnoreCase("blues")) {
+                env.getPlayer().playBluesNotes(startNote.getScale(scaleType, true));
+            } else {
+                env.getPlayer().playNotes(startNote.getScale(scaleType, true));
+            }
+        });
+
+        ArrayList<String> correctNoteNames = Scale.scaleNameList(
+                OctaveUtil.removeOctaveSpecifier(startNote.getNote()),
+                startNote.getScale(scaleType, true),
+                true,
+                scaleType.toLowerCase());
+
+        Button skip = new Button("Skip");
+        styleSkipButton(skip);
+        skip.setOnAction(event -> {
+            formatSkippedQuestion(questionRow);
+            disableButtons(questionRow, 1, questionRow.getChildren().size() - 1);
+        });
+
+        Label correctAnswer = correctAnswer(String.join(" ", correctNoteNames));
+
+        questionRow.getChildren().add(0, play);
+        questionRow.getChildren().add(1, skip);
+        questionRow.getChildren().add(2, correctAnswer);
+
+        return questionRow;
+    }
+
     @Override
     HBox generateQuestionPane(Pair data) {
         int questionType = (int) data.getKey();
@@ -274,8 +314,9 @@ public class ScaleSpellingTutorController extends TutorController {
             return generateQuestionTypeOne((Map) data.getValue());
         } else if (questionType == 2) {
             return generateQuestionTypeTwo((Map) data.getValue());
+        } else {
+            return generateQuestionTypeThree((Map) data.getValue());
         }
-        return null;
     }
 
     @Override
