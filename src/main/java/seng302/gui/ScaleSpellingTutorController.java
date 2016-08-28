@@ -84,6 +84,31 @@ public class ScaleSpellingTutorController extends TutorController {
     }
 
     /**
+     * Sets up the scale type CheckComboBox for selecting which scale types to be tested on.
+     */
+    private void initialiseScaleTypeSelector() {
+        scaleTypes.setMaxWidth(100);
+
+        for (String validChordName : validScaleNames) {
+            scaleTypes.getItems().add(validChordName);
+        }
+
+        // Listener to keep track of which scale types are selected
+        scaleTypes.getCheckModel().getCheckedIndices().addListener((ListChangeListener<Integer>) c -> {
+            selectedScaleTypes.clear();
+            selectedScaleTypes.addAll(scaleTypes.getCheckModel().getCheckedIndices().stream().map(index -> validScaleNames[index]).collect(Collectors.toList()));
+        });
+
+        //Select all scale types by default
+        for (int i = 0; i < scaleTypes.getItems().size(); i++) {
+            scaleTypes.getCheckModel().checkIndices(i);
+        }
+
+        //Adds to the settings, after its label
+        settingsBox.getChildren().add(1, scaleTypes);
+    }
+
+    /**
      * Uses the selected scale types to generate a random scale. Creates a hash map with a start
      * note and a scale type.
      *
@@ -111,31 +136,6 @@ public class ScaleSpellingTutorController extends TutorController {
     @FXML
     void goAction(ActionEvent event) {
 
-    }
-
-    /**
-     * Sets up the scale type CheckComboBox for selecting which scale types to be tested on.
-     */
-    private void initialiseScaleTypeSelector() {
-        scaleTypes.setMaxWidth(100);
-
-        for (String validChordName : validScaleNames) {
-            scaleTypes.getItems().add(validChordName);
-        }
-
-        // Listener to keep track of which scale types are selected
-        scaleTypes.getCheckModel().getCheckedIndices().addListener((ListChangeListener<Integer>) c -> {
-            selectedScaleTypes.clear();
-            selectedScaleTypes.addAll(scaleTypes.getCheckModel().getCheckedIndices().stream().map(index -> validScaleNames[index]).collect(Collectors.toList()));
-        });
-
-        //Select all scale types by default
-        for (int i = 0; i < scaleTypes.getItems().size(); i++) {
-            scaleTypes.getCheckModel().checkIndices(i);
-        }
-
-        //Adds to the settings, after its label
-        settingsBox.getChildren().add(1, scaleTypes);
     }
 
 
