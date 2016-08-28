@@ -189,7 +189,7 @@ public class ChordSpellingTutorController extends TutorController {
         if (questionType == 2) {
             //Use 'fake chords' with a ~0.25 probability for type 2 questions
             if (allowFalseChords.isSelected() && rand.nextInt(4) == 0) {
-                data = new Pair(generateFalseChord(), questionType);
+                data = new Pair(generateFalseChord(), data.getValue());
             }
         }
 
@@ -822,7 +822,7 @@ public class ChordSpellingTutorController extends TutorController {
             } else {
                 correctnessValue = 0;
             }
-            questionText = String.format(typeTwoText, chordAsString((ArrayList<Note>) data.getValue()));
+            questionText = String.format(typeTwoText, chordAsString((ArrayList<Note>) ((Pair) data.getKey()).getValue()));
         }
 
         applyFormatting(completedQuestion, correctnessValue);
@@ -832,6 +832,10 @@ public class ChordSpellingTutorController extends TutorController {
 
             //Shows the correct answer
             completedQuestion.getChildren().get(3).setVisible(true);
+            if (!((Pair) data.getValue()).getKey().equals("dropdown") &&
+                    ((Pair) data.getValue()).getValue().equals(1)) {
+                completedQuestion.getChildren().get(4).setVisible(true);
+            }
         } else {
             answeredCorrectly = 1;
             manager.add(new Pair<Pair, Pair>((Pair) data.getKey(), (Pair) data.getValue()), 1);
