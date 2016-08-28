@@ -144,8 +144,8 @@ public class ScaleSpellingTutorController extends TutorController {
         return generateQuestionPane(question);
     }
 
-    private boolean isTypeOneComplete(HBox question) {
-        // Check if all notes have been entered
+    private boolean isTypeOneTwoComplete(HBox question) {
+        // Check if all inputs have been entered
         boolean isComplete = true;
         for (Node comboBox : ((HBox) question.lookup("#inputs")).getChildren()) {
             if (!comboBox.isDisabled()) {
@@ -155,7 +155,7 @@ public class ScaleSpellingTutorController extends TutorController {
         return isComplete;
     }
 
-    private void gradeTypeOneQuestion(HBox question) {
+    private void gradeTypeOneTwoQuestion(HBox question) {
         int correct = 0;
         int incorrect = 0;
         question.lookup("#skip").setDisable(true);
@@ -184,9 +184,9 @@ public class ScaleSpellingTutorController extends TutorController {
 
     }
 
-    private void handleTypeOneInput(ComboBox input, String note) {
+    private void handleTypeOneTwoInput(ComboBox input, String answer) {
         input.setDisable(true);
-        if (input.getValue().equals(note)) {
+        if (input.getValue().equals(answer)) {
             input.setStyle("-fx-background-color: green");
         } else {
             input.setStyle("-fx-background-color: red");
@@ -242,9 +242,9 @@ public class ScaleSpellingTutorController extends TutorController {
 
             // Add handler to each ComboBox input
             noteOptions.setOnAction(event -> {
-                handleTypeOneInput(noteOptions, note);
-                if (isTypeOneComplete(questionRow)) {
-                    gradeTypeOneQuestion(questionRow);
+                handleTypeOneTwoInput(noteOptions, note);
+                if (isTypeOneTwoComplete(questionRow)) {
+                    gradeTypeOneTwoQuestion(questionRow);
                 }
             });
 
@@ -268,7 +268,6 @@ public class ScaleSpellingTutorController extends TutorController {
         questionRow.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
         return questionRow;
     }
-
     private HBox generateQuestionTypeTwo(Map scaleInfo) {
         final HBox questionRow = new HBox();
         formatQuestionRow(questionRow);
@@ -289,13 +288,15 @@ public class ScaleSpellingTutorController extends TutorController {
 
         // This question type only has two inputs
         final HBox inputs = new HBox();
+        inputs.setId("inputs");
         ComboBox<String> noteOptions = new ComboBox<>();
         ComboBox<String> scaleTypeOptions = new ComboBox<>();
 
         List<String> textNoteOptions = new ArrayList<>();
 
         // Generate the note options
-        textNoteOptions.add(OctaveUtil.removeOctaveSpecifier(startNote.getNote()));
+        String correctStartNote = OctaveUtil.removeOctaveSpecifier(startNote.getNote());
+        textNoteOptions.add(correctStartNote);
 
         for (int i = 0; i < 7; i++) {
             String randomNote = OctaveUtil.removeOctaveSpecifier(Note.getRandomNote().getNote());
@@ -307,15 +308,31 @@ public class ScaleSpellingTutorController extends TutorController {
         }
         Collections.shuffle(textNoteOptions);
         noteOptions.getItems().addAll(textNoteOptions);
+        // Add handler to each ComboBox input
+
+        noteOptions.setOnAction(event -> {
+            handleTypeOneTwoInput(noteOptions, correctStartNote);
+            if (isTypeOneTwoComplete(questionRow)) {
+                gradeTypeOneTwoQuestion(questionRow);
+            }
+        });
 
         // Generate the scale options - all the selected scale types.
         scaleTypeOptions.getItems().addAll(selectedScaleTypes);
+
+        scaleTypeOptions.setOnAction(event -> {
+            handleTypeOneTwoInput(scaleTypeOptions, scaleType);
+            if (isTypeOneTwoComplete(questionRow)) {
+                gradeTypeOneTwoQuestion(questionRow);
+            }
+        });
 
         inputs.getChildren().add(noteOptions);
         inputs.getChildren().add(scaleTypeOptions);
 
 
         Button skip = new Button("Skip");
+        skip.setId("skip");
         styleSkipButton(skip);
         skip.setOnAction(event -> {
             formatSkippedQuestion(questionRow);
