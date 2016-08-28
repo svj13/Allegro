@@ -187,9 +187,12 @@ public class ScaleSpellingTutorController extends TutorController {
             inputs.getChildren().add(noteOptions);
         }
 
-        //TODO: Add handler to skip button
         Button skip = new Button("Skip");
         styleSkipButton(skip);
+        skip.setOnAction(event -> {
+            formatSkippedQuestion(questionRow);
+            disableButtons(questionRow, 1, questionRow.getChildren().size() - 1);
+        });
 
 
         questionRow.getChildren().add(0, question);
