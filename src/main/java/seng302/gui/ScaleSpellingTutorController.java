@@ -14,6 +14,7 @@ import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -143,6 +144,56 @@ public class ScaleSpellingTutorController extends TutorController {
         return generateQuestionPane(question);
     }
 
+    private boolean isTypeOneComplete(HBox question) {
+        // Check if all notes have been entered
+        boolean isComplete = true;
+        for (Node comboBox : ((HBox) question.lookup("#inputs")).getChildren()) {
+            if (!comboBox.isDisabled()) {
+                isComplete = false;
+            }
+        }
+        return isComplete;
+    }
+
+    private void gradeTypeOneQuestion(HBox question) {
+        int correct = 0;
+        int incorrect = 0;
+        question.lookup("#skip").setDisable(true);
+
+        // Calculate how many were correct and incorrect
+        for (Node comboBox : ((HBox) question.lookup("#inputs")).getChildren()) {
+            if (comboBox.getStyle().contains("green")) {
+                correct += 1;
+            } else {
+                incorrect += 1;
+            }
+        }
+
+        // Style accordingly
+        if (incorrect == 0) {
+            // Answer was correct
+            formatCorrectQuestion(question);
+        } else if (correct == 0) {
+            // Answer was incorrect
+            formatIncorrectQuestion(question);
+        } else {
+            // Answer was partially correct
+            formatPartiallyCorrectQuestion(question);
+        }
+
+
+    }
+
+    private void handleTypeOneInput(HBox inputs, ComboBox input, String note) {
+        input.setDisable(true);
+        if (input.getValue().equals(note)) {
+            input.setStyle("-fx-background-color: green");
+        } else {
+            input.setStyle("-fx-background-color: red");
+        }
+
+    }
+
     /**
      * Creates a GUI HBox for type one questions. Type one questions display the scale name, and the
      * user must select all notes of the scale.
@@ -167,6 +218,7 @@ public class ScaleSpellingTutorController extends TutorController {
 
         // Creates a selection of ComboBoxes to pick notes from
         final HBox inputs = new HBox();
+        inputs.setId("inputs");
         for (String note : correctNoteNames) {
             ComboBox<String> noteOptions = new ComboBox<>();
 
@@ -187,10 +239,20 @@ public class ScaleSpellingTutorController extends TutorController {
             // Randomise the order of options and add all to combobox
             Collections.shuffle(textualOptions);
             noteOptions.getItems().addAll(textualOptions);
+
+            // Add handler to each ComboBox input
+            noteOptions.setOnAction(event -> {
+                handleTypeOneInput(inputs, noteOptions, note);
+                if (isTypeOneComplete(questionRow)) {
+                    gradeTypeOneQuestion(questionRow);
+                }
+            });
+
             inputs.getChildren().add(noteOptions);
         }
 
         Button skip = new Button("Skip");
+        skip.setId("skip");
         styleSkipButton(skip);
         skip.setOnAction(event -> {
             formatSkippedQuestion(questionRow);
