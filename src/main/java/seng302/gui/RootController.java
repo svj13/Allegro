@@ -75,6 +75,9 @@ public class RootController implements Initializable {
     public IntervalRecognitionTutorController IntervalRecognitionTabController;
 
     @FXML
+    public ScaleSpellingTutorController ScaleSpellingTabController;
+
+    @FXML
     private TranscriptPaneController transcriptController;
 
     @FXML
@@ -151,6 +154,9 @@ public class RootController implements Initializable {
 
     @FXML
     private MenuItem menuKST;
+
+    @FXML
+    private MenuItem menuScaleSpelling;
 
     @FXML
     private MenuItem skinGuiButton;
@@ -979,6 +985,41 @@ public class RootController implements Initializable {
             ChordSpellingTabController.create(env);
             ChordSpellingTabController.setTabID("chordSpellingTutor");
         }
+    }
+
+    @FXML
+    private void openScaleSpellingTutor() {
+
+        boolean alreadyExists = false;
+        for (Tab tab : TabPane.getTabs()) {
+            if (tab.getId().equals("scaleSpelling")) {
+                TabPane.getSelectionModel().select(tab);
+                alreadyExists = true;
+            }
+
+        }
+
+        if (!alreadyExists) {
+
+            Tab scaleTab = new Tab("Scale Spelling Tutor");
+            scaleTab.setId("scaleSpelling");
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/Views/ScaleSpellingPane.fxml"));
+
+            try {
+                scaleTab.setContent(loader.load());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            TabPane.getTabs().add(scaleTab);
+            TabPane.getSelectionModel().select(scaleTab);
+            ScaleSpellingTabController = loader.getController();
+            ScaleSpellingTabController.create(env);
+            ScaleSpellingTabController.setTabID("scaleSpelling");
+        }
+
     }
 
 

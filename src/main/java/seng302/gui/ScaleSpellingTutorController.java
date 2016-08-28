@@ -63,7 +63,7 @@ public class ScaleSpellingTutorController extends TutorController {
 
     public void create(Environment env) {
         super.create(env);
-        //initialiseQuestionSelector();
+        initialiseQuestionSelector();
     }
 
     @Override
