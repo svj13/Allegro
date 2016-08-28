@@ -3,7 +3,9 @@ package seng302.gui;
 import org.controlsfx.control.CheckComboBox;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -11,7 +13,9 @@ import java.util.stream.Collectors;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
@@ -21,7 +25,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Pair;
 import seng302.Environment;
+import seng302.command.Scale;
 import seng302.data.Note;
+import seng302.utility.musicNotation.OctaveUtil;
 
 public class ScaleSpellingTutorController extends TutorController {
 
@@ -123,8 +129,85 @@ public class ScaleSpellingTutorController extends TutorController {
         return scaleInfo;
     }
 
+    public HBox createNewQuestion() {
+        // Every question needs a random scale
+        Map scaleInfo = generateRandomScale();
+
+        // Creates a pair with question type, and the scale info
+        Pair question = new Pair(1, scaleInfo);
+
+        // Delegates actual generation of question
+        return generateQuestionPane(question);
+    }
+
+    /**
+     * Creates a GUI HBox for type one questions. Type one questions display the scale name, and the
+     * user must select all notes of the scale.
+     *
+     * @param scaleInfo A map containing the start note and scale type
+     * @return An HBox, containing the entire question
+     */
+    private HBox generateQuestionTypeOne(Map scaleInfo) {
+        final HBox questionRow = new HBox();
+        formatQuestionRow(questionRow);
+
+        // Set up textual representation of question
+        Label question = new Label();
+        Note startNote = (Note) scaleInfo.get("startNote");
+        String scaleType = (String) scaleInfo.get("scaleType");
+        question.setText(OctaveUtil.removeOctaveSpecifier(startNote.getNote()) + " " + scaleType);
+
+        // Set up answer and textual representation of answer
+        Label correctAnswer = new Label();
+        ArrayList<Note> correctNotes = startNote.getScale(scaleType, true);
+        //TODO: find out why this is throwing null pointer exceptions
+        ArrayList<String> correctNoteNames = Scale.scaleNameList(OctaveUtil.removeOctaveSpecifier(startNote.getNote()), correctNotes, true, scaleType);
+
+        // Creates a selection of ComboBoxes to pick notes from
+        final HBox inputs = new HBox();
+        for (String note : correctNoteNames) {
+            ComboBox<String> noteOptions = new ComboBox<>();
+
+            // Create a list of potential answers, include the real answer
+            List<String> textualOptions = new ArrayList<>();
+            textualOptions.add(note);
+
+            // Create 7 fictional options
+            for (int i = 0; i < 7; i++) {
+                // Randomly generate notes until we find one currently unused
+                String randomNote = OctaveUtil.removeOctaveSpecifier(Note.getRandomNote().getNote());
+                while (textualOptions.contains(randomNote)) {
+                    randomNote = OctaveUtil.removeOctaveSpecifier(Note.getRandomNote().getNote());
+                }
+                textualOptions.add(randomNote);
+            }
+
+            // Randomise the order of options and add all to combobox
+            Collections.shuffle(textualOptions);
+            noteOptions.getItems().addAll(textualOptions);
+            inputs.getChildren().add(noteOptions);
+        }
+
+        //TODO: Add handler to skip button
+        Button skip = new Button("Skip");
+        styleSkipButton(skip);
+
+
+        questionRow.getChildren().add(0, question);
+        questionRow.getChildren().add(1, inputs);
+        questionRow.getChildren().add(2, skip);
+        questionRow.getChildren().add(3, correctAnswer);
+
+        questionRow.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
+        return questionRow;
+    }
+
     @Override
     HBox generateQuestionPane(Pair data) {
+        int questionType = (int) data.getKey();
+        if (questionType == 1) {
+            return generateQuestionTypeOne((Map) data.getValue());
+        }
         return null;
     }
 
@@ -135,6 +218,20 @@ public class ScaleSpellingTutorController extends TutorController {
 
     @FXML
     void goAction(ActionEvent event) {
+        if (scaleTypes.getCheckModel().getCheckedIndices().size() != 0) {
+            scaleError.setVisible(false);
+            paneQuestions.setVisible(true);
+            paneResults.setVisible(false);
+
+            questionRows.getChildren().clear();
+            for (int i = 0; i < selectedQuestions; i++) {
+                HBox questionRow = createNewQuestion();
+                questionRows.getChildren().add(questionRow);
+                questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
+            }
+        } else {
+            scaleError.setVisible(true);
+        }
 
     }
 
