@@ -184,7 +184,7 @@ public class ScaleSpellingTutorController extends TutorController {
 
     }
 
-    private void handleTypeOneInput(HBox inputs, ComboBox input, String note) {
+    private void handleTypeOneInput(ComboBox input, String note) {
         input.setDisable(true);
         if (input.getValue().equals(note)) {
             input.setStyle("-fx-background-color: green");
@@ -242,7 +242,7 @@ public class ScaleSpellingTutorController extends TutorController {
 
             // Add handler to each ComboBox input
             noteOptions.setOnAction(event -> {
-                handleTypeOneInput(inputs, noteOptions, note);
+                handleTypeOneInput(noteOptions, note);
                 if (isTypeOneComplete(questionRow)) {
                     gradeTypeOneQuestion(questionRow);
                 }
