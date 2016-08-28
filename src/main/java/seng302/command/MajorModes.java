@@ -60,14 +60,52 @@ public class MajorModes implements Command {
         this.scaleType = scale.get("scale_type");
         this.tonic = Note.lookup(OctaveUtil.addDefaultOctave(startNote));
 
+    }
 
+    /**
+     * Takes a mode note of a scale and its degree and returns the parent scale
+     * it belongs to as a string
+     * @param mode
+     * @param degree
+     * @return parentScale
+     */
+    public String getParentScaleString(String mode, Integer degree) {
+        degree = ModeHelper.getkeyModes().get(scaleType);
+        for(String note : majorNotes) {
+            Note tonic = Note.lookup(OctaveUtil.addDefaultOctave(note));
+            ArrayList<String> majorScale = Scale.scaleNameList(note, tonic.getScale("major", true), true, scaleType);
+            if (majorScale.get(degree - 1).equals(startNote)) {
+                String parentScale = note + " major";
+                return parentScale;
+            }
+        }
+
+    }
+
+    /**
+     * Takes a parent scale note and a degree, and returns the mode of the corresponding parent scale and degree as a
+     * string
+     * @param parentScaleNote
+     * @param degree
+     * @return result
+     */
+    public String getCorrespondingScaleString(String parentScaleNote, Integer degree) {
+        if (degree >= 1 && degree <= 7) {
+            ArrayList<String> majorScale = Scale.scaleNameList(typedTonic, tonic.getScale("major", true), true, "major");
+            String parentNote = majorScale.get(degree - 1);
+            String mode = ModeHelper.getValueModes().get(degree);
+            String result = parentNote + " " + mode;
+            return result;
+        } else {
+            System.out.println("Invalid degree: " + degree + ". Please use degree in range 1-7.");
+        }
 
     }
 
 
     /**
      *  The logic for the "parent of" command.
-     *  Gets the name of the parent scale given a major mode scale
+     *  Gets the name of the parent scale given a major mode scale for the transcript manager
      * @param env
      */
     public void getParentscale(Environment env){
@@ -85,7 +123,7 @@ public class MajorModes implements Command {
 
     /**
      * The logic for the "mode of" command.
-     * Gets the name of the major mode, given a tonic and mode degree.
+     * Gets the name of the major mode, given a tonic and mode degree for the transcript manager.
      * Displays this information in the transcript.
      * An error is shown if the provided degree is outside the accepted range
      * @param env The environment in which the result will be shown.

@@ -1,9 +1,6 @@
 package seng302.gui;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,31 +23,54 @@ import seng302.utility.musicNotation.ChordUtil;
  */
 public class ScaleModesTutorController extends TutorController {
     private Random rand;
-    private final String typeOneText = "%s and %s are both modes of %s";
-    private final String typeTwoText = "%s belongs to which major scale?";
+    private final String typeOneText = "What is the mode of %s if it is %s?";
+    private final String typeTwoText = "What is the parent major scale of %s?";
     private Integer type = 1;
     private ArrayList<String> type2answers;
+    private ArrayList<String> majorNotes = new ArrayList<>(Arrays.asList("C Major", "G Major", "D Major", "A Major", "E Major",
+            "B Major", "F Major", "Bb Major", "Eb Major", "Ab Major", "Db Major", "Gb Major"));
+
+
 
 
     public void create(Environment env) {
         super.create(env);
         initialiseQuestionSelector();
         rand = new Random();
-        type2answers = new ArrayList<>();
-        for (int i = 1; i < 8; i++) {
-            type2answers.add(ChordUtil.integerToRomanNumeral(i));
-        }
-        type2answers.add("Non Functional");
+        //stores all of the names of the major scales
+        type2answers = new ArrayList<>(Arrays.asList("C", "G", "D", "A", "E", "B", "F", "Bb",
+                "Eb", "Ab", "Db", "Gb"));
+
     }
 
     /**
-     * Generate the questions that ask the diatonic chord of a certain function.
+     * Generate the questions that asks for the mode of a given scale and a given degree
      *
      * @return a Pair that includes the function and the Note name.
      */
     private Pair generateQuestionTypeOne() {
-        Integer function = rand.nextInt(7) + 1;
-        String functionInRomanNumeral = ChordUtil.integerToRomanNumeral(function);
+
+//        type2answers = new ArrayList<>();
+//        type2answers.add("C");
+//        type2answers.add("G");
+//        type2answers.add("D");
+//        type2answers.add("E");
+//        type2answers.add("B");
+//        type2answers.add("F");
+//        type2answers.add("Bb");
+//        type2answers.add("Eb");
+//        type2answers.add("Ab");
+//        type2answers.add("Db");
+//        type2answers.add("Gb");
+
+
+
+        Integer mode = rand.nextInt(7) + 1; //generates random degree of mode
+        Integer idx = rand.nextInt(majorNotes.size()); //random index to select random tonic note
+        String randomScaleName = (majorNotes.get(idx)); //gets random scale name
+
+
+        String functionInRomanNumeral = ChordUtil.integerToRomanNumeral(mode);
         Note randomNote = Note.getRandomNote();
         String randomNoteName = randomiseNoteName(randomNote);
         Pair question = new Pair(functionInRomanNumeral, randomNoteName);
