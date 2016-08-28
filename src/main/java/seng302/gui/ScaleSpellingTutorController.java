@@ -2,6 +2,13 @@ package seng302.gui;
 
 import org.controlsfx.control.CheckComboBox;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+import java.util.stream.Collectors;
+
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -14,6 +21,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Pair;
 import seng302.Environment;
+import seng302.data.Note;
 
 public class ScaleSpellingTutorController extends TutorController {
 
@@ -61,9 +69,27 @@ public class ScaleSpellingTutorController extends TutorController {
 
     CheckComboBox<String> scaleTypes = new CheckComboBox<String>();
 
+    private String[] validScaleNames = {"Major", "Minor", "Melodic Minor", "Blues",
+            "Major Pentatonic", "Minor Pentatonic", "Harmonic Minor"};
+
+    private ArrayList<String> selectedScaleTypes = new ArrayList<String>();
+
+    Random rand;
+
     public void create(Environment env) {
         super.create(env);
+        rand = new Random();
         initialiseQuestionSelector();
+        initialiseScaleTypeSelector();
+    }
+
+    private Map generateRandomScale() {
+        Map scaleInfo = new HashMap<String, Object>();
+
+        scaleInfo.put("startNote", Note.getRandomNote());
+        scaleInfo.put("scaleType", selectedScaleTypes.get(rand.nextInt(selectedScaleTypes.size())));
+
+        return scaleInfo;
     }
 
     @Override
@@ -83,6 +109,22 @@ public class ScaleSpellingTutorController extends TutorController {
 
     private void initialiseScaleTypeSelector() {
         scaleTypes.setMaxWidth(100);
+
+        for (String validChordName : validScaleNames) {
+            scaleTypes.getItems().add(validChordName);
+        }
+
+        // Listener to keep track of which scale types are selected
+        scaleTypes.getCheckModel().getCheckedIndices().addListener((ListChangeListener<Integer>) c -> {
+            selectedScaleTypes.clear();
+            selectedScaleTypes.addAll(scaleTypes.getCheckModel().getCheckedIndices().stream().map(index -> validScaleNames[index]).collect(Collectors.toList()));
+        });
+
+        //Select all scale types by default
+        for (int i = 0; i < scaleTypes.getItems().size(); i++) {
+            scaleTypes.getCheckModel().checkIndices(i);
+        }
+
         //Adds to the settings, after its label
         settingsBox.getChildren().add(1, scaleTypes);
     }
