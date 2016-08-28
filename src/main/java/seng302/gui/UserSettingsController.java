@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -32,14 +33,31 @@ public class UserSettingsController {
     @FXML
     private AnchorPane chordSpellingAnchor;
 
-    @FXML
-    private Button uploadPhotoButton;
+   // @FXML
+    //private Button uploadPhotoButton;
+
+//    @FXML
+//    private TextField lastNameField;
+//
+//    @FXML
+//    private TextField firstNameField;
+
 
     @FXML
-    private TextField lastNameField;
+    private JFXButton btnUploadImage;
+
+
 
     @FXML
-    private TextField firstNameField;
+    private JFXTextField txtFName;
+
+    @FXML
+    private JFXTextField txtLName;
+    @FXML
+    private JFXButton btnEditFName;
+
+    @FXML
+    private JFXButton btnEditLName;
 
     @FXML
     private JFXButton btnDeleteUser;
@@ -55,12 +73,29 @@ public class UserSettingsController {
         this.imageDP.setImage(env.getUserHandler().getCurrentUser().getUserPicture());
         userHandler = env.getUserHandler();
         try {
-            firstNameField.setText(userHandler.getCurrentUser().getUserFirstName());
-            lastNameField.setText(userHandler.getCurrentUser().getUserLastName());
+            txtFName.setText(userHandler.getCurrentUser().getUserFirstName());
+            txtLName.setText(userHandler.getCurrentUser().getUserLastName());
         } catch (Exception e) {
-            firstNameField.clear();
-            lastNameField.clear();
+            txtFName.clear();
+            txtFName.clear();
         }
+    }
+    @FXML
+    public void initialize(){
+        String css = this.getClass().getResource("/css/user_settings.css").toExternalForm();
+
+
+        ImageView imgUpload = new ImageView(new Image(getClass().getResourceAsStream("/images/file_upload_white_36dp.png"), 25, 25, false, false));
+
+
+        ImageView imgEdit = new ImageView(new Image(getClass().getResourceAsStream("/images/edit_mode_black_18dp.png"), 18, 18, false, false));
+        //imgEdit.setFitHeight(25);
+        //imgEdit.setFitWidth(25);
+
+        btnEditFName.setGraphic(imgEdit);
+        btnEditLName.setGraphic(new ImageView(imgEdit.getImage()));
+        btnUploadImage.setGraphic(imgUpload);
+
     }
 
     /**
@@ -90,37 +125,37 @@ public class UserSettingsController {
 
     @FXML
     private void editFirstName() {
-        if (editFirstNameButton.getText().equals("Edit")) {
-            firstNameField.setDisable(false);
-            firstNameField.setEditable(true);
-            firstNameField.requestFocus();
-            editFirstNameButton.setText("Save");
+        if (btnEditFName.getText().equals("Edit")) {
+            txtFName.setDisable(false);
+            txtFName.setEditable(true);
+            txtFName.requestFocus();
+            btnEditFName.setText("Save");
         } else {
             // Save changes
-            firstNameField.setDisable(true);
-            userHandler.getCurrentUser().setUserFirstName(firstNameField.getText());
+            txtFName.setDisable(true);
+            userHandler.getCurrentUser().setUserFirstName(txtFName.getText());
             userHandler.getCurrentUser().updateProperties();
             userHandler.getCurrentUser().saveProperties();
-            firstNameField.setEditable(false);
-            editFirstNameButton.setText("Edit");
+            txtFName.setEditable(false);
+            btnEditFName.setText("Edit");
         }
     }
 
     @FXML
     private void editLastName() {
-        if (editLastNameButton.getText().equals("Edit")) {
-            lastNameField.setDisable(false);
-            lastNameField.setEditable(true);
-            lastNameField.requestFocus();
-            editLastNameButton.setText("Save");
+        if (btnEditLName.getText().equals("Edit")) {
+            txtLName.setDisable(false);
+            txtLName.setEditable(true);
+            txtLName.requestFocus();
+            btnEditLName.setText("Save");
         } else {
             // Save changes
-            lastNameField.setDisable(true);
-            userHandler.getCurrentUser().setUserLastName(lastNameField.getText());
+            txtLName.setDisable(true);
+            userHandler.getCurrentUser().setUserLastName(txtLName.getText());
             userHandler.getCurrentUser().updateProperties();
             userHandler.getCurrentUser().saveProperties();
-            lastNameField.setEditable(false);
-            editLastNameButton.setText("Edit");
+            txtLName.setEditable(false);
+            btnEditLName.setText("Edit");
         }
     }
 
