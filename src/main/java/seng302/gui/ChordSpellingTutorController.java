@@ -182,6 +182,7 @@ public class ChordSpellingTutorController extends TutorController {
         Label question = new Label();
 
         final HBox inputs = new HBox();
+        System.out.println(((Pair) data.getValue()).getValue());
 
         int questionType = (int) ((Pair) data.getValue()).getValue();
 
@@ -193,6 +194,7 @@ public class ChordSpellingTutorController extends TutorController {
         }
 
         final Pair finalData = (Pair) data.getKey();
+        final Pair resetData = data;
         final String answerFom = (String) ((Pair) data.getValue()).getKey();
         final String chordName = (String) finalData.getKey();
         final ArrayList<Note> chordNotes = (ArrayList<Note>) finalData.getValue();
@@ -229,7 +231,7 @@ public class ChordSpellingTutorController extends TutorController {
 
                 };
 
-                handleSkippedQuestion(questionInfo, questionRow, finalData, questionType);
+                handleSkippedQuestion(questionInfo, questionRow, resetData, questionType);
             });
 
             if (((Pair) data.getValue()).getKey().equals("dropdown")) {
@@ -254,7 +256,7 @@ public class ChordSpellingTutorController extends TutorController {
                     if (isQuestionCompletelyAnswered(inputs)) {
                         //Style whole question as done
                         String selection = String.join(" ", selectedNotes);
-                        handleCompletedQuestion(questionRow, 1, finalData, selection, answerFom);
+                        handleCompletedQuestion(questionRow, 1, resetData, selection, answerFom);
                     }
                 });
                 ComboBox<String> note2 = new ComboBox<String>();
@@ -272,7 +274,7 @@ public class ChordSpellingTutorController extends TutorController {
                     if (isQuestionCompletelyAnswered(inputs)) {
                         //Style whole question as done
                         String selection = String.join(" ", selectedNotes);
-                        handleCompletedQuestion(questionRow, 1, finalData, selection, answerFom);
+                        handleCompletedQuestion(questionRow, 1, resetData, selection, answerFom);
                     }
                 });
                 ComboBox<String> note3 = new ComboBox<String>();
@@ -290,7 +292,7 @@ public class ChordSpellingTutorController extends TutorController {
                     if (isQuestionCompletelyAnswered(inputs)) {
                         //Style whole question as done
                         String selection = String.join(" ", selectedNotes);
-                        handleCompletedQuestion(questionRow, questionType, finalData, selection, answerFom);
+                        handleCompletedQuestion(questionRow, questionType, resetData, selection, answerFom);
                     }
                 });
                 ComboBox<String> note4 = new ComboBox<String>();
@@ -309,7 +311,7 @@ public class ChordSpellingTutorController extends TutorController {
                         if (isQuestionCompletelyAnswered(inputs)) {
                             //Style whole question as done
                             String selection = String.join(" ", selectedNotes);
-                            handleCompletedQuestion(questionRow, 1, finalData, selection, answerFom);
+                            handleCompletedQuestion(questionRow, 1, resetData, selection, answerFom);
                         }
                     });
                 }
@@ -324,7 +326,6 @@ public class ChordSpellingTutorController extends TutorController {
                 //Type A question
                 question.setText(chordName);
                 correctAnswer = correctAnswer(chordAsString(chordNotes));
-                System.out.println(correctAnswer);
 
                 TextField note1 = new TextField();
                 note1.setOnAction(event -> {
@@ -376,7 +377,7 @@ public class ChordSpellingTutorController extends TutorController {
                     }
 
                     String selection = String.join(" ", selectedNotes);
-                    handleCompletedQuestion(questionRow, 1, finalData, selection, answerFom);
+                    handleCompletedQuestion(questionRow, 1, resetData, selection, answerFom);
                     inputs.setDisable(true);
                 });
 
@@ -403,7 +404,7 @@ public class ChordSpellingTutorController extends TutorController {
                         "2"
 
                 };
-                handleSkippedQuestion(questionInfo, questionRow, finalData, questionType);
+                handleSkippedQuestion(questionInfo, questionRow, resetData, questionType);
             });
 
             correctAnswer = correctAnswer(chordName);
@@ -453,7 +454,7 @@ public class ChordSpellingTutorController extends TutorController {
                     } else {
                         checkInputs.setStyle("-fx-background-color: red");
                     }
-                    handleCompletedQuestion(questionRow, questionType, finalData, selection, answerFom);
+                    handleCompletedQuestion(questionRow, questionType, resetData, selection, answerFom);
                 });
 
                 inputs.getChildren().add(possibleNames);
@@ -470,7 +471,7 @@ public class ChordSpellingTutorController extends TutorController {
                     String selection = possibleNames.getValue();
                     boolean answeredCorrectly = selection.equals(chordName);
                     styleNoteInput(possibleNames, answeredCorrectly);
-                    handleCompletedQuestion(questionRow, questionType, finalData, selection, answerFom);
+                    handleCompletedQuestion(questionRow, questionType, resetData, selection, answerFom);
                 });
                 inputs.getChildren().add(possibleNames);
             }
@@ -478,16 +479,26 @@ public class ChordSpellingTutorController extends TutorController {
         }
 
         if (((Pair) data.getValue()).getKey().equals("dropdown")) {
+            // All questions without text input.
             questionRow.getChildren().add(0, question);
             questionRow.getChildren().add(1, inputs);
             questionRow.getChildren().add(2, skip);
             questionRow.getChildren().add(3, correctAnswer);
         } else {
-            questionRow.getChildren().add(0, question);
-            questionRow.getChildren().add(1, inputs);
-            questionRow.getChildren().add(2, submitButton);
-            questionRow.getChildren().add(3, skip);
-            questionRow.getChildren().add(4, correctAnswer);
+            if (questionType == 1) {
+                //Type 1 questions with text input.
+                questionRow.getChildren().add(0, question);
+                questionRow.getChildren().add(1, inputs);
+                questionRow.getChildren().add(2, submitButton);
+                questionRow.getChildren().add(3, skip);
+                questionRow.getChildren().add(4, correctAnswer);
+            } else {
+                //Type 2 questions
+                questionRow.getChildren().add(0, question);
+                questionRow.getChildren().add(1, inputs);
+                questionRow.getChildren().add(2, skip);
+                questionRow.getChildren().add(3, correctAnswer);
+            }
         }
 
         questionRow.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
@@ -803,7 +814,7 @@ public class ChordSpellingTutorController extends TutorController {
         if (questionType == 1) {
             //check question of type 1
             correctnessValue = typeOneQuestionCorrectness(inputs, answerForm);
-            questionText = String.format(typeOneText, data.getKey());
+            questionText = String.format(typeOneText, ((Pair) data.getKey()).getKey());
         } else {
             //check question of type 2
             if (isTypeTwoQuestionCorrect(inputs)) {
@@ -817,13 +828,13 @@ public class ChordSpellingTutorController extends TutorController {
         applyFormatting(completedQuestion, correctnessValue);
 
         if (correctnessValue == 0 || correctnessValue == 2) {
-            manager.add(new Pair<Pair, Integer>(data, questionType), 0);
+            manager.add(new Pair<Pair, Pair>((Pair) data.getKey(), (Pair) data.getValue()), 0);
 
             //Shows the correct answer
             completedQuestion.getChildren().get(3).setVisible(true);
         } else {
             answeredCorrectly = 1;
-            manager.add(new Pair<Pair, Integer>(data, questionType), 1);
+            manager.add(new Pair<Pair, Pair>((Pair) data.getKey(), (Pair) data.getValue()), 1);
         }
 
         //Disables skip button
@@ -890,7 +901,7 @@ public class ChordSpellingTutorController extends TutorController {
         disableButtons(questionRow, 1, 3);
         formatSkippedQuestion(questionRow);
         manager.questions -= 1;
-        manager.add(new Pair<>(finalData, questionType), 2);
+        manager.add(new Pair<>(finalData.getKey(), finalData.getValue()), 2);
 
         record.addQuestionAnswer(questionInfo);
 
