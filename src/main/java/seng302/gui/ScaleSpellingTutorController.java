@@ -28,6 +28,7 @@ import javafx.util.Pair;
 import seng302.Environment;
 import seng302.command.Scale;
 import seng302.data.Note;
+import seng302.utility.TutorRecord;
 import seng302.utility.musicNotation.OctaveUtil;
 
 public class ScaleSpellingTutorController extends TutorController {
@@ -155,7 +156,7 @@ public class ScaleSpellingTutorController extends TutorController {
         return isComplete;
     }
 
-    private void gradeTypeOneTwoQuestion(HBox question) {
+    private int gradeTypeOneTwoQuestion(HBox question) {
         int correct = 0;
         int incorrect = 0;
         question.lookup("#skip").setDisable(true);
@@ -173,23 +174,68 @@ public class ScaleSpellingTutorController extends TutorController {
         if (incorrect == 0) {
             // Answer was correct
             formatCorrectQuestion(question);
+            return 1;
         } else if (correct == 0) {
             // Answer was incorrect
             formatIncorrectQuestion(question);
+            return 0;
         } else {
             // Answer was partially correct
+            formatPartiallyCorrectQuestion(question);
+            return 2;
+        }
+
+
+    }
+
+    private void styleTypeOneTwoQuestion(HBox question, int score) {
+        if (score == 0) {
+            formatIncorrectQuestion(question);
+        } else if (score == 1) {
+            formatCorrectQuestion(question);
+        } else if (score == 2) {
             formatPartiallyCorrectQuestion(question);
         }
 
 
     }
 
-    private void handleTypeOneTwoInput(ComboBox input, String answer) {
+    private void styleTypeOneTwoInput(ComboBox input, String answer) {
         input.setDisable(true);
         if (input.getValue().equals(answer)) {
             input.setStyle("-fx-background-color: green");
         } else {
             input.setStyle("-fx-background-color: red");
+        }
+
+    }
+
+    private void handleTypeOneTwoInput(ComboBox input, Map scaleInfo, HBox questionRow, String answer) {
+        styleTypeOneTwoInput(input, answer);
+        if (isTypeOneTwoComplete(questionRow)) {
+            manager.answered += 1;
+            gradeTypeOneTwoQuestion(questionRow);
+            int score = gradeTypeOneTwoQuestion(questionRow);
+            styleTypeOneTwoQuestion(questionRow, score);
+            if (score == 2) {
+                // if question was partially correct, add it to the manager as incorrect
+                score = 0;
+            }
+            manager.add(new Pair(scaleInfo, 1), score);
+            if (manager.answered == manager.questions) {
+                finished();
+            }
+        }
+    }
+
+    private void handleSkippedQuestion(Map scaleInfo, int questionType, HBox questionRow) {
+        manager.questions -= 1;
+        manager.add(new Pair(scaleInfo, questionType), 2);
+        formatSkippedQuestion(questionRow);
+        disableButtons(questionRow, 1, questionRow.getChildren().size() - 1);
+
+        if (manager.answered == manager.questions) {
+            finished();
         }
 
     }
@@ -241,12 +287,7 @@ public class ScaleSpellingTutorController extends TutorController {
             noteOptions.getItems().addAll(textualOptions);
 
             // Add handler to each ComboBox input
-            noteOptions.setOnAction(event -> {
-                handleTypeOneTwoInput(noteOptions, note);
-                if (isTypeOneTwoComplete(questionRow)) {
-                    gradeTypeOneTwoQuestion(questionRow);
-                }
-            });
+            noteOptions.setOnAction(event -> handleTypeOneTwoInput(noteOptions, scaleInfo, questionRow, note));
 
             inputs.getChildren().add(noteOptions);
         }
@@ -254,10 +295,7 @@ public class ScaleSpellingTutorController extends TutorController {
         Button skip = new Button("Skip");
         skip.setId("skip");
         styleSkipButton(skip);
-        skip.setOnAction(event -> {
-            formatSkippedQuestion(questionRow);
-            disableButtons(questionRow, 1, questionRow.getChildren().size() - 1);
-        });
+        skip.setOnAction(event -> handleSkippedQuestion(scaleInfo, 1, questionRow));
 
 
         questionRow.getChildren().add(0, question);
@@ -268,6 +306,7 @@ public class ScaleSpellingTutorController extends TutorController {
         questionRow.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
         return questionRow;
     }
+
     private HBox generateQuestionTypeTwo(Map scaleInfo) {
         final HBox questionRow = new HBox();
         formatQuestionRow(questionRow);
@@ -310,22 +349,12 @@ public class ScaleSpellingTutorController extends TutorController {
         noteOptions.getItems().addAll(textNoteOptions);
         // Add handler to each ComboBox input
 
-        noteOptions.setOnAction(event -> {
-            handleTypeOneTwoInput(noteOptions, correctStartNote);
-            if (isTypeOneTwoComplete(questionRow)) {
-                gradeTypeOneTwoQuestion(questionRow);
-            }
-        });
+        noteOptions.setOnAction(event -> handleTypeOneTwoInput(noteOptions, scaleInfo, questionRow, correctStartNote));
 
         // Generate the scale options - all the selected scale types.
         scaleTypeOptions.getItems().addAll(selectedScaleTypes);
 
-        scaleTypeOptions.setOnAction(event -> {
-            handleTypeOneTwoInput(scaleTypeOptions, scaleType);
-            if (isTypeOneTwoComplete(questionRow)) {
-                gradeTypeOneTwoQuestion(questionRow);
-            }
-        });
+        scaleTypeOptions.setOnAction(event -> handleTypeOneTwoInput(scaleTypeOptions, scaleInfo, questionRow, scaleType));
 
         inputs.getChildren().add(noteOptions);
         inputs.getChildren().add(scaleTypeOptions);
@@ -334,10 +363,7 @@ public class ScaleSpellingTutorController extends TutorController {
         Button skip = new Button("Skip");
         skip.setId("skip");
         styleSkipButton(skip);
-        skip.setOnAction(event -> {
-            formatSkippedQuestion(questionRow);
-            disableButtons(questionRow, 1, questionRow.getChildren().size() - 1);
-        });
+        skip.setOnAction(event -> handleSkippedQuestion(scaleInfo, 2, questionRow));
 
 
         questionRow.getChildren().add(0, question);
@@ -375,10 +401,7 @@ public class ScaleSpellingTutorController extends TutorController {
 
         Button skip = new Button("Skip");
         styleSkipButton(skip);
-        skip.setOnAction(event -> {
-            formatSkippedQuestion(questionRow);
-            disableButtons(questionRow, 1, questionRow.getChildren().size() - 1);
-        });
+        skip.setOnAction(event -> handleSkippedQuestion(scaleInfo, 3, questionRow));
 
         Label correctAnswer = correctAnswer(String.join(" ", correctNoteNames));
 
@@ -410,11 +433,16 @@ public class ScaleSpellingTutorController extends TutorController {
     void goAction(ActionEvent event) {
         if (scaleTypes.getCheckModel().getCheckedIndices().size() != 0) {
             scaleError.setVisible(false);
+            record = new TutorRecord();
+
             paneQuestions.setVisible(true);
             paneResults.setVisible(false);
 
+            manager.resetEverything();
+            manager.questions = selectedQuestions;
+
             questionRows.getChildren().clear();
-            for (int i = 0; i < selectedQuestions; i++) {
+            for (int i = 0; i < manager.questions; i++) {
                 HBox questionRow = createNewQuestion();
                 questionRows.getChildren().add(questionRow);
                 questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
