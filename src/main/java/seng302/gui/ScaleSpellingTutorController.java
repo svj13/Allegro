@@ -217,6 +217,10 @@ public class ScaleSpellingTutorController extends TutorController {
             gradeTypeOneTwoQuestion(questionRow);
             int score = gradeTypeOneTwoQuestion(questionRow);
             styleTypeOneTwoQuestion(questionRow, score);
+            if (score == 0) {
+                //show the answer
+                questionRow.lookup("#answer").setVisible(true);
+            }
             if (score == 2) {
                 // if question was partially correct, add it to the manager as incorrect
                 score = 0;
@@ -261,6 +265,7 @@ public class ScaleSpellingTutorController extends TutorController {
         ArrayList<Note> correctNotes = startNote.getScale(scaleType, true);
         ArrayList<String> correctNoteNames = Scale.scaleNameList(OctaveUtil.removeOctaveSpecifier(startNote.getNote()), correctNotes, true, scaleType.toLowerCase());
         Label correctAnswer = correctAnswer(String.join(" ", correctNoteNames));
+        correctAnswer.setId("answer");
 
         // Creates a selection of ComboBoxes to pick notes from
         final HBox inputs = new HBox();
@@ -315,15 +320,18 @@ public class ScaleSpellingTutorController extends TutorController {
         Note startNote = (Note) scaleInfo.get("startNote");
         String scaleType = (String) scaleInfo.get("scaleType");
 
+        String correctStartNote = OctaveUtil.removeOctaveSpecifier(startNote.getNote());
+
         // Set up textual representation of question
         Label question = new Label();
         ArrayList<Note> correctNotes = startNote.getScale(scaleType, true);
-        ArrayList<String> correctNoteNames = Scale.scaleNameList(OctaveUtil.removeOctaveSpecifier(startNote.getNote()), correctNotes, true, scaleType.toLowerCase());
+        ArrayList<String> correctNoteNames = Scale.scaleNameList(correctStartNote, correctNotes, true, scaleType.toLowerCase());
         question.setText(String.join(" ", correctNoteNames));
 
         // Set up answer and textual representation of answer
-        String answer = OctaveUtil.removeOctaveSpecifier(startNote.getNote()) + " " + scaleType;
+        String answer = correctStartNote + " " + scaleType;
         Label correctAnswer = correctAnswer(answer);
+        correctAnswer.setId("answer");
 
         // This question type only has two inputs
         final HBox inputs = new HBox();
@@ -334,7 +342,6 @@ public class ScaleSpellingTutorController extends TutorController {
         List<String> textNoteOptions = new ArrayList<>();
 
         // Generate the note options
-        String correctStartNote = OctaveUtil.removeOctaveSpecifier(startNote.getNote());
         textNoteOptions.add(correctStartNote);
 
         for (int i = 0; i < 7; i++) {
@@ -404,6 +411,7 @@ public class ScaleSpellingTutorController extends TutorController {
         skip.setOnAction(event -> handleSkippedQuestion(scaleInfo, 3, questionRow));
 
         Label correctAnswer = correctAnswer(String.join(" ", correctNoteNames));
+        correctAnswer.setId("answer");
 
         questionRow.getChildren().add(0, play);
         questionRow.getChildren().add(1, skip);
