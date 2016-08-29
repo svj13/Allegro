@@ -42,10 +42,12 @@ public class TutorHandler {
 
     public TutorHandler(Environment env) {
         this.env = env;
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, -7);
         dates = new HashMap<>();
-        dates.put("Today", new Date());
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.HOUR, -24);
+        dates.put("Last 24 Hours", cal.getTime());
+        cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -7);
         dates.put("Last Week", cal.getTime());
         cal = Calendar.getInstance();
         cal.add(Calendar.MONTH, -1);

@@ -116,7 +116,7 @@ public class UserPageController {
             @Override
             public String toString(Double object) {
                 if (object == 0) {
-                    return "Today";
+                    return "Last 24 Hours";
                 } else if (object == 1) {
                     return "Last Week";
                 } else if (object == 2) {
@@ -134,7 +134,7 @@ public class UserPageController {
 
             @Override
             public Double fromString(String string) {
-                if (string.equals("Today")) {
+                if (string.equals("Last 24 Hours")) {
                     return 0d;
                 } else if (string.equals("Last Week")) {
                     return 1d;
@@ -152,11 +152,17 @@ public class UserPageController {
         };
         timeSlider.setLabelFormatter(convert);
         timeSlider.setShowTickLabels(true);
-        timeSlider.valueChangingProperty().addListener(((observable, oldValue, newValue) -> {
-            if (newValue.equals(false)) {
-                updateGraphs(convert.toString(timeSlider.valueProperty().get()));
+
+        timeSlider.valueProperty().addListener(((observable1, oldValue1, newValue1) -> {
+            String result = convert.toString(timeSlider.getValue());
+            if (result != null) {
+                updateGraphs(result);
             }
         }));
+
+        timeSlider.setOnMouseReleased(e -> {
+            updateGraphs(convert.toString(timeSlider.getValue()));
+        });
 
         listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             displayGraphs((String) newValue, convert.toString(timeSlider.valueProperty().get()));
