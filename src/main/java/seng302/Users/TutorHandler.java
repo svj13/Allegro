@@ -93,6 +93,8 @@ public class TutorHandler {
             filename = projectAddress + "/KeySignatureTutor.json";
         } else if (id.equals("diatonicChordTutor")) {
             filename = projectAddress + "/DiatonicChordTutor.json";
+        } else if (id.equals("scaleSpelling")) {
+            filename = projectAddress + "/ScaleSpellingTutor.json";
         }
         Gson gson = new Gson();
         ArrayList<TutorRecord> records = new ArrayList<>();
@@ -151,6 +153,9 @@ public class TutorHandler {
         }
         if (env.getRootController().tabSaveCheck("diatonicChordTutor")) {
             saveTutorRecordsToFile(projectAddress + "/DiatonicChordTutor.json", env.getRootController().DiatonicChordsController.record);
+        }
+        if (env.getRootController().tabSaveCheck("scaleSpelling")) {
+            saveTutorRecordsToFile(projectAddress + "/ScaleSpellingTutor.json", env.getRootController().ScaleSpellingTabController.record);
         }
     }
 

@@ -84,6 +84,10 @@ public class ScaleSpellingTutorController extends TutorController {
 
     Random rand;
 
+    private final String typeOneText = "Spell the scale with the name %s";
+
+    private final String typeTwoText = "Name the scale with the notes %s";
+
     public void create(Environment env) {
         super.create(env);
         rand = new Random();
@@ -210,13 +214,16 @@ public class ScaleSpellingTutorController extends TutorController {
 
     }
 
-    private void handleTypeOneTwoInput(ComboBox input, Map scaleInfo, HBox questionRow, String answer) {
+    private void handleTypeOneTwoInput(ComboBox input, Map scaleInfo, HBox questionRow, String answer, int questionType) {
         styleTypeOneTwoInput(input, answer);
         if (isTypeOneTwoComplete(questionRow)) {
             manager.answered += 1;
             gradeTypeOneTwoQuestion(questionRow);
             int score = gradeTypeOneTwoQuestion(questionRow);
+
             styleTypeOneTwoQuestion(questionRow, score);
+
+
             if (score == 0) {
                 //show the answer
                 questionRow.lookup("#answer").setVisible(true);
@@ -225,6 +232,28 @@ public class ScaleSpellingTutorController extends TutorController {
                 // if question was partially correct, add it to the manager as incorrect
                 score = 0;
             }
+
+            String questionText;
+            if (questionType == 1) {
+                questionText = String.format(typeOneText, questionRow.lookup("#question"));
+            } else {
+                questionText = String.format(typeTwoText, questionRow.lookup("#question"));
+            }
+
+            String usersAnswer = "";
+
+            for (Node part : ((HBox) questionRow.lookup("#inputs")).getChildren()) {
+                usersAnswer += ((ComboBox) part).getValue();
+            }
+
+            String[] question = new String[]{
+                    questionText,
+                    usersAnswer,
+                    Integer.toString(score)
+            };
+
+            record.addQuestionAnswer(question);
+
             manager.add(new Pair(scaleInfo, 1), score);
             if (manager.answered == manager.questions) {
                 finished();
@@ -237,6 +266,19 @@ public class ScaleSpellingTutorController extends TutorController {
         manager.add(new Pair(scaleInfo, questionType), 2);
         formatSkippedQuestion(questionRow);
         disableButtons(questionRow, 1, questionRow.getChildren().size() - 1);
+
+        String questionText = "";
+        if (questionType == 1) {
+            questionText = String.format(typeOneText);
+
+        }
+        String[] questionInfo = new String[]{
+                questionText,
+                "",
+                "2"
+
+        };
+        record.addQuestionAnswer(questionInfo);
 
         if (manager.answered == manager.questions) {
             finished();
@@ -260,6 +302,7 @@ public class ScaleSpellingTutorController extends TutorController {
         Note startNote = (Note) scaleInfo.get("startNote");
         String scaleType = (String) scaleInfo.get("scaleType");
         question.setText(OctaveUtil.removeOctaveSpecifier(startNote.getNote()) + " " + scaleType);
+        question.setId("question");
 
         // Set up answer and textual representation of answer
         ArrayList<Note> correctNotes = startNote.getScale(scaleType, true);
@@ -292,7 +335,7 @@ public class ScaleSpellingTutorController extends TutorController {
             noteOptions.getItems().addAll(textualOptions);
 
             // Add handler to each ComboBox input
-            noteOptions.setOnAction(event -> handleTypeOneTwoInput(noteOptions, scaleInfo, questionRow, note));
+            noteOptions.setOnAction(event -> handleTypeOneTwoInput(noteOptions, scaleInfo, questionRow, note, 1));
 
             inputs.getChildren().add(noteOptions);
         }
@@ -327,6 +370,7 @@ public class ScaleSpellingTutorController extends TutorController {
         ArrayList<Note> correctNotes = startNote.getScale(scaleType, true);
         ArrayList<String> correctNoteNames = Scale.scaleNameList(correctStartNote, correctNotes, true, scaleType.toLowerCase());
         question.setText(String.join(" ", correctNoteNames));
+        question.setId("question");
 
         // Set up answer and textual representation of answer
         String answer = correctStartNote + " " + scaleType;
@@ -356,12 +400,12 @@ public class ScaleSpellingTutorController extends TutorController {
         noteOptions.getItems().addAll(textNoteOptions);
         // Add handler to each ComboBox input
 
-        noteOptions.setOnAction(event -> handleTypeOneTwoInput(noteOptions, scaleInfo, questionRow, correctStartNote));
+        noteOptions.setOnAction(event -> handleTypeOneTwoInput(noteOptions, scaleInfo, questionRow, correctStartNote, 2));
 
         // Generate the scale options - all the selected scale types.
         scaleTypeOptions.getItems().addAll(selectedScaleTypes);
 
-        scaleTypeOptions.setOnAction(event -> handleTypeOneTwoInput(scaleTypeOptions, scaleInfo, questionRow, scaleType));
+        scaleTypeOptions.setOnAction(event -> handleTypeOneTwoInput(scaleTypeOptions, scaleInfo, questionRow, scaleType, 2));
 
         inputs.getChildren().add(noteOptions);
         inputs.getChildren().add(scaleTypeOptions);
