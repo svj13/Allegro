@@ -32,7 +32,7 @@ public class MajorModes implements Command {
     private String outputString;
 
 
-    private ArrayList<String> majorNotes = new ArrayList<>(Arrays.asList("C", "G", "D", "A", "E", "B", "F", "Bb", "Eb", "Ab", "Db", "Gb"));
+    private static ArrayList<String> majorNotes = new ArrayList<>(Arrays.asList("C", "G", "D", "A", "E", "B", "F", "Bb", "Eb", "Ab", "Db", "Gb"));
 
 
     /**
@@ -63,36 +63,13 @@ public class MajorModes implements Command {
     }
 
     /**
-     * Takes a mode note of a scale and its degree and returns the parent scale
-     * it belongs to as a string
-     * @param mode
-     * @param degree
-     * @return parentScale
-     */
-    public String getParentScaleString(String mode, Integer degree) {
-        degree = ModeHelper.getkeyModes().get(scaleType);
-        for (String note : majorNotes) {
-            Note tonic = Note.lookup(OctaveUtil.addDefaultOctave(note));
-            ArrayList<String> majorScale = Scale.scaleNameList(note, tonic.getScale("major", true), true, scaleType);
-            if (majorScale.get(degree - 1).equals(startNote)) {
-                String parentScale = note + " major";
-                return parentScale;
-            } else {
-
-            }
-        } return "I didn't equal start note trololol";
-    }
-
-
-
-    /**
      * Takes a parent scale note and a degree, and returns the mode of the corresponding parent scale and degree as a
      * string
-     * @param parentScaleNote
-     * @param degree
      * @return result
      */
-    public String getCorrespondingScaleString(String parentScaleNote, Integer degree) {
+    public static String getCorrespondingScaleString(String typedTonic, Integer degree) {
+        Note tonic = Note.lookup(OctaveUtil.addDefaultOctave(typedTonic));
+
         if (degree >= 1 && degree <= 7) {
             ArrayList<String> majorScale = Scale.scaleNameList(typedTonic, tonic.getScale("major", true), true, "major");
             String parentNote = majorScale.get(degree - 1);
@@ -103,6 +80,27 @@ public class MajorModes implements Command {
             return "Invalid degree: " + degree + ". Please use degree in range 1-7.";
         }
 
+    }
+
+    /**
+     * Takes a mode note of a scale and its type (e.g Dorian) and returns the parent scale
+     * it belongs to as a string
+     * @param startNote
+     * @param scaleType
+     * @return parentScale
+     */
+    public static String getParentScaleString(String startNote, String scaleType) {
+        Integer degree = ModeHelper.getkeyModes().get(scaleType);
+        for (String note : majorNotes) {
+            Note tonic = Note.lookup(OctaveUtil.addDefaultOctave(note));
+            ArrayList<String> majorScale = Scale.scaleNameList(note, tonic.getScale("major", true), true, scaleType);
+            if (majorScale.get(degree - 1).equals(startNote)) {
+                String parentScale = note + " major";
+                return parentScale;
+            }
+        }
+
+        return "Start note did not match";
     }
 
 
@@ -118,7 +116,11 @@ public class MajorModes implements Command {
             ArrayList<String> majorScale = Scale.scaleNameList(note, tonic.getScale("major", true), true, scaleType);
             if(majorScale.get(degree - 1).equals(startNote)){
                 env.getTranscriptManager().setResult(note + " major");
-            }
+                System.out.println(getParentScaleString("D", "dorian"));
+//            } else {
+//                env.error("Invalid note/scale type. Please check they are spelt correctly");
+         }
+
         }
 
     }
@@ -136,7 +138,6 @@ public class MajorModes implements Command {
             ArrayList<String> majorScale = Scale.scaleNameList(typedTonic, tonic.getScale("major", true), true, "major");
             String parentNote = majorScale.get(degree - 1);
             String mode = ModeHelper.getValueModes().get(degree);
-
             env.getTranscriptManager().setResult(parentNote + " " + mode);
         } else {
             env.error("Invalid degree: " + degree + ". Please use degree in range 1-7.");

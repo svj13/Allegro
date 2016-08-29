@@ -931,9 +931,9 @@ public class RootController implements Initializable {
 
             TabPane.getTabs().add(ScaleTab);
             TabPane.getSelectionModel().select(ScaleTab);
-            KeySignaturesTabController = loader.getController();
-            KeySignaturesTabController.create(env);
-            KeySignaturesTabController.setTabID("scaleModesTutor");
+            ScaleModesController = loader.getController();
+            ScaleModesController.create(env);
+            ScaleModesController.setTabID("scaleModesTutor");
         }
 
     }
