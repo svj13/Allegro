@@ -244,8 +244,11 @@ public class Scale implements Command {
                     if (startNote.length() > 1) {
                         modifier = startNote.charAt(1);
                     }
-                    if (modifier == '#' || (startNote.toUpperCase().charAt(0) == 'B' && modifier != 'b')) {
-                        // Sharp blues scales do not use flats,
+                    if ((startNote.toUpperCase().startsWith("B#") || startNote.toUpperCase().startsWith("E#")) && whichNote == 6) {
+                        // Make these special cases' first and last notes match up
+                        currentNote = note.getEnharmonicWithLetter(startNote.toUpperCase().charAt(0));
+                    } else if (modifier == '#' || (startNote.toUpperCase().charAt(0) == 'B' && modifier != 'b')) {
+                        // Flat blues scales do not use sharps,
                         // Except for the Bb blues scale for some reason.
                         currentNote = note.getNote();
                     } else if (modifier == 'b' && whichNote == 0) {
