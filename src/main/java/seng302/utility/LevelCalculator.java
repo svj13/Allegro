@@ -28,7 +28,7 @@ public class LevelCalculator {
      * @param level The level whose required experience is to be found
      * @return The required experience, represented as an integer
      */
-    private static int getTotalExpForLevel(int level) {
+    public static int getTotalExpForLevel(int level) {
         if (level == 1) {
             return 1;
         } else {

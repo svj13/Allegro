@@ -25,11 +25,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Pair;
 import seng302.Environment;
+import seng302.utility.LevelCalculator;
 
 /**
  * Created by jmw280 on 22/08/16.
@@ -41,6 +44,9 @@ public class UserPageController {
     AnchorPane contentPane;
 
     @FXML
+    Pane userSummaryPane;
+
+    @FXML
     VBox stats;
 
     @FXML
@@ -48,6 +54,9 @@ public class UserPageController {
 
     @FXML
     StackedBarChart recentBar;
+
+    @FXML
+    StackedBarChart levelBar;
 
     @FXML
     AnchorPane topPane;
@@ -72,6 +81,13 @@ public class UserPageController {
 
     @FXML
     JFXSlider timeSlider;
+
+    @FXML
+    Rectangle progressBar;
+
+
+    @FXML
+    Label highXp;
 
     private Environment env;
 
@@ -188,7 +204,18 @@ public class UserPageController {
             }
         });
 
+        updateProgressBar();
 
+    }
+
+    private void updateProgressBar() {
+        int userXp = env.getUserHandler().getCurrentUser().getUserExperience();
+        int userLevel = env.getUserHandler().getCurrentUser().getUserLevel();
+        int minXp = LevelCalculator.getTotalExpForLevel(userLevel);
+        int maxXp = LevelCalculator.getTotalExpForLevel(userLevel + 1);
+        highXp.setText(Integer.toString(maxXp - userXp) + "XP to level " + Integer.toString(userLevel + 1));
+        float percentage = 100 * (userXp - minXp) / (maxXp - minXp);
+        progressBar.setWidth(percentage * 2);
     }
 
     private void updateGraphs(String timePeriod) {
