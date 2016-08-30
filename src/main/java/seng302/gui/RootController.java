@@ -1,23 +1,6 @@
 package seng302.gui;
 
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.SnapshotParameters;
-import javafx.scene.control.*;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.layout.VBox;
-import org.controlsfx.control.PopOver;
 import org.json.simple.JSONArray;
 
 import java.io.File;
@@ -36,18 +19,28 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Menu;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -64,7 +57,6 @@ public class RootController implements Initializable {
 
     String path;
     File fileDir;
-
 
 
     @FXML
@@ -194,24 +186,16 @@ public class RootController implements Initializable {
                 + "-fx-border-width:2.0";
 
 
-
         userDropDown.setEllipsisString("User");
         userDropDown.setText("User");
 
 
-
-
     }
 
-    public void updateImage(){
-        final Circle clip = new Circle(imageDP.getFitWidth()-25.0, imageDP.getFitHeight()-25.0, 50.0);
-
-
+    public void updateImage() {
+        final Circle clip = new Circle(imageDP.getFitWidth() - 25.0, imageDP.getFitHeight() - 25.0, 50.0);
         imageDP.setImage(env.getUserHandler().getCurrentUser().getUserPicture());
-
-
         clip.setRadius(25.0);
-
         imageDP.setClip(clip);
 
         SnapshotParameters parameters = new SnapshotParameters();
@@ -222,18 +206,23 @@ public class RootController implements Initializable {
         imageDP.setEffect(new DropShadow(5, Color.BLACK));
 
         imageDP.setImage(image);
+        imageDP.setOnMouseClicked(event -> {
+
+            try {
+                showUserPage();
+            } catch (Exception e) {
+
+            }
+        });
     }
 
 
-    public void showWindow(Boolean show){
-        if(show) {
+    public void showWindow(Boolean show) {
+        if (show) {
             stage.show();
             updateImage();
 
-        }
-        else stage.hide();
-
-
+        } else stage.hide();
 
     }
 
@@ -321,21 +310,69 @@ public class RootController implements Initializable {
 
 
     /**
-     *  Updates the user menu button text to display the current user's name.
+     * Updates the user menu button text to display the current user's name.
      */
-    public void updateUserInfo(String name){
+    public void updateUserInfo(String name) {
         userDropDown.setEllipsisString(name);
         userDropDown.setText(name);
     }
 
-    public void showLoginWindow(Boolean show) throws IOException {
-        if(show){
+
+    /**
+     * Opens the user page.
+     *
+     * @throws IOException
+     */
+    public void showUserPage() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/Views/UserPage.fxml"));
+
+
+        Parent root1 = loader.load();
+        Scene scene1 = new Scene(root1);
+        Stage userPageStage = new Stage();
+        userPageStage.setTitle("Allegro");
+        userPageStage.setScene(scene1);
+
+        userPageStage.show();
+        UserPageController userPageController = loader.getController();
+        userPageController.setEnvironment(env);
+        userPageController.populateUserOptions();
+        userPageController.updateImage();
+
+
+    }
+
+
+    /**
+     * Opens the login in a new stage.
+     */
+    private void showLoginWindow() {
+        try {
+            showLoginWindow(new Stage());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Opens a login page in a specified stage (window)
+     * @param loginStage
+     * @throws IOException
+     */
+    public void showLoginWindow(Stage loginStage) throws IOException {
+        //if (show) {
+
+            //Close current window.
+            if (stage.isShowing()) stage.close();
+
             FXMLLoader loader1 = new FXMLLoader();
             loader1.setLocation(getClass().getResource("/Views/userLogin.fxml"));
 
             Parent root1 = loader1.load();
             Scene scene1 = new Scene(root1);
-            Stage loginStage = new Stage();
+
+
             loginStage.setTitle("Allegro");
             loginStage.setScene(scene1);
 
@@ -345,6 +382,9 @@ public class RootController implements Initializable {
                 event.consume();
             });
 
+        loginStage.setMinWidth(600);
+        Double initialHeight = loginStage.getHeight();
+        loginStage.setMinHeight(initialHeight);
 
             loginStage.show();
             UserLoginController userLoginController = loader1.getController();
@@ -352,18 +392,17 @@ public class RootController implements Initializable {
             userLoginController.displayRecentUsers();
 
 
-        }
+        //}
 
     }
 
     @FXML
-    protected void logOutUser() throws IOException {
+    public void logOutUser() throws IOException {
         stage.close();
-        showLoginWindow(true);
+        showLoginWindow();
         reset();
 
     }
-
 
 
     /**
@@ -495,6 +534,10 @@ public class RootController implements Initializable {
         return file;
     }
 
+    public Stage getStage() {
+        return this.stage;
+    }
+
     /**
      * Creates and displays an "open file" file chooser
      *
@@ -588,7 +631,8 @@ public class RootController implements Initializable {
      */
     @FXML
     public void newProject() {
-        env.resetEnvironment();
+        //env.resetEnvironment();
+        env.resetProjectEnvironment();
         env.getUserHandler().getCurrentUser().getProjectHandler().createNewProject();
     }
 
@@ -597,6 +641,7 @@ public class RootController implements Initializable {
      */
     @FXML
     private void saveProject() {
+        env.getUserHandler().getCurrentUser().saveProperties();
         env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().saveCurrentProject();
     }
 
@@ -999,7 +1044,7 @@ public class RootController implements Initializable {
         DirectoryChooser dirChooser = new DirectoryChooser();
 
         dirChooser.setTitle("Select a project directory");
-        Path path = Paths.get("UserData/Projects/");
+        Path path = Paths.get(env.getUserHandler().getCurrentUserPath().toString() + "/Projects/");
         checkProjectDirectory();
         dirChooser.setInitialDirectory(path.toFile());
 
@@ -1007,7 +1052,7 @@ public class RootController implements Initializable {
         File folder = dirChooser.showDialog(stage);
 
         if (folder != null) {
-            if (folder.isDirectory()) {
+            if (folder.isDirectory() && folder.getParent().equals(env.getUserHandler().getCurrentUser().getUserName())) {
                 for (File f : folder.listFiles()) {
 
                     if (f.getName().endsWith(".json") && f.getName().substring(0, f.getName().length() - 5).equals(folder.getName())) {
@@ -1022,8 +1067,6 @@ public class RootController implements Initializable {
                                 ce.printStackTrace();
                                 errorAlert("Could not Import the project! Maybe it already exists in the Projects folder?");
                             }
-
-
                             //project with said name does not exist in the projects directory.. import it.
                             env.getUserHandler().getCurrentUser().getProjectHandler().setCurrentProject(folder.getName());
 
@@ -1036,6 +1079,9 @@ public class RootController implements Initializable {
                 errorAlert("Not a valid Project folder - Try again!");
                 selectProjectDirectory();
                 return;
+            } else {
+
+                errorAlert("Project must be contained in the current user's Projects folder.");
             }
         }
     }
@@ -1182,7 +1228,7 @@ public class RootController implements Initializable {
 
         }
         int total_tabs = TabPane.getTabs().size();
-        TabPane.getTabs().remove(1,total_tabs);
+        TabPane.getTabs().remove(1, total_tabs);
     }
 
     /**
