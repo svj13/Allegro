@@ -44,9 +44,6 @@ public class ChordSpellingTutorController extends TutorController {
     ComboBox numEnharmonics;
 
     @FXML
-    HBox settingsBox;
-
-    @FXML
     Button btnGo;
 
     @FXML
@@ -64,12 +61,14 @@ public class ChordSpellingTutorController extends TutorController {
     private String[] validChordNames = {"major", "minor", "minor 7th",
             "major 7th", "seventh", "diminished", "half diminished 7th", "diminished 7th"};
 
-    CheckComboBox<String> chordTypes = new CheckComboBox<String>();
+    @FXML
+    CheckComboBox<String> chordTypes;
 
     /**
      * What type the generated chords are, i.e. major, minor
      */
-    private ArrayList<String> validChords = new ArrayList<String>();
+//    private ArrayList<String> validChords = new ArrayList<String>();
+    ObservableList<String> validChords;
 
     private String enharmonicsRequired;
 
@@ -99,16 +98,10 @@ public class ChordSpellingTutorController extends TutorController {
             chordTypes.getItems().add(validChordName);
         }
 
-        chordTypes.getCheckModel().getCheckedIndices().addListener((ListChangeListener<Integer>) c -> {
-            validChords.clear();
-            validChords.addAll(chordTypes.getCheckModel().getCheckedIndices().stream().map(index -> validChordNames[index]).collect(Collectors.toList()));
-        });
+        chordTypes.getCheckModel().clearChecks();
+        chordTypes.getCheckModel().check(0);
+        chordTypes.getCheckModel().check(1);
 
-        // Defaults to having all options selected
-        selectAllChordTypes();
-
-        //Adds to the settings, after its label
-        settingsBox.getChildren().add(1, chordTypes);
     }
 
     /**
@@ -134,6 +127,8 @@ public class ChordSpellingTutorController extends TutorController {
             manager.questions = selectedQuestions;
             enharmonicsRequired = (String) numEnharmonics.getValue();
             List qPanes = new ArrayList<>();
+
+            this.validChords = chordTypes.getCheckModel().getCheckedItems();
 
             questionRows.getChildren().clear();
             for (int i = 0; i < manager.questions; i++) {
@@ -464,6 +459,7 @@ public class ChordSpellingTutorController extends TutorController {
      * @return either "major" or "minor" as a string
      */
     private String generateRandomChordType() {
+        this.validChords = chordTypes.getCheckModel().getCheckedItems();
         int chordType = rand.nextInt(validChords.size());
         return validChords.get(chordType);
     }
@@ -804,7 +800,8 @@ public class ChordSpellingTutorController extends TutorController {
      * Resets the settings inputs
      */
     void resetInputs() {
-        selectAllChordTypes();
+        chordTypes.getCheckModel().clearChecks();
+        chordTypes.getCheckModel().checkIndices(0, 1);
         numEnharmonics.getSelectionModel().selectFirst();
         allowFalseChords.setSelected(false);
     }

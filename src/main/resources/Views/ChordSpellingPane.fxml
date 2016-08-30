@@ -6,7 +6,8 @@
 <?import javafx.scene.layout.*?>
 <?import com.jfoenix.controls.*?>
 
-<AnchorPane fx:id="chordSpellingAnchor" prefHeight="450.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.ChordSpellingTutorController">
+<?import org.controlsfx.control.CheckComboBox?>
+<AnchorPane fx:id="chordSpellingAnchor" prefHeight="530.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.ChordSpellingTutorController">
     <children>
         <HBox prefHeight="30.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
             <children>
@@ -42,39 +43,25 @@
                                 <Insets left="5.0" />
                             </padding>
                         </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                        <HBox alignment="CENTER" prefHeight="60.0" prefWidth="200.0" spacing="10.0">
+                            <children>
+                                <Label text="Chord Types">
+                                    <HBox.margin>
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    </HBox.margin>
+                                </Label>
+                                <CheckComboBox fx:id="chordTypes" prefWidth="100.0"/>
+                                <Label text="Enharmonics">
+                                    <padding>
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    </padding>
+                                </Label>
+                                <ComboBox fx:id="numEnharmonics" prefWidth="100.0" promptText="1" />
+                                <CheckBox fx:id="allowFalseChords" mnemonicParsing="false" text="Allow False Chords" />
+                            </children>
                             <VBox.margin>
                                 <Insets left="5.0" />
                             </VBox.margin>
-                            <children>
-                                <VBox>
-                                    <children>
-                                        <HBox fx:id="settingsBox">
-                                            <children>
-                                                <Label text="Chord Types">
-                                                    <padding>
-                                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                                    </padding>
-                                                </Label>
-                                                <Label text="Enharmonics">
-                                                    <padding>
-                                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                                    </padding>
-                                                </Label>
-                                                <ComboBox fx:id="numEnharmonics" prefWidth="100.0" promptText="1" />
-                                            </children>
-                                        </HBox>
-                                    </children>
-                                </VBox>
-                                <HBox>
-                                    <children>
-                                        <CheckBox fx:id="allowFalseChords" mnemonicParsing="false" text="Allow False Chords" />
-                                    </children>
-                                    <padding>
-                                        <Insets top="5.0" />
-                                    </padding>
-                                </HBox>
-                            </children>
                         </HBox>
                         <BorderPane>
                             <bottom>

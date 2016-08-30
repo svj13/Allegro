@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import com.jfoenix.controls.*?>
 
-<AnchorPane fx:id="IntervalRecognitionTab" minWidth="460.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.IntervalRecognitionTutorController">
+<AnchorPane fx:id="IntervalRecognitionTab" minWidth="300.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.IntervalRecognitionTutorController">
     <children>
         <HBox prefHeight="30.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
             <children>
@@ -44,12 +44,11 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                             <children>
-                                <Label minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" text="Note Range: ">
+                                <Label minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" text="Note Range: "/>
+                                    <Label fx:id="notes" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0">
                                     <HBox.margin>
-                                        <Insets />
+                                        <Insets left="3.0"/>
                                     </HBox.margin>
-                                </Label>
-                                <Label fx:id="notes" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0">
                                     <font>
                                         <Font name="System Bold" size="13.0" />
                                     </font>
@@ -63,7 +62,7 @@
                             <bottom>
                                 <JFXButton id="btnGo" fx:id="btnGo" buttonType="RAISED" alignment="CENTER" onAction="#goAction" prefHeight="30.0" prefWidth="90.0" ripplerFill="#a4a4a4" style="-fx-background-color: #5683bf;" text="Go" BorderPane.alignment="CENTER">
                                     <BorderPane.margin>
-                                        <Insets bottom="5.0" left="20.0" top="2.0" right="2.0"/>
+                                        <Insets bottom="5.0" left="20.0" />
                                     </BorderPane.margin>
                                 </JFXButton>
                             </bottom>
