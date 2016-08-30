@@ -107,6 +107,7 @@ public class UISkinnerController {
         }
 
         env.getThemeHandler().generateStyleSheet(baseRgb, lighterOrDarker);
+        env.getUserHandler().getCurrentUser().saveProperties();
 
         baseNode.getStylesheets().clear();
         String filePath = "userstyle.css";
