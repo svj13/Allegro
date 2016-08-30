@@ -279,13 +279,15 @@ public class ScaleSpellingTutorController extends TutorController {
         // Set up textual representation of question
         Label question = new Label();
         Note startNote = (Note) scaleInfo.get("startNote");
+        String startNoteName = randomiseNoteName(startNote);
+
         String scaleType = (String) scaleInfo.get("scaleType");
-        question.setText(OctaveUtil.removeOctaveSpecifier(startNote.getNote()) + " " + scaleType);
+        question.setText(startNoteName + " " + scaleType);
         question.setId("question");
 
         // Set up answer and textual representation of answer
         ArrayList<Note> correctNotes = startNote.getScale(scaleType, true);
-        ArrayList<String> correctNoteNames = Scale.scaleNameList(OctaveUtil.removeOctaveSpecifier(startNote.getNote()), correctNotes, true, scaleType.toLowerCase());
+        ArrayList<String> correctNoteNames = Scale.scaleNameList(startNoteName, correctNotes, true, scaleType.toLowerCase());
         Label correctAnswer = correctAnswer(String.join(" ", correctNoteNames));
         correctAnswer.setId("answer");
 
@@ -302,9 +304,9 @@ public class ScaleSpellingTutorController extends TutorController {
             // Create 7 fictional options
             for (int i = 0; i < 7; i++) {
                 // Randomly generate notes until we find one currently unused
-                String randomNote = OctaveUtil.removeOctaveSpecifier(Note.getRandomNote().getNote());
+                String randomNote = randomiseNoteName(Note.getRandomNote());
                 while (textualOptions.contains(randomNote)) {
-                    randomNote = OctaveUtil.removeOctaveSpecifier(Note.getRandomNote().getNote());
+                    randomNote = randomiseNoteName(Note.getRandomNote());
                 }
                 textualOptions.add(randomNote);
             }
@@ -342,7 +344,7 @@ public class ScaleSpellingTutorController extends TutorController {
         Note startNote = (Note) scaleInfo.get("startNote");
         String scaleType = (String) scaleInfo.get("scaleType");
 
-        String correctStartNote = OctaveUtil.removeOctaveSpecifier(startNote.getNote());
+        String correctStartNote = randomiseNoteName(startNote);
 
         // Set up textual representation of question
         Label question = new Label();
@@ -368,9 +370,9 @@ public class ScaleSpellingTutorController extends TutorController {
         textNoteOptions.add(correctStartNote);
 
         for (int i = 0; i < 7; i++) {
-            String randomNote = OctaveUtil.removeOctaveSpecifier(Note.getRandomNote().getNote());
+            String randomNote = randomiseNoteName(Note.getRandomNote());
             while (textNoteOptions.contains(randomNote)) {
-                randomNote = OctaveUtil.removeOctaveSpecifier(Note.getRandomNote().getNote());
+                randomNote = randomiseNoteName(Note.getRandomNote());
             }
             textNoteOptions.add(randomNote);
 
