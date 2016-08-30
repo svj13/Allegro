@@ -1,9 +1,5 @@
 package seng302.gui;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXRadioButton;
-import com.jfoenix.controls.JFXToggleButton;
-
 import javafx.collections.FXCollections;
 import javafx.scene.control.*;
 import javafx.scene.shape.Circle;
@@ -74,13 +70,13 @@ public class KeyboardPaneController {
      * Button to show settings pop over.
      */
     @FXML
-    private JFXButton settingsButton;
+    private Button settingsButton;
 
     /**
      * Button to show display scales pop over.
      */
     @FXML
-    private JFXButton displayScalesButton;
+    private Button displayScalesButton;
 
 
     @FXML
@@ -211,22 +207,17 @@ public class KeyboardPaneController {
 
         // Select whether to show note names.
         settings.getChildren().add(new Label("Note names:"));
-        HBox noteNamesSetting = new HBox();
         ToggleGroup notenames = new ToggleGroup();
-        noteLabelsOff = new JFXRadioButton("Never show");
+        noteLabelsOff = new RadioButton("Never show");
         noteLabelsOff.setOnAction(event -> stopShowingNotesOnKeyboard());
         noteLabelsOff.setToggleGroup(notenames);
         noteLabelsOff.setSelected(true);
-        noteLabelsClick = new JFXRadioButton("Show on click");
+        noteLabelsClick = new RadioButton("Show on click");
         noteLabelsClick.setToggleGroup(notenames);
         noteLabelsClick.setOnAction(event -> toggleShowKeyboardNotesAction());
-        noteLabelsAlways = new JFXRadioButton("Always show");
+        noteLabelsAlways = new RadioButton("Always show");
         noteLabelsAlways.setToggleGroup(notenames);
         noteLabelsAlways.setOnAction(event -> toggleShowKeyboardNotesAlways());
-
-        noteNamesSetting.getChildren().add(noteLabelsOff);
-        noteNamesSetting.getChildren().add(noteLabelsClick);
-        noteNamesSetting.getChildren().add(noteLabelsAlways);
 
         // Generate Keyboard notes based on value of range slider.
         slider.lowValueProperty().addListener(
@@ -245,26 +236,26 @@ public class KeyboardPaneController {
 
         rangeHeading.getChildren().add(notes);
 
-        settings.setSpacing(12);
+        settings.setSpacing(5);
         settings.setPadding(new Insets(10));
-        settings.setPrefWidth(420.0);
 
 
         pop = new PopOver(settings);
         pop.setTitle("Keyboard Settings");
 
-        settings.getChildren().add(noteNamesSetting);
+
+        settings.getChildren().add(noteLabelsOff);
+        settings.getChildren().add(noteLabelsClick);
+        settings.getChildren().add(noteLabelsAlways);
 
         final ToggleGroup group = new ToggleGroup();
         HBox modes = new HBox();
-        JFXRadioButton play = new JFXRadioButton();
-        play.setText("Play");
+        ToggleButton play = new ToggleButton("Play");
         play.setUserData(true);
         play.setToggleGroup(group);
         play.setSelected(true);
 
-        JFXRadioButton text = new JFXRadioButton();
-        text.setText("Text Input");
+        ToggleButton text = new ToggleButton("Text Input");
         text.setUserData(false);
         text.setToggleGroup(group);
         group.selectedToggleProperty().addListener((observable, newValue, oldValue) -> {
@@ -276,7 +267,8 @@ public class KeyboardPaneController {
         });
 
 
-        settings.getChildren().add(new Label("Keyboard Mode:"));
+
+        settings.getChildren().add(new Label("Keyboard ModeHelper:"));
         modes.getChildren().add(play);
         modes.getChildren().add(text);
         settings.getChildren().add(modes);
@@ -382,7 +374,7 @@ public class KeyboardPaneController {
 
         //OK button for display scale 1. Contains all of the error handling and toggles to Hide when clicked.
         //OK displays the given scale on the keyboard. Hide removes them but doesnt clear the input fields
-        Button okScale1 = new JFXButton("OK");
+        Button okScale1 = new Button("OK");
         okScale1.setOnAction(event-> {
             if (okScale1.getText().equals("OK")) {
                 String scale1Note = scale1NoteInput.getText();
@@ -417,7 +409,7 @@ public class KeyboardPaneController {
 
         //OK button for display scale 2. Contains all of the error handling and toggles to Hide when clicked.
         //OK displays the given scale on the keyboard. Hide removes them but doesnt clear the input fields
-        Button okScale2 = new JFXButton ("OK");
+        Button okScale2 = new Button ("OK");
         okScale2.setOnAction(event-> {
             if (okScale2.getText().equals("OK")) {
                 String scale1Note = scale1NoteInput.getText();
@@ -453,7 +445,7 @@ public class KeyboardPaneController {
 
         //Clears all inputs and removes all scale indicators back to default. resets the input text borders to default
         //and resets the button back to the OK state
-        Button cancelButton = new JFXButton("Reset Scales");
+        Button cancelButton = new Button("Reset Scales");
         cancelButton.setOnAction(event->{
             scale1NoteInput.clear();
             typeScale1.setValue("Major");
