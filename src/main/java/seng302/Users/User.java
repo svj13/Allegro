@@ -226,11 +226,8 @@ public class User {
         properties.put("themeSecondary", env.getThemeHandler().getSecondaryColour());
         properties.put("firstName", this.userFirstName);
         properties.put("lastName", this.userLastName);
-
-
         String musicalTermsJSON = gson.toJson(env.getMttDataManager().getTerms());
         properties.put("musicalTerms", musicalTermsJSON);
-
         String lastSignInJSON = gson.toJson(lastSignIn);
         properties.put("signInTime", lastSignInJSON);
 
