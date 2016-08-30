@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <TitledPane fx:id="keyPane" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" maxHeight="20.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.KeyboardPaneController">
    <content>
        <StackPane fx:id="keyboardStack" alignment="TOP_LEFT" focusTraversable="true" maxHeight="100.0" prefHeight="0.0">
@@ -39,12 +40,12 @@
             </StackPane>
              <StackPane fx:id="rightStack" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" pickOnBounds="false" prefHeight="48.0">
                <children>
-                   <Button fx:id="settingsButton" focusTraversable="false" minHeight="10.0" mnemonicParsing="false" onAction="#toggleSettings" prefHeight="20.0" prefWidth="14.0" text="Settings" />
+                   <JFXButton fx:id="settingsButton" focusTraversable="false" minHeight="10.0" mnemonicParsing="false" onAction="#toggleSettings" prefHeight="20.0" prefWidth="14.0" text="Settings" />
                </children>
             </StackPane>
              <StackPane fx:id="scalesStackPane" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" pickOnBounds="false">
                  <children>
-                     <Button fx:id="displayScalesButton" focusTraversable="false" mnemonicParsing="false" onAction="#toggleDisplayScales" prefHeight="25.0" prefWidth="150.0" text="Display Scales" />
+                     <JFXButton fx:id="displayScalesButton" focusTraversable="false" mnemonicParsing="false" onAction="#toggleDisplayScales" prefHeight="25.0" prefWidth="150.0" text="Display Scales" />
                  </children>
              </StackPane>
          </children>

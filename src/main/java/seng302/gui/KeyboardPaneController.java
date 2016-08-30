@@ -1,5 +1,6 @@
 package seng302.gui;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXToggleButton;
 
@@ -73,13 +74,13 @@ public class KeyboardPaneController {
      * Button to show settings pop over.
      */
     @FXML
-    private Button settingsButton;
+    private JFXButton settingsButton;
 
     /**
      * Button to show display scales pop over.
      */
     @FXML
-    private Button displayScalesButton;
+    private JFXButton displayScalesButton;
 
 
     @FXML
@@ -381,7 +382,7 @@ public class KeyboardPaneController {
 
         //OK button for display scale 1. Contains all of the error handling and toggles to Hide when clicked.
         //OK displays the given scale on the keyboard. Hide removes them but doesnt clear the input fields
-        Button okScale1 = new Button("OK");
+        Button okScale1 = new JFXButton("OK");
         okScale1.setOnAction(event-> {
             if (okScale1.getText().equals("OK")) {
                 String scale1Note = scale1NoteInput.getText();
@@ -416,7 +417,7 @@ public class KeyboardPaneController {
 
         //OK button for display scale 2. Contains all of the error handling and toggles to Hide when clicked.
         //OK displays the given scale on the keyboard. Hide removes them but doesnt clear the input fields
-        Button okScale2 = new Button ("OK");
+        Button okScale2 = new JFXButton ("OK");
         okScale2.setOnAction(event-> {
             if (okScale2.getText().equals("OK")) {
                 String scale1Note = scale1NoteInput.getText();
@@ -452,7 +453,7 @@ public class KeyboardPaneController {
 
         //Clears all inputs and removes all scale indicators back to default. resets the input text borders to default
         //and resets the button back to the OK state
-        Button cancelButton = new Button("Reset Scales");
+        Button cancelButton = new JFXButton("Reset Scales");
         cancelButton.setOnAction(event->{
             scale1NoteInput.clear();
             typeScale1.setValue("Major");
