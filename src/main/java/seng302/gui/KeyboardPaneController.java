@@ -1,5 +1,8 @@
 package seng302.gui;
 
+import com.jfoenix.controls.JFXRadioButton;
+import com.jfoenix.controls.JFXToggleButton;
+
 import javafx.collections.FXCollections;
 import javafx.scene.control.*;
 import javafx.scene.shape.Circle;
@@ -207,17 +210,22 @@ public class KeyboardPaneController {
 
         // Select whether to show note names.
         settings.getChildren().add(new Label("Note names:"));
+        HBox noteNamesSetting = new HBox();
         ToggleGroup notenames = new ToggleGroup();
-        noteLabelsOff = new RadioButton("Never show");
+        noteLabelsOff = new JFXRadioButton("Never show");
         noteLabelsOff.setOnAction(event -> stopShowingNotesOnKeyboard());
         noteLabelsOff.setToggleGroup(notenames);
         noteLabelsOff.setSelected(true);
-        noteLabelsClick = new RadioButton("Show on click");
+        noteLabelsClick = new JFXRadioButton("Show on click");
         noteLabelsClick.setToggleGroup(notenames);
         noteLabelsClick.setOnAction(event -> toggleShowKeyboardNotesAction());
-        noteLabelsAlways = new RadioButton("Always show");
+        noteLabelsAlways = new JFXRadioButton("Always show");
         noteLabelsAlways.setToggleGroup(notenames);
         noteLabelsAlways.setOnAction(event -> toggleShowKeyboardNotesAlways());
+
+        noteNamesSetting.getChildren().add(noteLabelsOff);
+        noteNamesSetting.getChildren().add(noteLabelsClick);
+        noteNamesSetting.getChildren().add(noteLabelsAlways);
 
         // Generate Keyboard notes based on value of range slider.
         slider.lowValueProperty().addListener(
@@ -236,26 +244,30 @@ public class KeyboardPaneController {
 
         rangeHeading.getChildren().add(notes);
 
-        settings.setSpacing(5);
+        settings.setSpacing(12);
         settings.setPadding(new Insets(10));
+        settings.setPrefWidth(420.0);
 
 
         pop = new PopOver(settings);
         pop.setTitle("Keyboard Settings");
 
 
-        settings.getChildren().add(noteLabelsOff);
-        settings.getChildren().add(noteLabelsClick);
-        settings.getChildren().add(noteLabelsAlways);
+//        settings.getChildren().add(noteLabelsOff);
+//        settings.getChildren().add(noteLabelsClick);
+//        settings.getChildren().add(noteLabelsAlways);
+        settings.getChildren().add(noteNamesSetting);
 
         final ToggleGroup group = new ToggleGroup();
         HBox modes = new HBox();
-        ToggleButton play = new ToggleButton("Play");
+        JFXRadioButton play = new JFXRadioButton();
+        play.setText("Play");
         play.setUserData(true);
         play.setToggleGroup(group);
         play.setSelected(true);
 
-        ToggleButton text = new ToggleButton("Text Input");
+        JFXRadioButton text = new JFXRadioButton();
+        text.setText("Text Input");
         text.setUserData(false);
         text.setToggleGroup(group);
         group.selectedToggleProperty().addListener((observable, newValue, oldValue) -> {
@@ -265,7 +277,6 @@ public class KeyboardPaneController {
                 playMode = (Boolean) group.getSelectedToggle().getUserData();
             }
         });
-
 
 
         settings.getChildren().add(new Label("Keyboard Mode:"));
