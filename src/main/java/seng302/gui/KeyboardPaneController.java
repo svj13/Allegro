@@ -276,7 +276,8 @@ public class KeyboardPaneController {
         });
 
 
-        settings.getChildren().add(new Label("Keyboard Mode:"));
+
+        settings.getChildren().add(new Label("Keyboard ModeHelper:"));
         modes.getChildren().add(play);
         modes.getChildren().add(text);
         settings.getChildren().add(modes);
@@ -504,13 +505,15 @@ public class KeyboardPaneController {
 
 
         // Add Hboxes to the display scales vbox
+        displayScales.getChildren().add(actionButtonBox);
         displayScales.getChildren().add(scale1Label);
         displayScales.getChildren().add(scale1);
         displayScales.getChildren().add(scale2Label);
         displayScales.getChildren().add(scale2);
         displayScales.getChildren().add(startNoteKey);
         displayScales.getChildren().add(otherNoteKey);
-        displayScales.getChildren().add(actionButtonBox);
+
+
 
 
         // used the spacing etc from settings to see if it will come out nicely. Subject to change

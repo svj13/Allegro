@@ -68,7 +68,7 @@ public class TutorHandler {
             }
             return new Pair<>(correct, incorrect);
         } catch (NullPointerException e) {
-            System.out.println(e.getLocalizedMessage());
+
             return new Pair<>(123, 123);
         }
     }
@@ -151,6 +151,9 @@ public class TutorHandler {
         }
         if (env.getRootController().tabSaveCheck("diatonicChordTutor")) {
             saveTutorRecordsToFile(projectAddress + "/DiatonicChordTutor.json", env.getRootController().DiatonicChordsController.record);
+        }
+        if (env.getRootController().tabSaveCheck("scaleModesTutor")) {
+            saveTutorRecordsToFile(projectAddress + "/ScaleModesTutor.json", env.getRootController().ScaleModesController.record);
         }
     }
 
