@@ -963,7 +963,7 @@ public class RootController implements Initializable {
             }
         }
         if (!alreadyExists) {
-            Tab ScaleTab = new Tab("Scale Modes Tutor");
+            Tab ScaleTab = new Tab("Major Modes Tutor");
             ScaleTab.setId("scaleModesTutor");
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/Views/ScaleModesPane.fxml"));

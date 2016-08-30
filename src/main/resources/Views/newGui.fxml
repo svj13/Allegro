@@ -95,7 +95,7 @@
                          <Menu mnemonicParsing="false" text="Scales">
                              <items>
                                  <MenuItem fx:id="menuSCT" mnemonicParsing="false" onAction="#openScaleTutor" text="Scale Recognition" />
-                              <MenuItem id="scaleModesMenuItem" mnemonicParsing="false" onAction="#openScaleModesTutor" text="Major Modes Tutor" />
+                              <MenuItem id="MenuItem" mnemonicParsing="false" onAction="#openScaleModesTutor" text="Major Modes Tutor" />
                                  <MenuItem fx:id="menuKST" mnemonicParsing="false" onAction="#openKeySignatureTutor" text="Key Signature" />
                              </items>
                          </Menu>
