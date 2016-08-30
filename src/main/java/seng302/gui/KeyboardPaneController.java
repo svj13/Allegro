@@ -252,10 +252,6 @@ public class KeyboardPaneController {
         pop = new PopOver(settings);
         pop.setTitle("Keyboard Settings");
 
-
-//        settings.getChildren().add(noteLabelsOff);
-//        settings.getChildren().add(noteLabelsClick);
-//        settings.getChildren().add(noteLabelsAlways);
         settings.getChildren().add(noteNamesSetting);
 
         final ToggleGroup group = new ToggleGroup();
