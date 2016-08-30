@@ -2,6 +2,9 @@ package seng302.gui;
 
 import com.jfoenix.controls.JFXListCell;
 import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.JFXSlider;
+
+import org.controlsfx.control.spreadsheet.StringConverterWithFormat;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -67,10 +70,16 @@ public class UserPageController {
     @FXML
     Label overallStats;
 
+    @FXML
+    JFXSlider timeSlider;
+
     private Environment env;
 
 
+
     public UserPageController() {
+
+
     }
 
 
@@ -97,12 +106,67 @@ public class UserPageController {
 
         listView.getItems().addAll(FXCollections.observableArrayList(options));
 
-        listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            displayGraphs((String) newValue);
-        });
+
         listView.getSelectionModel().selectFirst();
         listView.setMaxWidth(200);
         listView.setMinWidth(200);
+        timeSlider.setMaxWidth(200);
+        //
+        StringConverterWithFormat convert = new StringConverterWithFormat<Double>() {
+            @Override
+            public String toString(Double object) {
+                if (object == 0) {
+                    return "Last 24 Hours";
+                } else if (object == 1) {
+                    return "Last Week";
+                } else if (object == 2) {
+                    return "Last Month";
+                } else if (object == 3) {
+                    return "Last Six Months";
+                } else if (object == 4) {
+                    return "Last Year";
+                } else if (object == 5) {
+                    return "All Time";
+                }
+                return null;
+
+            }
+
+            @Override
+            public Double fromString(String string) {
+                if (string.equals("Last 24 Hours")) {
+                    return 0d;
+                } else if (string.equals("Last Week")) {
+                    return 1d;
+                } else if (string.equals("Last Month")) {
+                    return 2d;
+                } else if (string.equals("Last Six Months")) {
+                    return 3d;
+                } else if (string.equals("Last Year")) {
+                    return 4d;
+                } else if (string.equals("All Time")) {
+                    return 5d;
+                }
+                return null;
+            }
+        };
+        timeSlider.setLabelFormatter(convert);
+        timeSlider.setShowTickLabels(true);
+
+        timeSlider.valueProperty().addListener(((observable1, oldValue1, newValue1) -> {
+            String result = convert.toString(timeSlider.getValue());
+            if (result != null) {
+                updateGraphs(result);
+            }
+        }));
+
+        timeSlider.setOnMouseReleased(e -> {
+            updateGraphs(convert.toString(timeSlider.getValue()));
+        });
+
+        listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            displayGraphs((String) newValue, convert.toString(timeSlider.valueProperty().get()));
+        });
         // This allows images to be displayed in the listview. Still trying to
         // make the text centered and the height and width the same as the others.
         listView.setCellFactory(listView -> new JFXListCell<String>() {
@@ -127,10 +191,15 @@ public class UserPageController {
 
     }
 
+    private void updateGraphs(String timePeriod) {
+        displayGraphs((String) listView.getSelectionModel().getSelectedItem(), timePeriod);
+
+    }
+
     /**
      * Makes a line graph showing the scores over time. Still figuring out the scale.
      */
-    private void makeLineGraph(List<Pair<Date, Float>> dateAndTimeList) {
+    private void makeLineGraph(List<Pair<Date, Float>> dateAndTimeList, String timePeriod) {
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM H:mm:ss");
 
@@ -186,7 +255,7 @@ public class UserPageController {
      *
      * @param tutor the specific tutor that the graphs will getting data from
      */
-    private void displayGraphs(String tutor) {
+    private void displayGraphs(String tutor, String timePeriod) {
         Pair<Integer, Integer> correctIncorrectRecent = new Pair<>(0, 0);
         Pair<Integer, Integer> correctIncorrectOverall = new Pair<>(0, 0);
         List<Pair<Date, Float>> dateAndTime = new ArrayList<>();
@@ -202,37 +271,43 @@ public class UserPageController {
         switch (tutor) {
             case "Pitch Comparison Tutor":
                 correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("pitchTutor");
-                correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("pitchTutor");
-                dateAndTime = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTimeAndScores("pitchTutor");
+                correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("pitchTutor", timePeriod);
+                dateAndTime = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTimeAndScores("pitchTutor", timePeriod);
                 break;
             case "Interval Recognition Tutor":
                 correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("intervalTutor");
-                correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("intervalTutor");
-                dateAndTime = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTimeAndScores("intervalTutor");
+                correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("intervalTutor", timePeriod);
+                dateAndTime = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTimeAndScores("intervalTutor", timePeriod);
                 break;
             case "Scale Recognition Tutor":
                 correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("scaleTutor");
-                correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("scaleTutor");
+                correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("scaleTutor", timePeriod);
+                dateAndTime = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTimeAndScores("scaleTutor", timePeriod);
                 break;
             case "Musical Terms Tutor":
                 correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("musicalTermTutor");
-                correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("musicalTermTutor");
+                correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("musicalTermTutor", timePeriod);
+                dateAndTime = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTimeAndScores("musicalTermTutor", timePeriod);
                 break;
             case "Chord Recognition Tutor":
                 correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("chordTutor");
-                correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("chordTutor");
+                correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("chordTutor", timePeriod);
+                dateAndTime = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTimeAndScores("chordTutor", timePeriod);
                 break;
             case "Chord Spelling Tutor":
                 correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("chordSpellingTutor");
-                correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("chordSpellingTutor");
+                correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("chordSpellingTutor", timePeriod);
+                dateAndTime = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTimeAndScores("chordSpellingTutor", timePeriod);
                 break;
             case "Key Signature Tutor":
                 correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("keySignatureTutor");
-                correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("keySignatureTutor");
+                correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("keySignatureTutor", timePeriod);
+                dateAndTime = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTimeAndScores("keySignatureTutor", timePeriod);
                 break;
             case "Diatonic Chord Tutor":
                 correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("diatonicChordTutor");
-                correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("diatonicChordTutor");
+                correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("diatonicChordTutor", timePeriod);
+                dateAndTime = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTimeAndScores("diatonicChordTutor", timePeriod);
                 break;
         }
 
@@ -240,7 +315,7 @@ public class UserPageController {
             recentBar.setVisible(false);
             overallStats.setVisible(false);
             latestAttempt.setVisible(false);
-            Pair<Integer, Integer> totals = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTotalsForAllTutors();
+            Pair<Integer, Integer> totals = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTotalsForAllTutors(timePeriod);
             overallSeries1.getData().add(new XYChart.Data<>(totals.getKey(), ""));
             overallSeries2.getData().add(new XYChart.Data<>(totals.getValue(), ""));
             stackedBar.getData().clear();
@@ -263,7 +338,7 @@ public class UserPageController {
             stackedBar.getData().addAll(overallSeries1, overallSeries2);
 
 
-            makeLineGraph(dateAndTime);
+            makeLineGraph(dateAndTime, timePeriod);
         }
     }
 
