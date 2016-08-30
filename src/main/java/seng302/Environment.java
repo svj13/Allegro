@@ -71,6 +71,7 @@ public class Environment {
         transcriptManager = new TranscriptManager();
         mttDataManager = new MusicalTermsTutorBackEnd();
         recordLocation = null;
+        themeHandler = new ThemeHandler();
         em = new EditHistory(this);
 
         if (rootController != null) rootController.reset();

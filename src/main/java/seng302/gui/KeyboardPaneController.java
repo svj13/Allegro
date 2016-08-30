@@ -166,6 +166,8 @@ public class KeyboardPaneController {
         bottomNote = 48;
         topNote = 72;
 
+        //keyPane.lookup(".title").setStyle("-fx-background-color: orange");
+
         createSettingsPop();
         createDisplayScalesPop();
 

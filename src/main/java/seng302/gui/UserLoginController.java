@@ -211,6 +211,7 @@ public class UserLoginController {
             stage.close();
 
             env.getRootController().showWindow(true);
+
         }else{
 
             passwordValidator.setMessage("Invalid username or password.");

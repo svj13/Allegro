@@ -1,5 +1,10 @@
 package seng302.managers;
 
+import javafx.scene.Node;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import seng302.utility.ColourUtils;
+
 import java.io.*;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -9,18 +14,56 @@ import java.util.ArrayList;
  */
 public class ThemeHandler {
 
+    AnchorPane baseNode;
 
     String primaryColour, secondaryColour;
 
-    public void setTheme(String primary, String secondary) {
+    /**
+     * Sets window to which attach the developed css.
+     *
+     * @param node
+     */
+    public void setBaseNode(AnchorPane node) {
+        System.out.println("setBaseNode called: " + node.getChildren().size());
+        this.baseNode = node;
+        //createCSSFile();
 
+    }
+
+    /**
+     * Creates a theme CSS file given a primary and secondary colours, then links the created CSS
+     * to a Node (this.baseNode)
+     *
+     * @param primary
+     * @param secondary
+     */
+    public void setTheme(String primary, String secondary) {
 
         this.primaryColour = primary;
         this.secondaryColour = secondary;
         generateStyleSheet(primary, secondary);
-
+        setNodeCss(this.baseNode);
 
     }
+
+    /**
+     * Links the created css to a specified node.
+     */
+    private void setNodeCss(AnchorPane node) {
+        if (node != null) {
+            node.getStylesheets().clear();
+            String filePath = "userstyle.css";
+            File f = new File(filePath);
+            node.getStylesheets().clear();
+            node.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
+            System.out.println("node isn't null and setNodeCss has been done yo!");
+        } else {
+            System.out.println("node is null??");
+        }
+
+    }
+
+
 
 
     /**

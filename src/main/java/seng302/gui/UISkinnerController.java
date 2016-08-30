@@ -55,10 +55,15 @@ public class UISkinnerController {
      */
     public void create(Environment env, AnchorPane node) {
         this.env = env;
-        this.baseNode = node;
+        //this.baseNode = node;
+        env.getThemeHandler().setBaseNode(env.getRootController().paneMain);
+
     }
 
 
+    /**
+     * Applies css to the node given in create. Generates colours based on user selected colour.
+     */
     @FXML
     void changeColour(ActionEvent event) {
         Color base = jfxColourPicker.getValue();
@@ -76,44 +81,10 @@ public class UISkinnerController {
             lighterOrDarker = floatToRGBString(darkerRGB);
         }
 
-        env.getThemeHandler().generateStyleSheet(baseRgb, lighterOrDarker);
 
-        baseNode.getStylesheets().clear();
-        String filePath = "userstyle.css";
-        File f = new File(filePath);
-        baseNode.getStylesheets().clear();
-        baseNode.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
-    }
-
-
-
-    /**
-     * Applies css to the node given in create. Generates colours based on user selected colour.
-     */
-    private void skinNode() {
-        Color base = colourPicker.getValue();
-        String baseRgb = ColourUtils.toRGBString(base);
-        Color comp_colour = ColourUtils.getComplementaryColourString(base);
-        setDarkerRGB(base);
-        setLighterRGB(base);
-        String complementary_rgb = ColourUtils.toRGBString(comp_colour);
-        String styleString = "";
-        String lighterOrDarker;
-        double luma = 0.2126 * (base.getRed()*255) + 0.7152 * (base.getGreen()*255) + 0.0722 * (base.getBlue()*255);
-        if (luma < 126) {
-            lighterOrDarker = floatToRGBString(lighterRGB);
-        }else {
-            lighterOrDarker = floatToRGBString(darkerRGB);
-        }
-
-        env.getThemeHandler().generateStyleSheet(baseRgb, lighterOrDarker);
+        env.getThemeHandler().setTheme(baseRgb, lighterOrDarker);
         env.getUserHandler().getCurrentUser().saveProperties();
 
-        baseNode.getStylesheets().clear();
-        String filePath = "userstyle.css";
-        File f = new File(filePath);
-        baseNode.getStylesheets().clear();
-        baseNode.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
     }
 
 
@@ -173,7 +144,6 @@ public class UISkinnerController {
 
         darkerRGB = darkerRGBArray;
     }
-
 
 
     /**

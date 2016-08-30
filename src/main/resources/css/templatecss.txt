@@ -38,3 +38,8 @@
     -fx-background-color: {0};
 }
 
+#keyPane > .title {
+    /* common styles for title, eg */
+    -fx-background-color: {0} ;
+}
+

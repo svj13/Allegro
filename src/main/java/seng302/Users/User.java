@@ -149,14 +149,12 @@ public class User {
             themeSecondary = "white";
         }
 
-        env.getThemeHandler().setTheme(themePrimary, themeSecondary);
+        //Below is commented out because setting the theme does not work at this point (Subject window not initialized)
+        //env.getThemeHandler().setTheme(themePrimary, themeSecondary);
 
 
 
         projectHandler = new ProjectHandler(env, userName);
-
-
-
 
     }
 
@@ -324,6 +322,10 @@ public class User {
         }
 
 
+    }
+
+    public String[] getThemeColours() {
+        return new String[]{themePrimary, themeSecondary};
     }
 
 
