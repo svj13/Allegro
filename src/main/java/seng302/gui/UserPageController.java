@@ -3,6 +3,7 @@ package seng302.gui;
 import com.jfoenix.controls.JFXListCell;
 import com.jfoenix.controls.JFXListView;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,6 +11,7 @@ import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.SnapshotParameters;
@@ -17,6 +19,8 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.scene.control.SplitPane;
+import javafx.scene.control.Tab;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -38,6 +42,12 @@ public class UserPageController {
     AnchorPane contentPane;
 
     @FXML
+    SplitPane userView;
+
+    @FXML
+    AnchorPane tutorView;
+
+    @FXML
     VBox stats;
 
     @FXML
@@ -47,6 +57,9 @@ public class UserPageController {
     StackedBarChart recentBar;
 
     @FXML
+    AnchorPane overallPane;
+
+    @FXML
     AnchorPane topPane;
 
     @FXML
@@ -54,6 +67,9 @@ public class UserPageController {
 
     @FXML
     Label chartTitle;
+
+    @FXML
+    Label tutorName;
 
     @FXML
     LineChart lineChart;
@@ -69,9 +85,12 @@ public class UserPageController {
 
     private Environment env;
 
+    private String currentTutor;
+
 
     public UserPageController() {
     }
+
 
 
     public void setEnvironment(Environment env) {
@@ -99,6 +118,7 @@ public class UserPageController {
 
         listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             displayGraphs((String) newValue);
+            currentTutor = (String) newValue;
         });
         listView.getSelectionModel().selectFirst();
         listView.setMaxWidth(200);
@@ -187,6 +207,7 @@ public class UserPageController {
      * @param tutor the specific tutor that the graphs will getting data from
      */
     private void displayGraphs(String tutor) {
+        tutorName.setText(tutor);
         Pair<Integer, Integer> correctIncorrectRecent = new Pair<>(0, 0);
         Pair<Integer, Integer> correctIncorrectOverall = new Pair<>(0, 0);
         List<Pair<Date, Float>> dateAndTime = new ArrayList<>();
@@ -280,6 +301,49 @@ public class UserPageController {
         imageDP.setEffect(new DropShadow(5, Color.BLACK));
 
         imageDP.setImage(image);
+
+
+    }
+
+    @FXML
+    public void loadTutor(){
+
+        if(currentTutor.equals("Pitch Comparison Tutor")){
+            userView.setVisible(false);
+            tutorView.setVisible(true);
+            openPitchTutor();
+        }
+
+
+        tutorView.setVisible(true);
+    }
+
+    public void loadUserPage(){
+        tutorView.setVisible(false);
+        userView.setVisible(true);
+    }
+
+
+    /**
+     * opens the pitch tutor when the pitch tutor menu option is pressed If there is already an open
+     * tutor of the same form then it sets focus to the already open tutor
+     */
+    @FXML
+    private void openPitchTutor() {
+
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/Views/PitchComparisonPane.fxml"));
+
+            try {
+                tutorView.getChildren().add(loader.load());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            PitchComparisonTutorController controller = loader.getController();
+            controller.create(env);
 
 
     }
