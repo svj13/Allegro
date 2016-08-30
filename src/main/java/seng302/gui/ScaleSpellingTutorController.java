@@ -217,6 +217,7 @@ public class ScaleSpellingTutorController extends TutorController {
     private void handleTypeOneTwoInput(ComboBox input, Map scaleInfo, HBox questionRow, String answer, int questionType) {
         styleTypeOneTwoInput(input, answer);
         if (isTypeOneTwoComplete(questionRow)) {
+            env.getRootController().setTabTitle(getTabID(), true);
             manager.answered += 1;
             gradeTypeOneTwoQuestion(questionRow);
             int score = gradeTypeOneTwoQuestion(questionRow);
@@ -235,16 +236,17 @@ public class ScaleSpellingTutorController extends TutorController {
 
             String questionText;
             if (questionType == 1) {
-                questionText = String.format(typeOneText, questionRow.lookup("#question"));
+                questionText = String.format(typeOneText, ((Label) questionRow.lookup("#question")).getText());
             } else {
-                questionText = String.format(typeTwoText, questionRow.lookup("#question"));
+                questionText = String.format(typeTwoText, ((Label) questionRow.lookup("#question")).getText());
             }
 
             String usersAnswer = "";
 
             for (Node part : ((HBox) questionRow.lookup("#inputs")).getChildren()) {
-                usersAnswer += ((ComboBox) part).getValue();
+                usersAnswer += ((ComboBox) part).getValue() + " ";
             }
+            usersAnswer = usersAnswer.trim();
 
             String[] question = new String[]{
                     questionText,
@@ -262,6 +264,7 @@ public class ScaleSpellingTutorController extends TutorController {
     }
 
     private void handleSkippedQuestion(Map scaleInfo, int questionType, HBox questionRow) {
+        env.getRootController().setTabTitle(getTabID(), true);
         manager.questions -= 1;
         manager.add(new Pair(scaleInfo, questionType), 2);
         formatSkippedQuestion(questionRow);
@@ -269,8 +272,10 @@ public class ScaleSpellingTutorController extends TutorController {
 
         String questionText = "";
         if (questionType == 1) {
-            questionText = String.format(typeOneText);
+            questionText = String.format(typeOneText, ((Label) questionRow.lookup("#question")).getText());
 
+        } else if (questionType == 2) {
+            questionText = String.format(typeTwoText, ((Label) questionRow.lookup("#question")).getText());
         }
         String[] questionInfo = new String[]{
                 questionText,
