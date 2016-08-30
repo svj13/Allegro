@@ -37,7 +37,7 @@ public class FileHandler {
         } else {
             //Copy the file content from one place to another
             Files.copy(sourceFolder.toPath(), destinationFolder.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            //System.out.println("File copied :: " + destinationFolder);
+
         }
     }
 
