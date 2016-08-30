@@ -64,7 +64,6 @@ public class ThemeChangerTest extends ApplicationTest {
     @Test
     public void click_colour_picker() throws InterruptedException {
 
-        System.out.println(find("#btnSkinUI"));
-        //System.out.println(btnSkin.getLabel());
+
     }
 }

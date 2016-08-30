@@ -216,7 +216,7 @@ public class RootController implements Initializable {
 
     public void showWindow(Boolean show) {
         if (show) {
-            System.out.println("base node set nowwww");
+
             //Apply user theme
             env.getThemeHandler().setBaseNode(paneMain);
             String[] themeColours = env.getUserHandler().getCurrentUser().getThemeColours();

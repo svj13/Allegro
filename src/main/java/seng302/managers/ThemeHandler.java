@@ -24,9 +24,7 @@ public class ThemeHandler {
      * @param node
      */
     public void setBaseNode(AnchorPane node) {
-        System.out.println("setBaseNode called: " + node.getChildren().size());
         this.baseNode = node;
-        //createCSSFile();
 
     }
 
@@ -56,9 +54,7 @@ public class ThemeHandler {
             File f = new File(filePath);
             node.getStylesheets().clear();
             node.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
-            System.out.println("node isn't null and setNodeCss has been done yo!");
-        } else {
-            System.out.println("node is null??");
+
         }
 
     }

@@ -20,7 +20,7 @@ public class FileHandler {
             //Verify if destinationFolder is already present; If not then create it
             if (!destinationFolder.exists()) {
                 destinationFolder.mkdir();
-                //System.out.println("Directory created :: " + destinationFolder);
+
             }
 
             //Get all files from source directory
