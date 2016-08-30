@@ -198,7 +198,7 @@ public class ScaleModesTutorController extends TutorController {
     private void handleQuestionAnswer(String userAnswer, Pair questionAndAnswer, HBox questionRow) {
         manager.answered += 1;
         Integer correct;
-        disableButtons(questionRow, 1, 2);
+        disableButtons(questionRow, 1, 3);
         String correctAnswer = (String) questionAndAnswer.getValue();
         if (userAnswer.equalsIgnoreCase(correctAnswer)) {
             correct = 1;
