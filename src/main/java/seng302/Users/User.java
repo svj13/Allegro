@@ -28,7 +28,7 @@ import java.util.Date;
  */
 public class User {
 
-    private String userFullName, userPassword, themeColor;
+    private String userFullName, userPassword, themePrimary, themeSecondary;
 
 
     private String userName;
@@ -137,10 +137,19 @@ public class User {
 
         try {
             //Theme
-            themeColor = (properties.get("themeColor")).toString();
+            themePrimary = (properties.get("themePrimary")).toString();
         } catch (NullPointerException e) {
-            themeColor = "white";
+            themePrimary = "orange";
         }
+
+        try {
+            //Theme
+            themeSecondary = (properties.get("themeSecondary")).toString();
+        } catch (NullPointerException e) {
+            themeSecondary = "white";
+        }
+
+        env.getThemeHandler().setTheme(themePrimary, themeSecondary);
 
 
 
@@ -215,7 +224,8 @@ public class User {
         properties.put("userName", userName);
         properties.put("fullName", userFullName);
         properties.put("password", this.userPassword);
-        properties.put("themeColor", this.themeColor);
+        properties.put("themePrimary", env.getThemeHandler().getPrimaryColour());
+        properties.put("themeSecondary", env.getThemeHandler().getSecondaryColour());
         properties.put("firstName", this.userFirstName);
         properties.put("lastName", this.userLastName);
 
