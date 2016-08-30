@@ -4,8 +4,6 @@ import com.jfoenix.controls.JFXListCell;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXSlider;
 
-import org.controlsfx.control.spreadsheet.StringConverterWithFormat;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,6 +27,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Pair;
+import javafx.util.StringConverter;
 import seng302.Environment;
 
 /**
@@ -111,8 +110,9 @@ public class UserPageController {
         listView.setMaxWidth(200);
         listView.setMinWidth(200);
         timeSlider.setMaxWidth(200);
+
         //
-        StringConverterWithFormat convert = new StringConverterWithFormat<Double>() {
+        StringConverter convert = new StringConverter<Double>() {
             @Override
             public String toString(Double object) {
                 if (object == 0) {
@@ -331,6 +331,7 @@ public class UserPageController {
             latestAttempt.setVisible(true);
             overallStats.setVisible(true);
             recentBar.getData().addAll(recentSeries1, recentSeries2);
+            recentBar.setMaxHeight(50);
 
             overallSeries1.getData().add(new XYChart.Data<>(correctIncorrectOverall.getKey(), ""));
             overallSeries2.getData().add(new XYChart.Data<>(correctIncorrectOverall.getValue(), ""));
