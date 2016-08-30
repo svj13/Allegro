@@ -99,6 +99,9 @@ public class RootController implements Initializable {
     public DiatonicChordsTutorController DiatonicChordsController;
 
     @FXML
+    public ScaleModesTutorController ScaleModesController;
+
+    @FXML
     private KeyboardPaneController keyboardPaneController;
 
     @FXML
@@ -191,13 +194,8 @@ public class RootController implements Initializable {
 
     public void updateImage() {
         final Circle clip = new Circle(imageDP.getFitWidth() - 25.0, imageDP.getFitHeight() - 25.0, 50.0);
-
-
         imageDP.setImage(env.getUserHandler().getCurrentUser().getUserPicture());
-
-
         clip.setRadius(25.0);
-
         imageDP.setClip(clip);
 
         SnapshotParameters parameters = new SnapshotParameters();
@@ -209,14 +207,12 @@ public class RootController implements Initializable {
 
         imageDP.setImage(image);
         imageDP.setOnMouseClicked(event -> {
-            System.out.println("hello");
+
             try {
                 showUserPage();
             } catch (Exception e) {
 
             }
-
-
         });
     }
 
@@ -227,7 +223,6 @@ public class RootController implements Initializable {
             updateImage();
 
         } else stage.hide();
-
 
     }
 
@@ -323,6 +318,11 @@ public class RootController implements Initializable {
     }
 
 
+    /**
+     * Opens the user page.
+     *
+     * @throws IOException
+     */
     public void showUserPage() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/Views/UserPage.fxml"));
@@ -334,7 +334,6 @@ public class RootController implements Initializable {
         userPageStage.setTitle("Allegro");
         userPageStage.setScene(scene1);
 
-
         userPageStage.show();
         UserPageController userPageController = loader.getController();
         userPageController.setEnvironment(env);
@@ -345,14 +344,35 @@ public class RootController implements Initializable {
     }
 
 
-    public void showLoginWindow(Boolean show) throws IOException {
-        if (show) {
+    /**
+     * Opens the login in a new stage.
+     */
+    private void showLoginWindow() {
+        try {
+            showLoginWindow(new Stage());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Opens a login page in a specified stage (window)
+     * @param loginStage
+     * @throws IOException
+     */
+    public void showLoginWindow(Stage loginStage) throws IOException {
+        //if (show) {
+
+            //Close current window.
+            if (stage.isShowing()) stage.close();
+
             FXMLLoader loader1 = new FXMLLoader();
             loader1.setLocation(getClass().getResource("/Views/userLogin.fxml"));
 
             Parent root1 = loader1.load();
             Scene scene1 = new Scene(root1);
-            Stage loginStage = new Stage();
+
+
             loginStage.setTitle("Allegro");
             loginStage.setScene(scene1);
 
@@ -362,6 +382,9 @@ public class RootController implements Initializable {
                 event.consume();
             });
 
+        loginStage.setMinWidth(600);
+        Double initialHeight = loginStage.getHeight();
+        loginStage.setMinHeight(initialHeight);
 
             loginStage.show();
             UserLoginController userLoginController = loader1.getController();
@@ -369,14 +392,14 @@ public class RootController implements Initializable {
             userLoginController.displayRecentUsers();
 
 
-        }
+        //}
 
     }
 
     @FXML
-    protected void logOutUser() throws IOException {
+    public void logOutUser() throws IOException {
         stage.close();
-        showLoginWindow(true);
+        showLoginWindow();
         reset();
 
     }
@@ -511,6 +534,10 @@ public class RootController implements Initializable {
         return file;
     }
 
+    public Stage getStage() {
+        return this.stage;
+    }
+
     /**
      * Creates and displays an "open file" file chooser
      *
@@ -604,7 +631,8 @@ public class RootController implements Initializable {
      */
     @FXML
     public void newProject() {
-        env.resetEnvironment();
+        //env.resetEnvironment();
+        env.resetProjectEnvironment();
         env.getUserHandler().getCurrentUser().getProjectHandler().createNewProject();
     }
 
@@ -613,6 +641,7 @@ public class RootController implements Initializable {
      */
     @FXML
     private void saveProject() {
+        env.getUserHandler().getCurrentUser().saveProperties();
         env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().saveCurrentProject();
     }
 
@@ -920,6 +949,41 @@ public class RootController implements Initializable {
     }
 
     /**
+     * opens the scale modes tutor when the scale modes tutor menu option is pressed If there
+     * is already an open tutor of the same form then it sets focus to the already open tutor
+     */
+    @FXML
+    private void openScaleModesTutor() {
+
+        boolean alreadyExists = false;
+        for (Tab tab : TabPane.getTabs()) {
+            if (tab.getId().equals("scaleModesTutor")) {
+                TabPane.getSelectionModel().select(tab);
+                alreadyExists = true;
+            }
+        }
+        if (!alreadyExists) {
+            Tab ScaleTab = new Tab("Major Modes Tutor");
+            ScaleTab.setId("scaleModesTutor");
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/Views/ScaleModesPane.fxml"));
+
+            try {
+                ScaleTab.setContent((Node) loader.load());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            TabPane.getTabs().add(ScaleTab);
+            TabPane.getSelectionModel().select(ScaleTab);
+            ScaleModesController = loader.getController();
+            ScaleModesController.create(env);
+            ScaleModesController.setTabID("scaleModesTutor");
+        }
+
+    }
+
+    /**
      * Opens the chord spelling tutor. If this tutor is already open, focus is transferred to it.
      */
     @FXML
@@ -980,7 +1044,7 @@ public class RootController implements Initializable {
         DirectoryChooser dirChooser = new DirectoryChooser();
 
         dirChooser.setTitle("Select a project directory");
-        Path path = Paths.get("UserData/Projects/");
+        Path path = Paths.get(env.getUserHandler().getCurrentUserPath().toString() + "/Projects/");
         checkProjectDirectory();
         dirChooser.setInitialDirectory(path.toFile());
 
@@ -988,7 +1052,7 @@ public class RootController implements Initializable {
         File folder = dirChooser.showDialog(stage);
 
         if (folder != null) {
-            if (folder.isDirectory()) {
+            if (folder.isDirectory() && folder.getParent().equals(env.getUserHandler().getCurrentUser().getUserName())) {
                 for (File f : folder.listFiles()) {
 
                     if (f.getName().endsWith(".json") && f.getName().substring(0, f.getName().length() - 5).equals(folder.getName())) {
@@ -1003,8 +1067,6 @@ public class RootController implements Initializable {
                                 ce.printStackTrace();
                                 errorAlert("Could not Import the project! Maybe it already exists in the Projects folder?");
                             }
-
-
                             //project with said name does not exist in the projects directory.. import it.
                             env.getUserHandler().getCurrentUser().getProjectHandler().setCurrentProject(folder.getName());
 
@@ -1017,6 +1079,9 @@ public class RootController implements Initializable {
                 errorAlert("Not a valid Project folder - Try again!");
                 selectProjectDirectory();
                 return;
+            } else {
+
+                errorAlert("Project must be contained in the current user's Projects folder.");
             }
         }
     }

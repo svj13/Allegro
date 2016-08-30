@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -40,6 +41,10 @@ public class UserSettingsController {
     @FXML
     private TextField firstNameField;
 
+    @FXML
+    private JFXButton btnDeleteUser;
+
+
     private Environment env;
 
     private UserHandler userHandler;
@@ -58,19 +63,17 @@ public class UserSettingsController {
         }
     }
 
+    /**
+     * Opens a photo chooser.
+     */
     @FXML
     private void launchPhotoChooser() {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter imageFilter = new FileChooser.ExtensionFilter("All Images", "*.*");
         fileChooser.getExtensionFilters().add(imageFilter);
-
         Stage stage = new Stage();
-
-
         File file = fileChooser.showOpenDialog(stage);
-
         Path userPath = userHandler.getCurrentUserPath();
-
         Path filePath = Paths.get(userPath.toString()+"/profilePicture");
 
         try {
@@ -119,5 +122,12 @@ public class UserSettingsController {
             lastNameField.setEditable(false);
             editLastNameButton.setText("Edit");
         }
+    }
+
+    @FXML
+    private void deleteUser() {
+
+        env.getUserHandler().deleteUser(env.getUserHandler().getCurrentUser().getUserName());
+
     }
 }
