@@ -44,7 +44,7 @@ public class TutorHandler {
         this.env = env;
         dates = new HashMap<>();
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.HOUR, -24);
+        cal.add(Calendar.HOUR_OF_DAY, -24);
         dates.put("Last 24 Hours", cal.getTime());
         cal = Calendar.getInstance();
         cal.add(Calendar.DATE, -7);
@@ -72,14 +72,18 @@ public class TutorHandler {
      * @return a pair containing two integers. The number of answers correct and the number of
      * incorrect answers.
      */
-    public Pair<Integer, Integer> getTutorTotals(String tabId) {
+    public Pair<Integer, Integer> getTutorTotals(String tabId, String timePeriod) {
         ArrayList<TutorRecord> records = getTutorData(tabId);
         Integer correct = 0;
         Integer incorrect = 0;
         for (TutorRecord record : records) {
-            Map<String, Number> stats = record.getStats();
-            correct += stats.get("questionsCorrect").intValue();
-            incorrect += stats.get("questionsIncorrect").intValue();
+            Date date = record.getDate();
+            Date compare = dates.get(timePeriod);
+            if (date.after(compare)) {
+                Map<String, Number> stats = record.getStats();
+                correct += stats.get("questionsCorrect").intValue();
+                incorrect += stats.get("questionsIncorrect").intValue();
+            }
         }
         return new Pair<>(correct, incorrect);
     }
@@ -158,11 +162,11 @@ public class TutorHandler {
      *
      * @return Pair consisting of total correct and total incorrect.
      */
-    public Pair<Integer, Integer> getTotalsForAllTutors() {
+    public Pair<Integer, Integer> getTotalsForAllTutors(String timePeriod) {
         Integer totalCorrect = 0;
         Integer totalIncorrect = 0;
         for (String tutor : tutorIds) {
-            Pair<Integer, Integer> total = getTutorTotals(tutor);
+            Pair<Integer, Integer> total = getTutorTotals(tutor, timePeriod);
             totalCorrect += total.getKey();
             totalIncorrect += total.getValue();
         }
