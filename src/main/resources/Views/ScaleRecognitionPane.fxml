@@ -7,9 +7,7 @@
 <?import com.jfoenix.controls.*?>
 <?import org.controlsfx.control.CheckComboBox?>
 
-<AnchorPane fx:id="scaleTutorAnchor" prefHeight="450.0" prefWidth="700.0"
-            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="seng302.gui.ScaleRecognitionTutorController">
+<AnchorPane fx:id="scaleTutorAnchor" prefHeight="530.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.ScaleRecognitionTutorController">
     <children>
         <HBox prefHeight="30.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
             <children>
@@ -45,8 +43,7 @@
                                 <Insets left="5.0" />
                             </padding>
                         </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="36.0" prefWidth="700.0"
-                              spacing="10.0">
+                        <HBox alignment="CENTER" prefHeight="60.0" prefWidth="200.0" spacing="10.0">
                             <children>
                                 <Label text="Direction: " />
                                 <ComboBox fx:id="direction" prefWidth="100.0" promptText="Up" />

@@ -33,9 +33,9 @@
                                     </font>
                                 </Label>
                                 <JFXSlider fx:id="numQuestions" blockIncrement="1.0" majorTickUnit="49.0" max="50.0" min="1.0" minorTickCount="5" showTickLabels="true" showTickMarks="true" value="5.0" prefWidth="250">
-                                <padding>
-                                    <Insets top="15.0" />
-                                </padding>
+                                    <padding>
+                                        <Insets top="15.0" />
+                                    </padding>
                                 </JFXSlider>
                             </children>
                             <padding>
