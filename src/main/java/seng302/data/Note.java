@@ -2,6 +2,7 @@ package seng302.data;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -289,6 +290,12 @@ public class Note {
         List<Integer> semitones;
         Note currentNote = this;
         scaleNotes.add(currentNote);
+        if(type.toLowerCase().equals("major mode")) {
+            Random rand = new Random();
+            List<String> majorModes = new ArrayList<String>(Arrays.asList("ionian", "dorian", "phrygian", "lydian", "mixolydian", "aeolian", "locrian"));
+            type = (majorModes.get(rand.nextInt(majorModes.size())));
+        }
+
         if (up) {
             switch (type.toLowerCase()) {
                 case "major":
