@@ -34,3 +34,7 @@
     -fx-background-color: {0};
 }
 
+.primary{
+    -fx-background-color: {0};
+}
+

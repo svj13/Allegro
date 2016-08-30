@@ -24,11 +24,12 @@
                   </Label>
                </children>
             </HBox>
-            <SplitPane dividerPositions="0.33, 0.55" orientation="VERTICAL" prefHeight="416.0" prefWidth="700.0">
+            <SplitPane dividerPositions="0.28883495145631066, 0.5509708737864077" orientation="VERTICAL"
+                       prefHeight="416.0" prefWidth="700.0">
               <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="31.0" prefWidth="118.0">
+                 <AnchorPane maxHeight="140.0" minHeight="0.0" minWidth="0.0" prefHeight="31.0" prefWidth="118.0">
                      <children>
-                        <VBox alignment="CENTER" layoutX="18.0" layoutY="14.0" prefHeight="114.0" prefWidth="431.0">
+                        <VBox alignment="CENTER" layoutX="18.0" layoutY="-1.0" prefHeight="129.0" prefWidth="431.0">
                            <children>
                               <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="40.0" VBox.vgrow="ALWAYS">
                                  <children>
@@ -43,19 +44,31 @@
                                  </children>
                               </HBox>
                            </children>
+                           <padding>
+                              <Insets top="20.0"/>
+                           </padding>
                         </VBox>
                      </children>
                   </AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="72.0" prefWidth="698.0">
+                 <AnchorPane maxHeight="100.0" minHeight="0.0" minWidth="0.0" prefHeight="72.0" prefWidth="698.0">
                      <children>
-                        <HBox alignment="CENTER_LEFT" layoutX="110.0" layoutY="-23.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <HBox alignment="CENTER_LEFT" layoutX="110.0" layoutY="-23.0" maxHeight="100.0"
+                              prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0"
+                              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <ImageView fx:id="imageDP" fitHeight="50.0" fitWidth="50">
                                  <image>
                                     <Image url="images/testDP.jpg" />
                                  </image>
                               </ImageView>
-                              <JFXButton fx:id="btnUploadImage" buttonType="RAISED" contentDisplay="CENTER" ellipsisString="" graphicTextGap="0.0" maxHeight="50.0" maxWidth="25.0" onAction="#launchPhotoChooser" prefHeight="45.0" prefWidth="25.0" ripplerFill="#2fe1ae" style="-fx-background-color: #03A9F4;" />
+                              <JFXButton fx:id="btnUploadImage" buttonType="RAISED" contentDisplay="CENTER"
+                                         ellipsisString="" graphicTextGap="0.0" maxHeight="25.0" maxWidth="43.0"
+                                         onAction="#launchPhotoChooser" prefHeight="25.0" prefWidth="43.0"
+                                         ripplerFill="#2fe1ae" style="-fx-background-color: #03A9F4;">
+                                 <HBox.margin>
+                                    <Insets left="20.0" top="20.0"/>
+                                 </HBox.margin>
+                              </JFXButton>
                            </children>
                            <padding>
                               <Insets left="20.0" />
@@ -63,14 +76,19 @@
                         </HBox>
                      </children>
                   </AnchorPane>
-                  <AnchorPane prefHeight="100.0" prefWidth="698.0">
+                 <AnchorPane maxHeight="100.0" prefHeight="100.0" prefWidth="698.0">
                      <children>
-                        <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <HBox alignment="CENTER_LEFT" prefHeight="123.0" prefWidth="698.0"
+                              AnchorPane.bottomAnchor="-3.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                              AnchorPane.topAnchor="0.0">
                            <children>
                               <JFXButton fx:id="btnDeleteUser" buttonType="RAISED" onAction="#deleteUser" ripplerFill="#6b3939" style="-fx-background-color: red; -fx-border-color: darkred;" text="Delete User" textFill="WHITE">
                                  <opaqueInsets>
                                     <Insets left="10.0" top="10.0" />
                                  </opaqueInsets>
+                                 <HBox.margin>
+                                    <Insets left="20.0"/>
+                                 </HBox.margin>
                               </JFXButton>
                            </children>
                         </HBox>
