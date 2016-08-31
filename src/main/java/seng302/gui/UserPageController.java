@@ -2,7 +2,6 @@ package seng302.gui;
 
 import com.jfoenix.controls.JFXListCell;
 import com.jfoenix.controls.JFXListView;
-import com.jfoenix.controls.JFXSlider;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,6 +22,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -79,7 +79,7 @@ public class UserPageController {
     private Rectangle overallIncorrect;
 
     @FXML
-    private JFXSlider timeSlider;
+    private Slider timeSlider;
 
     @FXML
     private Label recentIncorrectLabel;
@@ -174,8 +174,6 @@ public class UserPageController {
             }
         };
         timeSlider.setLabelFormatter(convert);
-        timeSlider.setShowTickLabels(true);
-
         timeSlider.valueProperty().addListener(((observable1, oldValue1, newValue1) -> {
             String result = convert.toString(timeSlider.getValue());
             if (result != null) {
@@ -190,6 +188,7 @@ public class UserPageController {
         listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             displayGraphs((String) newValue, convert.toString(timeSlider.valueProperty().get()));
         });
+
         // This allows images to be displayed in the listview. Still trying to
         // make the text centered and the height and width the same as the others.
         listView.setCellFactory(listView -> new JFXListCell<String>() {
