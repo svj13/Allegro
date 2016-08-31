@@ -45,9 +45,11 @@
                                         <Font size="17.0"/>
                                     </font>
                                 </Label>
-                                <Label fx:id="highXp" layoutX="290.0" layoutY="59.0" text="Label"/>
-                                <ProgressBar fx:id="pbLevel" layoutX="83.0" layoutY="58.0"
+                                <ProgressBar fx:id="pbLevel" layoutX="103.0" layoutY="60.0"
                                              prefWidth="200.0" progress="0.0"/>
+                                <Label fx:id="highXp" alignment="CENTER_RIGHT" layoutX="103.0"
+                                       layoutY="84.0" prefHeight="17.0" prefWidth="200.0"
+                                       text="Label" textAlignment="RIGHT"/>
                             </children>
                             <VBox.margin>
                                 <Insets/>
