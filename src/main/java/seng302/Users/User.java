@@ -2,26 +2,27 @@ package seng302.Users;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import javafx.scene.image.Image;
-import org.json.simple.JSONArray;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import seng302.App;
-import seng302.Environment;
-import seng302.data.Term;
-import seng302.utility.FileHandler;
-import seng302.utility.OutputTuple;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
+
+import javafx.scene.image.Image;
+import seng302.Environment;
+import seng302.data.Term;
+import seng302.utility.FileHandler;
 
 /**
  * Created by jmw280 on 22/07/16.
@@ -48,6 +49,8 @@ public class User {
     private String userFirstName;
 
     private String userLastName;
+
+    private boolean visualiserOn;
 
 
     /**
@@ -142,6 +145,13 @@ public class User {
             themeColor = "white";
         }
 
+        try {
+            visualiserOn = (boolean) properties.get("visualiserOn");
+        } catch (Exception e) {
+            // Off by default
+            visualiserOn = false;
+        }
+
 
 
         projectHandler = new ProjectHandler(env, userName);
@@ -218,6 +228,7 @@ public class User {
         properties.put("themeColor", this.themeColor);
         properties.put("firstName", this.userFirstName);
         properties.put("lastName", this.userLastName);
+        properties.put("visualiserOn", this.visualiserOn);
 
 
         String musicalTermsJSON = gson.toJson(env.getMttDataManager().getTerms());
@@ -344,6 +355,14 @@ public class User {
 
     public String getUserLastName() {
         return userLastName;
+    }
+
+    public void setVisualiserOn(boolean isOn) {
+        visualiserOn = isOn;
+    }
+
+    public boolean getVisualiserOn() {
+        return visualiserOn;
     }
 
 
