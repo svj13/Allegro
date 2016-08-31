@@ -63,11 +63,9 @@ public class App extends Application {
 
             RootController controller = loader.getController();
             try {
-                try {
-                    controller.setEnvironment(env);
-                }catch(Exception e){
-                    System.err.println(e);
-                }
+
+                controller.setEnvironment(env);
+
                 scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
                     if (event.getCode().equals(KeyCode.SHIFT)) {
                         env.setShiftPressed(true);
@@ -83,9 +81,12 @@ public class App extends Application {
                 controller.setStage(primaryStage);
 
                 controller.showLoginWindow(new Stage());
+                controller.loadUserPage();
                 //primaryStage.show();
                 //controller.setPrimaryStage(primaryStage);
             } catch (NullPointerException e) {
+                e.printStackTrace();
+                System.out.println("sdfsdfasdfdsf");
                 System.err.println("Controller is null");
             }
 

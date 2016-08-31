@@ -66,8 +66,14 @@ public class RootController implements Initializable {
     @FXML
     private  AnchorPane userPage;
 
+
+
+
     @FXML
     AnchorPane paneMain;
+
+    @FXML
+    SplitPane splitPane;
 
 
     @FXML
@@ -304,16 +310,18 @@ public class RootController implements Initializable {
     public void loadUserPage(){
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/Views/UserPage.fxml"));
+        try {
+            System.out.println(userPage);
+            userPage.getChildren().add(loader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        TabPane.setVisible(false);
         UserPageController userPageController = loader.getController();
         userPageController.setEnvironment(env);
         userPageController.populateUserOptions();
         userPageController.updateImage();
 
-        try {
-            userPage.getChildren().add(loader.load());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
 
     }
@@ -762,8 +770,6 @@ public class RootController implements Initializable {
         this.env = env;
         this.env.setRootController(this);
         tm = env.getTranscriptManager();
-        System.out.println("yolo");
-        System.out.println(transcriptController);
         transcriptController.setEnv(this.env);
         transcriptPane.setClosable(false);
 

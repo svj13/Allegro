@@ -119,6 +119,19 @@ public class UserPageController {
         this.env.setUserPageController(this);
     }
 
+    @FXML
+    private void launchUserSettings() {
+
+    }
+
+    @FXML
+    public void logOutUser() throws IOException {
+//        stage.close();
+//        showLoginWindow();
+//        //reset();
+
+    }
+
 
     public void populateUserOptions() {
 
@@ -323,9 +336,11 @@ public class UserPageController {
 
     public void updateImage() {
         final Circle clip = new Circle(imageDP.getFitWidth() - 50.0, imageDP.getFitHeight() - 50.0, 100.0);
+        //System.out.println(env.getUserHandler().getCurrentUser());
 
-        imageDP.setImage(env.getUserHandler().getCurrentUser().getUserPicture());
 
+        //imageDP.setImage(env.getUserHandler().getCurrentUser().getUserPicture());
+        System.out.println("made it herer");
 
         clip.setRadius(50);
 
