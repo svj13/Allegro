@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.StackedBarChart;
@@ -31,6 +32,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Pair;
 import seng302.Environment;
+import seng302.data.KeySignature;
 
 /**
  * Created by jmw280 on 22/08/16.
@@ -308,10 +310,40 @@ public class UserPageController {
     @FXML
     public void loadTutor(){
 
-        if(currentTutor.equals("Pitch Comparison Tutor")){
-            userView.setVisible(false);
-            tutorView.setVisible(true);
-            openPitchTutor();
+
+        switch (currentTutor) {
+            case "Pitch Comparison Tutor":
+                userView.setVisible(false);
+                openPitchTutor();
+                break;
+            case "Interval Recognition Tutor":
+                userView.setVisible(false);
+                openIntervalTutor();
+                break;
+            case "Scale Recognition Tutor":
+                userView.setVisible(false);
+                openScaleTutor();
+                break;
+            case "Musical Terms Tutor":
+                userView.setVisible(false);
+                openMusicalTermTutor();
+                break;
+            case "Chord Recognition Tutor":
+                userView.setVisible(false);
+                openChordTutor();
+                break;
+            case "Chord Spelling Tutor":
+                userView.setVisible(false);
+                openSpellingTutor();
+                break;
+            case "Key Signature Tutor":
+                userView.setVisible(false);
+                openKeySignatureTutor();
+                break;
+            case "Diatonic Chord Tutor":
+                userView.setVisible(false);
+                openDiatonicChordTutor();
+                break;
         }
 
 
@@ -328,7 +360,6 @@ public class UserPageController {
      * opens the pitch tutor when the pitch tutor menu option is pressed If there is already an open
      * tutor of the same form then it sets focus to the already open tutor
      */
-    @FXML
     private void openPitchTutor() {
 
 
@@ -345,6 +376,154 @@ public class UserPageController {
             PitchComparisonTutorController controller = loader.getController();
             controller.create(env);
 
+
+    }
+
+    /**
+     * opens the interval tutor when the interval menu option is pressed If there is already an open
+     * tutor of the same form then it sets focus to the already open tutor
+     */
+    private void openIntervalTutor() {
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/Views/IntervalRecognitionPane.fxml"));
+
+        try {
+            tutorView.getChildren().add(loader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        IntervalRecognitionTutorController controller = loader.getController();
+        controller.create(env);
+
+    }
+
+
+    /**
+     * opens the musical terms tutor when the musical term tutor menu option is pressed If there is
+     * already an open tutor of the same form then it sets focus to the already open tutor
+     */
+    private void openMusicalTermTutor() {
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/Views/MusicalTermsPane.fxml"));
+
+        try {
+            tutorView.getChildren().add(loader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        MusicalTermsTutorController controller = loader.getController();
+        controller.create(env);
+
+    }
+
+
+    /**
+     * opens the scale tutor when the scale menu option is pressed If there is already an open tutor
+     * of the same form then it sets focus to the already open tutor
+     */
+    private void openScaleTutor() {
+
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/Views/ScaleRecognitionPane.fxml"));
+
+        try {
+            tutorView.getChildren().add(loader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ScaleRecognitionTutorController controller = loader.getController();
+        controller.create(env);
+
+    }
+
+
+    /**
+     * opens the chord tutor when the chord tutor menu option is pressed If there is already an open
+     * tutor of the same form then it sets focus to the already open tutor
+     */
+    private void openChordTutor() {
+
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/Views/ChordRecognitionPane.fxml"));
+
+        try {
+            tutorView.getChildren().add(loader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ChordRecognitionTutorController controller = loader.getController();
+        controller.create(env);
+
+    }
+
+
+    /**
+     * Opens the diatonic chord tutor when the diatonic chord tutor menu option is pressed. If there
+     * is already an open tutor of the same form then it sets focus to the already open tutor.
+     */
+    private void openDiatonicChordTutor() {
+
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/Views/DiatonicChordPane.fxml"));
+
+        try {
+            tutorView.getChildren().add(loader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        DiatonicChordsTutorController controller = loader.getController();
+        controller.create(env);
+
+    }
+
+
+    /**
+     * opens the keySignatures tutor when the key signatures tutor menu option is pressed If there
+     * is already an open tutor of the same form then it sets focus to the already open tutor
+     */
+    private void openKeySignatureTutor() {
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/Views/KeySignaturesPane.fxml"));
+
+        try {
+            tutorView.getChildren().add(loader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        KeySignaturesTutorController controller = loader.getController();
+        controller.create(env);
+
+    }
+
+
+    /**
+     * Opens the chord spelling tutor. If this tutor is already open, focus is transferred to it.
+     */
+    private void openSpellingTutor() {
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/Views/ChordSpellingPane.fxml"));
+
+        try {
+            tutorView.getChildren().add(loader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ChordSpellingTutorController controller = loader.getController();
+        controller.create(env);
 
     }
 

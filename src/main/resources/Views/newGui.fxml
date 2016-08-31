@@ -82,33 +82,7 @@
                                          onAction="#createColorTab" text="Skin GUI"/>
                            </items>
                        </Menu>
-                  <Menu mnemonicParsing="false" onShowing="#bindOpenObjects" text="Tutors">
-                     <items>
-                         <Menu mnemonicParsing="false" text="Chords">
-                             <items>
-                                 <MenuItem fx:id="menuCRT" mnemonicParsing="false"
-                                           onAction="#openChordTutor" text="Chord Recognition"/>
-                                 <MenuItem fx:id="menuCST" mnemonicParsing="false"
-                                           onAction="#openSpellingTutor" text="Chord Spelling"/>
-                                 <MenuItem fx:id="menuDCT" mnemonicParsing="false"
-                                           onAction="#openDiatonicChordTutor"
-                                           text="Diatonic Chords"/>
-                             </items>
-                         </Menu>
-                         <Menu mnemonicParsing="false" text="Scales">
-                             <items>
-                                 <MenuItem fx:id="menuSCT" mnemonicParsing="false"
-                                           onAction="#openScaleTutor" text="Scale Recognition"/>
-                                 <MenuItem fx:id="menuKST" mnemonicParsing="false"
-                                           onAction="#openKeySignatureTutor" text="Key Signature"/>
-                             </items>
-                         </Menu>
-                        <MenuItem fx:id="menuPCT" mnemonicParsing="false" onAction="#openPitchTutor" text="Pitch Comparison " />
-                        <MenuItem fx:id="menuIRT" mnemonicParsing="false" onAction="#openIntervalTutor" text="Interval Recognition" />
-                        <MenuItem fx:id="menuMTT" mnemonicParsing="false" onAction="#openMusicalTermTutor" text="Musical Terms" />
 
-                     </items>
-                  </Menu>
                    </menus>
                </MenuBar>
                <SplitPane fx:id="splitPane" dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" VBox.vgrow="ALWAYS">
