@@ -1,10 +1,12 @@
 package seng302.gui;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXToggleButton;
+
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -44,6 +46,9 @@ public class UserSettingsController {
     @FXML
     private JFXButton btnDeleteUser;
 
+    @FXML
+    private JFXToggleButton visualiserToggle;
+
 
     private Environment env;
 
@@ -61,6 +66,7 @@ public class UserSettingsController {
             firstNameField.clear();
             lastNameField.clear();
         }
+        visualiserToggle.getStyleClass().remove(0);
     }
 
     /**
@@ -129,5 +135,10 @@ public class UserSettingsController {
 
         env.getUserHandler().deleteUser(env.getUserHandler().getCurrentUser().getUserName());
 
+    }
+
+    @FXML
+    private void toggleVisualiser() {
+        System.out.println("toggling");
     }
 }
