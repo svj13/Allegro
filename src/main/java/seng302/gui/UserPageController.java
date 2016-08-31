@@ -122,7 +122,6 @@ public class UserPageController {
         listView.getItems().addAll(FXCollections.observableArrayList(options));
 
 
-        listView.getSelectionModel().selectFirst();
         listView.setMaxWidth(200);
         listView.setMinWidth(200);
         timeSlider.setMaxWidth(200);
@@ -182,6 +181,10 @@ public class UserPageController {
         listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             displayGraphs((String) newValue, convert.toString(timeSlider.valueProperty().get()));
         });
+
+        // Set after the listener so it loads user summary correctly
+        listView.getSelectionModel().selectFirst();
+
         // This allows images to be displayed in the listview. Still trying to
         // make the text centered and the height and width the same as the others.
         listView.setCellFactory(listView -> new JFXListCell<String>() {
@@ -347,6 +350,9 @@ public class UserPageController {
             stackedBar.getData().clear();
             stackedBar.getData().addAll(overallSeries1, overallSeries2);
 
+            // Show summary
+            userSummaryPane.setVisible(true);
+            userSummaryPane.setPrefHeight(userSummaryPane.getMaxHeight());
 
         } else {
 
@@ -365,6 +371,11 @@ public class UserPageController {
 
 
             makeLineGraph(dateAndTime, timePeriod);
+
+            //Hide summary
+            userSummaryPane.setVisible(false);
+            userSummaryPane.setPrefHeight(0);
+
         }
     }
 

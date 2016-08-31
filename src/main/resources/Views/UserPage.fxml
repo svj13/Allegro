@@ -37,8 +37,7 @@
             <content>
                 <VBox fx:id="stats" alignment="CENTER" prefWidth="500.0" spacing="10.0" BorderPane.alignment="CENTER">
                     <children>
-                        <Pane fx:id="userSummaryPane" maxHeight="1.7976931348623157E308"
-                              minHeight="-Infinity" prefHeight="118.0" prefWidth="406.0"
+                        <Pane fx:id="userSummaryPane" minHeight="0.0" prefWidth="406.0"
                               VBox.vgrow="ALWAYS">
                             <children>
                                 <Label layoutX="144.0" layoutY="14.0" text="User Summary">
