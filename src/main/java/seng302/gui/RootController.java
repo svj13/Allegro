@@ -606,6 +606,10 @@ public class RootController implements Initializable {
         transcriptController.setTranscriptPane(text);
     }
 
+    public KeyboardPaneController getKeyboardPaneController() {
+        return this.keyboardPaneController;
+    }
+
 
     public void checkProjectDirectory() {
         Path path = Paths.get("UserData/Projects/");
