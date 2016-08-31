@@ -29,7 +29,10 @@ public class UISkinnerController {
     private HBox settings;
 
     @FXML
-    ColorPicker colourPicker;
+    ColorPicker primaryColour;
+
+    @FXML
+    ColorPicker secondaryColour;
 
     @FXML
     void skinGui(ActionEvent event) {
@@ -72,35 +75,16 @@ public class UISkinnerController {
         return (String.format("rgb(%s, %s, %s)", red, green, blue));
     }
 
-    /**
-     * Gets the complementary colour of the given colour
-     * @param color Color value
-     * @return Complementary Colour
-     */
-    private Color getComplementaryColourString(Color color) {
-        Color comp_color;
-        int red = (int) (color.getRed()*255);
-        int blue = (int) (color.getBlue()*255);
-        int green = (int) (color.getGreen()*255);
-        double newRed = Math.sqrt(Math.pow(255, 2)-Math.pow(red, 2)) / 255;
-        double newBlue = Math.sqrt(Math.pow(255, 2)-Math.pow(blue, 2)) / 255;
-        double newGreen = Math.sqrt(Math.pow(255, 2)-Math.pow(green, 2)) / 255;
-        comp_color = new Color(newRed, newBlue, newGreen, 1);
-        return comp_color;
-    }
-
 
     /**
      * Applies css to the node given in create. Generates colours based on user selected colour.
      */
     private void skinNode() {
-        Color base = colourPicker.getValue();
+        Color base = primaryColour.getValue();
         String baseRgb = toRGBString(base);
-        Color comp_colour = getComplementaryColourString(base);
+
         setDarkerRGB(base);
         setLighterRGB(base);
-        String complementary_rgb = toRGBString(comp_colour);
-        String styleString = "";
         String lighterOrDarker;
         double luma = 0.2126 * (base.getRed()*255) + 0.7152 * (base.getGreen()*255) + 0.0722 * (base.getBlue()*255);
         if (luma < 126) {
