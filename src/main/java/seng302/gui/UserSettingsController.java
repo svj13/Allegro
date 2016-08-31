@@ -70,6 +70,19 @@ public class UserSettingsController {
             lastNameField.clear();
         }
         visualiserToggle.getStyleClass().remove(0);
+        try {
+            boolean visualiserOn = userHandler.getCurrentUser().getVisualiserOn();
+            visualiserToggle.setSelected(visualiserOn);
+            if (visualiserOn) {
+                visualiserLabel.setText("Keyboard Visualiser ON");
+            } else {
+                visualiserLabel.setText("Keyboard Visualiser OFF");
+            }
+        } catch (Exception e) {
+            // Default to off
+            visualiserToggle.setSelected(false);
+            visualiserLabel.setText("Keyboard Visualiser OFF");
+        }
     }
 
     /**
@@ -143,8 +156,14 @@ public class UserSettingsController {
     @FXML
     private void toggleVisualiser() {
         if (visualiserToggle.isSelected()) {
+            userHandler.getCurrentUser().setVisualiserOn(true);
+            userHandler.getCurrentUser().updateProperties();
+            userHandler.getCurrentUser().saveProperties();
             visualiserLabel.setText("Keyboard Visualiser ON");
         } else {
+            userHandler.getCurrentUser().setVisualiserOn(false);
+            userHandler.getCurrentUser().updateProperties();
+            userHandler.getCurrentUser().saveProperties();
             visualiserLabel.setText("Keyboard Visualiser OFF");
         }
     }
