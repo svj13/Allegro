@@ -342,7 +342,6 @@ public class UserPageController {
                 latestAttempt.setVisible(true);
                 overallStats.setVisible(true);
 
-
                 // Set up most recent graph and labels.
 
                 double total = correctIncorrectRecent.getKey() + correctIncorrectRecent.getValue();

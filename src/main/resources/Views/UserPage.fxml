@@ -9,6 +9,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -125,6 +126,10 @@
                                     <StackPane.margin>
                                         <Insets left="220.0"/>
                                     </StackPane.margin>
+                                    <effect>
+                                        <DropShadow blurType="GAUSSIAN" height="72.61"
+                                                    radius="22.965" width="21.25"/>
+                                    </effect>
                                 </Line>
                             </children>
                             <VBox.margin>
