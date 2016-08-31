@@ -19,9 +19,6 @@ public class Visualiser implements MetaEventListener {
         this.env = env;
     }
 
-    public void setKeyboard(KeyboardPaneController keyboardPaneController) {
-        this.keyboardController = keyboardPaneController;
-    }
 
     @Override
     public void meta(MetaMessage meta) {
@@ -30,12 +27,10 @@ public class Visualiser implements MetaEventListener {
         String[] messageParts = message.split(" ");
 
         int midiValue = Integer.parseInt(messageParts[0]);
-        boolean isOn;
+        boolean isOn = false;
 
         if (messageParts[1].equals("on")) {
             isOn = true;
-        } else {
-            isOn = false;
         }
 
         if (isOn) {
