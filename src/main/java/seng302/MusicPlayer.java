@@ -6,6 +6,7 @@ import java.util.Collection;
 
 import javax.sound.midi.Instrument;
 import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MetaMessage;
 import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.MidiSystem;
@@ -43,6 +44,11 @@ public class MusicPlayer {
     public MusicPlayer() {
         rh = new RhythmHandler();
 
+        int[] controllers = new int[128];
+        for (int i = 0; i < 128; i++) {
+            controllers[i] = i;
+        }
+
         try {
             this.seq = MidiSystem.getSequencer();
             seq.open();
@@ -51,6 +57,7 @@ public class MusicPlayer {
             seq.getTransmitter().setReceiver(synthesizer.getReceiver());
             availableInstruments = synthesizer.getAvailableInstruments();
             setStarterInstrument();
+            seq.addMetaEventListener(new TestSynth());
 
         } catch (MidiUnavailableException e) {
             System.err.println("Can't play Midi sound at the moment.");
@@ -278,8 +285,21 @@ public class MusicPlayer {
         on.setMessage(ShortMessage.NOTE_ON, 0, key, velocity);
         ShortMessage off = new ShortMessage();
         off.setMessage(ShortMessage.NOTE_OFF, 0, key, velocity);
+
+        MetaMessage mon = new MetaMessage();
+        String onMessage = Integer.toString(key) + " on";
+        byte[] onBytes = onMessage.getBytes();
+        mon.setMessage(1, onBytes, onBytes.length);
+
+        MetaMessage moff = new MetaMessage();
+        String offMessage = Integer.toString(key) + " off";
+        byte[] offBytes = offMessage.getBytes();
+        moff.setMessage(1, offBytes, offBytes.length);
+
         track.add(new MidiEvent(on, startTick));
+        track.add(new MidiEvent(mon, startTick));
         track.add(new MidiEvent(off, startTick + tickLength));
+        track.add(new MidiEvent(moff, startTick + tickLength));
     }
 
     /**
