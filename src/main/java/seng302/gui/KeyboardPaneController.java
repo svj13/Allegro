@@ -891,35 +891,38 @@ public class KeyboardPaneController {
     }
 
     public void highlightKey(int midiValue) {
-        System.out.println("showing highlight");
+        String whiteStyle = "-fx-border-color: black; -fx-border-width: 1px; -fx-background-color: blue";
+        String blackStyle = "-fx-border-color: black; -fx-border-width: 1px; -fx-background-color: blue";
         ObservableList<Node> keys = keyboardBox.getChildren();
         for (Node key : keys) {
             if (key instanceof TouchPane && ((TouchPane) key).getNoteValue().getMidi() == midiValue) {
-                ((TouchPane) key).setStyle("-fx-background-color: lavender");
+                key.setStyle(whiteStyle);
             }
         }
 
         ObservableList<Node> bKeys = blackKeys.getChildren();
         for (Node key : bKeys) {
             if (key instanceof TouchPane && ((TouchPane) key).getNoteValue().getMidi() == midiValue) {
-                ((TouchPane) key).setStyle("-fx-background-color: lavender");
+                key.setStyle(blackStyle);
             }
         }
 
     }
 
     public void removeHighlight(int midiValue) {
+        String whiteStyle = "-fx-border-color: black; -fx-border-width: 1px; -fx-background-color: white";
+        String blackStyle = "-fx-border-color: black; -fx-border-width: 1px; -fx-background-color: black";
         ObservableList<Node> keys = keyboardBox.getChildren();
         for (Node key : keys) {
             if (key instanceof TouchPane && ((TouchPane) key).getNoteValue().getMidi() == midiValue) {
-                ((TouchPane) key).setStyle("-fx-background-color: white");
+                key.setStyle(whiteStyle);
             }
         }
 
         ObservableList<Node> bKeys = blackKeys.getChildren();
         for (Node key : bKeys) {
             if (key instanceof TouchPane && ((TouchPane) key).getNoteValue().getMidi() == midiValue) {
-                ((TouchPane) key).setStyle("-fx-background-color: black");
+                key.setStyle(blackStyle);
             }
         }
 
