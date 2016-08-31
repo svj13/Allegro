@@ -890,6 +890,12 @@ public class KeyboardPaneController {
         return playMode;
     }
 
+    /**
+     * Used for visualisation. Finds the key representing the specified midi number, and turns it
+     * blue.
+     *
+     * @param midiValue The value for which key will be turned blue
+     */
     public void highlightKey(int midiValue) {
         String whiteStyle = "-fx-border-color: black; -fx-border-width: 1px; -fx-background-color: blue";
         String blackStyle = "-fx-border-color: black; -fx-border-width: 1px; -fx-background-color: blue";
@@ -909,6 +915,11 @@ public class KeyboardPaneController {
 
     }
 
+    /**
+     * Used for visualisation. Finds the key representing the specified midi number,
+     * and turns the visualiser highlight off.
+     * @param midiValue The value for which key will be turned blue
+     */
     public void removeHighlight(int midiValue) {
         String whiteStyle = "-fx-border-color: black; -fx-border-width: 1px; -fx-background-color: white";
         String blackStyle = "-fx-border-color: black; -fx-border-width: 1px; -fx-background-color: black";

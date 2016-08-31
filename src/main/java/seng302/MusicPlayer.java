@@ -279,20 +279,20 @@ public class MusicPlayer {
         ShortMessage off = new ShortMessage();
         off.setMessage(ShortMessage.NOTE_OFF, 0, key, velocity);
 
-        MetaMessage mon = new MetaMessage();
+        MetaMessage metaOn = new MetaMessage();
         String onMessage = Integer.toString(key) + " on";
         byte[] onBytes = onMessage.getBytes();
-        mon.setMessage(1, onBytes, onBytes.length);
+        metaOn.setMessage(1, onBytes, onBytes.length);
 
-        MetaMessage moff = new MetaMessage();
+        MetaMessage metaOff = new MetaMessage();
         String offMessage = Integer.toString(key) + " off";
         byte[] offBytes = offMessage.getBytes();
-        moff.setMessage(1, offBytes, offBytes.length);
+        metaOff.setMessage(1, offBytes, offBytes.length);
 
         track.add(new MidiEvent(on, startTick));
-        track.add(new MidiEvent(mon, startTick));
+        track.add(new MidiEvent(metaOn, startTick));
         track.add(new MidiEvent(off, startTick + tickLength));
-        track.add(new MidiEvent(moff, startTick + tickLength));
+        track.add(new MidiEvent(metaOff, startTick + tickLength));
     }
 
     /**
