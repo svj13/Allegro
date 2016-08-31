@@ -22,8 +22,8 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.Slider;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -50,7 +50,7 @@ public class UserPageController {
     private VBox stats;
 
     @FXML
-    private VBox levelsVBox;
+    private VBox levelVBox;
 
     @FXML
     private StackedBarChart stackedBar;
@@ -365,8 +365,8 @@ public class UserPageController {
                 Pair<Integer, Integer> totals = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTotalsForAllTutors(timePeriod);
 
                 // Show summary
-                userSummaryPane.setVisible(true);
-                userSummaryPane.setPrefHeight(userSummaryPane.getMaxHeight());
+                levelVBox.setVisible(true);
+                levelVBox.setPrefHeight(levelVBox.getMaxHeight());
 
             } else {
 
@@ -416,8 +416,8 @@ public class UserPageController {
             makeLineGraph(dateAndTime, timePeriod);
 
             //Hide summary
-            userSummaryPane.setVisible(false);
-            userSummaryPane.setPrefHeight(0);
+                levelVBox.setVisible(false);
+                levelVBox.setPrefHeight(0);
 
             }
         } catch (IndexOutOfBoundsException e) {
