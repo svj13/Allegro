@@ -20,6 +20,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -29,7 +30,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Pair;
 import seng302.Environment;
 import seng302.utility.LevelCalculator;
@@ -83,11 +83,10 @@ public class UserPageController {
     JFXSlider timeSlider;
 
     @FXML
-    Rectangle progressBar;
-
+    Label highXp;
 
     @FXML
-    Label highXp;
+    ProgressBar pbLevel;
 
     private Environment env;
 
@@ -215,7 +214,7 @@ public class UserPageController {
         int maxXp = LevelCalculator.getTotalExpForLevel(userLevel + 1);
         highXp.setText(Integer.toString(maxXp - userXp) + "XP to level " + Integer.toString(userLevel + 1));
         float percentage = 100 * (userXp - minXp) / (maxXp - minXp);
-        progressBar.setWidth(percentage * 2);
+        pbLevel.setProgress(percentage / 100);
     }
 
     private void updateGraphs(String timePeriod) {

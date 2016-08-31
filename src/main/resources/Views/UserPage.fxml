@@ -8,13 +8,13 @@
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.StackedBarChart?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <SplitPane dividerPositions="0.3" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.UserPageController">
     <items>
@@ -38,20 +38,17 @@
                 <VBox fx:id="stats" alignment="CENTER" prefWidth="500.0" spacing="10.0" BorderPane.alignment="CENTER">
                     <children>
                         <Pane fx:id="userSummaryPane" maxHeight="1.7976931348623157E308"
-                              minHeight="-Infinity" prefHeight="200.0" VBox.vgrow="ALWAYS">
+                              minHeight="-Infinity" prefHeight="118.0" prefWidth="406.0"
+                              VBox.vgrow="ALWAYS">
                             <children>
                                 <Label layoutX="144.0" layoutY="14.0" text="User Summary">
                                     <font>
                                         <Font size="17.0"/>
                                     </font>
                                 </Label>
-                                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="41.0"
-                                           layoutX="22.0" layoutY="80.0" stroke="BLACK"
-                                           strokeType="INSIDE" width="200.0"/>
-                                <Rectangle fx:id="progressBar" arcHeight="5.0" arcWidth="5.0"
-                                           fill="#217c19" height="41.0" layoutX="22.0"
-                                           layoutY="80.0" stroke="BLACK" strokeType="INSIDE"/>
-                                <Label fx:id="highXp" layoutX="233.0" layoutY="92.0" text="Label"/>
+                                <Label fx:id="highXp" layoutX="290.0" layoutY="59.0" text="Label"/>
+                                <ProgressBar fx:id="pbLevel" layoutX="83.0" layoutY="58.0"
+                                             prefWidth="200.0" progress="0.0"/>
                             </children>
                             <VBox.margin>
                                 <Insets/>
