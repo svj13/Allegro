@@ -1,5 +1,7 @@
 package seng302.gui;
 
+import com.jfoenix.controls.JFXSlider;
+
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -9,6 +11,7 @@ import java.util.Random;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.Cursor;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -84,7 +87,7 @@ public abstract class TutorController {
     HBox buttons;
 
     @FXML
-    Slider numQuestions;
+    JFXSlider numQuestions;
 
     @FXML
     Label questions;
