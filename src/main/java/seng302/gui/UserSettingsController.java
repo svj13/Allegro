@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -49,6 +50,8 @@ public class UserSettingsController {
     @FXML
     private JFXToggleButton visualiserToggle;
 
+    @FXML
+    private Label visualiserLabel;
 
     private Environment env;
 
@@ -139,6 +142,10 @@ public class UserSettingsController {
 
     @FXML
     private void toggleVisualiser() {
-        System.out.println("toggling");
+        if (visualiserToggle.isSelected()) {
+            visualiserLabel.setText("Keyboard Visualiser ON");
+        } else {
+            visualiserLabel.setText("Keyboard Visualiser OFF");
+        }
     }
 }

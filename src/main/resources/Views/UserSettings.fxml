@@ -69,6 +69,6 @@
                              prefWidth="66.0"/>
          </children>
       </StackPane>
-      <Label layoutX="13.0" layoutY="277.0" text="Keyboard Visualiser Off"/>
+      <Label fx:id="visualiserLabel" layoutX="13.0" layoutY="277.0" text="Keyboard Visualiser Off"/>
    </children>
 </AnchorPane>
