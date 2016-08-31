@@ -10,17 +10,38 @@ import seng302.gui.KeyboardPaneController;
  */
 public class Visualiser implements MetaEventListener {
 
-    private Environment env;
 
-    private KeyboardPaneController keyboardController;
+    public KeyboardPaneController keyboardController;
+
+    private Environment env;
 
     public Visualiser(Environment env) {
         this.env = env;
-        this.keyboardController = this.env.getRootController().getKeyboardPaneController();
+    }
+
+    public void setKeyboard(KeyboardPaneController keyboardPaneController) {
+        this.keyboardController = keyboardPaneController;
     }
 
     @Override
     public void meta(MetaMessage meta) {
-        System.out.println(new String(meta.getData()));
+        String message = new String(meta.getData());
+
+        String[] messageParts = message.split(" ");
+
+        int midiValue = Integer.parseInt(messageParts[0]);
+        boolean isOn;
+
+        if (messageParts[1].equals("on")) {
+            isOn = true;
+        } else {
+            isOn = false;
+        }
+
+        if (isOn) {
+            env.getRootController().getKeyboardPaneController().highlightKey(midiValue);
+        } else {
+            env.getRootController().getKeyboardPaneController().removeHighlight(midiValue);
+        }
     }
 }

@@ -6,7 +6,6 @@ import java.util.Collection;
 
 import javax.sound.midi.Instrument;
 import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MetaEventListener;
 import javax.sound.midi.MetaMessage;
 import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiEvent;
@@ -39,25 +38,20 @@ public class MusicPlayer {
     Synthesizer synthesizer;
     Instrument[] availableInstruments;
 
-    private MetaEventListener metaListener;
-
     /**
      * Music Player constructor opens the sequencers and synthesizer. It also sets the receiver.
      */
-    public MusicPlayer(MetaEventListener keyboardListener) {
+    public MusicPlayer(Visualiser visualiser) {
         rh = new RhythmHandler();
-
         try {
             this.seq = MidiSystem.getSequencer();
             seq.open();
             synthesizer = MidiSystem.getSynthesizer();
             synthesizer.open();
             seq.getTransmitter().setReceiver(synthesizer.getReceiver());
+            seq.addMetaEventListener(visualiser);
             availableInstruments = synthesizer.getAvailableInstruments();
             setStarterInstrument();
-            this.metaListener = keyboardListener;
-            seq.addMetaEventListener(metaListener);
-
         } catch (MidiUnavailableException e) {
             System.err.println("Can't play Midi sound at the moment.");
         }
