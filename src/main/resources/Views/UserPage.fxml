@@ -22,12 +22,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <VBox xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.UserPageController">
    <children>
       <AnchorPane prefHeight="161.0" prefWidth="682.0">
          <children>
-            <ImageView fx:id="imageDP" fitHeight="131.0" fitWidth="138.0" layoutX="21.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageDP" fitHeight="100.0" fitWidth="100.0" layoutX="51.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true" />
+            <MenuButton fx:id="userDropDown" layoutX="151.0" layoutY="81.0" mnemonicParsing="false" text="user">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#launchUserSettings" text="User Settings" />
+                <MenuItem mnemonicParsing="false" onAction="#logOutUser" text="Logout" />
+              </items>
+            </MenuButton>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="overallPane">

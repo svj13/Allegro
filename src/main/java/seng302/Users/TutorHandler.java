@@ -128,29 +128,29 @@ public class TutorHandler {
      */
     public void saveTutorRecordsToFile(String projectAddress) {
         if (env.getRootController().tabSaveCheck("pitchTutor")) {
-            saveTutorRecordsToFile(projectAddress + "/PitchComparisonTutor.json", env.getRootController().PitchComparisonTabController.record);
+            saveTutorRecordsToFile(projectAddress + "/PitchComparisonTutor.json", env.getUserPageController().pitchComparisonTutorController.record);
         }
         if (env.getRootController().tabSaveCheck("intervalTutor")) {
 
-            saveTutorRecordsToFile(projectAddress + "/IntervalRecognitionTutor.json", env.getRootController().IntervalRecognitionTabController.record);
+            saveTutorRecordsToFile(projectAddress + "/IntervalRecognitionTutor.json", env.getUserPageController().intervalRecognitionTutorController.record);
         }
         if (env.getRootController().tabSaveCheck("musicalTermTutor")) {
-            saveTutorRecordsToFile(projectAddress + "/MusicalTermsTutor.json", env.getRootController().MusicalTermsTabController.record);
+            saveTutorRecordsToFile(projectAddress + "/MusicalTermsTutor.json", env.getUserPageController().musicalTermsTutorController.record);
         }
         if (env.getRootController().tabSaveCheck("scaleTutor")) {
-            saveTutorRecordsToFile(projectAddress + "/ScaleRecognitionTutor.json", env.getRootController().ScaleRecognitionTabController.record);
+            saveTutorRecordsToFile(projectAddress + "/ScaleRecognitionTutor.json", env.getUserPageController().scaleRecognitionTutorController.record);
         }
         if (env.getRootController().tabSaveCheck("chordTutor")) {
-            saveTutorRecordsToFile(projectAddress + "/ChordRecognitionTutor.json", env.getRootController().ChordRecognitionTabController.record);
+            saveTutorRecordsToFile(projectAddress + "/ChordRecognitionTutor.json", env.getUserPageController().chordRecognitionTutorController.record);
         }
         if (env.getRootController().tabSaveCheck("chordSpellingTutor")) {
-            saveTutorRecordsToFile(projectAddress + "/ChordSpellingTutor.json", env.getRootController().ChordSpellingTabController.record);
+            saveTutorRecordsToFile(projectAddress + "/ChordSpellingTutor.json", env.getUserPageController().chordSpellingTutorController.record);
         }
         if (env.getRootController().tabSaveCheck("keySignatureTutor")) {
-            saveTutorRecordsToFile(projectAddress + "/KeySignatureTutor.json", env.getRootController().KeySignaturesTabController.record);
+            saveTutorRecordsToFile(projectAddress + "/KeySignatureTutor.json", env.getUserPageController().keySignaturesTutorController.record);
         }
         if (env.getRootController().tabSaveCheck("diatonicChordTutor")) {
-            saveTutorRecordsToFile(projectAddress + "/DiatonicChordTutor.json", env.getRootController().DiatonicChordsController.record);
+            saveTutorRecordsToFile(projectAddress + "/DiatonicChordTutor.json", env.getUserPageController().diatonicChordsTutorController.record);
         }
     }
 

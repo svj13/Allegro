@@ -90,6 +90,25 @@ public class UserPageController {
     private String currentTutor;
 
 
+    public PitchComparisonTutorController pitchComparisonTutorController;
+
+    public IntervalRecognitionTutorController intervalRecognitionTutorController;
+
+    public ChordSpellingTutorController chordSpellingTutorController;
+
+    public ChordRecognitionTutorController chordRecognitionTutorController;
+
+    public KeySignaturesTutorController keySignaturesTutorController;
+
+    public MusicalTermsTutorController musicalTermsTutorController;
+
+    public DiatonicChordsTutorController diatonicChordsTutorController;
+
+    public ScaleRecognitionTutorController scaleRecognitionTutorController;
+
+
+
+
     public UserPageController() {
     }
 
@@ -97,6 +116,7 @@ public class UserPageController {
 
     public void setEnvironment(Environment env) {
         this.env = env;
+        this.env.setUserPageController(this);
     }
 
 
@@ -148,6 +168,22 @@ public class UserPageController {
 
 
     }
+
+
+
+//
+//    /**
+//     * Allows for dynamic updating of the question slider in Musical Terms tutor. When you load this
+//     * tab, it checks how many terms are in the current session, and changes the default accordingly
+//     * - up to 5.
+//     */
+//    public void reloadNumberTerms() {
+//        MusicalTermsTabController.terms = env.getMttDataManager().getTerms().size();
+//        if (MusicalTermsTabController.terms <= 5) {
+//            MusicalTermsTabController.numQuestions.setValue(MusicalTermsTabController.terms);
+//        }
+//    }
+
 
     /**
      * Makes a line graph showing the scores over time. Still figuring out the scale.
@@ -373,8 +409,8 @@ public class UserPageController {
             }
 
 
-            PitchComparisonTutorController controller = loader.getController();
-            controller.create(env);
+            pitchComparisonTutorController = loader.getController();
+            pitchComparisonTutorController.create(env);
 
 
     }
@@ -394,8 +430,8 @@ public class UserPageController {
             e.printStackTrace();
         }
 
-        IntervalRecognitionTutorController controller = loader.getController();
-        controller.create(env);
+        intervalRecognitionTutorController = loader.getController();
+        intervalRecognitionTutorController.create(env);
 
     }
 
@@ -415,8 +451,8 @@ public class UserPageController {
             e.printStackTrace();
         }
 
-        MusicalTermsTutorController controller = loader.getController();
-        controller.create(env);
+        musicalTermsTutorController = loader.getController();
+        musicalTermsTutorController.create(env);
 
     }
 
@@ -437,8 +473,8 @@ public class UserPageController {
             e.printStackTrace();
         }
 
-        ScaleRecognitionTutorController controller = loader.getController();
-        controller.create(env);
+        scaleRecognitionTutorController = loader.getController();
+        scaleRecognitionTutorController.create(env);
 
     }
 
@@ -459,8 +495,8 @@ public class UserPageController {
             e.printStackTrace();
         }
 
-        ChordRecognitionTutorController controller = loader.getController();
-        controller.create(env);
+        chordRecognitionTutorController = loader.getController();
+        chordRecognitionTutorController.create(env);
 
     }
 
@@ -481,8 +517,8 @@ public class UserPageController {
             e.printStackTrace();
         }
 
-        DiatonicChordsTutorController controller = loader.getController();
-        controller.create(env);
+        diatonicChordsTutorController = loader.getController();
+        diatonicChordsTutorController.create(env);
 
     }
 
@@ -502,8 +538,8 @@ public class UserPageController {
             e.printStackTrace();
         }
 
-        KeySignaturesTutorController controller = loader.getController();
-        controller.create(env);
+        keySignaturesTutorController = loader.getController();
+        keySignaturesTutorController.create(env);
 
     }
 
@@ -522,8 +558,8 @@ public class UserPageController {
             e.printStackTrace();
         }
 
-        ChordSpellingTutorController controller = loader.getController();
-        controller.create(env);
+        chordSpellingTutorController = loader.getController();
+        chordSpellingTutorController.create(env);
 
     }
 

@@ -62,47 +62,40 @@ public class RootController implements Initializable {
     @FXML
     private Pane pane1;
 
+
+    @FXML
+    private  AnchorPane userPage;
+
     @FXML
     AnchorPane paneMain;
 
-    @FXML
-    SplitPane splitPane;
 
     @FXML
-    public PitchComparisonTutorController PitchComparisonTabController;
+    private PitchComparisonTutorController PitchComparisonTabController;
 
     @FXML
-    public IntervalRecognitionTutorController IntervalRecognitionTabController;
+    private IntervalRecognitionTutorController IntervalRecognitionTabController;
 
     @FXML
     private TranscriptPaneController transcriptController;
 
     @FXML
-    public MusicalTermsTutorController MusicalTermsTabController;
+    private MusicalTermsTutorController MusicalTermsTabController;
 
     @FXML
-    public ScaleRecognitionTutorController ScaleRecognitionTabController;
+    private ScaleRecognitionTutorController ScaleRecognitionTabController;
 
     @FXML
-    public ChordRecognitionTutorController ChordRecognitionTabController;
+    private ChordRecognitionTutorController ChordRecognitionTabController;
 
     @FXML
-    public ChordSpellingTutorController ChordSpellingTabController;
+    private ChordSpellingTutorController ChordSpellingTabController;
 
     @FXML
-    private UserSettingsController UserSettingsTabController;
-
-    @FXML
-    public KeySignaturesTutorController KeySignaturesTabController;
-
-    @FXML
-    public DiatonicChordsTutorController DiatonicChordsController;
+    private KeySignaturesTutorController KeySignaturesTabController;
 
     @FXML
     private KeyboardPaneController keyboardPaneController;
-
-    @FXML
-    private UISkinnerController uiSkinnerController;
 
     @FXML
     private StackPane stackPane1;
@@ -110,17 +103,6 @@ public class RootController implements Initializable {
     @FXML
     private MenuItem menuQuit;
 
-    @FXML
-    private Circle circleDP;
-
-    @FXML
-    private HBox hbUser;
-
-    @FXML
-    private ImageView imageDP;
-
-    @FXML
-    private MenuButton userDropDown;
 
     @FXML
     private MenuItem menuOpen;
@@ -153,9 +135,6 @@ public class RootController implements Initializable {
     private MenuItem menuKST;
 
     @FXML
-    private MenuItem skinGuiButton;
-
-    @FXML
     private Menu menuOpenProjects;
 
     @FXML
@@ -169,6 +148,12 @@ public class RootController implements Initializable {
 
     @FXML
     private Tab transcriptPane;
+
+    @FXML
+    private ImageView imageDP;
+
+    @FXML
+    private MenuButton userDropDown;
 
     @FXML
     public void onTranscriptTab() {
@@ -315,6 +300,23 @@ public class RootController implements Initializable {
     }
 
 
+
+    public void loadUserPage(){
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/Views/UserPage.fxml"));
+        UserPageController userPageController = loader.getController();
+        userPageController.setEnvironment(env);
+        userPageController.populateUserOptions();
+        userPageController.updateImage();
+
+        try {
+            userPage.getChildren().add(loader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
     /**
      * Opens the user page.
      *
@@ -397,7 +399,7 @@ public class RootController implements Initializable {
     public void logOutUser() throws IOException {
         stage.close();
         showLoginWindow();
-        reset();
+        //reset();
 
     }
 
@@ -590,7 +592,7 @@ public class RootController implements Initializable {
             path = file.getAbsolutePath();
             try {
                 ArrayList<String> commands = env.getTranscriptManager().loadCommands(path);
-                TabPane.getSelectionModel().selectFirst();
+                //TabPane.getSelectionModel().selectFirst();
                 transcriptController.beginPlaybackMode(commands);
             } catch (Exception ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -760,6 +762,8 @@ public class RootController implements Initializable {
         this.env = env;
         this.env.setRootController(this);
         tm = env.getTranscriptManager();
+        System.out.println("yolo");
+        System.out.println(transcriptController);
         transcriptController.setEnv(this.env);
         transcriptPane.setClosable(false);
 
@@ -785,35 +789,35 @@ public class RootController implements Initializable {
      */
     public void setTabTitle(String tabID, Boolean unsavedChanges) {
 
-        for (Tab tab : TabPane.getTabs()) {
-            if (tab.getId().equals(tabID)) {
-
-                String currentText = tab.getText();
-                Character firstChar = currentText.charAt(0);
-                if (firstChar == '*') {
-                    if (!unsavedChanges) {
-                        tab.setText(currentText.substring(1));
-                    }
-
-                } else {
-                    if (unsavedChanges) {
-                        tab.setText("*" + currentText);
-                    }
-                }
-
-            }
-        }
+//        for (Tab tab : TabPane.getTabs()) {
+//            if (tab.getId().equals(tabID)) {
+//
+//                String currentText = tab.getText();
+//                Character firstChar = currentText.charAt(0);
+//                if (firstChar == '*') {
+//                    if (!unsavedChanges) {
+//                        tab.setText(currentText.substring(1));
+//                    }
+//
+//                } else {
+//                    if (unsavedChanges) {
+//                        tab.setText("*" + currentText);
+//                    }
+//                }
+//
+//            }
+//        }
     }
 
 
     public boolean tabSaveCheck(String tabID) {
-        for (Tab tab : TabPane.getTabs()) {
-            if (tab.getId().equals(tabID)) {
-                if (tab.getText().charAt(0) == '*') {
-                    return true;
-                }
-            }
-        }
+//        for (Tab tab : TabPane.getTabs()) {
+//            if (tab.getId().equals(tabID)) {
+//                if (tab.getText().charAt(0) == '*') {
+//                    return true;
+//                }
+//            }
+//        }
         return false;
 
     }
@@ -822,68 +826,54 @@ public class RootController implements Initializable {
      * clears all the unsaved changes indicators on the tutor tabs
      */
     public void clearAllIndicators() {
-        for (Tab tab : TabPane.getTabs()) {
-
-            String currentText = tab.getText();
-            Character firstChar = currentText.charAt(0);
-
-            if (firstChar == '*') {
-                tab.setText(currentText.substring(1));
-            }
-        }
+//        for (Tab tab : TabPane.getTabs()) {
+//
+//            String currentText = tab.getText();
+//            Character firstChar = currentText.charAt(0);
+//
+//            if (firstChar == '*') {
+//                tab.setText(currentText.substring(1));
+//            }
+//        }
     }
 
     public Environment getEnv() {
         return env;
     }
 
-    /**
-     * Allows for dynamic updating of the question slider in Musical Terms tutor. When you load this
-     * tab, it checks how many terms are in the current session, and changes the default accordingly
-     * - up to 5.
-     */
-    public void reloadNumberTerms() {
-        MusicalTermsTabController.terms = env.getMttDataManager().getTerms().size();
-        if (MusicalTermsTabController.terms <= 5) {
-            MusicalTermsTabController.numQuestions.setValue(MusicalTermsTabController.terms);
-        }
-    }
 
 
     /**
      * Resets all tutors and the transcript controller to their default state.
      */
     public void reset() {
-        clearTranscript();
-
-        //need to destroy the tutors
-        transcriptController.hidePlaybackGui();
-        transcriptController.setEnv(env);
-
-        if (PitchComparisonTabController != null) {
-            PitchComparisonTabController.clearTutor();
-        }
-        if (IntervalRecognitionTabController != null) {
-            IntervalRecognitionTabController.clearTutor();
-        }
-        if (MusicalTermsTabController != null) {
-            MusicalTermsTabController.clearTutor();
-        }
-        if (ScaleRecognitionTabController != null) {
-            ScaleRecognitionTabController.clearTutor();
-        }
-        if (ChordSpellingTabController != null) {
-            ChordSpellingTabController.clearTutor();
-        }
-        if (ChordRecognitionTabController != null) {
-            ChordRecognitionTabController.clearTutor();
-        }
-        if (KeySignaturesTabController != null) {
-            KeySignaturesTabController.clearTutor();
-
-        }
-        int total_tabs = TabPane.getTabs().size();
-        TabPane.getTabs().remove(1, total_tabs);
+//        clearTranscript();
+//
+//        //need to destroy the tutors
+//        transcriptController.hidePlaybackGui();
+//        transcriptController.setEnv(env);
+//
+//        if (PitchComparisonTabController != null) {
+//            PitchComparisonTabController.clearTutor();
+//        }
+//        if (IntervalRecognitionTabController != null) {
+//            IntervalRecognitionTabController.clearTutor();
+//        }
+//        if (MusicalTermsTabController != null) {
+//            MusicalTermsTabController.clearTutor();
+//        }
+//        if (ScaleRecognitionTabController != null) {
+//            ScaleRecognitionTabController.clearTutor();
+//        }
+//        if (ChordSpellingTabController != null) {
+//            ChordSpellingTabController.clearTutor();
+//        }
+//        if (ChordRecognitionTabController != null) {
+//            ChordRecognitionTabController.clearTutor();
+//        }
+//        if (KeySignaturesTabController != null) {
+//            KeySignaturesTabController.clearTutor();
+//        }
     }
 
     /**
@@ -891,34 +881,34 @@ public class RootController implements Initializable {
      */
     @FXML
     private void createColorTab() {
-        boolean alreadyExists = false;
-        for (Tab tab : TabPane.getTabs()) {
-            if (tab.getId().equals("uiSkinner")) {
-                TabPane.getSelectionModel().select(tab);
-                alreadyExists = true;
-            }
-
-        }
-
-        if (!alreadyExists) {
-
-            Tab skinnerTab = new Tab("Interface Skinner");
-            skinnerTab.setId("uiSkinner");
-
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/Views/UISkinner.fxml"));
-
-            try {
-                skinnerTab.setContent((Node) loader.load());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            TabPane.getTabs().add(skinnerTab);
-            TabPane.getSelectionModel().select(skinnerTab);
-            uiSkinnerController = loader.getController();
-            uiSkinnerController.create(env, paneMain);
-        }
+//        boolean alreadyExists = false;
+//        for (Tab tab : TabPane.getTabs()) {
+//            if (tab.getId().equals("uiSkinner")) {
+//                TabPane.getSelectionModel().select(tab);
+//                alreadyExists = true;
+//            }
+//
+//        }
+//
+//        if (!alreadyExists) {
+//
+//            Tab skinnerTab = new Tab("Interface Skinner");
+//            skinnerTab.setId("uiSkinner");
+//
+//            FXMLLoader loader = new FXMLLoader();
+//            loader.setLocation(getClass().getResource("/Views/UISkinner.fxml"));
+//
+//            try {
+//                skinnerTab.setContent((Node) loader.load());
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//
+//            TabPane.getTabs().add(skinnerTab);
+//            TabPane.getSelectionModel().select(skinnerTab);
+//            uiSkinnerController = loader.getController();
+//            uiSkinnerController.create(env, paneMain);
+//        }
     }
 
 
@@ -929,33 +919,33 @@ public class RootController implements Initializable {
 
     @FXML
     private void launchUserSettings() {
-        boolean alreadyExists = false;
-        for (Tab tab : TabPane.getTabs()) {
-            if (tab.getId().equals("userSettings")) {
-                TabPane.getSelectionModel().select(tab);
-                alreadyExists = true;
-            }
-
-        }
-
-        if (!alreadyExists) {
-
-            Tab settingsTab = new Tab("User Settings");
-            settingsTab.setId("userSettings");
-
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/Views/UserSettings.fxml"));
-
-            try {
-                settingsTab.setContent((Node) loader.load());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            TabPane.getTabs().add(settingsTab);
-            TabPane.getSelectionModel().select(settingsTab);
-            UserSettingsTabController = loader.getController();
-            UserSettingsTabController.create(env);
-        }
+//        boolean alreadyExists = false;
+//        for (Tab tab : TabPane.getTabs()) {
+//            if (tab.getId().equals("userSettings")) {
+//                TabPane.getSelectionModel().select(tab);
+//                alreadyExists = true;
+//            }
+//
+//        }
+//
+//        if (!alreadyExists) {
+//
+//            Tab settingsTab = new Tab("User Settings");
+//            settingsTab.setId("userSettings");
+//
+//            FXMLLoader loader = new FXMLLoader();
+//            loader.setLocation(getClass().getResource("/Views/UserSettings.fxml"));
+//
+//            try {
+//                settingsTab.setContent((Node) loader.load());
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//
+//            TabPane.getTabs().add(settingsTab);
+//            TabPane.getSelectionModel().select(settingsTab);
+//            UserSettingsTabController = loader.getController();
+//            UserSettingsTabController.create(env);
+//        }
     }
 }
