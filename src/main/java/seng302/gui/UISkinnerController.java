@@ -89,7 +89,7 @@ public class UISkinnerController {
         double luma = 0.2126 * (base.getRed()*255) + 0.7152 * (base.getGreen()*255) + 0.0722 * (base.getBlue()*255);
         if (luma < 126) {
             lighterOrDarker = floatToRGBString(lighterRGB);
-        }else {
+        } else {
             lighterOrDarker = floatToRGBString(darkerRGB);
         }
 
