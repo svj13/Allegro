@@ -96,13 +96,14 @@ public class TutorHandler {
      * @return a pair containing two integers. The number of answers correct and the number of
      * incorrect answers.
      */
-    public Pair<Integer, Integer> getRecentTutorTotals(String tabId) {
+    public Pair<Integer, Integer> getRecentTutorTotals(String tabId) throws IndexOutOfBoundsException {
         ArrayList<TutorRecord> records = getTutorData(tabId);
         TutorRecord lastRecord = records.get(records.size() - 1);
         Map<String, Number> stats = lastRecord.getStats();
         Integer correct = stats.get("questionsCorrect").intValue();
         Integer incorrect = stats.get("questionsIncorrect").intValue();
         return new Pair<>(correct, incorrect);
+
     }
 
 
