@@ -111,17 +111,17 @@ public class MajorModes implements Command {
      */
     public void getParentscale(Environment env){
         degree = ModeHelper.getkeyModes().get(scaleType);
-        for(String note : majorNotes){
+        for(String note : majorNotes) {
             Note tonic = Note.lookup(OctaveUtil.addDefaultOctave(note));
             ArrayList<String> majorScale = Scale.scaleNameList(note, tonic.getScale("major", true), true, scaleType);
-            if(majorScale.get(degree - 1).equals(startNote)){
+            if (majorScale.get(degree - 1).equalsIgnoreCase(startNote)) {
                 env.getTranscriptManager().setResult(note + " major");
-                System.out.println(getParentScaleString("D", "dorian"));
-//            } else {
-//                env.error("Invalid note/scale type. Please check they are spelt correctly");
-         }
-
+                return;
+            }
         }
+        env.error("Invalid note/scale type. Please check they are spelt correctly");
+
+
 
     }
 
