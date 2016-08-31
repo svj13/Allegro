@@ -28,15 +28,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Pair;
 import javafx.util.StringConverter;
 import seng302.Environment;
@@ -52,7 +49,7 @@ public class UserPageController {
     private VBox stats;
 
     @FXML
-    private Pane userSummaryPane;
+    private VBox levelsVBox;
 
     @FXML
     private StackedBarChart stackedBar;
