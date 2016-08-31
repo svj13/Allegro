@@ -5,7 +5,9 @@
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.StackedBarChart?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.SplitPane?>
@@ -47,21 +49,11 @@
                                         <Font size="17.0"/>
                                     </font>
                                 </Label>
-                                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                                    <children>
-                                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE"
-                                                   height="41.0" stroke="BLACK" strokeType="INSIDE"
-                                                   width="200.0"/>
-                                        <Rectangle fx:id="progressBar" arcHeight="5.0"
-                                                   arcWidth="5.0" fill="#217c19" height="41.0"
-                                                   stroke="BLACK" strokeType="INSIDE"/>
-                                        <Label fx:id="highXp" alignment="TOP_CENTER" text="Label">
-                                            <padding>
-                                                <Insets left="10.0"/>
-                                            </padding>
-                                        </Label>
-                                    </children>
-                                </HBox>
+                                <ProgressBar fx:id="pbLevel" layoutX="103.0" layoutY="60.0"
+                                             prefWidth="200.0" progress="0.0"/>
+                                <Label fx:id="highXp" alignment="CENTER_RIGHT" layoutX="103.0"
+                                       layoutY="84.0" prefHeight="17.0" prefWidth="200.0"
+                                       text="Label" textAlignment="RIGHT"/>
                             </children>
                             <padding>
                                 <Insets bottom="20.0" left="10.0" right="10.0" top="20.0"/>

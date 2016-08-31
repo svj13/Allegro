@@ -23,6 +23,7 @@ import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -109,6 +110,9 @@ public class UserPageController {
     @FXML
     private Label highXp;
 
+    @FXML
+    ProgressBar pbLevel;
+
     private Environment env;
 
 
@@ -142,7 +146,6 @@ public class UserPageController {
         listView.getItems().addAll(FXCollections.observableArrayList(options));
 
 
-        listView.getSelectionModel().selectFirst();
         listView.setMaxWidth(200);
         listView.setMinWidth(200);
         timeSlider.setMaxWidth(200);
@@ -201,6 +204,10 @@ public class UserPageController {
             displayGraphs((String) newValue, convert.toString(timeSlider.valueProperty().get()));
         });
 
+        // Set after the listener so it loads user summary correctly
+        listView.getSelectionModel().selectFirst();
+
+
         // This allows images to be displayed in the listview. Still trying to
         // make the text centered and the height and width the same as the others.
         listView.setCellFactory(listView -> new JFXListCell<String>() {
@@ -233,7 +240,7 @@ public class UserPageController {
         int maxXp = LevelCalculator.getTotalExpForLevel(userLevel + 1);
         highXp.setText(Integer.toString(maxXp - userXp) + "XP to level " + Integer.toString(userLevel + 1));
         float percentage = 100 * (userXp - minXp) / (maxXp - minXp);
-        progressBar.setWidth(percentage * 2);
+        pbLevel.setProgress(percentage / 100);
     }
 
     private void updateGraphs(String timePeriod) {
@@ -357,6 +364,9 @@ public class UserPageController {
                 latestAttempt.setVisible(false);
                 Pair<Integer, Integer> totals = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTotalsForAllTutors(timePeriod);
 
+                // Show summary
+                userSummaryPane.setVisible(true);
+                userSummaryPane.setPrefHeight(userSummaryPane.getMaxHeight());
 
             } else {
 
@@ -403,7 +413,12 @@ public class UserPageController {
                 double averageClassScore = 0.6;
                 StackPane.setMargin(classAverage, new Insets(0, 0, 0, 500 * averageClassScore - 30));
 
-                makeLineGraph(dateAndTime, timePeriod);
+            makeLineGraph(dateAndTime, timePeriod);
+
+            //Hide summary
+            userSummaryPane.setVisible(false);
+            userSummaryPane.setPrefHeight(0);
+
             }
         } catch (IndexOutOfBoundsException e) {
             //There are no records for the selected tutor.

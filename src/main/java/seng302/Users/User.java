@@ -405,7 +405,6 @@ public class User {
             level += 1;
             env.getRootController().updateLevelBadge();
         }
-        env.getRootController().getUserSettingsTabController().updateLevelAndExp();
 
         saveProperties();
     }
