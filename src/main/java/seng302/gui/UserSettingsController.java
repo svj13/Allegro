@@ -1,13 +1,13 @@
 package seng302.gui;
 
+import com.jfoenix.controls.JFXButton;
+
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -42,12 +42,6 @@ public class UserSettingsController {
     private TextField firstNameField;
 
     @FXML
-    private Label levelLabel;
-
-    @FXML
-    private Label xpLabel;
-
-    @FXML
     private JFXButton btnDeleteUser;
 
 
@@ -63,8 +57,6 @@ public class UserSettingsController {
         try {
             firstNameField.setText(userHandler.getCurrentUser().getUserFirstName());
             lastNameField.setText(userHandler.getCurrentUser().getUserLastName());
-            levelLabel.setText(Integer.toString(userHandler.getCurrentUser().getUserLevel()));
-            xpLabel.setText(Integer.toString(userHandler.getCurrentUser().getUserExperience()));
         } catch (Exception e) {
             firstNameField.clear();
             lastNameField.clear();
@@ -130,11 +122,6 @@ public class UserSettingsController {
             lastNameField.setEditable(false);
             editLastNameButton.setText("Edit");
         }
-    }
-
-    public void updateLevelAndExp() {
-        levelLabel.setText(Integer.toString(userHandler.getCurrentUser().getUserLevel()));
-        xpLabel.setText(Integer.toString(userHandler.getCurrentUser().getUserExperience()));
     }
 
     @FXML
