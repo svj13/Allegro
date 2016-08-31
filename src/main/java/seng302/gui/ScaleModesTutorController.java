@@ -2,6 +2,7 @@ package seng302.gui;
 
 import java.util.*;
 
+import com.jfoenix.controls.JFXSlider;
 import com.sun.javafx.sg.prism.NGShape;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,6 +26,8 @@ import seng302.utility.musicNotation.OctaveUtil;
  * Created by Sarah on 28/08/16.
  */
 public class ScaleModesTutorController extends TutorController {
+    @FXML
+    JFXSlider numQuestions;
 
     private Random rand;
     private final String typeOneText = "What is the mode of %s if it is of degree %s?";
