@@ -93,7 +93,14 @@ public class UISkinnerController {
             lighterOrDarker = floatToRGBString(darkerRGB);
         }
 
-        generateStyleSheet(baseRgb, lighterOrDarker);
+
+        String newSecondary = hex2Rgb(secondaryColour.getValue().toString().substring(0, 8));
+
+        if (secondaryColour.getValue().equals(Color.WHITE)) {
+            generateStyleSheet(baseRgb, lighterOrDarker);
+        } else {
+            generateStyleSheet(baseRgb, newSecondary);
+        }
 
         baseNode.getStylesheets().clear();
         String filePath = "userstyle.css";
@@ -343,6 +350,21 @@ public class UISkinnerController {
      */
     private String floatToRGBString(float[] rgbArray) {
         return (String.format("rgb(%s, %s, %s)", rgbArray[0], rgbArray[1], rgbArray[2]));
+    }
+
+    /**
+     * Converts a color represented as a hex to an rgb
+     * @param colorStr e.g. "#FFFFFF"
+     * @return rgb Color
+     */
+    private static String hex2Rgb(String colorStr) {
+        int r = Integer.valueOf( colorStr.substring( 2, 4 ), 16 );
+        int g = Integer.valueOf( colorStr.substring( 4, 6 ), 16 );
+        int b = Integer.valueOf( colorStr.substring( 6, 8 ), 16 );
+
+        String result = "rgb("+r+", "+g+", "+b+")";
+
+        return result;
     }
 
 }
