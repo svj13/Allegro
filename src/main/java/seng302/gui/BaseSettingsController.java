@@ -9,6 +9,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.VBox;
+import seng302.Environment;
 
 import java.io.IOException;
 
@@ -16,6 +17,7 @@ import java.io.IOException;
  * Created by Jonty on 01-Sep-16.
  */
 public class BaseSettingsController {
+    Environment env;
 
     @FXML
     UserSettingsController userSettingsC;
@@ -44,10 +46,19 @@ public class BaseSettingsController {
     @FXML
     private void initialize() {
 
+
+    }
+
+    public void create(Environment env) {
+        this.env = env;
+        //Moved the below logic from the initialize function so that env is instantiated when calling
+        //The inner 'create' functions.
+
         //Load user settings controller.
         userSettingsLoader = new FXMLLoader();
         userSettingsLoader.setLocation(getClass().getResource("/Views/UserSettings.fxml"));
         userSettingsC = userSettingsLoader.getController();
+        userSettingsC.create(env);
 
         //Load theme controller
         themeLoader = new FXMLLoader();
@@ -60,7 +71,7 @@ public class BaseSettingsController {
     void openUserSettings(ActionEvent event) {
 
         try {
-            //settingsPane.setContent((Node) loader.load());
+
             userSettingsLoader.setRoot(null);
             userSettingsLoader.setController(userSettingsC);
             settingsPane.getChildren().setAll((Node) userSettingsLoader.load());

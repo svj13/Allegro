@@ -1308,6 +1308,7 @@ public class RootController implements Initializable {
             TabPane.getTabs().add(settingsTab);
             TabPane.getSelectionModel().select(settingsTab);
             settingsController = loader.getController();
+            settingsController.create(env);
 //            settingsController.create(env);
         }
     }
