@@ -45,20 +45,11 @@ public class BaseSettingsController {
 
     @FXML
     private void initialize() {
-
-
-    }
-
-    public void create(Environment env) {
-        this.env = env;
-        //Moved the below logic from the initialize function so that env is instantiated when calling
-        //The inner 'create' functions.
-
         //Load user settings controller.
         userSettingsLoader = new FXMLLoader();
         userSettingsLoader.setLocation(getClass().getResource("/Views/UserSettings.fxml"));
         userSettingsC = userSettingsLoader.getController();
-        userSettingsC.create(env);
+
 
         //Load theme controller
         themeLoader = new FXMLLoader();
@@ -67,14 +58,28 @@ public class BaseSettingsController {
 
     }
 
+    public void create(Environment env) {
+        this.env = env;
+        //Moved the below logic from the initialize function so that env is instantiated when calling
+        //The inner 'create' functions.
+
+
+    }
+
     @FXML
     void openUserSettings(ActionEvent event) {
 
         try {
 
-            userSettingsLoader.setRoot(null);
-            userSettingsLoader.setController(userSettingsC);
+            userSettingsLoader = new FXMLLoader();
+            userSettingsLoader.setLocation(getClass().getResource("/Views/UserSettings.fxml"));
+
             settingsPane.getChildren().setAll((Node) userSettingsLoader.load());
+            userSettingsC = userSettingsLoader.getController();
+
+            System.out.println(this.env.getUserHandler().getCurrentUser().getUserName());
+            userSettingsC.create(env);
+
             btnUserSettings.setStyle("-fx-background-color: #223768");
             btnThemeSettings.setStyle("");
             btnProjectSettings.setStyle("");
@@ -92,6 +97,7 @@ public class BaseSettingsController {
     @FXML
     void onThemeSettings(ActionEvent event) {
         try {
+
             //settingsPane.setContent((Node) loader.load());
             themeLoader.setRoot(null);
             themeLoader.setController(themeC);
