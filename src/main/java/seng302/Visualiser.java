@@ -20,21 +20,24 @@ public class Visualiser implements MetaEventListener {
 
     @Override
     public void meta(MetaMessage meta) {
-        String message = new String(meta.getData());
-        String[] messageParts = message.split(" ");
+        if (env.getUserHandler().getCurrentUser().getVisualiserOn()) {
+            // Only visualise if the setting is turned on
+            String message = new String(meta.getData());
+            String[] messageParts = message.split(" ");
 
-        int midiValue = Integer.parseInt(messageParts[0]);
+            int midiValue = Integer.parseInt(messageParts[0]);
 
-        boolean isOn = false;
-        if (messageParts[1].equals("on")) {
-            isOn = true;
-        }
+            boolean isOn = false;
+            if (messageParts[1].equals("on")) {
+                isOn = true;
+            }
 
-        // Either highlights or de-highlights a key
-        if (isOn) {
-            env.getRootController().getKeyboardPaneController().highlightKey(midiValue);
-        } else {
-            env.getRootController().getKeyboardPaneController().removeHighlight(midiValue);
+            // Either highlights or de-highlights a key
+            if (isOn) {
+                env.getRootController().getKeyboardPaneController().highlightKey(midiValue);
+            } else {
+                env.getRootController().getKeyboardPaneController().removeHighlight(midiValue);
+            }
         }
     }
 }
