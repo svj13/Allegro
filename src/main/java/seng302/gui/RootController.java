@@ -1,6 +1,7 @@
 package seng302.gui;
 
 
+import javafx.scene.image.Image;
 import org.json.simple.JSONArray;
 
 import java.io.File;
@@ -91,6 +92,9 @@ public class RootController implements Initializable {
 
     @FXML
     private UserSettingsController UserSettingsTabController;
+
+    @FXML
+    private BaseSettingsController settingsController;
 
     @FXML
     public KeySignaturesTutorController KeySignaturesTabController;
@@ -221,6 +225,10 @@ public class RootController implements Initializable {
             env.getThemeHandler().setBaseNode(paneMain);
             String[] themeColours = env.getUserHandler().getCurrentUser().getThemeColours();
             env.getThemeHandler().setTheme(themeColours[0], themeColours[1]);
+
+
+            //For luls. (we should create a product logo though)
+            stage.getIcons().add(new Image("file:resources/images/testDP.jpg"));
 
             stage.show();
             updateImage();
@@ -1269,6 +1277,38 @@ public class RootController implements Initializable {
             TabPane.getSelectionModel().select(settingsTab);
             UserSettingsTabController = loader.getController();
             UserSettingsTabController.create(env);
+        }
+    }
+
+    @FXML
+    private void launchSettings() {
+        boolean alreadyExists = false;
+        for (Tab tab : TabPane.getTabs()) {
+            if (tab.getId().equals("Settings")) {
+                TabPane.getSelectionModel().select(tab);
+                alreadyExists = true;
+            }
+
+        }
+
+        if (!alreadyExists) {
+
+            Tab settingsTab = new Tab("Settings");
+            settingsTab.setId("userSettings");
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/Views/BaseSettings.fxml"));
+
+            try {
+                settingsTab.setContent((Node) loader.load());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            TabPane.getTabs().add(settingsTab);
+            TabPane.getSelectionModel().select(settingsTab);
+            settingsController = loader.getController();
+//            settingsController.create(env);
         }
     }
 }

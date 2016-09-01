@@ -1,4 +1,5 @@
 .split-pane {
+
     -fx-base: #f1f0f0;
     -fx-background-color: {0}{1};
     -fx-border-color: {0};
