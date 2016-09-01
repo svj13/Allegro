@@ -98,7 +98,8 @@ public class ScaleModesTutorController extends TutorController {
      */
     private ComboBox generateChoices(Pair question) {
         ComboBox options = new ComboBox<>();
-        ArrayList answers = new ArrayList(); //stores the options that appear in the tutor. One correct answer contained
+        //stores the options that appear in the tutor. One correct answer contained
+        ArrayList answers = new ArrayList();
 
         //splitting up the answer. e.g D and dorian
         String answer = (String)question.getValue();
