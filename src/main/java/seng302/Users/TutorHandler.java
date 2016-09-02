@@ -152,6 +152,9 @@ public class TutorHandler {
         if (env.getRootController().tabSaveCheck("diatonicChordTutor")) {
             saveTutorRecordsToFile(projectAddress + "/DiatonicChordTutor.json", env.getRootController().DiatonicChordsController.record);
         }
+        if (env.getRootController().tabSaveCheck("scaleModesTutor")) {
+            saveTutorRecordsToFile(projectAddress + "/ScaleModesTutor.json", env.getRootController().ScaleModesController.record);
+        }
     }
 
     /**
