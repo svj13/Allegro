@@ -34,9 +34,17 @@ public class Visualiser implements MetaEventListener {
 
             // Either highlights or de-highlights a key
             if (isOn) {
-                env.getRootController().getKeyboardPaneController().highlightKey(midiValue);
+                try {
+                    env.getRootController().getKeyboardPaneController().highlightKey(midiValue);
+                } catch (Exception e) {
+                    System.err.println("Cannot visualise - keyboard not initialised");
+                }
             } else {
-                env.getRootController().getKeyboardPaneController().removeHighlight(midiValue);
+                try {
+                    env.getRootController().getKeyboardPaneController().removeHighlight(midiValue);
+                } catch (Exception e) {
+                    System.err.println("Cannot visualise - keyboard not initialised");
+                }
             }
         }
     }
