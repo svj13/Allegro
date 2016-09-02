@@ -60,20 +60,27 @@ public class TutorHandler {
     }
 
     /**
-     * This method will give the number of correct and incorrect answers for a given tutor for it's
-     * most recent attempt.
+     * This method will give the total number of correct and incorrect answers for a given tutor.
      *
      * @param tabId The tabid of the tutor
      * @return a pair containing two integers. The number of answers correct and the number of
      * incorrect answers.
      */
     public Pair<Integer, Integer> getRecentTutorTotals(String tabId) {
-        ArrayList<TutorRecord> records = getTutorData(tabId);
-        TutorRecord lastRecord = records.get(records.size() - 1);
-        Map<String, Number> stats = lastRecord.getStats();
-        Integer correct = stats.get("questionsCorrect").intValue();
-        Integer incorrect = stats.get("questionsIncorrect").intValue();
-        return new Pair<>(correct, incorrect);
+        try {
+            ArrayList<TutorRecord> records = getTutorData(tabId);
+            Integer correct = 0;
+            Integer incorrect = 0;
+            for (TutorRecord record : records) {
+                Map<String, Number> stats = record.getStats();
+                correct = stats.get("questionsCorrect").intValue();
+                incorrect = stats.get("questionsIncorrect").intValue();
+            }
+            return new Pair<>(correct, incorrect);
+        } catch (NullPointerException e) {
+
+            return new Pair<>(123, 123);
+        }
     }
 
 
@@ -170,6 +177,9 @@ public class TutorHandler {
         }
         if (env.getRootController().tabSaveCheck("diatonicChordTutor")) {
             saveTutorRecordsToFile(projectAddress + "/DiatonicChordTutor.json", env.getRootController().DiatonicChordsController.record);
+        }
+        if (env.getRootController().tabSaveCheck("scaleModesTutor")) {
+            saveTutorRecordsToFile(projectAddress + "/ScaleModesTutor.json", env.getRootController().ScaleModesController.record);
         }
     }
 

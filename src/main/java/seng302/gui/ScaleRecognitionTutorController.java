@@ -4,7 +4,7 @@ import org.controlsfx.control.CheckComboBox;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Observable;
+import java.util.List;
 import java.util.Random;
 
 import javafx.collections.ObservableList;
@@ -12,15 +12,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Pair;
-import org.controlsfx.control.CheckComboBox;
 import seng302.Environment;
 import seng302.data.Note;
 import seng302.utility.TutorRecord;
@@ -65,10 +64,12 @@ public class ScaleRecognitionTutorController extends TutorController {
         if (ccbScales.getCheckModel().getCheckedIndices().size() != 0) {
             scaleError.setVisible(false);
             record = new TutorRecord();
+            paneInit.setVisible(false);
             paneQuestions.setVisible(true);
             paneResults.setVisible(false);
             manager.resetEverything();
             manager.questions = selectedQuestions;
+            List qPanes = new ArrayList<>();
 
             this.playDirection = direction.getSelectionModel().getSelectedItem();
             this.playOctaves = octaves.getSelectionModel().getSelectedItem();
@@ -77,9 +78,16 @@ public class ScaleRecognitionTutorController extends TutorController {
             questionRows.getChildren().clear();
             for (int i = 0; i < manager.questions; i++) {
                 HBox questionRow = setUpQuestion();
-                questionRows.getChildren().add(questionRow);
+                TitledPane qPane = new TitledPane("Question " + (i + 1), questionRow);
+                qPane.setPadding(new Insets(2, 2, 2, 2));
+                qPanes.add(qPane);
                 VBox.setMargin(questionRow, new Insets(10, 10, 10, 10));
             }
+
+            qAccordion.getPanes().addAll(qPanes);
+            qAccordion.setExpandedPane(qAccordion.getPanes().get(0));
+            questionRows.getChildren().add(qAccordion);
+
         } else {
             scaleError.setVisible(true);
         }
@@ -94,7 +102,7 @@ public class ScaleRecognitionTutorController extends TutorController {
         initialiseQuestionSelector();
         rand = new Random();
         direction.getItems().addAll("Up", "Down", "UpDown");
-        ccbScales.getItems().addAll("Major", "Minor", "Melodic Minor", "Blues", "Major Pentatonic", "Minor Pentatonic");
+        ccbScales.getItems().addAll("Major", "Minor", "Melodic Minor", "Blues", "Major Pentatonic", "Minor Pentatonic", "Major Mode", "Harmonic Minor");
 
         ccbScales.getCheckModel().check(0); //Only major/minor selected by default
         ccbScales.getCheckModel().check(1);

@@ -14,6 +14,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Pair;
@@ -58,17 +59,24 @@ public class KeySignaturesTutorController extends TutorController {
      */
     private void goAction(ActionEvent event) {
         record = new TutorRecord();
+        paneInit.setVisible(false);
         paneQuestions.setVisible(true);
         paneResults.setVisible(false);
         manager.resetEverything();
         manager.questions = selectedQuestions;
+        List qPanes = new ArrayList<>();
 
         questionRows.getChildren().clear();
         for (int i = 0; i < manager.questions; i++) {
             HBox questionRow = setUpQuestion();
-            questionRows.getChildren().add(questionRow);
+            TitledPane qPane = new TitledPane("Question " + (i + 1), questionRow);
+            qPane.setPadding(new Insets(2, 2, 2, 2));
+            qPanes.add(qPane);
             questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
         }
+        qAccordion.getPanes().addAll(qPanes);
+        qAccordion.setExpandedPane(qAccordion.getPanes().get(0));
+        questionRows.getChildren().add(qAccordion);
     }
 
 
