@@ -96,6 +96,12 @@ public class UserSettingsController {
         btnEditLName.setGraphic(new ImageView(imgEdit.getImage()));
         btnUploadImage.setGraphic(imgUpload);
 
+        txtFName.setDisable(true);
+        txtFName.setEditable(false);
+
+        txtLName.setDisable(true);
+        txtLName.setEditable(false);
+
     }
 
     /**
