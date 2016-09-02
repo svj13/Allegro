@@ -140,7 +140,6 @@ public class UserPageController {
 
 
     }
-
     /**
      * Loads the stage map into the summary page
      */
