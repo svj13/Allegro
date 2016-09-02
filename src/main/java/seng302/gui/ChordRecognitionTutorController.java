@@ -1,8 +1,6 @@
 package seng302.gui;
 
 
-import com.jfoenix.controls.JFXComboBox;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -11,7 +9,6 @@ import java.util.Random;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -73,6 +70,7 @@ public class ChordRecognitionTutorController extends TutorController {
         }
 
         qAccordion.getPanes().addAll(qPanes);
+        qAccordion.setExpandedPane(qAccordion.getPanes().get(0));
         questionRows.getChildren().add(qAccordion);
     }
 

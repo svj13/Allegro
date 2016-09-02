@@ -101,6 +101,7 @@ public class PitchComparisonTutorController extends TutorController {
                 VBox.setMargin(rowPane, new Insets(10, 10, 10, 10));
             }
             qAccordion.getPanes().addAll(qPanes);
+            qAccordion.setExpandedPane(qAccordion.getPanes().get(0));
             questionRows.getChildren().add(qAccordion);
 
         } else {

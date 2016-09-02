@@ -2,7 +2,7 @@ package seng302.gui;
 
 
 import com.jfoenix.controls.JFXSlider;
-import com.sun.javafx.sg.prism.NGShape;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -19,8 +19,6 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Pair;
 import seng302.Environment;
-import seng302.command.Scale;
-import seng302.data.Note;
 import seng302.command.MajorModes;
 import seng302.data.ModeHelper;
 import seng302.data.Note;
@@ -82,6 +80,7 @@ public class ScaleModesTutorController extends TutorController {
             questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
         }
         qAccordion.getPanes().addAll(qPanes);
+        qAccordion.setExpandedPane(qAccordion.getPanes().get(0));
         questionRows.getChildren().add(qAccordion);
 
     }

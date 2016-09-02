@@ -75,6 +75,7 @@ public class KeySignaturesTutorController extends TutorController {
             questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
         }
         qAccordion.getPanes().addAll(qPanes);
+        qAccordion.setExpandedPane(qAccordion.getPanes().get(0));
         questionRows.getChildren().add(qAccordion);
     }
 

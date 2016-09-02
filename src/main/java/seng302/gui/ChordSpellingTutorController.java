@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -139,6 +138,7 @@ public class ChordSpellingTutorController extends TutorController {
                 questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
             }
             qAccordion.getPanes().addAll(qPanes);
+            qAccordion.setExpandedPane(qAccordion.getPanes().get(0));
             questionRows.getChildren().add(qAccordion);
         } else {
             chordError.setVisible(true);

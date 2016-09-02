@@ -90,6 +90,7 @@ public class IntervalRecognitionTutorController extends TutorController {
                 VBox.setMargin(questionRow, new Insets(10, 10, 10, 10));
             }
             qAccordion.getPanes().addAll(qPanes);
+            qAccordion.setExpandedPane(qAccordion.getPanes().get(0));
             questionRows.getChildren().add(qAccordion);
 
         } else {
