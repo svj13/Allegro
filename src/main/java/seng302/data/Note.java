@@ -338,6 +338,9 @@ public class Note {
                 case "minor pentatonic":
                     semitones = Arrays.asList(3, 5, 7, 10, 12);
                     break;
+                case "harmonic minor":
+                    semitones = Arrays.asList(2, 3, 5, 7, 8, 11, 12);
+                    break;
                 default:
                     throw new IllegalArgumentException("Invalid scale type: '" + type + "'.");
             }
@@ -388,6 +391,9 @@ public class Note {
                     break;
                 case "minor pentatonic":
                     semitones = Arrays.asList(2, 5, 7, 9, 12);
+                    break;
+                case "harmonic minor":
+                    semitones = Arrays.asList(1, 4, 5, 7, 9, 10, 12);
                     break;
                 default:
                     throw new IllegalArgumentException("Invalid scale type: '" + type + "'.");

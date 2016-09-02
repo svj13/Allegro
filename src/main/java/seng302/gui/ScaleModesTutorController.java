@@ -1,10 +1,10 @@
 package seng302.gui;
 
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.util.Pair;
 import seng302.Environment;
+import seng302.data.Note;
 import seng302.command.MajorModes;
 import seng302.data.ModeHelper;
 import seng302.data.Note;
@@ -22,6 +23,7 @@ import seng302.utility.musicNotation.OctaveUtil;
 
 /**
  * Created by Sarah on 28/08/16.
+ * Controller class for the Scale Modes Tutor. Based off the abstract TutorController class.
  */
 public class ScaleModesTutorController extends TutorController {
 
@@ -88,16 +90,16 @@ public class ScaleModesTutorController extends TutorController {
     }
 
     /**
-     * generates the questions for the tutor for question type 1 Type 1 question: What is the mode
-     * of NOTE major of degree #? Type 1 answer: the answer options are the mode note and the mode
-     * type (e.g. D Dorian)
-     *
-     * @return options
+     * generates the questions for the tutor for question type 1
+     * Type 1 question: What is the mode of NOTE major of degree #?
+     * Type 1 answer: the answer options are the mode note and the mode type (e.g. D Dorian)
+     * @param question pair that contains the question and the correct answer.
+     * @return options potential answers for the user to pick the correct one from
      */
-
     private ComboBox generateChoices(Pair question) {
         ComboBox options = new ComboBox<>();
-        ArrayList answers = new ArrayList(); //stores the options that appear in the tutor. One correct answer contained
+        //stores the options that appear in the tutor. One correct answer contained
+        ArrayList answers = new ArrayList();
 
         //splitting up the answer. e.g D and dorian
         String answer = (String) question.getValue();
@@ -147,10 +149,12 @@ public class ScaleModesTutorController extends TutorController {
 
 
     /**
-     * generates the questions for the tutor for question type 2 Type 2 question: What is the parent
-     * scale of MODE MODE_TYPE? Type 2 answer: NOTE major
+     * generates the questions for the tutor for question type 2
+     * Type 2 question: What is the parent scale of MODE MODE_TYPE?
+     * Type 2 answer: NOTE major
      *
-     * @return options
+     * @param question pair that contains the question and the correct answer.
+     * @return options potential answers for the user to pick the correct one from
      */
     private ComboBox generateChoices2(Pair question) {
 
@@ -179,10 +183,10 @@ public class ScaleModesTutorController extends TutorController {
 
 
     /**
-     * Reacts accordingly to a user's input. Formats the question row as to whether the question was
-     * answered correctly or not. Also saves the tutor record
-     *
-     * @param userAnswer  User's selectoin
+     * Reacts accordingly to a user's input. Formats the question row as to whether the question was answered
+     * correctly or not. Also saves the tutor record
+     * @param userAnswer User's selectoin
+     * @param questionAndAnswer pair that contains the question and the correct answer as strings
      * @param questionRow HBox containing GUI data
      */
     private void handleQuestionAnswer(String userAnswer, Pair questionAndAnswer, HBox questionRow) {
@@ -238,6 +242,9 @@ public class ScaleModesTutorController extends TutorController {
 
     /**
      * GUI formatting for the tutor
+     * @param questionAnswer pair that contains the question and the correct answer as strings
+     * @return questionRow the pane that contains the question and relevant buttons and combobox
+     *  for answering.
      */
     @Override
     HBox generateQuestionPane(Pair questionAnswer) {
@@ -329,7 +336,7 @@ public class ScaleModesTutorController extends TutorController {
     /**
      * Generate the questions that asks for the parent scale of a given mode and its type
      *
-     * @return a Pair with the questoin asked and the correct answer
+     * @return a Pair with the question asked and the correct answer
      */
     private Pair generateQuestionTypeTwo() {
 
@@ -342,13 +349,11 @@ public class ScaleModesTutorController extends TutorController {
         String answer = MajorModes.getParentScaleString(randomNote, randomType);
         return new Pair(question, answer);
 
-
     }
-
 
     @Override
     void resetInputs() {
-        //Diatonic tutor does not have any inputs to reset.
+        //Scale Modes tutor does not have any inputs to reset.
     }
 
 
