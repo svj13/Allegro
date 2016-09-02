@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -14,7 +15,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.util.Pair;
 import seng302.Environment;
-import seng302.data.Note;
 import seng302.command.MajorModes;
 import seng302.data.ModeHelper;
 import seng302.data.Note;
@@ -22,8 +22,8 @@ import seng302.utility.TutorRecord;
 import seng302.utility.musicNotation.OctaveUtil;
 
 /**
- * Created by Sarah on 28/08/16.
- * Controller class for the Scale Modes Tutor. Based off the abstract TutorController class.
+ * Created by Sarah on 28/08/16. Controller class for the Scale Modes Tutor. Based off the abstract
+ * TutorController class.
  */
 public class ScaleModesTutorController extends TutorController {
 
@@ -90,9 +90,10 @@ public class ScaleModesTutorController extends TutorController {
     }
 
     /**
-     * generates the questions for the tutor for question type 1
-     * Type 1 question: What is the mode of NOTE major of degree #?
-     * Type 1 answer: the answer options are the mode note and the mode type (e.g. D Dorian)
+     * generates the questions for the tutor for question type 1 Type 1 question: What is the mode
+     * of NOTE major of degree #? Type 1 answer: the answer options are the mode note and the mode
+     * type (e.g. D Dorian)
+     *
      * @param question pair that contains the question and the correct answer.
      * @return options potential answers for the user to pick the correct one from
      */
@@ -149,9 +150,8 @@ public class ScaleModesTutorController extends TutorController {
 
 
     /**
-     * generates the questions for the tutor for question type 2
-     * Type 2 question: What is the parent scale of MODE MODE_TYPE?
-     * Type 2 answer: NOTE major
+     * generates the questions for the tutor for question type 2 Type 2 question: What is the parent
+     * scale of MODE MODE_TYPE? Type 2 answer: NOTE major
      *
      * @param question pair that contains the question and the correct answer.
      * @return options potential answers for the user to pick the correct one from
@@ -183,11 +183,12 @@ public class ScaleModesTutorController extends TutorController {
 
 
     /**
-     * Reacts accordingly to a user's input. Formats the question row as to whether the question was answered
-     * correctly or not. Also saves the tutor record
-     * @param userAnswer User's selectoin
+     * Reacts accordingly to a user's input. Formats the question row as to whether the question was
+     * answered correctly or not. Also saves the tutor record
+     *
+     * @param userAnswer        User's selectoin
      * @param questionAndAnswer pair that contains the question and the correct answer as strings
-     * @param questionRow HBox containing GUI data
+     * @param questionRow       HBox containing GUI data
      */
     private void handleQuestionAnswer(String userAnswer, Pair questionAndAnswer, HBox questionRow) {
         manager.answered += 1;
@@ -242,9 +243,10 @@ public class ScaleModesTutorController extends TutorController {
 
     /**
      * GUI formatting for the tutor
+     *
      * @param questionAnswer pair that contains the question and the correct answer as strings
-     * @return questionRow the pane that contains the question and relevant buttons and combobox
-     *  for answering.
+     * @return questionRow the pane that contains the question and relevant buttons and combobox for
+     * answering.
      */
     @Override
     HBox generateQuestionPane(Pair questionAnswer) {
