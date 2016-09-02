@@ -1269,4 +1269,8 @@ public class RootController implements Initializable {
             UserSettingsTabController.create(env);
         }
     }
+
+    public UISkinnerController getUiSkinnerController() {
+        return uiSkinnerController;
+    }
 }

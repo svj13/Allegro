@@ -897,8 +897,15 @@ public class KeyboardPaneController {
      * @param midiValue The value for which key will be turned blue
      */
     public void highlightKey(int midiValue) {
-        String whiteStyle = "-fx-border-color: black; -fx-border-width: 1px; -fx-background-color: blue";
-        String blackStyle = "-fx-border-color: black; -fx-border-width: 1px; -fx-background-color: blue";
+        String colourName;
+        try {
+            Color highlightColour = env.getRootController().getUiSkinnerController().secondaryColour.getValue();
+            colourName = "#" + highlightColour.toString().substring(2, 8);
+        } catch (Exception e) {
+            colourName = "blue";
+        }
+        String whiteStyle = "-fx-border-color: black; -fx-border-width: 1px; -fx-background-color: " + colourName;
+        String blackStyle = "-fx-border-color: black; -fx-border-width: 1px; -fx-background-color: " + colourName;
         ObservableList<Node> keys = keyboardBox.getChildren();
         for (Node key : keys) {
             if (key instanceof TouchPane && ((TouchPane) key).getNoteValue().getMidi() == midiValue) {
