@@ -142,10 +142,10 @@ public class ThemeHandler {
             while ((line = bufferedReader.readLine()) != null) {
                 if (line.contains("{0}{1}{2}{3}")) { //Primary, Secondary, Primary font colour, secondary font colour.
 
-                    templateCSS.add(MessageFormat.format(line, "", "", primaryFont, secondaryFont));
+                    templateCSS.add(MessageFormat.format(line, "", "", "", secondaryFont));
                 }
                 if (line.contains("{0}{1}{2}")) {
-                    System.out.println("adding font, colour: " + primaryFont);
+
                     templateCSS.add(MessageFormat.format(line, "", "", primaryFont));
                 } else if (line.contains("{0}{1}")) {
                     templateCSS.add(MessageFormat.format(line, "", ldRGB));
