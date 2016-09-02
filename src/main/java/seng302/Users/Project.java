@@ -12,7 +12,6 @@ package seng302.Users;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -29,6 +28,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import seng302.Environment;
+import seng302.data.Term;
 
 import seng302.utility.InstrumentUtility;
 import seng302.utility.OutputTuple;
@@ -51,6 +51,8 @@ public class Project {
     Environment env;
     public TutorHandler tutorHandler;
 
+    public  Boolean isCompetitiveMode;
+
     public Project(Environment env, String projectName, ProjectHandler projectH) {
         this.projectName = projectName;
         this.projectDirectory =  Paths.get(projectH.projectsDirectory + "/"+projectName);
@@ -58,6 +60,7 @@ public class Project {
         projectSettings = new JSONObject();
         tutorHandler = new TutorHandler(env);
         projectHandler = projectH;
+        isCompetitiveMode = true;
 
         loadProject(projectName);
         loadProperties();
@@ -324,5 +327,6 @@ public class Project {
     public String getCurrentProjectPath() {
         return currentProjectPath;
     }
+
 
 }

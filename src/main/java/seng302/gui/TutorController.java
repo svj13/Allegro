@@ -31,7 +31,6 @@ import seng302.Environment;
 import seng302.Users.Project;
 import seng302.Users.TutorHandler;
 import seng302.data.Note;
-import seng302.managers.ModeManager;
 import seng302.managers.TutorManager;
 import seng302.utility.TutorRecord;
 import seng302.utility.musicNotation.OctaveUtil;
@@ -54,9 +53,7 @@ public abstract class TutorController {
 
     public TutorHandler tutorHandler;
 
-    public ModeManager modeManager;
 
-    public Boolean isCompetitive;
 
     Stage stage;
 
@@ -113,14 +110,13 @@ public abstract class TutorController {
         manager = new TutorManager();
         currentProject = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject();
         tutorHandler = currentProject.getTutorHandler();
-        modeManager = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().getModeManager();
     }
 
     /**
      * Implements the settings of a slider used to select number of questions.
      */
     public void initialiseQuestionSelector() {
-        if(modeManager.isCompetitiveMode){
+        if(env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().isCompetitiveMode){
             numQuestions.setValue(10);
             numQuestions.setDisable(true);
             selectedQuestions = 10;

@@ -27,7 +27,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Pair;
 import seng302.Environment;
-import seng302.managers.ModeManager;
 
 /**
  * Created by jmw280 on 22/08/16.
@@ -70,8 +69,6 @@ public class UserPageController {
 
     private Environment env;
 
-    private ModeManager modeManager;
-
     public UserPageController() {
     }
 
@@ -79,7 +76,6 @@ public class UserPageController {
     public void setEnvironment(Environment env) {
         this.env = env;
     }
-    public void setModeManager(ModeManager modemanager){this.modeManager = modemanager;}
 
 
     public void populateUserOptions() {
@@ -114,20 +110,15 @@ public class UserPageController {
             public void updateItem(String tutor, boolean empty) {
 
                 super.updateItem(tutor, empty);
-//                System.out.println(modeManager.tutorNumUnlocksMap.get(tutor));
-//                System.out.println(tutor.equals("Summary"));
                 if (empty) {
                     setText(null);
                     setGraphic(null);
 
-                } else if (!tutor.equals("Summary") && modeManager.tutorNumUnlocksMap.get(tutor) > modeManager.currentUnlocks) {
-                    //else if (tutor != null && modeManager.tutorNumUnlocksMap.get(tutor) > modeManager.currentUnlocks) {
-//                    imageView.setImage(lockImg);
-//                    setText(tutor);
-//                    setGraphic(imageView);
-                    setDisable(true);
-                    setMouseTransparent(true);
-
+//                } else if (!tutor.equals("Summary") && modeManager.tutorNumUnlocksMap.get(tutor) > modeManager.currentUnlocks) {
+//                    setDisable(true);
+//                    setMouseTransparent(true);
+//
+//                }
                 }
             }
         });
