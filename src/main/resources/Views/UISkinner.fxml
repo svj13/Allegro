@@ -20,19 +20,29 @@
             </Label>
          </children>
       </HBox>
-      <HBox fx:id="settings" alignment="CENTER_LEFT" layoutX="10.0" layoutY="46.0" minWidth="400.0" prefHeight="10.0" spacing="5.0">
+      <HBox fx:id="settings" alignment="CENTER_LEFT" layoutX="10.0" layoutY="46.0" minWidth="400.0" spacing="5.0">
          <children>
-            <VBox minHeight="-Infinity" prefHeight="100.0" prefWidth="400.0" spacing="10.0">
+            <VBox minHeight="-Infinity" prefHeight="160.0" prefWidth="463.0" spacing="10.0">
                <children>
-                  <Label text="Generates a theme based on the selected colour. "/>
-                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                  <Label prefHeight="17.0" prefWidth="271.0" text="Generates a theme based on the selected colour. " />
+                  <Label prefHeight="17.0" prefWidth="454.0" text="If the secondary colour is left unselected a complementary colour will be generated." />
+                  <HBox alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="200.0" spacing="10.0">
                      <VBox.margin>
-                        <Insets left="5.0" />
+                        <Insets left="10.0" top="5.0" />
                      </VBox.margin>
                      <children>
-                        <Label text="Pick a colour:" />
-                        <ColorPicker fx:id="colourPicker" editable="true" />
+                        <Label text="Pick a primary colour:    " />
+                        <ColorPicker fx:id="primaryColour" editable="true" prefHeight="25.0" />
                      </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <Label text="Pick a secondary colour:" />
+                        <ColorPicker fx:id="secondaryColour" editable="true" prefHeight="25.0" />
+                     </children>
+                     <VBox.margin>
+                        <Insets left="10.0" top="5.0" />
+                     </VBox.margin>
                   </HBox>
                   <Button mnemonicParsing="false" onAction="#skinGui" text="Skin" />
                </children>
