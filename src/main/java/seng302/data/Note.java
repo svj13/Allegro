@@ -344,7 +344,6 @@ public class Note {
                 default:
                     throw new IllegalArgumentException("Invalid scale type: '" + type + "'.");
             }
-
             for (int i = 0; i < octaves; i++) {
                 for (int j = 0; j < semitones.size(); j++) {
                     scaleNotes.add(currentNote.semitoneUp(semitones.get(j)));

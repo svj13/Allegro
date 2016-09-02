@@ -1,9 +1,12 @@
 package seng302.gui;
 
 
+import com.jfoenix.controls.JFXSlider;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 import javafx.event.ActionEvent;
@@ -12,6 +15,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Pair;
 import seng302.Environment;
@@ -26,6 +30,8 @@ import seng302.utility.musicNotation.OctaveUtil;
  * TutorController class.
  */
 public class ScaleModesTutorController extends TutorController {
+    @FXML
+    JFXSlider numQuestions;
 
     private Random rand;
     private final String typeOneText = "What is the mode of %s if it is of degree %s?";
@@ -33,6 +39,7 @@ public class ScaleModesTutorController extends TutorController {
     private Integer type = 1;
     private ArrayList<String> majorNotes = new ArrayList<>(Arrays.asList("C", "G", "D", "A", "E",
             "B", "F", "Bb", "Eb", "Ab", "Db", "Gb"));
+
 
 
     public void create(Environment env) {
@@ -48,12 +55,14 @@ public class ScaleModesTutorController extends TutorController {
      */
     private void goAction(ActionEvent event) {
         record = new TutorRecord();
+        paneInit.setVisible(false);
         paneQuestions.setVisible(true);
         paneResults.setVisible(false);
         manager.resetEverything();
         manager.questions = selectedQuestions;
 
         rand = new Random();
+        List qPanes = new ArrayList<>();
 
         questionRows.getChildren().clear();
         for (int i = 0; i < manager.questions; i++) {
@@ -65,10 +74,14 @@ public class ScaleModesTutorController extends TutorController {
                 type = 2;
                 questionRow = generateQuestionPane(generateQuestionTypeTwo());
             }
-            questionRows.getChildren().add(questionRow);
+            TitledPane qPane = new TitledPane("Question " + (i + 1), questionRow);
+            qPane.setPadding(new Insets(2, 2, 2, 2));
+            qPanes.add(qPane);
             questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
         }
-
+        qAccordion.getPanes().addAll(qPanes);
+        qAccordion.setExpandedPane(qAccordion.getPanes().get(0));
+        questionRows.getChildren().add(qAccordion);
 
     }
 
@@ -193,7 +206,7 @@ public class ScaleModesTutorController extends TutorController {
     private void handleQuestionAnswer(String userAnswer, Pair questionAndAnswer, HBox questionRow) {
         manager.answered += 1;
         Integer correct;
-        disableButtons(questionRow, 1, 2);
+        disableButtons(questionRow, 1, 3);
         String correctAnswer = (String) questionAndAnswer.getValue();
         if (userAnswer.equalsIgnoreCase(correctAnswer)) {
             correct = 1;
@@ -350,6 +363,7 @@ public class ScaleModesTutorController extends TutorController {
         Pair question = new Pair(randomNote, randomType);
         String answer = MajorModes.getParentScaleString(randomNote, randomType);
         return new Pair(question, answer);
+
 
     }
 
