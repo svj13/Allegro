@@ -76,11 +76,9 @@ public class BaseSettingsController {
 
             settingsPane.getChildren().setAll((Node) userSettingsLoader.load());
             userSettingsC = userSettingsLoader.getController();
-
-            System.out.println(this.env.getUserHandler().getCurrentUser().getUserName());
             userSettingsC.create(env);
 
-            btnUserSettings.setStyle("-fx-background-color: #223768");
+            btnUserSettings.setStyle(String.format("-fx-background-color: %s", env.getThemeHandler().getPrimaryColour()));
             btnThemeSettings.setStyle("");
             btnProjectSettings.setStyle("");
 
@@ -99,11 +97,18 @@ public class BaseSettingsController {
         try {
 
             //settingsPane.setContent((Node) loader.load());
-            themeLoader.setRoot(null);
-            themeLoader.setController(themeC);
-            settingsPane.getChildren().setAll((Node) themeLoader.load());
+//            themeLoader.setRoot(null);
+//            themeLoader.setController(themeC);
+//            settingsPane.getChildren().setAll((Node) themeLoader.load());
 
-            btnThemeSettings.setStyle("-fx-background-color: #223768");
+            themeLoader = new FXMLLoader();
+            themeLoader.setLocation(getClass().getResource("/Views/UISkinner.fxml"));
+            settingsPane.getChildren().setAll((Node) themeLoader.load());
+            themeC = themeLoader.getController();
+
+
+            themeC.create(env, env.getRootController().paneMain);
+            btnThemeSettings.setStyle(String.format("-fx-background-color: %s", env.getThemeHandler().getPrimaryColour()));
             btnProjectSettings.setStyle("");
             btnUserSettings.setStyle("");
 
@@ -116,7 +121,8 @@ public class BaseSettingsController {
     void openProjectSettings(ActionEvent event) {
 
 
-        btnProjectSettings.setStyle("-fx-background-color: #223768");
+        btnProjectSettings.setStyle(String.format("-fx-background-color: %s", env.getThemeHandler().getPrimaryColour()));
+        // btnProjectSettings.setStyle("-fx-background-color: #223768");
         btnThemeSettings.setStyle("");
         btnUserSettings.setStyle("");
     }

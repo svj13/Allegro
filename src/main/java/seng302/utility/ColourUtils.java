@@ -111,11 +111,10 @@ public class ColourUtils {
      * @param hsl Float array of hsl values
      * @return Float array of rgb values
      */
-    public static float[] hslToRgb(float[] hsl) {
+    public static int[] hslToRgb(float[] hsl) {
         float h = hsl[0];
         float s = hsl[1];
         float l = hsl[2];
-
 
         float r, g, b;
 
@@ -135,7 +134,7 @@ public class ColourUtils {
             b = hueToRGB(temp2, temp1, h - (float) 1 / 3);
         }
 
-        float[] rgbVals = new float[3];
+        int[] rgbVals = new int[3];
         rgbVals[0] = Math.round(r * 255);
         rgbVals[1] = Math.round(g * 255);
         rgbVals[2] = Math.round(b * 255);

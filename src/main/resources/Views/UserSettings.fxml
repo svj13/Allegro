@@ -8,13 +8,19 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="chordSpellingAnchor" prefHeight="450.0" prefWidth="700.0" stylesheets="@../css/user_settings.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.UserSettingsController">
+<AnchorPane fx:id="chordSpellingAnchor" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+            prefHeight="450.0" prefWidth="700.0" stylesheets="@../css/user_settings.css"
+            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="seng302.gui.UserSettingsController">
    <children>
-      <VBox layoutX="32.0" layoutY="71.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox layoutX="32.0" layoutY="71.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+            prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+            AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="39.0" prefWidth="700.0" styleClass="primary">
                <children>
-                  <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="User Settings" textFill="WHITE">
+                  <Label alignment="TOP_CENTER" contentDisplay="CENTER" styleClass="primary" text="User Settings"
+                         textFill="WHITE">
                      <font>
                         <Font name="Droid Sans Bold" size="21.0" />
                      </font>
@@ -64,7 +70,7 @@
                               <JFXButton fx:id="btnUploadImage" buttonType="RAISED" contentDisplay="CENTER"
                                          ellipsisString="" graphicTextGap="0.0" maxHeight="25.0" maxWidth="43.0"
                                          onAction="#launchPhotoChooser" prefHeight="25.0" prefWidth="43.0"
-                                         ripplerFill="#2fe1ae" style="-fx-background-color: #03A9F4;">
+                                         ripplerFill="#2fe1ae" styleClass="primaryControl">
                                  <HBox.margin>
                                     <Insets left="20.0" top="20.0"/>
                                  </HBox.margin>

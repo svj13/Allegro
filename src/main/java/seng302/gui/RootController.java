@@ -179,7 +179,15 @@ public class RootController implements Initializable {
         Platform.runLater(() -> transcriptController.txtCommand.requestFocus());
     }
 
+    @FXML
+    public void showDslRef() {
+        dslRefControl.getPopover().show(paneMain);
+    }
+
+    private DslReferenceController dslRefControl;
+
     public void initialize(URL location, ResourceBundle resources) {
+        dslRefControl = new DslReferenceController(transcriptController);
 
         String cssBordering = "-fx-border-color:dimgray ; \n" //#090a0c
                 + "-fx-border-insets:3;\n"

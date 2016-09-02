@@ -321,6 +321,11 @@ public class User {
 
     }
 
+    /**
+     * Used when setting the ThemeHandler colours to the user's persisted colours.
+     *
+     * @return
+     */
     public String[] getThemeColours() {
         return new String[]{themePrimary, themeSecondary};
     }

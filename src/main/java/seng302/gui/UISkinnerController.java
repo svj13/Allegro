@@ -36,8 +36,8 @@ public class UISkinnerController {
     // RGB colour values
     private String baseRGB;
     private String compRGB;
-    private float[] lighterRGB;
-    private float[] darkerRGB;
+    private int[] lighterRGB;
+    private int[] darkerRGB;
     private String lighterRGBString;
     private String darkerRGBString;
 
@@ -113,7 +113,7 @@ public class UISkinnerController {
             lighterHslArray[2] = (float) (hsl[2] * lCoefficient);
         }
 
-        float[] lighterRGBArray = ColourUtils.hslToRgb(lighterHslArray);
+        int[] lighterRGBArray = ColourUtils.hslToRgb(lighterHslArray);
 
         lighterRGB = lighterRGBArray;
     }
@@ -139,7 +139,7 @@ public class UISkinnerController {
         darkerHslArray[2] = (float) (hsl[2] * lCoefficient);
 
 
-        float[] darkerRGBArray = ColourUtils.hslToRgb(darkerHslArray);
+        int[] darkerRGBArray = ColourUtils.hslToRgb(darkerHslArray);
 
 
         darkerRGB = darkerRGBArray;
@@ -151,7 +151,7 @@ public class UISkinnerController {
      * @param rgbArray
      * @return
      */
-    private String floatToRGBString(float[] rgbArray) {
+    private String floatToRGBString(int[] rgbArray) {
         return (String.format("rgb(%s, %s, %s)", rgbArray[0], rgbArray[1], rgbArray[2]));
     }
 

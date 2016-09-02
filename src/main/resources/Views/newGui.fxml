@@ -80,6 +80,8 @@
                                </Menu>
                                <MenuItem fx:id="skinGuiButton" mnemonicParsing="false"
                                          onAction="#createColorTab" text="Skin GUI"/>
+                               <MenuItem fx:id="menuHelpWindow" mnemonicParsing="false"
+                                         onAction="#showDslRef" text="DSL Reference Card"/>
                            </items>
                        </Menu>
                   <Menu mnemonicParsing="false" onShowing="#bindOpenObjects" text="Tutors">

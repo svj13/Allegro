@@ -39,21 +39,32 @@
                         nodeOrientation="LEFT_TO_RIGHT" prefHeight="20.0" styleClass="primary"
                         AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="13.0">
                <children>
-                   <Label focusTraversable="false" prefHeight="9.0" prefWidth="62.0" text="Keyboard" StackPane.alignment="CENTER" />
+                   <Label focusTraversable="false" prefHeight="9.0" prefWidth="62.0" styleClass="primary"
+                          text="Keyboard" StackPane.alignment="CENTER">
+                       <StackPane.margin>
+                           <Insets right="20.0"/>
+                       </StackPane.margin>
+                   </Label>
                </children>
             </StackPane>
              <StackPane fx:id="rightStack" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308"
                         pickOnBounds="false" prefHeight="48.0" styleClass="primary">
                <children>
-                   <Button fx:id="settingsButton" focusTraversable="false" minHeight="10.0" mnemonicParsing="false" onAction="#toggleSettings" prefHeight="20.0" prefWidth="14.0" text="Settings" />
+                   <Button fx:id="settingsButton" focusTraversable="false" minHeight="10.0" mnemonicParsing="false"
+                           onAction="#toggleSettings" prefHeight="20.0" prefWidth="14.0" styleClass="secondaryControl"
+                           text="Settings">
+                       <StackPane.margin>
+                           <Insets right="20.0"/>
+                       </StackPane.margin>
+                   </Button>
                </children>
             </StackPane>
              <StackPane fx:id="scalesStackPane" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308"
                         nodeOrientation="LEFT_TO_RIGHT" pickOnBounds="false" styleClass="primary">
                  <children>
                      <Button fx:id="displayScalesButton" focusTraversable="false" mnemonicParsing="false"
-                             onAction="#toggleDisplayScales" prefHeight="25.0" prefWidth="150.0" styleClass="secondary"
-                             text="Display Scales"/>
+                             onAction="#toggleDisplayScales" prefHeight="25.0" prefWidth="150.0"
+                             styleClass="secondaryControl" text="Display Scales"/>
                  </children>
              </StackPane>
          </children>

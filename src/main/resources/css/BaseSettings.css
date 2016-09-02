@@ -4,7 +4,7 @@
 }
 
 .menu #sidePane {
-    -fx-background-color: #395cab;
+    /*-fx-background-color: #395cab;*/
 }
 
 .menu #sidePane > Button {
@@ -46,3 +46,4 @@
     -fx-border: 0;
 
 }
+
