@@ -335,6 +335,7 @@ public class RootController implements Initializable {
         UserPageController userPageController = loader.getController();
         userPageController.setEnvironment(env);
         userPageController.populateUserOptions();
+        userPageController.loadStageMap();
         userPageController.updateImage();
 
 
@@ -1188,6 +1189,9 @@ public class RootController implements Initializable {
         if (KeySignaturesTabController != null) {
             KeySignaturesTabController.clearTutor();
 
+        }
+        if (ScaleRecognitionTabController != null) {
+            ScaleRecognitionTabController.clearTutor();
         }
         int total_tabs = TabPane.getTabs().size();
         TabPane.getTabs().remove(1, total_tabs);

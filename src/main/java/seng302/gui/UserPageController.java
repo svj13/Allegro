@@ -10,6 +10,7 @@ import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.SnapshotParameters;
@@ -22,6 +23,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -36,6 +38,12 @@ public class UserPageController {
 
     @FXML
     AnchorPane contentPane;
+
+    @FXML
+    Pane stageMap;
+
+    @FXML
+    AnchorPane summaryPage;
 
     @FXML
     VBox stats;
@@ -66,6 +74,12 @@ public class UserPageController {
 
     @FXML
     Label overallStats;
+
+    @FXML
+    VBox tutors;
+
+    @FXML
+    AnchorPane summary;
 
     private Environment env;
 
@@ -125,6 +139,25 @@ public class UserPageController {
         });
 
 
+    }
+
+    /**
+     * Loads the stage map into the summary page
+     */
+    public void loadStageMap() {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/Views/StageMapPane.fxml"));
+        try {
+            stageMap.getChildren().add(loader.load());
+
+        } catch (Exception e) {
+            System.err.println("Failed to load stage map");
+            System.out.println(e.getStackTrace());
+            e.printStackTrace();
+        }
+
+        StageMapController controller = loader.getController();
+        controller.setEnvironment(env);
     }
 
     /**
@@ -237,6 +270,9 @@ public class UserPageController {
         }
 
         if (tutor.equals("Summary")) {
+
+            tutors.setVisible(false);
+            summary.setVisible(true);
             recentBar.setVisible(false);
             overallStats.setVisible(false);
             latestAttempt.setVisible(false);
@@ -244,6 +280,8 @@ public class UserPageController {
 
         } else {
 
+            tutors.setVisible(true);
+            summary.setVisible(false);
             recentSeries1.getData().add(new XYChart.Data<>(correctIncorrectRecent.getKey(), ""));
             recentSeries2.getData().add(new XYChart.Data<>(correctIncorrectRecent.getValue(), ""));
             recentBar.getData().clear();

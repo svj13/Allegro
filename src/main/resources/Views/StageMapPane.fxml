@@ -9,11 +9,11 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="468.0" prefWidth="907.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="stageMap" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.StageMapController">
    <children>
       <ImageView fitHeight="418.0" fitWidth="433.0" layoutX="245.0" layoutY="23.0">
          <image>
-            <Image url="@../../../../../../Downloads/musicNote.png" />
+            <Image url="@../images/musicNote.png" />
          </image>
       </ImageView>
       <Button layoutX="406.0" layoutY="101.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="41.0" style="-fx-background-radius: 100;" text="Button" />
