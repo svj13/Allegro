@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import seng302.Environment;
 
@@ -74,7 +75,10 @@ public class BaseSettingsController {
             userSettingsLoader = new FXMLLoader();
             userSettingsLoader.setLocation(getClass().getResource("/Views/UserSettings.fxml"));
 
-            settingsPane.getChildren().setAll((Node) userSettingsLoader.load());
+            Node loadedPane = (Node) userSettingsLoader.load();
+            settingsPane.getChildren().setAll(loadedPane);
+            this.setAnchors(loadedPane);
+
             userSettingsC = userSettingsLoader.getController();
             userSettingsC.create(env);
 
@@ -92,6 +96,13 @@ public class BaseSettingsController {
 
     }
 
+    private void setAnchors(Node loadedPane) {
+        settingsPane.setRightAnchor(loadedPane, 0.0);
+        settingsPane.setLeftAnchor(loadedPane, 0.0);
+        settingsPane.setBottomAnchor(loadedPane, 0.0);
+        settingsPane.setTopAnchor(loadedPane, 0.0);
+    }
+
     @FXML
     void onThemeSettings(ActionEvent event) {
         try {
@@ -103,9 +114,13 @@ public class BaseSettingsController {
 
             themeLoader = new FXMLLoader();
             themeLoader.setLocation(getClass().getResource("/Views/UISkinner.fxml"));
-            settingsPane.getChildren().setAll((Node) themeLoader.load());
-            themeC = themeLoader.getController();
+            Node loadedPane = (Node) themeLoader.load();
 
+            settingsPane.getChildren().setAll(loadedPane);
+
+            this.setAnchors(loadedPane);
+
+            themeC = themeLoader.getController();
 
             themeC.create(env, env.getRootController().paneMain);
             btnThemeSettings.setStyle(String.format("-fx-background-color: %s", env.getThemeHandler().getPrimaryColour()));

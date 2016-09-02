@@ -39,6 +39,10 @@
     -fx-background-color: {0};
     -fx-text-fill: {0}{1}{2} ;
 }
+.secondary{
+    -fx-background-color: {1};
+    -fx-text-fill: {0}{1}{2}{3} ;
+}
 
 #keyPane > .title {
     /* common styles for title, eg */
