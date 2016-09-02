@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/BaseSettings.css"
+            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="seng302.gui.BaseSettingsController">
+    <children>
+        <SplitPane dividerPositions="0.23745819397993312" layoutX="6.0" layoutY="8.0" maxHeight="1.7976931348623157E308"
+                   maxWidth="1.7976931348623157E308" prefHeight="160.0" prefWidth="200.0"
+                   stylesheets="@../css/BaseSettings.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                   AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <items>
+                <AnchorPane fx:id="settingsMenu" maxHeight="1.7976931348623157E308" maxWidth="300.0" minHeight="0.0"
+                            minWidth="130.0" prefHeight="398.0" prefWidth="276.0">
+                    <children>
+                        <VBox id="sidePane" fx:id="sidePane" layoutX="20.0" layoutY="14.0"
+                              maxHeight="1.7976931348623157E308" maxWidth="100.0" minWidth="100.0" prefHeight="200.0"
+                              prefWidth="100.0" style="-fx-padding: 0;" AnchorPane.bottomAnchor="0.0"
+                              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <children>
+                                <JFXButton fx:id="btnUserSettings" maxHeight="1.7976931348623157E308"
+                                           maxWidth="1.7976931348623157E308" onAction="#openUserSettings"
+                                           prefHeight="60.0" prefWidth="139.0" text="User Settings">
+                                    <VBox.margin>
+                                        <Insets/>
+                                    </VBox.margin>
+                                </JFXButton>
+                                <JFXButton fx:id="btnProjectSettings" maxHeight="1.7976931348623157E308"
+                                           maxWidth="1.7976931348623157E308" onAction="#openProjectSettings"
+                                           prefHeight="60.0" prefWidth="139.0" text="Project Settings"/>
+                                <JFXButton fx:id="btnThemeSettings" maxHeight="1.7976931348623157E308"
+                                           maxWidth="1.7976931348623157E308" onAction="#onThemeSettings"
+                                           prefHeight="60.0" prefWidth="139.0" text="Theme Settings"/>
+                            </children>
+                        </VBox>
+                    </children>
+                </AnchorPane>
+                <AnchorPane fx:id="settingsPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                            minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="387.0" styleClass="secondary"/>
+            </items>
+        </SplitPane>
+    </children>
+</AnchorPane>
