@@ -971,14 +971,19 @@ public class RootController implements Initializable {
 
     @FXML
     public void openTranscript() {
-        Parent transcriptWindow;
         try {
+
             FXMLLoader transcriptLoader = new FXMLLoader();
             transcriptLoader.setLocation(getClass().getResource("/Views/TranscriptPane.fxml"));
-            transcriptWindow = FXMLLoader.load(getClass().getResource("/Views/TranscriptPane.fxml"));
+
+            AnchorPane transcriptPage = transcriptLoader.load();
+
+            transcriptController = transcriptLoader.getController();
+            transcriptController.setEnv(env);
+
             Stage stage = new Stage();
             stage.setTitle("Transcript");
-            stage.setScene(new Scene(transcriptWindow, 450, 450));
+            stage.setScene(new Scene(transcriptPage, 450, 450));
             stage.show();
 
         } catch (IOException e) {
