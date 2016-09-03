@@ -4,7 +4,6 @@ import org.controlsfx.control.CheckComboBox;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Random;
 
 import javafx.collections.ObservableList;
@@ -69,7 +68,7 @@ public class ScaleRecognitionTutorController extends TutorController {
             paneResults.setVisible(false);
             manager.resetEverything();
             manager.questions = selectedQuestions;
-            List qPanes = new ArrayList<>();
+            qPanes = new ArrayList<>();
 
             this.playDirection = direction.getSelectionModel().getSelectedItem();
             this.playOctaves = octaves.getSelectionModel().getSelectedItem();
@@ -181,6 +180,7 @@ public class ScaleRecognitionTutorController extends TutorController {
         record.addQuestionAnswer(question);
         env.getRootController().setTabTitle("scaleTutor", true);
 
+        handleAccordion();
         if (manager.answered == manager.questions) {
             finished();
         }
@@ -234,6 +234,7 @@ public class ScaleRecognitionTutorController extends TutorController {
             };
             record.addQuestionAnswer(question);
             env.getRootController().setTabTitle(getTabID(), true);
+            handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
             }

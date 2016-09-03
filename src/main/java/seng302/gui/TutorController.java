@@ -51,6 +51,7 @@ public abstract class TutorController {
 
     public TutorHandler tutorHandler;
 
+    public List qPanes;
 
     Stage stage;
 
@@ -411,5 +412,13 @@ public abstract class TutorController {
 
     public void setTabID(String tabID) {
         this.tabID = tabID;
+    }
+
+    public void handleAccordion() {
+        int currentPaneIndex = qPanes.indexOf(qAccordion.getExpandedPane());
+
+        if (currentPaneIndex < qPanes.size() - 1) {
+            qAccordion.setExpandedPane((TitledPane) qPanes.get(currentPaneIndex + 1));
+        }
     }
 }

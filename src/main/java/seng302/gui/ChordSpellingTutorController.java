@@ -4,7 +4,6 @@ import org.controlsfx.control.CheckComboBox;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -125,7 +124,7 @@ public class ChordSpellingTutorController extends TutorController {
             manager.resetEverything();
             manager.questions = selectedQuestions;
             enharmonicsRequired = (String) numEnharmonics.getValue();
-            List qPanes = new ArrayList<>();
+            qPanes = new ArrayList<>();
 
             this.validChords = chordTypes.getCheckModel().getCheckedItems();
 
@@ -752,7 +751,7 @@ public class ChordSpellingTutorController extends TutorController {
         };
         record.addQuestionAnswer(question);
         env.getRootController().setTabTitle(getTabID(), true);
-
+        handleAccordion();
         updateManagerCompletedQuestion();
     }
 
@@ -806,6 +805,7 @@ public class ChordSpellingTutorController extends TutorController {
         record.addQuestionAnswer(questionInfo);
 
         env.getRootController().setTabTitle(getTabID(), true);
+        handleAccordion();
         if (manager.answered == manager.questions) {
             finished();
         }

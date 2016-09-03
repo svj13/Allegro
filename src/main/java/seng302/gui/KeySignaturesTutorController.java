@@ -64,7 +64,7 @@ public class KeySignaturesTutorController extends TutorController {
         paneResults.setVisible(false);
         manager.resetEverything();
         manager.questions = selectedQuestions;
-        List qPanes = new ArrayList<>();
+        qPanes = new ArrayList<>();
 
         questionRows.getChildren().clear();
         for (int i = 0; i < manager.questions; i++) {
@@ -224,6 +224,7 @@ public class KeySignaturesTutorController extends TutorController {
             };
             record.addQuestionAnswer(recordQuestion);
             env.getRootController().setTabTitle(getTabID(), true);
+            handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -258,6 +259,7 @@ public class KeySignaturesTutorController extends TutorController {
             record.addQuestionAnswer(recordQuestion);
             env.getRootController().setTabTitle(getTabID(), true);
             // Shows the correct answer
+            handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -295,6 +297,7 @@ public class KeySignaturesTutorController extends TutorController {
                 record.addQuestionAnswer(recordQuestion);
                 env.getRootController().setTabTitle(getTabID(), true);
                 // Shows the correct answer
+                handleAccordion();
                 if (manager.answered == manager.questions) {
                     finished();
                 }
@@ -336,6 +339,7 @@ public class KeySignaturesTutorController extends TutorController {
                     record.addQuestionAnswer(recordQuestion);
                     env.getRootController().setTabTitle(getTabID(), true);
                     // Shows the correct answer
+                    handleAccordion();
                     if (manager.answered == manager.questions) {
                         finished();
                     }
@@ -504,6 +508,7 @@ public class KeySignaturesTutorController extends TutorController {
             };
             record.addQuestionAnswer(recordQuestion);
             env.getRootController().setTabTitle(getTabID(), true);
+            handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -537,6 +542,7 @@ public class KeySignaturesTutorController extends TutorController {
             record.addQuestionAnswer(recordQuestion);
             env.getRootController().setTabTitle(getTabID(), true);
             // Shows the correct answer
+            handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -574,6 +580,7 @@ public class KeySignaturesTutorController extends TutorController {
                 record.addQuestionAnswer(recordQuestion);
                 env.getRootController().setTabTitle(getTabID(), true);
                 // Shows the correct answer
+                handleAccordion();
                 if (manager.answered == manager.questions) {
                     finished();
                 }
@@ -613,6 +620,7 @@ public class KeySignaturesTutorController extends TutorController {
                 record.addQuestionAnswer(recordQuestion);
                 env.getRootController().setTabTitle(getTabID(), true);
                 // Shows the correct answer
+                handleAccordion();
                 if (manager.answered == manager.questions) {
                     finished();
                 }
@@ -825,6 +833,7 @@ public class KeySignaturesTutorController extends TutorController {
             };
             record.addQuestionAnswer(recordQuestion);
             env.getRootController().setTabTitle(getTabID(), true);
+            handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -884,6 +893,7 @@ public class KeySignaturesTutorController extends TutorController {
             record.addQuestionAnswer(recordQuestion);
             env.getRootController().setTabTitle(getTabID(), true);
             // Shows the correct answer
+            handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
             }
