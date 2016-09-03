@@ -70,18 +70,26 @@ public class UserSettingsController {
             lastNameField.clear();
         }
         visualiserToggle.getStyleClass().remove(0);
-        try {
-            boolean visualiserOn = userHandler.getCurrentUser().getVisualiserOn();
-            visualiserToggle.setSelected(visualiserOn);
-            if (visualiserOn) {
-                visualiserLabel.setText("Keyboard Visualiser ON");
-            } else {
+
+        if (this.userHandler.getCurrentUser().getProjectHandler().getCurrentProject().isCompetitiveMode) {
+            // do not show the visualiser options
+            visualiserToggle.setVisible(false);
+            visualiserToggle.setSelected(false);
+            visualiserLabel.setVisible(false);
+        } else {
+            try {
+                boolean visualiserOn = userHandler.getCurrentUser().getVisualiserOn();
+                visualiserToggle.setSelected(visualiserOn);
+                if (visualiserOn) {
+                    visualiserLabel.setText("Keyboard Visualiser ON");
+                } else {
+                    visualiserLabel.setText("Keyboard Visualiser OFF");
+                }
+            } catch (Exception e) {
+                // Default to off
+                visualiserToggle.setSelected(false);
                 visualiserLabel.setText("Keyboard Visualiser OFF");
             }
-        } catch (Exception e) {
-            // Default to off
-            visualiserToggle.setSelected(false);
-            visualiserLabel.setText("Keyboard Visualiser OFF");
         }
     }
 
