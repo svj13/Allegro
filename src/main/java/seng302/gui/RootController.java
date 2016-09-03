@@ -153,11 +153,11 @@ public class RootController implements Initializable {
     @FXML
     private MenuItem dslReferenceMenuItem;
 
-    @FXML
-    private TabPane TabPane;
+//    @FXML
+//    private TabPane TabPane;
 
-    @FXML
-    private Tab transcriptPane;
+//    @FXML
+//    private Tab transcriptPane;
 
     @FXML
     private ImageView imageDP;
@@ -350,6 +350,10 @@ public class RootController implements Initializable {
 //
 //        userPageStage.show();
         centerPane.setMinWidth(paneMain.getWidth());
+
+        centerPane.setMinHeight(paneMain.getHeight());
+
+        System.out.println("heights.. " + centerPane.getHeight() + " userPane " + userPage.getHeight());
 
         centerPane.getChildren().setAll(userPage);
 
@@ -786,8 +790,9 @@ public class RootController implements Initializable {
         this.env = env;
         this.env.setRootController(this);
         tm = env.getTranscriptManager();
-        transcriptController.setEnv(this.env);
-        transcriptPane.setClosable(false);
+
+        //transcriptController.setEnv(this.env);
+        //transcriptPane.setClosable(false);
 
         //PitchComparisonTabController.create(env);
         //IntervalRecognitionTabController.create(env);

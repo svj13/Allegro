@@ -9,25 +9,14 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.UserPageController">
+<AnchorPane fx:id="userPage" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.UserPageController">
    <children>
       <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <AnchorPane prefHeight="161.0" prefWidth="682.0">
-               <children>
-                  <ImageView fx:id="imageDP" fitHeight="100.0" fitWidth="100.0" layoutX="51.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true" />
-                  <MenuButton fx:id="userDropDown" layoutX="151.0" layoutY="81.0" mnemonicParsing="false" text="user">
-                    <items>
-                      <MenuItem mnemonicParsing="false" onAction="#launchUserSettings" text="User Settings" />
-                      <MenuItem mnemonicParsing="false" onAction="#logOutUser" text="Logout" />
-                    </items>
-                  </MenuButton>
-               </children>
-            </AnchorPane>
             <StackPane>
                <children>
                   <AnchorPane fx:id="tutorView" />
-                  <SplitPane fx:id="userView" dividerPositions="0.3">
+                  <SplitPane fx:id="userView" dividerPositions="0.3" prefHeight="400.0" prefWidth="650.0">
                       <items>
                           <JFXListView fx:id="listView" />
                           <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER">

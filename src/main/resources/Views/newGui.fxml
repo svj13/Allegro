@@ -27,7 +27,7 @@
         <VBox prefHeight="457.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <!--<children>-->
-                <MenuBar fx:id="menuFileBar" minHeight="-Infinity" prefHeight="29.0" prefWidth="500.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <MenuBar fx:id="menuFileBar" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="29.0" prefWidth="500.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <menus>
                         <Menu mnemonicParsing="false" onShowing="#bindOpenObjects" text="File">
                             <items>
@@ -90,20 +90,9 @@
                <children>
                       <SplitPane fx:id="splitPane" dividerPositions="0.5" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" prefHeight="10000.0" prefWidth="1000000.0" VBox.vgrow="ALWAYS">
                           <items>
-                        <AnchorPane fx:id="centerPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: blue;">
+                        <AnchorPane fx:id="centerPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="10000.0" prefWidth="1000.0" style="-fx-background-color: blue;">
                            <children>
-                              <AnchorPane fx:id="userPage" prefHeight="99.0" prefWidth="180.0" AnchorPane.bottomAnchor="273.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="564.0" AnchorPane.topAnchor="0.0" />
-                                    <TabPane fx:id="TabPane" prefHeight="330.0" prefWidth="119.0" tabClosingPolicy="ALL_TABS">
-                                        <tabs>
-                                            <Tab fx:id="transcriptPane" onSelectionChanged="#onTranscriptTab" text="Transcript">
-                                                <content>
-                                                    <fx:include fx:id="transcript" source="TranscriptPane.fxml" />
-                                                    <!--<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />-->
-            
-                                                                              </content>
-                                            </Tab>
-                                        </tabs>
-                                    </TabPane>
+                                    <TabPane fx:id="TabPane" prefHeight="330.0" prefWidth="119.0" tabClosingPolicy="ALL_TABS" />
                            </children>
                         </AnchorPane>
                               <fx:include fx:id="keyboardPane" source="KeyboardPane.fxml" />
