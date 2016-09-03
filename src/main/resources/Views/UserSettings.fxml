@@ -53,16 +53,12 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <JFXButton fx:id="btnDeleteUser" buttonType="RAISED" layoutX="13.0" layoutY="225.0"
-                 onAction="#deleteUser" ripplerFill="#6b3939"
-                 style="-fx-background-color: red; -fx-border-color: darkred;" text="Delete User"
-                 textFill="WHITE">
+      <JFXButton fx:id="btnDeleteUser" buttonType="RAISED" layoutX="13.0" layoutY="225.0" onAction="#deleteUser" ripplerFill="#6b3939" style="-fx-background-color: red; -fx-border-color: darkred;" text="Delete User" textFill="WHITE">
          <opaqueInsets>
-            <Insets left="10.0" top="10.0"/>
+            <Insets left="10.0" top="10.0" />
          </opaqueInsets>
       </JFXButton>
-      <JFXToggleButton fx:id="modeToggle" layoutX="106.0" layoutY="258.0"
-                       onAction="#toggleBetweenModes"/>
-      <Label layoutX="14.0" layoutY="279.0" text="Competition Mode"/>
+      <JFXToggleButton fx:id="modeToggle" layoutX="128.0" layoutY="258.0" onAction="#toggleBetweenModes" />
+      <Label layoutX="14.0" layoutY="279.0" text="Competition Mode" />
    </children>
 </AnchorPane>
