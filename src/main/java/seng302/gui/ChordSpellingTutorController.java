@@ -528,6 +528,12 @@ public class ChordSpellingTutorController extends TutorController {
 
     }
 
+    /**
+     * Method used to compare the correct note and the note to be added to answer options.
+     * @param correctNote the right note answer
+     * @param thisNote the note to be added
+     * @return comparison boolean that represents the comparison result
+     */
     private boolean noteEnharmonicComparison (Note correctNote, Note thisNote) {
         char correctNoteLetter = correctNote.getNote().charAt(0);
         boolean comparison = true;
