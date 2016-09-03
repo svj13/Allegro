@@ -18,7 +18,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
@@ -36,7 +35,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -974,5 +972,27 @@ public class RootController implements Initializable {
 //            UserSettingsTabController = loader.getController();
 //            UserSettingsTabController.create(env);
 //        }
+    }
+
+    @FXML
+    public void openTranscript() {
+        try {
+
+            FXMLLoader transcriptLoader = new FXMLLoader();
+            transcriptLoader.setLocation(getClass().getResource("/Views/TranscriptPane.fxml"));
+
+            AnchorPane transcriptPage = transcriptLoader.load();
+
+            transcriptController = transcriptLoader.getController();
+            transcriptController.setEnv(env);
+
+            Stage stage = new Stage();
+            stage.setTitle("Transcript");
+            stage.setScene(new Scene(transcriptPage, 450, 450));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
