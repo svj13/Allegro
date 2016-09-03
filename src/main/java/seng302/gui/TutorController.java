@@ -11,12 +11,10 @@ import java.util.Random;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.Cursor;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Slider;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
@@ -52,6 +50,7 @@ public abstract class TutorController {
     public Project currentProject;
 
     public TutorHandler tutorHandler;
+
 
     Stage stage;
 
@@ -114,7 +113,15 @@ public abstract class TutorController {
      * Implements the settings of a slider used to select number of questions.
      */
     public void initialiseQuestionSelector() {
-        selectedQuestions = (int) numQuestions.getValue();
+        if (env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().isCompetitiveMode) {
+            numQuestions.setValue(10);
+            numQuestions.setDisable(true);
+            selectedQuestions = 10;
+
+        } else {
+            selectedQuestions = (int) numQuestions.getValue();
+
+        }
         questions.setText(Integer.toString(selectedQuestions));
 
         // The listener for the number of questions selected
