@@ -1,5 +1,7 @@
 package seng302.gui;
 
+import com.jfoenix.controls.JFXButton;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -38,7 +40,7 @@ public class TranscriptPaneController {
     public TextField txtCommand;
 
     @FXML
-    private Button btnGo;
+    private JFXButton btnGo;
 
     @FXML
     private MenuItem menuQuit;
@@ -71,7 +73,7 @@ public class TranscriptPaneController {
     ToolBar playbackToolbar;
 
     @FXML
-    private Button helpButton;
+    private JFXButton helpButton;
 
     private DslReferenceController dslRefControl;
 

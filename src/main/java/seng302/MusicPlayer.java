@@ -222,7 +222,7 @@ public class MusicPlayer {
             track.add(new MidiEvent(sm, 0));
 
             // Add all notes to the start of the sequence
-            for (Note note:notes) {
+            for (Note note : notes) {
                 addNote(track, 0, 16, note.getMidi(), 64);
             }
             playSequence(sequence);
@@ -343,3 +343,4 @@ public class MusicPlayer {
     }
 
 }
+
