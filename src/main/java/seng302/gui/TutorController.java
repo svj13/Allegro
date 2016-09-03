@@ -113,7 +113,7 @@ public abstract class TutorController {
      * Implements the settings of a slider used to select number of questions.
      */
     public void initialiseQuestionSelector() {
-        if (env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().isCompetitiveMode) {
+        if (env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().getIsCompetitiveMode()) {
             numQuestions.setValue(10);
             numQuestions.setDisable(true);
             selectedQuestions = 10;
