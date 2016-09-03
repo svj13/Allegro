@@ -63,6 +63,6 @@
       </JFXButton>
       <JFXToggleButton fx:id="modeToggle" layoutX="106.0" layoutY="258.0"
                        onAction="#toggleBetweenModes"/>
-      <Label layoutX="14.0" layoutY="279.0" text="Practice Mode"/>
+      <Label layoutX="14.0" layoutY="279.0" text="Competition Mode"/>
    </children>
 </AnchorPane>

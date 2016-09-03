@@ -82,10 +82,11 @@ public class Project {
         //System.out.println("saveProperties called! " + env.getTranscriptManager().getTranscriptTuples().size());
         projectSettings.put("transcript", transcriptString);
 
-
         projectSettings.put("rhythm", gson.toJson(env.getPlayer().getRhythmHandler().getRhythmTimings()));
 
         projectSettings.put("instrument", gson.toJson(env.getPlayer().getInstrument().getName()));
+
+        projectSettings.put("competitionMode", gson.toJson(isCompetitiveMode.toString()));
 
     }
 
@@ -146,6 +147,18 @@ public class Project {
             instrument = InstrumentUtility.getDefaultInstrument(env);
         }
         env.getPlayer().setInstrument(instrument);
+
+        try {
+            String mode = gson.fromJson((String) projectSettings.get("competitionMode"), String.class);
+            if (mode.equals("true")) {
+                isCompetitiveMode = true;
+            } else {
+                isCompetitiveMode = false;
+            }
+        } catch (Exception e) {
+            // Defaults to comp mode
+            isCompetitiveMode = true;
+        }
 
 
         env.getTranscriptManager().unsavedChanges = false;
@@ -232,6 +245,11 @@ public class Project {
 
             if (projectSettings.containsKey("instrument") && !(projectSettings.get("instrument").equals(env.getPlayer().getInstrument().getName()))) { //If not equal
 
+                env.getRootController().setWindowTitle(saveName + "*");
+                saved = false;
+            }
+        } else if (propName.equals("competitionMode")) {
+            if (projectSettings.containsKey("competitionMode") && !(projectSettings.get("competitionMode").equals(this.isCompetitiveMode))) {
                 env.getRootController().setWindowTitle(saveName + "*");
                 saved = false;
             }
@@ -324,6 +342,7 @@ public class Project {
 
     public void setIsCompetitiveMode(boolean isCompetitiveMode) {
         this.isCompetitiveMode = isCompetitiveMode;
+        checkChanges("competitionMode");
     }
 
 

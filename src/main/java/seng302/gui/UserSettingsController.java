@@ -63,6 +63,13 @@ public class UserSettingsController {
         modeToggle.getStyleClass().remove(0);
 
         try {
+            modeToggle.setSelected(userHandler.getCurrentUser().getProjectHandler().getCurrentProject().getIsCompetitiveMode());
+        } catch (Exception e) {
+            // Default to competition mode
+            modeToggle.setSelected(true);
+        }
+
+        try {
             firstNameField.setText(userHandler.getCurrentUser().getUserFirstName());
             lastNameField.setText(userHandler.getCurrentUser().getUserLastName());
         } catch (Exception e) {
