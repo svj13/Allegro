@@ -3,6 +3,7 @@ package seng302.Users;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.controlsfx.control.Notifications;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -20,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.util.Duration;
 import seng302.Environment;
 import seng302.data.Term;
 import seng302.utility.FileHandler;
@@ -404,6 +407,14 @@ public class User {
         while (LevelCalculator.isLevelUp(level, experience)) {
             level += 1;
             env.getRootController().updateLevelBadge();
+            Image image = new Image(getClass().getResourceAsStream("/images/arrow.png"), 110, 75, true, true);
+            Notifications.create()
+                    .title("Level Up")
+                    .text("Well done! \nYou are now level " + String.valueOf(level) + ".")
+                    .hideAfter(new Duration(10000))
+                    .graphic(new ImageView(image))
+                    .show();
+
         }
 
         saveProperties();
