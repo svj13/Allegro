@@ -86,14 +86,14 @@
 
                     </menus>
                 </MenuBar>
-            <HBox AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="10000.0" prefWidth="100000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                      <SplitPane fx:id="splitPane" dividerPositions="0.5" orientation="VERTICAL" VBox.vgrow="ALWAYS">
+                      <SplitPane fx:id="splitPane" dividerPositions="0.5" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" prefHeight="10000.0" prefWidth="1000000.0" VBox.vgrow="ALWAYS">
                           <items>
-                        <AnchorPane>
+                        <AnchorPane fx:id="centerPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: blue;">
                            <children>
-                              <AnchorPane fx:id="userPage" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                    <TabPane fx:id="TabPane" tabClosingPolicy="ALL_TABS">
+                              <AnchorPane fx:id="userPage" prefHeight="99.0" prefWidth="180.0" AnchorPane.bottomAnchor="273.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="564.0" AnchorPane.topAnchor="0.0" />
+                                    <TabPane fx:id="TabPane" prefHeight="330.0" prefWidth="119.0" tabClosingPolicy="ALL_TABS">
                                         <tabs>
                                             <Tab fx:id="transcriptPane" onSelectionChanged="#onTranscriptTab" text="Transcript">
                                                 <content>

@@ -50,6 +50,7 @@ import seng302.managers.TranscriptManager;
 import seng302.utility.FileHandler;
 import seng302.utility.OutputTuple;
 
+
 public class RootController implements Initializable {
     Environment env;
     TranscriptManager tm;
@@ -63,8 +64,8 @@ public class RootController implements Initializable {
     private Pane pane1;
 
 
-    @FXML
-    private  AnchorPane userPage;
+    //@FXML
+    //private  AnchorPane userPage;
 
 
 
@@ -141,6 +142,9 @@ public class RootController implements Initializable {
     private MenuItem menuKST;
 
     @FXML
+    AnchorPane centerPane;
+
+    @FXML
     private Menu menuOpenProjects;
 
     @FXML
@@ -209,6 +213,7 @@ public class RootController implements Initializable {
         if (show) {
             stage.show();
             updateImage();
+
 
         } else stage.hide();
 
@@ -306,21 +311,23 @@ public class RootController implements Initializable {
     }
 
 
-
+    /**
+     * Probably delete this? - Do you need this Joseph?
+     */
     public void loadUserPage(){
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/Views/UserPage.fxml"));
-        try {
-            System.out.println(userPage);
-            userPage.getChildren().add(loader.load());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        TabPane.setVisible(false);
-        UserPageController userPageController = loader.getController();
-        userPageController.setEnvironment(env);
-        userPageController.populateUserOptions();
-        userPageController.updateImage();
+//        FXMLLoader loader = new FXMLLoader();
+//        loader.setLocation(getClass().getResource("/Views/UserPage.fxml"));
+//        try {
+//            System.out.println(userPage);
+//            userPage.getChildren().add(loader.load());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        TabPane.setVisible(false);
+//        UserPageController userPageController = loader.getController();
+//        userPageController.setEnvironment(env);
+//        userPageController.populateUserOptions();
+//        userPageController.updateImage();
 
 
 
@@ -331,18 +338,27 @@ public class RootController implements Initializable {
      * @throws IOException
      */
     public void showUserPage() throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/Views/UserPage.fxml"));
+        FXMLLoader userPageLoader = new FXMLLoader();
+        userPageLoader.setLocation(getClass().getResource("/Views/UserPage.fxml"));
 
 
-        Parent root1 = loader.load();
-        Scene scene1 = new Scene(root1);
-        Stage userPageStage = new Stage();
-        userPageStage.setTitle("Allegro");
-        userPageStage.setScene(scene1);
+        AnchorPane userPage = userPageLoader.load();
+        //Scene scene1 = new Scene(root1);
+        //Stage userPageStage = new Stage();
+//        userPageStage.setTitle("Allegro");
+//        userPageStage.setScene(scene1);
+//
+//        userPageStage.show();
+        centerPane.setMinWidth(paneMain.getWidth());
 
-        userPageStage.show();
-        UserPageController userPageController = loader.getController();
+        centerPane.getChildren().setAll(userPage);
+
+        centerPane.setRightAnchor(userPage, 0.0);
+        centerPane.setLeftAnchor(userPage, 0.0);
+        centerPane.setBottomAnchor(userPage, 0.0);
+        centerPane.setTopAnchor(userPage, 0.0);
+
+        UserPageController userPageController = userPageLoader.getController();
         userPageController.setEnvironment(env);
         userPageController.populateUserOptions();
         userPageController.updateImage();
