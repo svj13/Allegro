@@ -170,8 +170,10 @@ public abstract class TutorController {
         //Calculates and gives a user their experience.
         //Note: I've ignored "skipped questions" here, as you won't be able to "skip" a
         //question in competition mode.
-        int expGained = ExperienceCalculator.calculateExperience(manager.correct, manager.questions);
-        env.getUserHandler().getCurrentUser().addExperience(expGained);
+        if (env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().isCompetitiveMode) {
+            int expGained = ExperienceCalculator.calculateExperience(manager.correct, manager.questions);
+            env.getUserHandler().getCurrentUser().addExperience(expGained);
+        }
 
         userScore = getScore(manager.correct, manager.answered);
         outputText = String.format("You have finished the tutor.\n" +
