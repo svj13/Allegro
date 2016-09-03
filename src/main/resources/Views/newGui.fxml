@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.input.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -75,21 +80,16 @@
                                        <RadioMenuItem mnemonicParsing="false" onAction="#stopShowingNotesOnKeyboard" selected="true" text="Do not show note names" toggleGroup="$keyboardOptions" />
                            </items>
                                </Menu>
-                               <MenuItem fx:id="skinGuiButton" mnemonicParsing="false"
-                                         onAction="#createColorTab" text="Skin GUI"/>
+                               <MenuItem fx:id="skinGuiButton" mnemonicParsing="false" onAction="#createColorTab" text="Skin GUI" />
                            </items>
                        </Menu>
                   <Menu mnemonicParsing="false" onShowing="#bindOpenObjects" text="Tutors">
                      <items>
                          <Menu mnemonicParsing="false" text="Chords">
                              <items>
-                                 <MenuItem fx:id="menuCRT" mnemonicParsing="false"
-                                           onAction="#openChordTutor" text="Chord Recognition"/>
-                                 <MenuItem fx:id="menuCST" mnemonicParsing="false"
-                                           onAction="#openSpellingTutor" text="Chord Spelling"/>
-                                 <MenuItem fx:id="menuDCT" mnemonicParsing="false"
-                                           onAction="#openDiatonicChordTutor"
-                                           text="Diatonic Chords"/>
+                                 <MenuItem fx:id="menuCRT" mnemonicParsing="false" onAction="#openChordTutor" text="Chord Recognition" />
+                                 <MenuItem fx:id="menuCST" mnemonicParsing="false" onAction="#openSpellingTutor" text="Chord Spelling" />
+                                 <MenuItem fx:id="menuDCT" mnemonicParsing="false" onAction="#openDiatonicChordTutor" text="Diatonic Chords" />
                              </items>
                          </Menu>
                          <Menu mnemonicParsing="false" text="Scales">
@@ -118,30 +118,8 @@
                                <Tab fx:id="transcriptPane" onSelectionChanged="#onTranscriptTab" text="Transcript">
                                    <content>
                                        <fx:include fx:id="transcript" source="TranscriptPane.fxml" />
-                                       <!--<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />-->
-
                                    </content>
                                </Tab>
-                               <!--<Tab text="Pitch Tutor">-->
-                                   <!--<content>-->
-                                       <!--<fx:include fx:id="PitchComparisonTab" source="PitchComparisonPane.fxml" />-->
-                                   <!--</content>-->
-                               <!--</Tab>-->
-                               <!--<Tab text="Interval Tutor">-->
-                                   <!--<content>-->
-                                       <!--<fx:include fx:id="IntervalRecognitionTab" source="IntervalRecognitionPane.fxml" />-->
-                                   <!--</content>-->
-                               <!--</Tab>-->
-                               <!--<Tab onSelectionChanged="#reloadNumberTerms" text="Musical Terms Tutor">-->
-                                   <!--<content>-->
-                                       <!--<fx:include fx:id="MusicalTermsTab" source="MusicalTermsPane.fxml" />-->
-                                   <!--</content>-->
-                               <!--</Tab>-->
-                               <!--<Tab text="Scale Tutor">-->
-                                   <!--<content>-->
-                                       <!--<fx:include fx:id="ScaleRecognitionTab" source="ScaleRecognitionPane.fxml" />-->
-                                   <!--</content>-->
-                               <!--</Tab>-->
                            </tabs>
                        </TabPane>
                        <fx:include fx:id="keyboardPane" source="KeyboardPane.fxml" />
