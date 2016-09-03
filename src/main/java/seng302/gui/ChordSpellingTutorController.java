@@ -509,7 +509,7 @@ public class ChordSpellingTutorController extends TutorController {
             //example, if you're +7 above the note, you take that one and go down 7 semitones?
             for (int i = 0; i < 8; i++) {
                 Note thisNote = startingNote.semitoneDown(i);
-                if (thisNote != correctNote) {
+                if (noteEnharmonicComparison(correctNote, thisNote)) {
                     surroundingNotes.add(randomiseNoteName(thisNote));
                 } else {
                     surroundingNotes.add(OctaveUtil.removeOctaveSpecifier(correctNote.getNote()));
@@ -520,16 +520,33 @@ public class ChordSpellingTutorController extends TutorController {
             //so, if you're -7 below the note, you take that and go up 7 semitones
             for (int i = 0; i < 8; i++) {
                 Note thisNote = startingNote.semitoneUp(i);
-                if (thisNote != correctNote) {
+                if (noteEnharmonicComparison(correctNote, thisNote)) {
                     surroundingNotes.add(randomiseNoteName(thisNote));
                 } else {
                     surroundingNotes.add(OctaveUtil.removeOctaveSpecifier(correctNote.getNote()));
                 }
             }
         }
-
         return surroundingNotes;
 
+    }
+
+    /**
+     * Method used to compare the correct note and the note to be added to answer options.
+     * @param correctNote the right note answer
+     * @param thisNote the note to be added
+     * @return comparison boolean that represents the comparison result
+     */
+    private boolean noteEnharmonicComparison (Note correctNote, Note thisNote) {
+        char correctNoteLetter = correctNote.getNote().charAt(0);
+        boolean comparison = true;
+
+        if (thisNote.getEnharmonicWithLetter(correctNoteLetter) != null) {
+            if (thisNote.getEnharmonicWithLetter(correctNoteLetter).equals(correctNote.getNote())) {
+                comparison = false;
+            }
+        }
+        return comparison;
     }
 
     /**
