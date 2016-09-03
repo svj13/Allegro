@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.input.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -17,6 +23,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+
 <AnchorPane fx:id="paneMain" maxHeight="-Infinity" maxWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.RootController">
     <children>
         <VBox prefHeight="457.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -76,8 +83,7 @@
                                     </items>
                                 </Menu>
                                 <MenuItem fx:id="skinGuiButton" mnemonicParsing="false" onAction="#createColorTab" text="Skin GUI" />
-                                <MenuItem onAction="#openTranscript" mnemonicParsing="false"
-                                          text="Show Transcript"/>
+                                <MenuItem mnemonicParsing="false" onAction="#openTranscript" text="Show Transcript" />
                             </items>
                         </Menu>
 
@@ -87,11 +93,7 @@
                <children>
                       <SplitPane fx:id="splitPane" dividerPositions="0.5" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" prefHeight="10000.0" prefWidth="1000000.0" VBox.vgrow="ALWAYS">
                           <items>
-                        <AnchorPane fx:id="centerPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="10000.0" prefWidth="1000.0" style="-fx-background-color: blue;">
-                           <children>
-                                    <TabPane fx:id="TabPane" prefHeight="330.0" prefWidth="119.0" tabClosingPolicy="ALL_TABS" />
-                           </children>
-                        </AnchorPane>
+                        <AnchorPane fx:id="centerPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="10000.0" prefWidth="1000.0" style="-fx-background-color: blue;" />
                               <fx:include fx:id="keyboardPane" source="KeyboardPane.fxml" />
                           </items>
                           <VBox.margin>
@@ -102,7 +104,7 @@
             </HBox>
             </children>
         </VBox>
-        <HBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="50.0" prefWidth="100.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+        <HBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="50.0" prefWidth="100.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
             <children>
 
 
