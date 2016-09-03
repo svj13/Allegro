@@ -75,6 +75,7 @@ public class ThemeHandler {
         this.primaryColour = baseRGB;
         this.secondaryColour = ldRGB;
 
+
         String primaryFont;
         String secondaryFont;
 
