@@ -1,6 +1,30 @@
-.slider StackPane, .slider .thumb {
-    -fx-background-color: #f28b15;
+
+/*.root {*/
+    /*-fx-base: #f1f0f0;*/
+    /*-fx-background: #F9F9F9;*/
+    /*-fx-control-inner-background: #FFFFFF;*/
+    /*-fx-body-color: linear-gradient(to bottom, derive(-fx-color, 35.0%) 0%, derive(-fx-color, -6.0%) 100%);*/
+    /*-fx-text-box-border: derive(-fx-background, 9.189189189189179%);*/
+/*}*/
+
+.slider .thumb {
+    -fx-fill: blue;
+    -fx-stroke: red;
 }
+
+.button {
+    -fx-background-color: #9e9e9e;
+}
+
+/*.menu-bar {
+    -fx-background-color: #8e8e8e;
+}
+
+
+/*.tab {
+    -fx-background-color: #a5a5a5;
+}
+
 
 .series0.chart-bar {
     -fx-background-color: #00b004;

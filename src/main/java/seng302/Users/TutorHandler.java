@@ -89,8 +89,7 @@ public class TutorHandler {
     }
 
     /**
-     * This method will give the number of correct and incorrect answers for a given tutor for it's
-     * most recent attempt.
+     * This method will give the total number of correct and incorrect answers for a given tutor.
      *
      * @param tabId The tabid of the tutor
      * @return a pair containing two integers. The number of answers correct and the number of
@@ -203,6 +202,9 @@ public class TutorHandler {
         }
         if (env.getRootController().tabSaveCheck("diatonicChordTutor")) {
             saveTutorRecordsToFile(projectAddress + "/DiatonicChordTutor.json", env.getRootController().DiatonicChordsController.record);
+        }
+        if (env.getRootController().tabSaveCheck("scaleModesTutor")) {
+            saveTutorRecordsToFile(projectAddress + "/ScaleModesTutor.json", env.getRootController().ScaleModesController.record);
         }
     }
 

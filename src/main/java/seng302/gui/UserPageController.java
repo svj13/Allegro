@@ -115,7 +115,6 @@ public class UserPageController {
 
     private Environment env;
 
-
     public UserPageController() {
 
 
@@ -214,17 +213,17 @@ public class UserPageController {
 
             @Override
             public void updateItem(String tutor, boolean empty) {
+
                 super.updateItem(tutor, empty);
                 if (empty) {
                     setText(null);
                     setGraphic(null);
-                } else if (tutor.equals("Scale Recognition Tutor")) {
-//                    imageView.setImage(lockImg);
-//                    setText(tutor);
-//                    setGraphic(imageView);
-                    setDisable(true);
-                    setMouseTransparent(true);
 
+//                } else if (!tutor.equals("Summary") && modeManager.tutorNumUnlocksMap.get(tutor) > modeManager.currentUnlocks) {
+//                    setDisable(true);
+//                    setMouseTransparent(true);
+//
+//                }
                 }
             }
         });
