@@ -1,10 +1,12 @@
 package seng302.gui;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXToggleButton;
+
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -14,6 +16,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import seng302.Environment;
+import seng302.Users.Project;
 import seng302.Users.UserHandler;
 import seng302.utility.FileHandler;
 
@@ -44,6 +47,9 @@ public class UserSettingsController {
     @FXML
     private JFXButton btnDeleteUser;
 
+    @FXML
+    private JFXToggleButton modeToggle;
+
 
     private Environment env;
 
@@ -54,6 +60,8 @@ public class UserSettingsController {
         this.env = env;
         this.imageDP.setImage(env.getUserHandler().getCurrentUser().getUserPicture());
         userHandler = env.getUserHandler();
+        modeToggle.getStyleClass().remove(0);
+
         try {
             firstNameField.setText(userHandler.getCurrentUser().getUserFirstName());
             lastNameField.setText(userHandler.getCurrentUser().getUserLastName());
@@ -129,5 +137,17 @@ public class UserSettingsController {
 
         env.getUserHandler().deleteUser(env.getUserHandler().getCurrentUser().getUserName());
 
+    }
+
+    @FXML
+    private void toggleBetweenModes() {
+        Project currentProject = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject();
+        if (modeToggle.isSelected()) {
+            // Competition Mode
+            currentProject.setIsCompetitiveMode(true);
+        } else {
+            // Practice mode
+            currentProject.setIsCompetitiveMode(false);
+        }
     }
 }

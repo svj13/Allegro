@@ -48,7 +48,7 @@ public class Project {
     Environment env;
     public TutorHandler tutorHandler;
 
-    public Boolean isCompetitiveMode;
+    private Boolean isCompetitiveMode;
 
     public Project(Environment env, String projectName, ProjectHandler projectH) {
         this.projectName = projectName;
@@ -316,6 +316,14 @@ public class Project {
 
     public String getCurrentProjectPath() {
         return currentProjectPath;
+    }
+
+    public boolean getIsCompetitiveMode() {
+        return isCompetitiveMode;
+    }
+
+    public void setIsCompetitiveMode(boolean isCompetitiveMode) {
+        this.isCompetitiveMode = isCompetitiveMode;
     }
 
 
