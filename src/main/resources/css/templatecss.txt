@@ -51,7 +51,7 @@
 
 
 #settingsMenu > #sidePane {
-    -fx-background-color: {0};
+    -fx-background-color: derive({0}, 40%);
 }
 #settingsMenu > #sidePane > JFXButton {
     -fx-background-color: derive({0}, 80%);

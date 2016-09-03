@@ -94,7 +94,7 @@ public class ThemeHandler {
             }
         }
 
-        System.out.println("primary: " + baseRGB + " second: " + ldRGB);
+
         Matcher m2 = c.matcher(ldRGB);
 
         java.awt.Color secondary;
