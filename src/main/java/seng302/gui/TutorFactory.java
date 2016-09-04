@@ -84,6 +84,16 @@ public class TutorFactory {
 
     }
 
+    private void loadNode(FXMLLoader loader){
+        try {
+            Node node = loader.load();
+            parentNode.getChildren().setAll(node);
+            fillParentAnchors(node);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * opens the pitch tutor when the pitch tutor menu option is pressed If there is already an open
@@ -95,11 +105,8 @@ public class TutorFactory {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/Views/PitchComparisonPane.fxml"));
 
-            try {
-                parentNode.getChildren().setAll((Node)loader.load());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            loadNode(loader);
+
 
             PitchComparisonTutorController pitchComparisonTutorController = loader.getController();
             pitchComparisonTutorController.create(env);
@@ -119,11 +126,7 @@ public class TutorFactory {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/Views/IntervalRecognitionPane.fxml"));
 
-        try {
-            parentNode.getChildren().setAll((Node)loader.load());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        loadNode(loader);
 
         IntervalRecognitionTutorController intervalRecognitionTabController = loader.getController();
         intervalRecognitionTabController.create(env);
@@ -143,11 +146,7 @@ public class TutorFactory {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/Views/MusicalTermsPane.fxml"));
 
-        try {
-            parentNode.getChildren().setAll((Node)loader.load());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        loadNode(loader);
 
         MusicalTermsTutorController musicalTermsTabController= loader.getController();
         musicalTermsTabController.create(env);
@@ -157,18 +156,14 @@ public class TutorFactory {
     }
 
 
+
+
     private void openScaleTutor() {
 
 
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/Views/ScaleRecognitionPane.fxml"));
-            try{
-                Node tutor = loader.load();
-
-                parentNode.getChildren().setAll(tutor);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            loadNode(loader);
 
             ScaleRecognitionTutorController scaleRecognitionTutorController = loader.getController();
             scaleRecognitionTutorController.create(env);
@@ -188,11 +183,7 @@ public class TutorFactory {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/Views/ChordRecognitionPane.fxml"));
 
-        try {
-            parentNode.getChildren().setAll((Node)loader.load());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        loadNode(loader);
 
         ChordRecognitionTutorController chordRecognitionTabController = loader.getController();
         chordRecognitionTabController.create(env);
@@ -212,11 +203,7 @@ public class TutorFactory {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/Views/DiatonicChordPane.fxml"));
 
-        try {
-            parentNode.getChildren().setAll((Node)loader.load());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        loadNode(loader);
 
         DiatonicChordsTutorController diatonicChordsController = loader.getController();
         diatonicChordsController.create(env);
@@ -236,11 +223,7 @@ public class TutorFactory {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/Views/KeySignaturesPane.fxml"));
 
-        try {
-            parentNode.getChildren().setAll((Node) loader.load());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        loadNode(loader);
 
         KeySignaturesTutorController keySignaturesTabController= loader.getController();
         keySignaturesTabController.create(env);
@@ -286,11 +269,7 @@ public class TutorFactory {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/Views/ChordSpellingPane.fxml"));
 
-            try {
-                parentNode.getChildren().setAll((Node) loader.load());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            loadNode(loader);
 
             ChordSpellingTutorController chordSpellingTutorController = loader.getController();
             chordSpellingTutorController.create(env);
