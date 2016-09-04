@@ -114,7 +114,9 @@ public class Project {
         transcript = gson.fromJson((String) projectSettings.get("transcript"), transcriptType);
 
         env.getTranscriptManager().setTranscriptContent(transcript);
-        env.getRootController().setTranscriptPaneText(env.getTranscriptManager().convertToText());
+
+        //03-sept Removed below line as of trancscript tab removal.
+        //env.getRootController().setTranscriptPaneText(env.getTranscriptManager().convertToText());
 
 
         //Rhythm
