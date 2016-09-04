@@ -2,6 +2,7 @@ package seng302.gui;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 import javafx.event.ActionEvent;
@@ -11,6 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -35,7 +37,7 @@ public class MusicalTermsTutorController extends TutorController {
     VBox questionRows;
 
     @FXML
-    AnchorPane IntervalRecognitionTab;
+    AnchorPane MusicalTermsAnchor;
 
     @FXML
     Button btnGo;
@@ -71,11 +73,14 @@ public class MusicalTermsTutorController extends TutorController {
      */
     @FXML
     void goAction(ActionEvent event) {
+        paneInit.setVisible(false);
         paneQuestions.setVisible(true);
         paneResults.setVisible(false);
         record = new TutorRecord();
         manager.resetEverything();
         manager.questions = selectedQuestions;
+        List qPanes = new ArrayList<>();
+
         if (manager.questions >= 1) {
             termsBeingViewed = new ArrayList<Term>(dataManager.getTerms());
             // Run the tutor
@@ -85,6 +90,7 @@ public class MusicalTermsTutorController extends TutorController {
                 alert.setHeaderText("No Musical Terms Added");
                 alert.setContentText("There are no terms to be tested on. \nTo add them use the 'add musical term' command");
                 alert.showAndWait();
+                paneInit.setVisible(true);
 
             } else {//if there are terms to display
                 for (int i = 0; i < manager.questions; i++) {
@@ -96,10 +102,15 @@ public class MusicalTermsTutorController extends TutorController {
                     termsBeingViewed.remove(randomNumber);
                     Pair<String, Term> dummyPair = new Pair<String, Term>("", term);
                     HBox questionRow = generateQuestionPane(dummyPair);
-                    questionRows.getChildren().add(questionRow);
-                    VBox.setMargin(questionRow, new Insets(10, 10, 10, 10));
+                    TitledPane qPane = new TitledPane("Question " + (i + 1), questionRow);
+                    qPane.setPadding(new Insets(2, 2, 2, 2));
+                    qPanes.add(qPane);
 
+                    VBox.setMargin(questionRow, new Insets(10, 10, 10, 10));
                 }
+                qAccordion.getPanes().addAll(qPanes);
+                qAccordion.setExpandedPane(qAccordion.getPanes().get(0));
+                questionRows.getChildren().add(qAccordion);
             }
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);

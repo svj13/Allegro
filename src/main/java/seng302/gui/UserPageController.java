@@ -83,7 +83,6 @@ public class UserPageController {
 
     private Environment env;
 
-
     public UserPageController() {
     }
 
@@ -123,17 +122,17 @@ public class UserPageController {
 
             @Override
             public void updateItem(String tutor, boolean empty) {
+
                 super.updateItem(tutor, empty);
                 if (empty) {
                     setText(null);
                     setGraphic(null);
-                } else if (tutor.equals("Scale Recognition Tutor")) {
-//                    imageView.setImage(lockImg);
-//                    setText(tutor);
-//                    setGraphic(imageView);
-                    setDisable(true);
-                    setMouseTransparent(true);
 
+//                } else if (!tutor.equals("Summary") && modeManager.tutorNumUnlocksMap.get(tutor) > modeManager.currentUnlocks) {
+//                    setDisable(true);
+//                    setMouseTransparent(true);
+//
+//                }
                 }
             }
         });
@@ -275,6 +274,11 @@ public class UserPageController {
             recentBar.setVisible(false);
             overallStats.setVisible(false);
             latestAttempt.setVisible(false);
+            Pair<Integer, Integer> totals = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTotalsForAllTutors();
+            overallSeries1.getData().add(new XYChart.Data<>(totals.getKey(), ""));
+            overallSeries2.getData().add(new XYChart.Data<>(totals.getValue(), ""));
+            stackedBar.getData().clear();
+            stackedBar.getData().addAll(overallSeries1, overallSeries2);
 
 
         } else {
