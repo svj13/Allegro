@@ -1,29 +1,22 @@
 package seng302.gui;
 
 import com.jfoenix.controls.JFXColorPicker;
+
+import java.util.ArrayList;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import seng302.Environment;
 import seng302.utility.ColourUtils;
-
-
-import java.io.*;
-import java.lang.Math;
-
-import java.text.MessageFormat;
-import java.util.ArrayList;
 
 
 public class UISkinnerController {
 
     @FXML
     private HBox settings;
-
-    @FXML
-    ColorPicker colourPicker;
 
 
     @FXML
@@ -57,6 +50,10 @@ public class UISkinnerController {
         this.env = env;
         //this.baseNode = node;
         env.getThemeHandler().setBaseNode(env.getRootController().paneMain);
+        String colour = Color.valueOf(env.getThemeHandler().getPrimaryColour()).toString();
+        colour = "#" + colour.substring(2, 8);
+
+        this.jfxColourPicker.setValue(Color.valueOf(colour));
 
     }
 
