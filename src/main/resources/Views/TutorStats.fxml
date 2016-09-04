@@ -10,9 +10,9 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.TutorStatsController">
    <children>
-      <VBox fx:id="stats" alignment="CENTER" layoutX="10.0" layoutY="-3.0" prefWidth="500.0" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox fx:id="stats" alignment="CENTER" layoutX="10.0" layoutY="-3.0" prefWidth="500.0" spacing="10.0" style="-fx-background-color: cyan;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <BorderPane prefHeight="33.0" prefWidth="600.0">
+            <BorderPane fx:id="tutorHeader" prefHeight="33.0" prefWidth="600.0">
                <center>
                   <Label fx:id="tutorName" BorderPane.alignment="CENTER">
                      <font>
@@ -62,9 +62,6 @@
                </yAxis>
             </LineChart>
          </children>
-         <padding>
-            <Insets top="20.0" />
-         </padding>
       </VBox>
    </children>
 </AnchorPane>

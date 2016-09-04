@@ -27,9 +27,9 @@
                <children>
                   <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <content>
-                        <VBox fx:id="stats" alignment="CENTER" prefWidth="1000.0" spacing="10.0" BorderPane.alignment="CENTER">
+                        <VBox fx:id="stats" alignment="TOP_CENTER" prefWidth="1000.0" BorderPane.alignment="CENTER">
                            <children>
-                              <AnchorPane fx:id="currentPage" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="200.0" prefHeight="513.0" prefWidth="449.0" />
+                              <AnchorPane fx:id="currentPage" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="200.0" prefHeight="513.0" prefWidth="449.0" style="-fx-background-color: grey;" />
                            </children>
                         </VBox>
                      </content>

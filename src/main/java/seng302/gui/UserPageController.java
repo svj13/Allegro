@@ -199,7 +199,6 @@ public class UserPageController {
         }
 
 
-
     }
 
 
@@ -271,39 +270,6 @@ public class UserPageController {
 
 
 
-
-
-
-    public void updateImage() {
-        final Circle clip = new Circle(imageDP.getFitWidth() - 50.0, imageDP.getFitHeight() - 50.0, 100.0);
-        //System.out.println(env.getUserHandler().getCurrentUser());
-
-
-        //imageDP.setImage(env.getUserHandler().getCurrentUser().getUserPicture());
-        System.out.println("made it herer");
-
-        clip.setRadius(50);
-
-        imageDP.setClip(clip);
-
-        SnapshotParameters parameters = new SnapshotParameters();
-        parameters.setFill(Color.TRANSPARENT);
-        WritableImage image = imageDP.snapshot(parameters, null);
-
-        imageDP.setClip(null);
-        imageDP.setEffect(new DropShadow(5, Color.BLACK));
-
-        imageDP.setImage(image);
-
-
-    }
-
-
-
-    public void loadUserPage(){
-        //tutorView.setVisible(false);
-        //userView.setVisible(true);
-    }
 
 
 

@@ -1,5 +1,6 @@
 package seng302.gui;
 
+import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -8,6 +9,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 import seng302.Environment;
@@ -42,6 +44,15 @@ public class TutorStatsController {
     @FXML
     private StackedBarChart recentBar;
 
+    @FXML
+    private BorderPane tutorHeader;
+
+    @FXML
+    private Label tutorName;
+
+    @FXML
+    private JFXButton btnLoadTutor;
+
     String currentTutor;
 
     public void create(Environment env){
@@ -59,7 +70,7 @@ public class TutorStatsController {
     protected void displayGraphs(String tutor) {
         currentTutor = tutor;
 
-        //tutorName.setText(tutor);
+        tutorName.setText(tutor);
         Pair<Integer, Integer> correctIncorrectRecent = new Pair<>(0, 0);
         Pair<Integer, Integer> correctIncorrectOverall = new Pair<>(0, 0);
         List<Pair<Date, Float>> dateAndTime = new ArrayList<>();
@@ -110,6 +121,8 @@ public class TutorStatsController {
         }
 
         if (tutor.equals("Summary")) {
+
+            btnLoadTutor.setVisible(false);
             recentBar.setVisible(false);
             overallStats.setVisible(false);
             latestAttempt.setVisible(false);

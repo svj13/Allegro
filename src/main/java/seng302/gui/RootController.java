@@ -365,7 +365,7 @@ public class RootController implements Initializable {
         UserPageController userPageController = userPageLoader.getController();
         userPageController.setEnvironment(env);
         userPageController.populateUserOptions();
-        userPageController.updateImage();
+//        /userPageController.updateImage();
 
 
     }
