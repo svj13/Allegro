@@ -31,7 +31,7 @@
                   <content>
                       <VBox fx:id="stats" alignment="CENTER" prefWidth="500.0" spacing="10.0" BorderPane.alignment="CENTER">
                           <children>
-                        <AnchorPane fx:id="summary">
+                        <AnchorPane fx:id="summary" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
                            <children>
                               <Pane fx:id="stageMap" layoutY="33.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="389.0" prefWidth="352.0" />
                               <Label text="Stage Map" />

@@ -59,52 +59,52 @@ public class StageMapController {
     public StageMapController() {
 
 
-        //when each button is pushed, it will take the user to the corresponding tutor tab
-
-        musicalTermsTutorButton.setOnAction(event-> {
-
-        });
-
-        pitchTutorButton.setOnAction(event-> {
-
-        });
-
-        scaleRecognitionTutorButton.setOnAction(event-> {
-
-        });
-
-        chordRecognitionTutorButton.setOnAction(event-> {
-
-        });
-
-        intervalRecognitionButton.setOnAction(event-> {
-
-        });
-
-        scaleRecognitionAdvancedTutorButton.setOnAction(event-> {
-
-        });
-
-        chordRecognitionAdvancedTutorButton.setOnAction(event-> {
-
-        });
-
-        chordSpellingTutorButton.setOnAction(event-> {
-
-        });
-
-        keySignaturesTutorButton.setOnAction(event-> {
-
-        });
-
-        diatonicChordsTutorButton.setOnAction(event-> {
-
-        });
-
-        majorModesTutorButton.setOnAction(event-> {
-
-
-        });
+//        //when each button is pushed, it will take the user to the corresponding tutor tab
+//
+//        musicalTermsTutorButton.setOnAction(event-> {
+//
+//        });
+//
+//        pitchTutorButton.setOnAction(event-> {
+//
+//        });
+//
+//        scaleRecognitionTutorButton.setOnAction(event-> {
+//
+//        });
+//
+//        chordRecognitionTutorButton.setOnAction(event-> {
+//
+//        });
+//
+//        intervalRecognitionButton.setOnAction(event-> {
+//
+//        });
+//
+//        scaleRecognitionAdvancedTutorButton.setOnAction(event-> {
+//
+//        });
+//
+//        chordRecognitionAdvancedTutorButton.setOnAction(event-> {
+//
+//        });
+//
+//        chordSpellingTutorButton.setOnAction(event-> {
+//
+//        });
+//
+//        keySignaturesTutorButton.setOnAction(event-> {
+//
+//        });
+//
+//        diatonicChordsTutorButton.setOnAction(event-> {
+//
+//        });
+//
+//        majorModesTutorButton.setOnAction(event-> {
+//
+//
+//        });
 
     }
 
