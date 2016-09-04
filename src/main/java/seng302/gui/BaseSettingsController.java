@@ -1,18 +1,15 @@
 package seng302.gui;
 
 import com.jfoenix.controls.JFXButton;
-import javafx.event.ActionEvent;
+
+import java.io.IOException;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.Tab;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import seng302.Environment;
-
-import java.io.IOException;
 
 /**
  * Created by Jonty on 01-Sep-16.
@@ -35,8 +32,8 @@ public class BaseSettingsController {
     @FXML
     private AnchorPane settingsPane;
 
-    @FXML
-    private JFXButton btnProjectSettings;
+//    @FXML
+//    private JFXButton btnProjectSettings;
 
     @FXML
     private JFXButton btnUserSettings;
@@ -88,7 +85,7 @@ public class BaseSettingsController {
 
             btnUserSettings.setStyle(String.format("-fx-background-color: %s", env.getThemeHandler().getPrimaryColour()));
             btnThemeSettings.setStyle("");
-            btnProjectSettings.setStyle("");
+            //btnProjectSettings.setStyle("");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -128,7 +125,7 @@ public class BaseSettingsController {
 
             themeC.create(env, env.getRootController().paneMain);
             btnThemeSettings.setStyle(String.format("-fx-background-color: %s", env.getThemeHandler().getPrimaryColour()));
-            btnProjectSettings.setStyle("");
+            //btnProjectSettings.setStyle("");
             btnUserSettings.setStyle("");
 
         } catch (IOException e) {
@@ -140,15 +137,15 @@ public class BaseSettingsController {
      *  Loads the project settings view and opens it inside the settings pane.
      *
      */
-    @FXML
-    void openProjectSettings() {
-
-
-        btnProjectSettings.setStyle(String.format("-fx-background-color: %s", env.getThemeHandler().getPrimaryColour()));
-        // btnProjectSettings.setStyle("-fx-background-color: #223768");
-        btnThemeSettings.setStyle("");
-        btnUserSettings.setStyle("");
-    }
+//    @FXML
+//    void openProjectSettings() {
+//
+//
+//        btnProjectSettings.setStyle(String.format("-fx-background-color: %s", env.getThemeHandler().getPrimaryColour()));
+//        // btnProjectSettings.setStyle("-fx-background-color: #223768");
+//        btnThemeSettings.setStyle("");
+//        btnUserSettings.setStyle("");
+//    }
 
 
 }
