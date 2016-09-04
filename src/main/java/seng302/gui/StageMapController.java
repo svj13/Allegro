@@ -74,7 +74,7 @@ public class StageMapController {
 
     @FXML
     private void launchPitchTutor() {
-        RootController.openPitchTutor();
+       // RootController.openPitchTutor();
     }
 
     @FXML

@@ -27,6 +27,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -117,6 +119,8 @@ public class UserPageController {
     public DiatonicChordsTutorController diatonicChordsTutorController;
 
     public ScaleRecognitionTutorController scaleRecognitionTutorController;
+
+    public ScaleModesTutorController scaleModesController;
 
 
 
@@ -340,8 +344,8 @@ public class UserPageController {
 
         if (tutor.equals("Summary")) {
 
-            tutors.setVisible(false);
-            summary.setVisible(true);
+            //tutors.setVisible(false);
+            //summary.setVisible(true);
             recentBar.setVisible(false);
             overallStats.setVisible(false);
             latestAttempt.setVisible(false);
@@ -354,8 +358,8 @@ public class UserPageController {
 
         } else {
 
-            tutors.setVisible(true);
-            summary.setVisible(false);
+            //tutors.setVisible(true);
+            //summary.setVisible(false);
             recentSeries1.getData().add(new XYChart.Data<>(correctIncorrectRecent.getKey(), ""));
             recentSeries2.getData().add(new XYChart.Data<>(correctIncorrectRecent.getValue(), ""));
             recentBar.getData().clear();
