@@ -8,9 +8,9 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.TutorStatsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="722.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.TutorStatsController">
    <children>
-      <VBox fx:id="stats" alignment="CENTER" layoutX="10.0" layoutY="-3.0" prefWidth="500.0" spacing="10.0" style="-fx-background-color: cyan;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox fx:id="stats" alignment="TOP_CENTER" layoutX="10.0" layoutY="-3.0" prefHeight="602.0" prefWidth="600.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <BorderPane fx:id="tutorHeader" prefHeight="33.0" prefWidth="600.0">
                <center>
@@ -26,6 +26,9 @@
                <left>
                   <Pane prefHeight="33.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
                </left>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
             </BorderPane>
             <Label fx:id="latestAttempt" alignment="CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="200.0" text="Latest Attempt">
                <font>

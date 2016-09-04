@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="userPage" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="bac: pink;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.UserPageController">
+<AnchorPane fx:id="userPage" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.UserPageController">
    <children>
       <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -29,7 +29,7 @@
                      <content>
                         <VBox fx:id="stats" alignment="TOP_CENTER" prefWidth="1000.0" BorderPane.alignment="CENTER">
                            <children>
-                              <AnchorPane fx:id="currentPage" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="200.0" prefHeight="513.0" prefWidth="449.0" style="-fx-background-color: grey;" />
+                              <AnchorPane fx:id="currentPage" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="200.0" prefHeight="513.0" prefWidth="449.0" />
                            </children>
                         </VBox>
                      </content>

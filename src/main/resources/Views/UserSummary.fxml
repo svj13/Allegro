@@ -12,7 +12,7 @@
       <VBox fx:id="stats" alignment="CENTER" layoutY="-13.0" prefWidth="500.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <AnchorPane fx:id="summaryStats" prefHeight="603.0" prefWidth="600.0" />
-            <Label prefHeight="27.0" prefWidth="64.0" text="Badges" textAlignment="CENTER">
+            <Label prefHeight="27.0" prefWidth="89.0" text="Badges" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font></Label>
