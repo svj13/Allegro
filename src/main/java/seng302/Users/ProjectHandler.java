@@ -75,8 +75,12 @@ public class ProjectHandler {
 
         this.currentProject = new Project(env, projName, this);
         updateProjectList(projName);
-
-
+        try {
+            env.getRootController().updateLevelBadge();
+        }
+        catch (Exception e) {
+            System.err.println("Root controller not initialised");
+        }
     }
 
 
