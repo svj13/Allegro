@@ -347,9 +347,9 @@ public class RootController implements Initializable {
 //        userPageStage.setScene(scene1);
 //
 //        userPageStage.show();
-        centerPane.setMinWidth(paneMain.getWidth());
+       // centerPane.setMinWidth(paneMain.getWidth());
 
-        centerPane.setMinHeight(paneMain.getHeight());
+        //centerPane.setMinHeight(paneMain.getHeight());
 
         System.out.println("heights.. " + centerPane.getHeight() + " userPane " + userPage.getHeight());
 
