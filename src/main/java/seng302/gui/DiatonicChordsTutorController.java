@@ -132,6 +132,7 @@ public class DiatonicChordsTutorController extends TutorController {
             };
             record.addQuestionAnswer(questionList);
             env.getRootController().setTabTitle(getTabID(), true);
+            handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -243,6 +244,7 @@ public class DiatonicChordsTutorController extends TutorController {
         record.addQuestionAnswer(question);
         env.getRootController().setTabTitle(getTabID(), true);
 
+        handleAccordion();
         if (manager.answered == manager.questions) {
             finished();
         }
@@ -283,7 +285,7 @@ public class DiatonicChordsTutorController extends TutorController {
         manager.resetEverything();
         manager.questions = selectedQuestions;
         rand = new Random();
-        List qPanes = new ArrayList<>();
+        qPanes = new ArrayList<>();
 
         questionRows.getChildren().clear();
         for (int i = 0; i < manager.questions; i++) {

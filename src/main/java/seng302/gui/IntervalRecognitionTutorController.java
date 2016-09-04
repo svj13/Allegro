@@ -4,7 +4,6 @@ import org.controlsfx.control.RangeSlider;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Random;
 
 import javafx.event.ActionEvent;
@@ -77,7 +76,7 @@ public class IntervalRecognitionTutorController extends TutorController {
         record = new TutorRecord();
         manager.resetEverything();
         manager.questions = selectedQuestions;
-        List qPanes = new ArrayList<>();
+        qPanes = new ArrayList<>();
 
         if (manager.questions >= 1) {
             // Run the tutor
@@ -166,6 +165,7 @@ public class IntervalRecognitionTutorController extends TutorController {
             };
             record.addQuestionAnswer(question);
             env.getRootController().setTabTitle(getTabID(), true);
+            handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -197,6 +197,7 @@ public class IntervalRecognitionTutorController extends TutorController {
             record.addQuestionAnswer(question);
             env.getRootController().setTabTitle(getTabID(), true);
             // Shows the correct answer
+            handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
             }

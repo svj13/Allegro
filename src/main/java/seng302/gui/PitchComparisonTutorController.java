@@ -3,7 +3,6 @@ package seng302.gui;
 import org.controlsfx.control.RangeSlider;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import javafx.fxml.FXML;
@@ -79,7 +78,7 @@ public class PitchComparisonTutorController extends TutorController {
         paneResults.setVisible(false);
         record = new TutorRecord();
         manager.answered = 0;
-        List qPanes = new ArrayList<>();
+        qPanes = new ArrayList<>();
 
         if (lowerSet && upperSet) {
             questionRows.getChildren().clear();
@@ -207,6 +206,7 @@ public class PitchComparisonTutorController extends TutorController {
         }
         manager.add(new Pair<>(note1.getNote(), note2.getNote()), correctChoice);
 
+        handleAccordion();
         if (manager.answered == manager.questions) {
             finished();
         }

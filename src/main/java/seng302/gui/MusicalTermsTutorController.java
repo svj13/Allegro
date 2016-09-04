@@ -2,7 +2,6 @@ package seng302.gui;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Random;
 
 import javafx.event.ActionEvent;
@@ -79,7 +78,7 @@ public class MusicalTermsTutorController extends TutorController {
         record = new TutorRecord();
         manager.resetEverything();
         manager.questions = selectedQuestions;
-        List qPanes = new ArrayList<>();
+        qPanes = new ArrayList<>();
 
         if (manager.questions >= 1) {
             termsBeingViewed = new ArrayList<Term>(dataManager.getTerms());
@@ -257,6 +256,7 @@ public class MusicalTermsTutorController extends TutorController {
             styleAnswer(rowPane, currentTerm, originOptions, categoryOptions, definitionOptions);
 
             ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(1)).getChildren().get(1).setDisable(true);
+            handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -288,6 +288,7 @@ public class MusicalTermsTutorController extends TutorController {
 
             ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(2)).getChildren().get(1).setDisable(true);
 
+            handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -319,6 +320,7 @@ public class MusicalTermsTutorController extends TutorController {
 
             ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(3)).getChildren().get(1).setDisable(true);
 
+            handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -341,6 +343,7 @@ public class MusicalTermsTutorController extends TutorController {
             ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(2)).getChildren().get(1).setDisable(true);
             ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(3)).getChildren().get(1).setDisable(true);
             ((VBox) (rowPane.getChildren().get(0))).getChildren().get(4).setDisable(true); //disable skip
+            handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
             }

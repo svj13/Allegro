@@ -51,6 +51,7 @@ public abstract class TutorController {
 
     public TutorHandler tutorHandler;
 
+    public List qPanes;
 
     Stage stage;
 
@@ -411,5 +412,42 @@ public abstract class TutorController {
 
     public void setTabID(String tabID) {
         this.tabID = tabID;
+    }
+
+    /**
+     * Called whenever a question is answered or skipped. This sets the next unanswered question to
+     * be the one that is expanded.
+     */
+    public void handleAccordion() {
+        int currentPaneIndex = qPanes.indexOf(qAccordion.getExpandedPane());
+
+        // Start by looking at the next question
+        boolean found = false;
+        int i = currentPaneIndex + 1;
+
+        while (i < qPanes.size() && !found) {
+            // Go forward to the end
+            TitledPane currentQuestionPane = (TitledPane) qPanes.get(i);
+            if (!currentQuestionPane.getStyle().contains("-fx-border-color")) {
+                // this question has not been styled, and therefore not answered
+                found = true;
+                qAccordion.setExpandedPane((TitledPane) qPanes.get(i));
+            }
+            i++;
+        }
+
+
+        if (!found) {
+            // start again from 0 if not found
+            for (int j = 0; j < qPanes.size() - 1; j++) {
+                TitledPane currentQuestionPane = (TitledPane) qPanes.get(j);
+                if (currentQuestionPane.getStyle().contains("-fx-border-color")) {
+                    // this question has been styled, and therefore answered
+                } else {
+                    qAccordion.setExpandedPane((TitledPane) qPanes.get(j));
+                    break;
+                }
+            }
+        }
     }
 }
