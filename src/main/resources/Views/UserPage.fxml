@@ -40,7 +40,7 @@
                                                </Label>
                                            </children>
                                        </StackPane>
-                                       <HBox fx:id="stageMap" prefHeight="100.0" prefWidth="200.0" />
+                                    <StackPane fx:id="stageMap" />
                                    </children>
                                </VBox>
                               <HBox alignment="CENTER_RIGHT">
