@@ -58,6 +58,7 @@ public class ChordRecognitionTutorController extends TutorController {
         paneResults.setVisible(false);
         manager.resetEverything();
         manager.questions = selectedQuestions;
+        isCompMode = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().getIsCompetitiveMode();
         List qPanes = new ArrayList<>();
 
         questionRows.getChildren().clear();
@@ -199,7 +200,12 @@ public class ChordRecognitionTutorController extends TutorController {
             disableButtons(questionRow, 1, 3);
             formatSkippedQuestion(questionRow);
             manager.questions -= 1;
-            manager.add(noteAndChordType, 2);
+            if (isCompMode) {
+                // No skips in competition mode
+                manager.add(noteAndChord, 0);
+            } else {
+                manager.add(noteAndChordType, 2);
+            }
             String[] question = new String[]{
                     String.format("%s scale from %s", chordType, startNote.getNote()),
                     chordType,

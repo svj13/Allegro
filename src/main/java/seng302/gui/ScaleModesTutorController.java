@@ -295,7 +295,12 @@ public class ScaleModesTutorController extends TutorController {
             disableButtons(questionRow, 1, 3);
             formatSkippedQuestion(questionRow);
             manager.questions -= 1;
-            manager.add(data, 2);
+            if (isCompMode) {
+                // No skips in competition mode
+                manager.add(data, 0);
+            } else {
+                manager.add(data, 2);
+            }
             String questionString;
 
             if (getTypeOfQuestion(questionAnswer) == 1) {

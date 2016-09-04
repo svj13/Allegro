@@ -51,6 +51,8 @@ public abstract class TutorController {
 
     public TutorHandler tutorHandler;
 
+    public boolean isCompMode;
+
 
     Stage stage;
 

@@ -336,7 +336,14 @@ public class MusicalTermsTutorController extends TutorController {
 
             formatSkippedQuestion(rowPane);
             manager.questions -= 1;
-            manager.add(new Pair(currentTerm.getMusicalTermName(), currentTerm), 2);
+
+            if (isCompMode) {
+                // No skips in competition mode
+                manager.add(new Pair(currentTerm.getMusicalTermName(), currentTerm), 0);
+            } else {
+                manager.add(new Pair(currentTerm.getMusicalTermName(), currentTerm), 2);
+            }
+
             ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(1)).getChildren().get(1).setDisable(true);
             ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(2)).getChildren().get(1).setDisable(true);
             ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(3)).getChildren().get(1).setDisable(true);

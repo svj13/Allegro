@@ -209,7 +209,13 @@ public class KeySignaturesTutorController extends TutorController {
             // Disables only input buttons
             formatSkippedQuestion(questionRow);
             manager.questions -= 1;
-            manager.add(pair, 2);
+            if (isCompMode) {
+                // No skips in competition mode
+                manager.add(pair, 0);
+            } else {
+                manager.add(pair, 2);
+            }
+
             String correctAnswer = findCorrectAnswerNumSharpFlat(pair, question);
             if (pair.getKey().equals("both")) {
                 disableButtons(questionRow, 1, 4);
@@ -468,7 +474,13 @@ public class KeySignaturesTutorController extends TutorController {
             // Disables only input buttons
             formatSkippedQuestion(questionRow);
             manager.questions -= 1;
-            manager.add(pair, 2);
+            if (isCompMode) {
+                // No skips in competition mode
+                manager.add(pair, 0);
+            } else {
+                manager.add(pair, 2);
+            }
+
             String correctAnswer = "";
 
             Boolean isBoth = false;
@@ -788,7 +800,13 @@ public class KeySignaturesTutorController extends TutorController {
             disableButtons(questionRow, 1, 3);
             formatSkippedQuestion(questionRow);
             manager.questions -= 1;
-            manager.add(pair, 2);
+            if (isCompMode) {
+                // No skips in competition mode
+                manager.add(pair, 0);
+            } else {
+                manager.add(pair, 2);
+            }
+
             String correctAnswer;
 
             if (fIsMajor) {
