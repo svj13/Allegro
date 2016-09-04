@@ -67,8 +67,12 @@ public class BaseSettingsController {
 
     }
 
+    /**
+     * Displays the user settings pane.
+     *
+     */
     @FXML
-    void openUserSettings(ActionEvent event) {
+    void openUserSettings() {
 
         try {
 
@@ -91,11 +95,13 @@ public class BaseSettingsController {
 
         }
 
-        //UserSettingsTabController = loader.getController();
-        //UserSettingsTabController.create(env);
 
     }
 
+    /**
+     *  Makes it so the given node is resized to completely fill the settings AnchorPane.
+     * @param loadedPane subject node to which is resized to fill the settingsPnae.
+     */
     private void setAnchors(Node loadedPane) {
         settingsPane.setRightAnchor(loadedPane, 0.0);
         settingsPane.setLeftAnchor(loadedPane, 0.0);
@@ -103,15 +109,13 @@ public class BaseSettingsController {
         settingsPane.setTopAnchor(loadedPane, 0.0);
     }
 
+    /**
+     *  Loads the themesettings view and opens it inside the settings pane.
+     *
+     */
     @FXML
-    void onThemeSettings(ActionEvent event) {
+    void onThemeSettings() {
         try {
-
-            //settingsPane.setContent((Node) loader.load());
-//            themeLoader.setRoot(null);
-//            themeLoader.setController(themeC);
-//            settingsPane.getChildren().setAll((Node) themeLoader.load());
-
             themeLoader = new FXMLLoader();
             themeLoader.setLocation(getClass().getResource("/Views/UISkinner.fxml"));
             Node loadedPane = (Node) themeLoader.load();
@@ -132,8 +136,12 @@ public class BaseSettingsController {
         }
     }
 
+    /**
+     *  Loads the project settings view and opens it inside the settings pane.
+     *
+     */
     @FXML
-    void openProjectSettings(ActionEvent event) {
+    void openProjectSettings() {
 
 
         btnProjectSettings.setStyle(String.format("-fx-background-color: %s", env.getThemeHandler().getPrimaryColour()));

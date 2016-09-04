@@ -129,6 +129,9 @@ public class UserSettingsController {
         }
     }
 
+    /**
+     * Action listener for the first name edit/save button.
+     */
     @FXML
     private void editFirstName() {
         if (btnEditFName.getText().equals("Edit")) {
@@ -147,6 +150,9 @@ public class UserSettingsController {
         }
     }
 
+    /**
+     * Action listener for the last name edit/save button.
+     */
     @FXML
     private void editLastName() {
         if (btnEditLName.getText().equals("Edit")) {
@@ -165,9 +171,13 @@ public class UserSettingsController {
         }
     }
 
+    /**
+     * Deletes a user.
+     */
     @FXML
     private void deleteUser() {
 
+        //TODO: Add a warning popup/message to force the user to confirm account deletion.
         env.getUserHandler().deleteUser(env.getUserHandler().getCurrentUser().getUserName());
 
     }
