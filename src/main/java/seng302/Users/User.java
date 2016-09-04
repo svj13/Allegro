@@ -3,7 +3,6 @@ package seng302.Users;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.controlsfx.control.Notifications;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -21,12 +20,9 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.util.Duration;
 import seng302.Environment;
 import seng302.data.Term;
 import seng302.utility.FileHandler;
-import seng302.utility.LevelCalculator;
 
 /**
  * Stores information about a single user.
@@ -54,10 +50,6 @@ public class User {
 
     private String userLastName;
 
-    private int experience;
-
-    private int level;
-
 
     /**
      *  User constructor used for generating new users.
@@ -69,8 +61,6 @@ public class User {
         userDirectory = Paths.get("UserData/"+userName);
         this.userName = userName;
         this.userPassword = password;
-        this.experience = 0;
-        this.level = 1;
         this.env = env;
         properties = new JSONObject();
 
@@ -91,6 +81,7 @@ public class User {
         profilePicPath = Paths.get(userDirectory.toString() + "/profilePicture");
 
         projectHandler = new ProjectHandler(env, userName);
+
         //loadFullProperties();
     }
 
@@ -223,21 +214,7 @@ public class User {
             themeColor = "white";
         }
 
-        //User experience
-        try {
-            experience = Integer.parseInt(properties.get("experience").toString());
-        } catch (NullPointerException e) {
-            //If XP has never been set (ie old account), default to 0
-            experience = 0;
-        }
 
-        //Level
-        try {
-            level = ((Long) properties.get("level")).intValue();
-        } catch (NullPointerException e) {
-            //If level has never been set, (ie old account), default to 1
-            level = 1;
-        }
     }
 
 
@@ -252,8 +229,6 @@ public class User {
         properties.put("themeColor", this.themeColor);
         properties.put("firstName", this.userFirstName);
         properties.put("lastName", this.userLastName);
-        properties.put("experience", this.experience);
-        properties.put("level", this.level);
 
 
         String musicalTermsJSON = gson.toJson(env.getMttDataManager().getTerms());
@@ -264,6 +239,7 @@ public class User {
 
 
     }
+
 
     /**
      * Writes JSON properties to disc
@@ -386,45 +362,13 @@ public class User {
     }
 
     public int getUserExperience() {
+        Integer experience = getProjectHandler().getCurrentProject().getExperience();
         return experience;
     }
 
     public int getUserLevel() {
+        Integer level = getProjectHandler().getCurrentProject().getLevel();
         return level;
     }
-
-    /**
-     * When a user gains XP, eg by completing a tutoring session, this function is called. It adds
-     * their newly gained experience to their overall experience, and saves this info to their user
-     * file.
-     *
-     * @param addedExperience The integer amount of gained experience, to be added to the user
-     */
-    public void addExperience(int addedExperience) {
-        experience += addedExperience;
-
-        // Increases user levels one by one until the user cannot level up any further
-        while (LevelCalculator.isLevelUp(level, experience)) {
-            level += 1;
-            env.getRootController().updateLevelBadge();
-            Image image = new Image(getClass().getResourceAsStream("/images/arrow.png"), 110, 75, true, true);
-            Notifications.create()
-                    .title("Level Up")
-                    .text("Well done! \nYou are now level " + String.valueOf(level) + ".")
-                    .hideAfter(new Duration(10000))
-                    .graphic(new ImageView(image))
-                    .show();
-
-        }
-
-        saveProperties();
-    }
-
-
-
-
-
-
-
 
 }

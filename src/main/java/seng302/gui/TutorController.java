@@ -172,7 +172,7 @@ public abstract class TutorController {
         //question in competition mode.
         if (env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().isCompetitiveMode) {
             int expGained = ExperienceCalculator.calculateExperience(manager.correct, manager.questions);
-            env.getUserHandler().getCurrentUser().addExperience(expGained);
+            env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().addExperience(expGained);
         }
 
         userScore = getScore(manager.correct, manager.answered);
