@@ -160,7 +160,7 @@ public class UserPageController {
 
         listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             this.showPage((String) newValue);
-            currentTutor = (String) newValue;
+            //currentTutor = (String) newValue;
         });
         listView.getSelectionModel().selectFirst();
         listView.setMaxWidth(200);
@@ -235,6 +235,10 @@ public class UserPageController {
             AnchorPane stats = tutorStatsLoader.load();
 
             currentPage.getChildren().setAll(stats);
+            currentPage.setLeftAnchor(stats, 0.0);
+            currentPage.setTopAnchor(stats, 0.0);
+            currentPage.setBottomAnchor(stats, 0.0);
+            currentPage.setRightAnchor(stats, 0.0);
             TutorStatsController statsController = tutorStatsLoader.getController();
 
             statsController.create(env);
