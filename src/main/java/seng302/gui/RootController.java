@@ -100,6 +100,9 @@ public class RootController implements Initializable {
     public DiatonicChordsTutorController DiatonicChordsController;
 
     @FXML
+    public ScaleModesTutorController ScaleModesController;
+
+    @FXML
     private KeyboardPaneController keyboardPaneController;
 
     @FXML
@@ -333,8 +336,6 @@ public class RootController implements Initializable {
 
     /**
      * Opens the user page.
-     *
-     * @throws IOException
      */
     public void showUserPage() throws IOException {
         FXMLLoader loader = new FXMLLoader();
@@ -344,6 +345,8 @@ public class RootController implements Initializable {
         Parent root1 = loader.load();
         Scene scene1 = new Scene(root1);
         Stage userPageStage = new Stage();
+        scene1.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+
         userPageStage.setTitle("Allegro");
         userPageStage.setScene(scene1);
 
@@ -370,39 +373,37 @@ public class RootController implements Initializable {
 
     /**
      * Opens a login page in a specified stage (window)
-     * @param loginStage
-     * @throws IOException
      */
     public void showLoginWindow(Stage loginStage) throws IOException {
         //if (show) {
 
-            //Close current window.
-            if (stage.isShowing()) stage.close();
+        //Close current window.
+        if (stage.isShowing()) stage.close();
 
-            FXMLLoader loader1 = new FXMLLoader();
-            loader1.setLocation(getClass().getResource("/Views/userLogin.fxml"));
+        FXMLLoader loader1 = new FXMLLoader();
+        loader1.setLocation(getClass().getResource("/Views/userLogin.fxml"));
 
-            Parent root1 = loader1.load();
-            Scene scene1 = new Scene(root1);
-
-
-            loginStage.setTitle("Allegro");
-            loginStage.setScene(scene1);
+        Parent root1 = loader1.load();
+        Scene scene1 = new Scene(root1);
 
 
-            loginStage.setOnCloseRequest(event -> {
-                System.exit(0);
-                event.consume();
-            });
+        loginStage.setTitle("Allegro");
+        loginStage.setScene(scene1);
+
+
+        loginStage.setOnCloseRequest(event -> {
+            System.exit(0);
+            event.consume();
+        });
 
         loginStage.setMinWidth(600);
         Double initialHeight = loginStage.getHeight();
         loginStage.setMinHeight(initialHeight);
 
-            loginStage.show();
-            UserLoginController userLoginController = loader1.getController();
-            userLoginController.setEnv(env);
-            userLoginController.displayRecentUsers();
+        loginStage.show();
+        UserLoginController userLoginController = loader1.getController();
+        userLoginController.setEnv(env);
+        userLoginController.displayRecentUsers();
 
 
         //}
@@ -957,6 +958,41 @@ public class RootController implements Initializable {
             KeySignaturesTabController = loader.getController();
             KeySignaturesTabController.create(env);
             KeySignaturesTabController.setTabID("keySignatureTutor");
+        }
+
+    }
+
+    /**
+     * opens the scale modes tutor when the scale modes tutor menu option is pressed If there is
+     * already an open tutor of the same form then it sets focus to the already open tutor
+     */
+    @FXML
+    private void openScaleModesTutor() {
+
+        boolean alreadyExists = false;
+        for (Tab tab : TabPane.getTabs()) {
+            if (tab.getId().equals("scaleModesTutor")) {
+                TabPane.getSelectionModel().select(tab);
+                alreadyExists = true;
+            }
+        }
+        if (!alreadyExists) {
+            Tab ScaleTab = new Tab("Major Modes Tutor");
+            ScaleTab.setId("scaleModesTutor");
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/Views/ScaleModesPane.fxml"));
+
+            try {
+                ScaleTab.setContent((Node) loader.load());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            TabPane.getTabs().add(ScaleTab);
+            TabPane.getSelectionModel().select(ScaleTab);
+            ScaleModesController = loader.getController();
+            ScaleModesController.create(env);
+            ScaleModesController.setTabID("scaleModesTutor");
         }
 
     }
