@@ -414,6 +414,10 @@ public abstract class TutorController {
         this.tabID = tabID;
     }
 
+    /**
+     * Called whenever a question is answered or skipped. This sets the next unanswered question to
+     * be the one that is expanded.
+     */
     public void handleAccordion() {
         int currentPaneIndex = qPanes.indexOf(qAccordion.getExpandedPane());
 
