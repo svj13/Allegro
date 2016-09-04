@@ -147,7 +147,7 @@ public class UserPageController {
             stageMap.getChildren().add(loader.load());
             stageMap.setHgrow(loader.load(), Priority.ALWAYS);
         } catch (Exception e) {
-            System.err.println("Failed to load stage map COS I SUCK");
+            System.err.println("Failed to load stage map");
             System.out.println(e.getStackTrace());
             e.printStackTrace();
         }

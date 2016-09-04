@@ -6,6 +6,7 @@ import seng302.Environment;
 import javafx.scene.control.Button;
 
 
+
 /**
  * Created by svj13 on 2/09/16.
  */
@@ -59,62 +60,63 @@ public class StageMapController {
     public StageMapController() {
 
 
-//        //when each button is pushed, it will take the user to the corresponding tutor tab
-//
-//        musicalTermsTutorButton.setOnAction(event-> {
-//            System.out.println("You are awesome");
-//
-//        });
-//
-//        pitchTutorButton.setOnAction(event-> {
-//
-//        });
-//
-//        scaleRecognitionTutorButton.setOnAction(event-> {
-//
-//        });
-//
-//        chordRecognitionTutorButton.setOnAction(event-> {
-//
-//        });
-//
-//        intervalRecognitionButton.setOnAction(event-> {
-//
-//        });
-//
-//        scaleRecognitionAdvancedTutorButton.setOnAction(event-> {
-//
-//        });
-//
-//        chordRecognitionAdvancedTutorButton.setOnAction(event-> {
-//
-//        });
-//
-//        chordSpellingTutorButton.setOnAction(event-> {
-//
-//        });
-//
-//        keySignaturesTutorButton.setOnAction(event-> {
-//
-//        });
-//
-//        diatonicChordsTutorButton.setOnAction(event-> {
-//
-//        });
-//
-//        majorModesTutorButton.setOnAction(event-> {
-//
-//
-//        });
-
     }
 
     private void openTutorTab(String tutor) {
 
     }
 
+
     @FXML
-    private void printStuff() {
+    private void launchMusicalTermsTutor() {
+        System.out.println("ERRORORORORORORORORORA  A");
+    }
+
+    @FXML
+    private void launchPitchTutor() {
+        RootController.openPitchTutor();
+    }
+
+    @FXML
+    private void launchScaleRecognitionTutor() {
+        System.out.println("ERRORORORORORORORORORA  A");
+    }
+
+    @FXML
+    private void launchChordRecognitionTutor() {
+        System.out.println("ERRORORORORORORORORORA  A");
+    }
+
+    @FXML
+    private void launchIntervalRecognitionTutor() {
+        System.out.println("ERRORORORORORORORORORA  A");
+    }
+
+    @FXML
+    private void launchScaleReconitionAdvancedTutor() {
+        System.out.println("ERRORORORORORORORORORA  A");
+    }
+
+    @FXML
+    private void launchChordRecognitionAdvancedTutor() {
+        System.out.println("ERRORORORORORORORORORA  A");
+    }
+
+    @FXML
+    private void launchChordSpellingTutor() {
+        System.out.println("ERRORORORORORORORORORA  A");
+    }
+
+    @FXML
+    private void launchKeySignaturesTutor() {
+        System.out.println("ERRORORORORORORORORORA  A");
+    }
+    @FXML
+    private void launchDiatonicChordsTutor() {
+        System.out.println("ERRORORORORORORORORORA  A");
+    }
+    @FXML
+    private void launchMajorModesTutor() {
         System.out.println("ERRORORORORORORORORORA  A");
     }
 
