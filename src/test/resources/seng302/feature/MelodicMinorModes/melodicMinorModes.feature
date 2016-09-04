@@ -38,7 +38,7 @@ Feature: Melodic Minor Modes
 
   Scenario Outline: Retrieve the scale when given a tonic and major mode
     Given I am on the transcript pane
-    When I type the command 'melodic minor scale of  <tonic> <majorMode>'
+    When I type the command 'scale <tonic> <majorMode>'
     Then The following is printed to the transcript pane - <outputScale>
 
     Examples:

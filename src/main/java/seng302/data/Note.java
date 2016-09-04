@@ -285,7 +285,8 @@ public class Note {
      * @return array list of notes in the scale. If any notes are null, the scale returned will be
      * null.
      */
-    public ArrayList<Note> getOctaveScale(String type, int octaves, boolean up) {
+    public ArrayList<Note>
+    getOctaveScale(String type, int octaves, boolean up) {
         ArrayList<Note> scaleNotes = new ArrayList<>();
         List<Integer> semitones;
         Note currentNote = this;
@@ -328,6 +329,34 @@ public class Note {
                     break;
                 case "locrian":
                     semitones = Arrays.asList(1, 3, 5, 6, 8, 10, 12);
+                    break;
+                case "minormajor":
+                    // Melodic Minor Modes I
+                    semitones = Arrays.asList(2, 3, 5, 7, 9, 11, 12);
+                    break;
+                case "dorian b2":
+                    // Melodic Minor Modes II
+                    semitones = Arrays.asList(1, 3, 5, 7, 9, 10, 12);
+                    break;
+                case "lydian #5":
+                    // Melodic Minor Modes III
+                    semitones = Arrays.asList(2, 4, 6, 8, 9, 11, 12);
+                    break;
+                case "lydian dominant":
+                    // Melodic Minor Modes IV
+                    semitones = Arrays.asList(2, 4, 6, 7, 9, 10, 12);
+                    break;
+                case "mixolydian b6":
+                    // Melodic Minor Modes V
+                    semitones = Arrays.asList(2, 4, 5, 7, 8, 10, 12);
+                    break;
+                case "locrian #2":
+                    // Melodic Minor Modes VI
+                    semitones = Arrays.asList(2, 3, 5, 6, 8, 10, 12);
+                    break;
+                case "altered":
+                    // Melodic Minor Modes VII
+                    semitones = Arrays.asList(1, 3, 4 ,6, 8, 10, 12);
                     break;
                 case "blues":
                     semitones = Arrays.asList(3, 5, 6, 7, 10, 12);

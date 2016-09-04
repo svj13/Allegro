@@ -21,7 +21,6 @@ public class MelodicMinorModesSteps {
         env = new Environment();
         RootController rootController = new RootController();
         env.setRootController(rootController);
-
     }
 
     @When("I type the command 'melodic minor mode of (.+)(.+)'")
@@ -36,9 +35,9 @@ public class MelodicMinorModesSteps {
         result = env.getTranscriptManager().getTranscriptTuples().get(0).getResult();
     }
 
-    @When("I type the command 'melodic minor scale of (.+)'")
+    @When("I type the command 'scale (.+)'")
     public void executeScaleCommand(final String scale) {
-        env.getExecutor().executeCommand("melodic minor scale " + scale);
+        env.getExecutor().executeCommand("scale " + scale);
         result = env.getTranscriptManager().getTranscriptTuples().get(0).getResult();
     }
 
