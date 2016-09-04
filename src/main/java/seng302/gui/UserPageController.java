@@ -46,20 +46,20 @@ public class UserPageController {
     @FXML
     SplitPane userView;
 
-    @FXML
-    AnchorPane tutorView;
+//    @FXML
+//    AnchorPane tutorView;
 
-    @FXML
-    VBox stats;
+//    @FXML
+//    VBox stats;
 
-    @FXML
-    StackedBarChart stackedBar;
+//    @FXML
+//    StackedBarChart stackedBar;
 
-    @FXML
-    StackedBarChart recentBar;
+//    @FXML
+//    StackedBarChart recentBar;
 
-    @FXML
-    AnchorPane overallPane;
+//    @FXML
+//    AnchorPane overallPane;
 
     @FXML
     AnchorPane topPane;
@@ -67,14 +67,16 @@ public class UserPageController {
     @FXML
     JFXListView listView;
 
-    @FXML
-    Label chartTitle;
+//    @FXML
+//    Label chartTitle;
 
-    @FXML
-    Label tutorName;
+//    @FXML
+//    Label tutorName;
 
-    @FXML
-    LineChart lineChart;
+//    @FXML
+//    LineChart lineChart;
+
+
 
     @FXML
     ImageView imageDP;
@@ -83,7 +85,10 @@ public class UserPageController {
     Label latestAttempt;
 
     @FXML
-    Label overallStats;
+    AnchorPane currentPage;
+
+//    @FXML
+//    Label overallStats;
 
     private Environment env;
 
@@ -105,6 +110,8 @@ public class UserPageController {
     public DiatonicChordsTutorController diatonicChordsTutorController;
 
     public ScaleRecognitionTutorController scaleRecognitionTutorController;
+
+    public UserSummaryController userSummaryController;
 
 
 
@@ -152,7 +159,7 @@ public class UserPageController {
         listView.getItems().addAll(FXCollections.observableArrayList(options));
 
         listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            displayGraphs((String) newValue);
+            this.showPage((String) newValue);
             currentTutor = (String) newValue;
         });
         listView.getSelectionModel().selectFirst();
@@ -182,6 +189,73 @@ public class UserPageController {
 
     }
 
+    protected void  showPage(String pageName){
+        switch (pageName) {
+            case "Pitch Comparison Tutor":
+                //correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("pitchTutor");
+                //correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("pitchTutor");
+                //dateAndTime = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTimeAndScores("pitchTutor");
+                break;
+            case "Interval Recognition Tutor":
+                /*correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("intervalTutor");
+                correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("intervalTutor");
+                dateAndTime = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTimeAndScores("intervalTutor");
+                */break;
+            case "Scale Recognition Tutor":
+               // correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("scaleTutor");
+                //correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("scaleTutor");
+                break;
+            case "Musical Terms Tutor":
+               // correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("musicalTermTutor");
+                //correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("musicalTermTutor");
+                break;
+            case "Chord Recognition Tutor":
+               // correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("chordTutor");
+               // correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("chordTutor");
+                break;
+            case "Chord Spelling Tutor":
+           //     correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("chordSpellingTutor");
+            //    correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("chordSpellingTutor");
+                break;
+            case "Key Signature Tutor":
+              //  correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("keySignatureTutor");
+             //   correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("keySignatureTutor");
+                break;
+            case "Diatonic Chord Tutor":
+               // correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("diatonicChordTutor");
+              //  correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("diatonicChordTutor");
+                break;
+
+            case "Summary":
+                showSummaryPage();
+        }
+
+
+
+    }
+
+
+    public void showSummaryPage(){
+
+        FXMLLoader summaryLoader = new FXMLLoader(getClass().getResource("/Views/UserSummary.fxml"));
+
+        try {
+            AnchorPane summaryPage = summaryLoader.load();
+
+            currentPage.getChildren().setAll(summaryPage);
+
+            UserSummaryController summaryController = summaryLoader.getController();
+
+            summaryController.create(env);
+
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
 
 //
@@ -198,26 +272,7 @@ public class UserPageController {
 //    }
 
 
-    /**
-     * Makes a line graph showing the scores over time. Still figuring out the scale.
-     */
-    private void makeLineGraph(List<Pair<Date, Float>> dateAndTimeList) {
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM H:mm:ss");
-
-
-        XYChart.Series<String, Float> lineSeries = new XYChart.Series<>();
-        for (Pair<Date, Float> dateTime : dateAndTimeList) {
-            Date date = dateTime.getKey();
-            String milli = formatter.format(date);
-            XYChart.Data data = new XYChart.Data<>(milli, dateTime.getValue());
-            data.setNode(new hoverPane(date, dateTime.getValue()));
-            lineSeries.getData().add(data);
-        }
-        lineChart.getData().clear();
-        lineChart.getData().add(lineSeries);
-
-    }
 
     class hoverPane extends VBox {
         hoverPane(Date date, float value) {
@@ -252,87 +307,7 @@ public class UserPageController {
     }
 
 
-    /**
-     * creates the most recent tutor record graph and the overall tutor record graph
-     *
-     * @param tutor the specific tutor that the graphs will getting data from
-     */
-    private void displayGraphs(String tutor) {
-        tutorName.setText(tutor);
-        Pair<Integer, Integer> correctIncorrectRecent = new Pair<>(0, 0);
-        Pair<Integer, Integer> correctIncorrectOverall = new Pair<>(0, 0);
-        List<Pair<Date, Float>> dateAndTime = new ArrayList<>();
-        dateAndTime.add(new Pair<>(new Date(0), 0f));
 
-        XYChart.Series<Number, String> recentSeries1 = new XYChart.Series<>();
-        XYChart.Series<Number, String> recentSeries2 = new XYChart.Series<>();
-
-        XYChart.Series<Number, String> overallSeries1 = new XYChart.Series<>();
-        XYChart.Series<Number, String> overallSeries2 = new XYChart.Series<>();
-
-
-        switch (tutor) {
-            case "Pitch Comparison Tutor":
-                correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("pitchTutor");
-                correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("pitchTutor");
-                dateAndTime = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTimeAndScores("pitchTutor");
-                break;
-            case "Interval Recognition Tutor":
-                correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("intervalTutor");
-                correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("intervalTutor");
-                dateAndTime = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTimeAndScores("intervalTutor");
-                break;
-            case "Scale Recognition Tutor":
-                correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("scaleTutor");
-                correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("scaleTutor");
-                break;
-            case "Musical Terms Tutor":
-                correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("musicalTermTutor");
-                correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("musicalTermTutor");
-                break;
-            case "Chord Recognition Tutor":
-                correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("chordTutor");
-                correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("chordTutor");
-                break;
-            case "Chord Spelling Tutor":
-                correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("chordSpellingTutor");
-                correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("chordSpellingTutor");
-                break;
-            case "Key Signature Tutor":
-                correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("keySignatureTutor");
-                correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("keySignatureTutor");
-                break;
-            case "Diatonic Chord Tutor":
-                correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("diatonicChordTutor");
-                correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("diatonicChordTutor");
-                break;
-        }
-
-        if (tutor.equals("Summary")) {
-            recentBar.setVisible(false);
-            overallStats.setVisible(false);
-            latestAttempt.setVisible(false);
-
-
-        } else {
-
-            recentSeries1.getData().add(new XYChart.Data<>(correctIncorrectRecent.getKey(), ""));
-            recentSeries2.getData().add(new XYChart.Data<>(correctIncorrectRecent.getValue(), ""));
-            recentBar.getData().clear();
-            recentBar.setVisible(true);
-            latestAttempt.setVisible(true);
-            overallStats.setVisible(true);
-            recentBar.getData().addAll(recentSeries1, recentSeries2);
-
-            overallSeries1.getData().add(new XYChart.Data<>(correctIncorrectOverall.getKey(), ""));
-            overallSeries2.getData().add(new XYChart.Data<>(correctIncorrectOverall.getValue(), ""));
-            stackedBar.getData().clear();
-            stackedBar.getData().addAll(overallSeries1, overallSeries2);
-
-
-            makeLineGraph(dateAndTime);
-        }
-    }
 
     public void updateImage() {
         final Circle clip = new Circle(imageDP.getFitWidth() - 50.0, imageDP.getFitHeight() - 50.0, 100.0);
@@ -364,46 +339,46 @@ public class UserPageController {
 
         switch (currentTutor) {
             case "Pitch Comparison Tutor":
-                userView.setVisible(false);
+                //userView.setVisible(false);
                 openPitchTutor();
                 break;
             case "Interval Recognition Tutor":
-                userView.setVisible(false);
+                //userView.setVisible(false);
                 openIntervalTutor();
                 break;
             case "Scale Recognition Tutor":
-                userView.setVisible(false);
+                //userView.setVisible(false);
                 openScaleTutor();
                 break;
             case "Musical Terms Tutor":
-                userView.setVisible(false);
+                //userView.setVisible(false);
                 openMusicalTermTutor();
                 break;
             case "Chord Recognition Tutor":
-                userView.setVisible(false);
+                //userView.setVisible(false);
                 openChordTutor();
                 break;
             case "Chord Spelling Tutor":
-                userView.setVisible(false);
+                //userView.setVisible(false);
                 openSpellingTutor();
                 break;
             case "Key Signature Tutor":
-                userView.setVisible(false);
+                //userView.setVisible(false);
                 openKeySignatureTutor();
                 break;
             case "Diatonic Chord Tutor":
-                userView.setVisible(false);
+                //userView.setVisible(false);
                 openDiatonicChordTutor();
                 break;
         }
 
 
-        tutorView.setVisible(true);
+        //tutorView.setVisible(true);
     }
 
     public void loadUserPage(){
-        tutorView.setVisible(false);
-        userView.setVisible(true);
+        //tutorView.setVisible(false);
+        //userView.setVisible(true);
     }
 
 
@@ -417,11 +392,11 @@ public class UserPageController {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/Views/PitchComparisonPane.fxml"));
 
-            try {
-                tutorView.getChildren().add(loader.load());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                tutorView.getChildren().add(loader.load());
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
 
 
             pitchComparisonTutorController = loader.getController();
@@ -439,11 +414,11 @@ public class UserPageController {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/Views/IntervalRecognitionPane.fxml"));
 
-        try {
-            tutorView.getChildren().add(loader.load());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            tutorView.getChildren().add(loader.load());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         intervalRecognitionTutorController = loader.getController();
         intervalRecognitionTutorController.create(env);
@@ -460,11 +435,11 @@ public class UserPageController {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/Views/MusicalTermsPane.fxml"));
 
-        try {
-            tutorView.getChildren().add(loader.load());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            tutorView.getChildren().add(loader.load());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         musicalTermsTutorController = loader.getController();
         musicalTermsTutorController.create(env);
@@ -482,11 +457,11 @@ public class UserPageController {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/Views/ScaleRecognitionPane.fxml"));
 
-        try {
-            tutorView.getChildren().add(loader.load());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            tutorView.getChildren().add(loader.load());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         scaleRecognitionTutorController = loader.getController();
         scaleRecognitionTutorController.create(env);
@@ -504,11 +479,11 @@ public class UserPageController {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/Views/ChordRecognitionPane.fxml"));
 
-        try {
-            tutorView.getChildren().add(loader.load());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            tutorView.getChildren().add(loader.load());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         chordRecognitionTutorController = loader.getController();
         chordRecognitionTutorController.create(env);
@@ -526,11 +501,11 @@ public class UserPageController {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/Views/DiatonicChordPane.fxml"));
 
-        try {
-            tutorView.getChildren().add(loader.load());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            tutorView.getChildren().add(loader.load());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         diatonicChordsTutorController = loader.getController();
         diatonicChordsTutorController.create(env);
@@ -547,11 +522,11 @@ public class UserPageController {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/Views/KeySignaturesPane.fxml"));
 
-        try {
-            tutorView.getChildren().add(loader.load());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            tutorView.getChildren().add(loader.load());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         keySignaturesTutorController = loader.getController();
         keySignaturesTutorController.create(env);
@@ -567,11 +542,11 @@ public class UserPageController {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/Views/ChordSpellingPane.fxml"));
 
-        try {
-            tutorView.getChildren().add(loader.load());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            tutorView.getChildren().add(loader.load());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         chordSpellingTutorController = loader.getController();
         chordSpellingTutorController.create(env);
