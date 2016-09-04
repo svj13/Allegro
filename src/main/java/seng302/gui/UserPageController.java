@@ -130,6 +130,8 @@ public class UserPageController {
 
 
 
+
+
     public void setEnvironment(Environment env) {
         this.env = env;
         this.env.setUserPageController(this);
@@ -197,12 +199,19 @@ public class UserPageController {
 
 
     }
+
+    public void setCurrentTutor(String currentTutor) {
+        this.currentTutor = currentTutor;
+
+    }
+
     /**
      * Loads the stage map into the summary page
      */
     public void loadStageMap() {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/Views/StageMapPane.fxml"));
+
         try {
             stageMap.getChildren().add(loader.load());
             stageMap.setHgrow(loader.load(), Priority.ALWAYS);

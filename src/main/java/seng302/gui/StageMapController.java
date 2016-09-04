@@ -48,16 +48,23 @@ public class StageMapController {
     @FXML
     private Button intervalRecognitionButton;
 
+    //sets the current tutor so the tutor can be launched upon the button click
+    String currentTutor;
 
+    UserPageController userPageController;
 
 
     Environment env;
 
     public void setEnvironment(Environment env) {
         this.env = env;
+        userPageController = env.getUserPageController();
     }
 
+
     public StageMapController() {
+
+
 
 
     }
@@ -69,27 +76,32 @@ public class StageMapController {
 
     @FXML
     private void launchMusicalTermsTutor() {
-        System.out.println("ERRORORORORORORORORORA  A");
+        userPageController.setCurrentTutor("Musical Terms Tutor");
+        userPageController.loadTutor();
     }
 
     @FXML
     private void launchPitchTutor() {
-       // RootController.openPitchTutor();
+        userPageController.setCurrentTutor("Pitch Comparison Tutor");
+        userPageController.loadTutor();
     }
 
     @FXML
     private void launchScaleRecognitionTutor() {
-        System.out.println("ERRORORORORORORORORORA  A");
+        userPageController.setCurrentTutor("Scale Recognition Tutor");
+        userPageController.loadTutor();
     }
 
     @FXML
     private void launchChordRecognitionTutor() {
-        System.out.println("ERRORORORORORORORORORA  A");
+        userPageController.setCurrentTutor("Chord Recognition Tutor");
+        userPageController.loadTutor();
     }
 
     @FXML
     private void launchIntervalRecognitionTutor() {
-        System.out.println("ERRORORORORORORORORORA  A");
+        userPageController.setCurrentTutor("Interval Recognition Tutor");
+        userPageController.loadTutor();
     }
 
     @FXML
@@ -104,16 +116,19 @@ public class StageMapController {
 
     @FXML
     private void launchChordSpellingTutor() {
-        System.out.println("ERRORORORORORORORORORA  A");
+        userPageController.setCurrentTutor("Chord Spelling Tutor");
+        userPageController.loadTutor();
     }
 
     @FXML
     private void launchKeySignaturesTutor() {
-        System.out.println("ERRORORORORORORORORORA  A");
+        userPageController.setCurrentTutor("Key Signature Tutor");
+        userPageController.loadTutor();
     }
     @FXML
     private void launchDiatonicChordsTutor() {
-        System.out.println("ERRORORORORORORORORORA  A");
+        userPageController.setCurrentTutor("Diatonic Chord Tutor");
+        userPageController.loadTutor();
     }
     @FXML
     private void launchMajorModesTutor() {
