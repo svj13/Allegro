@@ -154,9 +154,6 @@ public class RootController implements Initializable {
     private MenuItem menuKST;
 
     @FXML
-    private MenuItem skinGuiButton;
-
-    @FXML
     private Menu menuOpenProjects;
 
     @FXML
@@ -1210,41 +1207,6 @@ public class RootController implements Initializable {
         }
         int total_tabs = TabPane.getTabs().size();
         TabPane.getTabs().remove(1, total_tabs);
-    }
-
-    /**
-     * Creates the gui skinner tab
-     */
-    @FXML
-    private void createColorTab() {
-        boolean alreadyExists = false;
-        for (Tab tab : TabPane.getTabs()) {
-            if (tab.getId().equals("uiSkinner")) {
-                TabPane.getSelectionModel().select(tab);
-                alreadyExists = true;
-            }
-
-        }
-
-        if (!alreadyExists) {
-
-            Tab skinnerTab = new Tab("Interface Skinner");
-            skinnerTab.setId("uiSkinner");
-
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/Views/UISkinner.fxml"));
-
-            try {
-                skinnerTab.setContent((Node) loader.load());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            TabPane.getTabs().add(skinnerTab);
-            TabPane.getSelectionModel().select(skinnerTab);
-            uiSkinnerController = loader.getController();
-            uiSkinnerController.create(env, paneMain);
-        }
     }
 
 
