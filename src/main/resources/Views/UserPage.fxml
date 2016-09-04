@@ -5,7 +5,6 @@
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.chart.StackedBarChart?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.ScrollPane?>
@@ -156,12 +155,19 @@
                                 <Insets bottom="20.0" left="10.0" right="10.0" top="20.0"/>
                             </VBox.margin>
                         </StackPane>
-                        <LineChart fx:id="lineChart" legendVisible="false" prefHeight="228.0" prefWidth="379.0" title="Past Results">
+                        <LineChart fx:id="lineChart" horizontalZeroLineVisible="false"
+                                   legendVisible="false" prefHeight="228.0" prefWidth="379.0"
+                                   title="Past Results">
                             <xAxis>
-                                <CategoryAxis side="BOTTOM" tickLabelGap="1.0" tickLabelsVisible="false" tickMarkVisible="false" />
+                                <CategoryAxis endMargin="10.0" side="BOTTOM" startMargin="10.0"
+                                              tickLabelGap="1.0" tickLabelsVisible="false"
+                                              tickMarkVisible="false"/>
                             </xAxis>
                             <yAxis>
-                                <NumberAxis autoRanging="false" minorTickVisible="false" prefHeight="300.0" side="LEFT" tickLabelGap="2.0" tickMarkVisible="false" tickUnit="20.0" />
+                                <NumberAxis autoRanging="false" lowerBound="-20.0"
+                                            minorTickVisible="false" prefHeight="300.0" side="LEFT"
+                                            tickLabelGap="2.0" tickMarkVisible="false"
+                                            tickUnit="20.0" upperBound="120.0"/>
                             </yAxis>
                             <padding>
                                 <Insets top="20.0"/>

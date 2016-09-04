@@ -19,6 +19,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
@@ -253,6 +254,52 @@ public class UserPageController {
     private void makeLineGraph(List<Pair<Date, Float>> dateAndTimeList, String timePeriod) {
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM H:mm:ss");
+        NumberAxis numberAxis = (NumberAxis) lineChart.getYAxis();
+        numberAxis.setTickLabelFormatter(new StringConverter<Number>() {
+            @Override
+            public String toString(Number object) {
+                if (object.equals(-20.0)) {
+                    return "";
+                } else if (object.equals(0.0)) {
+                    return "0";
+                } else if (object.equals(20.0)) {
+                    return "20";
+                } else if (object.equals(40.0)) {
+                    return "40";
+                } else if (object.equals(60.0)) {
+                    return "60";
+                } else if (object.equals(80.0)) {
+                    return "80";
+                } else if (object.equals(100.0)) {
+                    return "100";
+                } else if (object.equals(120.0)) {
+                    return " ";
+                }
+                return "";
+            }
+
+            @Override
+            public Number fromString(String string) {
+                if (string.equals("")) {
+                    return -20.0;
+                } else if (string.equals("0")) {
+                    return 0.0;
+                } else if (string.equals("20")) {
+                    return 20.0;
+                } else if (string.equals("40")) {
+                    return 40.0;
+                } else if (string.equals("60")) {
+                    return 60.0;
+                } else if (string.equals("80")) {
+                    return 80.0;
+                } else if (string.equals("100")) {
+                    return 100.0;
+                } else if (string.equals(" ")) {
+                    return 120.0;
+                }
+                return 0;
+            }
+        });
 
 
         XYChart.Series<String, Float> lineSeries = new XYChart.Series<>();
@@ -291,7 +338,7 @@ public class UserPageController {
             String score = String.format("%.0f", value);
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/YY H:mm");
             String dateformat = formatter.format(date);
-            final Label label = new Label(score + "%\n" + dateformat);
+            final Label label = new Label(score + "% - " + dateformat);
             label.getStyleClass().addAll("default-color0", "chart-line-symbol", "chart-series-line");
             label.setStyle("-fx-font-size: 8; -fx-font-weight: normal;");
             label.setMinSize(Label.USE_PREF_SIZE, Label.USE_PREF_SIZE);
