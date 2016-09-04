@@ -333,8 +333,9 @@ public class RootController implements Initializable {
 
         userPageStage.setTitle("Allegro");
         userPageStage.setScene(scene1);
-
         userPageStage.show();
+
+
         UserPageController userPageController = loader.getController();
         userPageController.setEnvironment(env);
         userPageController.populateUserOptions();

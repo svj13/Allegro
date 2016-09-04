@@ -22,9 +22,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Pair;
@@ -40,7 +38,7 @@ public class UserPageController {
     AnchorPane contentPane;
 
     @FXML
-    Pane stageMap;
+    HBox stageMap;
 
     @FXML
     AnchorPane summaryPage;
@@ -147,9 +145,9 @@ public class UserPageController {
         loader.setLocation(getClass().getResource("/Views/StageMapPane.fxml"));
         try {
             stageMap.getChildren().add(loader.load());
-
+            stageMap.setHgrow(loader.load(), Priority.ALWAYS);
         } catch (Exception e) {
-            System.err.println("Failed to load stage map");
+            System.err.println("Failed to load stage map COS I SUCK");
             System.out.println(e.getStackTrace());
             e.printStackTrace();
         }

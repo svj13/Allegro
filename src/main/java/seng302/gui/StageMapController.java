@@ -62,6 +62,7 @@ public class StageMapController {
 //        //when each button is pushed, it will take the user to the corresponding tutor tab
 //
 //        musicalTermsTutorButton.setOnAction(event-> {
+//            System.out.println("You are awesome");
 //
 //        });
 //
@@ -112,7 +113,10 @@ public class StageMapController {
 
     }
 
-
+    @FXML
+    private void printStuff() {
+        System.out.println("ERRORORORORORORORORORA  A");
+    }
 
 
 
