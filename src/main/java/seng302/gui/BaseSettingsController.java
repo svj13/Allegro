@@ -146,6 +146,8 @@ public class BaseSettingsController {
 //        btnThemeSettings.setStyle("");
 //        btnUserSettings.setStyle("");
 //    }
-
+    public void updateSelectedTab() {
+        btnThemeSettings.setStyle(String.format("-fx-background-color: %s", env.getThemeHandler().getPrimaryColour()));
+    }
 
 }

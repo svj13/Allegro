@@ -1247,4 +1247,8 @@ public class RootController implements Initializable {
 //            settingsController.create(env);
         }
     }
+
+    public BaseSettingsController getBaseSettingsController() {
+        return settingsController;
+    }
 }

@@ -82,6 +82,8 @@ public class UISkinnerController {
         env.getThemeHandler().setTheme(baseRgb, lighterOrDarker);
         env.getUserHandler().getCurrentUser().saveProperties();
 
+        env.getRootController().getBaseSettingsController().updateSelectedTab();
+
     }
 
 
