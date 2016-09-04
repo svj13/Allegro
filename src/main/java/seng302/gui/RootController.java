@@ -1,7 +1,6 @@
 package seng302.gui;
 
 
-import javafx.scene.image.Image;
 import org.json.simple.JSONArray;
 
 import java.io.File;
@@ -33,6 +32,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCombination;
@@ -89,9 +89,6 @@ public class RootController implements Initializable {
 
     @FXML
     public ChordSpellingTutorController ChordSpellingTabController;
-
-    @FXML
-    private UserSettingsController UserSettingsTabController;
 
     @FXML
     private BaseSettingsController settingsController;
@@ -1255,38 +1252,6 @@ public class RootController implements Initializable {
         return transcriptController;
     }
 
-
-    @FXML
-    private void launchUserSettings() {
-        boolean alreadyExists = false;
-        for (Tab tab : TabPane.getTabs()) {
-            if (tab.getId().equals("userSettings")) {
-                TabPane.getSelectionModel().select(tab);
-                alreadyExists = true;
-            }
-
-        }
-
-        if (!alreadyExists) {
-
-            Tab settingsTab = new Tab("User Settings");
-            settingsTab.setId("userSettings");
-
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/Views/UserSettings.fxml"));
-
-            try {
-                settingsTab.setContent((Node) loader.load());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            TabPane.getTabs().add(settingsTab);
-            TabPane.getSelectionModel().select(settingsTab);
-            UserSettingsTabController = loader.getController();
-            UserSettingsTabController.create(env);
-        }
-    }
 
     @FXML
     private void launchSettings() {
