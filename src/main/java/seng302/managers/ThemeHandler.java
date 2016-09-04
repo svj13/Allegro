@@ -1,16 +1,19 @@
 package seng302.managers;
 
-import javafx.scene.Node;
-import javafx.scene.layout.AnchorPane;
-
-import seng302.utility.ColourUtils;
-
 import java.awt.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javafx.scene.layout.AnchorPane;
 
 /**
  * Created by Jonty on 30-Aug-16.
@@ -191,6 +194,13 @@ public class ThemeHandler {
 
     public String getSecondaryColour() {
         return secondaryColour;
+    }
+
+    /**
+     * Updates the theme handler to use the default colours of orange and white.
+     */
+    public void setDefaultTheme() {
+        setTheme("orange", "white");
     }
 
 
