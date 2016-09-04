@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.chart.*?>
 <?import javafx.scene.control.*?>
@@ -7,11 +8,25 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.TutorStatsController">
    <children>
       <VBox fx:id="stats" alignment="CENTER" layoutX="10.0" layoutY="-3.0" prefWidth="500.0" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
+            <BorderPane prefHeight="33.0" prefWidth="600.0">
+               <center>
+                  <Label fx:id="tutorName" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+               </center>
+               <right>
+                  <JFXButton fx:id="btnLoadTutor" buttonType="RAISED" onAction="#loadTutor" prefHeight="25.0" prefWidth="100.0" text="Open Tutor" BorderPane.alignment="CENTER" />
+               </right>
+               <left>
+                  <Pane prefHeight="33.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+               </left>
+            </BorderPane>
             <Label fx:id="latestAttempt" alignment="CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="200.0" text="Latest Attempt">
                <font>
                   <Font size="17.0" />
