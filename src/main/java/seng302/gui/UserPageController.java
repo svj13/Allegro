@@ -190,44 +190,12 @@ public class UserPageController {
     }
 
     protected void  showPage(String pageName){
-        switch (pageName) {
-            case "Pitch Comparison Tutor":
-                //correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("pitchTutor");
-                //correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("pitchTutor");
-                //dateAndTime = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTimeAndScores("pitchTutor");
-                break;
-            case "Interval Recognition Tutor":
-                /*correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("intervalTutor");
-                correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("intervalTutor");
-                dateAndTime = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTimeAndScores("intervalTutor");
-                */break;
-            case "Scale Recognition Tutor":
-               // correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("scaleTutor");
-                //correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("scaleTutor");
-                break;
-            case "Musical Terms Tutor":
-               // correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("musicalTermTutor");
-                //correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("musicalTermTutor");
-                break;
-            case "Chord Recognition Tutor":
-               // correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("chordTutor");
-               // correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("chordTutor");
-                break;
-            case "Chord Spelling Tutor":
-           //     correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("chordSpellingTutor");
-            //    correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("chordSpellingTutor");
-                break;
-            case "Key Signature Tutor":
-              //  correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("keySignatureTutor");
-             //   correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("keySignatureTutor");
-                break;
-            case "Diatonic Chord Tutor":
-               // correctIncorrectRecent = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getRecentTutorTotals("diatonicChordTutor");
-              //  correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTutorTotals("diatonicChordTutor");
-                break;
 
-            case "Summary":
-                showSummaryPage();
+        if(pageName.equals("Summary")){
+            showSummaryPage();
+        }
+        else{
+            showTutorStats(pageName);
         }
 
 
@@ -241,13 +209,36 @@ public class UserPageController {
 
         try {
             AnchorPane summaryPage = summaryLoader.load();
-
             currentPage.getChildren().setAll(summaryPage);
 
-            UserSummaryController summaryController = summaryLoader.getController();
+            currentPage.setLeftAnchor(summaryPage, 0.0);
+            currentPage.setTopAnchor(summaryPage, 0.0);
+            currentPage.setBottomAnchor(summaryPage, 0.0);
+            currentPage.setRightAnchor(summaryPage, 0.0);
 
+            UserSummaryController summaryController = summaryLoader.getController();
             summaryController.create(env);
 
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void showTutorStats(String tutor){
+
+        FXMLLoader tutorStatsLoader = new FXMLLoader(getClass().getResource("/Views/TutorStats.fxml"));
+
+        try {
+            AnchorPane stats = tutorStatsLoader.load();
+
+            currentPage.getChildren().setAll(stats);
+            TutorStatsController statsController = tutorStatsLoader.getController();
+
+            statsController.create(env);
+            statsController.displayGraphs(tutor);
 
 
         } catch (IOException e) {
@@ -274,37 +265,7 @@ public class UserPageController {
 
 
 
-    class hoverPane extends VBox {
-        hoverPane(Date date, float value) {
-            setPrefSize(10, 10);
-            final Label label = createDataLabel(date, value);
-            this.setAlignment(Pos.CENTER);
 
-            setOnMouseEntered(e -> {
-                getChildren().setAll(label);
-                setCursor(Cursor.NONE);
-                toFront();
-            });
-            setOnMouseExited(e -> {
-                getChildren().clear();
-                setCursor(Cursor.CROSSHAIR);
-            });
-
-        }
-
-        private Label createDataLabel(Date date, float value) {
-            String score = String.format("%.0f", value);
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/YY H:mm");
-            String dateformat = formatter.format(date);
-            final Label label = new Label(score + "%\n" + dateformat);
-            label.getStyleClass().addAll("default-color0", "chart-line-symbol", "chart-series-line");
-            label.setStyle("-fx-font-size: 8; -fx-font-weight: normal;");
-            label.setMinSize(Label.USE_PREF_SIZE, Label.USE_PREF_SIZE);
-            label.setMaxWidth(Double.MAX_VALUE);
-            label.setAlignment(Pos.CENTER);
-            return label;
-        }
-    }
 
 
 
@@ -335,7 +296,6 @@ public class UserPageController {
 
     @FXML
     public void loadTutor(){
-
 
         switch (currentTutor) {
             case "Pitch Comparison Tutor":

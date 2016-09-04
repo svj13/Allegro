@@ -42,6 +42,10 @@ public class UserSummaryController {
             AnchorPane stats = statsLoader.load();
 
             summaryStats.getChildren().setAll(stats);
+            summaryStats.setLeftAnchor(stats, 0.0);
+            summaryStats.setTopAnchor(stats, 0.0);
+            summaryStats.setBottomAnchor(stats, 0.0);
+            summaryStats.setRightAnchor(stats, 0.0);
 
             TutorStatsController statsController = statsLoader.getController();
 

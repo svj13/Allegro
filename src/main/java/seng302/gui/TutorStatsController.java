@@ -1,6 +1,8 @@
 package seng302.gui;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
@@ -151,6 +153,42 @@ public class TutorStatsController {
         lineChart.getData().add(lineSeries);
 
     }
+
+
+    class hoverPane extends VBox {
+        hoverPane(Date date, float value) {
+            setPrefSize(10, 10);
+            final Label label = createDataLabel(date, value);
+            this.setAlignment(Pos.CENTER);
+
+            setOnMouseEntered(e -> {
+                getChildren().setAll(label);
+                setCursor(Cursor.NONE);
+                toFront();
+            });
+            setOnMouseExited(e -> {
+                getChildren().clear();
+                setCursor(Cursor.CROSSHAIR);
+            });
+
+        }
+
+        private Label createDataLabel(Date date, float value) {
+            String score = String.format("%.0f", value);
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/YY H:mm");
+            String dateformat = formatter.format(date);
+            final Label label = new Label(score + "%\n" + dateformat);
+            label.getStyleClass().addAll("default-color0", "chart-line-symbol", "chart-series-line");
+            label.setStyle("-fx-font-size: 8; -fx-font-weight: normal;");
+            label.setMinSize(Label.USE_PREF_SIZE, Label.USE_PREF_SIZE);
+            label.setMaxWidth(Double.MAX_VALUE);
+            label.setAlignment(Pos.CENTER);
+            return label;
+        }
+    }
+
+
+
 
 
 }
