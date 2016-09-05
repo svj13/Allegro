@@ -82,8 +82,12 @@ public class ModeHelper {
     }
 
 
-    public static Map<Integer, String> getValueModes() {
+    public static Map<Integer, String> getMajorValueModes() {
         return valueModes;
+    }
+
+    public static Map<Integer, String> getMelodicMinorValueModes() {
+        return mmValueModes;
     }
 
     public static Map<String, Integer> getKeyModes() {

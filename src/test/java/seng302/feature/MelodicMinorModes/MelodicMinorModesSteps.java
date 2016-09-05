@@ -23,21 +23,21 @@ public class MelodicMinorModesSteps {
         env.setRootController(rootController);
     }
 
-    @When("I type the command 'melodic minor mode of (.+)(.+)'")
+    @When("I type the command 'mode of (.+)(.+)'")
     public void executeCommand(final String tonic, final String degree) {
-        env.getExecutor().executeCommand("melodic minor mode of " + tonic + " " + degree);
+        env.getExecutor().executeCommand("mode of " + tonic + " " + degree);
         result = env.getTranscriptManager().getTranscriptTuples().get(0).getResult();
     }
 
-    @When("I type the command 'melodic minor parent of (.+)'")
+    @When("I type the command 'parent of (.+)'")
     public void executeParentCommand(final String scale) {
         env.getExecutor().executeCommand("melodic minor parent of " + scale);
         result = env.getTranscriptManager().getTranscriptTuples().get(0).getResult();
     }
 
-    @When("I type the command 'scale (.+)'")
-    public void executeScaleCommand(final String scale) {
-        env.getExecutor().executeCommand("scale " + scale);
+    @When("I type the command 'scale (.+) (.+)'")
+    public void executeScaleCommand(final String tonic, final String mode) {
+        env.getExecutor().executeCommand("scale " + tonic + " " + mode);
         result = env.getTranscriptManager().getTranscriptTuples().get(0).getResult();
     }
 

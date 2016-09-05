@@ -2,25 +2,25 @@ Feature: Melodic Minor Modes
 
   Scenario Outline: Retrieve the major mode of a given tonic and degree
     Given I am on the transcript pane
-    When I type the command 'melodic minor mode of  <tonic> <degree>'
+    When I type the command 'mode of  <tonic> <degree>'
     Then The following is printed to the transcript pane - <mode>
 
     Examples:
-      | tonic | degree | mode               |
-      | C     | 2      | D dorian b2        |
-      | C     | 4      | F lydian dominant  |
-      | G     | 3      | Bb lydian #5       |
-      | G     | 7      | F# altered         |
-      | A     | 1      | A majorminor       |
-      | A     | 6      | F# locrian #2      |
-      | Bb    | 4      | Eb lydian dominant |
-      | Eb    | 5      | Bb mixolydian b6   |
-      | Gb    | 3      | Bbb lydian #5      |
+      | tonic            | degree | mode               |
+      | C melodic minor  | 2      | D dorian b2        |
+      | C melodic minor  | 4      | F lydian dominant  |
+      | G melodic minor  | 3      | Bb lydian #5       |
+      | G melodic minor  | 7      | F# altered         |
+      | A melodic minor  | 1      | A minormajor       |
+      | A melodic minor  | 6      | F# locrian #2      |
+      | Bb melodic minor | 4      | Eb lydian dominant |
+      | Eb melodic minor | 5      | Bb mixolydian b6   |
+      | Gb melodic minor | 3      | Bbb lydian #5      |
 
 
   Scenario Outline: Retrieve the parent scale when given a tonic and major mode
     Given I am on the transcript pane
-    When I type the command 'melodic minor parent of  <scale>'
+    When I type the command 'parent of <scale>'
     Then The following is printed to the transcript pane - <parentScale>
 
     Examples:
@@ -38,11 +38,11 @@ Feature: Melodic Minor Modes
 
   Scenario Outline: Retrieve the scale when given a tonic and major mode
     Given I am on the transcript pane
-    When I type the command 'scale <tonic> <majorMode>'
+    When I type the command 'scale <tonic> <mode>'
     Then The following is printed to the transcript pane - <outputScale>
 
     Examples:
-      | tonic | majorMode       | outputScale             |
+      | tonic | mode            | outputScale             |
       | D     | dorian b2       | D Eb F G A B C D        |
       | A     | lydian #5       | A B C# D# E# F# G# A    |
       | C     | lydian dominant | C D E F# G A Bb C       |

@@ -16,7 +16,7 @@ import seng302.utility.musicNotation.OctaveUtil;
  * "parent of" command. This takes a note and major mode, and displays the major scale of which this
  * is a mode.
  */
-public class MelodicMinorModes implements Command {
+public class Modes implements Command {
 
     private String typedTonic;
     private Note tonic;
@@ -34,10 +34,12 @@ public class MelodicMinorModes implements Command {
     /**
      * This constructor is used for the "mode of" command.
      *
-     * @param tonic  The note of the major scale we are finding modes of
+     * @param scale  The scale we are finding the mode for
      * @param degree The degree of the mode we are looking for - 1 through 7 are valid
      */
-    public MelodicMinorModes(String tonic, String degree) {
+    public Modes(HashMap<String, String> scale, String degree) {
+        String tonic = scale.get("note");
+        this.scaleType = scale.get("scale_type");
         this.commandType = "modeOf";
         octaveSpecified = OctaveUtil.octaveSpecifierFlag(tonic);
         this.typedTonic = tonic;
@@ -51,7 +53,7 @@ public class MelodicMinorModes implements Command {
      *
      * @param scale The major mode scale to find the parent of.
      */
-    public MelodicMinorModes(HashMap<String, String> scale) {
+    public Modes(HashMap<String, String> scale) {
         this.commandType = "parentOf";
         this.startNote = scale.get("note");
         this.scaleType = scale.get("scale_type");
@@ -71,7 +73,7 @@ public class MelodicMinorModes implements Command {
         if (degree >= 1 && degree <= 7) {
             ArrayList<String> majorScale = Scale.scaleNameList(typedTonic, tonic.getScale("major", true), true, "major");
             String parentNote = majorScale.get(degree - 1);
-            String mode = ModeHelper.getValueModes().get(degree);
+            String mode = ModeHelper.getMajorValueModes().get(degree);
             return parentNote + " " + mode;
         } else {
             return "Invalid degree: " + degree + ". Please use degree in range 1-7.";
@@ -126,11 +128,30 @@ public class MelodicMinorModes implements Command {
      *
      * @param env The environment in which the result will be shown.
      */
-    public void getCorrespondingScale(Environment env) {
+    public void getCorrespondingMajorScale(Environment env) {
         if (degree >= 1 && degree <= 7) {
             ArrayList<String> majorScale = Scale.scaleNameList(typedTonic, tonic.getScale("major", true), true, "major");
             String parentNote = majorScale.get(degree - 1);
-            String mode = ModeHelper.getValueModes().get(degree);
+            String mode = ModeHelper.getMajorValueModes().get(degree);
+            env.getTranscriptManager().setResult(parentNote + " " + mode);
+        } else {
+            env.error("Invalid degree: " + degree + ". Please use degree in range 1-7.");
+        }
+
+    }
+
+    /**
+     * The logic for the "mode of" command. Gets the name of the major mode, given a tonic and mode
+     * degree for the transcript manager. Displays this information in the transcript. An error is
+     * shown if the provided degree is outside the accepted range
+     *
+     * @param env The environment in which the result will be shown.
+     */
+    public void getCorrespondingMelodicMinorModeScale(Environment env) {
+        if (degree >= 1 && degree <= 7) {
+            ArrayList<String> mmScale = Scale.scaleNameList(typedTonic, tonic.getScale("melodic minor", true), true, "melodic minor");
+            String parentNote = mmScale.get(degree - 1);
+            String mode = ModeHelper.getMelodicMinorValueModes().get(degree);
             env.getTranscriptManager().setResult(parentNote + " " + mode);
         } else {
             env.error("Invalid degree: " + degree + ". Please use degree in range 1-7.");
@@ -140,9 +161,11 @@ public class MelodicMinorModes implements Command {
 
     @Override
     public void execute(Environment env) {
-        if (commandType.equals("mmModeOf")) {
-            getCorrespondingScale(env);
-        } else if (commandType.equals("mmParentOf")) {
+        if (commandType.equals("modeOf") && scaleType.equals("major")) {
+            getCorrespondingMajorScale(env);
+        } else if (commandType.equals("modeOf") && scaleType.equals("melodic minor")) {
+            getCorrespondingMelodicMinorModeScale(env);
+        } else if (commandType.equals("parentOf")) {
             getParentScale(env);
         }
     }

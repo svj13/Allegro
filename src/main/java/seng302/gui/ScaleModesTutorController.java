@@ -19,7 +19,7 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Pair;
 import seng302.Environment;
-import seng302.command.MajorModes;
+import seng302.command.Modes;
 import seng302.data.ModeHelper;
 import seng302.data.Note;
 import seng302.utility.TutorRecord;
@@ -150,7 +150,7 @@ public class ScaleModesTutorController extends TutorController {
                 randomValueMode = rand.nextInt(7) + 1;
             }
             usedNum.add(randomValueMode); //adds new value to options array
-            String randomScaleType = ModeHelper.getValueModes().get(randomValueMode);
+            String randomScaleType = ModeHelper.getMajorValueModes().get(randomValueMode);
             answers.add(note + " " + randomScaleType);
             answers.add((modeNoteString + " " + randomScaleType));
         }
@@ -341,7 +341,7 @@ public class ScaleModesTutorController extends TutorController {
 
         Pair question = new Pair(randomScaleName, degree);
 
-        String answer = MajorModes.getCorrespondingScaleString(randomScaleName, degree);
+        String answer = Modes.getCorrespondingScaleString(randomScaleName, degree);
         return new Pair(question, answer);
 
 
@@ -358,10 +358,10 @@ public class ScaleModesTutorController extends TutorController {
         //generate random degree and random note
         Integer degree = rand.nextInt(7) + 1; //generates random degree of mode
         String randomNote = (String) ModeHelper.getModeNoteMap().get(degree).get(rand.nextInt(12));
-        String randomType = ModeHelper.getValueModes().get(degree);
+        String randomType = ModeHelper.getMajorValueModes().get(degree);
 
         Pair question = new Pair(randomNote, randomType);
-        String answer = MajorModes.getParentScaleString(randomNote, randomType);
+        String answer = Modes.getParentScaleString(randomNote, randomType);
         return new Pair(question, answer);
 
 
