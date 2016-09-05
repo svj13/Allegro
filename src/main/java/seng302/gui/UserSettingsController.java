@@ -1,17 +1,24 @@
 package seng302.gui;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXPopup;
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import seng302.Environment;
@@ -164,13 +171,33 @@ public class UserSettingsController {
     }
 
     /**
-     * Deletes the current user.
+     * Shows a delete user confimation dialog, and deletes the current user if suitable.
      */
     @FXML
     private void deleteUser() {
 
-        //TODO: Add a warning popup/message to force the user to confirm account deletion.
-        env.getUserHandler().deleteUser(env.getUserHandler().getCurrentUser().getUserName());
+        FXMLLoader popupLoader = new FXMLLoader(getClass().getResource("/Views/PopUpModal.fxml"));
+        try {
+            BorderPane modal = (BorderPane) popupLoader.load();
+            JFXPopup popup = new JFXPopup();
+            popup.setContent(modal);
+
+            popup.setPopupContainer(env.getRootController().paneMain);
+            popup.setSource(btnDeleteUser);
+            popup.show(JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.LEFT);
+            Label header = (Label) modal.lookup("#lblHeader");
+
+            JFXButton btnCancel = (JFXButton) modal.lookup("#btnCancel");
+            btnCancel.setOnAction((e) -> popup.close());
+
+            ((JFXButton) modal.lookup("#btnDelete")).setOnAction(
+                    (e) -> env.getUserHandler().deleteUser(env.getUserHandler().getCurrentUser().getUserName())
+            );
+
+            header.setText("Are you sure you wish to delete user: " + userHandler.getCurrentUser().getUserName() );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 }
