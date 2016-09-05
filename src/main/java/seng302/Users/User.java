@@ -2,26 +2,27 @@ package seng302.Users;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import javafx.scene.image.Image;
-import org.json.simple.JSONArray;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import seng302.App;
-import seng302.Environment;
-import seng302.data.Term;
-import seng302.utility.FileHandler;
-import seng302.utility.OutputTuple;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
+
+import javafx.scene.image.Image;
+import seng302.Environment;
+import seng302.data.Term;
+import seng302.utility.FileHandler;
 
 /**
  * Handles functionality for representing and manipulating a user's information.
@@ -317,7 +318,7 @@ public class User {
      * Returns the users's persisted theme colours.
      * Used when setting the ThemeHandler colours to the user's persisted colours.
      *
-     * @return an Array containing two elements: primary & secondary theme colours.
+     * @return an Array containing two elements: primary and secondary theme colours.
      */
     public String[] getThemeColours() {
         return new String[]{themePrimary, themeSecondary};
