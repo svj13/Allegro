@@ -3,7 +3,7 @@ package seng302.utility;
 import javafx.scene.paint.Color;
 
 /**
- * Created by Jonty on 30-Aug-16.
+ * Contains a collection of functions used for calculating and converting colours.
  */
 public class ColourUtils {
     /**
