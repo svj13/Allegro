@@ -31,7 +31,7 @@ public class MelodicMinorModesSteps {
 
     @When("I type the command 'parent of (.+)'")
     public void executeParentCommand(final String scale) {
-        env.getExecutor().executeCommand("melodic minor parent of " + scale);
+        env.getExecutor().executeCommand("parent of " + scale);
         result = env.getTranscriptManager().getTranscriptTuples().get(0).getResult();
     }
 

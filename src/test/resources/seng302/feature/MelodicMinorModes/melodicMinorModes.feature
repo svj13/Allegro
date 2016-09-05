@@ -29,7 +29,7 @@ Feature: Melodic Minor Modes
       | F lydian dominant  | C melodic minor  |
       | Bb lydian #5       | G melodic minor  |
       | F# altered         | G melodic minor  |
-      | A majorminor       | A melodic minor  |
+      | A minormajor       | A melodic minor  |
       | F# locrian #2      | A melodic minor  |
       | Eb lydian dominant | Bb melodic minor |
       | Bb mixolydian b6   | Eb melodic minor |

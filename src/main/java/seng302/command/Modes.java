@@ -27,6 +27,7 @@ public class Modes implements Command {
 
     private String commandType;
 
+    private static ArrayList<String> melodicMinorModes = new ArrayList<>(Arrays.asList("minormajor", "dorian b2", "lydian #5", "lydian dominant", "mixolydian b6", "locrian #2", "altered"));
 
     private static ArrayList<String> majorNotes = new ArrayList<>(Arrays.asList("C", "G", "D", "A", "E", "B", "F", "Bb", "Eb", "Ab", "Db", "Gb"));
 
@@ -58,7 +59,6 @@ public class Modes implements Command {
         this.startNote = scale.get("note");
         this.scaleType = scale.get("scale_type");
         this.tonic = Note.lookup(OctaveUtil.addDefaultOctave(startNote));
-
     }
 
     /**
@@ -87,8 +87,8 @@ public class Modes implements Command {
      *
      * @return parentScale
      */
-    public static String getParentScaleString(String startNote, String scaleType) {
-        Integer degree = ModeHelper.getKeyModes().get(scaleType);
+    public static String getMajorParentScaleString(String startNote, String scaleType) {
+        Integer degree = ModeHelper.getMajorKeyModes().get(scaleType);
         for (String note : majorNotes) {
             Note tonic = Note.lookup(OctaveUtil.addDefaultOctave(note));
             ArrayList<String> majorScale = Scale.scaleNameList(note, tonic.getScale("major", true), true, scaleType);
@@ -105,8 +105,8 @@ public class Modes implements Command {
      * The logic for the "parent of" command. Gets the name of the parent scale given a major mode
      * scale for the transcript manager
      */
-    public void getParentScale(Environment env) {
-        degree = ModeHelper.getKeyModes().get(scaleType);
+    public void getMajorParentScale(Environment env) {
+        degree = ModeHelper.getMajorKeyModes().get(scaleType);
         for (String note : majorNotes) {
             Note tonic = Note.lookup(OctaveUtil.addDefaultOctave(note));
             ArrayList<String> majorScale = Scale.scaleNameList(note, tonic.getScale("major", true), true, scaleType);
@@ -117,6 +117,44 @@ public class Modes implements Command {
         }
         env.error("Invalid note/scale type. Please check they are spelt correctly");
 
+
+    }
+
+    /**
+     * Takes a mode note of a scale and its type (e.g Dorian) and returns the parent scale it
+     * belongs to as a string
+     *
+     * @return parentScale
+     */
+    public static String getMelodicMinorParentScaleString(String startNote, String scaleType) {
+        Integer degree = ModeHelper.getMelodicMinorKeyModes().get(scaleType);
+        for (String note : majorNotes) {
+            Note tonic = Note.lookup(OctaveUtil.addDefaultOctave(note));
+            ArrayList<String> majorScale = Scale.scaleNameList(note, tonic.getScale("melodic minor", true), true, scaleType);
+            if (majorScale.get(degree - 1).equals(startNote)) {
+                return note + " melodic minor";
+            }
+        }
+
+        return "Start note did not match";
+    }
+
+
+    /**
+     * The logic for the "parent of" command. Gets the name of the parent scale given a major mode
+     * scale for the transcript manager
+     */
+    public void getMelodicMinorParentScale(Environment env) {
+        degree = ModeHelper.getMelodicMinorKeyModes().get(scaleType);
+        for (String note : majorNotes) {
+            Note tonic = Note.lookup(OctaveUtil.addDefaultOctave(note));
+            ArrayList<String> melodicMinorScale = Scale.scaleNameList(note, tonic.getScale("melodic minor", true), true, scaleType);
+            if (melodicMinorScale.get(degree - 1).equalsIgnoreCase(startNote)) {
+                env.getTranscriptManager().setResult(note + " melodic minor");
+                return;
+            }
+        }
+        env.error("Invalid note/scale type. Please check they are spelt correctly");
 
     }
 
@@ -163,10 +201,14 @@ public class Modes implements Command {
     public void execute(Environment env) {
         if (commandType.equals("modeOf") && scaleType.equals("major")) {
             getCorrespondingMajorScale(env);
-        } else if (commandType.equals("modeOf") && scaleType.equals("melodic minor")) {
+        } else if (commandType.equals("modeOf")) {
             getCorrespondingMelodicMinorModeScale(env);
         } else if (commandType.equals("parentOf")) {
-            getParentScale(env);
+            if (melodicMinorModes.contains(scaleType)) {
+                getMelodicMinorParentScale(env);
+            } else {
+                getMajorParentScale(env);
+            }
         }
     }
 

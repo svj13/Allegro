@@ -357,11 +357,11 @@ public class ScaleModesTutorController extends TutorController {
 
         //generate random degree and random note
         Integer degree = rand.nextInt(7) + 1; //generates random degree of mode
-        String randomNote = (String) ModeHelper.getModeNoteMap().get(degree).get(rand.nextInt(12));
+        String randomNote = (String) ModeHelper.getMajorModeNoteMap().get(degree).get(rand.nextInt(12));
         String randomType = ModeHelper.getMajorValueModes().get(degree);
 
         Pair question = new Pair(randomNote, randomType);
-        String answer = Modes.getParentScaleString(randomNote, randomType);
+        String answer = Modes.getMajorParentScaleString(randomNote, randomType);
         return new Pair(question, answer);
 
 
