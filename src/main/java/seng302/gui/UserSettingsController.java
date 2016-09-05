@@ -143,7 +143,7 @@ public class UserSettingsController {
     }
 
     /**
-     * Action listener for the last name edit/save button.
+     * On click action for the last name edit/save button.
      */
     @FXML
     private void editLastName() {
@@ -164,7 +164,7 @@ public class UserSettingsController {
     }
 
     /**
-     * Deletes a user.
+     * Deletes the current user.
      */
     @FXML
     private void deleteUser() {
