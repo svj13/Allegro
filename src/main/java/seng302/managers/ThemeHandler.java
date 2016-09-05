@@ -27,7 +27,7 @@ public class ThemeHandler {
     /**
      * Sets window to which attach the developed css.
      *
-     * @param node
+     * @param node The Node to which apply the CSS class.
      */
     public void setBaseNode(AnchorPane node) {
         this.baseNode = node;
@@ -38,8 +38,8 @@ public class ThemeHandler {
      * Creates a theme CSS file given a primary and secondary colours, then links the created CSS
      * to a Node (this.baseNode)
      *
-     * @param primary
-     * @param secondary
+     * @param primary primary theme colour
+     * @param secondary secondary theme colour
      */
     public void setTheme(String primary, String secondary) {
 

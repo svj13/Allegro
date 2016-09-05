@@ -12,7 +12,9 @@ import javafx.scene.paint.Color;
 import seng302.Environment;
 import seng302.utility.ColourUtils;
 
-
+/**
+ * Controller for the themeSettings Page. (UISKinner.fxml)
+ */
 public class UISkinnerController {
 
     @FXML
