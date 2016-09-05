@@ -24,7 +24,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Created by jmw280 on 22/07/16.
+ * Handles functionality for representing and manipulating a user's information.
+ * Also handles saving and loading users.
  */
 public class User {
 
@@ -149,11 +150,6 @@ public class User {
             themeSecondary = "white";
         }
 
-        //Below is commented out because setting the theme does not work at this point (Subject window not initialized)
-        //env.getThemeHandler().setTheme(themePrimary, themeSecondary);
-
-
-
         projectHandler = new ProjectHandler(env, userName);
 
     }
@@ -205,7 +201,6 @@ public class User {
 
         }
 
-
         //Password
         userPassword = (properties.get("password")).toString();
 
@@ -254,7 +249,6 @@ public class User {
             e.printStackTrace();
         }
 
-
     }
 
 
@@ -264,10 +258,8 @@ public class User {
     private void createUserFiles(){
         //Add all settings to such as tempo speed to the project here.
 
-
         Path path;
         try {
-            //path = Paths.get("UserData/" + userName + "/" + resultString);
 
             if (!Files.isDirectory(userDirectory)) {
                 try {
@@ -291,7 +283,7 @@ public class User {
         } catch (InvalidPathException invPath) {
             //invalid path (Poor project naming)
             env.getRootController().errorAlert("Invalid file name - try again.");
-            //createNewProject();
+
         }
 
 
@@ -322,9 +314,10 @@ public class User {
     }
 
     /**
+     * Returns the users's persisted theme colours.
      * Used when setting the ThemeHandler colours to the user's persisted colours.
      *
-     * @return
+     * @return an Array containing two elements: primary & secondary theme colours.
      */
     public String[] getThemeColours() {
         return new String[]{themePrimary, themeSecondary};

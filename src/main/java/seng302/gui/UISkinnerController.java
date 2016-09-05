@@ -48,7 +48,7 @@ public class UISkinnerController {
      */
     public void create(Environment env, AnchorPane node) {
         this.env = env;
-        //this.baseNode = node;
+
         env.getThemeHandler().setBaseNode(env.getRootController().paneMain);
         String colour = Color.valueOf(env.getThemeHandler().getPrimaryColour()).toString();
         colour = "#" + colour.substring(2, 8);

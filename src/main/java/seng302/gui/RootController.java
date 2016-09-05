@@ -223,23 +223,28 @@ public class RootController implements Initializable {
     }
 
 
+    /**
+     * Display or hide the main GUI window.
+     * @param show Boolean indicating whether to show or hide the main window.
+     */
     public void showWindow(Boolean show) {
         if (show) {
-
-            //Apply user theme
-            env.getThemeHandler().setBaseNode(paneMain);
-            String[] themeColours = env.getUserHandler().getCurrentUser().getThemeColours();
-            env.getThemeHandler().setTheme(themeColours[0], themeColours[1]);
-
-
-            //For luls. (we should create a product logo though)
-            stage.getIcons().add(new Image("file:resources/images/testDP.jpg"));
-
+            applyTheme();
             stage.show();
             updateImage();
 
         } else stage.hide();
 
+    }
+
+    /**
+     * Apply the current user's theme to the main window.
+     */
+    private void applyTheme(){
+        //Apply user theme
+        env.getThemeHandler().setBaseNode(paneMain);
+        String[] themeColours = env.getUserHandler().getCurrentUser().getThemeColours();
+        env.getThemeHandler().setTheme(themeColours[0], themeColours[1]);
     }
 
 

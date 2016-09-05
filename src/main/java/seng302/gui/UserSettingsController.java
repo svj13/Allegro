@@ -33,14 +33,7 @@ public class UserSettingsController {
     @FXML
     private AnchorPane chordSpellingAnchor;
 
-   // @FXML
-    //private Button uploadPhotoButton;
 
-//    @FXML
-//    private TextField lastNameField;
-//
-//    @FXML
-//    private TextField firstNameField;
 
 
     @FXML
@@ -89,8 +82,7 @@ public class UserSettingsController {
 
 
         ImageView imgEdit = new ImageView(new Image(getClass().getResourceAsStream("/images/edit_mode_black_18dp.png"), 18, 18, false, false));
-        //imgEdit.setFitHeight(25);
-        //imgEdit.setFitWidth(25);
+
 
         btnEditFName.setGraphic(imgEdit);
         btnEditLName.setGraphic(new ImageView(imgEdit.getImage()));

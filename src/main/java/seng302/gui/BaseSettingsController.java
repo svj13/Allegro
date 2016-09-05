@@ -58,8 +58,6 @@ public class BaseSettingsController {
 
     public void create(Environment env) {
         this.env = env;
-        //Moved the below logic from the initialize function so that env is instantiated when calling
-        //The inner 'create' functions.
 
 
     }
@@ -107,7 +105,7 @@ public class BaseSettingsController {
     }
 
     /**
-     *  Loads the themesettings view and opens it inside the settings pane.
+     *  Loads the themeSettings view and opens it inside the settings pane.
      *
      */
     @FXML
@@ -146,6 +144,11 @@ public class BaseSettingsController {
 //        btnThemeSettings.setStyle("");
 //        btnUserSettings.setStyle("");
 //    }
+
+    /**
+     * Used to update the 'Theme Settings' menu button's background colour to the current primary theme colour.
+     * The typical usage of this function is being called from the UI Picker class after changing the theme.
+     */
     public void updateSelectedTab() {
         btnThemeSettings.setStyle(String.format("-fx-background-color: %s", env.getThemeHandler().getPrimaryColour()));
     }
