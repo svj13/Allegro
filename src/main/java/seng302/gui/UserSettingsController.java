@@ -190,9 +190,13 @@ public class UserSettingsController {
             JFXButton btnCancel = (JFXButton) modal.lookup("#btnCancel");
             btnCancel.setOnAction((e) -> popup.close());
 
-            ((JFXButton) modal.lookup("#btnDelete")).setOnAction(
-                    (e) -> env.getUserHandler().deleteUser(env.getUserHandler().getCurrentUser().getUserName())
-            );
+            ((JFXButton) modal.lookup("#btnDelete")).
+                    setOnAction((event) -> {
+                        env.getUserHandler().deleteUser(env.getUserHandler().getCurrentUser().getUserName());
+                        popup.close();
+                    });
+
+
 
             header.setText("Are you sure you wish to delete user: " + userHandler.getCurrentUser().getUserName() );
         } catch (IOException e) {
@@ -200,4 +204,7 @@ public class UserSettingsController {
         }
 
     }
+
+
 }
+
