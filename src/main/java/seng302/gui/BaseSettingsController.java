@@ -12,7 +12,9 @@ import javafx.scene.layout.VBox;
 import seng302.Environment;
 
 /**
- * Created by Jonty on 01-Sep-16.
+ * Settings Page shell controller.
+ * In charge of opening and all settings pages.
+ *
  */
 public class BaseSettingsController {
     Environment env;
