@@ -121,16 +121,12 @@ public class ThemeHandler {
         } else secondaryFont = "white";
 
 
-        System.out.println("sum: " + (float) ((float) ((float) primary.getRed() * 0.299f) + (float) (primary.getGreen() * 0.144f) + (float) (primary.getBlue() * 0.144f)));
         if ((float) ((float) ((float) primary.getRed() * 0.299f) + (float) (primary.getGreen() * 0.587f) + (float) (primary.getBlue() * 0.144f)) > 186) {
 
             primaryFont = "black";
 
         } else primaryFont = "white";
 
-        System.out.println(primaryFont);
-
-        System.out.println(baseRGB);
 
         ArrayList<String> templateCSS = new ArrayList<String>();
 
