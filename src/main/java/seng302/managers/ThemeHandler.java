@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 import javafx.scene.layout.AnchorPane;
 
 /**
- * Created by Jonty on 30-Aug-16.
+ * This class is responsible for setting the GUI to display in a user's theme colours.
  */
 public class ThemeHandler {
 
