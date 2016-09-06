@@ -29,7 +29,7 @@ import javafx.util.Pair;
 import seng302.Environment;
 
 /**
- * Created by jmw280 on 22/08/16.
+ *  Handles and Creates Users.
  */
 public class UserPageController {
 

@@ -12,8 +12,8 @@
     <!--<children>-->
       <!--<Pane layoutX="-283.0" style="-fx-background-color: brown;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">-->
          <children>
-             <ToolBar fx:id="playbackToolbar" maxHeight="-Infinity" minHeight="-Infinity"
-                      prefHeight="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+             <ToolBar fx:id="playbackToolbar" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="40.0"
+                      AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                  <items>
                      <Label text="Command Playback Mode">
                          <padding>
@@ -25,8 +25,7 @@
                      </Label>
                      <Button fx:id="playall" mnemonicParsing="false" text="Play All">
                          <graphic>
-                             <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true"
-                                        preserveRatio="true">
+                             <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                      <Image url="@../images/play-sharp.png"/>
                                  </image>
@@ -35,8 +34,7 @@
                      </Button>
                      <Button fx:id="playnext" mnemonicParsing="false" text="Play Next">
                          <graphic>
-                             <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true"
-                                        preserveRatio="true">
+                             <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                      <Image url="@../images/play-one.png"/>
                                  </image>
@@ -55,8 +53,7 @@
                      </Label>
                      <Button fx:id="stop" mnemonicParsing="false" text="Exit Playback Mode">
                          <graphic>
-                             <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true"
-                                        preserveRatio="true">
+                             <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                      <Image url="@../images/letter-x.png"/>
                                  </image>
@@ -65,21 +62,17 @@
                      </Button>
                  </items>
              </ToolBar>
-             <TextArea fx:id="txtTranscript" editable="false" focusTraversable="false"
-                       prefHeight="278.0" prefWidth="724.0"
+             <TextArea fx:id="txtTranscript" editable="false" focusTraversable="false" prefHeight="278.0"
+                       prefWidth="724.0"
                        promptText="Enter a command in the box below. Type 'help' for more information on the available commands."
                        wrapText="true" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="0"
                        AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0.0"/>
-             <TextField fx:id="txtCommand" layoutX="11.0" layoutY="286.0"
-                        onKeyPressed="#handleKeyPressed" prefHeight="30.0" prefWidth="516.0"
-                        AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="20.0"
-                        AnchorPane.rightAnchor="208.0"/>
-             <JFXButton fx:id="btnGo" layoutX="556.0" layoutY="298.0" mnemonicParsing="false"
-                     onAction="#goAction" prefHeight="30.0" prefWidth="74.0" text="Go"
-                     AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="114.0"/>
-             <JFXButton fx:id="helpButton" layoutX="627.0" layoutY="298.0" mnemonicParsing="false"
-                     onAction="#showDslRef" prefHeight="30.0" prefWidth="74.0" text="Help"
-                     AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="20.0"/>
+             <TextField fx:id="txtCommand" layoutX="11.0" layoutY="286.0" onKeyPressed="#handleKeyPressed"
+                        prefHeight="30.0" prefWidth="601.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="20.0"
+                        AnchorPane.rightAnchor="123.0"/>
+             <JFXButton fx:id="btnGo" layoutX="630.0" layoutY="298.0" mnemonicParsing="false" onAction="#goAction"
+                        prefHeight="30.0" prefWidth="100.0" styleClass="primary" text="Go" AnchorPane.bottomAnchor="15.0"
+                        AnchorPane.rightAnchor="14.0"/>
          </children>
       <!--</Pane>-->
     <!--</children>-->

@@ -32,6 +32,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCombination;
@@ -90,7 +91,7 @@ public class RootController implements Initializable {
     public ChordSpellingTutorController ChordSpellingTabController;
 
     @FXML
-    private UserSettingsController UserSettingsTabController;
+    private BaseSettingsController settingsController;
 
     @FXML
     public KeySignaturesTutorController KeySignaturesTabController;
@@ -156,9 +157,6 @@ public class RootController implements Initializable {
     private MenuItem menuKST;
 
     @FXML
-    private MenuItem skinGuiButton;
-
-    @FXML
     private Menu menuOpenProjects;
 
     @FXML
@@ -178,7 +176,15 @@ public class RootController implements Initializable {
         Platform.runLater(() -> transcriptController.txtCommand.requestFocus());
     }
 
+    @FXML
+    public void showDslRef() {
+        dslRefControl.getPopover().show(paneMain);
+    }
+
+    private DslReferenceController dslRefControl;
+
     public void initialize(URL location, ResourceBundle resources) {
+        dslRefControl = new DslReferenceController(transcriptController);
 
         String cssBordering = "-fx-border-color:dimgray ; \n" //#090a0c
                 + "-fx-border-insets:3;\n"
@@ -217,13 +223,28 @@ public class RootController implements Initializable {
     }
 
 
+    /**
+     * Display or hide the main GUI window.
+     * @param show Boolean indicating whether to show or hide the main window.
+     */
     public void showWindow(Boolean show) {
         if (show) {
+            applyTheme();
             stage.show();
             updateImage();
 
         } else stage.hide();
 
+    }
+
+    /**
+     * Apply the current user's theme to the main window.
+     */
+    private void applyTheme(){
+        //Apply user theme
+        env.getThemeHandler().setBaseNode(paneMain);
+        String[] themeColours = env.getUserHandler().getCurrentUser().getThemeColours();
+        env.getThemeHandler().setTheme(themeColours[0], themeColours[1]);
     }
 
 
@@ -1229,41 +1250,6 @@ public class RootController implements Initializable {
         TabPane.getTabs().remove(1, total_tabs);
     }
 
-    /**
-     * Creates the gui skinner tab
-     */
-    @FXML
-    private void createColorTab() {
-        boolean alreadyExists = false;
-        for (Tab tab : TabPane.getTabs()) {
-            if (tab.getId().equals("uiSkinner")) {
-                TabPane.getSelectionModel().select(tab);
-                alreadyExists = true;
-            }
-
-        }
-
-        if (!alreadyExists) {
-
-            Tab skinnerTab = new Tab("Interface Skinner");
-            skinnerTab.setId("uiSkinner");
-
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/Views/UISkinner.fxml"));
-
-            try {
-                skinnerTab.setContent((Node) loader.load());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            TabPane.getTabs().add(skinnerTab);
-            TabPane.getSelectionModel().select(skinnerTab);
-            uiSkinnerController = loader.getController();
-            uiSkinnerController.create(env, paneMain);
-        }
-    }
-
 
     public TranscriptPaneController getTranscriptController() {
         return transcriptController;
@@ -1271,10 +1257,10 @@ public class RootController implements Initializable {
 
 
     @FXML
-    private void launchUserSettings() {
+    private void launchSettings() {
         boolean alreadyExists = false;
         for (Tab tab : TabPane.getTabs()) {
-            if (tab.getId().equals("userSettings")) {
+            if (tab.getId().equals("Settings")) {
                 TabPane.getSelectionModel().select(tab);
                 alreadyExists = true;
             }
@@ -1283,11 +1269,11 @@ public class RootController implements Initializable {
 
         if (!alreadyExists) {
 
-            Tab settingsTab = new Tab("User Settings");
+            Tab settingsTab = new Tab("Settings");
             settingsTab.setId("userSettings");
 
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/Views/UserSettings.fxml"));
+            loader.setLocation(getClass().getResource("/Views/BaseSettings.fxml"));
 
             try {
                 settingsTab.setContent((Node) loader.load());
@@ -1297,8 +1283,13 @@ public class RootController implements Initializable {
 
             TabPane.getTabs().add(settingsTab);
             TabPane.getSelectionModel().select(settingsTab);
-            UserSettingsTabController = loader.getController();
-            UserSettingsTabController.create(env);
+            settingsController = loader.getController();
+            settingsController.create(env);
+//            settingsController.create(env);
         }
+    }
+
+    public BaseSettingsController getBaseSettingsController() {
+        return settingsController;
     }
 }

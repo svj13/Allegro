@@ -166,6 +166,7 @@ public class KeyboardPaneController {
         bottomNote = 48;
         topNote = 72;
 
+
         createSettingsPop();
         createDisplayScalesPop();
 
