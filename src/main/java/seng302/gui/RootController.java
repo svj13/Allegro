@@ -31,6 +31,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCombination;
@@ -76,7 +77,6 @@ public class RootController implements Initializable {
     @FXML
     SplitPane splitPane;
 
-
     @FXML
     private PitchComparisonTutorController PitchComparisonTabController;
 
@@ -99,7 +99,19 @@ public class RootController implements Initializable {
     private ChordSpellingTutorController ChordSpellingTabController;
 
     @FXML
+    private BaseSettingsController settingsController;
+
+    @FXML
+    public KeySignaturesTutorController KeySignaturesTabController;
+
+    @FXML
+    public DiatonicChordsTutorController DiatonicChordsController;
+
+    @FXML
     private KeySignaturesTutorController KeySignaturesTabController;
+
+    @FXML
+    public ScaleModesTutorController ScaleModesController;
 
     @FXML
     private KeyboardPaneController keyboardPaneController;
@@ -170,7 +182,15 @@ public class RootController implements Initializable {
         Platform.runLater(() -> transcriptController.txtCommand.requestFocus());
     }
 
+    @FXML
+    public void showDslRef() {
+        dslRefControl.getPopover().show(paneMain);
+    }
+
+    private DslReferenceController dslRefControl;
+
     public void initialize(URL location, ResourceBundle resources) {
+        dslRefControl = new DslReferenceController(transcriptController);
 
         String cssBordering = "-fx-border-color:dimgray ; \n" //#090a0c
                 + "-fx-border-insets:3;\n"
@@ -209,14 +229,29 @@ public class RootController implements Initializable {
     }
 
 
+    /**
+     * Display or hide the main GUI window.
+     * @param show Boolean indicating whether to show or hide the main window.
+     */
     public void showWindow(Boolean show) {
         if (show) {
+            applyTheme();
             stage.show();
             updateImage();
 
 
         } else stage.hide();
 
+    }
+
+    /**
+     * Apply the current user's theme to the main window.
+     */
+    private void applyTheme(){
+        //Apply user theme
+        env.getThemeHandler().setBaseNode(paneMain);
+        String[] themeColours = env.getUserHandler().getCurrentUser().getThemeColours();
+        env.getThemeHandler().setTheme(themeColours[0], themeColours[1]);
     }
 
 
@@ -312,30 +347,7 @@ public class RootController implements Initializable {
 
 
     /**
-     * Probably delete this? - Do you need this Joseph?
-     */
-    public void loadUserPage(){
-//        FXMLLoader loader = new FXMLLoader();
-//        loader.setLocation(getClass().getResource("/Views/UserPage.fxml"));
-//        try {
-//            System.out.println(userPage);
-//            userPage.getChildren().add(loader.load());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        TabPane.setVisible(false);
-//        UserPageController userPageController = loader.getController();
-//        userPageController.setEnvironment(env);
-//        userPageController.populateUserOptions();
-//        userPageController.updateImage();
-
-
-
-    }
-    /**
      * Opens the user page.
-     *
-     * @throws IOException
      */
     public void showUserPage() throws IOException {
         FXMLLoader userPageLoader = new FXMLLoader();
@@ -384,39 +396,37 @@ public class RootController implements Initializable {
 
     /**
      * Opens a login page in a specified stage (window)
-     * @param loginStage
-     * @throws IOException
      */
     public void showLoginWindow(Stage loginStage) throws IOException {
         //if (show) {
 
-            //Close current window.
-            if (stage.isShowing()) stage.close();
+        //Close current window.
+        if (stage.isShowing()) stage.close();
 
-            FXMLLoader loader1 = new FXMLLoader();
-            loader1.setLocation(getClass().getResource("/Views/userLogin.fxml"));
+        FXMLLoader loader1 = new FXMLLoader();
+        loader1.setLocation(getClass().getResource("/Views/userLogin.fxml"));
 
-            Parent root1 = loader1.load();
-            Scene scene1 = new Scene(root1);
-
-
-            loginStage.setTitle("Allegro");
-            loginStage.setScene(scene1);
+        Parent root1 = loader1.load();
+        Scene scene1 = new Scene(root1);
 
 
-            loginStage.setOnCloseRequest(event -> {
-                System.exit(0);
-                event.consume();
-            });
+        loginStage.setTitle("Allegro");
+        loginStage.setScene(scene1);
+
+
+        loginStage.setOnCloseRequest(event -> {
+            System.exit(0);
+            event.consume();
+        });
 
         loginStage.setMinWidth(600);
         Double initialHeight = loginStage.getHeight();
         loginStage.setMinHeight(initialHeight);
 
-            loginStage.show();
-            UserLoginController userLoginController = loader1.getController();
-            userLoginController.setEnv(env);
-            userLoginController.displayRecentUsers();
+        loginStage.show();
+        UserLoginController userLoginController = loader1.getController();
+        userLoginController.setEnv(env);
+        userLoginController.displayRecentUsers();
 
 
         //}
@@ -427,7 +437,7 @@ public class RootController implements Initializable {
     public void logOutUser() throws IOException {
         stage.close();
         showLoginWindow();
-        //reset();
+        reset();
 
     }
 
@@ -1003,11 +1013,7 @@ public class RootController implements Initializable {
         return tutorFactory;
     }
 
-
-
-
-
-
-
-
+    public BaseSettingsController getBaseSettingsController() {
+        return settingsController;
+    }
 }

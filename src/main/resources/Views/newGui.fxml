@@ -24,26 +24,26 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="paneMain" maxHeight="-Infinity" maxWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.RootController">
-    <children>
-        <VBox prefHeight="457.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <children>
-                <!--<children>-->
-                <MenuBar fx:id="menuFileBar" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="29.0" prefWidth="500.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <menus>
-                        <Menu mnemonicParsing="false" onShowing="#bindOpenObjects" text="File">
-                            <items>
-                                <MenuItem fx:id="menuQuit" accelerator="Shortcut+Q" mnemonicParsing="false" onAction="#closeApplication" text="Quit" />
-                                <Menu fx:id="menuOpenProjects" mnemonicParsing="false" text="Open Project" />
-                                <Menu mnemonicParsing="false" text="Import">
-                                    <items>
-                                        <MenuItem fx:id="MenuImportTranscript" mnemonicParsing="false" onAction="#importTranscript" text="Import Transcript" />
-                                        <MenuItem fx:id="MenuImportCommands" mnemonicParsing="false" onAction="#importCommands" text="Import Commands" />
-                                    </items>
-                                </Menu>
-                                <Menu mnemonicParsing="false" text="New..">
-                                    <items>
-                                        <MenuItem fx:id="menuNewProject" accelerator="Shortcut+N" mnemonicParsing="false" onAction="#newProject" text="Project" />
+<AnchorPane fx:id="paneMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="457.0" minWidth="700.0" prefHeight="457.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.RootController">
+   <children>
+       <VBox prefHeight="457.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+           <children>
+               <!--<children>-->
+               <MenuBar fx:id="menuFileBar" minHeight="-Infinity" prefHeight="29.0" prefWidth="500.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                   <menus>
+                       <Menu mnemonicParsing="false" onShowing="#bindOpenObjects" text="File">
+                     <items>
+                         <MenuItem fx:id="menuQuit" accelerator="Shortcut+Q" mnemonicParsing="false" onAction="#closeApplication" text="Quit" />
+                         <Menu fx:id="menuOpenProjects" mnemonicParsing="false" text="Open Project" />
+                         <Menu mnemonicParsing="false" text="Import">
+                             <items>
+                                 <MenuItem fx:id="MenuImportTranscript" mnemonicParsing="false" onAction="#importTranscript" text="Import Transcript" />
+                                 <MenuItem fx:id="MenuImportCommands" mnemonicParsing="false" onAction="#importCommands" text="Import Commands" />
+                             </items>
+                         </Menu>
+                         <Menu mnemonicParsing="false" text="New..">
+                             <items>
+                                 <MenuItem fx:id="menuNewProject" accelerator="Shortcut+N" mnemonicParsing="false" onAction="#newProject" text="Project" />
 
                                     </items>
                                 </Menu>
@@ -82,8 +82,9 @@
                                         <RadioMenuItem mnemonicParsing="false" onAction="#stopShowingNotesOnKeyboard" selected="true" text="Do not show note names" toggleGroup="$keyboardOptions" />
                                     </items>
                                 </Menu>
-                                <MenuItem fx:id="skinGuiButton" mnemonicParsing="false" onAction="#createColorTab" text="Skin GUI" />
                                 <MenuItem mnemonicParsing="false" onAction="#openTranscript" text="Show Transcript" />
+                                <MenuItem fx:id="menuHelpWindow" mnemonicParsing="false" onAction="#showDslRef" text="DSL Reference Card" />
+
                             </items>
                         </Menu>
 

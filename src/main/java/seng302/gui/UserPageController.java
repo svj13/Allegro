@@ -35,7 +35,7 @@ import seng302.Environment;
 import seng302.data.KeySignature;
 
 /**
- * Created by jmw280 on 22/08/16.
+ *  Handles and Creates Users.
  */
 public class UserPageController {
 
@@ -118,7 +118,6 @@ public class UserPageController {
 
     public UserPageController() {
     }
-
 
 
     public void setEnvironment(Environment env) {

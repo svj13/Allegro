@@ -1,5 +1,7 @@
 package seng302.gui;
 
+import com.jfoenix.controls.JFXButton;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -38,7 +40,7 @@ public class TranscriptPaneController {
     public TextField txtCommand;
 
     @FXML
-    private Button btnGo;
+    private JFXButton btnGo;
 
     @FXML
     private MenuItem menuQuit;
@@ -70,15 +72,10 @@ public class TranscriptPaneController {
     @FXML
     ToolBar playbackToolbar;
 
-    @FXML
-    private Button helpButton;
-
-    private DslReferenceController dslRefControl;
-
 
     @FXML
     private void initialize() {
-        dslRefControl = new DslReferenceController(this);
+
         // Text field can only request focus once everything has been loaded.
         Platform.runLater(() -> txtCommand.requestFocus());
     }
@@ -133,11 +130,6 @@ public class TranscriptPaneController {
 
     private void printToTranscript() {
         txtTranscript.appendText(env.getTranscriptManager().getLastCommand());
-    }
-
-    @FXML
-    public void showDslRef() {
-        dslRefControl.getPopover().show(helpButton);
     }
 
 

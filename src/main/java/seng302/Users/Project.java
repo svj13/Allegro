@@ -12,7 +12,6 @@ package seng302.Users;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -23,17 +22,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-import seng302.Environment;
+import javax.sound.midi.Instrument;
 
+import seng302.Environment;
 import seng302.utility.InstrumentUtility;
 import seng302.utility.OutputTuple;
-
-import javax.sound.midi.Instrument;
 
 public class Project {
 
@@ -51,39 +48,39 @@ public class Project {
     Environment env;
     public TutorHandler tutorHandler;
 
+    public Boolean isCompetitiveMode;
+
     public Project(Environment env, String projectName, ProjectHandler projectH) {
         this.projectName = projectName;
-        this.projectDirectory =  Paths.get(projectH.projectsDirectory + "/"+projectName);
+        this.projectDirectory = Paths.get(projectH.projectsDirectory + "/" + projectName);
         this.env = env;
         projectSettings = new JSONObject();
         tutorHandler = new TutorHandler(env);
         projectHandler = projectH;
+        isCompetitiveMode = true;
 
         loadProject(projectName);
         loadProperties();
 
 
-
     }
 
 
-    public TutorHandler getTutorHandler(){
+    public TutorHandler getTutorHandler() {
         return tutorHandler;
     }
 
 
     /**
-     * Updates the Project properties variable to contain the latest project settings
-     * (Does not write to disk)
+     * Updates the Project properties variable to contain the latest project settings (Does not
+     * write to disk)
      */
     private void saveProperties() {
         Gson gson = new Gson();
         projectSettings.put("tempo", env.getPlayer().getTempo());
         String transcriptString = gson.toJson(env.getTranscriptManager().getTranscriptTuples());
-        //System.out.println("saveProperties called! " + env.getTranscriptManager().getTranscriptTuples().size());
+
         projectSettings.put("transcript", transcriptString);
-
-
 
 
         projectSettings.put("rhythm", gson.toJson(env.getPlayer().getRhythmHandler().getRhythmTimings()));
@@ -93,13 +90,9 @@ public class Project {
     }
 
 
-
-
-
     /**
-     * load all saved project properties from the project json file.
-     * This currently supports Tempo, working transcript and rhythm setting.
-     *
+     * load all saved project properties from the project json file. This currently supports Tempo,
+     * working transcript and rhythm setting.
      */
     private void loadProperties() {
         int tempo;
@@ -124,7 +117,6 @@ public class Project {
 
         //03-sept Removed below line as of trancscript tab removal.
         //env.getRootController().setTranscriptPaneText(env.getTranscriptManager().convertToText());
-
 
 
         //Rhythm
@@ -165,7 +157,8 @@ public class Project {
 
 
     /**
-     * Saves the current project, or if there is no current working project; launches the New project dialog.
+     * Saves the current project, or if there is no current working project; launches the New
+     * project dialog.
      */
     public void saveCurrentProject() {
         if (currentProjectPath != null) {
@@ -180,6 +173,7 @@ public class Project {
 
     /**
      * Handles Saving a .json Project file, for the specified project address
+     *
      * @param projectAddress Project directory address.
      */
     public void saveProject(String projectAddress) {
@@ -208,11 +202,10 @@ public class Project {
     }
 
 
-
-
     /**
-     * Compares a specified project property to the saved value
-     * If there is a difference, adds an asterix indicator to the project title
+     * Compares a specified project property to the saved value If there is a difference, adds an
+     * asterix indicator to the project title
+     *
      * @param propName property id which is stored in the Json project file.
      */
     public void checkChanges(String propName) {
@@ -251,8 +244,9 @@ public class Project {
 
 
     /**
-     * Loads a project, specifed by the project name.
-     * All projects must be located in the user's projects directory to be correctly loaded.
+     * Loads a project, specifed by the project name. All projects must be located in the user's
+     * projects directory to be correctly loaded.
+     *
      * @param pName project name string
      */
     public void loadProject(String pName) {
@@ -272,7 +266,6 @@ public class Project {
                 if (!Paths.get(path).toFile().isDirectory()) {
                     //If the Project directory folder doesn't exist.
                     System.err.println("Project directory missing - Might have been moved, renamed or deleted.\n Will remove the project from the projects json");
-                    //env.getRootController().errorAlert("Project directory is missing - possibly moved, renamed or deleted - recreating.");
 
                     try {
                         Files.createDirectories(projectDirectory);
@@ -326,5 +319,6 @@ public class Project {
     public String getCurrentProjectPath() {
         return currentProjectPath;
     }
+
 
 }

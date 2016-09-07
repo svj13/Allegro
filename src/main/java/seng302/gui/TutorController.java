@@ -1,17 +1,21 @@
 package seng302.gui;
 
+import com.jfoenix.controls.JFXSlider;
+
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Slider;
+import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -47,6 +51,8 @@ public abstract class TutorController {
 
     public TutorHandler tutorHandler;
 
+    public List qPanes;
+
     Stage stage;
 
     File fileDir;
@@ -60,7 +66,13 @@ public abstract class TutorController {
     ScrollPane paneQuestions;
 
     @FXML
+    Accordion qAccordion;
+
+    @FXML
     ScrollPane paneResults;
+
+    @FXML
+    VBox paneInit;
 
     @FXML
     Text resultsTitle;
@@ -75,7 +87,7 @@ public abstract class TutorController {
     HBox buttons;
 
     @FXML
-    Slider numQuestions;
+    JFXSlider numQuestions;
 
     @FXML
     Label questions;
@@ -102,7 +114,15 @@ public abstract class TutorController {
      * Implements the settings of a slider used to select number of questions.
      */
     public void initialiseQuestionSelector() {
-        selectedQuestions = (int) numQuestions.getValue();
+        if (env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().isCompetitiveMode) {
+            numQuestions.setValue(10);
+            numQuestions.setDisable(true);
+            selectedQuestions = 10;
+
+        } else {
+            selectedQuestions = (int) numQuestions.getValue();
+
+        }
         questions.setText(Integer.toString(selectedQuestions));
 
         // The listener for the number of questions selected
@@ -130,11 +150,18 @@ public abstract class TutorController {
         manager.clearTempIncorrect();
         Collections.shuffle(tempIncorrectResponses);
         manager.questions = tempIncorrectResponses.size();
+        List retestPanes = new ArrayList<>();
+
         for (Pair pair : tempIncorrectResponses) {
             HBox questionRow = generateQuestionPane(pair);
-            questionRows.getChildren().add(questionRow);
+            TitledPane qPane = new TitledPane("Question " + (tempIncorrectResponses.indexOf(pair) + 1), questionRow);
+            qPane.setPadding(new Insets(2, 2, 2, 2));
+            retestPanes.add(qPane);
             VBox.setMargin(questionRow, new Insets(10, 10, 10, 10));
         }
+        qAccordion.getPanes().remove(0, qAccordion.getPanes().size());
+        qAccordion.getPanes().addAll(retestPanes);
+        questionRows.getChildren().add(qAccordion);
     }
 
     protected void finished() {
@@ -267,7 +294,7 @@ public abstract class TutorController {
     public void formatQuestionRow(HBox questionRow) {
         questionRow.setPadding(new Insets(10, 10, 10, 10));
         questionRow.setSpacing(10);
-        questionRow.setStyle("-fx-border-color: #336699; -fx-border-width: 2px;");
+//        questionRow.setStyle("-fx-border-color: #336699; -fx-border-width: 2px;");
     }
 
     /**
@@ -290,13 +317,14 @@ public abstract class TutorController {
         return noteName;
     }
 
+
     /**
      * Formats a GUI question to indicate it was skipped
      *
      * @param question The HBox containing info about a question
      */
     public void formatSkippedQuestion(HBox question) {
-        question.setStyle("-fx-border-color: grey; -fx-border-width: 2px;");
+        question.getParent().getParent().setStyle("-fx-border-color: grey; -fx-border-width: 2px;");
     }
 
     /**
@@ -305,7 +333,7 @@ public abstract class TutorController {
      * @param question The HBox containing info about a question
      */
     public void formatCorrectQuestion(HBox question) {
-        question.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
+        question.getParent().getParent().setStyle("-fx-border-color: green; -fx-border-width: 2px;");
     }
 
     /**
@@ -314,7 +342,7 @@ public abstract class TutorController {
      * @param question The HBox containing info about a question
      */
     public void formatIncorrectQuestion(HBox question) {
-        question.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+        question.getParent().getParent().setStyle("-fx-border-color: red; -fx-border-width: 2px;");
     }
 
     /**
@@ -323,7 +351,7 @@ public abstract class TutorController {
      * @param question The HBox containing info about a question
      */
     public void formatPartiallyCorrectQuestion(HBox question) {
-        question.setStyle("-fx-border-color: yellow; -fx-border-width: 2px;");
+        question.getParent().getParent().setStyle("-fx-border-color: yellow; -fx-border-width: 2px;");
     }
 
     /**
@@ -384,5 +412,42 @@ public abstract class TutorController {
 
     public void setTabID(String tabID) {
         this.tabID = tabID;
+    }
+
+    /**
+     * Called whenever a question is answered or skipped. This sets the next unanswered question to
+     * be the one that is expanded.
+     */
+    public void handleAccordion() {
+        int currentPaneIndex = qPanes.indexOf(qAccordion.getExpandedPane());
+
+        // Start by looking at the next question
+        boolean found = false;
+        int i = currentPaneIndex + 1;
+
+        while (i < qPanes.size() && !found) {
+            // Go forward to the end
+            TitledPane currentQuestionPane = (TitledPane) qPanes.get(i);
+            if (!currentQuestionPane.getStyle().contains("-fx-border-color")) {
+                // this question has not been styled, and therefore not answered
+                found = true;
+                qAccordion.setExpandedPane((TitledPane) qPanes.get(i));
+            }
+            i++;
+        }
+
+
+        if (!found) {
+            // start again from 0 if not found
+            for (int j = 0; j < qPanes.size() - 1; j++) {
+                TitledPane currentQuestionPane = (TitledPane) qPanes.get(j);
+                if (currentQuestionPane.getStyle().contains("-fx-border-color")) {
+                    // this question has been styled, and therefore answered
+                } else {
+                    qAccordion.setExpandedPane((TitledPane) qPanes.get(j));
+                    break;
+                }
+            }
+        }
     }
 }

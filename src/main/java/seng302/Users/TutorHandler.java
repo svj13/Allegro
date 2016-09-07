@@ -24,6 +24,16 @@ import seng302.utility.TutorRecord;
 public class TutorHandler {
     Environment env;
 
+    private static final List<String> tutorIds = new ArrayList<String>() {{
+        add("pitchTutor");
+        add("scaleTutor");
+        add("intervalTutor");
+        add("musicalTermsTutor");
+        add("chordTutor");
+        add("chordSpellingTutor");
+        add("keySignatureTutor");
+        add("diatonicChordTutor");
+    }};
 
     public TutorHandler(Environment env) {
         this.env = env;
@@ -122,6 +132,22 @@ public class TutorHandler {
         return scores;
     }
 
+    /**
+     * Return the total number of questions answered correctly or incorrectly in all tutors.
+     *
+     * @return Pair consisting of total correct and total incorrect.
+     */
+    public Pair<Integer, Integer> getTotalsForAllTutors() {
+        Integer totalCorrect = 0;
+        Integer totalIncorrect = 0;
+        for (String tutor : tutorIds) {
+            Pair<Integer, Integer> total = getTutorTotals(tutor);
+            totalCorrect += total.getKey();
+            totalIncorrect += total.getValue();
+        }
+        return new Pair<>(totalCorrect, totalIncorrect);
+    }
+
 
     /**
      * When finished a tutor session. Or when save is clicked part way through.
@@ -151,6 +177,9 @@ public class TutorHandler {
         }
         if (env.getRootController().tabSaveCheck("diatonicChordTutor")) {
             saveTutorRecordsToFile(projectAddress + "/DiatonicChordTutor.json", env.getUserPageController().diatonicChordsTutorController.record);
+        }
+        if (env.getRootController().tabSaveCheck("scaleModesTutor")) {
+            saveTutorRecordsToFile(projectAddress + "/ScaleModesTutor.json", env.getRootController().ScaleModesController.record);
         }
     }
 
