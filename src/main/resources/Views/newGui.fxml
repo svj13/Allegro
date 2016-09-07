@@ -120,7 +120,7 @@
                 <MenuButton fx:id="userDropDown" alignment="CENTER" contentDisplay="LEFT" ellipsisString="user" mnemonicParsing="false" text="user" textOverrun="CENTER_ELLIPSIS">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#logOutUser" text="Logout" />
-                        <MenuItem fx:id="userSettingsButton" mnemonicParsing="false" onAction="#launchUserSettings" text="User Settings" />
+                        <MenuItem fx:id="userSettingsButton" mnemonicParsing="false" onAction="#launchSettings" text="Settings" />
                     </items>
                 </MenuButton>
             </children>

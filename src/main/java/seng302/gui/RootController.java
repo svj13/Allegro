@@ -1,6 +1,7 @@
 package seng302.gui;
 
 
+import javafx.scene.Node;
 import org.json.simple.JSONArray;
 
 import java.io.File;
@@ -101,8 +102,8 @@ public class RootController implements Initializable {
     @FXML
     private BaseSettingsController settingsController;
 
-    @FXML
-    public KeySignaturesTutorController KeySignaturesTabController;
+//    @FXML
+//    public KeySignaturesTutorController KeySignaturesTabController;
 
     @FXML
     public DiatonicChordsTutorController DiatonicChordsController;
@@ -985,6 +986,24 @@ public class RootController implements Initializable {
 //            UserSettingsTabController = loader.getController();
 //            UserSettingsTabController.create(env);
 //        }
+    }
+
+    @FXML
+    private void launchSettings() {
+
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/Views/BaseSettings.fxml"));
+
+        try {
+            centerPane.getChildren().setAll((Node) loader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        settingsController = loader.getController();
+        settingsController.create(env);
+//            settingsController.create(env);
+
     }
 
     @FXML
