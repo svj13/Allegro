@@ -281,7 +281,6 @@ public class DiatonicChordsTutorController extends TutorController {
         record = new TutorRecord();
         paneInit.setVisible(false);
         paneQuestions.setVisible(true);
-        paneResults.setVisible(false);
         manager.resetEverything();
         manager.questions = selectedQuestions;
         rand = new Random();

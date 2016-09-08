@@ -352,15 +352,6 @@ public class RootController implements Initializable {
 
 
         AnchorPane userPage = userPageLoader.load();
-        //Scene scene1 = new Scene(root1);
-        //Stage userPageStage = new Stage();
-//        userPageStage.setTitle("Allegro");
-//        userPageStage.setScene(scene1);
-//
-//        userPageStage.show();
-       // centerPane.setMinWidth(paneMain.getWidth());
-
-        //centerPane.setMinHeight(paneMain.getHeight());
 
         System.out.println("heights.. " + centerPane.getHeight() + " userPane " + userPage.getHeight());
 

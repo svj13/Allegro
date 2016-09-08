@@ -21,7 +21,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
@@ -42,8 +41,6 @@ public abstract class TutorController {
     public TutorRecord record;
 
     public float userScore;
-
-    public String outputText;
 
     public int selectedQuestions;
 
@@ -69,28 +66,16 @@ public abstract class TutorController {
     Accordion qAccordion;
 
     @FXML
-    ScrollPane paneResults;
-
-    @FXML
     VBox paneInit;
-
-    @FXML
-    Text resultsTitle;
-
-    @FXML
-    Text resultsContent;
-
-    @FXML
-    VBox resultsBox;
-
-    @FXML
-    HBox buttons;
 
     @FXML
     JFXSlider numQuestions;
 
     @FXML
     Label questions;
+
+    @FXML
+    Label tutorName;
 
     private String tabID;
 
@@ -167,60 +152,23 @@ public abstract class TutorController {
     protected void finished() {
         env.getPlayer().stop();
         userScore = getScore(manager.correct, manager.answered);
-        outputText = String.format("You have finished the tutor.\n" +
-                        "You answered %d questions, and skipped %d questions.\n" +
-                        "You answered %d questions correctly, %d questions incorrectly.\n" +
-                        "This gives a score of %.2f percent.",
-                manager.questions, manager.skipped,
-                manager.correct, manager.incorrect, userScore);
 
         record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
         record.setFinished();
         record.setDate();
         if (currentProject != null) {
-            record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
             currentProject.saveCurrentProject();
-            outputText += "\nSession auto saved.";
         }
-        env.getRootController().setTabTitle(tabID, false);
 
-        // Sets the finished view
-        resultsContent.setText(outputText);
-
-        paneQuestions.setVisible(false);
-        paneResults.setVisible(true);
         questionRows.getChildren().clear();
-
-        Button retestBtn = new Button("Retest");
-        Button clearBtn = new Button("Clear");
-        Button saveBtn = new Button("Save");
-
-        clearBtn.setOnAction(event -> {
-            manager.saveTempIncorrect();
-            paneResults.setVisible(false);
-            paneQuestions.setVisible(true);
-        });
-
-        paneResults.setPadding(new Insets(10, 10, 10, 10));
-        retestBtn.setOnAction(event -> {
-            paneResults.setVisible(false);
-            paneQuestions.setVisible(true);
-            retest();
-
-        });
-        saveBtn.setOnAction(event -> saveRecord());
-
-        if (manager.getTempIncorrectResponses().size() > 0) {
-            //Can re-test
-            buttons.getChildren().setAll(retestBtn, clearBtn, saveBtn);
-        } else {
-            //Perfect score
-            buttons.getChildren().setAll(clearBtn, saveBtn);
+        try {
+            env.getRootController().showUserPage();
+            env.getUserPageController().showPage(tutorName.getText());
+        } catch (Exception e) {
+            paneQuestions.setVisible(false);
+            paneInit.setVisible(true);
         }
 
-        buttons.setMargin(retestBtn, new Insets(10, 10, 10, 10));
-        buttons.setMargin(clearBtn, new Insets(10, 10, 10, 10));
-        buttons.setMargin(saveBtn, new Insets(10, 10, 10, 10));
         // Clear the current session
         manager.resetStats();
     }

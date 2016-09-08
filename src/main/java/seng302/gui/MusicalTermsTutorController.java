@@ -74,7 +74,6 @@ public class MusicalTermsTutorController extends TutorController {
     void goAction(ActionEvent event) {
         paneInit.setVisible(false);
         paneQuestions.setVisible(true);
-        paneResults.setVisible(false);
         record = new TutorRecord();
         manager.resetEverything();
         manager.questions = selectedQuestions;

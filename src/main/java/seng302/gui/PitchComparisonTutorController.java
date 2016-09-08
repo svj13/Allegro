@@ -75,7 +75,6 @@ public class PitchComparisonTutorController extends TutorController {
     private void goAction() {
         paneInit.setVisible(false);
         paneQuestions.setVisible(true);
-        paneResults.setVisible(false);
         record = new TutorRecord();
         manager.answered = 0;
         qPanes = new ArrayList<>();

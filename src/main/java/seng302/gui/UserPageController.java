@@ -4,35 +4,17 @@ import com.jfoenix.controls.JFXListCell;
 import com.jfoenix.controls.JFXListView;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
-import javafx.scene.Cursor;
-import javafx.scene.Node;
-import javafx.scene.SnapshotParameters;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.StackedBarChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
-import javafx.scene.control.Tab;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.util.Pair;
 import seng302.Environment;
-import seng302.data.KeySignature;
 
 /**
  *  Handles and Creates Users.
@@ -188,7 +170,7 @@ public class UserPageController {
 
     }
 
-    protected void  showPage(String pageName){
+    public void showPage(String pageName) {
 
         if(pageName.equals("Summary")){
             showSummaryPage();
@@ -202,6 +184,7 @@ public class UserPageController {
 
 
     public void showSummaryPage(){
+        listView.getSelectionModel().selectFirst();
 
         FXMLLoader summaryLoader = new FXMLLoader(getClass().getResource("/Views/UserSummary.fxml"));
 
@@ -242,6 +225,8 @@ public class UserPageController {
 
             statsController.create(env);
             statsController.displayGraphs(tutor);
+
+            listView.getSelectionModel().select(tutor);
 
 
         } catch (IOException e) {
