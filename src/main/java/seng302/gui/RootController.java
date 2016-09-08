@@ -1,7 +1,6 @@
 package seng302.gui;
 
 
-import javafx.scene.Node;
 import org.json.simple.JSONArray;
 
 import java.io.File;
@@ -29,10 +28,7 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.SplitPane;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCombination;
@@ -996,13 +992,17 @@ public class RootController implements Initializable {
         loader.setLocation(getClass().getResource("/Views/BaseSettings.fxml"));
 
         try {
-            centerPane.getChildren().setAll((Node) loader.load());
+            AnchorPane settingsPage = loader.load();
+            centerPane.getChildren().setAll(settingsPage);
+            centerPane.setRightAnchor(settingsPage, 0.0);
+            centerPane.setLeftAnchor(settingsPage, 0.0);
+            centerPane.setBottomAnchor(settingsPage, 0.0);
+            centerPane.setTopAnchor(settingsPage, 0.0);
         } catch (IOException e) {
             e.printStackTrace();
         }
         settingsController = loader.getController();
         settingsController.create(env);
-//            settingsController.create(env);
 
     }
 
