@@ -250,7 +250,6 @@ public class MusicalTermsTutorController extends TutorController {
                     correct.toString()
             };
             record.addQuestionAnswer(question);
-            env.getRootController().setTabTitle(getTabID(), true);
 
             styleAnswer(rowPane, currentTerm, originOptions, categoryOptions, definitionOptions);
 
@@ -281,7 +280,6 @@ public class MusicalTermsTutorController extends TutorController {
                     correct.toString()
             };
             record.addQuestionAnswer(question);
-            env.getRootController().setTabTitle(getTabID(), true);
 
             styleAnswer(rowPane, currentTerm, categoryOptions, definitionOptions, originOptions);
 
@@ -313,7 +311,6 @@ public class MusicalTermsTutorController extends TutorController {
                     correct.toString()
             };
             record.addQuestionAnswer(question);
-            env.getRootController().setTabTitle(getTabID(), true);
 
             styleAnswer(rowPane, currentTerm, definitionOptions, categoryOptions, originOptions);
 
@@ -333,7 +330,6 @@ public class MusicalTermsTutorController extends TutorController {
                     "2"
             };
             record.addQuestionAnswer(question);
-            env.getRootController().setTabTitle("musicalTermTutor", true);
 
             formatSkippedQuestion(rowPane);
             manager.questions -= 1;

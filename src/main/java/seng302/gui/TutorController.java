@@ -334,13 +334,6 @@ public abstract class TutorController {
         resetInputs();
     }
 
-    public String getTabID() {
-        return tabID;
-    }
-
-    public void setTabID(String tabID) {
-        this.tabID = tabID;
-    }
 
     /**
      * Called whenever a question is answered or skipped. This sets the next unanswered question to

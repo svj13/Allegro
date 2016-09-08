@@ -242,7 +242,6 @@ public class ScaleModesTutorController extends TutorController {
         }
 
         record.addQuestionAnswer(question);
-        env.getRootController().setTabTitle(getTabID(), true);
 
         handleAccordion();
         if (manager.answered == manager.questions) {
@@ -309,7 +308,6 @@ public class ScaleModesTutorController extends TutorController {
                     "2"
             };
             record.addQuestionAnswer(questionList);
-            env.getRootController().setTabTitle(getTabID(), true);
             handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();

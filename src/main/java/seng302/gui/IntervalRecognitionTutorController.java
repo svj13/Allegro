@@ -163,7 +163,6 @@ public class IntervalRecognitionTutorController extends TutorController {
                     "2"
             };
             record.addQuestionAnswer(question);
-            env.getRootController().setTabTitle(getTabID(), true);
             handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
@@ -194,7 +193,6 @@ public class IntervalRecognitionTutorController extends TutorController {
                     correct.toString()
             };
             record.addQuestionAnswer(question);
-            env.getRootController().setTabTitle(getTabID(), true);
             // Shows the correct answer
             handleAccordion();
             if (manager.answered == manager.questions) {

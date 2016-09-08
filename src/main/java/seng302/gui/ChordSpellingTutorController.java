@@ -749,7 +749,6 @@ public class ChordSpellingTutorController extends TutorController {
                 answeredCorrectly.toString()
         };
         record.addQuestionAnswer(question);
-        env.getRootController().setTabTitle(getTabID(), true);
         handleAccordion();
         updateManagerCompletedQuestion();
     }
@@ -803,7 +802,6 @@ public class ChordSpellingTutorController extends TutorController {
 
         record.addQuestionAnswer(questionInfo);
 
-        env.getRootController().setTabTitle(getTabID(), true);
         handleAccordion();
         if (manager.answered == manager.questions) {
             finished();

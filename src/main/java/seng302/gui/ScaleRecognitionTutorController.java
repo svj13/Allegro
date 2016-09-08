@@ -177,7 +177,6 @@ public class ScaleRecognitionTutorController extends TutorController {
                 correct.toString()
         };
         record.addQuestionAnswer(question);
-        env.getRootController().setTabTitle("scaleTutor", true);
 
         handleAccordion();
         if (manager.answered == manager.questions) {
@@ -232,7 +231,6 @@ public class ScaleRecognitionTutorController extends TutorController {
                     "2"
             };
             record.addQuestionAnswer(question);
-            env.getRootController().setTabTitle(getTabID(), true);
             handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();

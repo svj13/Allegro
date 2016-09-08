@@ -1,15 +1,12 @@
 package seng302.gui;
 
+import java.io.IOException;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.input.KeyCharacterCombination;
 import javafx.scene.layout.AnchorPane;
 import seng302.Environment;
-
-import java.io.IOException;
 
 /**
  * Created by Jonty on 04-Sep-16.
@@ -110,7 +107,6 @@ public class TutorFactory {
 
             PitchComparisonTutorController pitchComparisonTutorController = loader.getController();
             pitchComparisonTutorController.create(env);
-            pitchComparisonTutorController.setTabID("pitchTutor");
 
 
     }
@@ -130,7 +126,6 @@ public class TutorFactory {
 
         IntervalRecognitionTutorController intervalRecognitionTabController = loader.getController();
         intervalRecognitionTabController.create(env);
-        intervalRecognitionTabController.setTabID("intervalTutor");
 
 
     }
@@ -150,7 +145,6 @@ public class TutorFactory {
 
         MusicalTermsTutorController musicalTermsTabController= loader.getController();
         musicalTermsTabController.create(env);
-        musicalTermsTabController.setTabID("musicalTermTutor");
 
 
     }
@@ -167,7 +161,6 @@ public class TutorFactory {
 
             ScaleRecognitionTutorController scaleRecognitionTutorController = loader.getController();
             scaleRecognitionTutorController.create(env);
-            scaleRecognitionTutorController.setTabID("scaleTutor");
 
 
     }
@@ -187,7 +180,6 @@ public class TutorFactory {
 
         ChordRecognitionTutorController chordRecognitionTabController = loader.getController();
         chordRecognitionTabController.create(env);
-        chordRecognitionTabController.setTabID("chordTutor");
 
 
     }
@@ -207,7 +199,6 @@ public class TutorFactory {
 
         DiatonicChordsTutorController diatonicChordsController = loader.getController();
         diatonicChordsController.create(env);
-        diatonicChordsController.setTabID("diatonicChordTutor");
 
 
     }
@@ -227,7 +218,6 @@ public class TutorFactory {
 
         KeySignaturesTutorController keySignaturesTabController= loader.getController();
         keySignaturesTabController.create(env);
-        keySignaturesTabController.setTabID("keySignatureTutor");
 
 
     }
@@ -253,7 +243,6 @@ public class TutorFactory {
 //            TabPane.getSelectionModel().select(ScaleTab);
 //             = loader.getController();
 //            saleModesController.create(env);
-//            scaleModesController.setTabID("scaleModesTutor");
 
 
     }
@@ -273,7 +262,6 @@ public class TutorFactory {
 
             ChordSpellingTutorController chordSpellingTutorController = loader.getController();
             chordSpellingTutorController.create(env);
-            chordSpellingTutorController.setTabID("chordSpellingTutor");
 
     }
 }

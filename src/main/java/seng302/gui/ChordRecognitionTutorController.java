@@ -204,7 +204,6 @@ public class ChordRecognitionTutorController extends TutorController {
                     "2"
             };
             record.addQuestionAnswer(question);
-            env.getRootController().setTabTitle(getTabID(), true);
             handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
@@ -283,7 +282,6 @@ public class ChordRecognitionTutorController extends TutorController {
                 Integer.toString(correct)
         };
         record.addQuestionAnswer(question);
-        env.getRootController().setTabTitle(getTabID(), true);
 
         handleAccordion();
 

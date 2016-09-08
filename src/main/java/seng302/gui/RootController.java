@@ -162,12 +162,6 @@ public class RootController implements Initializable {
     @FXML
     private MenuItem dslReferenceMenuItem;
 
-//    @FXML
-//    private TabPane TabPane;
-
-//    @FXML
-//    private Tab transcriptPane;
-
     @FXML
     private ImageView imageDP;
 
@@ -716,10 +710,6 @@ public class RootController implements Initializable {
     }
 
 
-    private void copyFolder(File sourceFolder, File destinationFolder) {
-
-    }
-
     /**
      * Open Project browser.
      */
@@ -810,59 +800,6 @@ public class RootController implements Initializable {
     }
 
 
-    /**
-     * Sets the title of a selected tab depending on if there are unsaved changes
-     */
-    public void setTabTitle(String tabID, Boolean unsavedChanges) {
-
-//        for (Tab tab : TabPane.getTabs()) {
-//            if (tab.getId().equals(tabID)) {
-//
-//                String currentText = tab.getText();
-//                Character firstChar = currentText.charAt(0);
-//                if (firstChar == '*') {
-//                    if (!unsavedChanges) {
-//                        tab.setText(currentText.substring(1));
-//                    }
-//
-//                } else {
-//                    if (unsavedChanges) {
-//                        tab.setText("*" + currentText);
-//                    }
-//                }
-//
-//            }
-//        }
-    }
-
-
-    public boolean tabSaveCheck(String tabID) {
-//        for (Tab tab : TabPane.getTabs()) {
-//            if (tab.getId().equals(tabID)) {
-//                if (tab.getText().charAt(0) == '*') {
-//                    return true;
-//                }
-//            }
-//        }
-        return false;
-
-    }
-
-    /**
-     * clears all the unsaved changes indicators on the tutor tabs
-     */
-    public void clearAllIndicators() {
-//        for (Tab tab : TabPane.getTabs()) {
-//
-//            String currentText = tab.getText();
-//            Character firstChar = currentText.charAt(0);
-//
-//            if (firstChar == '*') {
-//                tab.setText(currentText.substring(1));
-//            }
-//        }
-    }
-
     public Environment getEnv() {
         return env;
     }
@@ -902,78 +839,11 @@ public class RootController implements Initializable {
 //        }
     }
 
-    /**
-     * Creates the gui skinner tab
-     */
-    @FXML
-    private void createColorTab() {
-//        boolean alreadyExists = false;
-//        for (Tab tab : TabPane.getTabs()) {
-//            if (tab.getId().equals("uiSkinner")) {
-//                TabPane.getSelectionModel().select(tab);
-//                alreadyExists = true;
-//            }
-//
-//        }
-//
-//        if (!alreadyExists) {
-//
-//            Tab skinnerTab = new Tab("Interface Skinner");
-//            skinnerTab.setId("uiSkinner");
-//
-//            FXMLLoader loader = new FXMLLoader();
-//            loader.setLocation(getClass().getResource("/Views/UISkinner.fxml"));
-//
-//            try {
-//                skinnerTab.setContent((Node) loader.load());
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//            TabPane.getTabs().add(skinnerTab);
-//            TabPane.getSelectionModel().select(skinnerTab);
-//            uiSkinnerController = loader.getController();
-//            uiSkinnerController.create(env, paneMain);
-//        }
-    }
-
 
     public TranscriptPaneController getTranscriptController() {
         return transcriptController;
     }
 
-
-    @FXML
-    private void launchUserSettings() {
-//        boolean alreadyExists = false;
-//        for (Tab tab : TabPane.getTabs()) {
-//            if (tab.getId().equals("userSettings")) {
-//                TabPane.getSelectionModel().select(tab);
-//                alreadyExists = true;
-//            }
-//
-//        }
-//
-//        if (!alreadyExists) {
-//
-//            Tab settingsTab = new Tab("User Settings");
-//            settingsTab.setId("userSettings");
-//
-//            FXMLLoader loader = new FXMLLoader();
-//            loader.setLocation(getClass().getResource("/Views/UserSettings.fxml"));
-//
-//            try {
-//                settingsTab.setContent((Node) loader.load());
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//            TabPane.getTabs().add(settingsTab);
-//            TabPane.getSelectionModel().select(settingsTab);
-//            UserSettingsTabController = loader.getController();
-//            UserSettingsTabController.create(env);
-//        }
-    }
 
     @FXML
     private void launchSettings() {

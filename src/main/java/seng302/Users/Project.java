@@ -189,7 +189,6 @@ public class Project {
             file.flush();
             file.close();
 
-            env.getRootController().clearAllIndicators();
             projectSettings.put("tempo", env.getPlayer().getTempo());
             env.getRootController().setWindowTitle(projectName);
             currentProjectPath = projectAddress;
