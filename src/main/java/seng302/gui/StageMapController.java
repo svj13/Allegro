@@ -76,7 +76,7 @@ public class StageMapController {
      * source more than 5 entries
      */
     private void fetchTutorFile() {
-        JSONParser parser = new JSONParser();
+        //JSONParser parser = new JSONParser();
         boolean enoughEntries = false; //must be at least 5 entries for their to be a valid entry
 
 
