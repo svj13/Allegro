@@ -3,7 +3,6 @@ package seng302.gui;
 import com.jfoenix.controls.JFXSlider;
 
 import java.io.File;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,7 +20,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import seng302.Environment;
@@ -158,6 +156,9 @@ public abstract class TutorController {
         record.setDate();
         if (currentProject != null) {
             currentProject.saveCurrentProject();
+            String tutorNameNoSpaces = tutorName.getText().replaceAll("\\s", "");
+            String tutorFileName = currentProject.getCurrentProjectPath() + "/" + tutorNameNoSpaces + ".json";
+            tutorHandler.saveTutorRecordsToFile(tutorFileName, record);
         }
 
         questionRows.getChildren().clear();
@@ -194,27 +195,6 @@ public abstract class TutorController {
 
     public TutorManager getManager() {
         return manager;
-    }
-
-    /**
-     * Saves a record of the tutoring session to a file.
-     */
-    public void saveRecord() {
-
-        //show a file picker
-        FileChooser fileChooser = new FileChooser();
-        if (currentProject.isProject()) {
-            env.getRootController().checkProjectDirectory();
-            fileChooser.setInitialDirectory(Paths.get(currentProject.getCurrentProjectPath()).toFile());
-        }
-        File file = fileChooser.showSaveDialog(stage);
-
-        if (file != null) {
-            fileDir = file.getParentFile();
-            path = file.getAbsolutePath();
-            env.setRecordLocation(path);
-            tutorHandler.saveTutorRecordsToFile(path, record);
-        }
     }
 
     /**

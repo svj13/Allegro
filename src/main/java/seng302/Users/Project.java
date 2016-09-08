@@ -189,7 +189,6 @@ public class Project {
             file.flush();
             file.close();
 
-            tutorHandler.saveTutorRecordsToFile(projectAddress);
             env.getRootController().clearAllIndicators();
             projectSettings.put("tempo", env.getPlayer().getTempo());
             env.getRootController().setWindowTitle(projectName);
