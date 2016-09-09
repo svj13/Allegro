@@ -85,7 +85,6 @@ public class App extends Application {
                 //controller.setPrimaryStage(primaryStage);
             } catch (NullPointerException e) {
                 e.printStackTrace();
-                System.out.println("sdfsdfasdfdsf");
                 System.err.println("Controller is null");
             }
 

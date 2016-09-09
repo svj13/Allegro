@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -94,7 +95,12 @@
                <children>
                       <SplitPane fx:id="splitPane" dividerPositions="0.5" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" prefHeight="10000.0" prefWidth="1000000.0" VBox.vgrow="ALWAYS">
                           <items>
-                        <AnchorPane fx:id="centerPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="10000.0" prefWidth="1000.0" />
+                        <SplitPane dividerPositions="0.9512893982808023">
+                           <items>
+                              <AnchorPane fx:id="centerPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                               <fx:include fx:id="transcriptPane" source="TranscriptPane.fxml" />
+                           </items>
+                        </SplitPane>
                               <fx:include fx:id="keyboardPane" source="KeyboardPane.fxml" />
                           </items>
                           <VBox.margin>

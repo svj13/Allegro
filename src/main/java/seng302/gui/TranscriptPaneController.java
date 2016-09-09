@@ -105,6 +105,7 @@ public class TranscriptPaneController {
 
     public void executeAndPrintToTranscript(String text) {
         if (text.length() > 0) {
+            System.out.println(env);
             env.getTranscriptManager().setCommand(text);
             Command command = env.getExecutor().parseCommandString(text);
 

@@ -114,6 +114,9 @@ public class RootController implements Initializable {
     private KeyboardPaneController keyboardPaneController;
 
     @FXML
+    private TranscriptPaneController transcriptPaneController;
+
+    @FXML
     private StackPane stackPane1;
 
     @FXML
@@ -181,6 +184,7 @@ public class RootController implements Initializable {
     private DslReferenceController dslRefControl;
 
     public void initialize(URL location, ResourceBundle resources) {
+
         dslRefControl = new DslReferenceController(transcriptController);
 
         String cssBordering = "-fx-border-color:dimgray ; \n" //#090a0c
@@ -337,6 +341,7 @@ public class RootController implements Initializable {
     }
 
 
+
     /**
      * Opens the user page.
      */
@@ -349,7 +354,7 @@ public class RootController implements Initializable {
 
         System.out.println("heights.. " + centerPane.getHeight() + " userPane " + userPage.getHeight());
 
-        centerPane.getChildren().setAll(userPage);
+        centerPane.getChildren().add(userPage);
 
         centerPane.setRightAnchor(userPage, 0.0);
         centerPane.setLeftAnchor(userPage, 0.0);
@@ -361,6 +366,10 @@ public class RootController implements Initializable {
         userPageController.populateUserOptions();
 //        /userPageController.updateImage();
 
+
+    }
+
+    public void slideTranscript(){
 
     }
 
@@ -779,14 +788,9 @@ public class RootController implements Initializable {
         this.env.setRootController(this);
         tm = env.getTranscriptManager();
         tutorFactory = new TutorFactory(env, centerPane);
+        System.out.println(transcriptController);
 
         //transcriptController.setEnv(this.env);
-        //transcriptPane.setClosable(false);
-
-        //PitchComparisonTabController.create(env);
-        //IntervalRecognitionTabController.create(env);
-        //MusicalTermsTabController.create(env);
-        //ScaleRecognitionTabController.create(env);
         keyboardPaneController.create(this.env);
 
 
