@@ -81,9 +81,6 @@ public class RootController implements Initializable {
     private IntervalRecognitionTutorController IntervalRecognitionTabController;
 
     @FXML
-    private TranscriptPaneController transcriptController;
-
-    @FXML
     private MusicalTermsTutorController MusicalTermsTabController;
 
     @FXML
@@ -173,7 +170,7 @@ public class RootController implements Initializable {
 
     @FXML
     public void onTranscriptTab() {
-        Platform.runLater(() -> transcriptController.txtCommand.requestFocus());
+        Platform.runLater(() -> transcriptPaneController.txtCommand.requestFocus());
     }
 
     @FXML
@@ -185,7 +182,7 @@ public class RootController implements Initializable {
 
     public void initialize(URL location, ResourceBundle resources) {
 
-        dslRefControl = new DslReferenceController(transcriptController);
+        dslRefControl = new DslReferenceController(transcriptPaneController);
 
         String cssBordering = "-fx-border-color:dimgray ; \n" //#090a0c
                 + "-fx-border-insets:3;\n"
@@ -313,7 +310,7 @@ public class RootController implements Initializable {
     }
 
     private void setCommandText(Command command) {
-        transcriptController.txtCommand.clear();
+        transcriptPaneController.txtCommand.clear();
         List<String> parameters = command.getParams();
         List<String> options = command.getOptions();
         String parameterString = "";
@@ -324,10 +321,10 @@ public class RootController implements Initializable {
         for (String option : options) {
             optionsString += "[" + option + "] ";
         }
-        transcriptController.txtCommand.setText(command.getCommandText() +
+        transcriptPaneController.txtCommand.setText(command.getCommandText() +
                 " Parameters: " + parameterString);
         if (!optionsString.equals("[]")) {
-            transcriptController.txtCommand.appendText("Options: " + optionsString);
+            transcriptPaneController.txtCommand.appendText("Options: " + optionsString);
         }
     }
 
@@ -483,7 +480,7 @@ public class RootController implements Initializable {
         env.getEditManager().addToHistory("3", new ArrayList<String>());
         env.getTranscriptManager().setTranscriptContent(new ArrayList<OutputTuple>());
 
-        transcriptController.setTranscriptPane(env.getTranscriptManager().convertToText());
+        transcriptPaneController.setTranscriptPane(env.getTranscriptManager().convertToText());
 
 
         env.getTranscriptManager().unsavedChanges = true;
@@ -530,7 +527,7 @@ public class RootController implements Initializable {
      */
     @FXML
     private void undo() {
-        transcriptController.executeAndPrintToTranscript("undo");
+        transcriptPaneController.executeAndPrintToTranscript("undo");
     }
 
     /**
@@ -538,7 +535,7 @@ public class RootController implements Initializable {
      */
     @FXML
     private void redo() {
-        transcriptController.executeAndPrintToTranscript("redo");
+        transcriptPaneController.executeAndPrintToTranscript("redo");
     }
 
     /**
@@ -598,7 +595,7 @@ public class RootController implements Initializable {
             path = file.getAbsolutePath();
             try {
                 env.getTranscriptManager().open(path);
-                transcriptController.setTranscriptPane(env.getTranscriptManager().convertToText());
+                transcriptPaneController.setTranscriptPane(env.getTranscriptManager().convertToText());
             } catch (Exception ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("This file is not valid");
@@ -622,7 +619,7 @@ public class RootController implements Initializable {
             try {
                 ArrayList<String> commands = env.getTranscriptManager().loadCommands(path);
                 //TabPane.getSelectionModel().selectFirst();
-                transcriptController.beginPlaybackMode(commands);
+                transcriptPaneController.beginPlaybackMode(commands);
             } catch (Exception ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("This file is not valid");
@@ -634,7 +631,7 @@ public class RootController implements Initializable {
 
 
     public void setTranscriptPaneText(String text) {
-        transcriptController.setTranscriptPane(text);
+        transcriptPaneController.setTranscriptPane(text);
     }
 
 
@@ -788,9 +785,8 @@ public class RootController implements Initializable {
         this.env.setRootController(this);
         tm = env.getTranscriptManager();
         tutorFactory = new TutorFactory(env, centerPane);
-        System.out.println(transcriptController);
 
-        //transcriptController.setEnv(this.env);
+        transcriptPaneController.setEnv(this.env);
         keyboardPaneController.create(this.env);
 
 
@@ -845,7 +841,7 @@ public class RootController implements Initializable {
 
 
     public TranscriptPaneController getTranscriptController() {
-        return transcriptController;
+        return transcriptPaneController;
     }
 
 
@@ -880,8 +876,8 @@ public class RootController implements Initializable {
 
             AnchorPane transcriptPage = transcriptLoader.load();
 
-            transcriptController = transcriptLoader.getController();
-            transcriptController.setEnv(env);
+            transcriptPaneController = transcriptLoader.getController();
+            transcriptPaneController.setEnv(env);
 
             Stage stage = new Stage();
             stage.setTitle("Transcript");
