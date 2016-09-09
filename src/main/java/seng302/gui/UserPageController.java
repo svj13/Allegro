@@ -255,6 +255,9 @@ public class UserPageController {
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM H:mm:ss");
         NumberAxis numberAxis = (NumberAxis) lineChart.getYAxis();
+
+        // This makes the hover labels visible for 0 and 100 by adding -20 and 120 onto the
+        // the axis but then label formatting them to be invisible.
         numberAxis.setTickLabelFormatter(new StringConverter<Number>() {
             @Override
             public String toString(Number object) {
@@ -346,6 +349,11 @@ public class UserPageController {
             label.setAlignment(Pos.CENTER);
             return label;
         }
+    }
+
+    private void makeXpOverTimeGraph() {
+        XYChart<Number, Number> xpChart = new LineChart<>(new NumberAxis(), new NumberAxis());
+
     }
 
 
