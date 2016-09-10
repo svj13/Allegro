@@ -30,7 +30,7 @@
        <VBox prefHeight="457.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
            <children>
                <!--<children>-->
-               <MenuBar fx:id="menuFileBar" minHeight="-Infinity" prefHeight="29.0" prefWidth="500.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <MenuBar fx:id="menuFileBar" minHeight="-Infinity" prefHeight="29.0" prefWidth="500.0" style="-fx-border-style: none;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                    <menus>
                        <Menu mnemonicParsing="false" onShowing="#bindOpenObjects" text="File">
                      <items>
@@ -91,18 +91,18 @@
 
                     </menus>
                 </MenuBar>
-            <HBox fx:id="userBar" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" prefWidth="700.0" styleClass="primary">
+            <HBox fx:id="userBar" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" prefWidth="700.0" style="-fx-border-style: none;" styleClass="primary">
                <children>
                   <JFXHamburger />
                </children>
             </HBox>
-            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="10000.0" prefWidth="100000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="10000.0" prefWidth="100000.0" style="-fx-border-style: none;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                      <SplitPane fx:id="splitPane" dividerPositions="0.5" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" prefHeight="10000.0" prefWidth="1000000.0" VBox.vgrow="ALWAYS">
+                      <SplitPane fx:id="splitPane" dividerPositions="0.5" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" prefHeight="10000.0" prefWidth="1000000.0" style="-fx-border-style: none;" VBox.vgrow="ALWAYS">
                           <items>
                         <SplitPane dividerPositions="0.9512893982808023">
                            <items>
-                              <AnchorPane fx:id="centerPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                              <AnchorPane fx:id="centerPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-border-style: none;" />
                                <fx:include fx:id="transcriptPane" source="TranscriptPane.fxml" />
                            </items>
                         </SplitPane>

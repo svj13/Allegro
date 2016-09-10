@@ -13,6 +13,7 @@
     -fx-focus-color: derive({0}, 50%);
     -fx-faint-focus-color: derive({0}, 70%);
     -fx-accent: derive({0}, 40%);
+    -fx-border-style: none;
 
 }
 .tab-pane > .tab-header-area > .headers-region > .tab {

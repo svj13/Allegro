@@ -197,6 +197,7 @@ public class RootController implements Initializable {
         userDropDown.setText("User");
 
 
+
     }
 
     public void updateImage() {
@@ -874,7 +875,7 @@ public class RootController implements Initializable {
 
 
     @FXML
-    private void launchSettings() {
+    protected void launchSettings() {
         showUserBar(true);
 
 

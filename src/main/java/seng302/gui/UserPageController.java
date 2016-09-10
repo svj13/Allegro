@@ -122,8 +122,9 @@ public class UserPageController {
     protected void load(){
         populateUserOptions();
 
-        System.out.println(env.getUserHandler().getCurrentUser().getUserName());
+
         imageDP2.setImage(env.getUserHandler().getCurrentUser().getUserPicture());
+        imageDP2.setOnMouseClicked(e -> env.getRootController().launchSettings());
 
         try{
 
