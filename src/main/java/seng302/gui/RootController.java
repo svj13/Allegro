@@ -361,6 +361,7 @@ public class RootController implements Initializable {
         userBar.setVisible(show);
 
         userDropDown.setVisible(show);
+        userBar.setManaged(show);
         imageDP.setVisible(show);
 
     }
