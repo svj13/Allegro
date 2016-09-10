@@ -25,9 +25,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="paneMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="457.0" minWidth="700.0" prefHeight="457.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.RootController">
+<AnchorPane fx:id="paneMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="457.0" minWidth="700.0" prefHeight="457.0" prefWidth="700.0" style="-fx-border-style: none;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.RootController">
    <children>
-       <VBox prefHeight="457.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+       <VBox prefHeight="457.0" prefWidth="700.0" style="-fx-border-style: none;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
            <children>
                <!--<children>-->
                <MenuBar fx:id="menuFileBar" minHeight="-Infinity" prefHeight="29.0" prefWidth="500.0" style="-fx-border-style: none;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -96,13 +96,13 @@
                   <JFXHamburger />
                </children>
             </HBox>
-            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="10000.0" prefWidth="100000.0" style="-fx-border-style: none;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="10000.0" prefWidth="100000.0" style="-fx-border-style: none; -fx-border-color: red; -fx-border-width: 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                       <SplitPane fx:id="splitPane" dividerPositions="0.5" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" prefHeight="10000.0" prefWidth="1000000.0" style="-fx-border-style: none;" VBox.vgrow="ALWAYS">
                           <items>
-                        <SplitPane dividerPositions="0.9512893982808023">
+                        <SplitPane dividerPositions="0.9512893982808023" style="-fx-border-style: none; -fx-border-width: 0;">
                            <items>
-                              <AnchorPane fx:id="centerPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-border-style: none;" />
+                              <AnchorPane fx:id="centerPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-border-style: none; -fx-border-color: red; -fx-border-width: 0;" />
                                <fx:include fx:id="transcriptPane" source="TranscriptPane.fxml" />
                            </items>
                         </SplitPane>
