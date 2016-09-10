@@ -1,6 +1,7 @@
 package seng302.gui;
 
 
+import javafx.scene.layout.HBox;
 import org.json.simple.JSONArray;
 
 import java.io.File;
@@ -67,6 +68,8 @@ public class RootController implements Initializable {
 
 
 
+    @FXML
+    HBox userBar;
 
     @FXML
     AnchorPane paneMain;
@@ -349,11 +352,24 @@ public class RootController implements Initializable {
     }
 
 
+    /**
+     * Toggles the visibility of the top User HBox and user image.
+     * @param show true to dhow, false to hide.
+     */
+    public void showUserBar(Boolean show){
+        System.out.println("called with: " + show);
+        userBar.setVisible(show);
+
+        userDropDown.setVisible(show);
+        imageDP.setVisible(show);
+
+    }
 
     /**
      * Opens the user page.
      */
     public void showUserPage() throws IOException {
+        showUserBar(false);
         FXMLLoader userPageLoader = new FXMLLoader();
         userPageLoader.setLocation(getClass().getResource("/Views/UserPage.fxml"));
 
@@ -371,7 +387,7 @@ public class RootController implements Initializable {
 
         UserPageController userPageController = userPageLoader.getController();
         userPageController.setEnvironment(env);
-        userPageController.populateUserOptions();
+        userPageController.load();
 //        /userPageController.updateImage();
 
 
@@ -858,6 +874,7 @@ public class RootController implements Initializable {
 
     @FXML
     private void launchSettings() {
+        showUserBar(true);
 
 
         FXMLLoader loader = new FXMLLoader();

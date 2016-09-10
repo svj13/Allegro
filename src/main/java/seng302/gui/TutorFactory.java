@@ -33,6 +33,7 @@ public class TutorFactory {
     public void openTutor(String tutorName){
 
 
+        env.getRootController().showUserBar(true);
         switch (tutorName) {
             case "Pitch Comparison Tutor":
                 //userView.setVisible(false);

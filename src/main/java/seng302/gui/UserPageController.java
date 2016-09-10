@@ -60,9 +60,11 @@ public class UserPageController {
 //    LineChart lineChart;
 
 
+    @FXML
+    Label txtFullName;
 
     @FXML
-    ImageView imageDP;
+    ImageView imageDP2;
 
     @FXML
     Label latestAttempt;
@@ -99,6 +101,7 @@ public class UserPageController {
 
 
 
+
     public UserPageController() {
     }
 
@@ -109,7 +112,30 @@ public class UserPageController {
 
 
 
+
     }
+
+
+    /**
+     * Pretty much a constructor - loads userPage relevant data.
+     */
+    protected void load(){
+        populateUserOptions();
+
+        System.out.println(env.getUserHandler().getCurrentUser().getUserName());
+        imageDP2.setImage(env.getUserHandler().getCurrentUser().getUserPicture());
+
+        try{
+
+            txtFullName.setText(env.getUserHandler().getCurrentUser().getUserFirstName() + " "
+                    + env.getUserHandler().getCurrentUser().getUserLastName());
+        }
+        catch(NullPointerException e){
+            //txtFullName not initialized yet.
+        }
+
+    }
+
 
     @FXML
     private void launchUserSettings() {
@@ -126,6 +152,7 @@ public class UserPageController {
 
 
     public void populateUserOptions() {
+
 
         ArrayList<String> options = new ArrayList<>();
         options.add("Summary");
@@ -178,6 +205,7 @@ public class UserPageController {
     }
 
     public void showPage(String pageName) {
+
 
         if(pageName.equals("Summary")){
             showSummaryPage();

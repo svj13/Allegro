@@ -42,9 +42,7 @@ public class App extends Application {
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
 
-
             //Font.loadFont(ClassLoader.getSystemResource("/css/fonts/Roboto-Medium.tff").toExternalForm(), 24);
-
 
             primaryStage = new Stage();
             primaryStage.setScene(scene);
@@ -80,7 +78,7 @@ public class App extends Application {
                 controller.setStage(primaryStage);
 
                 controller.showLoginWindow(new Stage());
-                controller.showUserPage();
+                //controller.showUserPage();
                 //primaryStage.show();
                 //controller.setPrimaryStage(primaryStage);
             } catch (NullPointerException e) {
