@@ -217,6 +217,15 @@ public class RootController implements Initializable {
 
             }
         });
+
+
+
+
+
+
+
+
+
     }
 
 
@@ -226,9 +235,11 @@ public class RootController implements Initializable {
      */
     public void showWindow(Boolean show) {
         if (show) {
+
             applyTheme();
             stage.show();
             updateImage();
+
 
 
         } else stage.hide();

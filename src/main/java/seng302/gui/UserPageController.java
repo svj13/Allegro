@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXListView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -105,6 +106,9 @@ public class UserPageController {
     public void setEnvironment(Environment env) {
         this.env = env;
         this.env.setUserPageController(this);
+
+
+
     }
 
     @FXML
@@ -144,6 +148,9 @@ public class UserPageController {
             //currentTutor = (String) newValue;
         });
         listView.getSelectionModel().selectFirst();
+        listView.setDepthProperty(1);
+
+
         listView.setMaxWidth(200);
         listView.setMinWidth(200);
         // This allows images to be displayed in the listview. Still trying to

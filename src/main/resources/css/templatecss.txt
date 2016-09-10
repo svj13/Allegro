@@ -42,8 +42,9 @@
 
 .primary{
     -fx-background-color: {0};
-    -fx-text-fill: {0}{1}{2} ;
+    -fx-text-fill: {0}{1}{2};
 }
+
 .secondary{
     -fx-background-color: {0}{1};
     -fx-text-fill: {0}{1}{2}{3} ;
@@ -89,5 +90,73 @@
 
 }
 
+.userPageSidePane {
+    -fx-background-color: {0};
+    -fx-text-fill: {0}{1}{2} ;
+}
+
+.settingsMenu {
+    -fx-background-color: {0};
+    -fx-text-fill: {0}{1}{2} ;
+}
+
+#userPage {
+    -fx-background-color: {0};
+    -fx-text-fill: {0}{1}{2} ;
+}
+
+#userpage .userPagePrimary{
+    -fx-background-color: {0};
+        -fx-text-fill: {0}{1}{2} ;
+
+}
+
+#topBar {
+    -fx-background-color: {0};
+    -fx-text-fill: {0}{1}{2} ;
+    -fx-border-color : {0};
 
 
+}
+
+#userSideBar{
+    -fx-background-color: {0};
+    -fx-text-fill: {0}{1}{2} ;
+    -fx-border-color : {0};
+
+
+}
+
+#userSideBar .jfx-list-cell {
+    -fx-background-color: {0}{1};
+    -fx-pref-height: 50px;
+    -fx-pref-tile-height: 50px ;
+
+}
+
+#userSideBar .jfx-list-cell:selected {
+    -fx-background-color: {0};
+
+}
+
+#userSideBar .jfx-list-cell:odd {
+    -fx-background-color: derive({0}{1}, -5%);
+
+}
+
+#userSideBar .jfx-list-cell .jfx-rippler {
+    -fx-background-color: {0};
+}
+
+
+
+
+#userSideBar .jfx-list-cell:hover {
+    -fx-background-color: derive({0}, 10%);
+
+
+}
+
+#userSplitPane *.split-pane-divider {
+    -fx-padding: 0 1 0 1;
+}

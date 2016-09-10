@@ -144,7 +144,7 @@ public class ThemeHandler {
 
                     templateCSS.add(MessageFormat.format(line, "", "", "", secondaryFont));
                 }
-                if (line.contains("{0}{1}{2}")) {
+                else if (line.contains("{0}{1}{2}")) {
 
                     templateCSS.add(MessageFormat.format(line, "", "", primaryFont));
                 } else if (line.contains("{0}{1}")) {

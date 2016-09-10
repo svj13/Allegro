@@ -9,20 +9,28 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="userPage" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.UserPageController">
+<AnchorPane id="userPage" fx:id="userPage" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../css/user_settings.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.UserPageController">
    <children>
-      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-               <children>
-                  <AnchorPane fx:id="tutorView" />
-               </children>
-            </StackPane>
-         </children>
-      </VBox>
-      <SplitPane fx:id="userView" dividerPositions="0.3" layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="650.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox id="topBar" maxHeight="-Infinity" prefHeight="30.0" prefWidth="650.0" style="-fx-border-radius: 0; -fx-border-width: 0; -fx-padding: 0; -fx-border-style: None;" AnchorPane.bottomAnchor="400.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <SplitPane id="userSplitPane" fx:id="userView" dividerPositions="0.19598765432098766" layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="650.0" style="-fx-padding: 0; -fx-border-style: none;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
          <items>
-            <JFXListView fx:id="listView" />
+            <VBox id="userSideBar" maxWidth="-Infinity" prefHeight="200.0" prefWidth="60.0" style="-fx-border-color: pink; -fx-border-width: 0; -fx-padding: 0; border-style: none;" styleClass="userPagePrimary">
+               <children>
+                  <VBox fx:id="profilepic" alignment="CENTER" prefHeight="188.0" prefWidth="191.0" style="-fx-border-color: green; -fx-border-width: 0;">
+                     <children>
+                        <ImageView fx:id="imageDP2" fitHeight="92.0" fitWidth="105.0">
+                           <image>
+                              <Image url="images/testDP.jpg" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" top="5.0" />
+                     </padding>
+                  </VBox>
+                  <JFXListView fx:id="listView" maxHeight="1.7976931348623157E308" prefHeight="1000.0" style="-fx-border-width: 0;" styleClass="listView" />
+               </children>
+            </VBox>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
                   <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
