@@ -299,7 +299,6 @@ public abstract class TutorController {
 
     /**
      * Consistently styles all skip buttons
-     *
      * @param skip the button to be styled
      */
     public void styleSkipButton(Button skip) {
