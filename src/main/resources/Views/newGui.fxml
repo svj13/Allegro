@@ -75,7 +75,8 @@
                                         <RadioMenuItem mnemonicParsing="false" onAction="#stopShowingNotesOnKeyboard" selected="true" text="Do not show note names" toggleGroup="$keyboardOptions" />
                                     </items>
                                 </Menu>
-                                <RadioMenuItem mnemonicParsing="false" onAction="#toggleTranscript" text="Show Transcript" />
+                                <RadioMenuItem fx:id="menuTranscript" mnemonicParsing="false"
+                                               onAction="#toggleTranscript" text="Show Transcript"/>
                                 <MenuItem fx:id="menuHelpWindow" mnemonicParsing="false" onAction="#showDslRef" text="DSL Reference Card" />
 
                             </items>

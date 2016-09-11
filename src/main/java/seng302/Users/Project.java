@@ -151,13 +151,13 @@ public class Project {
         try {
             String mode = gson.fromJson((String) projectSettings.get("competitionMode"), String.class);
             if (mode.equals("true")) {
-                isCompetitiveMode = true;
+                setIsCompetitiveMode(true);
             } else {
-                isCompetitiveMode = false;
+                setIsCompetitiveMode(false);
             }
         } catch (Exception e) {
             // Defaults to comp mode
-            isCompetitiveMode = true;
+            setIsCompetitiveMode(true);
         }
 
 
@@ -226,7 +226,6 @@ public class Project {
 
 
             if (projectSettings.containsKey("tempo") && !(projectSettings.get("tempo").equals(String.valueOf(env.getPlayer().getTempo())))) { //If not equal
-
                 env.getRootController().setWindowTitle(saveName + "*");
                 saved = false;
             }
@@ -234,7 +233,6 @@ public class Project {
 
 
             if (projectSettings.containsKey("rhythm") && !(projectSettings.get("rhythm").equals(env.getPlayer().getRhythmHandler().getRhythmTimings()))) { //If not equal
-
                 env.getRootController().setWindowTitle(saveName + "*");
                 saved = false;
             }
@@ -242,7 +240,6 @@ public class Project {
 
 
             if (projectSettings.containsKey("instrument") && !(projectSettings.get("instrument").equals(env.getPlayer().getInstrument().getName()))) { //If not equal
-
                 env.getRootController().setWindowTitle(saveName + "*");
                 saved = false;
             }
@@ -340,6 +337,12 @@ public class Project {
 
     public void setIsCompetitiveMode(boolean isCompetitiveMode) {
         this.isCompetitiveMode = isCompetitiveMode;
+        if (isCompetitiveMode) {
+            env.getRootController().getTranscriptController().hideTranscript();
+            env.getRootController().disallowTranscript();
+        } else {
+            env.getRootController().allowTranscript();
+        }
         checkChanges("competitionMode");
     }
 
