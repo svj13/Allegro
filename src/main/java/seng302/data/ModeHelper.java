@@ -66,13 +66,13 @@ public class ModeHelper {
 
     static {
 
-        modeNoteMap.put(1, new ArrayList<>(Arrays.asList("C", "G", "D", "A", "E", "B", "F", "Bb", "Eb", "Ab", "Db", "Gb")));
-        modeNoteMap.put(2, new ArrayList<>(Arrays.asList("D", "A", "E", "B", "F#", "C#", "G", "C", "F", "Bb", "Eb", "Ab")));
-        modeNoteMap.put(3, new ArrayList<>(Arrays.asList("E", "B", "F#", "C#", "G#", "D#", "A", "D", "G", "C", "F", "Bb")));
-        modeNoteMap.put(4, new ArrayList<>(Arrays.asList("F", "C", "G", "D", "A", "E", "Bb", "Eb", "Ab", "Dd", "Gb", "Cb")));
-        modeNoteMap.put(5, new ArrayList<>(Arrays.asList("G", "D", "A", "E", "B", "F#", "C", "F", "Bb", "Eb", "Ab", "Db")));
-        modeNoteMap.put(6, new ArrayList<>(Arrays.asList("A", "E", "B", "F#", "C#", "G#", "D", "G", "C", "F", "Bb", "EB")));
-        modeNoteMap.put(7, new ArrayList<>(Arrays.asList("B", "F#", "C#", "G#", "D#", "A#", "E", "A", "D", "G", "C", "F")));
+        modeNoteMap.put(1, new ArrayList<>());
+        modeNoteMap.put(2, new ArrayList<>());
+        modeNoteMap.put(3, new ArrayList<>());
+        modeNoteMap.put(4, new ArrayList<>());
+        modeNoteMap.put(5, new ArrayList<>());
+        modeNoteMap.put(6, new ArrayList<>());
+        modeNoteMap.put(7, new ArrayList<>());
 
         mmModeNoteMap.put(1, new ArrayList<>());
         mmModeNoteMap.put(2, new ArrayList<>());
@@ -83,22 +83,17 @@ public class ModeHelper {
         mmModeNoteMap.put(7, new ArrayList<>());
 
 
-        ArrayList<String> tonics = new ArrayList<>(Arrays.asList("C", "C#", "Db", "D", "D", "D#", "Eb", "E", "Fb", "E#", "F", "F#", "Gb", "G", "G#", "Ab", "A", "A#", "Bb", "B", "B#", "Cb"));
+        ArrayList<String> tonics = new ArrayList<>(Arrays.asList("C", "C#", "Db", "D", "D#", "Eb", "E", "Fb", "E#", "F", "F#", "Gb", "G", "G#", "Ab", "A", "A#", "Bb", "B", "B#", "Cb"));
         for (String tonic : tonics) {
             String tonicWithOctave = OctaveUtil.addDefaultOctave(tonic);
             ArrayList<String> mmScale = (Scale.scaleNameList(tonicWithOctave, Note.lookup(tonicWithOctave).getScale("melodic minor", true), true, "melodic minor"));
+            ArrayList<String> majorScale = (Scale.scaleNameList(tonicWithOctave, Note.lookup(tonicWithOctave).getScale("major", true), true, "major"));
 
             for (int i = 1; i < 8; i++) {
                 ((ArrayList) mmModeNoteMap.get(i)).add(OctaveUtil.removeOctaveSpecifier(mmScale.get(i - 1)));
+                ((ArrayList) modeNoteMap.get(i)).add(OctaveUtil.removeOctaveSpecifier(majorScale.get(i - 1)));
             }
         }
-//        System.out.println(mmModeNoteMap.get(1));
-//        System.out.println(mmModeNoteMap.get(2));
-//        System.out.println(mmModeNoteMap.get(3));
-//        System.out.println(mmModeNoteMap.get(4));
-//        System.out.println(mmModeNoteMap.get(5));
-//        System.out.println(mmModeNoteMap.get(6));
-//        System.out.println(mmModeNoteMap.get(7));
 
     }
 
