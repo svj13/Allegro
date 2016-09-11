@@ -102,7 +102,7 @@ public class ScaleRecognitionTutorController extends TutorController {
         initialiseQuestionSelector();
         rand = new Random();
         direction.getItems().addAll("Up", "Down", "UpDown");
-        ccbScales.getItems().addAll("Major", "Minor", "Melodic Minor", "Blues", "Major Pentatonic", "Minor Pentatonic", "Major Mode", "Harmonic Minor");
+        ccbScales.getItems().addAll("Major", "Minor", "Melodic Minor", "Blues", "Major Pentatonic", "Minor Pentatonic", "Major Mode", "Melodic Minor Mode", "Harmonic Minor");
 
         ccbScales.getCheckModel().check(0); //Only major/minor selected by default
         ccbScales.getCheckModel().check(1);

@@ -291,6 +291,11 @@ public class Note {
         List<Integer> semitones;
         Note currentNote = this;
         scaleNotes.add(currentNote);
+        if(type.toLowerCase().equals("melodic minor mode")) {
+            List<String> melodicMinorModes = new ArrayList<String>(Arrays.asList("minormajor", "dorian b2", "lydian #5", "lydian dominant", "mixolydian b6", "locrian #2", "altered"));
+            Random rand = new Random();
+            type = (melodicMinorModes.get(rand.nextInt(melodicMinorModes.size())));
+        }
         if(type.toLowerCase().equals("major mode")) {
             Random rand = new Random();
             List<String> majorModes = new ArrayList<String>(Arrays.asList("ionian", "dorian", "phrygian", "lydian", "mixolydian", "aeolian", "locrian"));
