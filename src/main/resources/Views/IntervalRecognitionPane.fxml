@@ -1,25 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.layout.*?>
-<?import com.jfoenix.controls.*?>
-
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXSlider?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <AnchorPane fx:id="IntervalRecognitionTab" minWidth="300.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.IntervalRecognitionTutorController">
     <children>
-        <HBox prefHeight="30.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
-            <children>
-                <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="Interval Recognition Tutor" textAlignment="CENTER">
-                    <font>
-                        <Font name="System Bold" size="21.0" />
-                    </font>
-                    <HBox.margin>
-                        <Insets />
-                    </HBox.margin>
-                </Label>
-            </children>
-        </HBox>
         <HBox fx:id="settings" alignment="CENTER" layoutY="36.0" minWidth="400.0" prefHeight="362.0" spacing="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="56.0">
             <children>
                 <VBox fx:id="paneInit" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="362.0" spacing="10.0">
@@ -71,7 +65,11 @@
                 </VBox>
             </children>
         </HBox>
-        <ScrollPane fx:id="paneQuestions" fitToHeight="true" fitToWidth="true" layoutY="45.0" minHeight="10.0" minWidth="10.0" prefHeight="481.0" prefViewportHeight="60.0" prefViewportWidth="680.0" prefWidth="722.0" visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5" AnchorPane.rightAnchor="5" AnchorPane.topAnchor="45.0">
+        <ScrollPane fx:id="paneQuestions" fitToHeight="true" fitToWidth="true" layoutY="45.0"
+                    minHeight="10.0" minWidth="10.0" prefHeight="481.0" prefViewportHeight="60.0"
+                    prefViewportWidth="680.0" prefWidth="722.0" visible="false"
+                    AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
+                    AnchorPane.topAnchor="0">
             <content>
                 <StackPane alignment="CENTER">
                     <children>
@@ -89,24 +87,6 @@
                             </padding></VBox>
                     </children>
                 </StackPane>
-            </content>
-        </ScrollPane>
-        <ScrollPane fx:id="paneResults" fitToWidth="true" layoutX="20.0" layoutY="180.0" prefHeight="265.0" prefWidth="690.0" visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="180.0">
-            <content>
-                <VBox fx:id="resultsBox" prefHeight="200.0" prefWidth="100.0">
-                    <children>
-                        <Text fx:id="resultsTitle" strokeType="OUTSIDE" strokeWidth="10.0" style="-fx-font-weight: bold;" text="Chord Recognition Results">
-                            <font>
-                                <Font name="System Bold" size="12.0" />
-                            </font>
-                            <VBox.margin>
-                                <Insets bottom="5.0" />
-                            </VBox.margin>
-                        </Text>
-                        <Text fx:id="resultsContent" strokeType="OUTSIDE" strokeWidth="0.0" />
-                        <HBox fx:id="buttons" prefHeight="100.0" prefWidth="200.0" />
-                    </children>
-                </VBox>
             </content>
         </ScrollPane>
     </children>

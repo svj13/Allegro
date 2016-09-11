@@ -40,7 +40,6 @@ public class ScaleModesTutorController extends TutorController {
             "B", "F", "Bb", "Eb", "Ab", "Db", "Gb"));
 
 
-
     public void create(Environment env) {
         super.create(env);
         initialiseQuestionSelector();
@@ -56,7 +55,6 @@ public class ScaleModesTutorController extends TutorController {
         record = new TutorRecord();
         paneInit.setVisible(false);
         paneQuestions.setVisible(true);
-        paneResults.setVisible(false);
         manager.resetEverything();
         manager.questions = selectedQuestions;
 
@@ -243,7 +241,6 @@ public class ScaleModesTutorController extends TutorController {
         }
 
         record.addQuestionAnswer(question);
-        env.getRootController().setTabTitle(getTabID(), true);
 
         handleAccordion();
         if (manager.answered == manager.questions) {
@@ -310,7 +307,6 @@ public class ScaleModesTutorController extends TutorController {
                     "2"
             };
             record.addQuestionAnswer(questionList);
-            env.getRootController().setTabTitle(getTabID(), true);
             handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();

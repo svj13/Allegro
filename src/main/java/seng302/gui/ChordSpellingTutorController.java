@@ -120,7 +120,6 @@ public class ChordSpellingTutorController extends TutorController {
             record = new TutorRecord();
             paneInit.setVisible(false);
             paneQuestions.setVisible(true);
-            paneResults.setVisible(false);
             manager.resetEverything();
             manager.questions = selectedQuestions;
             enharmonicsRequired = (String) numEnharmonics.getValue();
@@ -453,8 +452,9 @@ public class ChordSpellingTutorController extends TutorController {
     }
 
     /**
-     * Randomly decides whether the chord will be major or minor.
-     * Will be extended for further chord types
+     * Randomly decides whether the chord will be major or minor. Will be extended for further chord
+     * types
+     *
      * @return either "major" or "minor" as a string
      */
     private String generateRandomChordType() {
@@ -465,6 +465,7 @@ public class ChordSpellingTutorController extends TutorController {
 
     /**
      * Generates a "valid chord". That is, its name is valid and its notes match its name.
+     *
      * @return A Pair object of Chord Name, Notes in Chord
      */
     private Pair<String, ArrayList<Note>> generateValidChord() {
@@ -532,11 +533,12 @@ public class ChordSpellingTutorController extends TutorController {
 
     /**
      * Method used to compare the correct note and the note to be added to answer options.
+     *
      * @param correctNote the right note answer
-     * @param thisNote the note to be added
+     * @param thisNote    the note to be added
      * @return comparison boolean that represents the comparison result
      */
-    private boolean noteEnharmonicComparison (Note correctNote, Note thisNote) {
+    private boolean noteEnharmonicComparison(Note correctNote, Note thisNote) {
         char correctNoteLetter = correctNote.getNote().charAt(0);
         boolean comparison = true;
 
@@ -600,7 +602,6 @@ public class ChordSpellingTutorController extends TutorController {
         Collections.shuffle(chordNames);
         return chordNames;
     }
-
 
 
     /**
@@ -750,7 +751,6 @@ public class ChordSpellingTutorController extends TutorController {
                 answeredCorrectly.toString()
         };
         record.addQuestionAnswer(question);
-        env.getRootController().setTabTitle(getTabID(), true);
         handleAccordion();
         updateManagerCompletedQuestion();
     }
@@ -804,7 +804,6 @@ public class ChordSpellingTutorController extends TutorController {
 
         record.addQuestionAnswer(questionInfo);
 
-        env.getRootController().setTabTitle(getTabID(), true);
         handleAccordion();
         if (manager.answered == manager.questions) {
             finished();

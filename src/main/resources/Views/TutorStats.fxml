@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="722.0" prefWidth="600.0" style="-fx-border-style: none;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.TutorStatsController">
+   <children>
+      <VBox fx:id="stats" alignment="TOP_CENTER" layoutX="10.0" layoutY="-3.0" prefHeight="602.0" prefWidth="600.0" spacing="10.0" style="-fx-border-style: none;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <BorderPane fx:id="tutorHeader" prefHeight="33.0" prefWidth="600.0">
+               <center>
+                  <Label fx:id="tutorName" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+               </center>
+               <right>
+                  <JFXButton fx:id="btnLoadTutor" buttonType="RAISED" onAction="#loadTutor" prefHeight="25.0" prefWidth="100.0" styleClass="primary" text="Open Tutor" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets right="20.0" />
+                     </BorderPane.margin></JFXButton>
+               </right>
+               <left>
+                  <Pane prefHeight="33.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets left="20.0" />
+                     </BorderPane.margin></Pane>
+               </left>
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </BorderPane>
+            <Label fx:id="latestAttempt" alignment="CENTER" contentDisplay="CENTER" prefHeight="20.0" prefWidth="200.0" text="Latest Attempt">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <StackedBarChart fx:id="recentBar" alternativeRowFillVisible="false" categoryGap="0.0" horizontalGridLinesVisible="false" horizontalZeroLineVisible="false" layoutX="10.0" layoutY="247.0" legendVisible="false" maxHeight="30.0" maxWidth="500.0" verticalGridLinesVisible="false" verticalZeroLineVisible="false">
+               <xAxis>
+                  <NumberAxis minorTickVisible="false" opacity="0.0" tickLabelsVisible="false" tickMarkVisible="false" />
+               </xAxis>
+               <yAxis>
+                  <CategoryAxis disable="true" opacity="0.0" tickLabelsVisible="false" tickMarkVisible="false" visible="false" />
+               </yAxis>
+            </StackedBarChart>
+            <Label fx:id="overallStats" alignment="CENTER" contentDisplay="CENTER" text="Overall Stats" textAlignment="CENTER">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <StackedBarChart fx:id="stackedBar" alternativeRowFillVisible="false" categoryGap="0.0" horizontalGridLinesVisible="false" horizontalZeroLineVisible="false" legendVisible="false" maxHeight="30.0" maxWidth="500.0" verticalGridLinesVisible="false" verticalZeroLineVisible="false">
+               <xAxis>
+                  <NumberAxis minorTickVisible="false" opacity="0.0" tickLabelsVisible="false" tickMarkVisible="false" />
+               </xAxis>
+               <yAxis>
+                  <CategoryAxis disable="true" opacity="0.0" tickLabelsVisible="false" tickMarkVisible="false" visible="false" />
+               </yAxis>
+            </StackedBarChart>
+            <LineChart fx:id="lineChart" prefHeight="228.0" prefWidth="379.0" title="Past Results">
+               <xAxis>
+                  <CategoryAxis side="BOTTOM" tickLabelGap="1.0" tickLabelsVisible="false" tickMarkVisible="false" />
+               </xAxis>
+               <yAxis>
+                  <NumberAxis autoRanging="false" minorTickVisible="false" prefHeight="300.0" side="LEFT" tickLabelGap="2.0" tickMarkVisible="false" tickUnit="20.0" />
+               </yAxis>
+            </LineChart>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

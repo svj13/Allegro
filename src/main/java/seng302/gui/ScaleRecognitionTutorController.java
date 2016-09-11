@@ -65,7 +65,6 @@ public class ScaleRecognitionTutorController extends TutorController {
             record = new TutorRecord();
             paneInit.setVisible(false);
             paneQuestions.setVisible(true);
-            paneResults.setVisible(false);
             manager.resetEverything();
             manager.questions = selectedQuestions;
             qPanes = new ArrayList<>();
@@ -178,7 +177,6 @@ public class ScaleRecognitionTutorController extends TutorController {
                 correct.toString()
         };
         record.addQuestionAnswer(question);
-        env.getRootController().setTabTitle("scaleTutor", true);
 
         handleAccordion();
         if (manager.answered == manager.questions) {
@@ -233,7 +231,6 @@ public class ScaleRecognitionTutorController extends TutorController {
                     "2"
             };
             record.addQuestionAnswer(question);
-            env.getRootController().setTabTitle(getTabID(), true);
             handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
