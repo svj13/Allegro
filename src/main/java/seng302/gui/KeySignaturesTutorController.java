@@ -309,15 +309,15 @@ public class KeySignaturesTutorController extends TutorController {
                 manager.answered += 1;
 
 
-                    disableButtons(questionRow, 1, 3);
-                    Integer isCorrect = 0;
-                    String correctAnswer = findCorrectAnswerNumSharpFlat(pair, question.toString());
+                disableButtons(questionRow, 1, 3);
+                Integer isCorrect = 0;
+                String correctAnswer = findCorrectAnswerNumSharpFlat(pair, question.toString());
 
 
-                    if (type1QuestionCorrectCheck(pair.getKey().toString(), question, true, majorOptions.getValue(), minorOptions.getValue())) {
-                        isCorrect = 1;
-                        formatCorrectQuestion(questionRow);
-                        manager.add(pair, 1);
+                if (type1QuestionCorrectCheck(pair.getKey().toString(), question, true, majorOptions.getValue(), minorOptions.getValue())) {
+                    isCorrect = 1;
+                    formatCorrectQuestion(questionRow);
+                    manager.add(pair, 1);
 
                 } else {
                     correctAnswerLabel.setText(correctAnswer);
@@ -326,19 +326,19 @@ public class KeySignaturesTutorController extends TutorController {
                     manager.add(pair, 0);
                 }
 
-                    // Sets up the question to be saved to the record
-                    String[] recordQuestion = new String[]{
-                            String.format("Key signature of %s %s", question, pair.getKey()),
-                            options.getValue(),
-                            String.valueOf(isCorrect)
-                    };
-                    record.addQuestionAnswer(recordQuestion);
-                    // Shows the correct answer
-                    handleAccordion();
-                    if (manager.answered == manager.questions) {
-                        finished();
-                    }
+                // Sets up the question to be saved to the record
+                String[] recordQuestion = new String[]{
+                        String.format("Key signature of %s %s", question, pair.getKey()),
+                        options.getValue(),
+                        String.valueOf(isCorrect)
+                };
+                record.addQuestionAnswer(recordQuestion);
+                // Shows the correct answer
+                handleAccordion();
+                if (manager.answered == manager.questions) {
+                    finished();
                 }
+            }
 
 
         });

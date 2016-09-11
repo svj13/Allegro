@@ -17,7 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import seng302.Environment;
 
 /**
- *  Handles and Creates Users.
+ * Handles and Creates Users.
  */
 public class UserPageController {
 
@@ -28,34 +28,8 @@ public class UserPageController {
     @FXML
     SplitPane userView;
 
-//    @FXML
-//    AnchorPane tutorView;
-
-//    @FXML
-//    VBox stats;
-
-//    @FXML
-//    StackedBarChart stackedBar;
-
-//    @FXML
-//    StackedBarChart recentBar;
-
-//    @FXML
-//    AnchorPane overallPane;
-
-
-
     @FXML
     JFXListView listView;
-
-//    @FXML
-//    Label chartTitle;
-
-//    @FXML
-//    Label tutorName;
-
-//    @FXML
-//    LineChart lineChart;
 
 
     @FXML
@@ -70,46 +44,12 @@ public class UserPageController {
     @FXML
     AnchorPane currentPage;
 
-//    @FXML
-//    Label overallStats;
-
     private Environment env;
-
-    private String currentTutor;
-
-
-    public PitchComparisonTutorController pitchComparisonTutorController;
-
-    public IntervalRecognitionTutorController intervalRecognitionTutorController;
-
-    public ChordSpellingTutorController chordSpellingTutorController;
-
-    public ChordRecognitionTutorController chordRecognitionTutorController;
-
-    public KeySignaturesTutorController keySignaturesTutorController;
-
-    public MusicalTermsTutorController musicalTermsTutorController;
-
-    public DiatonicChordsTutorController diatonicChordsTutorController;
-
-    public ScaleRecognitionTutorController scaleRecognitionTutorController;
-
-    public UserSummaryController userSummaryController;
-
-
-
-
-
-    public UserPageController() {
-    }
 
 
     public void setEnvironment(Environment env) {
         this.env = env;
         this.env.setUserPageController(this);
-
-
-
 
     }
 
@@ -117,41 +57,25 @@ public class UserPageController {
     /**
      * Pretty much a constructor - loads userPage relevant data.
      */
-    protected void load(){
+    protected void load() {
         populateUserOptions();
 
 
         imageDP2.setImage(env.getUserHandler().getCurrentUser().getUserPicture());
         imageDP2.setOnMouseClicked(e -> env.getRootController().launchSettings());
 
-        try{
+        try {
 
             txtFullName.setText(env.getUserHandler().getCurrentUser().getUserFirstName() + " "
                     + env.getUserHandler().getCurrentUser().getUserLastName());
-        }
-        catch(NullPointerException e){
+        } catch (NullPointerException e) {
             //txtFullName not initialized yet.
         }
 
     }
 
 
-    @FXML
-    private void launchUserSettings() {
-
-    }
-
-    @FXML
-    public void logOutUser() throws IOException {
-//        stage.close();
-//        showLoginWindow();
-//        //reset();
-
-    }
-
-
     public void populateUserOptions() {
-
 
         ArrayList<String> options = new ArrayList<>();
         options.add("Summary");
@@ -207,10 +131,9 @@ public class UserPageController {
     public void showPage(String pageName) {
 
 
-        if(pageName.equals("Summary")){
+        if (pageName.equals("Summary")) {
             showSummaryPage();
-        }
-        else{
+        } else {
             showTutorStats(pageName);
         }
 
@@ -218,7 +141,7 @@ public class UserPageController {
     }
 
 
-    public void showSummaryPage(){
+    public void showSummaryPage() {
         env.getRootController().setHeader("Summary");
         listView.getSelectionModel().selectFirst();
 
@@ -228,15 +151,13 @@ public class UserPageController {
             AnchorPane summaryPage = summaryLoader.load();
             currentPage.getChildren().setAll(summaryPage);
 
-            currentPage.setLeftAnchor(summaryPage, 0.0);
-            currentPage.setTopAnchor(summaryPage, 0.0);
-            currentPage.setBottomAnchor(summaryPage, 0.0);
-            currentPage.setRightAnchor(summaryPage, 0.0);
+            AnchorPane.setLeftAnchor(summaryPage, 0.0);
+            AnchorPane.setTopAnchor(summaryPage, 0.0);
+            AnchorPane.setBottomAnchor(summaryPage, 0.0);
+            AnchorPane.setRightAnchor(summaryPage, 0.0);
 
             UserSummaryController summaryController = summaryLoader.getController();
             summaryController.create(env);
-
-
 
 
         } catch (IOException e) {
@@ -245,7 +166,7 @@ public class UserPageController {
 
     }
 
-    private void showTutorStats(String tutor){
+    private void showTutorStats(String tutor) {
         env.getRootController().setHeader(tutor);
         FXMLLoader tutorStatsLoader = new FXMLLoader(getClass().getResource("/Views/TutorStats.fxml"));
 
@@ -253,10 +174,10 @@ public class UserPageController {
             AnchorPane stats = tutorStatsLoader.load();
 
             currentPage.getChildren().setAll(stats);
-            currentPage.setLeftAnchor(stats, 0.0);
-            currentPage.setTopAnchor(stats, 0.0);
-            currentPage.setBottomAnchor(stats, 0.0);
-            currentPage.setRightAnchor(stats, 0.0);
+            AnchorPane.setLeftAnchor(stats, 0.0);
+            AnchorPane.setTopAnchor(stats, 0.0);
+            AnchorPane.setBottomAnchor(stats, 0.0);
+            AnchorPane.setRightAnchor(stats, 0.0);
             TutorStatsController statsController = tutorStatsLoader.getController();
 
             statsController.create(env);
@@ -270,30 +191,5 @@ public class UserPageController {
         }
 
     }
-
-
-
-//
-//    /**
-//     * Allows for dynamic updating of the question slider in Musical Terms tutor. When you load this
-//     * tab, it checks how many terms are in the current session, and changes the default accordingly
-//     * - up to 5.
-//     */
-//    public void reloadNumberTerms() {
-//        MusicalTermsTabController.terms = env.getMttDataManager().getTerms().size();
-//        if (MusicalTermsTabController.terms <= 5) {
-//            MusicalTermsTabController.numQuestions.setValue(MusicalTermsTabController.terms);
-//        }
-//    }
-
-
-
-
-
-
-
-
-
-
 
 }

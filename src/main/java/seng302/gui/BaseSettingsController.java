@@ -12,9 +12,7 @@ import javafx.scene.layout.VBox;
 import seng302.Environment;
 
 /**
- * Settings Page shell controller.
- * In charge of opening and all settings pages.
- *
+ * Settings Page shell controller. In charge of opening and all settings pages.
  */
 public class BaseSettingsController {
     Environment env;
@@ -67,7 +65,6 @@ public class BaseSettingsController {
 
     /**
      * Displays the user settings pane.
-     *
      */
     @FXML
     void openUserSettings() {
@@ -97,7 +94,8 @@ public class BaseSettingsController {
     }
 
     /**
-     *  Makes it so the given node is resized to completely fill the settings AnchorPane.
+     * Makes it so the given node is resized to completely fill the settings AnchorPane.
+     *
      * @param loadedPane subject node to which is resized to fill the settingsPnae.
      */
     private void setAnchors(Node loadedPane) {
@@ -108,8 +106,7 @@ public class BaseSettingsController {
     }
 
     /**
-     *  Loads the themeSettings view and opens it inside the settings pane.
-     *
+     * Loads the themeSettings view and opens it inside the settings pane.
      */
     @FXML
     void onThemeSettings() {
@@ -149,8 +146,9 @@ public class BaseSettingsController {
 //    }
 
     /**
-     * Used to update the 'Theme Settings' menu button's background colour to the current primary theme colour.
-     * The typical usage of this function is being called from the UI Picker class after changing the theme.
+     * Used to update the 'Theme Settings' menu button's background colour to the current primary
+     * theme colour. The typical usage of this function is being called from the UI Picker class
+     * after changing the theme.
      */
     public void updateSelectedTab() {
         btnThemeSettings.setStyle(String.format("-fx-background-color: %s", env.getThemeHandler().getPrimaryColour()));

@@ -2,7 +2,6 @@ package seng302;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import seng302.Users.ProjectHandler;
 import seng302.Users.UserHandler;
 import seng302.gui.RootController;
 import seng302.gui.UserPageController;
@@ -25,6 +24,7 @@ public class Environment {
     public RootController getRootController() {
         return rootController;
     }
+
     public UserPageController getUserPageController() {
         return userPageController;
     }
@@ -33,16 +33,15 @@ public class Environment {
         this.rootController = rootController;
     }
 
-    public void setUserPageController(UserPageController userPageController){ this.userPageController = userPageController;}
+    public void setUserPageController(UserPageController userPageController) {
+        this.userPageController = userPageController;
+    }
 
     // Root Controller
     private RootController rootController;
 
     //userpage
     private UserPageController userPageController;
-
-    private ProjectHandler json;
-
 
     private UserHandler userHandler;
 
@@ -66,9 +65,6 @@ public class Environment {
         transcriptManager = new TranscriptManager();
         recordLocation = null;
         em = new EditHistory(this);
-
-        //if (rootController != null) rootController.reset();
-
     }
 
     /**
@@ -82,10 +78,6 @@ public class Environment {
         recordLocation = null;
         themeHandler = new ThemeHandler();
         em = new EditHistory(this);
-
-        //if (rootController != null) rootController.reset();
-
-
     }
 
     /**
