@@ -28,6 +28,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -72,6 +73,9 @@ public class RootController implements Initializable {
 
     @FXML
     SplitPane splitPane;
+
+    @FXML
+    SplitPane transcriptSplitPane;
 
     @FXML
     private PitchComparisonTutorController PitchComparisonTabController;
@@ -183,7 +187,6 @@ public class RootController implements Initializable {
     private DslReferenceController dslRefControl;
 
     public void initialize(URL location, ResourceBundle resources) {
-
         dslRefControl = new DslReferenceController(transcriptPaneController);
 
         String cssBordering = "-fx-border-color:dimgray ; \n" //#090a0c
@@ -194,8 +197,6 @@ public class RootController implements Initializable {
 
         userDropDown.setEllipsisString("User");
         userDropDown.setText("User");
-
-
 
     }
 
@@ -242,6 +243,7 @@ public class RootController implements Initializable {
 
             applyTheme();
             stage.show();
+            resizeSplitPane(1.0);
             updateImage();
             try {
                 showUserPage();
@@ -908,28 +910,10 @@ public class RootController implements Initializable {
     }
 
     @FXML
-    public void openTranscript() {
-        try {
-
-            FXMLLoader transcriptLoader = new FXMLLoader();
-            transcriptLoader.setLocation(getClass().getResource("/Views/TranscriptPane.fxml"));
-
-            AnchorPane transcriptPage = transcriptLoader.load();
-
-            transcriptPaneController = transcriptLoader.getController();
-            transcriptPaneController.setEnv(env);
-
-            Stage stage = new Stage();
-            stage.setTitle("Transcript");
-            stage.setScene(new Scene(transcriptPage, 450, 450));
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void toggleTranscript() {
+        transcriptSplitPane.setDividerPositions(1.0);
+        transcriptPaneController.showTranscript();
     }
-
-
 
     public TutorFactory getTutorFactory(){
         return tutorFactory;
@@ -938,4 +922,15 @@ public class RootController implements Initializable {
     public BaseSettingsController getBaseSettingsController() {
         return settingsController;
     }
+
+    /**
+     * Sets the divider of the main window/transcript split pane.
+     *
+     * @param position Value from 0-1, which dictates where in the window the splitpane divider will
+     *                 be
+     */
+    public void resizeSplitPane(double position) {
+        transcriptSplitPane.setDividerPositions(position);
+    }
+
 }

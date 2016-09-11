@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXHamburger?>
 <?import javafx.scene.text.*?>
 <?import com.jfoenix.controls.*?>
 <?import java.lang.*?>
@@ -16,8 +17,6 @@
 <?import javafx.scene.control.RadioMenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -25,7 +24,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-
 <AnchorPane fx:id="paneMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="457.0" minWidth="700.0" prefHeight="457.0" prefWidth="700.0" style="-fx-border-style: none;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.RootController">
    <children>
        <VBox prefHeight="457.0" prefWidth="700.0" style="-fx-border-style: none;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -84,7 +82,8 @@
                                         <RadioMenuItem mnemonicParsing="false" onAction="#stopShowingNotesOnKeyboard" selected="true" text="Do not show note names" toggleGroup="$keyboardOptions" />
                                     </items>
                                 </Menu>
-                                <MenuItem mnemonicParsing="false" onAction="#openTranscript" text="Show Transcript" />
+                                <RadioMenuItem mnemonicParsing="false" onAction="#toggleTranscript"
+                                               text="Show Transcript"/>
                                 <MenuItem fx:id="menuHelpWindow" mnemonicParsing="false" onAction="#showDslRef" text="DSL Reference Card" />
 
                             </items>
@@ -105,7 +104,9 @@
                <children>
                       <SplitPane fx:id="splitPane" dividerPositions="0.5" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" orientation="VERTICAL" prefHeight="10000.0" prefWidth="1000000.0" style="-fx-border-style: none;" styleClass="noDivider" VBox.vgrow="ALWAYS">
                           <items>
-                        <SplitPane dividerPositions="0.9512893982808023" style="-fx-border-style: none; -fx-border-width: 0;" styleClass="noDivider">
+                              <SplitPane fx:id="transcriptSplitPane" dividerPositions="1.0"
+                                         style="-fx-border-style: none; -fx-border-width: 0;"
+                                         styleClass="noDivider">
                            <items>
                               <AnchorPane fx:id="centerPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-border-style: none; -fx-border-color: red; -fx-border-width: 0;" />
                                <fx:include fx:id="transcriptPane" source="TranscriptPane.fxml" />

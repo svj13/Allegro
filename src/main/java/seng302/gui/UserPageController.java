@@ -5,7 +5,6 @@ import com.jfoenix.controls.JFXListView;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -190,14 +189,15 @@ public class UserPageController {
                 if (empty) {
                     setText(null);
                     setGraphic(null);
-                } else if (tutor.equals("Scale Recognition Tutor")) {
-//                    imageView.setImage(lockImg);
-//                    setText(tutor);
-//                    setGraphic(imageView);
-                    setDisable(true);
-                    setMouseTransparent(true);
-
                 }
+//                else if (tutor.equals("Scale Recognition Tutor")) {
+////                    imageView.setImage(lockImg);
+////                    setText(tutor);
+////                    setGraphic(imageView);
+//                    setDisable(true);
+//                    setMouseTransparent(true);
+//
+//                }
             }
         });
 

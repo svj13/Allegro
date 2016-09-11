@@ -81,15 +81,20 @@ public class TranscriptPaneController {
 
     @FXML
     private void initialize() {
+        hideTranscript();
+        // Text field can only request focus once everything has been loaded.
+        Platform.runLater(() -> txtCommand.requestFocus());
+    }
+
+    public void hideTranscript() {
         isExpanded = false;
         playbackToolbar.setMaxWidth(0);
         txtTranscript.setMaxWidth(0);
         txtCommand.setMaxWidth(0);
         btnGo.setMaxWidth(0);
         transcriptAnchor.setVisible(false);
+        transcriptAnchor.setMinWidth(0);
         transcriptAnchor.setMaxWidth(0);
-        // Text field can only request focus once everything has been loaded.
-        Platform.runLater(() -> txtCommand.requestFocus());
     }
 
     /**
@@ -286,25 +291,21 @@ public class TranscriptPaneController {
         txtCommand.positionCaret(txtCommand.getText().length());
     }
 
-    @FXML
-    public void expandTranscript() {
-        if (isExpanded) {
-            playbackToolbar.setMaxWidth(0);
-            txtTranscript.setMaxWidth(0);
-            txtCommand.setMaxWidth(0);
-            btnGo.setMaxWidth(0);
-            transcriptAnchor.setVisible(false);
-            transcriptAnchor.setMaxWidth(0);
-        } else {
+    public void showTranscript() {
+        if (!isExpanded) {
             playbackToolbar.setMaxWidth(Region.USE_COMPUTED_SIZE);
             txtTranscript.setMaxWidth(Region.USE_COMPUTED_SIZE);
             txtCommand.setMaxWidth(Region.USE_COMPUTED_SIZE);
             btnGo.setMaxWidth(Region.USE_COMPUTED_SIZE);
             transcriptAnchor.setVisible(true);
             transcriptAnchor.setMaxWidth(Region.USE_COMPUTED_SIZE);
+            isExpanded = true;
+            env.getRootController().resizeSplitPane(0.75);
+        } else {
+            hideTranscript();
+            env.getRootController().resizeSplitPane(1.0);
         }
-        isExpanded = !isExpanded;
-    }
 
+    }
 
 }
