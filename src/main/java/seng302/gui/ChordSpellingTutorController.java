@@ -143,7 +143,6 @@ public class ChordSpellingTutorController extends TutorController {
     /**
      * Prepares a new question
      *
-     * @return a question pane containing the question information
      */
     public void setUpQuestion(int questionNo) {
         //Both questions just need a chord
