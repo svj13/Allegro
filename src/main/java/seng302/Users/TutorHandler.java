@@ -4,17 +4,19 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
-import org.json.simple.JSONObject;
-import seng302.Environment;
-import seng302.utility.TutorRecord;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import javafx.util.Pair;
+import seng302.Environment;
+import seng302.utility.TutorRecord;
 
 /**
  * Created by jmw280 on 25/07/16.
@@ -22,53 +24,133 @@ import java.util.Date;
 public class TutorHandler {
     Environment env;
 
+    private static final List<String> tutorIds = new ArrayList<String>() {{
+        add("pitchTutor");
+        add("scaleTutor");
+        add("intervalTutor");
+        add("musicalTermsTutor");
+        add("chordTutor");
+        add("chordSpellingTutor");
+        add("keySignatureTutor");
+        add("diatonicChordTutor");
+    }};
 
-
-
-    public TutorHandler(Environment env){
+    public TutorHandler(Environment env) {
         this.env = env;
 
     }
 
-
-
-
     /**
-     * When finished a tutor session. Or when save is clicked part way through.
+     * This method will give the total number of correct and incorrect answers for a given tutor.
+     *
+     * @param tabId The tabid of the tutor
+     * @return a pair containing two integers. The number of answers correct and the number of
+     * incorrect answers.
      */
-    public void saveTutorRecordsToFile(String projectAddress) {
-        if (env.getRootController().tabSaveCheck("pitchTutor")) {
-            saveTutorRecordsToFile(projectAddress + "/PitchComparisonTutor.json", env.getRootController().PitchComparisonTabController.record);
+    public Pair<Integer, Integer> getTutorTotals(String tabId) {
+        ArrayList<TutorRecord> records = getTutorData(tabId);
+        Integer correct = 0;
+        Integer incorrect = 0;
+        for (TutorRecord record : records) {
+            Map<String, Number> stats = record.getStats();
+            correct += stats.get("questionsCorrect").intValue();
+            incorrect += stats.get("questionsIncorrect").intValue();
         }
-        if (env.getRootController().tabSaveCheck("intervalTutor")) {
-
-            saveTutorRecordsToFile(projectAddress + "/IntervalRecognitionTutor.json", env.getRootController().IntervalRecognitionTabController.record);
-        }
-        if (env.getRootController().tabSaveCheck("musicalTermTutor")) {
-            saveTutorRecordsToFile(projectAddress + "/MusicalTermsTutor.json", env.getRootController().MusicalTermsTabController.record);
-        }
-        if (env.getRootController().tabSaveCheck("scaleTutor")) {
-            saveTutorRecordsToFile(projectAddress + "/ScaleRecognitionTutor.json", env.getRootController().ScaleRecognitionTabController.record);
-        }
-        if (env.getRootController().tabSaveCheck("chordTutor")) {
-            saveTutorRecordsToFile(projectAddress + "/ChordRecognitionTutor.json", env.getRootController().ChordRecognitionTabController.record);
-        }
-        if (env.getRootController().tabSaveCheck("chordSpellingTutor")) {
-            saveTutorRecordsToFile(projectAddress + "/ChordSpellingTutor.json", env.getRootController().ChordSpellingTabController.record);
-        }
-        if (env.getRootController().tabSaveCheck("keySignatureTutor")) {
-            saveTutorRecordsToFile(projectAddress + "/KeySignatureTutor.json", env.getRootController().KeySignaturesTabController.record);
-        }
-        if (env.getRootController().tabSaveCheck("diatonicChordTutor")) {
-            saveTutorRecordsToFile(projectAddress + "/DiatonicChordTutor.json", env.getRootController().DiatonicChordsController.record);
-        }
+        return new Pair<>(correct, incorrect);
     }
 
     /**
-     * Saves the tutor records to disc.
+     * This method will give the total number of correct and incorrect answers for a given tutor.
      *
-     * @param filename
-     * @param currentRecord
+     * @param tabId The tabid of the tutor
+     * @return a pair containing two integers. The number of answers correct and the number of
+     * incorrect answers.
+     */
+    public Pair<Integer, Integer> getRecentTutorTotals(String tabId) {
+        try {
+            ArrayList<TutorRecord> records = getTutorData(tabId);
+            Integer correct = 0;
+            Integer incorrect = 0;
+            for (TutorRecord record : records) {
+                Map<String, Number> stats = record.getStats();
+                correct = stats.get("questionsCorrect").intValue();
+                incorrect = stats.get("questionsIncorrect").intValue();
+            }
+            return new Pair<>(correct, incorrect);
+        } catch (NullPointerException e) {
+
+            return new Pair<>(123, 123);
+        }
+    }
+
+
+    public ArrayList<TutorRecord> getTutorData(String id) {
+        String projectAddress = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().currentProjectPath;
+        String filename = "";
+        if (id.equals("pitchTutor")) {
+            filename = projectAddress + "/PitchComparisonTutor.json";
+        } else if (id.equals("scaleTutor")) {
+            filename = projectAddress + "/ScaleRecognitionTutor.json";
+        } else if (id.equals("intervalTutor")) {
+            filename = projectAddress + "/IntervalRecognitionTutor.json";
+        } else if (id.equals("musicalTermTutor")) {
+            filename = projectAddress + "/MusicalTermsTutor.json";
+        } else if (id.equals("chordTutor")) {
+            filename = projectAddress + "/ChordRecognitionTutor.json";
+        } else if (id.equals("chordSpellingTutor")) {
+            filename = projectAddress + "/ChordSpellingTutor.json";
+        } else if (id.equals("keySignatureTutor")) {
+            filename = projectAddress + "/KeySignatureTutor.json";
+        } else if (id.equals("diatonicChordTutor")) {
+            filename = projectAddress + "/DiatonicChordTutor.json";
+        }
+        Gson gson = new Gson();
+        ArrayList<TutorRecord> records = new ArrayList<>();
+        try {
+            JsonReader jsonReader = new JsonReader(new FileReader(filename));
+            records = gson.fromJson(jsonReader, new TypeToken<ArrayList<TutorRecord>>() {
+            }.getType());
+
+        } catch (FileNotFoundException e) {
+            System.err.println("File not found.");
+        } catch (JsonSyntaxException e) {
+            System.err.println("File was not of the correct type.");
+        }
+        return records;
+
+    }
+
+    public List<Pair<Date, Float>> getTimeAndScores(String tabID) {
+        ArrayList<TutorRecord> records = getTutorData(tabID);
+        List<Pair<Date, Float>> scores = new ArrayList<>();
+        for (TutorRecord record : records) {
+            Date date = record.getDate();
+            Map<String, Number> scoreMap = record.getStats();
+            float score = scoreMap.get("percentageCorrect").floatValue();
+            scores.add(new Pair<>(date, score));
+        }
+        return scores;
+    }
+
+    /**
+     * Return the total number of questions answered correctly or incorrectly in all tutors.
+     *
+     * @return Pair consisting of total correct and total incorrect.
+     */
+    public Pair<Integer, Integer> getTotalsForAllTutors() {
+        Integer totalCorrect = 0;
+        Integer totalIncorrect = 0;
+        for (String tutor : tutorIds) {
+            Pair<Integer, Integer> total = getTutorTotals(tutor);
+            totalCorrect += total.getKey();
+            totalIncorrect += total.getValue();
+        }
+        return new Pair<>(totalCorrect, totalIncorrect);
+    }
+
+
+    /**
+     * Saves the tutor records to disc.
      */
     public void saveTutorRecordsToFile(String filename, TutorRecord currentRecord) {
         Gson gson = new Gson();
@@ -107,8 +189,6 @@ public class TutorHandler {
         }
 
     }
-
-
 
 
 }

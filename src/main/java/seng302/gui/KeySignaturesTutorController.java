@@ -14,6 +14,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Pair;
@@ -58,17 +59,23 @@ public class KeySignaturesTutorController extends TutorController {
      */
     private void goAction(ActionEvent event) {
         record = new TutorRecord();
+        paneInit.setVisible(false);
         paneQuestions.setVisible(true);
-        paneResults.setVisible(false);
         manager.resetEverything();
         manager.questions = selectedQuestions;
+        qPanes = new ArrayList<>();
 
         questionRows.getChildren().clear();
         for (int i = 0; i < manager.questions; i++) {
             HBox questionRow = setUpQuestion();
-            questionRows.getChildren().add(questionRow);
+            TitledPane qPane = new TitledPane("Question " + (i + 1), questionRow);
+            qPane.setPadding(new Insets(2, 2, 2, 2));
+            qPanes.add(qPane);
             questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
         }
+        qAccordion.getPanes().addAll(qPanes);
+        qAccordion.setExpandedPane(qAccordion.getPanes().get(0));
+        questionRows.getChildren().add(qAccordion);
     }
 
 
@@ -215,7 +222,7 @@ public class KeySignaturesTutorController extends TutorController {
                     "2"
             };
             record.addQuestionAnswer(recordQuestion);
-            env.getRootController().setTabTitle(getTabID(), true);
+            handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -248,8 +255,8 @@ public class KeySignaturesTutorController extends TutorController {
                     String.valueOf(isCorrect)
             };
             record.addQuestionAnswer(recordQuestion);
-            env.getRootController().setTabTitle(getTabID(), true);
             // Shows the correct answer
+            handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -285,8 +292,8 @@ public class KeySignaturesTutorController extends TutorController {
                         String.valueOf(isCorrect)
                 };
                 record.addQuestionAnswer(recordQuestion);
-                env.getRootController().setTabTitle(getTabID(), true);
                 // Shows the correct answer
+                handleAccordion();
                 if (manager.answered == manager.questions) {
                     finished();
                 }
@@ -302,15 +309,15 @@ public class KeySignaturesTutorController extends TutorController {
                 manager.answered += 1;
 
 
-                    disableButtons(questionRow, 1, 3);
-                    Integer isCorrect = 0;
-                    String correctAnswer = findCorrectAnswerNumSharpFlat(pair, question.toString());
+                disableButtons(questionRow, 1, 3);
+                Integer isCorrect = 0;
+                String correctAnswer = findCorrectAnswerNumSharpFlat(pair, question.toString());
 
 
-                    if (type1QuestionCorrectCheck(pair.getKey().toString(), question, true, majorOptions.getValue(), minorOptions.getValue())) {
-                        isCorrect = 1;
-                        formatCorrectQuestion(questionRow);
-                        manager.add(pair, 1);
+                if (type1QuestionCorrectCheck(pair.getKey().toString(), question, true, majorOptions.getValue(), minorOptions.getValue())) {
+                    isCorrect = 1;
+                    formatCorrectQuestion(questionRow);
+                    manager.add(pair, 1);
 
                 } else {
                     correctAnswerLabel.setText(correctAnswer);
@@ -319,19 +326,19 @@ public class KeySignaturesTutorController extends TutorController {
                     manager.add(pair, 0);
                 }
 
-                    // Sets up the question to be saved to the record
-                    String[] recordQuestion = new String[]{
-                            String.format("Key signature of %s %s", question, pair.getKey()),
-                            options.getValue(),
-                            String.valueOf(isCorrect)
-                    };
-                    record.addQuestionAnswer(recordQuestion);
-                    env.getRootController().setTabTitle(getTabID(), true);
-                    // Shows the correct answer
-                    if (manager.answered == manager.questions) {
-                        finished();
-                    }
+                // Sets up the question to be saved to the record
+                String[] recordQuestion = new String[]{
+                        String.format("Key signature of %s %s", question, pair.getKey()),
+                        options.getValue(),
+                        String.valueOf(isCorrect)
+                };
+                record.addQuestionAnswer(recordQuestion);
+                // Shows the correct answer
+                handleAccordion();
+                if (manager.answered == manager.questions) {
+                    finished();
                 }
+            }
 
 
         });
@@ -495,7 +502,7 @@ public class KeySignaturesTutorController extends TutorController {
                     "2"
             };
             record.addQuestionAnswer(recordQuestion);
-            env.getRootController().setTabTitle(getTabID(), true);
+            handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -527,8 +534,8 @@ public class KeySignaturesTutorController extends TutorController {
                     String.valueOf(isCorrect)
             };
             record.addQuestionAnswer(recordQuestion);
-            env.getRootController().setTabTitle(getTabID(), true);
             // Shows the correct answer
+            handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -564,8 +571,8 @@ public class KeySignaturesTutorController extends TutorController {
                         String.valueOf(isCorrect)
                 };
                 record.addQuestionAnswer(recordQuestion);
-                env.getRootController().setTabTitle(getTabID(), true);
                 // Shows the correct answer
+                handleAccordion();
                 if (manager.answered == manager.questions) {
                     finished();
                 }
@@ -603,8 +610,8 @@ public class KeySignaturesTutorController extends TutorController {
                         String.valueOf(isCorrect)
                 };
                 record.addQuestionAnswer(recordQuestion);
-                env.getRootController().setTabTitle(getTabID(), true);
                 // Shows the correct answer
+                handleAccordion();
                 if (manager.answered == manager.questions) {
                     finished();
                 }
@@ -816,7 +823,7 @@ public class KeySignaturesTutorController extends TutorController {
                     "2"
             };
             record.addQuestionAnswer(recordQuestion);
-            env.getRootController().setTabTitle(getTabID(), true);
+            handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -874,8 +881,8 @@ public class KeySignaturesTutorController extends TutorController {
                     String.valueOf(isCorrect)
             };
             record.addQuestionAnswer(recordQuestion);
-            env.getRootController().setTabTitle(getTabID(), true);
             // Shows the correct answer
+            handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
             }

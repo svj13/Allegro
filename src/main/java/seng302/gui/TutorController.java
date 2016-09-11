@@ -1,31 +1,31 @@
 package seng302.gui;
 
+import com.jfoenix.controls.JFXSlider;
+
 import java.io.File;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Slider;
+import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import seng302.Environment;
-import seng302.data.Note;
-
-import seng302.Users.ProjectHandler;
+import seng302.Users.Project;
 import seng302.Users.TutorHandler;
+import seng302.data.Note;
 import seng302.managers.TutorManager;
 import seng302.utility.TutorRecord;
 import seng302.utility.musicNotation.OctaveUtil;
@@ -40,19 +40,13 @@ public abstract class TutorController {
 
     public float userScore;
 
-    public String outputText;
-
     public int selectedQuestions;
 
-    public ProjectHandler projectHandler;
+    public Project currentProject;
 
     public TutorHandler tutorHandler;
 
-    Stage stage;
-
-    File fileDir;
-
-    String path;
+    public List qPanes;
 
     @FXML
     VBox questionRows;
@@ -61,27 +55,17 @@ public abstract class TutorController {
     ScrollPane paneQuestions;
 
     @FXML
-    ScrollPane paneResults;
+    Accordion qAccordion;
 
     @FXML
-    Text resultsTitle;
+    VBox paneInit;
 
     @FXML
-    Text resultsContent;
-
-    @FXML
-    VBox resultsBox;
-
-    @FXML
-    HBox buttons;
-
-    @FXML
-    Slider numQuestions;
+    JFXSlider numQuestions;
 
     @FXML
     Label questions;
 
-    private String tabID;
 
     /**
      * An empty constructor, required for sub-classes.
@@ -95,15 +79,23 @@ public abstract class TutorController {
     public void create(Environment env) {
         this.env = env;
         manager = new TutorManager();
-        projectHandler = env.getUserHandler().getCurrentUser().getProjectHandler();
-        tutorHandler = projectHandler.getCurrentProject().getTutorHandler();
+        currentProject = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject();
+        tutorHandler = currentProject.getTutorHandler();
     }
 
     /**
      * Implements the settings of a slider used to select number of questions.
      */
     public void initialiseQuestionSelector() {
-        selectedQuestions = (int) numQuestions.getValue();
+        if (env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().isCompetitiveMode) {
+            numQuestions.setValue(10);
+            numQuestions.setDisable(true);
+            selectedQuestions = 10;
+
+        } else {
+            selectedQuestions = (int) numQuestions.getValue();
+
+        }
         questions.setText(Integer.toString(selectedQuestions));
 
         // The listener for the number of questions selected
@@ -131,70 +123,45 @@ public abstract class TutorController {
         manager.clearTempIncorrect();
         Collections.shuffle(tempIncorrectResponses);
         manager.questions = tempIncorrectResponses.size();
+        List retestPanes = new ArrayList<>();
+
         for (Pair pair : tempIncorrectResponses) {
             HBox questionRow = generateQuestionPane(pair);
-            questionRows.getChildren().add(questionRow);
+            TitledPane qPane = new TitledPane("Question " + (tempIncorrectResponses.indexOf(pair) + 1), questionRow);
+            qPane.setPadding(new Insets(2, 2, 2, 2));
+            retestPanes.add(qPane);
             VBox.setMargin(questionRow, new Insets(10, 10, 10, 10));
         }
+        qAccordion.getPanes().remove(0, qAccordion.getPanes().size());
+        qAccordion.getPanes().addAll(retestPanes);
+        questionRows.getChildren().add(qAccordion);
     }
 
     protected void finished() {
         env.getPlayer().stop();
         userScore = getScore(manager.correct, manager.answered);
-        outputText = String.format("You have finished the tutor.\n" +
-                        "You answered %d questions, and skipped %d questions.\n" +
-                        "You answered %d questions correctly, %d questions incorrectly.\n" +
-                        "This gives a score of %.2f percent.",
-                manager.questions, manager.skipped,
-                manager.correct, manager.incorrect, userScore);
 
         record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
         record.setFinished();
         record.setDate();
-        if (projectHandler.getCurrentProject() != null) {
-            record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
-            projectHandler.getCurrentProject().saveCurrentProject();
-            outputText += "\nSession auto saved.";
+
+        String tutorName = env.getRootController().getHeader();
+        if (currentProject != null) {
+            currentProject.saveCurrentProject();
+            String tutorNameNoSpaces = tutorName.replaceAll("\\s", "");
+            String tutorFileName = currentProject.getCurrentProjectPath() + "/" + tutorNameNoSpaces + ".json";
+            tutorHandler.saveTutorRecordsToFile(tutorFileName, record);
         }
-        env.getRootController().setTabTitle(tabID, false);
 
-        // Sets the finished view
-        resultsContent.setText(outputText);
-
-        paneQuestions.setVisible(false);
-        paneResults.setVisible(true);
         questionRows.getChildren().clear();
-
-        Button retestBtn = new Button("Retest");
-        Button clearBtn = new Button("Clear");
-        Button saveBtn = new Button("Save");
-
-        clearBtn.setOnAction(event -> {
-            manager.saveTempIncorrect();
-            paneResults.setVisible(false);
-            paneQuestions.setVisible(true);
-        });
-
-        paneResults.setPadding(new Insets(10, 10, 10, 10));
-        retestBtn.setOnAction(event -> {
-            paneResults.setVisible(false);
-            paneQuestions.setVisible(true);
-            retest();
-
-        });
-        saveBtn.setOnAction(event -> saveRecord());
-
-        if (manager.getTempIncorrectResponses().size() > 0) {
-            //Can re-test
-            buttons.getChildren().setAll(retestBtn, clearBtn, saveBtn);
-        } else {
-            //Perfect score
-            buttons.getChildren().setAll(clearBtn, saveBtn);
+        try {
+            env.getRootController().showUserPage();
+            env.getUserPageController().showPage(tutorName);
+        } catch (Exception e) {
+            paneQuestions.setVisible(false);
+            paneInit.setVisible(true);
         }
 
-        buttons.setMargin(retestBtn, new Insets(10, 10, 10, 10));
-        buttons.setMargin(clearBtn, new Insets(10, 10, 10, 10));
-        buttons.setMargin(saveBtn, new Insets(10, 10, 10, 10));
         // Clear the current session
         manager.resetStats();
     }
@@ -223,27 +190,6 @@ public abstract class TutorController {
     }
 
     /**
-     * Saves a record of the tutoring session to a file.
-     */
-    public void saveRecord() {
-
-        //show a file picker
-        FileChooser fileChooser = new FileChooser();
-        if (projectHandler.getCurrentProject().isProject()) {
-            env.getRootController().checkProjectDirectory();
-            fileChooser.setInitialDirectory(Paths.get(projectHandler.getCurrentProject().getCurrentProjectPath()).toFile());
-        }
-        File file = fileChooser.showSaveDialog(stage);
-
-        if (file != null) {
-            fileDir = file.getParentFile();
-            path = file.getAbsolutePath();
-            env.setRecordLocation(path);
-            projectHandler.getCurrentProject().getTutorHandler().saveTutorRecordsToFile(path, record);
-        }
-    }
-
-    /**
      * Calculates a user's score after a tutoring session
      *
      * @param correct  The number of questions the user answered correctly
@@ -268,7 +214,7 @@ public abstract class TutorController {
     public void formatQuestionRow(HBox questionRow) {
         questionRow.setPadding(new Insets(10, 10, 10, 10));
         questionRow.setSpacing(10);
-        questionRow.setStyle("-fx-border-color: #336699; -fx-border-width: 2px;");
+//        questionRow.setStyle("-fx-border-color: #336699; -fx-border-width: 2px;");
     }
 
     /**
@@ -292,30 +238,13 @@ public abstract class TutorController {
     }
 
 
-//    /**
-//     * Creates an alert to ask the user whether or not to save a record to file.
-//     */
-//    public void promptSaveRecord() {
-//        Alert savePrompt = new Alert(Alert.AlertType.NONE);
-//        savePrompt.setContentText("Would you like to save this tutoring session?");
-//        savePrompt.setHeaderText("Save Record?");
-//        ButtonType save = new ButtonType("Save");
-//        ButtonType cancel = new ButtonType("Discard");
-//        savePrompt.getButtonTypes().setAll(save, cancel);
-//        ButtonType result = savePrompt.showAndWait().get();
-//
-//        if (result.equals(save)) {
-//            saveRecord();
-//        }
-//    }
-
     /**
      * Formats a GUI question to indicate it was skipped
      *
      * @param question The HBox containing info about a question
      */
     public void formatSkippedQuestion(HBox question) {
-        question.setStyle("-fx-border-color: grey; -fx-border-width: 2px;");
+        question.getParent().getParent().setStyle("-fx-border-color: grey; -fx-border-width: 2px;");
     }
 
     /**
@@ -324,7 +253,7 @@ public abstract class TutorController {
      * @param question The HBox containing info about a question
      */
     public void formatCorrectQuestion(HBox question) {
-        question.setStyle("-fx-border-color: green; -fx-border-width: 2px;");
+        question.getParent().getParent().setStyle("-fx-border-color: green; -fx-border-width: 2px;");
     }
 
     /**
@@ -333,7 +262,7 @@ public abstract class TutorController {
      * @param question The HBox containing info about a question
      */
     public void formatIncorrectQuestion(HBox question) {
-        question.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+        question.getParent().getParent().setStyle("-fx-border-color: red; -fx-border-width: 2px;");
     }
 
     /**
@@ -342,7 +271,7 @@ public abstract class TutorController {
      * @param question The HBox containing info about a question
      */
     public void formatPartiallyCorrectQuestion(HBox question) {
-        question.setStyle("-fx-border-color: yellow; -fx-border-width: 2px;");
+        question.getParent().getParent().setStyle("-fx-border-color: yellow; -fx-border-width: 2px;");
     }
 
     /**
@@ -370,7 +299,6 @@ public abstract class TutorController {
 
     /**
      * Consistently styles all skip buttons
-     *
      * @param skip the button to be styled
      */
     public void styleSkipButton(Button skip) {
@@ -397,11 +325,41 @@ public abstract class TutorController {
         resetInputs();
     }
 
-    public String getTabID() {
-        return tabID;
-    }
 
-    public void setTabID(String tabID) {
-        this.tabID = tabID;
+    /**
+     * Called whenever a question is answered or skipped. This sets the next unanswered question to
+     * be the one that is expanded.
+     */
+    public void handleAccordion() {
+        int currentPaneIndex = qPanes.indexOf(qAccordion.getExpandedPane());
+
+        // Start by looking at the next question
+        boolean found = false;
+        int i = currentPaneIndex + 1;
+
+        while (i < qPanes.size() && !found) {
+            // Go forward to the end
+            TitledPane currentQuestionPane = (TitledPane) qPanes.get(i);
+            if (!currentQuestionPane.getStyle().contains("-fx-border-color")) {
+                // this question has not been styled, and therefore not answered
+                found = true;
+                qAccordion.setExpandedPane((TitledPane) qPanes.get(i));
+            }
+            i++;
+        }
+
+
+        if (!found) {
+            // start again from 0 if not found
+            for (int j = 0; j < qPanes.size() - 1; j++) {
+                TitledPane currentQuestionPane = (TitledPane) qPanes.get(j);
+                if (currentQuestionPane.getStyle().contains("-fx-border-color")) {
+                    // this question has been styled, and therefore answered
+                } else {
+                    qAccordion.setExpandedPane((TitledPane) qPanes.get(j));
+                    break;
+                }
+            }
+        }
     }
 }

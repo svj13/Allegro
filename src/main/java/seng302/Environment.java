@@ -2,10 +2,10 @@ package seng302;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import seng302.Users.TutorHandler;
 import seng302.Users.UserHandler;
 import seng302.gui.RootController;
-import seng302.Users.ProjectHandler;
+import seng302.gui.UserPageController;
+import seng302.managers.ThemeHandler;
 import seng302.managers.TranscriptManager;
 import seng302.utility.EditHistory;
 import seng302.utility.MusicalTermsTutorBackEnd;
@@ -19,21 +19,29 @@ public class Environment {
     private String recordLocation;
     private EditHistory em = new EditHistory(this);
     private BooleanProperty shiftPressed;
-    private TutorHandler tutorHandler;
+    private ThemeHandler themeHandler;
 
     public RootController getRootController() {
         return rootController;
+    }
+
+    public UserPageController getUserPageController() {
+        return userPageController;
     }
 
     public void setRootController(RootController rootController) {
         this.rootController = rootController;
     }
 
+    public void setUserPageController(UserPageController userPageController) {
+        this.userPageController = userPageController;
+    }
+
     // Root Controller
     private RootController rootController;
 
-    private ProjectHandler json;
-
+    //userpage
+    private UserPageController userPageController;
 
     private UserHandler userHandler;
 
@@ -44,6 +52,19 @@ public class Environment {
         mttDataManager = new MusicalTermsTutorBackEnd();
         shiftPressed = new SimpleBooleanProperty(false);
         userHandler = new UserHandler(this);
+        themeHandler = new ThemeHandler();
+    }
+
+
+    /**
+     * Similar to the restEnvironment function, except it doesn't reset the MusicalTermsManager.
+     */
+    public void resetProjectEnvironment() {
+        executor = new DslExecutor(this);
+        player = new MusicPlayer();
+        transcriptManager = new TranscriptManager();
+        recordLocation = null;
+        em = new EditHistory(this);
     }
 
     /**
@@ -54,16 +75,9 @@ public class Environment {
         player = new MusicPlayer();
         transcriptManager = new TranscriptManager();
         mttDataManager = new MusicalTermsTutorBackEnd();
-
-
         recordLocation = null;
+        themeHandler = new ThemeHandler();
         em = new EditHistory(this);
-
-        if (rootController != null) {
-            //reset this too
-            rootController.reset();
-        }
-
     }
 
     /**
@@ -116,13 +130,13 @@ public class Environment {
         return userHandler;
     }
 
-    public TutorHandler getTutorHandler(){ return tutorHandler;}
-
-
     public EditHistory getEditManager() {
         return this.em;
     }
 
+    public ThemeHandler getThemeHandler() {
+        return this.themeHandler;
+    }
 
     public Boolean isShiftPressed() {
         return this.shiftPressed.getValue();

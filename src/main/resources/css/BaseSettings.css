@@ -1,0 +1,51 @@
+
+.menu {
+    -fx-padding: 0;
+}
+
+.menu #sidePane {
+    /*-fx-background-color: #395cab;*/
+
+}
+
+.menu #sidePane > Button {
+
+    -fx-border: 0;
+    -fx-background-color: #000000,
+    linear-gradient(#7ebcea, #2f4b8f),
+    linear-gradient(#426ab7, #263e75),
+    linear-gradient(#395cab, #223768);
+    -fx-background-insets: 0, 1, 2, 3;
+    -fx-background-radius: 3, 2, 2, 2;
+    -fx-padding: 12 30 12 30;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+
+}
+
+.menu #sidePane > JFXButton {
+    -fx-background-color: #7ebcea;
+    -fx-text-fill: white;
+    -fx-font-size: 16;
+    -fx-border-color: #2f4b8f;
+    -fx-border-width: 2px;
+}
+
+.menu #sidePane > JFXButton {
+    -fx-effect: dropshadow(one-pass-box, rgba(0, 0, 0, 0.8), 0, 0.0, 0, 1);
+}
+
+.menu #sidePane > JFXButton:hover {
+    -fx-background-color: #2f4b8f;
+    -fx-border: 0;
+
+}
+
+.menu VBox > JFXButton:even {
+    -fx-font-style: italic;
+    -fx-background-color: aliceblue;
+    -fx-border: 0;
+
+}
+
+
