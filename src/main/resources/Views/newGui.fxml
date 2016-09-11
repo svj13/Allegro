@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import com.jfoenix.controls.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
@@ -91,9 +92,13 @@
 
                     </menus>
                 </MenuBar>
-            <HBox fx:id="userBar" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" prefWidth="700.0" style="-fx-border-style: none;" styleClass="primary">
+            <HBox fx:id="userBar" alignment="CENTER" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" prefWidth="700.0" style="-fx-border-style: none;" styleClass="primary">
                <children>
-                  <JFXHamburger />
+                  <Label fx:id="txtHeader" styleClass="primaryText" text="header">
+                     <font>
+                        <Font name="Droid Sans Bold" size="21.0" />
+                     </font>
+                  </Label>
                </children>
             </HBox>
             <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="10000.0" prefWidth="100000.0" style="-fx-border-style: none; -fx-border-color: red; -fx-border-width: 0;" styleClass="noDivider" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -116,7 +121,7 @@
             </HBox>
             </children>
         </VBox>
-        <HBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="50.0" prefWidth="100.0" AnchorPane.leftAnchor="130.0" AnchorPane.topAnchor="20.0">
+        <HBox fx:id="userDPBox" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="50.0" prefWidth="100.0" AnchorPane.leftAnchor="130.0" AnchorPane.topAnchor="20.0">
             <children>
 
                   

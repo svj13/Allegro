@@ -56,6 +56,7 @@ public class UISkinnerController {
         colour = "#" + colour.substring(2, 8);
 
         this.jfxColourPicker.setValue(Color.valueOf(colour));
+        env.getRootController().setHeader("Theme Settings");
 
     }
 

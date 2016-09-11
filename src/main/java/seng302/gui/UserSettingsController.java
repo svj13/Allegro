@@ -71,6 +71,7 @@ public class UserSettingsController {
     public void create(Environment env) {
         this.env = env;
         this.imageDP.setImage(env.getUserHandler().getCurrentUser().getUserPicture());
+        env.getRootController().setHeader("User Settings");
         userHandler = env.getUserHandler();
         try {
             txtFName.setText(userHandler.getCurrentUser().getUserFirstName());

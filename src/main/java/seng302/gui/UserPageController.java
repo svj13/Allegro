@@ -44,8 +44,7 @@ public class UserPageController {
 //    @FXML
 //    AnchorPane overallPane;
 
-    @FXML
-    AnchorPane topPane;
+
 
     @FXML
     JFXListView listView;
@@ -220,6 +219,7 @@ public class UserPageController {
 
 
     public void showSummaryPage(){
+        env.getRootController().setHeader("Summary");
         listView.getSelectionModel().selectFirst();
 
         FXMLLoader summaryLoader = new FXMLLoader(getClass().getResource("/Views/UserSummary.fxml"));
@@ -246,7 +246,7 @@ public class UserPageController {
     }
 
     private void showTutorStats(String tutor){
-
+        env.getRootController().setHeader(tutor);
         FXMLLoader tutorStatsLoader = new FXMLLoader(getClass().getResource("/Views/TutorStats.fxml"));
 
         try {

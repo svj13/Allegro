@@ -167,3 +167,12 @@
 #userSplitPane *.split-pane-divider {
     -fx-padding: 0 1 0 1;
 }
+
+.primaryText {
+
+    -fx-text-fill: {0}{1}{2};
+}
+.secondaryText {
+
+    -fx-text-fill: {0}{1}{2}{3};
+}

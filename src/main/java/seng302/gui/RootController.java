@@ -1,6 +1,7 @@
 package seng302.gui;
 
 
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import org.json.simple.JSONArray;
 
@@ -22,13 +23,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SeparatorMenuItem;
-import javafx.scene.control.SplitPane;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -66,6 +60,8 @@ public class RootController implements Initializable {
     //@FXML
     //private  AnchorPane userPage;
 
+    @FXML
+    Label txtHeader;
 
 
     @FXML
@@ -163,6 +159,9 @@ public class RootController implements Initializable {
     private Menu helpMenu;
 
     @FXML
+    HBox userDPBox;
+
+    @FXML
     private MenuItem dslReferenceMenuItem;
 
     @FXML
@@ -244,7 +243,11 @@ public class RootController implements Initializable {
             applyTheme();
             stage.show();
             updateImage();
-
+            try {
+                showUserPage();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
 
         } else stage.hide();
@@ -359,11 +362,12 @@ public class RootController implements Initializable {
      */
     public void showUserBar(Boolean show){
         System.out.println("called with: " + show);
-        userBar.setVisible(show);
+        //userBar.setVisible(show);
 
-        userDropDown.setVisible(show);
-        userBar.setManaged(show);
-        imageDP.setVisible(show);
+        userDPBox.setVisible(show);
+        //userDropDown.setVisible(show);
+        //userBar.setManaged(show);
+        //imageDP.setVisible(show);
 
     }
 
@@ -372,6 +376,8 @@ public class RootController implements Initializable {
      */
     public void showUserPage() throws IOException {
         showUserBar(false);
+        setHeader("Summary");
+
         FXMLLoader userPageLoader = new FXMLLoader();
         userPageLoader.setLocation(getClass().getResource("/Views/UserPage.fxml"));
 
@@ -397,6 +403,10 @@ public class RootController implements Initializable {
 
     public void slideTranscript(){
 
+    }
+
+    public void setHeader(String text){
+        txtHeader.setText(text);
     }
 
 
@@ -918,6 +928,8 @@ public class RootController implements Initializable {
             e.printStackTrace();
         }
     }
+
+
 
     public TutorFactory getTutorFactory(){
         return tutorFactory;

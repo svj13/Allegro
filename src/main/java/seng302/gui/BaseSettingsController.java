@@ -60,6 +60,7 @@ public class BaseSettingsController {
 
     public void create(Environment env) {
         this.env = env;
+        openUserSettings();
 
 
     }
