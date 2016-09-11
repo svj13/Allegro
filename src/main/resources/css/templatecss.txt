@@ -16,6 +16,12 @@
     -fx-border-style: none;
 
 }
+
+.noDivider .split-pane *.split-pane-divider{
+    -fx-padding: 0 1 0 1;
+
+}
+
 .tab-pane > .tab-header-area > .headers-region > .tab {
     -fx-background-color: derive({0}, 80%);
 }
