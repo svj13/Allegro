@@ -94,7 +94,7 @@ public class Project {
         Gson gson = new Gson();
         projectSettings.put("tempo", env.getPlayer().getTempo());
         String transcriptString = gson.toJson(env.getTranscriptManager().getTranscriptTuples());
-        //System.out.println("saveProperties called! " + env.getTranscriptManager().getTranscriptTuples().size());
+
         projectSettings.put("transcript", transcriptString);
 
 
@@ -221,8 +221,6 @@ public class Project {
             file.flush();
             file.close();
 
-            tutorHandler.saveTutorRecordsToFile(projectAddress);
-            env.getRootController().clearAllIndicators();
             projectSettings.put("tempo", env.getPlayer().getTempo());
             env.getRootController().setWindowTitle(projectName);
             currentProjectPath = projectAddress;
