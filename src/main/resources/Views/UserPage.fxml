@@ -22,7 +22,7 @@
                               <Image url="images/testDP.jpg" />
                            </image>
                         </ImageView>
-                        <Label fx:id="txtFullName" />
+                        <Label fx:id="txtFullName" styleClass="primaryText" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" top="5.0" />

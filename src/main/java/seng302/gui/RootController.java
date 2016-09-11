@@ -363,13 +363,10 @@ public class RootController implements Initializable {
      * @param show true to dhow, false to hide.
      */
     public void showUserBar(Boolean show){
-        System.out.println("called with: " + show);
-        //userBar.setVisible(show);
-
+        userBar.setVisible(show);
         userDPBox.setVisible(show);
-        //userDropDown.setVisible(show);
-        //userBar.setManaged(show);
-        //imageDP.setVisible(show);
+        userBar.setManaged(show);
+
 
     }
 
