@@ -183,3 +183,24 @@
 
     -fx-text-fill: {0}{1}{2}{3};
 }
+
+
+.flatDropDown .menu-button {
+    -fx-background-radius: 0;
+    -fx-background-radius: 0 0 0 0;
+    -fx-background-color: {0}{1};
+
+}
+
+
+.flatDropDown .menu-button > .arrow-button {
+    -fx-padding: 0;
+
+
+}
+
+.flatDropDown .menu-button > .arrow-button > .arrow {
+    -fx-padding: 0;
+
+
+}

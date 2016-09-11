@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.input.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
@@ -17,6 +24,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+
 <AnchorPane fx:id="paneMain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="457.0" minWidth="700.0" prefHeight="457.0" prefWidth="700.0" style="-fx-border-style: none;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.RootController">
    <children>
        <VBox prefHeight="457.0" prefWidth="700.0" style="-fx-border-style: none;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -112,7 +120,7 @@
             </HBox>
             </children>
         </VBox>
-        <HBox fx:id="userDPBox" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="50.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+        <HBox fx:id="userDPBox" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="50.0" styleClass="flatDropDown" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
             <children>
 
                   
@@ -124,7 +132,7 @@
                         <Insets right="5.0" />
                     </HBox.margin>
                 </ImageView>
-                <MenuButton fx:id="userDropDown" alignment="CENTER" contentDisplay="LEFT" ellipsisString="user" mnemonicParsing="false" text="user" textOverrun="CENTER_ELLIPSIS">
+                <MenuButton fx:id="userDropDown" alignment="CENTER" contentDisplay="LEFT" ellipsisString="user" mnemonicParsing="false" styleClass="flatDropDown" text="user" textOverrun="CENTER_ELLIPSIS">
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#logOutUser" text="Logout" />
                         <MenuItem fx:id="userSettingsButton" mnemonicParsing="false" onAction="#launchSettings" text="Settings" />

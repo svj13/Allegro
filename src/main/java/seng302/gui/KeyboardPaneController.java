@@ -376,6 +376,7 @@ public class KeyboardPaneController {
         //OK button for display scale 1. Contains all of the error handling and toggles to Hide when clicked.
         //OK displays the given scale on the keyboard. Hide removes them but doesnt clear the input fields
         Button okScale1 = new Button("OK");
+        okScale1.getStyleClass().add("primary");
         okScale1.setOnAction(event-> {
             if (okScale1.getText().equals("OK")) {
                 String scale1Note = scale1NoteInput.getText();
@@ -411,6 +412,7 @@ public class KeyboardPaneController {
         //OK button for display scale 2. Contains all of the error handling and toggles to Hide when clicked.
         //OK displays the given scale on the keyboard. Hide removes them but doesnt clear the input fields
         Button okScale2 = new Button ("OK");
+        okScale2.getStyleClass().add("primary");
         okScale2.setOnAction(event-> {
             if (okScale2.getText().equals("OK")) {
                 String scale1Note = scale1NoteInput.getText();
@@ -452,9 +454,11 @@ public class KeyboardPaneController {
             typeScale1.setValue("Major");
             scale1NoteInput.setStyle("-fx-border-color: lightgray;");
 
+
             scale2NoteInput.clear();
             typeScale2.setValue("Major");
             scale2NoteInput.setStyle("-fx-border-color: lightgray;");
+
 
             okScale1.setText("OK");
             okScale2.setText("OK");
@@ -463,6 +467,8 @@ public class KeyboardPaneController {
             clearScaleIndicators("secondScale");
 
         });
+        cancelButton.getStyleClass().add("secondary");
+        
 
         //Symbol to indicate the colour for scale 1
         Circle scale1Key = new Circle();
