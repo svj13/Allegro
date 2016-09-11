@@ -252,11 +252,14 @@ public class KeyboardPaneController {
         final ToggleGroup group = new ToggleGroup();
         HBox modes = new HBox();
         ToggleButton play = new ToggleButton("Play");
+        play.getStyleClass().add("primary");
+
         play.setUserData(true);
         play.setToggleGroup(group);
         play.setSelected(true);
 
         ToggleButton text = new ToggleButton("Text Input");
+        text.getStyleClass().add("primary");
         text.setUserData(false);
         text.setToggleGroup(group);
         group.selectedToggleProperty().addListener((observable, newValue, oldValue) -> {
@@ -271,6 +274,7 @@ public class KeyboardPaneController {
 
         settings.getChildren().add(new Label("Keyboard Mode:"));
         modes.getChildren().add(play);
+        modes.setMargin(play, new Insets(0, 0, 0, 20));
         modes.getChildren().add(text);
         settings.getChildren().add(modes);
 
