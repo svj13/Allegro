@@ -132,7 +132,7 @@ public class ScaleModesTutorController extends TutorController {
         ArrayList answers = new ArrayList();
 
         //splitting up the answer. e.g D and dorian
-        String answer = (String) question.getValue();
+        String answer = (String) ((Pair)question.getValue()).getKey();
         answers.add(answer); //adding correct answer to answers array
         Integer degree = (Integer) ((Pair) question.getKey()).getValue();
 
@@ -189,7 +189,7 @@ public class ScaleModesTutorController extends TutorController {
 
         ComboBox options = new ComboBox<>();
         ArrayList answers = new ArrayList(); //stores the options that appear in the tutor. One correct answer contain
-        answers.add((String) (question.getValue()));
+        answers.add((String) (((Pair)question.getValue()).getKey()));
 
         //adds 8 answers to answers array
         while (answers.size() < 8) {
@@ -219,7 +219,7 @@ public class ScaleModesTutorController extends TutorController {
      * @param questionAndAnswer pair that contains the question and the correct answer as strings
      * @param questionRow       HBox containing GUI data
      */
-    private void handleQuestionAnswer(String userAnswer, Pair questionAndAnswer, HBox questionRow) {
+    private void handleQuestionAnswer(String userAnswer, Pair questionAndAnswer, HBox questionRow, String scaleType) {
         manager.answered += 1;
         Integer correct;
         disableButtons(questionRow, 1, 3);
@@ -244,7 +244,7 @@ public class ScaleModesTutorController extends TutorController {
         if (getTypeOfQuestion(questionAndAnswer) == 1) {
             question = new String[]{
                     String.format(typeOneText,
-                            questionPair.getKey(),
+                            ((String)questionPair.getKey()).concat(" ".concat(scaleType)),
                             questionPair.getValue()),
                     userAnswer,
                     String.valueOf(correct)
@@ -281,12 +281,13 @@ public class ScaleModesTutorController extends TutorController {
     HBox generateQuestionPane(Pair questionAnswer) {
 
         Pair data = (Pair) questionAnswer.getKey();
-        String answer = (String) questionAnswer.getValue();
+        String answer = (String) ((Pair)questionAnswer.getValue()).getKey();
+        String scaleType = (String) ((Pair)questionAnswer.getValue()).getValue();
         final HBox questionRow = new HBox();
         final ComboBox<String> options;
         Label question;
         if (getTypeOfQuestion(questionAnswer) == 1) {
-            question = new Label(String.format(typeOneText, data.getKey(), data.getValue()));
+            question = new Label(String.format(typeOneText, ((String)data.getKey()).concat(" ".concat(scaleType)), data.getValue()));
             options = generateChoices(questionAnswer);
 
         } else {
@@ -300,7 +301,7 @@ public class ScaleModesTutorController extends TutorController {
 
         options.setOnAction(event ->
                 //System.out.println("check clicked answer")
-                handleQuestionAnswer(options.getValue().toLowerCase(), questionAnswer, questionRow)
+                handleQuestionAnswer(options.getValue().toLowerCase(), questionAnswer, questionRow, scaleType)
         );
 
         Button skip = new Button("Skip");
@@ -361,13 +362,16 @@ public class ScaleModesTutorController extends TutorController {
         switch (scaleType) {
             case "Major Scales":
                 answer = Modes.getCorrespondingScaleString(randomScaleName, degree, "major");
+                scaleType = "major";
                 break;
             case "Melodic Minor Scales":
                 answer = Modes.getCorrespondingScaleString(randomScaleName, degree, "melodic minor");
+                scaleType = "melodic minor";
                 break;
 
         }
-        return new Pair(question, answer);
+        Pair answerAndType = new Pair(answer, scaleType);
+        return new Pair(question, answerAndType);
 
 
     }
@@ -401,7 +405,8 @@ public class ScaleModesTutorController extends TutorController {
                 break;
 
         }
-        return new Pair(question, answer);
+        Pair answerAndType = new Pair(answer, scaleType);
+        return new Pair(question, answerAndType);
 
 
     }
