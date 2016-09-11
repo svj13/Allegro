@@ -71,17 +71,14 @@ public class BaseSettingsController {
 
             userSettingsLoader = new FXMLLoader();
             userSettingsLoader.setLocation(getClass().getResource("/Views/UserSettings.fxml"));
-
             Node loadedPane = (Node) userSettingsLoader.load();
             settingsPane.getChildren().setAll(loadedPane);
             this.setAnchors(loadedPane);
-
             userSettingsC = userSettingsLoader.getController();
             userSettingsC.create(env);
-
             btnUserSettings.setStyle(String.format("-fx-background-color: %s", env.getThemeHandler().getPrimaryColour()));
             btnThemeSettings.setStyle("");
-            //btnProjectSettings.setStyle("");
+
 
         } catch (IOException e) {
             e.printStackTrace();
