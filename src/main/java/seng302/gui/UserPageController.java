@@ -1,5 +1,6 @@
 package seng302.gui;
 
+import com.jfoenix.controls.JFXBadge;
 import com.jfoenix.controls.JFXListCell;
 import com.jfoenix.controls.JFXListView;
 
@@ -41,6 +42,9 @@ public class UserPageController {
     ImageView imageDP2;
 
     @FXML
+    JFXBadge levelBadge;
+
+    @FXML
     Label latestAttempt;
 
     @FXML
@@ -72,6 +76,7 @@ public class UserPageController {
 
         imageDP2.setImage(env.getUserHandler().getCurrentUser().getUserPicture());
         imageDP2.setOnMouseClicked(e -> env.getRootController().launchSettings());
+        updateLevelBadge();
 
         try {
 
@@ -81,6 +86,11 @@ public class UserPageController {
             //txtFullName not initialized yet.
         }
 
+    }
+
+    public void updateLevelBadge() {
+        levelBadge.refreshBadge();
+        levelBadge.setText(Integer.toString(env.getUserHandler().getCurrentUser().getUserLevel()));
     }
 
 

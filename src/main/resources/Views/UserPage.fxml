@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXBadge?>
 <?import com.jfoenix.controls.JFXListView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -19,11 +20,15 @@
                <children>
                   <VBox fx:id="profilepic" alignment="CENTER" prefHeight="188.0" prefWidth="191.0" style="-fx-border-color: green; -fx-border-width: 0;">
                      <children>
-                        <ImageView fx:id="imageDP2" fitHeight="92.0" fitWidth="105.0">
-                           <image>
-                              <Image url="images/testDP.jpg" />
-                           </image>
-                        </ImageView>
+                         <JFXBadge fx:id="levelBadge" position="TOP_RIGHT" styleClass="icons-badge-large" text="1" maxWidth="100">
+                            <control>
+                                <ImageView fx:id="imageDP2" fitHeight="100.0" fitWidth="100.0">
+                                   <image>
+                                      <Image url="images/testDP.jpg" />
+                                   </image>
+                                </ImageView>
+                            </control>
+                         </JFXBadge>
                         <Label fx:id="txtFullName" styleClass="primaryText" />
                      </children>
                      <padding>
