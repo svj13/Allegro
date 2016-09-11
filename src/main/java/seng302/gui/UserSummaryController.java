@@ -40,7 +40,8 @@ public class UserSummaryController {
 
             statsController.create(env);
 
-            statsController.displayGraphs("Summary");
+            statsController.displayGraphs("Summary", env.getUserPageController().getTimePeriod());
+            statsController.updateProgressBar();
 
 
         } catch (IOException e) {

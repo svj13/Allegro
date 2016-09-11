@@ -95,12 +95,6 @@ public class RootController implements Initializable {
     private JFXBadge levelBadge;
 
     @FXML
-    private ImageView imageDP;
-
-    @FXML
-    private MenuButton userDropDown;
-
-    @FXML
     private MenuItem menuOpen;
 
     @FXML
@@ -126,12 +120,6 @@ public class RootController implements Initializable {
 
     @FXML
     private MenuItem dslReferenceMenuItem;
-
-    @FXML
-    private TabPane TabPane;
-
-    @FXML
-    private Tab transcriptPane;
 
     @FXML
     private MenuButton userDropDown;
@@ -812,10 +800,5 @@ public class RootController implements Initializable {
 
     public String getHeader() {
         return txtHeader.getText();
-    }
-
-
-    public UserSettingsController getUserSettingsTabController() {
-        return UserSettingsTabController;
     }
 }

@@ -210,9 +210,9 @@ public class User {
 
         try {
             //Theme
-            themeColor = (properties.get("themeColor")).toString();
+            themePrimary = (properties.get("themeColor")).toString();
         }catch(NullPointerException e){
-            themeColor = "white";
+            themePrimary = "white";
         }
 
 
