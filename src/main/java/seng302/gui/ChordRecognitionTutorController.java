@@ -62,7 +62,7 @@ public class ChordRecognitionTutorController extends TutorController {
         questionRows.getChildren().clear();
         for (int i = 0; i < manager.questions; i++) {
             HBox questionRow = setUpQuestion();
-            TitledPane qPane = new TitledPane("Question " + (i + 1), questionRow);
+            TitledPane qPane = new TitledPane((i + 1) + ". What type of chord is this?", questionRow);
             qPane.setPadding(new Insets(2, 2, 2, 2));
             qPanes.add(qPane);
             questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));

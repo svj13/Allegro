@@ -130,11 +130,7 @@ public class ChordSpellingTutorController extends TutorController {
 
             questionRows.getChildren().clear();
             for (int i = 0; i < manager.questions; i++) {
-                HBox questionRow = setUpQuestion();
-                TitledPane qPane = new TitledPane("Question " + (i + 1), questionRow);
-                qPane.setPadding(new Insets(2, 2, 2, 2));
-                qPanes.add(qPane);
-                questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
+                setUpQuestion(i);
             }
             qAccordion.getPanes().addAll(qPanes);
             qAccordion.setExpandedPane(qAccordion.getPanes().get(0));
@@ -149,7 +145,7 @@ public class ChordSpellingTutorController extends TutorController {
      *
      * @return a question pane containing the question information
      */
-    public HBox setUpQuestion() {
+    public void setUpQuestion(int questionNo) {
         //Both questions just need a chord
         Pair<String, ArrayList<Note>> randomChord = generateValidChord();
 
@@ -158,7 +154,16 @@ public class ChordSpellingTutorController extends TutorController {
 
         Pair question = new Pair(randomChord, questionType);
 
-        return generateQuestionPane(question);
+        HBox questionRow = generateQuestionPane(question);
+        TitledPane qPane;
+        if (questionType == 1) {
+            qPane = new TitledPane((questionNo + 1) + ". What are the notes of the " + randomChord.getKey() + " chord?", questionRow);
+        } else {
+            qPane = new TitledPane((questionNo + 1) + ". Which scale contains the notes:  " + chordAsString(randomChord.getValue()) + "?", questionRow);
+        }
+        qPane.setPadding(new Insets(2, 2, 2, 2));
+        qPanes.add(qPane);
+        questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
     }
 
     @Override
@@ -170,7 +175,6 @@ public class ChordSpellingTutorController extends TutorController {
         final HBox questionRow = new HBox();
         formatQuestionRow(questionRow);
         Label correctAnswer = new Label();
-        Label question = new Label();
 
         final HBox inputs = new HBox();
 
@@ -224,7 +228,6 @@ public class ChordSpellingTutorController extends TutorController {
 
             //Type A question
             correctAnswer = correctAnswer(chordAsString(chordNotes));
-            question.setText(chordName);
 
             ComboBox<String> note1 = new ComboBox<String>();
             note1.getItems().addAll(generateOptions(chordNotes.get(0)));
@@ -322,8 +325,6 @@ public class ChordSpellingTutorController extends TutorController {
             });
 
             correctAnswer = correctAnswer(chordName);
-            question.setText(chordAsString(chordNotes));
-
 
             if (enharmonicsRequired.equals("all")) {
                 CheckComboBox<String> possibleNames = new CheckComboBox<>();
@@ -392,10 +393,9 @@ public class ChordSpellingTutorController extends TutorController {
 
         }
 
-        questionRow.getChildren().add(0, question);
-        questionRow.getChildren().add(1, inputs);
-        questionRow.getChildren().add(2, skip);
-        questionRow.getChildren().add(3, correctAnswer);
+        questionRow.getChildren().add(0, inputs);
+        questionRow.getChildren().add(1, skip);
+        questionRow.getChildren().add(2, correctAnswer);
 
         questionRow.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
         return questionRow;
@@ -708,7 +708,7 @@ public class ChordSpellingTutorController extends TutorController {
      * @param selectedAnswer    - The answer that the user input. For saving
      */
     private void handleCompletedQuestion(HBox completedQuestion, int questionType, Pair data, String selectedAnswer) {
-        HBox inputs = (HBox) completedQuestion.getChildren().get(1);
+        HBox inputs = (HBox) completedQuestion.getChildren().get(0);
         String questionText;
         Integer answeredCorrectly = 0;
 
@@ -735,14 +735,14 @@ public class ChordSpellingTutorController extends TutorController {
             manager.add(new Pair<Pair, Integer>(data, questionType), 0);
 
             //Shows the correct answer
-            completedQuestion.getChildren().get(3).setVisible(true);
+            completedQuestion.getChildren().get(2).setVisible(true);
         } else {
             answeredCorrectly = 1;
             manager.add(new Pair<Pair, Integer>(data, questionType), 1);
         }
 
         //Disables skip button
-        completedQuestion.getChildren().get(2).setDisable(true);
+        completedQuestion.getChildren().get(1).setDisable(true);
 
         String[] question = new String[]{
                 questionText,
