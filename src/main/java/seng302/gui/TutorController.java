@@ -72,9 +72,6 @@ public abstract class TutorController {
     @FXML
     Label questions;
 
-    @FXML
-    Label tutorName;
-
     private String tabID;
 
     /**
@@ -154,9 +151,11 @@ public abstract class TutorController {
         record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
         record.setFinished();
         record.setDate();
+
+        String tutorName = env.getRootController().getHeader();
         if (currentProject != null) {
             currentProject.saveCurrentProject();
-            String tutorNameNoSpaces = tutorName.getText().replaceAll("\\s", "");
+            String tutorNameNoSpaces = tutorName.replaceAll("\\s", "");
             String tutorFileName = currentProject.getCurrentProjectPath() + "/" + tutorNameNoSpaces + ".json";
             tutorHandler.saveTutorRecordsToFile(tutorFileName, record);
         }
@@ -164,7 +163,7 @@ public abstract class TutorController {
         questionRows.getChildren().clear();
         try {
             env.getRootController().showUserPage();
-            env.getUserPageController().showPage(tutorName.getText());
+            env.getUserPageController().showPage(tutorName);
         } catch (Exception e) {
             paneQuestions.setVisible(false);
             paneInit.setVisible(true);

@@ -1,8 +1,6 @@
 package seng302.gui;
 
 
-import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
 import org.json.simple.JSONArray;
 
 import java.io.File;
@@ -23,6 +21,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.SplitPane;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -928,6 +934,10 @@ public class RootController implements Initializable {
      */
     public void resizeSplitPane(double position) {
         transcriptSplitPane.setDividerPositions(position);
+    }
+
+    public String getHeader() {
+        return txtHeader.getText();
     }
 
 }
