@@ -11,10 +11,13 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import seng302.Environment;
 
 /**
@@ -25,9 +28,6 @@ public class UserPageController {
 
     @FXML
     AnchorPane contentPane;
-
-    @FXML
-    StackPane stageMap;
 
     @FXML
     AnchorPane summaryPage;
@@ -83,6 +83,9 @@ public class UserPageController {
 
     @FXML
     VBox tutors;
+
+    @FXML
+    private ScrollPane scrollPane;
 
     @FXML
     AnchorPane summary;
@@ -243,6 +246,7 @@ public class UserPageController {
 
             UserSummaryController summaryController = summaryLoader.getController();
             summaryController.create(env);
+            summaryController.loadStageMap();
 
 
 
@@ -284,24 +288,6 @@ public class UserPageController {
 
     }
 
-    /**
-     * Loads the stage map into the summary page
-     */
-    public void loadStageMap() {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/Views/StageMapPane.fxml"));
-
-        try {
-            stageMap.getChildren().add(loader.load());
-        } catch (Exception e) {
-            System.err.println("Failed to load stage map");
-            System.out.println(e.getStackTrace());
-            e.printStackTrace();
-        }
-
-        StageMapController controller = loader.getController();
-        controller.setEnvironment(env);
-    }
 
 
 

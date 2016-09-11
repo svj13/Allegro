@@ -58,6 +58,7 @@ public class StageMapController {
 
     /**
      * Initializes the environment and the user page controller instance
+     *
      * @param env
      */
     public void setEnvironment(Environment env) {
@@ -109,9 +110,8 @@ public class StageMapController {
         //return average
 
 
-
-
     }
+
 
 
 
@@ -123,31 +123,31 @@ public class StageMapController {
     @FXML
     private void launchMusicalTermsTutor() {
         userPageController.setCurrentTutor("Musical Terms Tutor");
-        userPageController.loadTutor();
+        env.getRootController().getTutorFactory().openTutor("Musical Terms Tutor");
     }
 
     @FXML
     private void launchPitchTutor() {
         userPageController.setCurrentTutor("Pitch Comparison Tutor");
-        userPageController.loadTutor();
+        env.getRootController().getTutorFactory().openTutor("Pitch Comparison Tutor");
     }
 
     @FXML
     private void launchScaleRecognitionTutor() {
         userPageController.setCurrentTutor("Scale Recognition Tutor");
-        userPageController.loadTutor();
+        env.getRootController().getTutorFactory().openTutor("Scale Recognition Tutor");
     }
 
     @FXML
     private void launchChordRecognitionTutor() {
         userPageController.setCurrentTutor("Chord Recognition Tutor");
-        userPageController.loadTutor();
+        env.getRootController().getTutorFactory().openTutor("Chord Recognition Tutor");
     }
 
     @FXML
     private void launchIntervalRecognitionTutor() {
         userPageController.setCurrentTutor("Interval Recognition Tutor");
-        userPageController.loadTutor();
+        //userPageController.loadTutor();
     }
 
     @FXML
@@ -163,18 +163,18 @@ public class StageMapController {
     @FXML
     private void launchChordSpellingTutor() {
         userPageController.setCurrentTutor("Chord Spelling Tutor");
-        userPageController.loadTutor();
+        //userPageController.loadTutor();
     }
 
     @FXML
     private void launchKeySignaturesTutor() {
         userPageController.setCurrentTutor("Key Signature Tutor");
-        userPageController.loadTutor();
+        //userPageController.loadTutor();
     }
     @FXML
     private void launchDiatonicChordsTutor() {
         userPageController.setCurrentTutor("Diatonic Chord Tutor");
-        userPageController.loadTutor();
+        //userPageController.loadTutor();
     }
     @FXML
     private void launchMajorModesTutor() {

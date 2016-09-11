@@ -7,16 +7,27 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="735.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.UserSummaryController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1776.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.UserSummaryController">
    <children>
-      <VBox fx:id="stats" alignment="CENTER" layoutY="-13.0" prefWidth="500.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox fx:id="stats" alignment="TOP_CENTER" layoutY="-13.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="1071.0" prefWidth="600.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <AnchorPane fx:id="summaryStats" prefHeight="603.0" prefWidth="600.0" />
+            <HBox alignment="CENTER" prefHeight="54.0" prefWidth="600.0">
+               <children>
+                  <Label text="Stage Map">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <AnchorPane fx:id="stageMap" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="447.0" prefWidth="600.0" />
+            <AnchorPane fx:id="summaryStats" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="600.0" />
+            <AnchorPane maxHeight="143.0" maxWidth="351.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="143.0" prefWidth="600.0" />
             <Label prefHeight="27.0" prefWidth="89.0" text="Badges" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="18.0" />
-               </font></Label>
-            <AnchorPane maxHeight="85.0" maxWidth="351.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="85.0" prefWidth="351.0" />
+               </font>
+            </Label>
          </children>
       </VBox>
    </children>
