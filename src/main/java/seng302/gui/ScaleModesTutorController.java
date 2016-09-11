@@ -40,7 +40,6 @@ public class ScaleModesTutorController extends TutorController {
             "B", "F", "Bb", "Eb", "Ab", "Db", "Gb"));
 
 
-
     public void create(Environment env) {
         super.create(env);
         initialiseQuestionSelector();

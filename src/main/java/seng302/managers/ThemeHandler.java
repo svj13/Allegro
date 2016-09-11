@@ -35,10 +35,10 @@ public class ThemeHandler {
     }
 
     /**
-     * Creates a theme CSS file given a primary and secondary colours, then links the created CSS
-     * to a Node (this.baseNode)
+     * Creates a theme CSS file given a primary and secondary colours, then links the created CSS to
+     * a Node (this.baseNode)
      *
-     * @param primary primary theme colour
+     * @param primary   primary theme colour
      * @param secondary secondary theme colour
      */
     public void setTheme(String primary, String secondary) {
@@ -64,8 +64,6 @@ public class ThemeHandler {
         }
 
     }
-
-
 
 
     /**
@@ -143,8 +141,7 @@ public class ThemeHandler {
                 if (line.contains("{0}{1}{2}{3}")) { //Primary, Secondary, Primary font colour, secondary font colour.
 
                     templateCSS.add(MessageFormat.format(line, "", "", "", secondaryFont));
-                }
-                else if (line.contains("{0}{1}{2}")) {
+                } else if (line.contains("{0}{1}{2}")) {
 
                     templateCSS.add(MessageFormat.format(line, "", "", primaryFont));
                 } else if (line.contains("{0}{1}")) {

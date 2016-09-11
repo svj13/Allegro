@@ -3,7 +3,6 @@ package seng302;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -11,11 +10,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import seng302.gui.RootController;
-import seng302.gui.UserLoginController;
 
 
 public class App extends Application {
-    Stage primaryStage;
     Environment env;
 
     public static void main(String[] args) {
@@ -38,11 +35,8 @@ public class App extends Application {
 
             Parent root = loader.load();
 
-            //Parent root = loader;
             Scene scene = new Scene(root);
             scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
-
-            //Font.loadFont(ClassLoader.getSystemResource("/css/fonts/Roboto-Medium.tff").toExternalForm(), 24);
 
             primaryStage = new Stage();
             primaryStage.setScene(scene);
@@ -78,18 +72,10 @@ public class App extends Application {
                 controller.setStage(primaryStage);
 
                 controller.showLoginWindow(new Stage());
-                //controller.showUserPage();
-                //primaryStage.show();
-                //controller.setPrimaryStage(primaryStage);
             } catch (NullPointerException e) {
                 e.printStackTrace();
                 System.err.println("Controller is null");
             }
-
-
-
-            //controller.createWindow(scene);
-
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -24,8 +24,9 @@ public class TutorFactory {
      * of the same form then it sets focus to the already open tutor
      */
 
-    public TutorFactory(Environment env, AnchorPane parentNode){
-        this.env =env;
+
+    public TutorFactory(Environment env, AnchorPane parentNode) {
+        this.env = env;
         this.parentNode = parentNode;
     }
 
@@ -33,28 +34,24 @@ public class TutorFactory {
      * opens a tutor given a valid tutor name.
      * @param tutorName name of the tutor to open
      */
-    public void openTutor(String tutorName){
+    public void openTutor(String tutorName) {
+
 
         env.getRootController().showUserBar(true);
         switch (tutorName) {
             case "Pitch Comparison Tutor":
-                //userView.setVisible(false);
                 openPitchTutor();
                 break;
             case "Interval Recognition Tutor":
-                //userView.setVisible(false);
                 openIntervalTutor();
                 break;
             case "Scale Recognition Tutor":
-                //userView.setVisible(false);
                 openScaleTutor();
                 break;
             case "Musical Terms Tutor":
-                //userView.setVisible(false);
                 openMusicalTermTutor();
                 break;
             case "Chord Recognition Tutor":
-                //userView.setVisible(false);
                 openChordTutor();
                 break;
             case "Chord Spelling Tutor":
@@ -74,21 +71,23 @@ public class TutorFactory {
 
     /**
      * Expands the subject node to fill the parent.
+     *
      * @param node node to expand
      */
-    private void fillParentAnchors(Node node){
-        parentNode.setRightAnchor(node, 0.0);
-        parentNode.setLeftAnchor(node, 0.0);
-        parentNode.setBottomAnchor(node, 0.0);
-        parentNode.setTopAnchor(node, 0.0);
+    private void fillParentAnchors(Node node) {
+        AnchorPane.setRightAnchor(node, 0.0);
+        AnchorPane.setLeftAnchor(node, 0.0);
+        AnchorPane.setBottomAnchor(node, 0.0);
+        AnchorPane.setTopAnchor(node, 0.0);
 
     }
+
 
     /**
      * loads an fxml node.
      * @param loader FXMLloader to load.
      */
-    private void loadNode(FXMLLoader loader){
+    private void loadNode(FXMLLoader loader) {
         try {
             Node node = loader.load();
             parentNode.getChildren().setAll(node);
@@ -105,14 +104,14 @@ public class TutorFactory {
      */
     private void openPitchTutor() {
 
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/Views/PitchComparisonPane.fxml"));
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/Views/PitchComparisonPane.fxml"));
 
-            loadNode(loader);
+        loadNode(loader);
 
 
-            PitchComparisonTutorController pitchComparisonTutorController = loader.getController();
-            pitchComparisonTutorController.create(env);
+        PitchComparisonTutorController pitchComparisonTutorController = loader.getController();
+        pitchComparisonTutorController.create(env);
 
 
     }
@@ -147,7 +146,7 @@ public class TutorFactory {
 
         loadNode(loader);
 
-        MusicalTermsTutorController musicalTermsTabController= loader.getController();
+        MusicalTermsTutorController musicalTermsTabController = loader.getController();
         musicalTermsTabController.create(env);
 
 
@@ -159,12 +158,13 @@ public class TutorFactory {
      */
     private void openScaleTutor() {
 
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/Views/ScaleRecognitionPane.fxml"));
-            loadNode(loader);
 
-            ScaleRecognitionTutorController scaleRecognitionTutorController = loader.getController();
-            scaleRecognitionTutorController.create(env);
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/Views/ScaleRecognitionPane.fxml"));
+        loadNode(loader);
+
+        ScaleRecognitionTutorController scaleRecognitionTutorController = loader.getController();
+        scaleRecognitionTutorController.create(env);
 
 
     }
@@ -219,7 +219,7 @@ public class TutorFactory {
 
         loadNode(loader);
 
-        KeySignaturesTutorController keySignaturesTabController= loader.getController();
+        KeySignaturesTutorController keySignaturesTabController = loader.getController();
         keySignaturesTabController.create(env);
 
 
@@ -256,11 +256,12 @@ public class TutorFactory {
     @FXML
     private void openSpellingTutor() {
 
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/Views/ChordSpellingPane.fxml"));
-            loadNode(loader);
-            ChordSpellingTutorController chordSpellingTutorController = loader.getController();
-            chordSpellingTutorController.create(env);
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/Views/ChordSpellingPane.fxml"));
+        loadNode(loader);
+        ChordSpellingTutorController chordSpellingTutorController = loader.getController();
+        chordSpellingTutorController.create(env);
 
     }
 }

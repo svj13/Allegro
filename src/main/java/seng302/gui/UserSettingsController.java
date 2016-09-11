@@ -1,24 +1,22 @@
 package seng302.gui;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXPopup;
+import com.jfoenix.controls.JFXTextField;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXPopup;
-import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import seng302.Environment;
@@ -41,11 +39,8 @@ public class UserSettingsController {
     private AnchorPane chordSpellingAnchor;
 
 
-
-
     @FXML
     private JFXButton btnUploadImage;
-
 
 
     @FXML
@@ -81,8 +76,9 @@ public class UserSettingsController {
             txtFName.clear();
         }
     }
+
     @FXML
-    public void initialize(){
+    public void initialize() {
         String css = this.getClass().getResource("/css/user_settings.css").toExternalForm();
 
 
@@ -115,15 +111,14 @@ public class UserSettingsController {
         Stage stage = new Stage();
         File file = fileChooser.showOpenDialog(stage);
         Path userPath = userHandler.getCurrentUserPath();
-        Path filePath = Paths.get(userPath.toString()+"/profilePicture");
+        Path filePath = Paths.get(userPath.toString() + "/profilePicture");
 
         try {
             FileHandler.copyFolder(file, filePath.toFile());
             userHandler.getCurrentUser().setUserPicture(new Image(filePath.toUri().toString()));
             imageDP.setImage(userHandler.getCurrentUser().getUserPicture());
             env.getRootController().updateImage();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
 
         }
@@ -198,8 +193,7 @@ public class UserSettingsController {
                     });
 
 
-
-            header.setText("Are you sure you wish to delete user: " + userHandler.getCurrentUser().getUserName() );
+            header.setText("Are you sure you wish to delete user: " + userHandler.getCurrentUser().getUserName());
         } catch (IOException e) {
             e.printStackTrace();
         }
