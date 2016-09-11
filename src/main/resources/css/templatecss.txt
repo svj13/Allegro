@@ -156,8 +156,9 @@
 
 #userSideBar .jfx-list-cell .jfx-rippler {
     -fx-background-color: {0};
-    -fx-text-fill: brown;
+
 }
+
 
 
 

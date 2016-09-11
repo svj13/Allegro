@@ -92,7 +92,7 @@ public class ThemeHandler {
             try {
                 primary = java.awt.Color.decode(baseRGB);
             } catch (Exception e) {
-                primary = Color.orange;
+                primary = Color.decode("#1E88E5"); //Default blue
             }
         }
 
@@ -193,7 +193,7 @@ public class ThemeHandler {
      * Updates the theme handler to use the default colours of orange and white.
      */
     public void setDefaultTheme() {
-        setTheme("orange", "white");
+        setTheme("#1E88E5", "white");
     }
 
 
