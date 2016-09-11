@@ -131,6 +131,9 @@ public class ScaleModesTutorController extends TutorController {
         //stores the options that appear in the tutor. One correct answer contained
         ArrayList answers = new ArrayList();
 
+        // Scale type - for use with determining the correct random choice for the tutor
+        String scaleType = (String) ((Pair) question.getValue()).getValue();
+
         //splitting up the answer. e.g D and dorian
         String answer = (String) ((Pair)question.getValue()).getKey();
         answers.add(answer); //adding correct answer to answers array
@@ -166,7 +169,13 @@ public class ScaleModesTutorController extends TutorController {
                 randomValueMode = rand.nextInt(7) + 1;
             }
             usedNum.add(randomValueMode); //adds new value to options array
-            String randomScaleType = ModeHelper.getMajorValueModes().get(randomValueMode);
+            String randomScaleType = null;
+            if (scaleType.equals("major")) {
+                randomScaleType = ModeHelper.getMajorValueModes().get(randomValueMode);
+            } else {
+                randomScaleType = ModeHelper.getMelodicMinorValueModes().get(randomValueMode);
+            }
+
             answers.add(note + " " + randomScaleType);
             answers.add((modeNoteString + " " + randomScaleType));
         }
@@ -191,17 +200,20 @@ public class ScaleModesTutorController extends TutorController {
         ArrayList answers = new ArrayList(); //stores the options that appear in the tutor. One correct answer contain
         answers.add((String) (((Pair)question.getValue()).getKey()));
 
+        // Scale type for making sure the scale type is correct
+        String questionScaleType = (String) (((Pair)question.getValue()).getValue());
+
         //adds 8 answers to answers array
         while (answers.size() < 8) {
             Integer randomIndex = rand.nextInt(12);
             String scaleType = majorNotes.get(randomIndex); //selects random scaleType based on random index
 
             //if it has already been generated, reshuffle
-            while (answers.contains(scaleType + " major")) {
+            while (answers.contains(scaleType + " " + questionScaleType)) {
                 randomIndex = rand.nextInt(12);
                 scaleType = majorNotes.get(randomIndex);
             }
-            answers.add(scaleType + " major");
+            answers.add(scaleType + " " + questionScaleType);
 
         }
         Collections.shuffle(answers);
@@ -223,7 +235,7 @@ public class ScaleModesTutorController extends TutorController {
         manager.answered += 1;
         Integer correct;
         disableButtons(questionRow, 1, 3);
-        String correctAnswer = (String) questionAndAnswer.getValue();
+        String correctAnswer = (String) ((Pair) questionAndAnswer.getValue()).getKey();
         if (userAnswer.equalsIgnoreCase(correctAnswer)) {
             correct = 1;
             manager.add(questionAndAnswer, 1);
@@ -355,6 +367,7 @@ public class ScaleModesTutorController extends TutorController {
         Integer degree = rand.nextInt(7) + 1; //generates random degree of mode
         Integer idx = rand.nextInt(majorNotes.size()); //random index to select random tonic note
         String randomScaleName = (majorNotes.get(idx)); //gets random scale name
+        String finalScaleType = null;
 
         Pair question = new Pair(randomScaleName, degree);
 
@@ -362,15 +375,15 @@ public class ScaleModesTutorController extends TutorController {
         switch (scaleType) {
             case "Major Scales":
                 answer = Modes.getCorrespondingScaleString(randomScaleName, degree, "major");
-                scaleType = "major";
+                finalScaleType = "major";
                 break;
             case "Melodic Minor Scales":
                 answer = Modes.getCorrespondingScaleString(randomScaleName, degree, "melodic minor");
-                scaleType = "melodic minor";
+                finalScaleType = "melodic minor";
                 break;
 
         }
-        Pair answerAndType = new Pair(answer, scaleType);
+        Pair answerAndType = new Pair(answer, finalScaleType);
         return new Pair(question, answerAndType);
 
 
@@ -390,22 +403,25 @@ public class ScaleModesTutorController extends TutorController {
         String randomType = "";
         Pair question = null;
         String answer = null;
+        String finalScaleType = null;
         switch (scaleType) {
             case "Major Scales":
                 randomNote = (String) ModeHelper.getMajorModeNoteMap().get(degree).get(rand.nextInt(12));
                 randomType = ModeHelper.getMajorValueModes().get(degree);
                 question = new Pair(randomNote, randomType);
                 answer = Modes.getMajorParentScaleString(randomNote, randomType);
+                finalScaleType = "major";
                 break;
             case "Melodic Minor Scales":
                 randomNote = (String) ModeHelper.getMelodicMinorModeNoteMap().get(degree).get(rand.nextInt(12));
                 randomType = ModeHelper.getMelodicMinorValueModes().get(degree);
                 question = new Pair(randomNote, randomType);
                 answer = Modes.getMelodicMinorParentScaleString(randomNote, randomType);
+                finalScaleType = "melodic minor";
                 break;
 
         }
-        Pair answerAndType = new Pair(answer, scaleType);
+        Pair answerAndType = new Pair(answer, finalScaleType);
         return new Pair(question, answerAndType);
 
 
