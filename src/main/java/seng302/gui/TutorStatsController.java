@@ -224,43 +224,6 @@ public class TutorStatsController {
 
         env.getRootController().getTutorFactory().openTutor(tutorName);
 
-//        switch (tutorName) {
-//            case "Pitch Comparison Tutor":
-//                //userView.setVisible(false);
-//
-//                break;
-//            case "Interval Recognition Tutor":
-//                //userView.setVisible(false);
-//                openIntervalTutor();
-//                break;
-//            case "Scale Recognition Tutor":
-//                //userView.setVisible(false);
-//                openScaleTutor();
-//                break;
-//            case "Musical Terms Tutor":
-//                //userView.setVisible(false);
-//                openMusicalTermTutor();
-//                break;
-//            case "Chord Recognition Tutor":
-//                //userView.setVisible(false);
-//                openChordTutor();
-//                break;
-//            case "Chord Spelling Tutor":
-//                //userView.setVisible(false);
-//                openSpellingTutor();
-//                break;
-//            case "Key Signature Tutor":
-//                //userView.setVisible(false);
-//                openKeySignatureTutor();
-//                break;
-//            case "Diatonic Chord Tutor":
-//                //userView.setVisible(false);
-//                openDiatonicChordTutor();
-//                break;
-//        }
-
-
-        //tutorView.setVisible(true);
     }
 
 
