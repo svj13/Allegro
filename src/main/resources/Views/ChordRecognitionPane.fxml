@@ -15,19 +15,6 @@
 <?import javafx.scene.text.Font?>
 <AnchorPane fx:id="chordTutorAnchor" prefHeight="530.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.ChordRecognitionTutorController">
     <children>
-        <HBox prefHeight="30.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
-            <children>
-                <Label fx:id="tutorName" alignment="TOP_CENTER" contentDisplay="CENTER"
-                       text="Chord Recognition Tutor" textAlignment="CENTER">
-                    <font>
-                        <Font name="System Bold" size="21.0" />
-                    </font>
-                    <HBox.margin>
-                        <Insets top="2.0"/>
-                    </HBox.margin>
-                </Label>
-            </children>
-        </HBox>
         <HBox fx:id="settings" alignment="CENTER" layoutY="36.0" minWidth="400.0" prefHeight="362.0" spacing="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="56.0">
             <children>
                 <VBox fx:id="paneInit" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="362.0" spacing="10.0">
@@ -80,7 +67,7 @@
                 </VBox>
             </children>
         </HBox>
-        <ScrollPane fx:id="paneQuestions" fitToHeight="true" fitToWidth="true" layoutY="45.0" minHeight="10.0" minWidth="10.0" prefHeight="481.0" prefViewportHeight="60.0" prefViewportWidth="680.0" prefWidth="722.0" visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5" AnchorPane.rightAnchor="5" AnchorPane.topAnchor="45.0">
+        <ScrollPane fx:id="paneQuestions" fitToHeight="true" fitToWidth="true" layoutY="36.0" minHeight="10.0" minWidth="10.0" prefHeight="481.0" prefViewportHeight="60.0" prefViewportWidth="680.0" prefWidth="722.0" visible="false" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
             <content>
                 <StackPane alignment="CENTER">
                     <children>
