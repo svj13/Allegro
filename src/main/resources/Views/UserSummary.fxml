@@ -20,14 +20,34 @@
                   </Label>
                </children>
             </HBox>
-            <AnchorPane fx:id="stageMap" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="447.0" prefWidth="600.0" />
-            <AnchorPane fx:id="summaryStats" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="600.0" />
-            <AnchorPane maxHeight="143.0" maxWidth="351.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="143.0" prefWidth="600.0" />
-            <Label prefHeight="27.0" prefWidth="89.0" text="Badges" textAlignment="CENTER">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Label>
+            <HBox>
+               <children>
+                  <StackPane fx:id="stageMap" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <HBox>
+               <children>
+                  <AnchorPane fx:id="summaryStats" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <HBox>
+               <children>
+                  <AnchorPane maxHeight="143.0" maxWidth="351.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="143.0" prefWidth="600.0" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+            <HBox>
+               <children>
+                  <StackPane HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label prefHeight="27.0" prefWidth="89.0" text="Badges" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </StackPane>
+               </children>
+            </HBox>
          </children>
       </VBox>
    </children>

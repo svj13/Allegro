@@ -7,9 +7,7 @@ import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.util.Pair;
 import seng302.Environment;
 
@@ -32,7 +30,7 @@ public class UserSummaryController {
 
 
     @FXML
-    AnchorPane stageMap;
+    StackPane stageMap;
 
 
 
@@ -48,18 +46,23 @@ public class UserSummaryController {
         FXMLLoader statsLoader = new FXMLLoader(getClass().getResource("/Views/TutorStats.fxml"));
 
         try {
+
             AnchorPane stats = statsLoader.load();
 
-            summaryStats.getChildren().setAll(stats);
-
-
             TutorStatsController statsController = statsLoader.getController();
+
+
+
+            summaryStats.getChildren().setAll(stats);
+            summaryStats.setLeftAnchor(stats, 0.0);
+            summaryStats.setTopAnchor(stats, 0.0);
+            summaryStats.setBottomAnchor(stats, 0.0);
+            summaryStats.setRightAnchor(stats, 0.0);
+
 
             statsController.create(env);
 
             statsController.displayGraphs("Summary");
-
-
 
         } catch (IOException e) {
             e.printStackTrace();
