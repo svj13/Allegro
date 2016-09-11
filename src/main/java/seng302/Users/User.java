@@ -141,7 +141,7 @@ public class User {
             //Theme
             themePrimary = (properties.get("themePrimary")).toString();
         } catch (NullPointerException e) {
-            themePrimary = "orange";
+            themePrimary = "#1E88E5";
         }
 
         try {
