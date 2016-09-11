@@ -16,6 +16,26 @@
     -fx-background-color: #9e9e9e;
 }
 
+.titled-pane:focused {
+    -fx-text-fill: black;
+}
+
+.titled-pane > .title {
+    -fx-background-color: white;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 2 2 0 0;
+    -fx-padding: 0.166667em 0.833333em 0.25em 0.833333em; /* 2 10 3 10 */
+}
+
+.titled-pane:focused > .title {
+    -fx-color: -fx-focus-color;
+}
+
+.titled-pane > .content {
+    -fx-border-width: 0;
+}
+
+
 /*.menu-bar {
     -fx-background-color: #8e8e8e;
 }

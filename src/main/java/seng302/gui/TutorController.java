@@ -324,7 +324,7 @@ public abstract class TutorController {
      * @param question The HBox containing info about a question
      */
     public void formatSkippedQuestion(HBox question) {
-        question.getParent().getParent().setStyle("-fx-border-color: grey; -fx-border-width: 2px;");
+        question.getParent().getParent().setStyle("-fx-border-color: grey; -fx-border-width: 0 0 0 10px;");
     }
 
     /**
@@ -333,7 +333,7 @@ public abstract class TutorController {
      * @param question The HBox containing info about a question
      */
     public void formatCorrectQuestion(HBox question) {
-        question.getParent().getParent().setStyle("-fx-border-color: green; -fx-border-width: 2px;");
+        question.getParent().getParent().setStyle("-fx-border-color: green; -fx-border-width: 0 0 0 10px;");
     }
 
     /**
@@ -342,7 +342,7 @@ public abstract class TutorController {
      * @param question The HBox containing info about a question
      */
     public void formatIncorrectQuestion(HBox question) {
-        question.getParent().getParent().setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+        question.getParent().getParent().setStyle("-fx-border-color: red; -fx-border-width: 0 0 0 10px;");
     }
 
     /**
@@ -351,7 +351,7 @@ public abstract class TutorController {
      * @param question The HBox containing info about a question
      */
     public void formatPartiallyCorrectQuestion(HBox question) {
-        question.getParent().getParent().setStyle("-fx-border-color: yellow; -fx-border-width: 2px;");
+        question.getParent().getParent().setStyle("-fx-border-color: yellow; -fx-border-width: 0 0 0 10px;");
     }
 
     /**
