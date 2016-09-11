@@ -36,7 +36,7 @@ public class ScaleModesTutorController extends TutorController {
     JFXSlider numQuestions;
 
     @FXML
-    CheckComboBox<String> ccbModes;
+    ComboBox<String> ccbModes;
 
     private Random rand;
     private final String typeOneText = "What is the mode of %s if it is of degree %s?";
@@ -51,7 +51,7 @@ public class ScaleModesTutorController extends TutorController {
         super.create(env);
         initialiseQuestionSelector();
         rand = new Random();
-        ccbModes.getItems().addAll("Major Scales", "Melodic Minor Scales");
+        ccbModes.getItems().addAll("Major Scales", "Melodic Minor Scales", "Both");
     }
 
 
@@ -68,10 +68,16 @@ public class ScaleModesTutorController extends TutorController {
         manager.questions = selectedQuestions;
 
         // Generate Questions based on which of the options are checked.
-        ObservableList<Integer> selectedModes = ccbModes.getCheckModel().getCheckedIndices();
-        Integer numberOfSelectedModes = selectedModes.size();
+        ArrayList<String> possibleTypes = new ArrayList<String>();
         Random questionChooser = new Random();
         String questionType;
+        if (ccbModes.getValue().equals("Both")) {
+            possibleTypes.add("Major Scales");
+            possibleTypes.add("Melodic Minor Scales");
+        } else {
+            possibleTypes.add(ccbModes.getValue());
+        }
+        Integer numPossTypes = possibleTypes.size();
 
         rand = new Random();
 
@@ -83,11 +89,11 @@ public class ScaleModesTutorController extends TutorController {
             HBox questionRow;
             if (rand.nextBoolean()) {
                 type = 1;
-                questionType = ccbModes.getCheckModel().getItem(selectedModes.get(questionChooser.nextInt(numberOfSelectedModes)));
+                questionType = possibleTypes.get(questionChooser.nextInt(numPossTypes));
                 questionRow = generateQuestionPane(generateQuestionTypeOne(questionType));
             } else {
                 type = 2;
-                questionType = ccbModes.getCheckModel().getItem(selectedModes.get(questionChooser.nextInt(numberOfSelectedModes)));
+                questionType = possibleTypes.get(questionChooser.nextInt(numPossTypes));
                 questionRow = generateQuestionPane(generateQuestionTypeTwo(questionType));
             }
             TitledPane qPane = new TitledPane("Question " + (i + 1), questionRow);

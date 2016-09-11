@@ -48,7 +48,7 @@
                         <HBox alignment="CENTER" prefHeight="60.0" prefWidth="600.0">
                             <children>
                                 <Label text="Modes of: " />
-                                <CheckComboBox fx:id="ccbModes" prefWidth="100.0"/>
+                                <ComboBox fx:id="ccbModes" prefWidth="200.0"/>
                             </children>
                             <padding>
                                 <Insets left="5.0" />
