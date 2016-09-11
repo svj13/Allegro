@@ -19,7 +19,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Pair;
-import org.controlsfx.control.CheckComboBox;
 import seng302.Environment;
 import seng302.command.Modes;
 import seng302.data.ModeHelper;
@@ -46,7 +45,6 @@ public class ScaleModesTutorController extends TutorController {
             "B", "F", "Bb", "Eb", "Ab", "Db", "Gb"));
 
 
-
     public void create(Environment env) {
         super.create(env);
         initialiseQuestionSelector();
@@ -63,7 +61,6 @@ public class ScaleModesTutorController extends TutorController {
         record = new TutorRecord();
         paneInit.setVisible(false);
         paneQuestions.setVisible(true);
-        paneResults.setVisible(false);
         manager.resetEverything();
         manager.questions = selectedQuestions;
 
@@ -80,9 +77,7 @@ public class ScaleModesTutorController extends TutorController {
         Integer numPossTypes = possibleTypes.size();
 
         rand = new Random();
-
-        List qPanes = new ArrayList<>();
-
+        qPanes = new ArrayList<>();
 
         questionRows.getChildren().clear();
         for (int i = 0; i < manager.questions; i++) {
@@ -278,8 +273,8 @@ public class ScaleModesTutorController extends TutorController {
         }
 
         record.addQuestionAnswer(question);
-        env.getRootController().setTabTitle(getTabID(), true);
 
+        handleAccordion();
         if (manager.answered == manager.questions) {
             finished();
         }
@@ -345,7 +340,7 @@ public class ScaleModesTutorController extends TutorController {
                     "2"
             };
             record.addQuestionAnswer(questionList);
-            env.getRootController().setTabTitle(getTabID(), true);
+            handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
             }
