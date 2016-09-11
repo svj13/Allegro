@@ -48,12 +48,6 @@ public abstract class TutorController {
 
     public List qPanes;
 
-    Stage stage;
-
-    File fileDir;
-
-    String path;
-
     @FXML
     VBox questionRows;
 
@@ -72,7 +66,6 @@ public abstract class TutorController {
     @FXML
     Label questions;
 
-    private String tabID;
 
     /**
      * An empty constructor, required for sub-classes.

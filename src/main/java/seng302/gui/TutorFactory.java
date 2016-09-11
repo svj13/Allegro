@@ -9,7 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import seng302.Environment;
 
 /**
- * Created by Jonty on 04-Sep-16.
+ * Factory class for generating tutor instances.
  */
 public class TutorFactory {
 
@@ -24,14 +24,16 @@ public class TutorFactory {
      * of the same form then it sets focus to the already open tutor
      */
 
-
     public TutorFactory(Environment env, AnchorPane parentNode){
         this.env =env;
         this.parentNode = parentNode;
     }
 
+    /**
+     * opens a tutor given a valid tutor name.
+     * @param tutorName name of the tutor to open
+     */
     public void openTutor(String tutorName){
-
 
         env.getRootController().showUserBar(true);
         switch (tutorName) {
@@ -82,6 +84,10 @@ public class TutorFactory {
 
     }
 
+    /**
+     * loads an fxml node.
+     * @param loader FXMLloader to load.
+     */
     private void loadNode(FXMLLoader loader){
         try {
             Node node = loader.load();
@@ -97,7 +103,6 @@ public class TutorFactory {
      * opens the pitch tutor when the pitch tutor menu option is pressed If there is already an open
      * tutor of the same form then it sets focus to the already open tutor
      */
-    @FXML
     private void openPitchTutor() {
 
             FXMLLoader loader = new FXMLLoader();
@@ -116,7 +121,6 @@ public class TutorFactory {
      * opens the interval tutor when the interval menu option is pressed If there is already an open
      * tutor of the same form then it sets focus to the already open tutor
      */
-    @FXML
     private void openIntervalTutor() {
 
 
@@ -135,7 +139,6 @@ public class TutorFactory {
      * opens the musical terms tutor when the musical term tutor menu option is pressed If there is
      * already an open tutor of the same form then it sets focus to the already open tutor
      */
-    @FXML
     private void openMusicalTermTutor() {
 
 
@@ -151,10 +154,10 @@ public class TutorFactory {
     }
 
 
-
-
+    /***
+     * Opens the scale tutor
+     */
     private void openScaleTutor() {
-
 
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/Views/ScaleRecognitionPane.fxml"));
@@ -181,7 +184,6 @@ public class TutorFactory {
 
         ChordRecognitionTutorController chordRecognitionTabController = loader.getController();
         chordRecognitionTabController.create(env);
-
 
     }
 
@@ -254,13 +256,9 @@ public class TutorFactory {
     @FXML
     private void openSpellingTutor() {
 
-
-
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/Views/ChordSpellingPane.fxml"));
-
             loadNode(loader);
-
             ChordSpellingTutorController chordSpellingTutorController = loader.getController();
             chordSpellingTutorController.create(env);
 
