@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.input.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -93,8 +99,7 @@
                          <Menu mnemonicParsing="false" text="Scales">
                              <items>
                                  <MenuItem fx:id="menuSCT" mnemonicParsing="false" onAction="#openScaleTutor" text="Scale Recognition" />
-                                 <MenuItem id="scaleModesMenuItem" mnemonicParsing="false"
-                                           onAction="#openScaleModesTutor" text="Major Modes"/>
+                                 <MenuItem id="scaleModesMenuItem" mnemonicParsing="false" onAction="#openScaleModesTutor" text="Scale Modes" />
                                  <MenuItem fx:id="menuKST" mnemonicParsing="false" onAction="#openKeySignatureTutor" text="Key Signature" />
                              </items>
                          </Menu>

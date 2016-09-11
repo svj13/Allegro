@@ -6,13 +6,14 @@
 <?import javafx.scene.layout.*?>
 <?import com.jfoenix.controls.*?>
 
+<?import org.controlsfx.control.CheckComboBox?>
 <AnchorPane fx:id="scaleModesAnchor" prefHeight="450.0" prefWidth="700.0"
             xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="seng302.gui.ScaleModesTutorController">
     <children>
         <HBox prefHeight="30.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
             <children>
-                <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="Major Modes Tutor" textAlignment="CENTER">
+                <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="Scale Modes Tutor" textAlignment="CENTER">
                     <font>
                         <Font name="System Bold" size="21.0" />
                     </font>
@@ -28,7 +29,7 @@
                     <children>
                         <HBox alignment="CENTER" prefHeight="62.0" prefWidth="600.0">
                             <children>
-                                <Label alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="36.0" prefWidth="120.0" text="Number of Questions: " />
+                                <Label alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="36.0" prefWidth="150.0" text="Number of Questions: " />
                                 <Label fx:id="questions" contentDisplay="CENTER" prefHeight="30.0" prefWidth="17.0">
                                     <font>
                                         <Font name="System Bold" size="13.0" />
@@ -39,6 +40,15 @@
                                         <Insets top="15.0" />
                                     </padding>
                                 </JFXSlider>
+                            </children>
+                            <padding>
+                                <Insets left="5.0" />
+                            </padding>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="60.0" prefWidth="600.0">
+                            <children>
+                                <Label text="Modes of: " />
+                                <CheckComboBox fx:id="ccbModes" prefWidth="100.0"/>
                             </children>
                             <padding>
                                 <Insets left="5.0" />

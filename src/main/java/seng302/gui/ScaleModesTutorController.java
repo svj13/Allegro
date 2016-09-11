@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -18,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Pair;
+import org.controlsfx.control.CheckComboBox;
 import seng302.Environment;
 import seng302.command.Modes;
 import seng302.data.ModeHelper;
@@ -33,9 +35,12 @@ public class ScaleModesTutorController extends TutorController {
     @FXML
     JFXSlider numQuestions;
 
+    @FXML
+    CheckComboBox<String> ccbModes;
+
     private Random rand;
     private final String typeOneText = "What is the mode of %s if it is of degree %s?";
-    private final String typeTwoText = "What is the parent major scale of %s %s?";
+    private final String typeTwoText = "What is the parent scale of %s %s?";
     private Integer type = 1;
     private ArrayList<String> majorNotes = new ArrayList<>(Arrays.asList("C", "G", "D", "A", "E",
             "B", "F", "Bb", "Eb", "Ab", "Db", "Gb"));
@@ -46,6 +51,7 @@ public class ScaleModesTutorController extends TutorController {
         super.create(env);
         initialiseQuestionSelector();
         rand = new Random();
+        ccbModes.getItems().addAll("Major Scales", "Melodic Minor Scales");
     }
 
 
@@ -61,18 +67,28 @@ public class ScaleModesTutorController extends TutorController {
         manager.resetEverything();
         manager.questions = selectedQuestions;
 
+        // Generate Questions based on which of the options are checked.
+        ObservableList<Integer> selectedModes = ccbModes.getCheckModel().getCheckedIndices();
+        Integer numberOfSelectedModes = selectedModes.size();
+        Random questionChooser = new Random();
+        String questionType;
+
         rand = new Random();
+
         List qPanes = new ArrayList<>();
+
 
         questionRows.getChildren().clear();
         for (int i = 0; i < manager.questions; i++) {
             HBox questionRow;
             if (rand.nextBoolean()) {
                 type = 1;
-                questionRow = generateQuestionPane(generateQuestionTypeOne());
+                questionType = ccbModes.getCheckModel().getItem(selectedModes.get(questionChooser.nextInt(numberOfSelectedModes)));
+                questionRow = generateQuestionPane(generateQuestionTypeOne(questionType));
             } else {
                 type = 2;
-                questionRow = generateQuestionPane(generateQuestionTypeTwo());
+                questionType = ccbModes.getCheckModel().getItem(selectedModes.get(questionChooser.nextInt(numberOfSelectedModes)));
+                questionRow = generateQuestionPane(generateQuestionTypeTwo(questionType));
             }
             TitledPane qPane = new TitledPane("Question " + (i + 1), questionRow);
             qPane.setPadding(new Insets(2, 2, 2, 2));
@@ -332,7 +348,7 @@ public class ScaleModesTutorController extends TutorController {
      *
      * @return a pair with the question asked and the correct answer.
      */
-    private Pair generateQuestionTypeOne() {
+    private Pair generateQuestionTypeOne(String scaleType) {
 
         //generate random note and random degree
         Integer degree = rand.nextInt(7) + 1; //generates random degree of mode
@@ -341,7 +357,16 @@ public class ScaleModesTutorController extends TutorController {
 
         Pair question = new Pair(randomScaleName, degree);
 
-        String answer = Modes.getCorrespondingScaleString(randomScaleName, degree);
+        String answer = null;
+        switch (scaleType) {
+            case "Major Scales":
+                answer = Modes.getCorrespondingScaleString(randomScaleName, degree, "major");
+                break;
+            case "Melodic Minor Scales":
+                answer = Modes.getCorrespondingScaleString(randomScaleName, degree, "melodic minor");
+                break;
+
+        }
         return new Pair(question, answer);
 
 
@@ -353,15 +378,29 @@ public class ScaleModesTutorController extends TutorController {
      *
      * @return a Pair with the question asked and the correct answer
      */
-    private Pair generateQuestionTypeTwo() {
+    private Pair generateQuestionTypeTwo(String scaleType) {
 
         //generate random degree and random note
         Integer degree = rand.nextInt(7) + 1; //generates random degree of mode
-        String randomNote = (String) ModeHelper.getMajorModeNoteMap().get(degree).get(rand.nextInt(12));
-        String randomType = ModeHelper.getMajorValueModes().get(degree);
+        String randomNote = "";
+        String randomType = "";
+        Pair question = null;
+        String answer = null;
+        switch (scaleType) {
+            case "Major Scales":
+                randomNote = (String) ModeHelper.getMajorModeNoteMap().get(degree).get(rand.nextInt(12));
+                randomType = ModeHelper.getMajorValueModes().get(degree);
+                question = new Pair(randomNote, randomType);
+                answer = Modes.getMajorParentScaleString(randomNote, randomType);
+                break;
+            case "Melodic Minor Scales":
+                randomNote = (String) ModeHelper.getMelodicMinorModeNoteMap().get(degree).get(rand.nextInt(12));
+                randomType = ModeHelper.getMelodicMinorValueModes().get(degree);
+                question = new Pair(randomNote, randomType);
+                answer = Modes.getMelodicMinorParentScaleString(randomNote, randomType);
+                break;
 
-        Pair question = new Pair(randomNote, randomType);
-        String answer = Modes.getMajorParentScaleString(randomNote, randomType);
+        }
         return new Pair(question, answer);
 
 

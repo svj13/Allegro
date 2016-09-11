@@ -40,7 +40,7 @@ public class Modes implements Command {
      */
     public Modes(HashMap<String, String> scale, String degree) {
         String tonic = scale.get("note");
-        this.scaleType = scale.get("scale_type");
+        this.scaleType = scale.get("scale_type").toLowerCase();
         this.commandType = "modeOf";
         octaveSpecified = OctaveUtil.octaveSpecifierFlag(tonic);
         this.typedTonic = tonic;
@@ -57,7 +57,7 @@ public class Modes implements Command {
     public Modes(HashMap<String, String> scale) {
         this.commandType = "parentOf";
         this.startNote = scale.get("note");
-        this.scaleType = scale.get("scale_type");
+        this.scaleType = scale.get("scale_type").toLowerCase();
         this.tonic = Note.lookup(OctaveUtil.addDefaultOctave(startNote));
     }
 
@@ -67,13 +67,18 @@ public class Modes implements Command {
      *
      * @return result
      */
-    public static String getCorrespondingScaleString(String typedTonic, Integer degree) {
+    public static String getCorrespondingScaleString(String typedTonic, Integer degree, String scaleType) {
         Note tonic = Note.lookup(OctaveUtil.addDefaultOctave(typedTonic));
 
         if (degree >= 1 && degree <= 7) {
-            ArrayList<String> majorScale = Scale.scaleNameList(typedTonic, tonic.getScale("major", true), true, "major");
-            String parentNote = majorScale.get(degree - 1);
-            String mode = ModeHelper.getMajorValueModes().get(degree);
+            ArrayList<String> modeScale = Scale.scaleNameList(typedTonic, tonic.getScale(scaleType, true), true, scaleType);
+            String parentNote = modeScale.get(degree - 1);
+            String mode = null;
+            if (scaleType.equals("major")) {
+                mode = ModeHelper.getMajorValueModes().get(degree);
+            } else {
+                mode = ModeHelper.getMelodicMinorValueModes().get(degree);
+            }
             return parentNote + " " + mode;
         } else {
             return "Invalid degree: " + degree + ". Please use degree in range 1-7.";
@@ -130,8 +135,8 @@ public class Modes implements Command {
         Integer degree = ModeHelper.getMelodicMinorKeyModes().get(scaleType);
         for (String note : majorNotes) {
             Note tonic = Note.lookup(OctaveUtil.addDefaultOctave(note));
-            ArrayList<String> majorScale = Scale.scaleNameList(note, tonic.getScale("melodic minor", true), true, scaleType);
-            if (majorScale.get(degree - 1).equals(startNote)) {
+            ArrayList<String> modeScale = Scale.scaleNameList(note, tonic.getScale("melodic minor", true), true, scaleType);
+            if (modeScale.get(degree - 1).equals(startNote)) {
                 return note + " melodic minor";
             }
         }

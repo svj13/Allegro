@@ -89,9 +89,16 @@ public class ModeHelper {
             ArrayList<String> mmScale = (Scale.scaleNameList(tonicWithOctave, Note.lookup(tonicWithOctave).getScale("melodic minor", true), true, "melodic minor"));
 
             for (int i = 1; i < 8; i++) {
-                ((ArrayList) mmModeNoteMap.get(i)).add(mmScale.get(i - 1));
+                ((ArrayList) mmModeNoteMap.get(i)).add(OctaveUtil.removeOctaveSpecifier(mmScale.get(i - 1)));
             }
         }
+        System.out.println(mmModeNoteMap.get(1));
+        System.out.println(mmModeNoteMap.get(2));
+        System.out.println(mmModeNoteMap.get(3));
+        System.out.println(mmModeNoteMap.get(4));
+        System.out.println(mmModeNoteMap.get(5));
+        System.out.println(mmModeNoteMap.get(6));
+        System.out.println(mmModeNoteMap.get(7));
 
     }
 
