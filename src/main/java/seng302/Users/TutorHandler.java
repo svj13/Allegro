@@ -103,6 +103,8 @@ public class TutorHandler {
             filename = projectAddress + "/KeySignatureTutor.json";
         } else if (id.equals("diatonicChordTutor")) {
             filename = projectAddress + "/DiatonicChordTutor.json";
+        } else if (id.equals("scaleModesTutor")) {
+            filename = projectAddress + "/ScaleModesTutor.json";
         }
         Gson gson = new Gson();
         ArrayList<TutorRecord> records = new ArrayList<>();
