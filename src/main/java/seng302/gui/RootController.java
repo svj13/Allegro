@@ -28,13 +28,12 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.SplitPane;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -48,6 +47,7 @@ import seng302.managers.TranscriptManager;
 import seng302.utility.FileHandler;
 import seng302.utility.OutputTuple;
 
+
 public class RootController implements Initializable {
     Environment env;
     TranscriptManager tm;
@@ -56,9 +56,20 @@ public class RootController implements Initializable {
     String path;
     File fileDir;
 
+    TutorFactory tutorFactory;
+
 
     @FXML
     private Pane pane1;
+
+
+    //@FXML
+    //private  AnchorPane userPage;
+
+
+
+    @FXML
+    HBox userBar;
 
     @FXML
     AnchorPane paneMain;
@@ -67,13 +78,13 @@ public class RootController implements Initializable {
     SplitPane splitPane;
 
     @FXML
+    SplitPane transcriptSplitPane;
+
+    @FXML
     private PitchComparisonTutorController PitchComparisonTabController;
 
     @FXML
     private IntervalRecognitionTutorController IntervalRecognitionTabController;
-
-    @FXML
-    private TranscriptPaneController transcriptController;
 
     @FXML
     private MusicalTermsTutorController MusicalTermsTabController;
@@ -88,19 +99,25 @@ public class RootController implements Initializable {
     private ChordSpellingTutorController ChordSpellingTabController;
 
     @FXML
-    private UserSettingsController UserSettingsTabController;
+    private BaseSettingsController settingsController;
+
+//    @FXML
+//    public KeySignaturesTutorController KeySignaturesTabController;
+
+    @FXML
+    public DiatonicChordsTutorController DiatonicChordsController;
 
     @FXML
     private KeySignaturesTutorController KeySignaturesTabController;
 
     @FXML
-    private DiatonicChordsTutorController DiatonicChordsController;
-
-    @FXML
-    private ScaleModesTutorController ScaleModesController;
+    public ScaleModesTutorController ScaleModesController;
 
     @FXML
     private KeyboardPaneController keyboardPaneController;
+
+    @FXML
+    private TranscriptPaneController transcriptPaneController;
 
     @FXML
     private StackPane stackPane1;
@@ -151,12 +168,6 @@ public class RootController implements Initializable {
     @FXML
     private MenuItem dslReferenceMenuItem;
 
-//    @FXML
-//    private TabPane TabPane;
-
-//    @FXML
-//    private Tab transcriptPane;
-
     @FXML
     private ImageView imageDP;
 
@@ -165,10 +176,18 @@ public class RootController implements Initializable {
 
     @FXML
     public void onTranscriptTab() {
-        Platform.runLater(() -> transcriptController.txtCommand.requestFocus());
+        Platform.runLater(() -> transcriptPaneController.txtCommand.requestFocus());
     }
 
+    @FXML
+    public void showDslRef() {
+        dslRefControl.getPopover().show(paneMain);
+    }
+
+    private DslReferenceController dslRefControl;
+
     public void initialize(URL location, ResourceBundle resources) {
+        dslRefControl = new DslReferenceController(transcriptPaneController);
 
         String cssBordering = "-fx-border-color:dimgray ; \n" //#090a0c
                 + "-fx-border-insets:3;\n"
@@ -178,7 +197,6 @@ public class RootController implements Initializable {
 
         userDropDown.setEllipsisString("User");
         userDropDown.setText("User");
-
 
     }
 
@@ -204,16 +222,43 @@ public class RootController implements Initializable {
 
             }
         });
+
+
+
+
+
+
+
+
+
     }
 
 
+    /**
+     * Display or hide the main GUI window.
+     * @param show Boolean indicating whether to show or hide the main window.
+     */
     public void showWindow(Boolean show) {
         if (show) {
+
+            applyTheme();
             stage.show();
+            resizeSplitPane(1.0);
             updateImage();
+
 
         } else stage.hide();
 
+    }
+
+    /**
+     * Apply the current user's theme to the main window.
+     */
+    private void applyTheme(){
+        //Apply user theme
+        env.getThemeHandler().setBaseNode(paneMain);
+        String[] themeColours = env.getUserHandler().getCurrentUser().getThemeColours();
+        env.getThemeHandler().setTheme(themeColours[0], themeColours[1]);
     }
 
 
@@ -280,7 +325,7 @@ public class RootController implements Initializable {
     }
 
     private void setCommandText(Command command) {
-        transcriptController.txtCommand.clear();
+        transcriptPaneController.txtCommand.clear();
         List<String> parameters = command.getParams();
         List<String> options = command.getOptions();
         String parameterString = "";
@@ -291,10 +336,10 @@ public class RootController implements Initializable {
         for (String option : options) {
             optionsString += "[" + option + "] ";
         }
-        transcriptController.txtCommand.setText(command.getCommandText() +
+        transcriptPaneController.txtCommand.setText(command.getCommandText() +
                 " Parameters: " + parameterString);
         if (!optionsString.equals("[]")) {
-            transcriptController.txtCommand.appendText("Options: " + optionsString);
+            transcriptPaneController.txtCommand.appendText("Options: " + optionsString);
         }
     }
 
@@ -309,24 +354,16 @@ public class RootController implements Initializable {
 
 
     /**
-     * Probably delete this? - Do you need this Joseph?
+     * Toggles the visibility of the top User HBox and user image.
+     * @param show true to dhow, false to hide.
      */
-    public void loadUserPage(){
-//        FXMLLoader loader = new FXMLLoader();
-//        loader.setLocation(getClass().getResource("/Views/UserPage.fxml"));
-//        try {
-//            System.out.println(userPage);
-//            userPage.getChildren().add(loader.load());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        TabPane.setVisible(false);
-//        UserPageController userPageController = loader.getController();
-//        userPageController.setEnvironment(env);
-//        userPageController.populateUserOptions();
-//        userPageController.updateImage();
+    public void showUserBar(Boolean show){
+        System.out.println("called with: " + show);
+        userBar.setVisible(show);
 
-
+        userDropDown.setVisible(show);
+        userBar.setManaged(show);
+        imageDP.setVisible(show);
 
     }
     /**
@@ -335,24 +372,16 @@ public class RootController implements Initializable {
      * @throws IOException
      */
     public void showUserPage() throws IOException {
+        showUserBar(false);
         FXMLLoader userPageLoader = new FXMLLoader();
         userPageLoader.setLocation(getClass().getResource("/Views/UserPage.fxml"));
 
 
         AnchorPane userPage = userPageLoader.load();
-        //Scene scene1 = new Scene(root1);
-        //Stage userPageStage = new Stage();
-//        userPageStage.setTitle("Allegro");
-//        userPageStage.setScene(scene1);
-//
-//        userPageStage.show();
-        centerPane.setMinWidth(paneMain.getWidth());
-
-        centerPane.setMinHeight(paneMain.getHeight());
 
         System.out.println("heights.. " + centerPane.getHeight() + " userPane " + userPage.getHeight());
 
-        centerPane.getChildren().setAll(userPage);
+        centerPane.getChildren().add(userPage);
 
         centerPane.setRightAnchor(userPage, 0.0);
         centerPane.setLeftAnchor(userPage, 0.0);
@@ -361,10 +390,14 @@ public class RootController implements Initializable {
 
         UserPageController userPageController = userPageLoader.getController();
         userPageController.setEnvironment(env);
-        userPageController.populateUserOptions();
+        userPageController.load();
         userPageController.loadStageMap();
-        userPageController.updateImage();
+//        /userPageController.updateImage();
 
+
+    }
+
+    public void slideTranscript(){
 
     }
 
@@ -388,33 +421,33 @@ public class RootController implements Initializable {
     public void showLoginWindow(Stage loginStage) throws IOException {
         //if (show) {
 
-            //Close current window.
-            if (stage.isShowing()) stage.close();
+        //Close current window.
+        if (stage.isShowing()) stage.close();
 
-            FXMLLoader loader1 = new FXMLLoader();
-            loader1.setLocation(getClass().getResource("/Views/userLogin.fxml"));
+        FXMLLoader loader1 = new FXMLLoader();
+        loader1.setLocation(getClass().getResource("/Views/userLogin.fxml"));
 
-            Parent root1 = loader1.load();
-            Scene scene1 = new Scene(root1);
-
-
-            loginStage.setTitle("Allegro");
-            loginStage.setScene(scene1);
+        Parent root1 = loader1.load();
+        Scene scene1 = new Scene(root1);
 
 
-            loginStage.setOnCloseRequest(event -> {
-                System.exit(0);
-                event.consume();
-            });
+        loginStage.setTitle("Allegro");
+        loginStage.setScene(scene1);
+
+
+        loginStage.setOnCloseRequest(event -> {
+            System.exit(0);
+            event.consume();
+        });
 
         loginStage.setMinWidth(600);
         Double initialHeight = loginStage.getHeight();
         loginStage.setMinHeight(initialHeight);
 
-            loginStage.show();
-            UserLoginController userLoginController = loader1.getController();
-            userLoginController.setEnv(env);
-            userLoginController.displayRecentUsers();
+        loginStage.show();
+        UserLoginController userLoginController = loader1.getController();
+        userLoginController.setEnv(env);
+        userLoginController.displayRecentUsers();
 
 
         //}
@@ -425,7 +458,7 @@ public class RootController implements Initializable {
     public void logOutUser() throws IOException {
         stage.close();
         showLoginWindow();
-        //reset();
+        reset();
 
     }
 
@@ -480,7 +513,7 @@ public class RootController implements Initializable {
         env.getEditManager().addToHistory("3", new ArrayList<String>());
         env.getTranscriptManager().setTranscriptContent(new ArrayList<OutputTuple>());
 
-        transcriptController.setTranscriptPane(env.getTranscriptManager().convertToText());
+        transcriptPaneController.setTranscriptPane(env.getTranscriptManager().convertToText());
 
 
         env.getTranscriptManager().unsavedChanges = true;
@@ -527,7 +560,7 @@ public class RootController implements Initializable {
      */
     @FXML
     private void undo() {
-        transcriptController.executeAndPrintToTranscript("undo");
+        transcriptPaneController.executeAndPrintToTranscript("undo");
     }
 
     /**
@@ -535,7 +568,7 @@ public class RootController implements Initializable {
      */
     @FXML
     private void redo() {
-        transcriptController.executeAndPrintToTranscript("redo");
+        transcriptPaneController.executeAndPrintToTranscript("redo");
     }
 
     /**
@@ -595,7 +628,7 @@ public class RootController implements Initializable {
             path = file.getAbsolutePath();
             try {
                 env.getTranscriptManager().open(path);
-                transcriptController.setTranscriptPane(env.getTranscriptManager().convertToText());
+                transcriptPaneController.setTranscriptPane(env.getTranscriptManager().convertToText());
             } catch (Exception ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("This file is not valid");
@@ -619,7 +652,7 @@ public class RootController implements Initializable {
             try {
                 ArrayList<String> commands = env.getTranscriptManager().loadCommands(path);
                 //TabPane.getSelectionModel().selectFirst();
-                transcriptController.beginPlaybackMode(commands);
+                transcriptPaneController.beginPlaybackMode(commands);
             } catch (Exception ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("This file is not valid");
@@ -631,7 +664,7 @@ public class RootController implements Initializable {
 
 
     public void setTranscriptPaneText(String text) {
-        transcriptController.setTranscriptPane(text);
+        transcriptPaneController.setTranscriptPane(text);
     }
 
 
@@ -716,10 +749,6 @@ public class RootController implements Initializable {
     }
 
 
-    private void copyFolder(File sourceFolder, File destinationFolder) {
-
-    }
-
     /**
      * Open Project browser.
      */
@@ -788,14 +817,9 @@ public class RootController implements Initializable {
         this.env = env;
         this.env.setRootController(this);
         tm = env.getTranscriptManager();
+        tutorFactory = new TutorFactory(env, centerPane);
 
-        //transcriptController.setEnv(this.env);
-        //transcriptPane.setClosable(false);
-
-        //PitchComparisonTabController.create(env);
-        //IntervalRecognitionTabController.create(env);
-        //MusicalTermsTabController.create(env);
-        //ScaleRecognitionTabController.create(env);
+        transcriptPaneController.setEnv(this.env);
         keyboardPaneController.create(this.env);
 
 
@@ -808,59 +832,6 @@ public class RootController implements Initializable {
         this.stage.setTitle("Allegro - " + text);
     }
 
-
-    /**
-     * Sets the title of a selected tab depending on if there are unsaved changes
-     */
-    public void setTabTitle(String tabID, Boolean unsavedChanges) {
-
-//        for (Tab tab : TabPane.getTabs()) {
-//            if (tab.getId().equals(tabID)) {
-//
-//                String currentText = tab.getText();
-//                Character firstChar = currentText.charAt(0);
-//                if (firstChar == '*') {
-//                    if (!unsavedChanges) {
-//                        tab.setText(currentText.substring(1));
-//                    }
-//
-//                } else {
-//                    if (unsavedChanges) {
-//                        tab.setText("*" + currentText);
-//                    }
-//                }
-//
-//            }
-//        }
-    }
-
-
-    public boolean tabSaveCheck(String tabID) {
-//        for (Tab tab : TabPane.getTabs()) {
-//            if (tab.getId().equals(tabID)) {
-//                if (tab.getText().charAt(0) == '*') {
-//                    return true;
-//                }
-//            }
-//        }
-        return false;
-
-    }
-
-    /**
-     * clears all the unsaved changes indicators on the tutor tabs
-     */
-    public void clearAllIndicators() {
-//        for (Tab tab : TabPane.getTabs()) {
-//
-//            String currentText = tab.getText();
-//            Character firstChar = currentText.charAt(0);
-//
-//            if (firstChar == '*') {
-//                tab.setText(currentText.substring(1));
-//            }
-//        }
-    }
 
     public Environment getEnv() {
         return env;
@@ -901,98 +872,57 @@ public class RootController implements Initializable {
 //        }
     }
 
-    /**
-     * Creates the gui skinner tab
-     */
-    @FXML
-    private void createColorTab() {
-//        boolean alreadyExists = false;
-//        for (Tab tab : TabPane.getTabs()) {
-//            if (tab.getId().equals("uiSkinner")) {
-//                TabPane.getSelectionModel().select(tab);
-//                alreadyExists = true;
-//            }
-//
-//        }
-//
-//        if (!alreadyExists) {
-//
-//            Tab skinnerTab = new Tab("Interface Skinner");
-//            skinnerTab.setId("uiSkinner");
-//
-//            FXMLLoader loader = new FXMLLoader();
-//            loader.setLocation(getClass().getResource("/Views/UISkinner.fxml"));
-//
-//            try {
-//                skinnerTab.setContent((Node) loader.load());
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//            TabPane.getTabs().add(skinnerTab);
-//            TabPane.getSelectionModel().select(skinnerTab);
-//            uiSkinnerController = loader.getController();
-//            uiSkinnerController.create(env, paneMain);
-//        }
-    }
-
 
     public TranscriptPaneController getTranscriptController() {
-        return transcriptController;
+        return transcriptPaneController;
     }
 
 
     @FXML
-    private void launchUserSettings() {
-//        boolean alreadyExists = false;
-//        for (Tab tab : TabPane.getTabs()) {
-//            if (tab.getId().equals("userSettings")) {
-//                TabPane.getSelectionModel().select(tab);
-//                alreadyExists = true;
-//            }
-//
-//        }
-//
-//        if (!alreadyExists) {
-//
-//            Tab settingsTab = new Tab("User Settings");
-//            settingsTab.setId("userSettings");
-//
-//            FXMLLoader loader = new FXMLLoader();
-//            loader.setLocation(getClass().getResource("/Views/UserSettings.fxml"));
-//
-//            try {
-//                settingsTab.setContent((Node) loader.load());
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//            TabPane.getTabs().add(settingsTab);
-//            TabPane.getSelectionModel().select(settingsTab);
-//            UserSettingsTabController = loader.getController();
-//            UserSettingsTabController.create(env);
-//        }
-    }
+    protected void launchSettings() {
+        showUserBar(true);
 
-    @FXML
-    public void openTranscript() {
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/Views/BaseSettings.fxml"));
+
         try {
-
-            FXMLLoader transcriptLoader = new FXMLLoader();
-            transcriptLoader.setLocation(getClass().getResource("/Views/TranscriptPane.fxml"));
-
-            AnchorPane transcriptPage = transcriptLoader.load();
-
-            transcriptController = transcriptLoader.getController();
-            transcriptController.setEnv(env);
-
-            Stage stage = new Stage();
-            stage.setTitle("Transcript");
-            stage.setScene(new Scene(transcriptPage, 450, 450));
-            stage.show();
-
+            AnchorPane settingsPage = loader.load();
+            centerPane.getChildren().setAll(settingsPage);
+            centerPane.setRightAnchor(settingsPage, 0.0);
+            centerPane.setLeftAnchor(settingsPage, 0.0);
+            centerPane.setBottomAnchor(settingsPage, 0.0);
+            centerPane.setTopAnchor(settingsPage, 0.0);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        settingsController = loader.getController();
+        settingsController.create(env);
+
     }
+
+    @FXML
+    public void toggleTranscript() {
+        transcriptSplitPane.setDividerPositions(1.0);
+        transcriptPaneController.showTranscript();
+    }
+
+    public TutorFactory getTutorFactory(){
+        return tutorFactory;
+    }
+
+    public BaseSettingsController getBaseSettingsController() {
+        return settingsController;
+    }
+
+    /**
+     * Sets the divider of the main window/transcript split pane.
+     *
+     * @param position Value from 0-1, which dictates where in the window the splitpane divider will
+     *                 be
+     */
+    public void resizeSplitPane(double position) {
+        transcriptSplitPane.setDividerPositions(position);
+    }
+
 }

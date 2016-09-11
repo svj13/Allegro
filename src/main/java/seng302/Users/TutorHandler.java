@@ -150,40 +150,6 @@ public class TutorHandler {
 
 
     /**
-     * When finished a tutor session. Or when save is clicked part way through.
-     */
-    public void saveTutorRecordsToFile(String projectAddress) {
-        if (env.getRootController().tabSaveCheck("pitchTutor")) {
-            saveTutorRecordsToFile(projectAddress + "/PitchComparisonTutor.json", env.getUserPageController().pitchComparisonTutorController.record);
-        }
-        if (env.getRootController().tabSaveCheck("intervalTutor")) {
-
-            saveTutorRecordsToFile(projectAddress + "/IntervalRecognitionTutor.json", env.getUserPageController().intervalRecognitionTutorController.record);
-        }
-        if (env.getRootController().tabSaveCheck("musicalTermTutor")) {
-            saveTutorRecordsToFile(projectAddress + "/MusicalTermsTutor.json", env.getUserPageController().musicalTermsTutorController.record);
-        }
-        if (env.getRootController().tabSaveCheck("scaleTutor")) {
-            saveTutorRecordsToFile(projectAddress + "/ScaleRecognitionTutor.json", env.getUserPageController().scaleRecognitionTutorController.record);
-        }
-        if (env.getRootController().tabSaveCheck("chordTutor")) {
-            saveTutorRecordsToFile(projectAddress + "/ChordRecognitionTutor.json", env.getUserPageController().chordRecognitionTutorController.record);
-        }
-        if (env.getRootController().tabSaveCheck("chordSpellingTutor")) {
-            saveTutorRecordsToFile(projectAddress + "/ChordSpellingTutor.json", env.getUserPageController().chordSpellingTutorController.record);
-        }
-        if (env.getRootController().tabSaveCheck("keySignatureTutor")) {
-            saveTutorRecordsToFile(projectAddress + "/KeySignatureTutor.json", env.getUserPageController().keySignaturesTutorController.record);
-        }
-        if (env.getRootController().tabSaveCheck("diatonicChordTutor")) {
-            saveTutorRecordsToFile(projectAddress + "/DiatonicChordTutor.json", env.getUserPageController().diatonicChordsTutorController.record);
-        }
-        if (env.getRootController().tabSaveCheck("scaleModesTutor")) {
-            saveTutorRecordsToFile(projectAddress + "/ScaleModesTutor.json", env.getUserPageController().scaleModesController.record);
-        }
-    }
-
-    /**
      * Saves the tutor records to disc.
      */
     public void saveTutorRecordsToFile(String filename, TutorRecord currentRecord) {

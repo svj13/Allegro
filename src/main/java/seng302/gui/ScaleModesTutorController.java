@@ -6,7 +6,6 @@ import com.jfoenix.controls.JFXSlider;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 import java.util.Random;
 
 import javafx.event.ActionEvent;
@@ -57,12 +56,11 @@ public class ScaleModesTutorController extends TutorController {
         record = new TutorRecord();
         paneInit.setVisible(false);
         paneQuestions.setVisible(true);
-        paneResults.setVisible(false);
         manager.resetEverything();
         manager.questions = selectedQuestions;
 
         rand = new Random();
-        List qPanes = new ArrayList<>();
+        qPanes = new ArrayList<>();
 
         questionRows.getChildren().clear();
         for (int i = 0; i < manager.questions; i++) {
@@ -244,8 +242,8 @@ public class ScaleModesTutorController extends TutorController {
         }
 
         record.addQuestionAnswer(question);
-        env.getRootController().setTabTitle(getTabID(), true);
 
+        handleAccordion();
         if (manager.answered == manager.questions) {
             finished();
         }
@@ -310,7 +308,7 @@ public class ScaleModesTutorController extends TutorController {
                     "2"
             };
             record.addQuestionAnswer(questionList);
-            env.getRootController().setTabTitle(getTabID(), true);
+            handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
             }

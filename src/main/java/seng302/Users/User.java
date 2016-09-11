@@ -2,33 +2,35 @@ package seng302.Users;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import javafx.scene.image.Image;
-import org.json.simple.JSONArray;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import seng302.App;
-import seng302.Environment;
-import seng302.data.Term;
-import seng302.utility.FileHandler;
-import seng302.utility.OutputTuple;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javafx.scene.image.Image;
+import seng302.Environment;
+import seng302.data.Term;
+import seng302.utility.FileHandler;
+
 /**
- * Created by jmw280 on 22/07/16.
+ * Handles functionality for representing and manipulating a user's information.
+ * Also handles saving and loading users.
  */
 public class User {
 
-    private String userFullName, userPassword, themeColor;
+    private String userFullName, userPassword, themePrimary, themeSecondary;
 
 
     private String userName;
@@ -137,17 +139,19 @@ public class User {
 
         try {
             //Theme
-            themeColor = (properties.get("themeColor")).toString();
+            themePrimary = (properties.get("themePrimary")).toString();
         } catch (NullPointerException e) {
-            themeColor = "white";
+            themePrimary = "orange";
         }
 
-
+        try {
+            //Theme
+            themeSecondary = (properties.get("themeSecondary")).toString();
+        } catch (NullPointerException e) {
+            themeSecondary = "white";
+        }
 
         projectHandler = new ProjectHandler(env, userName);
-
-
-
 
     }
 
@@ -198,7 +202,6 @@ public class User {
 
         }
 
-
         //Password
         userPassword = (properties.get("password")).toString();
 
@@ -215,14 +218,12 @@ public class User {
         properties.put("userName", userName);
         properties.put("fullName", userFullName);
         properties.put("password", this.userPassword);
-        properties.put("themeColor", this.themeColor);
+        properties.put("themePrimary", env.getThemeHandler().getPrimaryColour());
+        properties.put("themeSecondary", env.getThemeHandler().getSecondaryColour());
         properties.put("firstName", this.userFirstName);
         properties.put("lastName", this.userLastName);
-
-
         String musicalTermsJSON = gson.toJson(env.getMttDataManager().getTerms());
         properties.put("musicalTerms", musicalTermsJSON);
-
         String lastSignInJSON = gson.toJson(lastSignIn);
         properties.put("signInTime", lastSignInJSON);
 
@@ -249,7 +250,6 @@ public class User {
             e.printStackTrace();
         }
 
-
     }
 
 
@@ -259,10 +259,8 @@ public class User {
     private void createUserFiles(){
         //Add all settings to such as tempo speed to the project here.
 
-
         Path path;
         try {
-            //path = Paths.get("UserData/" + userName + "/" + resultString);
 
             if (!Files.isDirectory(userDirectory)) {
                 try {
@@ -286,7 +284,7 @@ public class User {
         } catch (InvalidPathException invPath) {
             //invalid path (Poor project naming)
             env.getRootController().errorAlert("Invalid file name - try again.");
-            //createNewProject();
+
         }
 
 
@@ -314,6 +312,16 @@ public class User {
         }
 
 
+    }
+
+    /**
+     * Returns the users's persisted theme colours.
+     * Used when setting the ThemeHandler colours to the user's persisted colours.
+     *
+     * @return an Array containing two elements: primary and secondary theme colours.
+     */
+    public String[] getThemeColours() {
+        return new String[]{themePrimary, themeSecondary};
     }
 
 

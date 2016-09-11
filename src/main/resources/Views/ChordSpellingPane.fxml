@@ -1,17 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.layout.*?>
-<?import com.jfoenix.controls.*?>
-
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXSlider?>
 <?import org.controlsfx.control.CheckComboBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <AnchorPane fx:id="chordSpellingAnchor" prefHeight="530.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.ChordSpellingTutorController">
     <children>
         <HBox prefHeight="30.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
             <children>
-                <Label alignment="TOP_CENTER" contentDisplay="CENTER" text="Chord Spelling Tutor" textAlignment="CENTER">
+                <Label fx:id="tutorName" alignment="TOP_CENTER" contentDisplay="CENTER"
+                       text="Chord Spelling Tutor" textAlignment="CENTER">
                     <font>
                         <Font name="System Bold" size="21.0" />
                     </font>
@@ -94,24 +103,6 @@
                             </padding></VBox>
                     </children>
                 </StackPane>
-            </content>
-        </ScrollPane>
-        <ScrollPane fx:id="paneResults" fitToWidth="true" layoutX="20.0" layoutY="180.0" prefHeight="265.0" prefWidth="690.0" visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="180.0">
-            <content>
-                <VBox fx:id="resultsBox" prefHeight="200.0" prefWidth="100.0">
-                    <children>
-                        <Text fx:id="resultsTitle" strokeType="OUTSIDE" strokeWidth="10.0" style="-fx-font-weight: bold;" text="Chord Recognition Results">
-                            <font>
-                                <Font name="System Bold" size="12.0" />
-                            </font>
-                            <VBox.margin>
-                                <Insets bottom="5.0" />
-                            </VBox.margin>
-                        </Text>
-                        <Text fx:id="resultsContent" strokeType="OUTSIDE" strokeWidth="0.0" />
-                        <HBox fx:id="buttons" prefHeight="100.0" prefWidth="200.0" />
-                    </children>
-                </VBox>
             </content>
         </ScrollPane>
     </children>
