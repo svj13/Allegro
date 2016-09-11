@@ -55,15 +55,12 @@ public class TutorFactory {
                 openChordTutor();
                 break;
             case "Chord Spelling Tutor":
-                //userView.setVisible(false);
                 openSpellingTutor();
                 break;
             case "Key Signature Tutor":
-                //userView.setVisible(false);
                 openKeySignatureTutor();
                 break;
             case "Diatonic Chord Tutor":
-                //userView.setVisible(false);
                 openDiatonicChordTutor();
                 break;
         }

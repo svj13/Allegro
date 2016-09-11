@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.List;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.chart.LineChart;
@@ -19,11 +18,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 import seng302.Environment;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Controller for the tutor stats pane,  used in the user page for all tutors.
@@ -168,7 +162,7 @@ public class TutorStatsController {
             Date date = dateTime.getKey();
             String milli = formatter.format(date);
             XYChart.Data data = new XYChart.Data<>(milli, dateTime.getValue());
-            //data.setNode(new UserPageController.hoverPane(date, dateTime.getValue()));
+            data.setNode(new hoverPane(date, dateTime.getValue()));
             lineSeries.getData().add(data);
         }
         lineChart.getData().clear();
@@ -224,43 +218,6 @@ public class TutorStatsController {
 
         env.getRootController().getTutorFactory().openTutor(tutorName);
 
-//        switch (tutorName) {
-//            case "Pitch Comparison Tutor":
-//                //userView.setVisible(false);
-//
-//                break;
-//            case "Interval Recognition Tutor":
-//                //userView.setVisible(false);
-//                openIntervalTutor();
-//                break;
-//            case "Scale Recognition Tutor":
-//                //userView.setVisible(false);
-//                openScaleTutor();
-//                break;
-//            case "Musical Terms Tutor":
-//                //userView.setVisible(false);
-//                openMusicalTermTutor();
-//                break;
-//            case "Chord Recognition Tutor":
-//                //userView.setVisible(false);
-//                openChordTutor();
-//                break;
-//            case "Chord Spelling Tutor":
-//                //userView.setVisible(false);
-//                openSpellingTutor();
-//                break;
-//            case "Key Signature Tutor":
-//                //userView.setVisible(false);
-//                openKeySignatureTutor();
-//                break;
-//            case "Diatonic Chord Tutor":
-//                //userView.setVisible(false);
-//                openDiatonicChordTutor();
-//                break;
-//        }
-
-
-        //tutorView.setVisible(true);
     }
 
 
