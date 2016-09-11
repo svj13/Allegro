@@ -29,7 +29,7 @@ public class Modes implements Command {
 
     private static ArrayList<String> melodicMinorModes = new ArrayList<>(Arrays.asList("minormajor", "dorian b2", "lydian #5", "lydian dominant", "mixolydian b6", "locrian #2", "altered"));
 
-    private static ArrayList<String> majorNotes = new ArrayList<>(Arrays.asList("C", "G", "D", "A", "E", "B", "F", "Bb", "Eb", "Ab", "Db", "Gb"));
+    private static ArrayList<String> majorNotes = new ArrayList<>(Arrays.asList("C", "C#", "Db", "D", "D", "D#", "Eb", "E", "Fb", "E#", "F", "F#", "Gb", "G", "G#", "Ab", "A", "A#", "Bb", "B", "B#", "Cb"));
 
 
     /**
