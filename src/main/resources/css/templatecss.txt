@@ -1,4 +1,9 @@
+
+
+
+
 .split-pane {
+
     -fx-base: #f1f0f0;
     -fx-background-color: {0}{1};
     -fx-border-color: {0};
@@ -23,7 +28,7 @@
 }
 
 .menu-bar {
-    -fx-accent: derive({0}, 80%)
+    -fx-accent: derive({0}, 80%);
 }
 
 .text-area {
@@ -31,7 +36,58 @@
 }
 
 .tab-header-background {
+
     -fx-background-color: {0};
 }
+
+.primary{
+    -fx-background-color: {0};
+    -fx-text-fill: {0}{1}{2} ;
+}
+.secondary{
+    -fx-background-color: {0}{1};
+    -fx-text-fill: {0}{1}{2}{3} ;
+}
+
+#keyPane > .title {
+    /* common styles for title, eg */
+    -fx-background-color: {0} ;
+}
+
+
+#settingsMenu > #sidePane {
+    -fx-background-color: derive({0}, 40%);
+}
+#settingsMenu > #sidePane > JFXButton {
+    -fx-background-color: derive({0}, 80%);
+    -fx-text-fill: {0}{1}{2} ;
+    -fx-font-size: 16;
+    -fx-border-color: {0};
+    -fx-border-width: 2px;
+}
+
+#settingsMenu > #sidePane > JFXButton {
+    -fx-effect: dropshadow(one-pass-box, rgba(0, 0, 0, 0.8), 0, 0.0, 0, 1);
+}
+
+#settingsMenu > #sidePane > JFXButton:hover {
+    -fx-background-color: {0};
+    -fx-border: 0;
+
+}
+
+.primaryControl {
+    -fx-background-color: {0};
+    -fx-text-fill: {0}{1}{2} ;
+
+
+}
+
+.secondaryControl {
+    -fx-background-color: {0}{1};
+    -fx-text-fill: {0}{1}{2}{3} ;
+
+}
+
 
 
