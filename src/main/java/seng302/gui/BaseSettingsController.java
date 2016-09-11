@@ -29,13 +29,7 @@ public class BaseSettingsController {
 
 
     @FXML
-    private VBox sidePane;
-
-    @FXML
     private AnchorPane settingsPane;
-
-//    @FXML
-//    private JFXButton btnProjectSettings;
 
     @FXML
     private JFXButton btnUserSettings;
@@ -58,6 +52,10 @@ public class BaseSettingsController {
 
     }
 
+    /**
+     * Used sort of as a constructor to pass through all necessary data to be used by the baseSettings.
+     * @param env Program environment.
+     */
     public void create(Environment env) {
         this.env = env;
         openUserSettings();
