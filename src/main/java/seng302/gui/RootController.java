@@ -274,7 +274,7 @@ public class RootController implements Initializable {
         userBar.setManaged(show);
     }
 
-    /**
+    /**k
      * Opens the user page.
      */
     public void showUserPage() throws IOException {

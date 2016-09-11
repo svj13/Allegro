@@ -119,12 +119,9 @@ public class TutorFactory {
      */
     private void openIntervalTutor() {
 
-
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/Views/IntervalRecognitionPane.fxml"));
-
         loadNode(loader);
-
         IntervalRecognitionTutorController intervalRecognitionTabController = loader.getController();
         intervalRecognitionTabController.create(env);
 
@@ -137,12 +134,9 @@ public class TutorFactory {
      */
     private void openMusicalTermTutor() {
 
-
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/Views/MusicalTermsPane.fxml"));
-
         loadNode(loader);
-
         MusicalTermsTutorController musicalTermsTabController = loader.getController();
         musicalTermsTabController.create(env);
 
@@ -155,11 +149,9 @@ public class TutorFactory {
      */
     private void openScaleTutor() {
 
-
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/Views/ScaleRecognitionPane.fxml"));
         loadNode(loader);
-
         ScaleRecognitionTutorController scaleRecognitionTutorController = loader.getController();
         scaleRecognitionTutorController.create(env);
 
@@ -252,7 +244,6 @@ public class TutorFactory {
      */
     @FXML
     private void openSpellingTutor() {
-
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/Views/ChordSpellingPane.fxml"));
