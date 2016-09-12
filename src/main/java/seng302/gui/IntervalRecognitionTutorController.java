@@ -155,7 +155,6 @@ public class IntervalRecognitionTutorController extends TutorController {
             // Disables only input buttons
             disableButtons(questionRow, 1, 3);
             formatSkippedQuestion(questionRow);
-            manager.questions -= 1;
             if (isCompMode) {
                 // No skips in competition mode
                 manager.add(pair, 0);
@@ -187,7 +186,6 @@ public class IntervalRecognitionTutorController extends TutorController {
                 formatIncorrectQuestion(questionRow);
                 manager.add(pair, 0);
             }
-            manager.answered += 1;
             Integer correct = 0;
             if (options.getValue().equals(thisInterval.getName())) {
                 correct = 1;

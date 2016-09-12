@@ -342,8 +342,6 @@ public class MusicalTermsTutorController extends TutorController {
             record.addQuestionAnswer(question);
 
             formatSkippedQuestion(rowPane);
-            manager.questions -= 1;
-
             if (isCompMode) {
                 // No skips in competition mode
                 manager.add(new Pair(currentTerm.getMusicalTermName(), currentTerm), 0);
@@ -412,7 +410,6 @@ public class MusicalTermsTutorController extends TutorController {
 
             }
             ((VBox) (rowPane.getChildren().get(0))).getChildren().get(4).setDisable(true);
-            manager.answered += 1;
         }
     }
 

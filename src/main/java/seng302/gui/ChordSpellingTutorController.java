@@ -752,7 +752,9 @@ public class ChordSpellingTutorController extends TutorController {
         };
         record.addQuestionAnswer(question);
         handleAccordion();
-        updateManagerCompletedQuestion();
+        if (manager.answered == manager.questions) {
+            finished();
+        }
     }
 
     /**
@@ -774,17 +776,6 @@ public class ChordSpellingTutorController extends TutorController {
 
     }
 
-    /**
-     * Once a question has been completely answered, the question manager is updated.
-     */
-    private void updateManagerCompletedQuestion() {
-        manager.answered += 1;
-
-        if (manager.answered == manager.questions) {
-            finished();
-        }
-    }
-
 
     /**
      * Run when a user elects to skip a question. Saves that question to the manager as skipped, and
@@ -799,15 +790,13 @@ public class ChordSpellingTutorController extends TutorController {
         // Disables only input buttons
         disableButtons(questionRow, 1, 3);
         formatSkippedQuestion(questionRow);
-        manager.questions -= 1;
-
         if (isCompMode) {
             // No skips in competition mode
             manager.add(new Pair<>(finalData, questionType), 0);
         } else {
             manager.add(new Pair<>(finalData, questionType), 2);
         }
-        
+
         record.addQuestionAnswer(questionInfo);
 
         handleAccordion();

@@ -233,7 +233,6 @@ public class ScaleModesTutorController extends TutorController {
      * @param questionRow       HBox containing GUI data
      */
     private void handleQuestionAnswer(String userAnswer, Pair questionAndAnswer, HBox questionRow, String scaleType) {
-        manager.answered += 1;
         Integer correct;
         disableButtons(questionRow, 1, 3);
         String correctAnswer = (String) ((Pair) questionAndAnswer.getValue()).getKey();
@@ -324,7 +323,6 @@ public class ScaleModesTutorController extends TutorController {
             // Disables only input buttons
             disableButtons(questionRow, 1, 3);
             formatSkippedQuestion(questionRow);
-            manager.questions -= 1;
             if (isCompMode) {
                 // No skips in competition mode
                 manager.add(data, 0);

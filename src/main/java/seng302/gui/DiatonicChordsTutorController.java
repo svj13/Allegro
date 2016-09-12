@@ -116,7 +116,6 @@ public class DiatonicChordsTutorController extends TutorController {
             // Disables only input buttons
             disableButtons(questionRow, 1, 3);
             formatSkippedQuestion(questionRow);
-            manager.questions -= 1;
             if (isCompMode) {
                 // No skips in competition mode
                 manager.add(data, 0);
@@ -211,7 +210,6 @@ public class DiatonicChordsTutorController extends TutorController {
      * @param questionRow       The HBox containing GUI question data
      */
     public void handleQuestionAnswer(String userAnswer, Pair questionAndAnswer, HBox questionRow) {
-        manager.answered += 1;
         Integer correct;
         disableButtons(questionRow, 1, 2);
         String correctAnswer = (String) questionAndAnswer.getValue();
