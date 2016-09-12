@@ -91,9 +91,9 @@ public class PitchComparisonTutorController extends TutorController {
                 String midiOne = String.valueOf(lowerPitchBound + rand.nextInt(pitchRange + 1));
                 String midiTwo = String.valueOf(lowerPitchBound + rand.nextInt(pitchRange + 1));
 
-                Pair<String, String> midis = new Pair<String, String>(midiOne, midiTwo);
+                Pair<String, String> midis = new Pair<>(midiOne, midiTwo);
                 HBox rowPane = generateQuestionPane(midis);
-                TitledPane qPane = new TitledPane("Question " + (i + 1), rowPane);
+                TitledPane qPane = new TitledPane((i + 1) + ". Is the second note higher or lower than the first note?", rowPane);
                 qPane.setPadding(new Insets(2, 2, 2, 2));
                 qPanes.add(qPane);
 
