@@ -11,6 +11,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import javafx.util.Pair;
@@ -50,6 +51,9 @@ public class UserSummaryController {
     @FXML
     private Label overallCorrectLabel;
 
+    @FXML
+    private Line classAverage;
+
     private Environment env;
 
     /**
@@ -87,6 +91,7 @@ public class UserSummaryController {
         overallIncorrect.setFill(Color.GRAY);
         overallCorrectLabel.setText(correctIncorrectOverall.getKey() + " \ncorrect");
         overallIncorrectLabel.setText(correctIncorrectOverall.getValue() + " \nincorrect");
+        classAverage.setVisible(false);
 
 
     }
