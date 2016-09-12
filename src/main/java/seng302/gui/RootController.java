@@ -305,7 +305,7 @@ public class RootController implements Initializable {
     }
 
     /**
-     * k Opens the user page.
+     * Opens the user page.
      */
     public void showUserPage() throws IOException {
         showUserBar(false);
