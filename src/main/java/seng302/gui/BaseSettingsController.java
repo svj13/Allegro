@@ -3,13 +3,18 @@ package seng302.gui;
 import com.jfoenix.controls.JFXButton;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
+import com.jfoenix.controls.JFXListView;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import seng302.Environment;
+
+import javax.swing.text.html.ListView;
 
 /**
  * Settings Page shell controller. In charge of opening and all settings pages.
@@ -34,6 +39,9 @@ public class BaseSettingsController {
     @FXML
     private JFXButton btnThemeSettings;
 
+    @FXML
+    JFXListView settingsOptions;
+
 
     @FXML
     private void initialize() {
@@ -56,8 +64,50 @@ public class BaseSettingsController {
      */
     public void create(Environment env) {
         this.env = env;
+        populateListView();
         openUserSettings();
 
+
+
+    }
+
+    private void populateListView(){
+
+        ArrayList<String> options = new ArrayList<>();
+        options.add("User Settings");
+        options.add("Theme Settings");
+
+        //options.add("Modes Tutor");
+
+
+        settingsOptions.getItems().addAll(FXCollections.observableArrayList(options));
+
+        settingsOptions.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            this.launchSettings((String) newValue);
+            //currentTutor = (String) newValue;
+        });
+        settingsOptions.getSelectionModel().selectFirst();
+        settingsOptions.setDepthProperty(1);
+
+
+        settingsOptions.setMaxWidth(200);
+        settingsOptions.setMinWidth(200);
+
+    }
+
+    private void launchSettings(String settings){
+
+        switch(settings){
+            case "User Settings":
+                openUserSettings();
+                break;
+
+            case "Theme Settings":
+                onThemeSettings();
+                break;
+
+
+        }
 
     }
 

@@ -84,6 +84,38 @@
 
 }
 
+
+
+.settingsAnchor {
+   -fx-background-color: {0};
+  -fx-border: 0;
+
+}
+.settingsAnchor .jfx-list-view {
+   -fx-background-color: {0};
+  -fx-border: 0;
+
+}
+.settingsAnchor .jfx-list-view  .jfx-list-cell {
+    -fx-background-color: derive({0}, 80%);
+
+
+}
+.settingsAnchor .jfx-list-view  .jfx-list-cell .label {
+
+    -fx-text-fill: {0}{1}{2};
+    -fx-font-size: 16;
+
+
+
+}
+
+.settingsAnchor .jfx-list-cell:hover {
+  -fx-background-color: derive({0}, 10%);
+  -fx-text-fill: {0}{1}{2};
+
+}
+
 .primaryControl {
     -fx-background-color: {0};
     -fx-text-fill: {0}{1}{2} ;
@@ -99,7 +131,7 @@
 
 .userPageSidePane {
     -fx-background-color: {0};
-    -fx-text-fill: {0}{1}{2} ;
+
 }
 
 .settingsMenu {
@@ -114,7 +146,7 @@
 
 #userpage .userPagePrimary{
     -fx-background-color: {0};
-        -fx-text-fill: {0}{1}{2} ;
+
 
 }
 
@@ -138,8 +170,12 @@
     -fx-background-color: {0}{1};
     -fx-pref-height: 50px;
     -fx-pref-tile-height: 50px ;
-    -fx-text-fill: {0}{1}{2}{3};
 
+
+}
+#userSideBar .jfx-list-cell .label {
+    -fx-text-fill: {0}{1}{2}{3};
+    -fx-font-size: 16;
 }
 
 #userSideBar .jfx-list-cell:selected {
@@ -147,6 +183,12 @@
     -fx-text-fill: {0}{1}{2};
 
 }
+#userSideBar .jfx-list-cell:selected .label {
+   -fx-font-size: 16;
+    -fx-text-fill: {0}{1}{2};
+
+}
+
 
 #userSideBar .jfx-list-cell:odd {
     -fx-background-color: derive({0}{1}, -5%);
@@ -170,6 +212,10 @@
 
 
 }
+
+
+
+
 
 #userSplitPane *.split-pane-divider {
     -fx-padding: 0 1 0 1;
@@ -204,3 +250,5 @@
 
 
 }
+
+
