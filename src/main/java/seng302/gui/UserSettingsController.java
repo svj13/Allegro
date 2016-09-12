@@ -14,7 +14,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -85,11 +84,13 @@ public class UserSettingsController {
         visualiserToggle.getStyleClass().remove(0);
 
         if (this.userHandler.getCurrentUser().getProjectHandler().getCurrentProject().isCompetitiveMode) {
+            System.out.println("competitive mode");
             // do not show the visualiser options
             visualiserToggle.setVisible(false);
             visualiserToggle.setSelected(false);
             visualiserLabel.setVisible(false);
         } else {
+            System.out.println("not competitive mode");
             try {
                 boolean visualiserOn = userHandler.getCurrentUser().getVisualiserOn();
                 visualiserToggle.setSelected(visualiserOn);

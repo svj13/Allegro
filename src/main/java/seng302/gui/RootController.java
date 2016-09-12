@@ -779,8 +779,4 @@ public class RootController implements Initializable {
         return txtHeader.getText();
     }
 
-
-    public UISkinnerController getUiSkinnerController() {
-        return uiSkinnerController;
-    }
 }
