@@ -238,7 +238,7 @@ public class TutorStatsController {
     }
 
     /**
-     * Makes a line graph showing the scores over time. Still figuring out the scale.
+     * Draws a line graph showing the scores over time.
      */
     private void makeLineGraph(List<Pair<Date, Float>> dateAndTimeList, String timePeriod) {
 

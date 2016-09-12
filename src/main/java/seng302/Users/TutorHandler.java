@@ -21,7 +21,7 @@ import seng302.Environment;
 import seng302.utility.TutorRecord;
 
 /**
- * Created by jmw280 on 25/07/16.
+ * This class manages information relating to the display of tutor graphs.
  */
 public class TutorHandler {
     Environment env;
@@ -40,6 +40,11 @@ public class TutorHandler {
         add("diatonicChordTutor");
     }};
 
+    /**
+     * Constructor for creating a new tutor handler
+     *
+     * @param env The environment in which the tutorhandler is being created
+     */
     public TutorHandler(Environment env) {
         this.env = env;
         dates = new HashMap<>();
@@ -61,7 +66,6 @@ public class TutorHandler {
         cal = Calendar.getInstance();
         cal.add(Calendar.YEAR, -1000);
         dates.put("All Time", cal.getTime());
-        System.out.println(dates);
 
     }
 
@@ -106,6 +110,12 @@ public class TutorHandler {
     }
 
 
+    /**
+     * This method returns a collection of information about a specific tutor
+     *
+     * @param id The ID of the tutor to fetch information about
+     * @return A collection of information about past tutoring sessions
+     */
     public ArrayList<TutorRecord> getTutorData(String id) {
         String projectAddress = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().currentProjectPath;
         String filename = "";
@@ -144,6 +154,13 @@ public class TutorHandler {
 
     }
 
+    /**
+     * Used to get information about a specific tutor in a specific time period
+     *
+     * @param tabID      The tutor to fetch information about
+     * @param timePeriod The time period from which we want to fetch tutor information
+     * @return A collection of tutor scores and times
+     */
     public List<Pair<Date, Float>> getTimeAndScores(String tabID, String timePeriod) {
         ArrayList<TutorRecord> records = getTutorData(tabID);
         List<Pair<Date, Float>> scores = new ArrayList<>();

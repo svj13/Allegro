@@ -12,9 +12,6 @@ package seng302.Users;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -32,6 +29,9 @@ import java.util.ArrayList;
 
 import javax.sound.midi.Instrument;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.util.Duration;
 import seng302.Environment;
 import seng302.utility.InstrumentUtility;
 import seng302.utility.LevelCalculator;
@@ -60,9 +60,13 @@ public class Project {
 
     public Boolean isCompetitiveMode;
 
-
-
-
+    /**
+     * Constructor for creating a new project.
+     *
+     * @param env         The environment in which the project is being created
+     * @param projectName What the project will be called
+     * @param projectH    The ProjectHandler object which will manage this project
+     */
     public Project(Environment env, String projectName, ProjectHandler projectH) {
         this.projectName = projectName;
         this.projectDirectory = Paths.get(projectH.projectsDirectory + "/" + projectName);
@@ -210,7 +214,7 @@ public class Project {
      */
     public void saveProject(String projectAddress) {
 
-        //Add all settings to such as tempo speed to the project here.
+        //Add all settings such as tempo speed to the project here.
 
         try {
             Gson gson = new Gson();
@@ -240,7 +244,6 @@ public class Project {
      */
     public void checkChanges(String propName) {
 
-        //Accepted values: tempo
         String saveName = (projectName == null) ? "No Project" : this.projectName;
 
         if (propName.equals("tempo")) {

@@ -81,7 +81,6 @@ public class User {
 
         projectHandler = new ProjectHandler(env, userName);
 
-        //loadFullProperties();
     }
 
     /**
@@ -162,7 +161,6 @@ public class User {
 
         this.projectHandler = null;
 
-
     }
 
 
@@ -207,11 +205,10 @@ public class User {
         userPassword = (properties.get("password")).toString();
 
 
-
         try {
             //Theme
             themePrimary = (properties.get("themeColor")).toString();
-        }catch(NullPointerException e){
+        } catch (NullPointerException e) {
             themePrimary = "white";
         }
 
@@ -244,9 +241,7 @@ public class User {
      */
     public void saveProperties() {
         try {
-            Gson gson = new Gson();
             updateProperties();
-
 
             FileWriter file = new FileWriter(userDirectory + "/user_properties.json");
             file.write(properties.toJSONString());
@@ -268,7 +263,6 @@ public class User {
     private void createUserFiles() {
         //Add all settings to such as tempo speed to the project here.
 
-        Path path;
         try {
 
             if (!Files.isDirectory(userDirectory)) {
@@ -302,8 +296,7 @@ public class User {
     /**
      * Checking functionality specifically for musical saved musical terms.
      */
-    public void checkmusicTerms() {
-        //String saveName = (projectName == null || projectName.length() < 1) ? "No Project" : this.projectName;
+    public void checkMusicTerms() {
         if (properties.containsKey("musicalTerms")) {
             Type termsType = new TypeToken<ArrayList<Term>>() {
             }.getType();
@@ -365,13 +358,11 @@ public class User {
     }
 
     public int getUserExperience() {
-        Integer experience = getProjectHandler().getCurrentProject().getExperience();
-        return experience;
+        return getProjectHandler().getCurrentProject().getExperience();
     }
 
     public int getUserLevel() {
-        Integer level = getProjectHandler().getCurrentProject().getLevel();
-        return level;
+        return getProjectHandler().getCurrentProject().getLevel();
     }
 
 }

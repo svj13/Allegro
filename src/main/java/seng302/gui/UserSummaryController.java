@@ -5,10 +5,8 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -19,13 +17,9 @@ import seng302.Environment;
 import seng302.utility.LevelCalculator;
 
 /**
- * Created by Jonty on 04-Sep-16.
+ * Controller for the GUI page which displays a user's summary information.
  */
 public class UserSummaryController {
-
-
-    @FXML
-    private AnchorPane summaryStats;
 
     @FXML
     private VBox levelVBox;
@@ -57,19 +51,13 @@ public class UserSummaryController {
     private Environment env;
 
     /**
-     * Initializes Controller dependant data i.e. the environment.
+     * Initializes the user summary controller and draws its graphs
+     *
+     * @param env The environment in which the controller is being created
      */
     public void create(Environment env) {
         this.env = env;
 
-
-        FXMLLoader statsLoader = new FXMLLoader(getClass().getResource("/Views/TutorStats.fxml"));
-
-        //TutorStatsController statsController = statsLoader.getController();
-
-        //statsController.create(env);
-
-        //statsController.displayGraphs("Summary", env.getUserPageController().getTimePeriod());
         updateProgressBar();
 
         Pair<Integer, Integer> correctIncorrectOverall = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTotalsForAllTutors(env.getUserPageController().getTimePeriod());
@@ -96,6 +84,10 @@ public class UserSummaryController {
 
     }
 
+    /**
+     * Updates the GUI progress bar to display the user's current XP in relation to the XP required
+     * to obtain the next level
+     */
     public void updateProgressBar() {
         int userXp = env.getUserHandler().getCurrentUser().getUserExperience();
         int userLevel = env.getUserHandler().getCurrentUser().getUserLevel();

@@ -178,6 +178,9 @@ public class RootController implements Initializable {
         });
     }
 
+    /**
+     * Updates the level indicator badge to display the level of the user's current project
+     */
     public void updateLevelBadge() {
         levelBadge.refreshBadge();
         levelBadge.setText(Integer.toString(env.getUserHandler().getCurrentUser().getUserLevel()));
@@ -293,7 +296,7 @@ public class RootController implements Initializable {
     /**
      * Toggles the visibility of the top User HBox and user image.
      *
-     * @param show true to dhow, false to hide.
+     * @param show true to show, false to hide.
      */
     public void showUserBar(Boolean show) {
         userBar.setVisible(show);
@@ -301,8 +304,8 @@ public class RootController implements Initializable {
         userBar.setManaged(show);
     }
 
-    /**k
-     * Opens the user page.
+    /**
+     * k Opens the user page.
      */
     public void showUserPage() throws IOException {
         showUserBar(false);

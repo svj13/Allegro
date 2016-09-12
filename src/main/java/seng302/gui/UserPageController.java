@@ -90,6 +90,10 @@ public class UserPageController {
 
     }
 
+    /**
+     * Refreshes the display of the level indicator badge so that it matches the level of the user's
+     * current project
+     */
     public void updateLevelBadge() {
         levelBadge.refreshBadge();
         levelBadge.setText(Integer.toString(env.getUserHandler().getCurrentUser().getUserLevel()));
@@ -152,6 +156,10 @@ public class UserPageController {
     }
 
 
+    /**
+     * Creates the GUI time slider. This allows the user to select a specific time period to view
+     * tutor results from.
+     */
     private void setupTimeSlider() {
         timeSlider.setMaxWidth(200);
 
@@ -212,6 +220,11 @@ public class UserPageController {
 
     }
 
+    /**
+     * Displays either a statistics or summary page
+     *
+     * @param pageName The name of the page to display - either "summary" or the name of a tutor.
+     */
     public void showPage(String pageName) {
 
         setupTimeSlider();
@@ -225,6 +238,9 @@ public class UserPageController {
     }
 
 
+    /**
+     * Displays the page containing summary information about the user's current project
+     */
     public void showSummaryPage() {
         env.getRootController().setHeader("Summary");
         listView.getSelectionModel().selectFirst();
@@ -250,6 +266,10 @@ public class UserPageController {
 
     }
 
+    /**
+     * Shows a page showing summary stats of the user's current project
+     * @param tutor The name of the tutor whose stats are to be displayed
+     */
     private void showTutorStats(String tutor) {
 
         env.getRootController().setHeader(tutor);
@@ -276,6 +296,10 @@ public class UserPageController {
 
     }
 
+    /**
+     * Converts the selected time period on the slider to textual form
+     * @return A string containing the currently selected time slider value
+     */
     public String getTimePeriod() {
         return convert.toString(timeSlider.getValue());
     }
