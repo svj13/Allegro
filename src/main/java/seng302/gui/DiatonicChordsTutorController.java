@@ -131,7 +131,7 @@ public class DiatonicChordsTutorController extends TutorController {
                     "2"
             };
             record.addQuestionAnswer(questionList);
-            env.getRootController().setTabTitle(getTabID(), true);
+            handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -197,12 +197,12 @@ public class DiatonicChordsTutorController extends TutorController {
     }
 
     /**
-     * Reacts accordingly to a user's input. Formats the question row as to whether the question
-     * was answered correctly or not. Also saves the tutor record.
+     * Reacts accordingly to a user's input. Formats the question row as to whether the question was
+     * answered correctly or not. Also saves the tutor record.
      *
-     * @param userAnswer  The user's selection, as text
-     * @param questionAndAnswer        A pair containing the starting note and scale type
-     * @param questionRow The HBox containing GUI question data
+     * @param userAnswer        The user's selection, as text
+     * @param questionAndAnswer A pair containing the starting note and scale type
+     * @param questionRow       The HBox containing GUI question data
      */
     public void handleQuestionAnswer(String userAnswer, Pair questionAndAnswer, HBox questionRow) {
         manager.answered += 1;
@@ -241,8 +241,8 @@ public class DiatonicChordsTutorController extends TutorController {
             };
         }
         record.addQuestionAnswer(question);
-        env.getRootController().setTabTitle(getTabID(), true);
 
+        handleAccordion();
         if (manager.answered == manager.questions) {
             finished();
         }
@@ -279,11 +279,10 @@ public class DiatonicChordsTutorController extends TutorController {
         record = new TutorRecord();
         paneInit.setVisible(false);
         paneQuestions.setVisible(true);
-        paneResults.setVisible(false);
         manager.resetEverything();
         manager.questions = selectedQuestions;
         rand = new Random();
-        List qPanes = new ArrayList<>();
+        qPanes = new ArrayList<>();
 
         questionRows.getChildren().clear();
         for (int i = 0; i < manager.questions; i++) {

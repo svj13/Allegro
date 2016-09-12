@@ -25,11 +25,12 @@ import seng302.data.Term;
 import seng302.utility.FileHandler;
 
 /**
- * Created by jmw280 on 22/07/16.
+ * Handles functionality for representing and manipulating a user's information. Also handles saving
+ * and loading users.
  */
 public class User {
 
-    private String userFullName, userPassword, themeColor;
+    private String userFullName, userPassword, themePrimary, themeSecondary;
 
 
     private String userName;
@@ -54,13 +55,13 @@ public class User {
 
 
     /**
-     *  User constructor used for generating new users.
+     * User constructor used for generating new users.
+     *
      * @param userName username
      * @param password password to set for the corresponding user.
-     * @param env
      */
-    public User(String userName, String password, Environment env){
-        userDirectory = Paths.get("UserData/"+userName);
+    public User(String userName, String password, Environment env) {
+        userDirectory = Paths.get("UserData/" + userName);
         this.userName = userName;
         this.userPassword = password;
         this.env = env;
@@ -70,12 +71,11 @@ public class User {
         loadBasicProperties();
         saveProperties();
 
-        Path filePath = Paths.get(this.userDirectory.toString()+"/profilePicture");
+        Path filePath = Paths.get(this.userDirectory.toString() + "/profilePicture");
         try {
             URI defaultPath = getClass().getResource("/images/testDP.jpg").toURI();
             FileHandler.copyFolder(new File(defaultPath), filePath.toFile());
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
 
         }
@@ -86,14 +86,14 @@ public class User {
     }
 
     /**
-     * Loads basic user properties (Picture, Name, Password etc.)
-     * Used when loading a collection of users (Login screen)
-     * This should only load properties which NEED to be loaded before the user logs in.
-     * @param env
+     * Loads basic user properties (Picture, Name, Password etc.) Used when loading a collection of
+     * users (Login screen) This should only load properties which NEED to be loaded before the user
+     * logs in.
+     *
      * @param user user name
      */
-    public User(Environment env, String user){
-        userDirectory = Paths.get("UserData/"+user);
+    public User(Environment env, String user) {
+        userDirectory = Paths.get("UserData/" + user);
         this.env = env;
         this.userName = user;
         properties = new JSONObject();
@@ -104,10 +104,10 @@ public class User {
     }
 
     /**
-     * loads extensive user properties (after user login)
-     * This should load all properties which aren't neccessary before the user logs in.
+     * loads extensive user properties (after user login) This should load all properties which
+     * aren't neccessary before the user logs in.
      */
-    public void loadFullProperties(){
+    public void loadFullProperties() {
         /**
          * Current Theme
          * Musical Terms
@@ -140,11 +140,17 @@ public class User {
 
         try {
             //Theme
-            themeColor = (properties.get("themeColor")).toString();
+            themePrimary = (properties.get("themePrimary")).toString();
         } catch (NullPointerException e) {
-            themeColor = "white";
+            themePrimary = "#1E88E5";
         }
 
+        try {
+            //Theme
+            themeSecondary = (properties.get("themeSecondary")).toString();
+        } catch (NullPointerException e) {
+            themeSecondary = "white";
+        }
         try {
             visualiserOn = (boolean) properties.get("visualiserOn");
         } catch (Exception e) {
@@ -155,9 +161,6 @@ public class User {
 
 
         projectHandler = new ProjectHandler(env, userName);
-
-
-
 
     }
 
@@ -172,9 +175,10 @@ public class User {
     }
 
 
-    public ProjectHandler getProjectHandler(){
+    public ProjectHandler getProjectHandler() {
 
-        return projectHandler;}
+        return projectHandler;
+    }
 
     /**
      * Loads basic properties which need be read by the login screen.
@@ -189,11 +193,11 @@ public class User {
          *
          */
         Gson gson = new Gson();
-        Path userDirectory = Paths.get("UserData/"+userName); //Default user path for now, before user compatibility is set up.
+        Path userDirectory = Paths.get("UserData/" + userName); //Default user path for now, before user compatibility is set up.
         JSONParser parser = new JSONParser(); //parser for reading project
         try {
             properties = (JSONObject) parser.parse(new FileReader(userDirectory + "/user_properties.json"));
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
 
@@ -202,16 +206,14 @@ public class User {
             }.getType();
             lastSignIn = gson.fromJson((String) properties.get("signInTime"), dateType);
 
-            if(lastSignIn == null)  lastSignIn = new Date();
-        }catch(Exception e){
+            if (lastSignIn == null) lastSignIn = new Date();
+        } catch (Exception e) {
             lastSignIn = new Date();
 
         }
 
-
         //Password
         userPassword = (properties.get("password")).toString();
-
 
 
     }
@@ -225,15 +227,13 @@ public class User {
         properties.put("userName", userName);
         properties.put("fullName", userFullName);
         properties.put("password", this.userPassword);
-        properties.put("themeColor", this.themeColor);
+        properties.put("themePrimary", env.getThemeHandler().getPrimaryColour());
+        properties.put("themeSecondary", env.getThemeHandler().getSecondaryColour());
         properties.put("firstName", this.userFirstName);
         properties.put("lastName", this.userLastName);
         properties.put("visualiserOn", this.visualiserOn);
-
-
         String musicalTermsJSON = gson.toJson(env.getMttDataManager().getTerms());
         properties.put("musicalTerms", musicalTermsJSON);
-
         String lastSignInJSON = gson.toJson(lastSignIn);
         properties.put("signInTime", lastSignInJSON);
 
@@ -260,20 +260,17 @@ public class User {
             e.printStackTrace();
         }
 
-
     }
 
 
     /**
      * Creates user directory files.
      */
-    private void createUserFiles(){
+    private void createUserFiles() {
         //Add all settings to such as tempo speed to the project here.
-
 
         Path path;
         try {
-            //path = Paths.get("UserData/" + userName + "/" + resultString);
 
             if (!Files.isDirectory(userDirectory)) {
                 try {
@@ -281,7 +278,6 @@ public class User {
                     Files.createDirectories(userDirectory);
 
                     saveProperties();
-
 
 
                 } catch (IOException e) {
@@ -297,7 +293,7 @@ public class User {
         } catch (InvalidPathException invPath) {
             //invalid path (Poor project naming)
             env.getRootController().errorAlert("Invalid file name - try again.");
-            //createNewProject();
+
         }
 
 
@@ -327,10 +323,24 @@ public class User {
 
     }
 
+    /**
+     * Returns the users's persisted theme colours. Used when setting the ThemeHandler colours to
+     * the user's persisted colours.
+     *
+     * @return an Array containing two elements: primary and secondary theme colours.
+     */
+    public String[] getThemeColours() {
+        return new String[]{themePrimary, themeSecondary};
+    }
 
-    public String getUserPassword(){return userPassword;}
 
-    public String getUserName(){return  userName;}
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
 
 
     public void setUserPicture(Image image) {
@@ -364,12 +374,6 @@ public class User {
     public boolean getVisualiserOn() {
         return visualiserOn;
     }
-
-
-
-
-
-
 
 
 }
