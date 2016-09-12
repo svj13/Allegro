@@ -110,9 +110,8 @@ public class TutorStatsController {
 
     String currentTutor;
 
-    public void create(Environment env){
+    public void create(Environment env) {
         this.env = env;
-
 
 
     }
@@ -177,69 +176,54 @@ public class TutorStatsController {
                     break;
             }
 
-            if (tutor.equals("Summary")) {
-                overallStats.setVisible(false);
-                latestAttempt.setVisible(false);
-                btnLoadTutor.setVisible(false);
 
-                badgesLabel.setVisible(false);
-                badgesLabel.setManaged(false);
+            latestAttempt.setVisible(true);
+            overallStats.setVisible(true);
 
-                badgesAnchor.setVisible(false);
-                badgesAnchor.setManaged(false);
+            // Set up most recent graph and labels.
 
-                classAverage.setVisible(false);
+            double total = correctIncorrectRecent.getKey() + correctIncorrectRecent.getValue();
+            double widthCorrect = 500 * (correctIncorrectRecent.getKey() / total);
+            Timeline correctAnim = new Timeline(
+                    new KeyFrame(Duration.millis(800), new KeyValue(correct.widthProperty(), widthCorrect, Interpolator.EASE_OUT)));
+            correctAnim.play();
+            correct.setWidth(widthCorrect);
+            correct.setFill(Color.web("00b004"));
+            double widthIncorrect = 500 * (correctIncorrectRecent.getValue() / total);
+            Timeline incorrectAnim = new Timeline(
+                    new KeyFrame(Duration.millis(800), new KeyValue(incorrect.widthProperty(), widthIncorrect, Interpolator.EASE_OUT)));
+            incorrectAnim.play();
+            incorrect.setWidth(widthIncorrect);
+            incorrect.setFill(Color.GRAY);
+            recentCorrectLabel.setText(correctIncorrectRecent.getKey() + " \ncorrect");
+            recentIncorrectLabel.setText(correctIncorrectRecent.getValue() + " \nincorrect");
 
-                Pair<Integer, Integer> totals = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTotalsForAllTutors(timePeriod);
-            } else {
+            // Set up Overall graph and labels.
 
-                latestAttempt.setVisible(true);
-                overallStats.setVisible(true);
+            double overallTotal = correctIncorrectOverall.getKey() + correctIncorrectOverall.getValue();
+            double overallWidthCorrect = 500 * (correctIncorrectOverall.getKey() / overallTotal);
+            Timeline overallCorrectAnim = new Timeline(
+                    new KeyFrame(Duration.millis(800), new KeyValue(overallCorrect.widthProperty(), overallWidthCorrect, Interpolator.EASE_OUT)));
+            overallCorrectAnim.play();
+            overallCorrect.setWidth(overallWidthCorrect);
+            overallCorrect.setFill(Color.web("00b004"));
+            double overallWidthIncorrect = 500 * (correctIncorrectOverall.getValue() / overallTotal);
+            Timeline overallIncorrectAnim = new Timeline(
+                    new KeyFrame(Duration.millis(800), new KeyValue(overallIncorrect.widthProperty(), overallWidthIncorrect, Interpolator.EASE_OUT)));
+            overallIncorrectAnim.play();
+            overallIncorrect.setWidth(overallWidthIncorrect);
+            overallIncorrect.setFill(Color.GRAY);
+            overallCorrectLabel.setText(correctIncorrectOverall.getKey() + " \ncorrect");
+            overallIncorrectLabel.setText(correctIncorrectOverall.getValue() + " \nincorrect");
 
-                // Set up most recent graph and labels.
+            // Currently the class average is disabled, as this has been deferred
+            double averageClassScore = 0.6;
+            StackPane.setMargin(classAverage, new Insets(0, 0, 0, 500 * averageClassScore - 30));
+            classAverage.setVisible(false);
 
-                double total = correctIncorrectRecent.getKey() + correctIncorrectRecent.getValue();
-                double widthCorrect = 500 * (correctIncorrectRecent.getKey() / total);
-                Timeline correctAnim = new Timeline(
-                        new KeyFrame(Duration.millis(800), new KeyValue(correct.widthProperty(), widthCorrect, Interpolator.EASE_OUT)));
-                correctAnim.play();
-                correct.setWidth(widthCorrect);
-                correct.setFill(Color.web("00b004"));
-                double widthIncorrect = 500 * (correctIncorrectRecent.getValue() / total);
-                Timeline incorrectAnim = new Timeline(
-                        new KeyFrame(Duration.millis(800), new KeyValue(incorrect.widthProperty(), widthIncorrect, Interpolator.EASE_OUT)));
-                incorrectAnim.play();
-                incorrect.setWidth(widthIncorrect);
-                incorrect.setFill(Color.GRAY);
-                recentCorrectLabel.setText(correctIncorrectRecent.getKey() + " \ncorrect");
-                recentIncorrectLabel.setText(correctIncorrectRecent.getValue() + " \nincorrect");
+            makeLineGraph(dateAndTime, timePeriod);
 
-                // Set up Overall graph and labels.
 
-                double overallTotal = correctIncorrectOverall.getKey() + correctIncorrectOverall.getValue();
-                double overallWidthCorrect = 500 * (correctIncorrectOverall.getKey() / overallTotal);
-                Timeline overallCorrectAnim = new Timeline(
-                        new KeyFrame(Duration.millis(800), new KeyValue(overallCorrect.widthProperty(), overallWidthCorrect, Interpolator.EASE_OUT)));
-                overallCorrectAnim.play();
-                overallCorrect.setWidth(widthCorrect);
-                overallCorrect.setFill(Color.web("00b004"));
-                double overallWidthIncorrect = 500 * (correctIncorrectOverall.getValue() / overallTotal);
-                Timeline overallIncorrectAnim = new Timeline(
-                        new KeyFrame(Duration.millis(800), new KeyValue(overallIncorrect.widthProperty(), overallWidthIncorrect, Interpolator.EASE_OUT)));
-                overallIncorrectAnim.play();
-                overallIncorrect.setWidth(widthIncorrect);
-                overallIncorrect.setFill(Color.GRAY);
-                overallCorrectLabel.setText(correctIncorrectOverall.getKey() + " \ncorrect");
-                overallIncorrectLabel.setText(correctIncorrectOverall.getValue() + " \nincorrect");
-
-                // Currently the class average is disabled, as this has been deferred
-                double averageClassScore = 0.6;
-                StackPane.setMargin(classAverage, new Insets(0, 0, 0, 500 * averageClassScore - 30));
-                classAverage.setVisible(false);
-
-                makeLineGraph(dateAndTime, timePeriod);
-
-            }
         } catch (IndexOutOfBoundsException e) {
             //There are no records for the selected tutor.
             System.err.println("There are no records for the" + tutor);
@@ -358,7 +342,9 @@ public class TutorStatsController {
 
 
     /**
-     * Fires the appropriate action for opening a tutor in the user pane, given the name of the tutor.
+     * Fires the appropriate action for opening a tutor in the user pane, given the name of the
+     * tutor.
+     *
      * @param tutorName tutor name.
      */
     public void loadTutor(String tutorName) {
@@ -366,10 +352,6 @@ public class TutorStatsController {
         env.getRootController().getTutorFactory().openTutor(tutorName);
 
     }
-
-
-
-
 
 
 }
