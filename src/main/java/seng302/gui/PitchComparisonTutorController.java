@@ -84,8 +84,12 @@ public class PitchComparisonTutorController extends TutorController {
             manager.resetEverything();
             manager.questions = selectedQuestions;
             for (int i = 0; i < manager.questions; i++) {
+
+
                 int lowerPitchBound = ((Double) rangeSlider.getLowValue()).intValue();
                 int upperPitchBound = ((Double) rangeSlider.getHighValue()).intValue();
+                System.out.println(lowerPitchBound);
+                System.out.println(upperPitchBound);
                 int pitchRange = upperPitchBound - lowerPitchBound;
                 String midiOne = String.valueOf(lowerPitchBound + rand.nextInt(pitchRange + 1));
                 String midiTwo = String.valueOf(lowerPitchBound + rand.nextInt(pitchRange + 1));
@@ -115,6 +119,21 @@ public class PitchComparisonTutorController extends TutorController {
 
 
     /**
+     * Generates defaultrangslider value for compeditive mode
+     * @return
+     */
+    private int generateRangesliderDefault(){
+        int num = rand.nextInt(127);
+        System.out.println(num);
+        if(num + 24 > 127){
+            return 103;
+        }else{
+            return num;
+        }
+
+    }
+
+    /**
      * Fills the pitch combo boxes and sets them to default values. Also sets the env and manager.
      *
      * @param env The environment of the app.
@@ -122,7 +141,15 @@ public class PitchComparisonTutorController extends TutorController {
     public void create(Environment env) {
         super.create(env);
         initialiseQuestionSelector();
-        rangeSlider = new NoteRangeSlider(notes, 12, 60, 72);
+
+        if(currentProject.isCompetitiveMode){
+            int lowValue = generateRangesliderDefault();
+            rangeSlider = new NoteRangeSlider(notes, 12, lowValue, lowValue+24);
+            rangeSlider.setDisable(true);
+        }else{
+            rangeSlider = new NoteRangeSlider(notes, 12, 60, 72);
+
+        }
         paneInit.getChildren().add(1, rangeSlider);
         lowerSet = true;
         upperSet = true;
