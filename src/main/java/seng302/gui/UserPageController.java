@@ -34,7 +34,7 @@ public class UserPageController {
     AnchorPane contentPane;
 
     @FXML
-    AnchorPane summaryPage;
+    VBox summaryPage;
 
     @FXML
     SplitPane userView;

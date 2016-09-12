@@ -122,31 +122,31 @@ public class StageMapController {
      */
     @FXML
     private void launchMusicalTermsTutor() {
-        userPageController.setCurrentTutor("Musical Terms Tutor");
-        env.getRootController().getTutorFactory().openTutor("Musical Terms Tutor");
+        //userPageController.setCurrentTutor("Musical Terms Tutor");
+        //env.getRootController().getTutorFactory().openTutor("Musical Terms Tutor");
     }
 
     @FXML
     private void launchPitchTutor() {
-        userPageController.setCurrentTutor("Pitch Comparison Tutor");
-        env.getRootController().getTutorFactory().openTutor("Pitch Comparison Tutor");
+        //userPageController.setCurrentTutor("Pitch Comparison Tutor");
+        //env.getRootController().getTutorFactory().openTutor("Pitch Comparison Tutor");
     }
 
     @FXML
     private void launchScaleRecognitionTutor() {
-        userPageController.setCurrentTutor("Scale Recognition Tutor");
-        env.getRootController().getTutorFactory().openTutor("Scale Recognition Tutor");
+        //userPageController.setCurrentTutor("Scale Recognition Tutor");
+        //env.getRootController().getTutorFactory().openTutor("Scale Recognition Tutor");
     }
 
     @FXML
     private void launchChordRecognitionTutor() {
-        userPageController.setCurrentTutor("Chord Recognition Tutor");
-        env.getRootController().getTutorFactory().openTutor("Chord Recognition Tutor");
+        //userPageController.setCurrentTutor("Chord Recognition Tutor");
+        //env.getRootController().getTutorFactory().openTutor("Chord Recognition Tutor");
     }
 
     @FXML
     private void launchIntervalRecognitionTutor() {
-        userPageController.setCurrentTutor("Interval Recognition Tutor");
+        //userPageController.setCurrentTutor("Interval Recognition Tutor");
         //userPageController.loadTutor();
     }
 
@@ -162,18 +162,18 @@ public class StageMapController {
 
     @FXML
     private void launchChordSpellingTutor() {
-        userPageController.setCurrentTutor("Chord Spelling Tutor");
+        //userPageController.setCurrentTutor("Chord Spelling Tutor");
         //userPageController.loadTutor();
     }
 
     @FXML
     private void launchKeySignaturesTutor() {
-        userPageController.setCurrentTutor("Key Signature Tutor");
+        //userPageController.setCurrentTutor("Key Signature Tutor");
         //userPageController.loadTutor();
     }
     @FXML
     private void launchDiatonicChordsTutor() {
-        userPageController.setCurrentTutor("Diatonic Chord Tutor");
+        //userPageController.setCurrentTutor("Diatonic Chord Tutor");
         //userPageController.loadTutor();
     }
     @FXML
