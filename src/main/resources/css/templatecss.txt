@@ -178,6 +178,12 @@
     -fx-font-size: 16;
 }
 
+#userSideBar .jfx-list-cell:odd {
+    -fx-background-color: derive({0}{1}, -5%);
+    -fx-text-fill:  brown;
+
+}
+
 #userSideBar .jfx-list-cell:selected {
     -fx-background-color: {0};
     -fx-text-fill: {0}{1}{2};
@@ -190,11 +196,6 @@
 }
 
 
-#userSideBar .jfx-list-cell:odd {
-    -fx-background-color: derive({0}{1}, -5%);
-    -fx-text-fill:  brown;
-
-}
 
 #userSideBar .jfx-list-cell .jfx-rippler {
     -fx-background-color: {0};
