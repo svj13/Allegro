@@ -158,7 +158,7 @@
 
 }
 
-#userSideBar{
+.sideMenu{
     -fx-background-color: {0};
 
     -fx-border-color : {0};
@@ -166,30 +166,30 @@
 
 }
 
-#userSideBar .jfx-list-cell {
+.sideMenu .jfx-list-cell {
     -fx-background-color: {0}{1};
     -fx-pref-height: 50px;
     -fx-pref-tile-height: 50px ;
 
 
 }
-#userSideBar .jfx-list-cell .label {
+.sideMenu .jfx-list-cell .label {
     -fx-text-fill: {0}{1}{2}{3};
     -fx-font-size: 16;
 }
 
-#userSideBar .jfx-list-cell:odd {
+.sideMenu .jfx-list-cell:odd {
     -fx-background-color: derive({0}{1}, -5%);
     -fx-text-fill:  brown;
 
 }
 
-#userSideBar .jfx-list-cell:selected {
+.sideMenu .jfx-list-cell:selected {
     -fx-background-color: {0};
     -fx-text-fill: {0}{1}{2};
 
 }
-#userSideBar .jfx-list-cell:selected .label {
+.sideMenu .jfx-list-cell:selected .label {
    -fx-font-size: 16;
     -fx-text-fill: {0}{1}{2};
 
@@ -197,7 +197,7 @@
 
 
 
-#userSideBar .jfx-list-cell .jfx-rippler {
+.sideMenu .jfx-list-cell .jfx-rippler {
     -fx-background-color: {0};
 
 }
@@ -206,7 +206,7 @@
 
 
 
-#userSideBar .jfx-list-cell:hover {
+.sideMenu .jfx-list-cell:hover {
     -fx-background-color: derive({0}, 10%);
     -fx-text-fill: {0}{1}{2};
 

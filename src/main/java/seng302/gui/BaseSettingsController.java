@@ -126,8 +126,6 @@ public class BaseSettingsController {
             this.setAnchors(loadedPane);
             userSettingsC = userSettingsLoader.getController();
             userSettingsC.create(env);
-            btnUserSettings.setStyle(String.format("-fx-background-color: %s", env.getThemeHandler().getPrimaryColour()));
-            btnThemeSettings.setStyle("");
 
 
         } catch (IOException e) {
@@ -161,15 +159,10 @@ public class BaseSettingsController {
             Node loadedPane = (Node) themeLoader.load();
 
             settingsPane.getChildren().setAll(loadedPane);
-
             this.setAnchors(loadedPane);
-
             themeC = themeLoader.getController();
-
             themeC.create(env, env.getRootController().paneMain);
-            btnThemeSettings.setStyle(String.format("-fx-background-color: %s", env.getThemeHandler().getPrimaryColour()));
-            //btnProjectSettings.setStyle("");
-            btnUserSettings.setStyle("");
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -190,13 +183,5 @@ public class BaseSettingsController {
 //        btnUserSettings.setStyle("");
 //    }
 
-    /**
-     * Used to update the 'Theme Settings' menu button's background colour to the current primary
-     * theme colour. The typical usage of this function is being called from the UI Picker class
-     * after changing the theme.
-     */
-    public void updateSelectedTab() {
-        btnThemeSettings.setStyle(String.format("-fx-background-color: %s", env.getThemeHandler().getPrimaryColour()));
-    }
 
 }

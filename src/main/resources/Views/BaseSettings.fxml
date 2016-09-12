@@ -15,20 +15,9 @@
     <children>
         <SplitPane dividerPositions="0.23745819397993312" layoutX="6.0" layoutY="8.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <items>
-                <AnchorPane fx:id="settingsMenu" maxHeight="1.7976931348623157E308" maxWidth="300.0" minHeight="0.0" minWidth="130.0" prefHeight="398.0" prefWidth="276.0" styleClass="settingsAnchor">
+                <AnchorPane fx:id="settingsMenu" maxHeight="1.7976931348623157E308" maxWidth="300.0" minHeight="0.0" minWidth="130.0" prefHeight="398.0" prefWidth="276.0" styleClass="sideMenu">
                     <children>
-                  <JFXListView fx:id="settingsOptions" prefHeight="349.0" prefWidth="139.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                        <VBox id="sidePane" fx:id="sidePane" layoutX="20.0" layoutY="357.0" maxHeight="1.7976931348623157E308" maxWidth="139.0" minWidth="100.0" prefHeight="35.0" prefWidth="139.0" style="-fx-padding: 0;" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="357.0">
-                            <children>
-                                <JFXButton fx:id="btnUserSettings" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#openUserSettings" prefHeight="60.0" prefWidth="139.0" text="User Settings">
-                                    <VBox.margin>
-                                        <Insets />
-                                    </VBox.margin>
-                                </JFXButton>
-                                <!--<JFXButton fx:id="btnProjectSettings" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#openProjectSettings" prefHeight="60.0" prefWidth="139.0" text="Project Settings" />-->
-                                <JFXButton fx:id="btnThemeSettings" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onThemeSettings" prefHeight="60.0" prefWidth="139.0" text="Theme Settings" />
-                            </children>
-                        </VBox>
+                  <JFXListView fx:id="settingsOptions" prefHeight="349.0" prefWidth="139.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                     </children>
                 </AnchorPane>
                 <AnchorPane fx:id="settingsPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="387.0" styleClass="secondary" />

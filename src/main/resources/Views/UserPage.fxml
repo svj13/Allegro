@@ -13,7 +13,7 @@
    <children>
       <SplitPane id="userSplitPane" fx:id="userView" dividerPositions="0.19598765432098766" layoutX="10.0" prefHeight="430.0" prefWidth="650.0" style="-fx-padding: 0; -fx-border-style: none;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <items>
-            <VBox id="userSideBar" maxWidth="-Infinity" prefHeight="200.0" prefWidth="60.0" style="-fx-border-color: pink; -fx-border-width: 0; -fx-padding: 0; border-style: none;" styleClass="userPagePrimary">
+            <VBox id="userSideBar" maxWidth="-Infinity" prefHeight="200.0" prefWidth="60.0" style="-fx-border-color: pink; -fx-border-width: 0; -fx-padding: 0; border-style: none;">
                <children>
                   <VBox fx:id="profilepic" alignment="CENTER" prefHeight="188.0" prefWidth="191.0" style="-fx-border-color: green; -fx-border-width: 0;">
                      <children>
@@ -30,6 +30,10 @@
                   </VBox>
                   <JFXListView fx:id="listView" maxHeight="1.7976931348623157E308" prefHeight="1000.0" style="-fx-border-width: 0;" styleClass="listView" />
                </children>
+               <styleClass>
+                  <String fx:value="userPagePrimary" />
+                  <String fx:value="sideMenu" />
+               </styleClass>
             </VBox>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
