@@ -90,6 +90,7 @@ public abstract class TutorController {
         manager = new TutorManager();
         currentProject = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject();
         tutorHandler = currentProject.getTutorHandler();
+        isCompMode = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().getIsCompetitiveMode();
     }
 
     /**

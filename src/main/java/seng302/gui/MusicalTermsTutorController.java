@@ -84,23 +84,13 @@ public class MusicalTermsTutorController extends TutorController {
             // Run the tutor
             questionRows.getChildren().clear();
             if (termsBeingViewed.size() < 1) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setHeaderText("No Musical Terms Added");
-                alert.setContentText("There are no terms to be tested on. \nTo add them use the 'add musical term' command");
-                alert.setOnCloseRequest(Event -> {
-                    try {
-                        String tutorName = env.getRootController().getHeader();
-                        env.getRootController().showUserPage();
-                        env.getUserPageController().showPage(tutorName);
-                    } catch (Exception e) {
-                        paneQuestions.setVisible(false);
-                        paneInit.setVisible(true);
-                    }
-                });
-                alert.showAndWait();
-                paneInit.setVisible(true);
+                showAlert(true);
 
-            } else {//if there are terms to display
+            } else if (isCompMode && termsBeingViewed.size() < 10) {
+                //User has some terms, but not enough to compete
+                showAlert(false);
+
+            } else {
                 for (int i = 0; i < manager.questions; i++) {
                     if (termsBeingViewed.size() < 1) {
                         termsBeingViewed = new ArrayList<Term>(dataManager.getTerms());
@@ -120,6 +110,7 @@ public class MusicalTermsTutorController extends TutorController {
                 qAccordion.setExpandedPane(qAccordion.getPanes().get(0));
                 questionRows.getChildren().add(qAccordion);
             }
+
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Invalid Number of Musical Terms");
@@ -411,6 +402,31 @@ public class MusicalTermsTutorController extends TutorController {
             }
             ((VBox) (rowPane.getChildren().get(0))).getChildren().get(4).setDisable(true);
         }
+    }
+
+    public void showAlert(boolean isNoTermAlert) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        if (isNoTermAlert) {
+            alert.setHeaderText("No Musical Terms Added");
+            alert.setContentText("There are no terms to be tested on. \nTo add them use the 'add musical term' command");
+        } else {
+            // It's a can't compete alert
+            alert.setHeaderText("Not Enough Musical Terms Added");
+            alert.setContentText("You need a minimum of 10 terms to compete. \nTo add them use the 'add musical term' command");
+        }
+
+        alert.setOnCloseRequest(Event -> {
+            try {
+                String tutorName = env.getRootController().getHeader();
+                env.getRootController().showUserPage();
+                env.getUserPageController().showPage(tutorName);
+            } catch (Exception e) {
+                paneQuestions.setVisible(false);
+                paneInit.setVisible(true);
+            }
+        });
+        alert.showAndWait();
+        paneInit.setVisible(true);
     }
 
 
