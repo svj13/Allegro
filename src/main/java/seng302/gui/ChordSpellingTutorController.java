@@ -185,7 +185,6 @@ public class ChordSpellingTutorController extends TutorController {
         Label question = new Label();
 
         final HBox inputs = new HBox();
-        System.out.println(((Pair) data.getValue()).getValue());
 
         int questionType = (int) ((Pair) data.getValue()).getValue();
 
