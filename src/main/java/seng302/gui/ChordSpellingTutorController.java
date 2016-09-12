@@ -1,5 +1,7 @@
 package seng302.gui;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import org.controlsfx.control.CheckComboBox;
 
 import java.util.ArrayList;
@@ -203,7 +205,7 @@ public class ChordSpellingTutorController extends TutorController {
 
         Button skip = new Button("Skip");
         styleSkipButton(skip);
-        Button submitButton = new Button("Submit");
+//        Button submitButton = new Button("Submit");
 
         if (questionType == 1) {
             boolean fourNotes = false;
@@ -223,7 +225,7 @@ public class ChordSpellingTutorController extends TutorController {
                 correctNotes[3] = "";
                 selectedNotes[3] = "";
             }
-
+            final boolean four = fourNotes;
 
             skip.setOnAction(event -> {
                 String[] questionInfo = new String[]{
@@ -329,19 +331,25 @@ public class ChordSpellingTutorController extends TutorController {
                 question.setText(chordName);
                 correctAnswer = correctAnswer(chordAsString(chordNotes));
 
+                Button submitButton = new Button("Submit");
+
                 TextField note1 = new TextField();
+                note1.setEditable(false);
+
                 note1.setOnAction(event -> {
                     //Store the answer
                     String selectedNote = note1.getText();
                     selectedNotes[0] = selectedNote;
                 });
                 TextField note2 = new TextField();
+
                 note2.setOnAction(event -> {
                     //Store the answer
                     String selectedNote = note2.getText();
                     selectedNotes[1] = selectedNote;
                 });
                 TextField note3 = new TextField();
+
                 note3.setOnAction(event -> {
                     //Store the answer
                     String selectedNote = note3.getText();
@@ -349,13 +357,82 @@ public class ChordSpellingTutorController extends TutorController {
                 });
                 TextField note4 = new TextField();
                 if (fourNotes) {
+                    note4.focusedProperty().addListener(new ChangeListener<Boolean>()
+                    {
+                        @Override
+                        public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue)
+                        {
+                            if (newPropertyValue)
+                            {
+                                env.setCurrentFocussed(note4, false, submitButton);
+                            }
+                        }
+                    });
                     note4.setOnAction(event -> {
                         //Store the answer
                         String selectedNote = note4.getText();
                         selectedNotes[3] = selectedNote;
                     });
                 }
-                submitButton = new Button("Submit");
+                // Editable properties
+                note1.setEditable(false);
+                note2.setEditable(false);
+                note3.setEditable(false);
+                note4.setEditable(false);
+
+
+                // Focus listeners
+                note1.focusedProperty().addListener(new ChangeListener<Boolean>()
+                {
+                    @Override
+                    public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue)
+                    {
+                        if (newPropertyValue)
+                        {
+                            System.out.println("setFalse");
+                            env.setCurrentFocussed(note1, false, note2);
+                        }
+                    }
+                });
+
+                note2.focusedProperty().addListener(new ChangeListener<Boolean>()
+                {
+                    @Override
+                    public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue)
+                    {
+                        if (newPropertyValue)
+                        {
+                            env.setCurrentFocussed(note2, false, note3);
+                        }
+                    }
+                });
+
+                note3.focusedProperty().addListener(new ChangeListener<Boolean>()
+                {
+                    @Override
+                    public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue)
+                    {
+                        if (newPropertyValue)
+                        {
+                            if (four) {
+                                env.setCurrentFocussed(note3, false, note4);
+                            }
+                            else {
+                                env.setCurrentFocussed(note3, false, submitButton);
+                            }
+                        }
+                    }
+                });
+
+
+
+
+
+
+
+
+
+
                 submitButton.setOnAction(event -> {
                     if (note1.getText().equals(correctNotes[0])) {
                         note1.setStyle("-fx-background-color: green");
@@ -491,9 +568,9 @@ public class ChordSpellingTutorController extends TutorController {
                 //Type 1 questions with text input.
                 questionRow.getChildren().add(0, question);
                 questionRow.getChildren().add(1, inputs);
-                questionRow.getChildren().add(2, submitButton);
-                questionRow.getChildren().add(3, skip);
-                questionRow.getChildren().add(4, correctAnswer);
+//                questionRow.getChildren().add(2, submitButton);
+                questionRow.getChildren().add(2, skip);
+                questionRow.getChildren().add(3, correctAnswer);
             } else {
                 //Type 2 questions
                 questionRow.getChildren().add(0, question);
@@ -855,7 +932,7 @@ public class ChordSpellingTutorController extends TutorController {
             completedQuestion.getChildren().get(3).setVisible(true);
             if (!((Pair) data.getValue()).getKey().equals("dropdown") &&
                     ((Pair) data.getValue()).getValue().equals(1)) {
-                completedQuestion.getChildren().get(4).setVisible(true);
+                completedQuestion.getChildren().get(3).setVisible(true);
             }
         } else {
             answeredCorrectly = 1;

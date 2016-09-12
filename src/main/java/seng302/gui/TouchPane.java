@@ -3,6 +3,8 @@ package seng302.gui;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.TouchEvent;
@@ -11,8 +13,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.util.Pair;
 import seng302.Environment;
 import seng302.data.Note;
+import seng302.utility.musicNotation.OctaveUtil;
 
 
 /**
@@ -58,9 +62,14 @@ public class TouchPane extends StackPane {
                     environment.getPlayer().noteOn(noteToPlay);
                     setHighlightOn();
                 } else {
-                    String prev = env.getRootController().getTranscriptController().txtCommand.getText();
-                    String newText = prev + " " + this.getNoteValue().getNote();
-                    env.getRootController().getTranscriptController().txtCommand.setText(newText);
+                    if (!(Boolean)env.getCurrentFocussed().getValue()) {
+                        ((TextField)((Pair)env.getCurrentFocussed().getKey()).getKey()).setText(OctaveUtil.removeOctaveSpecifier(this.getNoteValue().getNote()));
+                        ((TextField)((Pair)env.getCurrentFocussed().getKey()).getValue()).requestFocus();
+                    } else {
+                        String prev = env.getRootController().getTranscriptController().txtCommand.getText();
+                        String newText = prev + " " + this.getNoteValue().getNote();
+                        env.getRootController().getTranscriptController().txtCommand.setText(newText);
+                    }
                 }
             }
             event.consume();
@@ -113,10 +122,18 @@ public class TouchPane extends StackPane {
                         getChildren().add(new Text(keyLabel));
                     }
                 } else {
-                    String prev = env.getRootController().getTranscriptController().txtCommand.getText();
-                    String newText = prev + " " + this.getNoteValue().getNote();
-                    env.getRootController().getTranscriptController().txtCommand.setText(newText);
-                }
+                    if (!(Boolean)env.getCurrentFocussed().getValue()) {
+                        ((TextField)((Pair)env.getCurrentFocussed().getKey()).getKey()).setText(OctaveUtil.removeOctaveSpecifier(this.getNoteValue().getNote()));
+                        if (((Pair)env.getCurrentFocussed().getKey()).getValue() instanceof TextField) {
+                            ((TextField) ((Pair) env.getCurrentFocussed().getKey()).getValue()).requestFocus();
+                        } else {
+                            ((Button) ((Pair) env.getCurrentFocussed().getKey()).getValue()).fire();
+                        }
+                    } else {
+                        String prev = env.getRootController().getTranscriptController().txtCommand.getText();
+                        String newText = prev + " " + this.getNoteValue().getNote();
+                        env.getRootController().getTranscriptController().txtCommand.setText(newText);
+                    }                }
             }
         });
 
