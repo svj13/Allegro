@@ -87,6 +87,16 @@ public class MusicalTermsTutorController extends TutorController {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setHeaderText("No Musical Terms Added");
                 alert.setContentText("There are no terms to be tested on. \nTo add them use the 'add musical term' command");
+                alert.setOnCloseRequest(Event -> {
+                    try {
+                        String tutorName = env.getRootController().getHeader();
+                        env.getRootController().showUserPage();
+                        env.getUserPageController().showPage(tutorName);
+                    } catch (Exception e) {
+                        paneQuestions.setVisible(false);
+                        paneInit.setVisible(true);
+                    }
+                });
                 alert.showAndWait();
                 paneInit.setVisible(true);
 
@@ -332,7 +342,6 @@ public class MusicalTermsTutorController extends TutorController {
             record.addQuestionAnswer(question);
 
             formatSkippedQuestion(rowPane);
-            manager.questions -= 1;
             manager.add(new Pair(currentTerm.getMusicalTermName(), currentTerm), 2);
             ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(1)).getChildren().get(1).setDisable(true);
             ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(2)).getChildren().get(1).setDisable(true);
@@ -395,7 +404,6 @@ public class MusicalTermsTutorController extends TutorController {
 
             }
             ((VBox) (rowPane.getChildren().get(0))).getChildren().get(4).setDisable(true);
-            manager.answered += 1;
         }
     }
 

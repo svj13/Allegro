@@ -2,7 +2,6 @@ package seng302.gui;
 
 import com.jfoenix.controls.JFXSlider;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -20,13 +19,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import javafx.util.Pair;
 import seng302.Environment;
 import seng302.Users.Project;
 import seng302.Users.TutorHandler;
 import seng302.data.Note;
 import seng302.managers.TutorManager;
+import seng302.utility.ExperienceCalculator;
 import seng302.utility.TutorRecord;
 import seng302.utility.musicNotation.OctaveUtil;
 
@@ -48,12 +47,6 @@ public abstract class TutorController {
 
     public List qPanes;
 
-    Stage stage;
-
-    File fileDir;
-
-    String path;
-
     @FXML
     VBox questionRows;
 
@@ -72,10 +65,6 @@ public abstract class TutorController {
     @FXML
     Label questions;
 
-    @FXML
-    Label tutorName;
-
-    private String tabID;
 
     /**
      * An empty constructor, required for sub-classes.
@@ -147,16 +136,30 @@ public abstract class TutorController {
         questionRows.getChildren().add(qAccordion);
     }
 
+    /**
+     * Run whenever a tutoring session ends. Saves information about that session
+     */
     protected void finished() {
         env.getPlayer().stop();
+
+        //Calculates and gives a user their experience.
+        //Note: I've ignored "skipped questions" here, as you won't be able to "skip" a
+        //question in competition mode.
+        if (env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().isCompetitiveMode) {
+            int expGained = ExperienceCalculator.calculateExperience(manager.correct, manager.questions);
+            env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().addExperience(expGained);
+        }
+
         userScore = getScore(manager.correct, manager.answered);
 
         record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);
         record.setFinished();
         record.setDate();
+
+        String tutorName = env.getRootController().getHeader();
         if (currentProject != null) {
             currentProject.saveCurrentProject();
-            String tutorNameNoSpaces = tutorName.getText().replaceAll("\\s", "");
+            String tutorNameNoSpaces = tutorName.replaceAll("\\s", "");
             String tutorFileName = currentProject.getCurrentProjectPath() + "/" + tutorNameNoSpaces + ".json";
             tutorHandler.saveTutorRecordsToFile(tutorFileName, record);
         }
@@ -164,7 +167,7 @@ public abstract class TutorController {
         questionRows.getChildren().clear();
         try {
             env.getRootController().showUserPage();
-            env.getUserPageController().showPage(tutorName.getText());
+            env.getUserPageController().showPage(tutorName);
         } catch (Exception e) {
             paneQuestions.setVisible(false);
             paneInit.setVisible(true);
@@ -307,7 +310,6 @@ public abstract class TutorController {
 
     /**
      * Consistently styles all skip buttons
-     *
      * @param skip the button to be styled
      */
     public void styleSkipButton(Button skip) {

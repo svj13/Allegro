@@ -128,7 +128,7 @@
 
 #userSideBar{
     -fx-background-color: {0};
-    -fx-text-fill: {0}{1}{2} ;
+
     -fx-border-color : {0};
 
 
@@ -138,32 +138,66 @@
     -fx-background-color: {0}{1};
     -fx-pref-height: 50px;
     -fx-pref-tile-height: 50px ;
+    -fx-text-fill: {0}{1}{2}{3};
 
 }
 
 #userSideBar .jfx-list-cell:selected {
     -fx-background-color: {0};
+    -fx-text-fill: {0}{1}{2};
 
 }
 
 #userSideBar .jfx-list-cell:odd {
     -fx-background-color: derive({0}{1}, -5%);
+    -fx-text-fill:  brown;
 
 }
 
 #userSideBar .jfx-list-cell .jfx-rippler {
     -fx-background-color: {0};
+
 }
+
 
 
 
 
 #userSideBar .jfx-list-cell:hover {
     -fx-background-color: derive({0}, 10%);
+    -fx-text-fill: {0}{1}{2};
+
 
 
 }
 
 #userSplitPane *.split-pane-divider {
     -fx-padding: 0 1 0 1;
+}
+
+.primaryText {
+
+    -fx-text-fill: {0}{1}{2};
+}
+.secondaryText {
+
+    -fx-text-fill: {0}{1}{2}{3};
+}
+
+.icons-badge .badge-pane {
+    -fx-background-color: {0};
+    -fx-text-fill: {0}{1}{2};
+    -fx-background-radius: 23;
+    -fx-pref-width: 23;
+    -fx-pref-height: 23;
+    -fx-alignment: center;
+}
+
+.icons-badge-large .badge-pane {
+    -fx-background-color: {0};
+    -fx-text-fill: {0}{1}{2};
+    -fx-background-radius: 35;
+    -fx-pref-width: 35;
+    -fx-pref-height: 35;
+    -fx-alignment: center;
 }

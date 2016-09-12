@@ -1,6 +1,8 @@
 package seng302.gui;
 
 
+import com.jfoenix.controls.JFXBadge;
+
 import org.json.simple.JSONArray;
 
 import java.io.File;
@@ -10,7 +12,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -23,6 +24,7 @@ import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -34,15 +36,12 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import seng302.Environment;
-import seng302.command.Command;
 import seng302.managers.TranscriptManager;
 import seng302.utility.FileHandler;
 import seng302.utility.OutputTuple;
@@ -58,14 +57,8 @@ public class RootController implements Initializable {
 
     TutorFactory tutorFactory;
 
-
     @FXML
-    private Pane pane1;
-
-
-    //@FXML
-    //private  AnchorPane userPage;
-
+    Label txtHeader;
 
 
     @FXML
@@ -81,37 +74,7 @@ public class RootController implements Initializable {
     SplitPane transcriptSplitPane;
 
     @FXML
-    private PitchComparisonTutorController PitchComparisonTabController;
-
-    @FXML
-    private IntervalRecognitionTutorController IntervalRecognitionTabController;
-
-    @FXML
-    private MusicalTermsTutorController MusicalTermsTabController;
-
-    @FXML
-    private ScaleRecognitionTutorController ScaleRecognitionTabController;
-
-    @FXML
-    private ChordRecognitionTutorController ChordRecognitionTabController;
-
-    @FXML
-    private ChordSpellingTutorController ChordSpellingTabController;
-
-    @FXML
     private BaseSettingsController settingsController;
-
-//    @FXML
-//    public KeySignaturesTutorController KeySignaturesTabController;
-
-    @FXML
-    public DiatonicChordsTutorController DiatonicChordsController;
-
-    @FXML
-    private KeySignaturesTutorController KeySignaturesTabController;
-
-    @FXML
-    public ScaleModesTutorController ScaleModesController;
 
     @FXML
     private KeyboardPaneController keyboardPaneController;
@@ -120,11 +83,16 @@ public class RootController implements Initializable {
     private TranscriptPaneController transcriptPaneController;
 
     @FXML
-    private StackPane stackPane1;
-
-    @FXML
     private MenuItem menuQuit;
 
+    @FXML
+    private Circle circleDP;
+
+    @FXML
+    private HBox hbUser;
+
+    @FXML
+    private JFXBadge levelBadge;
 
     @FXML
     private MenuItem menuOpen;
@@ -136,28 +104,7 @@ public class RootController implements Initializable {
     private MenuItem menuSaveCommands;
 
     @FXML
-    private MenuItem menuPCT;
-
-    @FXML
-    private MenuItem menuIRT;
-
-    @FXML
-    private MenuItem menuMTT;
-
-    @FXML
-    private MenuItem menuSRT;
-
-    @FXML
-    private MenuItem menuCRT;
-
-    @FXML
-    private MenuItem menuCST;
-
-    @FXML
-    private MenuItem menuKST;
-
-    @FXML
-    AnchorPane centerPane;
+    private AnchorPane centerPane;
 
     @FXML
     private Menu menuOpenProjects;
@@ -166,10 +113,13 @@ public class RootController implements Initializable {
     private Menu helpMenu;
 
     @FXML
-    private MenuItem dslReferenceMenuItem;
+    private HBox userDPBox;
 
     @FXML
     private ImageView imageDP;
+
+    @FXML
+    private MenuItem dslReferenceMenuItem;
 
     @FXML
     private MenuButton userDropDown;
@@ -200,7 +150,11 @@ public class RootController implements Initializable {
 
     }
 
+    /**
+     * Loads a new user image into a circular shape
+     */
     public void updateImage() {
+        updateLevelBadge();
         final Circle clip = new Circle(imageDP.getFitWidth() - 25.0, imageDP.getFitHeight() - 25.0, 50.0);
         imageDP.setImage(env.getUserHandler().getCurrentUser().getUserPicture());
         clip.setRadius(25.0);
@@ -222,20 +176,20 @@ public class RootController implements Initializable {
 
             }
         });
+    }
 
-
-
-
-
-
-
-
-
+    /**
+     * Updates the level indicator badge to display the level of the user's current project
+     */
+    public void updateLevelBadge() {
+        levelBadge.refreshBadge();
+        levelBadge.setText(Integer.toString(env.getUserHandler().getCurrentUser().getUserLevel()));
     }
 
 
     /**
      * Display or hide the main GUI window.
+     *
      * @param show Boolean indicating whether to show or hide the main window.
      */
     public void showWindow(Boolean show) {
@@ -245,6 +199,11 @@ public class RootController implements Initializable {
             stage.show();
             resizeSplitPane(1.0);
             updateImage();
+            try {
+                showUserPage();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
 
         } else stage.hide();
@@ -254,7 +213,7 @@ public class RootController implements Initializable {
     /**
      * Apply the current user's theme to the main window.
      */
-    private void applyTheme(){
+    private void applyTheme() {
         //Apply user theme
         env.getThemeHandler().setBaseNode(paneMain);
         String[] themeColours = env.getUserHandler().getCurrentUser().getThemeColours();
@@ -324,25 +283,6 @@ public class RootController implements Initializable {
         keyboardPaneController.stopShowingNotesOnKeyboard();
     }
 
-    private void setCommandText(Command command) {
-        transcriptPaneController.txtCommand.clear();
-        List<String> parameters = command.getParams();
-        List<String> options = command.getOptions();
-        String parameterString = "";
-        String optionsString = "";
-        for (String parameter : parameters) {
-            parameterString += "[" + parameter + "] ";
-        }
-        for (String option : options) {
-            optionsString += "[" + option + "] ";
-        }
-        transcriptPaneController.txtCommand.setText(command.getCommandText() +
-                " Parameters: " + parameterString);
-        if (!optionsString.equals("[]")) {
-            transcriptPaneController.txtCommand.appendText("Options: " + optionsString);
-        }
-    }
-
 
     /**
      * Updates the user menu button text to display the current user's name.
@@ -355,50 +295,44 @@ public class RootController implements Initializable {
 
     /**
      * Toggles the visibility of the top User HBox and user image.
-     * @param show true to dhow, false to hide.
+     *
+     * @param show true to show, false to hide.
      */
-    public void showUserBar(Boolean show){
-        System.out.println("called with: " + show);
+    public void showUserBar(Boolean show) {
         userBar.setVisible(show);
-
-        userDropDown.setVisible(show);
+        userDPBox.setVisible(show);
         userBar.setManaged(show);
-        imageDP.setVisible(show);
-
     }
+
     /**
      * Opens the user page.
-     *
-     * @throws IOException
      */
     public void showUserPage() throws IOException {
         showUserBar(false);
+        setHeader("Summary");
+
         FXMLLoader userPageLoader = new FXMLLoader();
         userPageLoader.setLocation(getClass().getResource("/Views/UserPage.fxml"));
 
 
         AnchorPane userPage = userPageLoader.load();
 
-        System.out.println("heights.. " + centerPane.getHeight() + " userPane " + userPage.getHeight());
-
         centerPane.getChildren().add(userPage);
 
-        centerPane.setRightAnchor(userPage, 0.0);
-        centerPane.setLeftAnchor(userPage, 0.0);
-        centerPane.setBottomAnchor(userPage, 0.0);
-        centerPane.setTopAnchor(userPage, 0.0);
+        AnchorPane.setRightAnchor(userPage, 0.0);
+        AnchorPane.setLeftAnchor(userPage, 0.0);
+        AnchorPane.setBottomAnchor(userPage, 0.0);
+        AnchorPane.setTopAnchor(userPage, 0.0);
 
         UserPageController userPageController = userPageLoader.getController();
         userPageController.setEnvironment(env);
         userPageController.load();
 
-//        /userPageController.updateImage();
-
-
     }
 
-    public void slideTranscript(){
 
+    public void setHeader(String text) {
+        txtHeader.setText(text);
     }
 
 
@@ -415,24 +349,20 @@ public class RootController implements Initializable {
 
     /**
      * Opens a login page in a specified stage (window)
-     * @param loginStage
-     * @throws IOException
      */
     public void showLoginWindow(Stage loginStage) throws IOException {
-        //if (show) {
-
         //Close current window.
         if (stage.isShowing()) stage.close();
 
-        FXMLLoader loader1 = new FXMLLoader();
-        loader1.setLocation(getClass().getResource("/Views/userLogin.fxml"));
+        FXMLLoader loginLoader = new FXMLLoader();
+        loginLoader.setLocation(getClass().getResource("/Views/userLogin.fxml"));
 
-        Parent root1 = loader1.load();
-        Scene scene1 = new Scene(root1);
+        Parent loginRoot = loginLoader.load();
+        Scene loginScene = new Scene(loginRoot);
 
 
         loginStage.setTitle("Allegro");
-        loginStage.setScene(scene1);
+        loginStage.setScene(loginScene);
 
 
         loginStage.setOnCloseRequest(event -> {
@@ -445,12 +375,9 @@ public class RootController implements Initializable {
         loginStage.setMinHeight(initialHeight);
 
         loginStage.show();
-        UserLoginController userLoginController = loader1.getController();
+        UserLoginController userLoginController = loginLoader.getController();
         userLoginController.setEnv(env);
         userLoginController.displayRecentUsers();
-
-
-        //}
 
     }
 
@@ -458,7 +385,6 @@ public class RootController implements Initializable {
     public void logOutUser() throws IOException {
         stage.close();
         showLoginWindow();
-        reset();
 
     }
 
@@ -507,14 +433,11 @@ public class RootController implements Initializable {
      */
     @FXML
     public void clearTranscript() {
-
-        ArrayList<String> editHistoryArray = new ArrayList<String>();
         env.getTranscriptManager().setBackupTranscript(env.getTranscriptManager().getTranscriptTuples());
         env.getEditManager().addToHistory("3", new ArrayList<String>());
         env.getTranscriptManager().setTranscriptContent(new ArrayList<OutputTuple>());
 
         transcriptPaneController.setTranscriptPane(env.getTranscriptManager().convertToText());
-
 
         env.getTranscriptManager().unsavedChanges = true;
     }
@@ -544,11 +467,7 @@ public class RootController implements Initializable {
 
         if (file != null) {
             fileDir = file.getParentFile();
-            //if (env.getProjectHandler().getCurrentProject().isProject()) {
-
             fileDir = Paths.get(env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().getCurrentProjectPath()).toFile();
-
-            //}
             path = file.getAbsolutePath();
             env.getTranscriptManager().saveCommandsOnly(path);
         }
@@ -581,11 +500,8 @@ public class RootController implements Initializable {
         FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(textFilter);
 
-        //if (env.getProjectHandler().getCurrentProject().isProject()) {
         checkProjectDirectory();
         fileDir = Paths.get(env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().getCurrentProjectPath()).toFile();
-
-        //}
 
         fileChooser.setInitialDirectory(fileDir);
         File file = fileChooser.showSaveDialog(stage);
@@ -605,11 +521,9 @@ public class RootController implements Initializable {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter textFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(textFilter);
-        //if (env.getProjectHandler().getCurrentProject().isProject()) {
         checkProjectDirectory();
         fileDir = Paths.get(env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().getCurrentProjectPath()).toFile();
 
-        //}
         fileChooser.setInitialDirectory(fileDir);
 
         File file = fileChooser.showOpenDialog(stage);
@@ -651,7 +565,6 @@ public class RootController implements Initializable {
             path = file.getAbsolutePath();
             try {
                 ArrayList<String> commands = env.getTranscriptManager().loadCommands(path);
-                //TabPane.getSelectionModel().selectFirst();
                 transcriptPaneController.beginPlaybackMode(commands);
             } catch (Exception ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -689,7 +602,6 @@ public class RootController implements Initializable {
      */
     @FXML
     public void newProject() {
-        //env.resetEnvironment();
         env.resetProjectEnvironment();
         env.getUserHandler().getCurrentUser().getProjectHandler().createNewProject();
     }
@@ -723,7 +635,6 @@ public class RootController implements Initializable {
 
             MenuItem projectItem = new MenuItem(projectName);
             projectItem.setOnAction(event -> {
-                //if (saveChangesDialog()) env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().loadProject(projectName);
                 if (saveChangesDialog())
                     env.getUserHandler().getCurrentUser().getProjectHandler().setCurrentProject(projectName);
             });
@@ -838,41 +749,6 @@ public class RootController implements Initializable {
     }
 
 
-
-    /**
-     * Resets all tutors and the transcript controller to their default state.
-     */
-    public void reset() {
-//        clearTranscript();
-//
-//        //need to destroy the tutors
-//        transcriptController.hidePlaybackGui();
-//        transcriptController.setEnv(env);
-//
-//        if (PitchComparisonTabController != null) {
-//            PitchComparisonTabController.clearTutor();
-//        }
-//        if (IntervalRecognitionTabController != null) {
-//            IntervalRecognitionTabController.clearTutor();
-//        }
-//        if (MusicalTermsTabController != null) {
-//            MusicalTermsTabController.clearTutor();
-//        }
-//        if (ScaleRecognitionTabController != null) {
-//            ScaleRecognitionTabController.clearTutor();
-//        }
-//        if (ChordSpellingTabController != null) {
-//            ChordSpellingTabController.clearTutor();
-//        }
-//        if (ChordRecognitionTabController != null) {
-//            ChordRecognitionTabController.clearTutor();
-//        }
-//        if (KeySignaturesTabController != null) {
-//            KeySignaturesTabController.clearTutor();
-//        }
-    }
-
-
     public TranscriptPaneController getTranscriptController() {
         return transcriptPaneController;
     }
@@ -889,10 +765,10 @@ public class RootController implements Initializable {
         try {
             AnchorPane settingsPage = loader.load();
             centerPane.getChildren().setAll(settingsPage);
-            centerPane.setRightAnchor(settingsPage, 0.0);
-            centerPane.setLeftAnchor(settingsPage, 0.0);
-            centerPane.setBottomAnchor(settingsPage, 0.0);
-            centerPane.setTopAnchor(settingsPage, 0.0);
+            AnchorPane.setRightAnchor(settingsPage, 0.0);
+            AnchorPane.setLeftAnchor(settingsPage, 0.0);
+            AnchorPane.setBottomAnchor(settingsPage, 0.0);
+            AnchorPane.setTopAnchor(settingsPage, 0.0);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -907,7 +783,7 @@ public class RootController implements Initializable {
         transcriptPaneController.showTranscript();
     }
 
-    public TutorFactory getTutorFactory(){
+    public TutorFactory getTutorFactory() {
         return tutorFactory;
     }
 
@@ -925,4 +801,7 @@ public class RootController implements Initializable {
         transcriptSplitPane.setDividerPositions(position);
     }
 
+    public String getHeader() {
+        return txtHeader.getText();
+    }
 }
