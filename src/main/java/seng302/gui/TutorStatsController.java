@@ -20,8 +20,8 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -32,7 +32,6 @@ import javafx.util.Duration;
 import javafx.util.Pair;
 import javafx.util.StringConverter;
 import seng302.Environment;
-import seng302.utility.LevelCalculator;
 
 /**
  * Controller for the tutor stats pane,  used in the user page for all tutors.
@@ -43,9 +42,6 @@ public class TutorStatsController {
 
     @FXML
     private VBox stats;
-
-    @FXML
-    private VBox levelVBox;
 
     @FXML
     private StackedBarChart stackedBar;
@@ -98,12 +94,6 @@ public class TutorStatsController {
     private Rectangle progressBar;
 
     @FXML
-    private Label highXp;
-
-    @FXML
-    ProgressBar pbLevel;
-
-    @FXML
     private BorderPane tutorHeader;
 
     @FXML
@@ -111,6 +101,12 @@ public class TutorStatsController {
 
     @FXML
     private JFXButton btnLoadTutor;
+
+    @FXML
+    private Label badgesLabel;
+
+    @FXML
+    private AnchorPane badgesAnchor;
 
     String currentTutor;
 
@@ -184,14 +180,17 @@ public class TutorStatsController {
             if (tutor.equals("Summary")) {
                 overallStats.setVisible(false);
                 latestAttempt.setVisible(false);
+                btnLoadTutor.setVisible(false);
+
+                badgesLabel.setVisible(false);
+                badgesLabel.setManaged(false);
+
+                badgesAnchor.setVisible(false);
+                badgesAnchor.setManaged(false);
+
+                classAverage.setVisible(false);
+
                 Pair<Integer, Integer> totals = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().tutorHandler.getTotalsForAllTutors(timePeriod);
-
-                // Show summary
-                levelVBox.setVisible(true);
-                highXp.setPrefHeight(highXp.getMaxHeight());
-                pbLevel.setPrefHeight(pbLevel.getMaxHeight());
-                levelVBox.setPrefHeight(levelVBox.getMaxHeight());
-
             } else {
 
                 latestAttempt.setVisible(true);
@@ -233,17 +232,12 @@ public class TutorStatsController {
                 overallCorrectLabel.setText(correctIncorrectOverall.getKey() + " \ncorrect");
                 overallIncorrectLabel.setText(correctIncorrectOverall.getValue() + " \nincorrect");
 
-                // TODO: replace this value with the actual class average
+                // Currently the class average is disabled, as this has been deferred
                 double averageClassScore = 0.6;
                 StackPane.setMargin(classAverage, new Insets(0, 0, 0, 500 * averageClassScore - 30));
+                classAverage.setVisible(false);
 
                 makeLineGraph(dateAndTime, timePeriod);
-
-                //Hide summary
-                levelVBox.setVisible(false);
-                highXp.setPrefHeight(0);
-                pbLevel.setPrefHeight(0);
-                levelVBox.setPrefHeight(0);
 
             }
         } catch (IndexOutOfBoundsException e) {
@@ -252,16 +246,6 @@ public class TutorStatsController {
         }
 
 
-    }
-
-    public void updateProgressBar() {
-        int userXp = env.getUserHandler().getCurrentUser().getUserExperience();
-        int userLevel = env.getUserHandler().getCurrentUser().getUserLevel();
-        int minXp = LevelCalculator.getTotalExpForLevel(userLevel);
-        int maxXp = LevelCalculator.getTotalExpForLevel(userLevel + 1);
-        highXp.setText(Integer.toString(maxXp - userXp) + "XP to level " + Integer.toString(userLevel + 1));
-        float percentage = 100 * (userXp - minXp) / (maxXp - minXp);
-        pbLevel.setProgress(percentage / 100);
     }
 
     /**
@@ -344,7 +328,6 @@ public class TutorStatsController {
             setOnMouseEntered(e -> {
                 getChildren().setAll(label);
                 setCursor(Cursor.NONE);
-                toFront();
             });
             setOnMouseExited(e -> {
                 getChildren().clear();

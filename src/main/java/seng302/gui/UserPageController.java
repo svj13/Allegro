@@ -11,11 +11,13 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 import seng302.Environment;
 
@@ -48,7 +50,7 @@ public class UserPageController {
     Label latestAttempt;
 
     @FXML
-    AnchorPane currentPage;
+    ScrollPane currentPage;
 
     @FXML
     private Slider timeSlider;
@@ -230,8 +232,8 @@ public class UserPageController {
         FXMLLoader summaryLoader = new FXMLLoader(getClass().getResource("/Views/UserSummary.fxml"));
 
         try {
-            AnchorPane summaryPage = summaryLoader.load();
-            currentPage.getChildren().setAll(summaryPage);
+            VBox summaryPage = summaryLoader.load();
+            currentPage.setContent(summaryPage);
 
             AnchorPane.setLeftAnchor(summaryPage, 0.0);
             AnchorPane.setTopAnchor(summaryPage, 0.0);
@@ -254,8 +256,8 @@ public class UserPageController {
         FXMLLoader tutorStatsLoader = new FXMLLoader(getClass().getResource("/Views/TutorStats.fxml"));
 
         try {
-            AnchorPane stats = tutorStatsLoader.load();
-            currentPage.getChildren().setAll(stats);
+            VBox stats = tutorStatsLoader.load();
+            currentPage.setContent(stats);
             AnchorPane.setLeftAnchor(stats, 0.0);
             AnchorPane.setTopAnchor(stats, 0.0);
             AnchorPane.setBottomAnchor(stats, 0.0);
