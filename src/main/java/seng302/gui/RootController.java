@@ -180,6 +180,8 @@ public class RootController implements Initializable {
             stage.show();
             resizeSplitPane(1.0);
             updateImage();
+            menuTranscript.setSelected(false);
+            toggleTranscript();
             try {
                 showUserPage();
             } catch (IOException e) {
@@ -761,12 +763,11 @@ public class RootController implements Initializable {
     @FXML
     public void toggleTranscript() {
         transcriptSplitPane.setDividerPositions(1.0);
-        if (transcriptPaneController.getIsExpanded()) {
-            menuTranscript.setSelected(false);
-            transcriptPaneController.hideTranscript();
-        } else {
-            menuTranscript.setSelected(true);
+
+        if (menuTranscript.isSelected()) {
             transcriptPaneController.showTranscript();
+        } else {
+            transcriptPaneController.hideTranscript();
         }
     }
 
@@ -794,6 +795,7 @@ public class RootController implements Initializable {
 
     public void disallowTranscript() {
         menuTranscript.setDisable(true);
+        menuTranscript.setSelected(false);
     }
 
     public void allowTranscript() {

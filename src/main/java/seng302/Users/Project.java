@@ -151,13 +151,13 @@ public class Project {
         try {
             String mode = gson.fromJson((String) projectSettings.get("competitionMode"), String.class);
             if (mode.equals("true")) {
-                setIsCompetitiveMode(true);
+                setToCompetitionMode();
             } else {
-                setIsCompetitiveMode(false);
+                setToPracticeMode();
             }
         } catch (Exception e) {
             // Defaults to comp mode
-            setIsCompetitiveMode(true);
+            setToCompetitionMode();
         }
 
 
@@ -335,13 +335,22 @@ public class Project {
         return isCompetitiveMode;
     }
 
+    private void setToCompetitionMode() {
+        this.isCompetitiveMode = true;
+        env.getRootController().disallowTranscript();
+        env.getRootController().getTranscriptController().hideTranscript();
+    }
+
+    private void setToPracticeMode() {
+        this.isCompetitiveMode = false;
+        env.getRootController().allowTranscript();
+    }
+
     public void setIsCompetitiveMode(boolean isCompetitiveMode) {
-        this.isCompetitiveMode = isCompetitiveMode;
         if (isCompetitiveMode) {
-            env.getRootController().getTranscriptController().hideTranscript();
-            env.getRootController().disallowTranscript();
+            setToCompetitionMode();
         } else {
-            env.getRootController().allowTranscript();
+            setToPracticeMode();
         }
         checkChanges("competitionMode");
     }
