@@ -22,11 +22,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 import seng302.Environment;
 import seng302.Users.Project;
 import seng302.Users.TutorHandler;
 import seng302.data.Note;
 import seng302.managers.TutorManager;
+import seng302.utility.ExperienceCalculator;
 import seng302.utility.TutorRecord;
 import seng302.utility.musicNotation.OctaveUtil;
 
@@ -137,8 +139,20 @@ public abstract class TutorController {
 //        questionRows.getChildren().add(qAccordion);
 //    }
 
+    /**
+     * Run whenever a tutoring session ends. Saves information about that session
+     */
     protected void finished() {
         env.getPlayer().stop();
+
+        //Calculates and gives a user their experience.
+        //Note: I've ignored "skipped questions" here, as you won't be able to "skip" a
+        //question in competition mode.
+        if (env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().isCompetitiveMode) {
+            int expGained = ExperienceCalculator.calculateExperience(manager.correct, manager.questions);
+            env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().addExperience(expGained);
+        }
+
         userScore = getScore(manager.correct, manager.answered);
 
         record.setStats(manager.correct, manager.getTempIncorrectResponses().size(), userScore);

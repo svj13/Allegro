@@ -1,6 +1,8 @@
 package seng302.gui;
 
 
+import com.jfoenix.controls.JFXBadge;
+
 import org.json.simple.JSONArray;
 
 import java.io.File;
@@ -84,19 +86,40 @@ public class RootController implements Initializable {
     private MenuItem menuQuit;
 
     @FXML
+    private Circle circleDP;
+
+    @FXML
+    private HBox hbUser;
+
+    @FXML
+    private JFXBadge levelBadge;
+
+    @FXML
+    private MenuItem menuOpen;
+
+    @FXML
+    private MenuItem menuSave;
+
+    @FXML
     private MenuItem menuSaveCommands;
 
     @FXML
-    AnchorPane centerPane;
+    private AnchorPane centerPane;
 
     @FXML
     private Menu menuOpenProjects;
 
     @FXML
-    HBox userDPBox;
+    private Menu helpMenu;
+
+    @FXML
+    private HBox userDPBox;
 
     @FXML
     private ImageView imageDP;
+
+    @FXML
+    private MenuItem dslReferenceMenuItem;
 
     @FXML
     private MenuButton userDropDown;
@@ -131,6 +154,7 @@ public class RootController implements Initializable {
      * Loads a new user image into a circular shape
      */
     public void updateImage() {
+        updateLevelBadge();
         final Circle clip = new Circle(imageDP.getFitWidth() - 25.0, imageDP.getFitHeight() - 25.0, 50.0);
         imageDP.setImage(env.getUserHandler().getCurrentUser().getUserPicture());
         clip.setRadius(25.0);
@@ -152,8 +176,14 @@ public class RootController implements Initializable {
 
             }
         });
+    }
 
-
+    /**
+     * Updates the level indicator badge to display the level of the user's current project
+     */
+    public void updateLevelBadge() {
+        levelBadge.refreshBadge();
+        levelBadge.setText(Integer.toString(env.getUserHandler().getCurrentUser().getUserLevel()));
     }
 
 
@@ -266,7 +296,7 @@ public class RootController implements Initializable {
     /**
      * Toggles the visibility of the top User HBox and user image.
      *
-     * @param show true to dhow, false to hide.
+     * @param show true to show, false to hide.
      */
     public void showUserBar(Boolean show) {
         userBar.setVisible(show);
@@ -274,7 +304,7 @@ public class RootController implements Initializable {
         userBar.setManaged(show);
     }
 
-    /**k
+    /**
      * Opens the user page.
      */
     public void showUserPage() throws IOException {
@@ -774,5 +804,4 @@ public class RootController implements Initializable {
     public String getHeader() {
         return txtHeader.getText();
     }
-
 }

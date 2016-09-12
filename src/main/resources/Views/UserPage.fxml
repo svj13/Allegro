@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.*?>
-<?import com.jfoenix.controls.*?>
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.chart.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-
+<?import com.jfoenix.controls.JFXBadge?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <AnchorPane id="userPage" fx:id="userPage" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../css/user_settings.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.UserPageController">
    <children>
       <SplitPane id="userSplitPane" fx:id="userView" dividerPositions="0.19598765432098766" layoutX="10.0" prefHeight="430.0" prefWidth="650.0" style="-fx-padding: 0; -fx-border-style: none;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -17,11 +19,15 @@
                <children>
                   <VBox fx:id="profilepic" alignment="CENTER" prefHeight="188.0" prefWidth="191.0" style="-fx-border-color: green; -fx-border-width: 0;">
                      <children>
-                        <ImageView fx:id="imageDP2" fitHeight="92.0" fitWidth="105.0">
-                           <image>
-                              <Image url="images/testDP.jpg" />
-                           </image>
-                        </ImageView>
+                         <JFXBadge fx:id="levelBadge" position="TOP_RIGHT" styleClass="icons-badge-large" text="1" maxWidth="100">
+                            <control>
+                                <ImageView fx:id="imageDP2" fitHeight="100.0" fitWidth="100.0">
+                                   <image>
+                                      <Image url="images/testDP.jpg" />
+                                   </image>
+                                </ImageView>
+                            </control>
+                         </JFXBadge>
                         <Label fx:id="txtFullName" styleClass="primaryText" />
                      </children>
                      <padding>
@@ -29,18 +35,22 @@
                      </padding>
                   </VBox>
                   <JFXListView fx:id="listView" maxHeight="1.7976931348623157E308" prefHeight="1000.0" style="-fx-border-width: 0;" styleClass="listView" />
+                   <Label text="Time Range:">
+                       <VBox.margin>
+                           <Insets left="10.0"/>
+                       </VBox.margin>
+                   </Label>
+                   <Slider fx:id="timeSlider" blockIncrement="1.0" majorTickUnit="1.0" max="5.0"
+                           minorTickCount="0" orientation="VERTICAL" showTickLabels="true"
+                           showTickMarks="true" snapToTicks="true" value="5.0"/>
                </children>
             </VBox>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+             <AnchorPane>
                <children>
-                  <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <content>
-                        <VBox fx:id="stats" alignment="TOP_CENTER" prefWidth="1000.0" BorderPane.alignment="CENTER">
-                           <children>
-                              <AnchorPane fx:id="currentPage" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="200.0" prefHeight="513.0" prefWidth="449.0" />
-                           </children>
-                        </VBox>
-                     </content>
+                   <ScrollPane fx:id="currentPage" fitToHeight="true" fitToWidth="true"
+                               hbarPolicy="NEVER" AnchorPane.bottomAnchor="0.0"
+                               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                               AnchorPane.topAnchor="0.0">
                   </ScrollPane>
                </children>
             </AnchorPane>

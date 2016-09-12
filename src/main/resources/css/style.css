@@ -54,6 +54,10 @@
     -fx-background-color: #80807f;
 }
 
+.chart-content {
+    -fx-max-height: 50;
+}
+
 /*.blackkey {*/
 /*-fx-background-color: #333;*/
 /*-fx-border-width:1px 2px 7px;*/

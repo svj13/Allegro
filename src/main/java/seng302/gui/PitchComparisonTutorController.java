@@ -181,7 +181,6 @@ public class PitchComparisonTutorController extends TutorController {
         } else if (((ToggleButton) row.getChildren().get(4)).isSelected()) { //Skip
             row.getChildren().get(4).setStyle("-fx-text-fill: white;-fx-background-color: black");
             correctChoice = 2;
-            manager.questions -= 1;
 
             String[] question = new String[]{
                     String.format("Is %s higher or lower than %s", note2.getNote(), note1.getNote()),
@@ -193,11 +192,9 @@ public class PitchComparisonTutorController extends TutorController {
 
         if (correctChoice == 1) {
             formatCorrectQuestion(row);
-            manager.answered += 1;
         } else if (correctChoice == 2) formatSkippedQuestion(row);
         else {
             formatIncorrectQuestion(row);
-            manager.answered += 1;
         }
         manager.add(new Pair<>(note1.getNote(), note2.getNote()), correctChoice);
 

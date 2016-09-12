@@ -155,7 +155,6 @@ public class IntervalRecognitionTutorController extends TutorController {
             // Disables only input buttons
             disableButtons(questionRow, 1, 3);
             formatSkippedQuestion(questionRow);
-            manager.questions -= 1;
             manager.add(pair, 2);
             String[] question = new String[]{
                     String.format("Interval between %s and %s", firstNote.getNote(), secondNote.getNote()),
@@ -181,7 +180,6 @@ public class IntervalRecognitionTutorController extends TutorController {
                 formatIncorrectQuestion(questionRow);
                 manager.add(pair, 0);
             }
-            manager.answered += 1;
             Integer correct = 0;
             if (options.getValue().equals(thisInterval.getName())) {
                 correct = 1;
