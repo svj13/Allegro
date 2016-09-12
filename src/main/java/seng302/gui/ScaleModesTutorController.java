@@ -6,10 +6,8 @@ import com.jfoenix.controls.JFXSlider;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 import java.util.Random;
 
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -86,20 +84,18 @@ public class ScaleModesTutorController extends TutorController {
             String qString;
             if (rand.nextBoolean()) {
                 type = 1;
-                question = generateQuestionTypeOne();
+                questionType = possibleTypes.get(questionChooser.nextInt(numPossTypes));
+                question = generateQuestionTypeOne(questionType);
                 Pair questionPair = (Pair) question.getKey();
                 qString = String.format(typeOneText, questionPair.getKey(), questionPair.getValue());
                 questionRow = generateQuestionPane(question);
-                questionType = possibleTypes.get(questionChooser.nextInt(numPossTypes));
-                questionRow = generateQuestionPane(generateQuestionTypeOne(questionType));
             } else {
                 type = 2;
-                question = generateQuestionTypeTwo();
+                questionType = possibleTypes.get(questionChooser.nextInt(numPossTypes));
+                question = generateQuestionTypeTwo(questionType);
                 Pair questionPair = (Pair) question.getKey();
                 qString = String.format(typeTwoText, questionPair.getKey(), questionPair.getValue());
                 questionRow = generateQuestionPane(question);
-                questionType = possibleTypes.get(questionChooser.nextInt(numPossTypes));
-                questionRow = generateQuestionPane(generateQuestionTypeTwo(questionType));
             }
             TitledPane qPane = new TitledPane((i + 1) + ". " + qString, questionRow);
             qPane.setPadding(new Insets(2, 2, 2, 2));
