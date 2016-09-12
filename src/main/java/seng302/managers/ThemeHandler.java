@@ -129,52 +129,6 @@ public class ThemeHandler {
 
         secondaryFont = generateComplementFontColor(ldRGB);
 
-//        Pattern c = Pattern.compile("rgb *\\( *([0-9]+), *([0-9]+), *([0-9]+) *\\)");
-//        Matcher m = c.matcher(baseRGB);
-//
-//        java.awt.Color primary;
-//        if (m.matches()) {
-//            primary = new Color(Integer.valueOf(m.group(1)),  // r
-//                    Integer.valueOf(m.group(2)),  // g
-//                    Integer.valueOf(m.group(3))); // b
-//        } else {
-//            try {
-//                primary = java.awt.Color.decode(baseRGB);
-//            } catch (Exception e) {
-//                primary = Color.decode("#1E88E5"); //Default blue
-//            }
-//        }
-//
-//
-//        Matcher m2 = c.matcher(ldRGB);
-//
-//        java.awt.Color secondary;
-//        if (m2.matches()) {
-//            secondary = new Color(Integer.valueOf(m.group(1)),  // r
-//                    Integer.valueOf(m.group(2)),  // g
-//                    Integer.valueOf(m.group(3))); // b
-//        } else {
-//            try {
-//                secondary = java.awt.Color.decode(ldRGB);
-//            } catch (Exception e) {
-//                secondary = Color.white;
-//            }
-//        }
-//
-//        if ((float) ((float) ((float) secondary.getRed() * 0.299f) + (float) (secondary.getGreen() * 0.587f) + (float) (secondary.getBlue() * 0.144f)) > 186) {
-//
-//            secondaryFont = "black";
-//
-//        } else secondaryFont = "white";
-//
-//
-//        if ((float) ((float) ((float) primary.getRed() * 0.299f) + (float) (primary.getGreen() * 0.587f) + (float) (primary.getBlue() * 0.144f)) > 186) {
-//
-//            primaryFont = "black";
-//
-//        } else primaryFont = "white";
-
-
         ArrayList<String> templateCSS = new ArrayList<String>();
 
         String line = null;
