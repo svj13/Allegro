@@ -32,10 +32,9 @@ public class User {
 
     private String userFullName, userPassword, themePrimary, themeSecondary;
 
-
     private String userName;
 
-    private Image profilePic;
+    private Path profilePicPath;
 
     private ProjectHandler projectHandler;
 
@@ -77,10 +76,11 @@ public class User {
             e.printStackTrace();
 
         }
-        this.profilePic = new Image(userDirectory.toUri() + "/profilePicture");
+
+        profilePicPath = Paths.get(userDirectory.toString() + "/profilePicture");
 
         projectHandler = new ProjectHandler(env, userName);
-        //loadFullProperties();
+
     }
 
     /**
@@ -96,7 +96,7 @@ public class User {
         this.userName = user;
         properties = new JSONObject();
         loadBasicProperties();
-        this.profilePic = new Image(userDirectory.toUri() + "/profilePicture");
+        profilePicPath = Paths.get(userDirectory.toString() + "/profilePicture");
 
 
     }
@@ -161,7 +161,6 @@ public class User {
 
         this.projectHandler = null;
 
-
     }
 
 
@@ -206,6 +205,14 @@ public class User {
         userPassword = (properties.get("password")).toString();
 
 
+        try {
+            //Theme
+            themePrimary = (properties.get("themeColor")).toString();
+        } catch (NullPointerException e) {
+            themePrimary = "white";
+        }
+
+
     }
 
 
@@ -234,9 +241,7 @@ public class User {
      */
     public void saveProperties() {
         try {
-            Gson gson = new Gson();
             updateProperties();
-
 
             FileWriter file = new FileWriter(userDirectory + "/user_properties.json");
             file.write(properties.toJSONString());
@@ -258,7 +263,6 @@ public class User {
     private void createUserFiles() {
         //Add all settings to such as tempo speed to the project here.
 
-        Path path;
         try {
 
             if (!Files.isDirectory(userDirectory)) {
@@ -292,8 +296,7 @@ public class User {
     /**
      * Checking functionality specifically for musical saved musical terms.
      */
-    public void checkmusicTerms() {
-        //String saveName = (projectName == null || projectName.length() < 1) ? "No Project" : this.projectName;
+    public void checkMusicTerms() {
         if (properties.containsKey("musicalTerms")) {
             Type termsType = new TypeToken<ArrayList<Term>>() {
             }.getType();
@@ -322,7 +325,6 @@ public class User {
         return new String[]{themePrimary, themeSecondary};
     }
 
-
     public String getUserPassword() {
         return userPassword;
     }
@@ -331,13 +333,12 @@ public class User {
         return userName;
     }
 
-
-    public void setUserPicture(Image image) {
-        this.profilePic = image;
+    public void setUserPicture(Path imagePath) {
+        this.profilePicPath = imagePath;
     }
 
     public Image getUserPicture() {
-        return this.profilePic;
+        return new Image(profilePicPath.toUri().toString());
     }
 
     public void setUserFirstName(String name) {
@@ -356,5 +357,12 @@ public class User {
         return userLastName;
     }
 
+    public int getUserExperience() {
+        return getProjectHandler().getCurrentProject().getExperience();
+    }
+
+    public int getUserLevel() {
+        return getProjectHandler().getCurrentProject().getLevel();
+    }
 
 }

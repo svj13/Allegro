@@ -342,7 +342,6 @@ public class MusicalTermsTutorController extends TutorController {
             record.addQuestionAnswer(question);
 
             formatSkippedQuestion(rowPane);
-            manager.questions -= 1;
             manager.add(new Pair(currentTerm.getMusicalTermName(), currentTerm), 2);
             ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(1)).getChildren().get(1).setDisable(true);
             ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(2)).getChildren().get(1).setDisable(true);
@@ -405,7 +404,6 @@ public class MusicalTermsTutorController extends TutorController {
 
             }
             ((VBox) (rowPane.getChildren().get(0))).getChildren().get(4).setDisable(true);
-            manager.answered += 1;
         }
     }
 
