@@ -404,6 +404,13 @@ public class MusicalTermsTutorController extends TutorController {
         }
     }
 
+    /**
+     * If the user either has no musical terms loaded, or does not have enough terms loaded to
+     * compete, an informational alert is shown
+     *
+     * @param isNoTermAlert true or false. If true, the user has no terms loaded. If false, they do
+     *                      not have enough terms to compete.
+     */
     public void showAlert(boolean isNoTermAlert) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         if (isNoTermAlert) {
