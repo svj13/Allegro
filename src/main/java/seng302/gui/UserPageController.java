@@ -108,7 +108,7 @@ public class UserPageController {
         options.add("Chord Spelling Tutor");
         options.add("Key Signature Tutor");
         options.add("Diatonic Chord Tutor");
-        //options.add("Modes Tutor");
+        options.add("Scale Modes Tutor");
 
         Image lockImg = new Image(getClass().getResourceAsStream("/images/lock.png"), 20, 20, false, false);
 
