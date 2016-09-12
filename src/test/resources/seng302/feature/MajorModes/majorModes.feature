@@ -6,16 +6,16 @@ Feature: major modes
     Then The following is printed to the transcript pane - <majorMode>
 
     Examples:
-      | tonic | degree  | majorMode     |
-      | C     | 2       | D dorian      |
-      | C     | 4       | F lydian      |
-      | G     | 3       | B phrygian    |
-      | G     | 7       | F# locrian    |
-      | A     | 1       | A ionian      |
-      | A     | 6       | F# aeolian    |
-      | Bb    | 4       | Eb lydian     |
-      | Eb    | 5       | Bb mixolydian |
-      | Gb    | 3       | Bb phrygian   |
+      | tonic    | degree | majorMode     |
+      | C major  | 2      | D dorian      |
+      | C major  | 4      | F lydian      |
+      | G major  | 3      | B phrygian    |
+      | G major  | 7      | F# locrian    |
+      | A major  | 1      | A ionian      |
+      | A major  | 6      | F# aeolian    |
+      | Bb major | 4      | Eb lydian     |
+      | Eb major | 5      | Bb mixolydian |
+      | Gb major | 3      | Bb phrygian   |
 
 
 
