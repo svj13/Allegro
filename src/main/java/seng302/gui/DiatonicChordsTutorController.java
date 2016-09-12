@@ -89,7 +89,6 @@ public class DiatonicChordsTutorController extends TutorController {
     }
 
 
-    @Override
     HBox generateQuestionPane(Pair questionAnswer) {
         Pair data = (Pair) questionAnswer.getKey();
         String answer = (String) questionAnswer.getValue();

@@ -269,7 +269,6 @@ public class ScaleModesTutorController extends TutorController {
      * @return questionRow the pane that contains the question and relevant buttons and combobox for
      * answering.
      */
-    @Override
     HBox generateQuestionPane(Pair questionAnswer) {
 
         Pair data = (Pair) questionAnswer.getKey();

@@ -4,8 +4,6 @@ import com.jfoenix.controls.JFXSlider;
 
 import java.io.File;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -24,7 +22,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Pair;
 import seng302.Environment;
 import seng302.Users.Project;
 import seng302.Users.TutorHandler;
@@ -140,29 +137,29 @@ public abstract class TutorController {
         });
     }
 
-    /**
-     * If the user chooses to re-test their self on their failed questions, this function sets up
-     * the tutoring environment for that.
-     */
-    public void retest() {
-        record = new TutorRecord();
-        ArrayList<Pair> tempIncorrectResponses = new ArrayList<>(manager.getTempIncorrectResponses());
-        manager.clearTempIncorrect();
-        Collections.shuffle(tempIncorrectResponses);
-        manager.questions = tempIncorrectResponses.size();
-        List retestPanes = new ArrayList<>();
-
-        for (Pair pair : tempIncorrectResponses) {
-            HBox questionRow = generateQuestionPane(pair);
-            TitledPane qPane = new TitledPane("Question " + (tempIncorrectResponses.indexOf(pair) + 1), questionRow);
-            qPane.setPadding(new Insets(2, 2, 2, 2));
-            retestPanes.add(qPane);
-            VBox.setMargin(questionRow, new Insets(10, 10, 10, 10));
-        }
-        qAccordion.getPanes().remove(0, qAccordion.getPanes().size());
-        qAccordion.getPanes().addAll(retestPanes);
-        questionRows.getChildren().add(qAccordion);
-    }
+//    /**
+//     * If the user chooses to re-test their self on their failed questions, this function sets up
+//     * the tutoring environment for that.
+//     */
+//    public void retest() {
+//        record = new TutorRecord();
+//        ArrayList<Pair> tempIncorrectResponses = new ArrayList<>(manager.getTempIncorrectResponses());
+//        manager.clearTempIncorrect();
+//        Collections.shuffle(tempIncorrectResponses);
+//        manager.questions = tempIncorrectResponses.size();
+//        List retestPanes = new ArrayList<>();
+//
+//        for (Pair pair : tempIncorrectResponses) {
+//            HBox questionRow = generateQuestionPane(pair);
+//            TitledPane qPane = new TitledPane("Question " + (tempIncorrectResponses.indexOf(pair) + 1), questionRow);
+//            qPane.setPadding(new Insets(2, 2, 2, 2));
+//            retestPanes.add(qPane);
+//            VBox.setMargin(questionRow, new Insets(10, 10, 10, 10));
+//        }
+//        qAccordion.getPanes().remove(0, qAccordion.getPanes().size());
+//        qAccordion.getPanes().addAll(retestPanes);
+//        questionRows.getChildren().add(qAccordion);
+//    }
 
     protected void finished() {
         env.getPlayer().stop();
@@ -205,7 +202,7 @@ public abstract class TutorController {
         retestBtn.setOnAction(event -> {
             paneResults.setVisible(false);
             paneQuestions.setVisible(true);
-            retest();
+            //retest();
 
         });
         saveBtn.setOnAction(event -> saveRecord());
@@ -225,10 +222,6 @@ public abstract class TutorController {
         manager.resetStats();
     }
 
-    /**
-     * An empty function which is overridden by each tutor
-     */
-    abstract HBox generateQuestionPane(Pair data);
 
     /**
      * A function for disabling a selection of buttons. For example, disable all inputs but not the

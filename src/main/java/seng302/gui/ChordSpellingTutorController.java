@@ -165,7 +165,6 @@ public class ChordSpellingTutorController extends TutorController {
         questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
     }
 
-    @Override
     /**
      * Generates a GUI containing question data.
      * Needs to be broken up into parts - currently 160 lines long
