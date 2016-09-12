@@ -298,12 +298,12 @@ public class User {
             Type termsType = new TypeToken<ArrayList<Term>>() {
             }.getType();
             if (!properties.get("musicalTerms").equals(new Gson().fromJson((String) properties.get("muscalTerms"), termsType))) {
-                env.getRootController().setWindowTitle(getProjectHandler().getCurrentProject().projectName + "*");
+                env.getRootController().setWindowTitle(env.getRootController().getWindowTitle() + "*");
                 getProjectHandler().getCurrentProject().saved = false;
             }
         } else {
             if (env.getRootController() != null) {
-                env.getRootController().setWindowTitle(getProjectHandler().getCurrentProject().projectName + "*");
+                env.getRootController().setWindowTitle(env.getRootController().getWindowTitle() + "*");
                 getProjectHandler().getCurrentProject().saved = false;
             }
 

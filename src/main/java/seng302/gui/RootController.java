@@ -287,7 +287,7 @@ public class RootController implements Initializable {
         userBar.setManaged(show);
     }
 
-    /**k
+    /**
      * Opens the user page.
      */
     public void showUserPage() throws IOException {
@@ -723,7 +723,21 @@ public class RootController implements Initializable {
      * sets the title of the application to the text input
      */
     public void setWindowTitle(String text) {
-        this.stage.setTitle("Allegro - " + text);
+        this.stage.setTitle(text);
+    }
+
+    public String getWindowTitle() {
+        return this.stage.getTitle();
+    }
+
+    public void addUnsavedChangesIndicator() {
+        if (!this.stage.getTitle().contains("*")) {
+            this.stage.setTitle(this.stage.getTitle() + "*");
+        }
+    }
+
+    public void removeUnsavedChangesIndicator() {
+        this.stage.setTitle(this.stage.getTitle().replace("*", ""));
     }
 
 
