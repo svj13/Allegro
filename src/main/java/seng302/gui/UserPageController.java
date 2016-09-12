@@ -100,6 +100,10 @@ public class UserPageController {
     }
 
 
+    /**
+     * Adds all the existing tutors to the list view. Enables functionality for displaying the tutor
+     * stat pages.
+     */
     public void populateUserOptions() {
 
         ArrayList<String> options = new ArrayList<>();
@@ -215,9 +219,13 @@ public class UserPageController {
         });
     }
 
+    /**
+     * Updates the data in the summary stats graphs
+     *
+     * @param timePeriod The time period to display data from in the summary stats graphs
+     */
     private void updateGraphs(String timePeriod) {
         statsController.displayGraphs((String) listView.getSelectionModel().getSelectedItem(), timePeriod);
-
     }
 
     /**
