@@ -65,7 +65,6 @@ public class ScaleRecognitionTutorController extends TutorController {
             record = new TutorRecord();
             paneInit.setVisible(false);
             paneQuestions.setVisible(true);
-            paneResults.setVisible(false);
             manager.resetEverything();
             manager.questions = selectedQuestions;
             qPanes = new ArrayList<>();
@@ -101,7 +100,7 @@ public class ScaleRecognitionTutorController extends TutorController {
         initialiseQuestionSelector();
         rand = new Random();
         direction.getItems().addAll("Up", "Down", "UpDown");
-        ccbScales.getItems().addAll("Major", "Minor", "Melodic Minor", "Blues", "Major Pentatonic", "Minor Pentatonic", "Major Mode", "Harmonic Minor");
+        ccbScales.getItems().addAll("Major", "Minor", "Melodic Minor", "Blues", "Major Pentatonic", "Minor Pentatonic", "Major Mode", "Melodic Minor Mode", "Harmonic Minor");
 
         ccbScales.getCheckModel().check(0); //Only major/minor selected by default
         ccbScales.getCheckModel().check(1);
@@ -178,7 +177,6 @@ public class ScaleRecognitionTutorController extends TutorController {
                 correct.toString()
         };
         record.addQuestionAnswer(question);
-        env.getRootController().setTabTitle("scaleTutor", true);
 
         handleAccordion();
         if (manager.answered == manager.questions) {
@@ -233,7 +231,6 @@ public class ScaleRecognitionTutorController extends TutorController {
                     "2"
             };
             record.addQuestionAnswer(question);
-            env.getRootController().setTabTitle(getTabID(), true);
             handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();

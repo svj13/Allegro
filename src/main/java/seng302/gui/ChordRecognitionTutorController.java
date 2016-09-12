@@ -54,7 +54,6 @@ public class ChordRecognitionTutorController extends TutorController {
         record = new TutorRecord();
         paneInit.setVisible(false);
         paneQuestions.setVisible(true);
-        paneResults.setVisible(false);
         manager.resetEverything();
         manager.questions = selectedQuestions;
         qPanes = new ArrayList<>();
@@ -205,7 +204,6 @@ public class ChordRecognitionTutorController extends TutorController {
                     "2"
             };
             record.addQuestionAnswer(question);
-            env.getRootController().setTabTitle(getTabID(), true);
             handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
@@ -284,7 +282,6 @@ public class ChordRecognitionTutorController extends TutorController {
                 Integer.toString(correct)
         };
         record.addQuestionAnswer(question);
-        env.getRootController().setTabTitle(getTabID(), true);
 
         handleAccordion();
 

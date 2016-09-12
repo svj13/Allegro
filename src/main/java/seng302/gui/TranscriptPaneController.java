@@ -18,6 +18,7 @@ import javafx.scene.control.ToolBar;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import seng302.Environment;
 import seng302.command.Command;
@@ -72,12 +73,28 @@ public class TranscriptPaneController {
     @FXML
     ToolBar playbackToolbar;
 
+    @FXML
+    AnchorPane transcriptAnchor;
+
+    private boolean isExpanded;
+
 
     @FXML
     private void initialize() {
-
+        hideTranscript();
         // Text field can only request focus once everything has been loaded.
         Platform.runLater(() -> txtCommand.requestFocus());
+    }
+
+    public void hideTranscript() {
+        isExpanded = false;
+        playbackToolbar.setMaxWidth(0);
+        txtTranscript.setMaxWidth(0);
+        txtCommand.setMaxWidth(0);
+        btnGo.setMaxWidth(0);
+        transcriptAnchor.setVisible(false);
+        transcriptAnchor.setMinWidth(0);
+        transcriptAnchor.setMaxWidth(0);
     }
 
     /**
@@ -274,5 +291,21 @@ public class TranscriptPaneController {
         txtCommand.positionCaret(txtCommand.getText().length());
     }
 
+    public void showTranscript() {
+        if (!isExpanded) {
+            playbackToolbar.setMaxWidth(Region.USE_COMPUTED_SIZE);
+            txtTranscript.setMaxWidth(Region.USE_COMPUTED_SIZE);
+            txtCommand.setMaxWidth(Region.USE_COMPUTED_SIZE);
+            btnGo.setMaxWidth(Region.USE_COMPUTED_SIZE);
+            transcriptAnchor.setVisible(true);
+            transcriptAnchor.setMaxWidth(Region.USE_COMPUTED_SIZE);
+            isExpanded = true;
+            env.getRootController().resizeSplitPane(0.75);
+        } else {
+            hideTranscript();
+            env.getRootController().resizeSplitPane(1.0);
+        }
+
+    }
 
 }

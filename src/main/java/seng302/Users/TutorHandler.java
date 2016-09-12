@@ -103,6 +103,8 @@ public class TutorHandler {
             filename = projectAddress + "/KeySignatureTutor.json";
         } else if (id.equals("diatonicChordTutor")) {
             filename = projectAddress + "/DiatonicChordTutor.json";
+        } else if (id.equals("scaleModesTutor")) {
+            filename = projectAddress + "/ScaleModesTutor.json";
         }
         Gson gson = new Gson();
         ArrayList<TutorRecord> records = new ArrayList<>();
@@ -148,40 +150,6 @@ public class TutorHandler {
         return new Pair<>(totalCorrect, totalIncorrect);
     }
 
-
-    /**
-     * When finished a tutor session. Or when save is clicked part way through.
-     */
-    public void saveTutorRecordsToFile(String projectAddress) {
-        if (env.getRootController().tabSaveCheck("pitchTutor")) {
-            saveTutorRecordsToFile(projectAddress + "/PitchComparisonTutor.json", env.getRootController().PitchComparisonTabController.record);
-        }
-        if (env.getRootController().tabSaveCheck("intervalTutor")) {
-
-            saveTutorRecordsToFile(projectAddress + "/IntervalRecognitionTutor.json", env.getRootController().IntervalRecognitionTabController.record);
-        }
-        if (env.getRootController().tabSaveCheck("musicalTermTutor")) {
-            saveTutorRecordsToFile(projectAddress + "/MusicalTermsTutor.json", env.getRootController().MusicalTermsTabController.record);
-        }
-        if (env.getRootController().tabSaveCheck("scaleTutor")) {
-            saveTutorRecordsToFile(projectAddress + "/ScaleRecognitionTutor.json", env.getRootController().ScaleRecognitionTabController.record);
-        }
-        if (env.getRootController().tabSaveCheck("chordTutor")) {
-            saveTutorRecordsToFile(projectAddress + "/ChordRecognitionTutor.json", env.getRootController().ChordRecognitionTabController.record);
-        }
-        if (env.getRootController().tabSaveCheck("chordSpellingTutor")) {
-            saveTutorRecordsToFile(projectAddress + "/ChordSpellingTutor.json", env.getRootController().ChordSpellingTabController.record);
-        }
-        if (env.getRootController().tabSaveCheck("keySignatureTutor")) {
-            saveTutorRecordsToFile(projectAddress + "/KeySignatureTutor.json", env.getRootController().KeySignaturesTabController.record);
-        }
-        if (env.getRootController().tabSaveCheck("diatonicChordTutor")) {
-            saveTutorRecordsToFile(projectAddress + "/DiatonicChordTutor.json", env.getRootController().DiatonicChordsController.record);
-        }
-        if (env.getRootController().tabSaveCheck("scaleModesTutor")) {
-            saveTutorRecordsToFile(projectAddress + "/ScaleModesTutor.json", env.getRootController().ScaleModesController.record);
-        }
-    }
 
     /**
      * Saves the tutor records to disc.

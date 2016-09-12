@@ -25,9 +25,6 @@ public class UISkinnerController {
     private JFXColorPicker jfxColourPicker;
 
 
-
-
-
     // RGB colour values
     private String baseRGB;
     private String compRGB;
@@ -39,7 +36,6 @@ public class UISkinnerController {
     private AnchorPane baseNode;
     private Environment env;
     private ArrayList<String> rules = new ArrayList<String>();
-
 
 
     /**
@@ -56,6 +52,7 @@ public class UISkinnerController {
         colour = "#" + colour.substring(2, 8);
 
         this.jfxColourPicker.setValue(Color.valueOf(colour));
+        env.getRootController().setHeader("Theme Settings");
 
     }
 
@@ -89,9 +86,9 @@ public class UISkinnerController {
     }
 
 
-
     /**
      * Sets a colour lighter than the user selected colour to be used in the theme
+     *
      * @param color Color vaue
      */
     private void setLighterRGB(Color color) {
@@ -121,6 +118,7 @@ public class UISkinnerController {
 
     /**
      * Sets a colour darker than the user selected colour to be used in the theme
+     *
      * @param color Color value
      */
     private void setDarkerRGB(Color color) {
@@ -149,8 +147,6 @@ public class UISkinnerController {
 
     /**
      * Converts an array of floats to a formatted string.
-     * @param rgbArray
-     * @return
      */
     private String floatToRGBString(int[] rgbArray) {
         return (String.format("rgb(%s, %s, %s)", rgbArray[0], rgbArray[1], rgbArray[2]));

@@ -75,7 +75,6 @@ public class PitchComparisonTutorController extends TutorController {
     private void goAction() {
         paneInit.setVisible(false);
         paneQuestions.setVisible(true);
-        paneResults.setVisible(false);
         record = new TutorRecord();
         manager.answered = 0;
         qPanes = new ArrayList<>();
@@ -158,7 +157,6 @@ public class PitchComparisonTutorController extends TutorController {
             };
 
             record.addQuestionAnswer(question);
-            env.getRootController().setTabTitle(getTabID(), true);
         } else if (((ToggleButton) row.getChildren().get(2)).isSelected()) { //Same
             row.getChildren().get(2).setStyle("-fx-text-fill: white;-fx-background-color: black");
             if (note1 == note2) correctChoice = 1;
@@ -169,7 +167,6 @@ public class PitchComparisonTutorController extends TutorController {
             };
 
             record.addQuestionAnswer(question);
-            env.getRootController().setTabTitle(getTabID(), true);
         } else if (((ToggleButton) row.getChildren().get(3)).isSelected()) { //Lower
             row.getChildren().get(3).setStyle("-fx-text-fill: white;-fx-background-color: black");
             if (noteComparison(false, note1, note2)) {
@@ -181,7 +178,6 @@ public class PitchComparisonTutorController extends TutorController {
                     correctChoice.toString()
             };
             record.addQuestionAnswer(question);
-            env.getRootController().setTabTitle(getTabID(), true);
         } else if (((ToggleButton) row.getChildren().get(4)).isSelected()) { //Skip
             row.getChildren().get(4).setStyle("-fx-text-fill: white;-fx-background-color: black");
             correctChoice = 2;
@@ -193,7 +189,6 @@ public class PitchComparisonTutorController extends TutorController {
                     correctChoice.toString()
             };
             record.addQuestionAnswer(question);
-            env.getRootController().setTabTitle(getTabID(), true);
         }
 
         if (correctChoice == 1) {
