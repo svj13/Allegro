@@ -50,6 +50,14 @@ public class ScaleModesTutorController extends TutorController {
         initialiseQuestionSelector();
         rand = new Random();
         ccbModes.getItems().addAll("Major Scales", "Melodic Minor Scales", "Both");
+
+        if(currentProject.isCompetitiveMode){
+            ccbModes.setValue("Both");
+            ccbModes.setDisable(true);
+
+        }else{
+            ccbModes.getSelectionModel().selectFirst();
+        }
     }
 
 

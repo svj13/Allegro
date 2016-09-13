@@ -119,7 +119,7 @@ public class PitchComparisonTutorController extends TutorController {
 
 
     /**
-     * Generates defaultrangslider value for compeditive mode
+     * Generates default rangeslider value for competitive mode
      * @return
      */
     private int generateRangesliderDefault(){
