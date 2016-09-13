@@ -39,7 +39,7 @@ public class ScaleSpellingTutorController extends TutorController {
 
 
     @FXML
-    private AnchorPane chordSpellingAnchor;
+    private AnchorPane scaleSpellingAnchor;
 
 
     @FXML
@@ -191,7 +191,6 @@ public class ScaleSpellingTutorController extends TutorController {
     private void handleTypeOneTwoInput(ComboBox input, Map scaleInfo, HBox questionRow, String answer, int questionType) {
         styleTypeOneTwoInput(input, answer);
         if (isTypeOneTwoComplete(questionRow)) {
-            env.getRootController().setTabTitle(getTabID(), true);
             manager.answered += 1;
             gradeTypeOneTwoQuestion(questionRow);
             int score = gradeTypeOneTwoQuestion(questionRow);
@@ -238,7 +237,6 @@ public class ScaleSpellingTutorController extends TutorController {
     }
 
     private void handleSkippedQuestion(Map scaleInfo, int questionType, HBox questionRow) {
-        env.getRootController().setTabTitle(getTabID(), true);
         manager.questions -= 1;
         manager.add(new Pair(scaleInfo, questionType), 2);
         formatSkippedQuestion(questionRow);
@@ -465,11 +463,10 @@ public class ScaleSpellingTutorController extends TutorController {
     @FXML
     void goAction(ActionEvent event) {
         if (scaleTypes.getCheckModel().getCheckedIndices().size() != 0) {
-            scaleError.setVisible(false);
+            //scaleError.setVisible(false);
             record = new TutorRecord();
 
             paneQuestions.setVisible(true);
-            paneResults.setVisible(false);
 
             manager.resetEverything();
             manager.questions = selectedQuestions;
@@ -481,7 +478,7 @@ public class ScaleSpellingTutorController extends TutorController {
                 questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
             }
         } else {
-            scaleError.setVisible(true);
+            //scaleError.setVisible(true);
         }
 
     }

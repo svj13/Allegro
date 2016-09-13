@@ -138,7 +138,7 @@ public class TutorHandler {
             filename = projectAddress + "/DiatonicChordTutor.json";
         } else if (id.equals("scaleModesTutor")) {
             filename = projectAddress + "/ScaleModesTutor.json";
-        } else if (id.equals("scaleSpelling")) {
+        } else if (id.equals("scaleSpellingTutor")) {
             filename = projectAddress + "/ScaleSpellingTutor.json";
         }
         Gson gson = new Gson();
