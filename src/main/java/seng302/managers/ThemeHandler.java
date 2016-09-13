@@ -78,8 +78,6 @@ public class ThemeHandler {
         Function<Integer, Integer> validateRGB = i -> i > 255 ? 255 : i;
 
         String complCol;
-
-        System.out.println(colString);
         Pattern p = Pattern.compile("rgb *\\( *([0-9]+), *([0-9]+), *([0-9]+) *\\)");
         Matcher m = p.matcher(colString);
 

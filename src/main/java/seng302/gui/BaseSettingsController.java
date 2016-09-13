@@ -11,9 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
-
 import seng302.Environment;
-
 
 
 /**
@@ -23,12 +21,12 @@ public class BaseSettingsController {
     Environment env;
 
     @FXML
-    UserSettingsController userSettingsC;
+    private UserSettingsController userSettingsC;
 
     @FXML
-    UISkinnerController themeC;
+    private UISkinnerController themeC;
 
-    FXMLLoader userSettingsLoader, themeLoader;
+    private FXMLLoader userSettingsLoader, themeLoader;
 
 
     @FXML
