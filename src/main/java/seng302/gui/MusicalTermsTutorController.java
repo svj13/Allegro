@@ -101,14 +101,14 @@ public class MusicalTermsTutorController extends TutorController {
             } else {//if there are terms to display
                 for (int i = 0; i < manager.questions; i++) {
                     if (termsBeingViewed.size() < 1) {
-                        termsBeingViewed = new ArrayList<Term>(dataManager.getTerms());
+                        termsBeingViewed = new ArrayList<>(dataManager.getTerms());
                     }
                     int randomNumber = rand.nextInt(termsBeingViewed.size());
                     Term term = termsBeingViewed.get(randomNumber);
                     termsBeingViewed.remove(randomNumber);
-                    Pair<String, Term> dummyPair = new Pair<String, Term>("", term);
+                    Pair<String, Term> dummyPair = new Pair<>("", term);
                     HBox questionRow = generateQuestionPane(dummyPair);
-                    TitledPane qPane = new TitledPane((i + 1) + ". What is the origin, category and definition of " + term.getMusicalTermName() + "?", questionRow);
+                    TitledPane qPane = new TitledPane((i + 1) + ". What are the origin, category and definition of " + term.getMusicalTermName() + "?", questionRow);
                     qPane.setPadding(new Insets(2, 2, 2, 2));
                     qPanes.add(qPane);
 

@@ -83,7 +83,7 @@ public class ThemeHandler {
         Pattern c = Pattern.compile("rgb *\\( *([0-9]+), *([0-9]+), *([0-9]+) *\\)");
         Matcher m = c.matcher(baseRGB);
 
-        java.awt.Color primary;
+        Color primary;
         if (m.matches()) {
             primary = new Color(Integer.valueOf(m.group(1)),  // r
                     Integer.valueOf(m.group(2)),  // g
@@ -99,7 +99,7 @@ public class ThemeHandler {
 
         Matcher m2 = c.matcher(ldRGB);
 
-        java.awt.Color secondary;
+        Color secondary;
         if (m2.matches()) {
             secondary = new Color(Integer.valueOf(m.group(1)),  // r
                     Integer.valueOf(m.group(2)),  // g
@@ -138,13 +138,13 @@ public class ThemeHandler {
                     new BufferedReader(fileReader);
 
             while ((line = bufferedReader.readLine()) != null) {
-                if (line.contains("{0}{1}{2}{3}")) { //Primary, Secondary, Primary font colour, secondary font colour.
+                if (line.contains("{3}")) { //Primary, Secondary, Primary font colour, secondary font colour.
 
                     templateCSS.add(MessageFormat.format(line, "", "", "", secondaryFont));
-                } else if (line.contains("{0}{1}{2}")) {
+                } else if (line.contains("{2}")) {
 
                     templateCSS.add(MessageFormat.format(line, "", "", primaryFont));
-                } else if (line.contains("{0}{1}")) {
+                } else if (line.contains("{1}")) {
                     templateCSS.add(MessageFormat.format(line, "", ldRGB));
                 } else if (line.contains("{0}")) {
                     templateCSS.add(MessageFormat.format(line, baseRGB));
