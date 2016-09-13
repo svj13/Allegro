@@ -11,10 +11,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
+
 import seng302.Environment;
 
-import javax.swing.text.html.ListView;
+
 
 /**
  * Settings Page shell controller. In charge of opening and all settings pages.
