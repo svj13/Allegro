@@ -50,6 +50,8 @@ public class ScaleRecognitionTutorController extends TutorController {
 
     private Random rand;
 
+    private Boolean fullTutor;
+
 
     String playDirection;
     int playOctaves;
@@ -104,9 +106,15 @@ public class ScaleRecognitionTutorController extends TutorController {
         octaves.getItems().addAll(1, 2, 3, 4);
 
         if(currentProject.isCompetitiveMode){
+            if(fullTutor){
+                ccbScales.getCheckModel().checkAll();
+
+            }else{
+                ccbScales.getCheckModel().check(0);
+                ccbScales.getCheckModel().check(1);
+            }
             direction.setValue("UpDown");
             direction.setDisable(true);
-            ccbScales.getCheckModel().checkAll();
             ccbScales.setDisable(true);
             octaves.setValue(1);
             octaves.setDisable(true);
