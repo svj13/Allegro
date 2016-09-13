@@ -116,7 +116,6 @@ public class DiatonicChordsTutorController extends TutorController {
             // Disables only input buttons
             disableButtons(questionRow, 1, 3);
             formatSkippedQuestion(questionRow);
-            manager.questions -= 1;
             manager.add(data, 2);
             String questionString;
             if (getTypeOfQuestion(questionAnswer) == 1) {
@@ -205,7 +204,6 @@ public class DiatonicChordsTutorController extends TutorController {
      * @param questionRow       The HBox containing GUI question data
      */
     public void handleQuestionAnswer(String userAnswer, Pair questionAndAnswer, HBox questionRow) {
-        manager.answered += 1;
         Integer correct;
         disableButtons(questionRow, 1, 2);
         String correctAnswer = (String) questionAndAnswer.getValue();

@@ -180,7 +180,7 @@
 
 .sideMenu .jfx-list-cell:odd {
     -fx-background-color: derive({0}{1}, -5%);
-    -fx-text-fill:  brown;
+
 
 }
 
@@ -192,7 +192,6 @@
 .sideMenu .jfx-list-cell:selected .label {
    -fx-font-size: 16;
     -fx-text-fill: {0}{1}{2};
-
 }
 
 
@@ -213,10 +212,6 @@
 
 
 }
-
-
-
-
 
 #userSplitPane *.split-pane-divider {
     -fx-padding: 0 1 0 1;
@@ -252,4 +247,20 @@
 
 }
 
+.icons-badge .badge-pane {
+    -fx-background-color: {0};
+    -fx-text-fill: {0}{1}{2};
+    -fx-background-radius: 23;
+    -fx-pref-width: 23;
+    -fx-pref-height: 23;
+    -fx-alignment: center;
+}
 
+.icons-badge-large .badge-pane {
+    -fx-background-color: {0};
+    -fx-text-fill: {0}{1}{2};
+    -fx-background-radius: 35;
+    -fx-pref-width: 35;
+    -fx-pref-height: 35;
+    -fx-alignment: center;
+}
