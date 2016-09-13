@@ -18,6 +18,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
@@ -191,7 +192,6 @@ public class ScaleSpellingTutorController extends TutorController {
     private void handleTypeOneTwoInput(ComboBox input, Map scaleInfo, HBox questionRow, String answer, int questionType) {
         styleTypeOneTwoInput(input, answer);
         if (isTypeOneTwoComplete(questionRow)) {
-            manager.answered += 1;
             gradeTypeOneTwoQuestion(questionRow);
             int score = gradeTypeOneTwoQuestion(questionRow);
 
@@ -237,7 +237,6 @@ public class ScaleSpellingTutorController extends TutorController {
     }
 
     private void handleSkippedQuestion(Map scaleInfo, int questionType, HBox questionRow) {
-        manager.questions -= 1;
         manager.add(new Pair(scaleInfo, questionType), 2);
         formatSkippedQuestion(questionRow);
         disableButtons(questionRow, 1, questionRow.getChildren().size() - 1);
@@ -256,6 +255,7 @@ public class ScaleSpellingTutorController extends TutorController {
 
         };
         record.addQuestionAnswer(questionInfo);
+        handleAccordion();
 
         if (manager.answered == manager.questions) {
             finished();
@@ -465,18 +465,25 @@ public class ScaleSpellingTutorController extends TutorController {
         if (scaleTypes.getCheckModel().getCheckedIndices().size() != 0) {
             //scaleError.setVisible(false);
             record = new TutorRecord();
-
+            paneInit.setVisible(false);
             paneQuestions.setVisible(true);
 
             manager.resetEverything();
             manager.questions = selectedQuestions;
 
+            qPanes = new ArrayList<>();
+
             questionRows.getChildren().clear();
             for (int i = 0; i < manager.questions; i++) {
                 HBox questionRow = createNewQuestion();
-                questionRows.getChildren().add(questionRow);
+                TitledPane qPane = new TitledPane("Question " + (i + 1), questionRow);
+                qPane.setPadding(new Insets(2, 2, 2, 2));
+                qPanes.add(qPane);
                 questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
             }
+            qAccordion.getPanes().addAll(qPanes);
+            qAccordion.setExpandedPane(qAccordion.getPanes().get(0));
+            questionRows.getChildren().add(qAccordion);
         } else {
             //scaleError.setVisible(true);
         }
