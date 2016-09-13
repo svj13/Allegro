@@ -93,9 +93,14 @@ public class UserSummaryController {
         int userLevel = env.getUserHandler().getCurrentUser().getUserLevel();
         int minXp = LevelCalculator.getTotalExpForLevel(userLevel);
         int maxXp = LevelCalculator.getTotalExpForLevel(userLevel + 1);
+
+        if (userXp == 0) {
+            pbLevel.setProgress(0.0);
+        } else {
+            float percentage = 100 * (userXp - minXp) / (maxXp - minXp);
+            pbLevel.setProgress(percentage / 100);
+        }
         highXp.setText(Integer.toString(maxXp - userXp) + "XP to level " + Integer.toString(userLevel + 1));
-        float percentage = 100 * (userXp - minXp) / (maxXp - minXp);
-        pbLevel.setProgress(percentage / 100);
     }
 
 
