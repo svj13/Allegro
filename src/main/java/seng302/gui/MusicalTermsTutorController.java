@@ -264,7 +264,9 @@ public class MusicalTermsTutorController extends TutorController {
             styleAnswer(rowPane, currentTerm, originOptions, categoryOptions, definitionOptions);
 
             ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(1)).getChildren().get(1).setDisable(true);
-            handleAccordion();
+            if (isQuestionComplete(originOptions, categoryOptions, definitionOptions)) {
+                handleAccordion();
+            }
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -295,7 +297,9 @@ public class MusicalTermsTutorController extends TutorController {
 
             ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(2)).getChildren().get(1).setDisable(true);
 
-            handleAccordion();
+            if (isQuestionComplete(originOptions, categoryOptions, definitionOptions)) {
+                handleAccordion();
+            }
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -326,7 +330,9 @@ public class MusicalTermsTutorController extends TutorController {
 
             ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(3)).getChildren().get(1).setDisable(true);
 
-            handleAccordion();
+            if (isQuestionComplete(originOptions, categoryOptions, definitionOptions)) {
+                handleAccordion();
+            }
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -404,6 +410,22 @@ public class MusicalTermsTutorController extends TutorController {
 
             }
             ((VBox) (rowPane.getChildren().get(0))).getChildren().get(4).setDisable(true);
+        }
+    }
+
+    /**
+     * This function checks whether or not all parts of the question have been filled out
+     *
+     * @param firstSelection  One of the three comboboxes to be filled out
+     * @param secondSelection One of the three comboboxes to be filled out
+     * @param thirdSelection  One of the three comboboxes to be filled out
+     * @return true if all three combo boxes have had selections made, false otherwise
+     */
+    private boolean isQuestionComplete(ComboBox firstSelection, ComboBox secondSelection, ComboBox thirdSelection) {
+        if (firstSelection.getValue() != null && secondSelection.getValue() != null && thirdSelection.getValue() != null) {
+            return true;
+        } else {
+            return false;
         }
     }
 
