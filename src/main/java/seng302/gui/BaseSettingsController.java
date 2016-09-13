@@ -68,6 +68,9 @@ public class BaseSettingsController {
 
     }
 
+    /**
+     * Populates the side menu with settings options.
+     */
     private void populateListView(){
 
         ArrayList<String> options = new ArrayList<>();
@@ -89,6 +92,10 @@ public class BaseSettingsController {
 
     }
 
+    /**
+     * Launches the settings page
+     * @param settings settigns identifier (User Settings/Theme Settings)
+     */
     private void launchSettings(String settings){
 
         switch(settings){
