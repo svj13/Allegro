@@ -144,7 +144,7 @@ public class KeyboardPaneController {
     @FXML
     private TitledPane keyPane;
 
-    private Boolean playMode;
+    private String playMode;
 
 
     /**
@@ -155,7 +155,7 @@ public class KeyboardPaneController {
         keyboardBox.setMaxHeight(200);
         keyboardBox.setMinHeight(200);
         blackKeys.setMaxHeight(130);
-        playMode = true;
+        playMode = "play";
         HBox.setHgrow(rightStack, Priority.ALWAYS);
 
         // Picking is computed by intersecting with the geometric
@@ -252,26 +252,33 @@ public class KeyboardPaneController {
         final ToggleGroup group = new ToggleGroup();
         HBox modes = new HBox();
         ToggleButton play = new ToggleButton("Play");
-        play.setUserData(true);
+        play.setUserData("play");
         play.setToggleGroup(group);
         play.setSelected(true);
 
-        ToggleButton text = new ToggleButton("Text Input");
-        text.setUserData(false);
-        text.setToggleGroup(group);
+        ToggleButton transcriptInp = new ToggleButton("Transcript Input");
+        transcriptInp.setUserData("transcript");
+        transcriptInp.setToggleGroup(group);
+
+        ToggleButton tutorInp = new ToggleButton("Tutor Input");
+        tutorInp.setUserData("tutor");
+        tutorInp.setToggleGroup(group);
+
         group.selectedToggleProperty().addListener((observable, newValue, oldValue) -> {
             if (group.getSelectedToggle() == null) {
                 play.setSelected(true);
             } else {
-                playMode = (Boolean) group.getSelectedToggle().getUserData();
+                playMode = (String) group.getSelectedToggle().getUserData();
             }
         });
 
 
 
+
         settings.getChildren().add(new Label("Keyboard Mode:"));
         modes.getChildren().add(play);
-        modes.getChildren().add(text);
+        modes.getChildren().add(tutorInp);
+        modes.getChildren().add(transcriptInp);
         settings.getChildren().add(modes);
 
     }
@@ -889,7 +896,7 @@ public class KeyboardPaneController {
         }
     }
 
-    public Boolean isPlayMode() {
+    public String playMode() {
         return playMode;
     }
 }
