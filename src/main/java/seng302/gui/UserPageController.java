@@ -80,7 +80,6 @@ public class UserPageController {
 
 
         imageDP2.setImage(env.getUserHandler().getCurrentUser().getUserPicture());
-        imageDP2.setOnMouseClicked(e -> env.getRootController().launchSettings());
         updateLevelBadge();
 
         try {
@@ -250,6 +249,7 @@ public class UserPageController {
 
     /**
      *  OnClick action for the UserPage settings button.
+     *  Opens a context menu with settings/logout options
      */
     @FXML
     void openSettings(MouseEvent e) {
@@ -261,9 +261,6 @@ public class UserPageController {
         menuItemLogout.setOnAction(k -> env.getRootController().logOutUser());
 
         menuItemSettings.setOnAction(e2 -> env.getRootController().launchSettings());
-
-
-
         ContextMenu settingsDropDown = new ContextMenu();
         settingsDropDown.getItems().addAll(menuItemSettings,menuItemLogout);
 
