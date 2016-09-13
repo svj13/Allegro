@@ -433,36 +433,28 @@ public class ChordSpellingTutorController extends TutorController {
                         }
                     }
                 });
-
-
-
-
-
-
-
-
-
-
                 submitButton.setOnAction(event -> {
-                    if (note1.getText().equals(correctNotes[0])) {
+                    if (!noteEnharmonicComparison(Note.lookup(OctaveUtil.addDefaultOctave(note1.getText())), Note.lookup(OctaveUtil.addDefaultOctave(correctNotes[0])))) {
                         note1.setStyle("-fx-background-color: green");
                     } else {
                         note1.setStyle("-fx-background-color: red");
                     }
-                    if (note2.getText().equals(correctNotes[1])) {
+                    if (!noteEnharmonicComparison(Note.lookup(OctaveUtil.addDefaultOctave(note2.getText())), Note.lookup(OctaveUtil.addDefaultOctave(correctNotes[1])))) {
                         note2.setStyle("-fx-background-color: green");
                     } else {
                         note2.setStyle("-fx-background-color: red");
                     }
-                    if (note3.getText().equals(correctNotes[2])) {
+                    if (!noteEnharmonicComparison(Note.lookup(OctaveUtil.addDefaultOctave(note3.getText())), Note.lookup(OctaveUtil.addDefaultOctave(correctNotes[2])))) {
                         note3.setStyle("-fx-background-color: green");
                     } else {
                         note3.setStyle("-fx-background-color: red");
                     }
-                    if (note4.getText().equals(correctNotes[3])) {
-                        note4.setStyle("-fx-background-color: green");
-                    } else {
-                        note4.setStyle("-fx-background-color: red");
+                    if (four) {
+                        if (!noteEnharmonicComparison(Note.lookup(OctaveUtil.addDefaultOctave(note4.getText())), Note.lookup(OctaveUtil.addDefaultOctave(correctNotes[3])))) {
+                            note4.setStyle("-fx-background-color: green");
+                        } else {
+                            note4.setStyle("-fx-background-color: red");
+                        }
                     }
 
                     String selection = String.join(" ", selectedNotes);
