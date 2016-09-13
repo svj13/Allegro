@@ -48,7 +48,6 @@ public class BaseSettingsController {
         userSettingsLoader.setLocation(getClass().getResource("/Views/UserSettings.fxml"));
         userSettingsC = userSettingsLoader.getController();
 
-
         //Load theme controller
         themeLoader = new FXMLLoader();
         themeLoader.setLocation(getClass().getResource("/Views/UISkinner.fxml"));
@@ -75,14 +74,11 @@ public class BaseSettingsController {
         options.add("User Settings");
         options.add("Theme Settings");
 
-        //options.add("Modes Tutor");
-
-
         settingsOptions.getItems().addAll(FXCollections.observableArrayList(options));
 
         settingsOptions.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             this.launchSettings((String) newValue);
-            //currentTutor = (String) newValue;
+
         });
         settingsOptions.getSelectionModel().selectFirst();
         settingsOptions.setDepthProperty(1);
