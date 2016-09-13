@@ -84,6 +84,38 @@
 
 }
 
+
+
+.settingsAnchor {
+   -fx-background-color: {0};
+  -fx-border: 0;
+
+}
+.settingsAnchor .jfx-list-view {
+   -fx-background-color: {0};
+  -fx-border: 0;
+
+}
+.settingsAnchor .jfx-list-view  .jfx-list-cell {
+    -fx-background-color: derive({0}, 80%);
+
+
+}
+.settingsAnchor .jfx-list-view  .jfx-list-cell .label {
+
+    -fx-text-fill: {0}{1}{2};
+    -fx-font-size: 16;
+
+
+
+}
+
+.settingsAnchor .jfx-list-cell:hover {
+  -fx-background-color: derive({0}, 10%);
+  -fx-text-fill: {0}{1}{2};
+
+}
+
 .primaryControl {
     -fx-background-color: {0};
     -fx-text-fill: {0}{1}{2} ;
@@ -99,7 +131,7 @@
 
 .userPageSidePane {
     -fx-background-color: {0};
-    -fx-text-fill: {0}{1}{2} ;
+
 }
 
 .settingsMenu {
@@ -114,7 +146,7 @@
 
 #userpage .userPagePrimary{
     -fx-background-color: {0};
-        -fx-text-fill: {0}{1}{2} ;
+
 
 }
 
@@ -126,7 +158,7 @@
 
 }
 
-#userSideBar{
+.sideMenu{
     -fx-background-color: {0};
 
     -fx-border-color : {0};
@@ -134,27 +166,37 @@
 
 }
 
-#userSideBar .jfx-list-cell {
+.sideMenu .jfx-list-cell {
     -fx-background-color: {0}{1};
     -fx-pref-height: 50px;
     -fx-pref-tile-height: 50px ;
+
+
+}
+.sideMenu .jfx-list-cell .label {
     -fx-text-fill: {0}{1}{2}{3};
+    -fx-font-size: 16;
+}
+
+.sideMenu .jfx-list-cell:odd {
+    -fx-background-color: derive({0}{1}, -5%);
+
 
 }
 
-#userSideBar .jfx-list-cell:selected {
+.sideMenu .jfx-list-cell:selected {
     -fx-background-color: {0};
     -fx-text-fill: {0}{1}{2};
 
 }
-
-#userSideBar .jfx-list-cell:odd {
-    -fx-background-color: derive({0}{1}, -5%);
-    -fx-text-fill:  brown;
-
+.sideMenu .jfx-list-cell:selected .label {
+   -fx-font-size: 16;
+    -fx-text-fill: {0}{1}{2};
 }
 
-#userSideBar .jfx-list-cell .jfx-rippler {
+
+
+.sideMenu .jfx-list-cell .jfx-rippler {
     -fx-background-color: {0};
 
 }
@@ -163,7 +205,7 @@
 
 
 
-#userSideBar .jfx-list-cell:hover {
+.sideMenu .jfx-list-cell:hover {
     -fx-background-color: derive({0}, 10%);
     -fx-text-fill: {0}{1}{2};
 
@@ -184,6 +226,27 @@
     -fx-text-fill: {0}{1}{2}{3};
 }
 
+
+.flatDropDown .menu-button {
+    -fx-background-radius: 0;
+    -fx-background-radius: 0 0 0 0;
+    -fx-background-color: {0}{1};
+
+}
+
+
+.flatDropDown .menu-button > .arrow-button {
+    -fx-padding: 0;
+
+
+}
+
+.flatDropDown .menu-button > .arrow-button > .arrow {
+    -fx-padding: 0;
+
+
+}
+
 .icons-badge .badge-pane {
     -fx-background-color: {0};
     -fx-text-fill: {0}{1}{2};
@@ -196,8 +259,25 @@
 .icons-badge-large .badge-pane {
     -fx-background-color: {0};
     -fx-text-fill: {0}{1}{2};
+    -fx-border-radius: 35;
+    -fx-border-color: {0}{1};
     -fx-background-radius: 35;
     -fx-pref-width: 35;
     -fx-pref-height: 35;
     -fx-alignment: center;
 }
+
+.settings-badge .badge-pane {
+
+    -fx-background-image: url("images/lock.png");
+    -fx-image: url("images/settings_gear.png");
+
+    -fx-text-fill: {0}{1}{2};
+    -fx-background-radius: 35;
+    -fx-pref-width: 35;
+    -fx-pref-height: 35;
+    -fx-alignment: center;
+}
+
+
+
