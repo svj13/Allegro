@@ -143,6 +143,16 @@ public class ChordSpellingTutorController extends TutorController {
                 HBox questionRow = setUpQuestion();
                 TitledPane qPane = new TitledPane("Question " + (i + 1), questionRow);
                 qPane.setPadding(new Insets(2, 2, 2, 2));
+                qPane.expandedProperty().addListener(new ChangeListener<Boolean>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                        if (qPane.isExpanded()) {
+                            if (((HBox) questionRow.getChildren().get(1)).getChildren().get(0) instanceof TextField) {
+                                env.setCurrentFocussed((TextField) ((HBox) questionRow.getChildren().get(1)).getChildren().get(0), false, (TextField) ((HBox) questionRow.getChildren().get(1)).getChildren().get(1));
+                            }
+                        }
+                    }
+                });
                 qPanes.add(qPane);
                 questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
             }
