@@ -259,8 +259,25 @@
 .icons-badge-large .badge-pane {
     -fx-background-color: {0};
     -fx-text-fill: {0}{1}{2};
+    -fx-border-radius: 35;
+    -fx-border-color: {0}{1};
     -fx-background-radius: 35;
     -fx-pref-width: 35;
     -fx-pref-height: 35;
     -fx-alignment: center;
 }
+
+.settings-badge .badge-pane {
+
+    -fx-background-image: url("images/lock.png");
+    -fx-image: url("images/settings_gear.png");
+
+    -fx-text-fill: {0}{1}{2};
+    -fx-background-radius: 35;
+    -fx-pref-width: 35;
+    -fx-pref-height: 35;
+    -fx-alignment: center;
+}
+
+
+

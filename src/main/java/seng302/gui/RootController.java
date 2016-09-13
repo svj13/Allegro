@@ -382,11 +382,18 @@ public class RootController implements Initializable {
     }
 
     @FXML
-    public void logOutUser() throws IOException {
-        stage.close();
-        showLoginWindow();
+    public void logOutUser(){
+        try {
+            stage.close();
+            showLoginWindow();
+        }catch(Exception e){
+
+        }
+
 
     }
+
+
 
 
     /**
