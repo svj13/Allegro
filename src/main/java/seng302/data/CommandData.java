@@ -16,7 +16,7 @@ import seng302.command.Help;
 import seng302.command.InstrumentCommand;
 import seng302.command.IntervalCommand;
 import seng302.command.KeySignatureCommand;
-import seng302.command.MajorModes;
+import seng302.command.Modes;
 import seng302.command.Midi;
 import seng302.command.MusicalTerm;
 import seng302.command.NoteCommand;
@@ -152,10 +152,10 @@ public class CommandData {
         keywordToCommand.put("redo", new UndoRedo(1));
         keywordToCommand.put("twinkle", new Twinkle());
 
-        keywordToCommand.put("get mode", new MajorModes("C", "2"));
+        keywordToCommand.put("get mode", new Modes(scaleInfo, "2"));
         scaleInfo.remove("scale_type");
         scaleInfo.put("scale_type", "phrygian");
-        keywordToCommand.put("parent of", new MajorModes(scaleInfo));
+        keywordToCommand.put("parent of", new Modes(scaleInfo));
 
 
         //These are the commands we want in the 'terms' category

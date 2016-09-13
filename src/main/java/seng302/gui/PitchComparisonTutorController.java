@@ -3,7 +3,6 @@ package seng302.gui;
 import org.controlsfx.control.RangeSlider;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import javafx.fxml.FXML;
@@ -76,10 +75,9 @@ public class PitchComparisonTutorController extends TutorController {
     private void goAction() {
         paneInit.setVisible(false);
         paneQuestions.setVisible(true);
-        paneResults.setVisible(false);
         record = new TutorRecord();
         manager.answered = 0;
-        List qPanes = new ArrayList<>();
+        qPanes = new ArrayList<>();
 
         if (lowerSet && upperSet) {
             questionRows.getChildren().clear();
@@ -159,7 +157,6 @@ public class PitchComparisonTutorController extends TutorController {
             };
 
             record.addQuestionAnswer(question);
-            env.getRootController().setTabTitle(getTabID(), true);
         } else if (((ToggleButton) row.getChildren().get(2)).isSelected()) { //Same
             row.getChildren().get(2).setStyle("-fx-text-fill: white;-fx-background-color: black");
             if (note1 == note2) correctChoice = 1;
@@ -170,7 +167,6 @@ public class PitchComparisonTutorController extends TutorController {
             };
 
             record.addQuestionAnswer(question);
-            env.getRootController().setTabTitle(getTabID(), true);
         } else if (((ToggleButton) row.getChildren().get(3)).isSelected()) { //Lower
             row.getChildren().get(3).setStyle("-fx-text-fill: white;-fx-background-color: black");
             if (noteComparison(false, note1, note2)) {
@@ -182,11 +178,9 @@ public class PitchComparisonTutorController extends TutorController {
                     correctChoice.toString()
             };
             record.addQuestionAnswer(question);
-            env.getRootController().setTabTitle(getTabID(), true);
         } else if (((ToggleButton) row.getChildren().get(4)).isSelected()) { //Skip
             row.getChildren().get(4).setStyle("-fx-text-fill: white;-fx-background-color: black");
             correctChoice = 2;
-            manager.questions -= 1;
 
             String[] question = new String[]{
                     String.format("Is %s higher or lower than %s", note2.getNote(), note1.getNote()),
@@ -194,19 +188,17 @@ public class PitchComparisonTutorController extends TutorController {
                     correctChoice.toString()
             };
             record.addQuestionAnswer(question);
-            env.getRootController().setTabTitle(getTabID(), true);
         }
 
         if (correctChoice == 1) {
             formatCorrectQuestion(row);
-            manager.answered += 1;
         } else if (correctChoice == 2) formatSkippedQuestion(row);
         else {
             formatIncorrectQuestion(row);
-            manager.answered += 1;
         }
         manager.add(new Pair<>(note1.getNote(), note2.getNote()), correctChoice);
 
+        handleAccordion();
         if (manager.answered == manager.questions) {
             finished();
         }

@@ -4,7 +4,6 @@ import org.controlsfx.control.CheckComboBox;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Random;
 
 import javafx.collections.ObservableList;
@@ -66,10 +65,9 @@ public class ScaleRecognitionTutorController extends TutorController {
             record = new TutorRecord();
             paneInit.setVisible(false);
             paneQuestions.setVisible(true);
-            paneResults.setVisible(false);
             manager.resetEverything();
             manager.questions = selectedQuestions;
-            List qPanes = new ArrayList<>();
+            qPanes = new ArrayList<>();
 
             this.playDirection = direction.getSelectionModel().getSelectedItem();
             this.playOctaves = octaves.getSelectionModel().getSelectedItem();
@@ -102,7 +100,7 @@ public class ScaleRecognitionTutorController extends TutorController {
         initialiseQuestionSelector();
         rand = new Random();
         direction.getItems().addAll("Up", "Down", "UpDown");
-        ccbScales.getItems().addAll("Major", "Minor", "Melodic Minor", "Blues", "Major Pentatonic", "Minor Pentatonic", "Major Mode", "Harmonic Minor");
+        ccbScales.getItems().addAll("Major", "Minor", "Melodic Minor", "Blues", "Major Pentatonic", "Minor Pentatonic", "Major Mode", "Melodic Minor Mode", "Harmonic Minor");
 
         ccbScales.getCheckModel().check(0); //Only major/minor selected by default
         ccbScales.getCheckModel().check(1);
@@ -156,7 +154,6 @@ public class ScaleRecognitionTutorController extends TutorController {
      * @param questionRow   The HBox containing GUI question data
      */
     public void handleQuestionAnswer(String userAnswer, Pair correctAnswer, HBox questionRow) {
-        manager.answered += 1;
         Integer correct;
         disableButtons(questionRow, 1, 3);
         if (userAnswer.equals(correctAnswer.getValue())) {
@@ -179,8 +176,8 @@ public class ScaleRecognitionTutorController extends TutorController {
                 correct.toString()
         };
         record.addQuestionAnswer(question);
-        env.getRootController().setTabTitle("scaleTutor", true);
 
+        handleAccordion();
         if (manager.answered == manager.questions) {
             finished();
         }
@@ -225,7 +222,6 @@ public class ScaleRecognitionTutorController extends TutorController {
             // Disables only input buttons
             disableButtons(questionRow, 1, 3);
             formatSkippedQuestion(questionRow);
-            manager.questions -= 1;
             manager.add(noteAndScaleType, 2);
             String[] question = new String[]{
                     String.format("%s scale from %s", scaleType, startNote.getNote()),
@@ -233,7 +229,7 @@ public class ScaleRecognitionTutorController extends TutorController {
                     "2"
             };
             record.addQuestionAnswer(question);
-            env.getRootController().setTabTitle(getTabID(), true);
+            handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
             }

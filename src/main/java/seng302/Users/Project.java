@@ -12,6 +12,7 @@ package seng302.Users;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.controlsfx.control.Notifications;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -28,8 +29,12 @@ import java.util.ArrayList;
 
 import javax.sound.midi.Instrument;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.util.Duration;
 import seng302.Environment;
 import seng302.utility.InstrumentUtility;
+import seng302.utility.LevelCalculator;
 import seng302.utility.OutputTuple;
 
 public class Project {
@@ -39,6 +44,11 @@ public class Project {
     JSONParser parser = new JSONParser(); //parser for reading project
 
     ProjectHandler projectHandler;
+
+    // Levels variables, will be updated as the user gains experience
+
+    private Integer experience;
+    private Integer level;
 
     Path projectDirectory;
     public String currentProjectPath, projectName;
@@ -50,6 +60,13 @@ public class Project {
 
     public Boolean isCompetitiveMode;
 
+    /**
+     * Constructor for creating a new project.
+     *
+     * @param env         The environment in which the project is being created
+     * @param projectName What the project will be called
+     * @param projectH    The ProjectHandler object which will manage this project
+     */
     public Project(Environment env, String projectName, ProjectHandler projectH) {
         this.projectName = projectName;
         this.projectDirectory = Paths.get(projectH.projectsDirectory + "/" + projectName);
@@ -58,6 +75,8 @@ public class Project {
         tutorHandler = new TutorHandler(env);
         projectHandler = projectH;
         isCompetitiveMode = true;
+        this.experience = 0;
+        this.level = 1;
 
         loadProject(projectName);
         loadProperties();
@@ -79,13 +98,17 @@ public class Project {
         Gson gson = new Gson();
         projectSettings.put("tempo", env.getPlayer().getTempo());
         String transcriptString = gson.toJson(env.getTranscriptManager().getTranscriptTuples());
-        //System.out.println("saveProperties called! " + env.getTranscriptManager().getTranscriptTuples().size());
+
         projectSettings.put("transcript", transcriptString);
 
 
         projectSettings.put("rhythm", gson.toJson(env.getPlayer().getRhythmHandler().getRhythmTimings()));
 
         projectSettings.put("instrument", gson.toJson(env.getPlayer().getInstrument().getName()));
+
+        // User level for current project
+        projectSettings.put("level", this.level);
+        projectSettings.put("experience", this.experience);
 
     }
 
@@ -147,6 +170,21 @@ public class Project {
         }
         env.getPlayer().setInstrument(instrument);
 
+        //User experience
+        try {
+            experience = Integer.parseInt(projectSettings.get("experience").toString());
+        } catch (NullPointerException e) {
+            //If XP has never been set (ie old account), default to 0
+            experience = 0;
+        }
+
+        //Level
+        try {
+            level = Integer.parseInt(projectSettings.get("level").toString());
+        } catch (NullPointerException e) {
+            //If level has never been set, (ie old account), default to 1
+            level = 1;
+        }
 
         env.getTranscriptManager().unsavedChanges = false;
 
@@ -176,7 +214,7 @@ public class Project {
      */
     public void saveProject(String projectAddress) {
 
-        //Add all settings to such as tempo speed to the project here.
+        //Add all settings such as tempo speed to the project here.
 
         try {
             Gson gson = new Gson();
@@ -187,8 +225,6 @@ public class Project {
             file.flush();
             file.close();
 
-            tutorHandler.saveTutorRecordsToFile(projectAddress);
-            env.getRootController().clearAllIndicators();
             projectSettings.put("tempo", env.getPlayer().getTempo());
             env.getRootController().setWindowTitle(projectName);
             currentProjectPath = projectAddress;
@@ -208,7 +244,6 @@ public class Project {
      */
     public void checkChanges(String propName) {
 
-        //Accepted values: tempo
         String saveName = (projectName == null) ? "No Project" : this.projectName;
 
         if (propName.equals("tempo")) {
@@ -318,5 +353,40 @@ public class Project {
         return currentProjectPath;
     }
 
+
+    /**
+     * When a user gains XP, eg by completing a tutoring session, this function is called. It adds
+     * their newly gained experience to their overall experience, and saves this info to their user
+     * file.
+     *
+     * @param addedExperience The integer amount of gained experience, to be added to the user
+     */
+    public void addExperience(int addedExperience) {
+        experience += addedExperience;
+
+        // Increases user levels one by one until the user cannot level up any further
+        while (LevelCalculator.isLevelUp(level, experience)) {
+            level += 1;
+            env.getRootController().updateLevelBadge();
+            Image image = new Image(getClass().getResourceAsStream("/images/arrow.png"), 110, 75, true, true);
+            Notifications.create()
+                    .title("Level Up")
+                    .text("Well done! \nYou are now level " + String.valueOf(level) + ".")
+                    .hideAfter(new Duration(10000))
+                    .graphic(new ImageView(image))
+                    .show();
+
+        }
+
+        saveProperties();
+    }
+
+    public Integer getExperience() {
+        return this.experience;
+    }
+
+    public Integer getLevel() {
+        return this.level;
+    }
 
 }

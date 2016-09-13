@@ -2,7 +2,6 @@ package seng302.gui;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Random;
 
 import javafx.event.ActionEvent;
@@ -75,11 +74,10 @@ public class MusicalTermsTutorController extends TutorController {
     void goAction(ActionEvent event) {
         paneInit.setVisible(false);
         paneQuestions.setVisible(true);
-        paneResults.setVisible(false);
         record = new TutorRecord();
         manager.resetEverything();
         manager.questions = selectedQuestions;
-        List qPanes = new ArrayList<>();
+        qPanes = new ArrayList<>();
 
         if (manager.questions >= 1) {
             termsBeingViewed = new ArrayList<Term>(dataManager.getTerms());
@@ -89,6 +87,16 @@ public class MusicalTermsTutorController extends TutorController {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setHeaderText("No Musical Terms Added");
                 alert.setContentText("There are no terms to be tested on. \nTo add them use the 'add musical term' command");
+                alert.setOnCloseRequest(Event -> {
+                    try {
+                        String tutorName = env.getRootController().getHeader();
+                        env.getRootController().showUserPage();
+                        env.getUserPageController().showPage(tutorName);
+                    } catch (Exception e) {
+                        paneQuestions.setVisible(false);
+                        paneInit.setVisible(true);
+                    }
+                });
                 alert.showAndWait();
                 paneInit.setVisible(true);
 
@@ -252,11 +260,11 @@ public class MusicalTermsTutorController extends TutorController {
                     correct.toString()
             };
             record.addQuestionAnswer(question);
-            env.getRootController().setTabTitle(getTabID(), true);
 
             styleAnswer(rowPane, currentTerm, originOptions, categoryOptions, definitionOptions);
 
             ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(1)).getChildren().get(1).setDisable(true);
+            handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -282,12 +290,12 @@ public class MusicalTermsTutorController extends TutorController {
                     correct.toString()
             };
             record.addQuestionAnswer(question);
-            env.getRootController().setTabTitle(getTabID(), true);
 
             styleAnswer(rowPane, currentTerm, categoryOptions, definitionOptions, originOptions);
 
             ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(2)).getChildren().get(1).setDisable(true);
 
+            handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -313,12 +321,12 @@ public class MusicalTermsTutorController extends TutorController {
                     correct.toString()
             };
             record.addQuestionAnswer(question);
-            env.getRootController().setTabTitle(getTabID(), true);
 
             styleAnswer(rowPane, currentTerm, definitionOptions, categoryOptions, originOptions);
 
             ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(3)).getChildren().get(1).setDisable(true);
 
+            handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -332,15 +340,14 @@ public class MusicalTermsTutorController extends TutorController {
                     "2"
             };
             record.addQuestionAnswer(question);
-            env.getRootController().setTabTitle("musicalTermTutor", true);
 
             formatSkippedQuestion(rowPane);
-            manager.questions -= 1;
             manager.add(new Pair(currentTerm.getMusicalTermName(), currentTerm), 2);
             ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(1)).getChildren().get(1).setDisable(true);
             ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(2)).getChildren().get(1).setDisable(true);
             ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(3)).getChildren().get(1).setDisable(true);
             ((VBox) (rowPane.getChildren().get(0))).getChildren().get(4).setDisable(true); //disable skip
+            handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -397,7 +404,6 @@ public class MusicalTermsTutorController extends TutorController {
 
             }
             ((VBox) (rowPane.getChildren().get(0))).getChildren().get(4).setDisable(true);
-            manager.answered += 1;
         }
     }
 

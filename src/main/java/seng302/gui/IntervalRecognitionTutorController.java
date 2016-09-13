@@ -4,7 +4,6 @@ import org.controlsfx.control.RangeSlider;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Random;
 
 import javafx.event.ActionEvent;
@@ -73,11 +72,10 @@ public class IntervalRecognitionTutorController extends TutorController {
     public void goAction(ActionEvent event) {
         paneInit.setVisible(false);
         paneQuestions.setVisible(true);
-        paneResults.setVisible(false);
         record = new TutorRecord();
         manager.resetEverything();
         manager.questions = selectedQuestions;
-        List qPanes = new ArrayList<>();
+        qPanes = new ArrayList<>();
 
         if (manager.questions >= 1) {
             // Run the tutor
@@ -157,7 +155,6 @@ public class IntervalRecognitionTutorController extends TutorController {
             // Disables only input buttons
             disableButtons(questionRow, 1, 3);
             formatSkippedQuestion(questionRow);
-            manager.questions -= 1;
             manager.add(pair, 2);
             String[] question = new String[]{
                     String.format("Interval between %s and %s", firstNote.getNote(), secondNote.getNote()),
@@ -165,7 +162,7 @@ public class IntervalRecognitionTutorController extends TutorController {
                     "2"
             };
             record.addQuestionAnswer(question);
-            env.getRootController().setTabTitle(getTabID(), true);
+            handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -183,7 +180,6 @@ public class IntervalRecognitionTutorController extends TutorController {
                 formatIncorrectQuestion(questionRow);
                 manager.add(pair, 0);
             }
-            manager.answered += 1;
             Integer correct = 0;
             if (options.getValue().equals(thisInterval.getName())) {
                 correct = 1;
@@ -195,8 +191,8 @@ public class IntervalRecognitionTutorController extends TutorController {
                     correct.toString()
             };
             record.addQuestionAnswer(question);
-            env.getRootController().setTabTitle(getTabID(), true);
             // Shows the correct answer
+            handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
             }
