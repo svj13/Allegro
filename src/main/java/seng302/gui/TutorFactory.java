@@ -63,6 +63,9 @@ public class TutorFactory {
             case "Diatonic Chord Tutor":
                 openDiatonicChordTutor();
                 break;
+            case "Scale Modes Tutor":
+                openScaleModesTutor();
+                break;
         }
     }
 
@@ -222,19 +225,13 @@ public class TutorFactory {
     private void openScaleModesTutor() {
 
 
-//            FXMLLoader loader = new FXMLLoader();
-//            loader.setLocation(getClass().getResource("/Views/ScaleModesPane.fxml"));
-//
-//            try {
-//                ScaleTab.setContent((Node) loader.load());
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//            TabPane.getTabs().add(ScaleTab);
-//            TabPane.getSelectionModel().select(ScaleTab);
-//             = loader.getController();
-//            saleModesController.create(env);
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/Views/ScaleModesPane.fxml"));
+
+        loadNode(loader);
+
+        ScaleModesTutorController scaleModesTutorController = loader.getController();
+        scaleModesTutorController.create(env);
 
 
     }

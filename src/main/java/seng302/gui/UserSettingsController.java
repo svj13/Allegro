@@ -13,6 +13,7 @@ import java.nio.file.Paths;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -38,7 +39,6 @@ public class UserSettingsController {
 
     @FXML
     private AnchorPane chordSpellingAnchor;
-
 
     @FXML
     private JFXButton btnUploadImage;
@@ -145,7 +145,7 @@ public class UserSettingsController {
 
         try {
             FileHandler.copyFolder(file, filePath.toFile());
-            userHandler.getCurrentUser().setUserPicture(new Image(filePath.toUri().toString()));
+            userHandler.getCurrentUser().setUserPicture(filePath);
             imageDP.setImage(userHandler.getCurrentUser().getUserPicture());
             env.getRootController().updateImage();
         } catch (Exception e) {
