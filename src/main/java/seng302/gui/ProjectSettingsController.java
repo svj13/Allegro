@@ -19,6 +19,7 @@ import seng302.utility.InstrumentUtility;
 
 /**
  * Controller class for the GUI used to change project-based settings.
+ * TODO: add undo support?
  */
 public class ProjectSettingsController {
 
@@ -33,6 +34,9 @@ public class ProjectSettingsController {
 
     @FXML
     private JFXComboBox instrumentSelector;
+
+    @FXML
+    private JFXComboBox rhythmSelector;
 
     private Environment env;
 
@@ -64,6 +68,8 @@ public class ProjectSettingsController {
         });
 
         setupInstrumentSelector();
+
+        setupRhythmSelector();
     }
 
     @FXML
@@ -94,6 +100,30 @@ public class ProjectSettingsController {
         instrumentSelector.valueProperty().addListener((observable, oldValue, newValue) -> {
             env.getPlayer().setInstrument(InstrumentUtility.getInstrumentByName((String) newValue, env));
             projectHandler.getCurrentProject().checkChanges("instrument");
+        });
+    }
+
+    private void setupRhythmSelector() {
+        String[] rhythmOptions = {"Straight", "Light", "Medium", "Heavy", "Custom"};
+        rhythmSelector.getItems().setAll(rhythmOptions);
+
+        rhythmSelector.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.equals("Custom")) {
+                // Handle this separately
+            } else {
+                String rhythmStyle = newValue.toString();
+                float[] divisions;
+                if (rhythmStyle.equals("Heavy")) {
+                    divisions = new float[]{3.0f / 4.0f, 1.0f / 4.0f};
+                } else if (rhythmStyle.equals("Medium")) {
+                    divisions = new float[]{2.0f / 3.0f, 1.0f / 3.0f};
+                } else if (rhythmStyle.equals("Light")) {
+                    divisions = new float[]{5.0f / 8.0f, 3.0f / 8.0f};
+                } else if (rhythmStyle.equals("Straight")) {
+                    divisions = new float[]{0.5f};
+                    env.getPlayer().getRhythmHandler().setRhythmTimings(divisions);
+                }
+            }
         });
     }
 }

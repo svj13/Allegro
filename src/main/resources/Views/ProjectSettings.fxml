@@ -60,6 +60,9 @@
                                             <padding>
                                                 <Insets left="20.0" />
                                             </padding>
+                                 <children>
+                                    <JFXComboBox fx:id="rhythmSelector" />
+                                 </children>
                                         </HBox>
                                     </children>
                                 </VBox>
