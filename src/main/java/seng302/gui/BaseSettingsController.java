@@ -1,11 +1,10 @@
 package seng302.gui;
 
-import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXListView;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.jfoenix.controls.JFXListView;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,16 +25,13 @@ public class BaseSettingsController {
     @FXML
     private UISkinnerController themeC;
 
-    private FXMLLoader userSettingsLoader, themeLoader;
+    private ProjectSettingsController projectSettingsController;
+
+    private FXMLLoader userSettingsLoader, themeLoader, projectSettingsLoader;
 
 
     @FXML
     private AnchorPane settingsPane;
-
-    @FXML
-    private JFXButton btnUserSettings;
-    @FXML
-    private JFXButton btnThemeSettings;
 
     @FXML
     JFXListView settingsOptions;
@@ -76,6 +72,7 @@ public class BaseSettingsController {
         ArrayList<String> options = new ArrayList<>();
         options.add("User Settings");
         options.add("Theme Settings");
+        options.add("Project Settings");
 
         settingsOptions.getItems().addAll(FXCollections.observableArrayList(options));
 
@@ -108,6 +105,9 @@ public class BaseSettingsController {
                 break;
 
 
+            case "Project Settings":
+                openProjectSettings();
+                break;
         }
 
     }
@@ -134,6 +134,24 @@ public class BaseSettingsController {
 
         }
 
+
+    }
+
+    private void openProjectSettings() {
+        try {
+            projectSettingsLoader = new FXMLLoader();
+            projectSettingsLoader.setLocation(getClass().getResource("/Views/ProjectSettings.fxml"));
+            Node loadedPane = (Node) projectSettingsLoader.load();
+            settingsPane.getChildren().setAll(loadedPane);
+            this.setAnchors(loadedPane);
+            projectSettingsController = projectSettingsLoader.getController();
+            projectSettingsController.create(env);
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
 
     }
 
