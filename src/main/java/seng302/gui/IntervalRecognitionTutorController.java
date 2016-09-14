@@ -71,7 +71,6 @@ public class IntervalRecognitionTutorController extends TutorController {
     private int generateRangesliderDefault(){
         Random rand = new Random();
         int num = rand.nextInt(127);
-        System.out.println(num);
         if(num + 24 > 127){
             return 103;
         }else{

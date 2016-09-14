@@ -88,8 +88,6 @@ public class PitchComparisonTutorController extends TutorController {
 
                 int lowerPitchBound = ((Double) rangeSlider.getLowValue()).intValue();
                 int upperPitchBound = ((Double) rangeSlider.getHighValue()).intValue();
-                System.out.println(lowerPitchBound);
-                System.out.println(upperPitchBound);
                 int pitchRange = upperPitchBound - lowerPitchBound;
                 String midiOne = String.valueOf(lowerPitchBound + rand.nextInt(pitchRange + 1));
                 String midiTwo = String.valueOf(lowerPitchBound + rand.nextInt(pitchRange + 1));
@@ -124,7 +122,6 @@ public class PitchComparisonTutorController extends TutorController {
      */
     private int generateRangesliderDefault(){
         int num = rand.nextInt(127);
-        System.out.println(num);
         if(num + 24 > 127){
             return 103;
         }else{

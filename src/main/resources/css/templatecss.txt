@@ -260,22 +260,24 @@
     -fx-text-fill: {3};
 }
 
+#flatDropDown {
+    -fx-background-radius: 0 6 6 6, 0 5 5 5, 0 4 4 4;
+}
 
 .flatDropDown .menu-button {
     -fx-background-radius: 0;
     -fx-background-radius: 1 1 1 1;
-    -fx-background-color: {1};
+    -fx-background-color: white;
 
 }
 
-.flatDropDown .menu-button .label {
-        -fx-text-fill: {3}
+.flatDropDown .menu-button .label{
+        -fx-text-fill: black
 }
 
 
 .flatDropDown .menu-button > .arrow-button {
     -fx-padding: 0;
-
 
 }
 
@@ -460,7 +462,18 @@
 }
 
 .menu-item:focused {
-	-fx-background-color: {1};
+	-fx-background-color: {0};
+}
+
+.menu-item:focused .label {
+    -fx-text-fill: {2};
+}
+
+.menu-item .label {
+    -fx-text-fill: black;
+}
+.menu-item {
+    -fx-background-color: white;
 }
 
 
