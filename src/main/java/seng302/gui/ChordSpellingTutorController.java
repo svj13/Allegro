@@ -20,6 +20,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
@@ -176,7 +178,7 @@ public class ChordSpellingTutorController extends TutorController {
         String answerForm = inputTypeBox.getValue().toString();
 
         //Generates either 1 or 2: The type of question
-        Integer questionType = rand.nextInt(2) + 1;
+        Integer questionType = rand.nextInt(3) + 1;
 
         Pair<String, Integer> questionSettings = new Pair<>(answerForm, questionType);
 
@@ -215,7 +217,7 @@ public class ChordSpellingTutorController extends TutorController {
 
         Button skip = new Button("Skip");
         styleSkipButton(skip);
-//        Button submitButton = new Button("Submit");
+        Button playButton = new Button();
 
         if (questionType == 1) {
             boolean fourNotes = false;
@@ -337,7 +339,7 @@ public class ChordSpellingTutorController extends TutorController {
                     inputs.getChildren().add(note4);
                 }
             } else {
-                //Type A question
+                //textfield type one question.
                 question.setText(chordName);
                 correctAnswer = correctAnswer(chordAsString(chordNotes));
 
@@ -389,7 +391,6 @@ public class ChordSpellingTutorController extends TutorController {
                 note2.setEditable(false);
                 note3.setEditable(false);
                 note4.setEditable(false);
-
 
                 // Focus listeners
                 note1.focusedProperty().addListener(new ChangeListener<Boolean>()
@@ -476,7 +477,7 @@ public class ChordSpellingTutorController extends TutorController {
             }
 
 
-        } else {
+        } else if (questionType == 2) {
             //Type 2 questions
             skip.setOnAction(event -> {
                 String[] questionInfo = new String[]{
@@ -557,30 +558,196 @@ public class ChordSpellingTutorController extends TutorController {
                 inputs.getChildren().add(possibleNames);
             }
 
+        } else {
+            // Question type == 3
+
+            boolean fourNotes = false;
+            //Type three questions
+            String[] selectedNotes = new String[4];
+            String[] correctNotes = new String[4];
+
+            for (int i = 0; i < 3; i++) {
+                correctNotes[i] = OctaveUtil.removeOctaveSpecifier(chordNotes.get(i).getNote());
+            }
+
+            try {
+                correctNotes[3] = OctaveUtil.removeOctaveSpecifier(chordNotes.get(3).getNote());
+                fourNotes = true;
+            } catch (Exception e) {
+                //there is no fourth note
+                correctNotes[3] = "";
+                selectedNotes[3] = "";
+            }
+            final boolean four = fourNotes;
+
+            skip.setOnAction(event -> {
+                String[] questionInfo = new String[]{
+                        String.format(typeOneText, chordName),
+                        chordAsString(chordNotes),
+                        "2"
+
+                };
+
+                handleSkippedQuestion(questionInfo, questionRow, resetData, questionType);
+            });
+
+            stylePlayButton(playButton);
+//            final ArrayList<Note> chordNotesToPlay = new ArrayList<>();
+//            chordNotesToPlay.add(Note.lookup(OctaveUtil.addDefaultOctave(chordNotes[0])));
+            playButton.setOnAction(event -> {
+                //Play the chord
+                env.getPlayer().playSimultaneousNotes(chordNotes);
+                try {
+                    Thread.sleep(((long) env.getPlayer().getTempo() * 10));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                env.getPlayer().playNotes(chordNotes);
+            });
+
+            correctAnswer = correctAnswer(chordAsString(chordNotes));
+
+            Button submitButton = new Button("Submit");
+
+            TextField note1 = new TextField();
+            note1.setEditable(false);
+
+            note1.setOnAction(event -> {
+                //Store the answer
+                String selectedNote = note1.getText();
+                selectedNotes[0] = selectedNote;
+            });
+            TextField note2 = new TextField();
+
+            note2.setOnAction(event -> {
+                //Store the answer
+                String selectedNote = note2.getText();
+                selectedNotes[1] = selectedNote;
+            });
+            TextField note3 = new TextField();
+
+            note3.setOnAction(event -> {
+                //Store the answer
+                String selectedNote = note3.getText();
+                selectedNotes[2] = selectedNote;
+            });
+            TextField note4 = new TextField();
+            if (fourNotes) {
+                note4.focusedProperty().addListener(new ChangeListener<Boolean>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                        if (newPropertyValue) {
+                            env.setCurrentFocussed(note4, false, submitButton);
+                        }
+                    }
+                });
+                note4.setOnAction(event -> {
+                    //Store the answer
+                    String selectedNote = note4.getText();
+                    selectedNotes[3] = selectedNote;
+                });
+            }
+            // Editable properties
+            note1.setEditable(false);
+            note2.setEditable(false);
+            note3.setEditable(false);
+            note4.setEditable(false);
+
+            // Focus listeners
+            note1.focusedProperty().addListener(new ChangeListener<Boolean>() {
+                @Override
+                public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                    if (newPropertyValue) {
+                        System.out.println("setFalse");
+                        env.setCurrentFocussed(note1, false, note2);
+                    }
+                }
+            });
+
+            note2.focusedProperty().addListener(new ChangeListener<Boolean>() {
+                @Override
+                public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                    if (newPropertyValue) {
+                        env.setCurrentFocussed(note2, false, note3);
+                    }
+                }
+            });
+
+            note3.focusedProperty().addListener(new ChangeListener<Boolean>() {
+                @Override
+                public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                    if (newPropertyValue) {
+                        if (four) {
+                            env.setCurrentFocussed(note3, false, note4);
+                        } else {
+                            env.setCurrentFocussed(note3, false, submitButton);
+                        }
+                    }
+                }
+            });
+            submitButton.setOnAction(event -> {
+                if (!noteEnharmonicComparison(Note.lookup(OctaveUtil.addDefaultOctave(note1.getText())), Note.lookup(OctaveUtil.addDefaultOctave(correctNotes[0])))) {
+                    note1.setStyle("-fx-background-color: green");
+                } else {
+                    note1.setStyle("-fx-background-color: red");
+                }
+                if (!noteEnharmonicComparison(Note.lookup(OctaveUtil.addDefaultOctave(note2.getText())), Note.lookup(OctaveUtil.addDefaultOctave(correctNotes[1])))) {
+                    note2.setStyle("-fx-background-color: green");
+                } else {
+                    note2.setStyle("-fx-background-color: red");
+                }
+                if (!noteEnharmonicComparison(Note.lookup(OctaveUtil.addDefaultOctave(note3.getText())), Note.lookup(OctaveUtil.addDefaultOctave(correctNotes[2])))) {
+                    note3.setStyle("-fx-background-color: green");
+                } else {
+                    note3.setStyle("-fx-background-color: red");
+                }
+                if (four) {
+                    if (!noteEnharmonicComparison(Note.lookup(OctaveUtil.addDefaultOctave(note4.getText())), Note.lookup(OctaveUtil.addDefaultOctave(correctNotes[3])))) {
+                        note4.setStyle("-fx-background-color: green");
+                    } else {
+                        note4.setStyle("-fx-background-color: red");
+                    }
+                }
+
+                String selection = String.join(" ", selectedNotes);
+                handleCompletedQuestion(questionRow, 1, resetData, selection, answerFom);
+                inputs.setDisable(true);
+            });
+
+            note1.setPrefWidth(100);
+            note2.setPrefWidth(100);
+            note3.setPrefWidth(100);
+            note4.setPrefWidth(100);
+
+            inputs.getChildren().add(note1);
+            inputs.getChildren().add(note2);
+            inputs.getChildren().add(note3);
+            if (fourNotes) {
+                inputs.getChildren().add(note4);
+            }
         }
 
-        if (((Pair) data.getValue()).getKey().equals("dropdown")) {
-            // All questions without text input.
+        if (questionType == 1) {
+            //Type 1 questions
+            questionRow.getChildren().add(0, question);
+            questionRow.getChildren().add(1, inputs);
+//                questionRow.getChildren().add(2, submitButton);
+            questionRow.getChildren().add(2, skip);
+            questionRow.getChildren().add(3, correctAnswer);
+        } else if (questionType == 2) {
+            //Type 2 questions
             questionRow.getChildren().add(0, question);
             questionRow.getChildren().add(1, inputs);
             questionRow.getChildren().add(2, skip);
             questionRow.getChildren().add(3, correctAnswer);
-        } else {
-            if (questionType == 1) {
-                //Type 1 questions with text input.
-                questionRow.getChildren().add(0, question);
-                questionRow.getChildren().add(1, inputs);
-//                questionRow.getChildren().add(2, submitButton);
-                questionRow.getChildren().add(2, skip);
-                questionRow.getChildren().add(3, correctAnswer);
-            } else {
-                //Type 2 questions
-                questionRow.getChildren().add(0, question);
-                questionRow.getChildren().add(1, inputs);
-                questionRow.getChildren().add(2, skip);
-                questionRow.getChildren().add(3, correctAnswer);
-            }
+        } else if (questionType == 3) {
+            questionRow.getChildren().add(0, playButton);
+            questionRow.getChildren().add(1, inputs);
+            questionRow.getChildren().add(2, skip);
+            questionRow.getChildren().add(3, correctAnswer);
+
         }
+
 
         questionRow.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
         return questionRow;
@@ -850,7 +1017,7 @@ public class ChordSpellingTutorController extends TutorController {
         int correctParts = 0;
         int numberOfParts = inputs.getChildren().size();
         for (Object input : inputs.getChildren()) {
-            if (answerForm.equals("dropdown")) {
+            if (input instanceof ComboBox) {
                 ComboBox<String> thisInput = (ComboBox<String>) input;
                 if (thisInput.getStyle().contains("green")) {
                     //this part was correct
@@ -911,7 +1078,7 @@ public class ChordSpellingTutorController extends TutorController {
         //0 for wrong, 1 for right, 2 for partially correct
         int correctnessValue;
 
-        if (questionType == 1) {
+        if (questionType == 1 || questionType == 3) {
             //check question of type 1
             correctnessValue = typeOneQuestionCorrectness(inputs, answerForm);
             questionText = String.format(typeOneText, ((Pair) data.getKey()).getKey());
@@ -1024,5 +1191,15 @@ public class ChordSpellingTutorController extends TutorController {
         chordTypes.getCheckModel().checkIndices(0, 1);
         numEnharmonics.getSelectionModel().selectFirst();
         allowFalseChords.setSelected(false);
+    }
+
+    /**
+     * Consistently styles all play buttons
+     *
+     * @param play the button to be styled
+     */
+    public void stylePlayButton(Button play) {
+        Image imagePlay = new Image(getClass().getResourceAsStream("/images/play-icon.png"), 20, 20, true, true);
+        play.setGraphic(new ImageView(imagePlay));
     }
 }
