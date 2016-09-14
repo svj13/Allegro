@@ -1,5 +1,7 @@
 package seng302.gui;
 
+import com.jfoenix.controls.JFXButton;
+
 import org.controlsfx.control.PopOver;
 
 import java.util.ArrayList;
@@ -377,7 +379,7 @@ public class KeyboardPaneController {
 
         //OK button for display scale 1. Contains all of the error handling and toggles to Hide when clicked.
         //OK displays the given scale on the keyboard. Hide removes them but doesnt clear the input fields
-        Button okScale1 = new Button("OK");
+        JFXButton okScale1 = new JFXButton("OK");
         okScale1.getStyleClass().add("primary");
         okScale1.setOnAction(event-> {
             if (okScale1.getText().equals("OK")) {
@@ -413,7 +415,7 @@ public class KeyboardPaneController {
 
         //OK button for display scale 2. Contains all of the error handling and toggles to Hide when clicked.
         //OK displays the given scale on the keyboard. Hide removes them but doesnt clear the input fields
-        Button okScale2 = new Button ("OK");
+        JFXButton okScale2 = new JFXButton("OK");
         okScale2.getStyleClass().add("primary");
         okScale2.setOnAction(event-> {
             if (okScale2.getText().equals("OK")) {
