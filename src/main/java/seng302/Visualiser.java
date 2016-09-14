@@ -20,7 +20,7 @@ public class Visualiser implements MetaEventListener {
 
     @Override
     public void meta(MetaMessage meta) {
-        if (env.getUserHandler().getCurrentUser().getVisualiserOn() && !env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().isCompetitiveMode) {
+        if (env.getUserHandler().getCurrentUser().getVisualiserOn() && !env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().getIsCompetitiveMode()) {
             // Only visualise if the setting is turned on
             String message = new String(meta.getData());
             String[] messageParts = message.split(" ");

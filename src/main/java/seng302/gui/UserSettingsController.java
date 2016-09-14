@@ -5,9 +5,6 @@ import com.jfoenix.controls.JFXPopup;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXToggleButton;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -16,7 +13,6 @@ import java.nio.file.Paths;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -99,12 +95,10 @@ public class UserSettingsController {
         }
         visualiserToggle.getStyleClass().remove(0);
 
-        if (this.userHandler.getCurrentUser().getProjectHandler().getCurrentProject().isCompetitiveMode) {
+        if (this.userHandler.getCurrentUser().getProjectHandler().getCurrentProject().getIsCompetitiveMode()) {
             System.out.println("competitive mode");
             // do not show the visualiser options
-            visualiserToggle.setVisible(false);
-            visualiserToggle.setSelected(false);
-            visualiserLabel.setVisible(false);
+            toggleShowHideVisualiser(false);
         } else {
             System.out.println("not competitive mode");
             try {
@@ -121,6 +115,34 @@ public class UserSettingsController {
                 visualiserLabel.setText("Keyboard Visualiser OFF");
             }
         }
+
+        visualiserToggle.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                userHandler.getCurrentUser().setVisualiserOn(true);
+                userHandler.getCurrentUser().updateProperties();
+                userHandler.getCurrentUser().saveProperties();
+                visualiserLabel.setText("Keyboard Visualiser ON");
+
+            } else {
+                userHandler.getCurrentUser().setVisualiserOn(false);
+                userHandler.getCurrentUser().updateProperties();
+                userHandler.getCurrentUser().saveProperties();
+                visualiserLabel.setText("Keyboard Visualiser OFF");
+            }
+        });
+
+        modeToggle.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            Project currentProject = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject();
+            if (newValue) {
+                // Competition Mode
+                currentProject.setIsCompetitiveMode(true);
+                toggleShowHideVisualiser(false);
+            } else {
+                // Practice mode
+                currentProject.setIsCompetitiveMode(false);
+                toggleShowHideVisualiser(true);
+            }
+        });
     }
 
     @FXML
@@ -246,32 +268,11 @@ public class UserSettingsController {
 
     }
 
-    @FXML
-    private void toggleVisualiser() {
-        if (visualiserToggle.isSelected()) {
-            userHandler.getCurrentUser().setVisualiserOn(true);
-            userHandler.getCurrentUser().updateProperties();
-            userHandler.getCurrentUser().saveProperties();
-            visualiserLabel.setText("Keyboard Visualiser ON");
-        } else {
-            userHandler.getCurrentUser().setVisualiserOn(false);
-            userHandler.getCurrentUser().updateProperties();
-            userHandler.getCurrentUser().saveProperties();
-            visualiserLabel.setText("Keyboard Visualiser OFF");
-        }
-    }
-
-
-    @FXML
-    private void toggleBetweenModes() {
-        Project currentProject = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject();
-        if (modeToggle.isSelected()) {
-            // Competition Mode
-            currentProject.setIsCompetitiveMode(true);
-        } else {
-            // Practice mode
-            currentProject.setIsCompetitiveMode(false);
-        }
+    private void toggleShowHideVisualiser(boolean isShow) {
+        visualiserToggle.setVisible(isShow);
+        visualiserLabel.setVisible(isShow);
+        visualiserToggle.setManaged(isShow);
+        visualiserLabel.setManaged(isShow);
     }
 }
 
