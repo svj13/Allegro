@@ -77,22 +77,36 @@
                         </HBox>
                      </children>
                   </AnchorPane>
-                  <AnchorPane maxHeight="100.0" minHeight="0.0" minWidth="0.0" prefHeight="72.0"
+                  <AnchorPane maxHeight="100.0" minHeight="0.0" minWidth="0.0"
+                              prefHeight="72.0"
                               prefWidth="698.0">
                       <children>
-                          <HBox alignment="CENTER_LEFT" layoutX="110.0" layoutY="-23.0"
+                          <VBox alignment="CENTER_LEFT"
                                 maxHeight="100.0" prefHeight="100.0" prefWidth="200.0"
                                 AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
                                 AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                              <children>
-                                  <JFXToggleButton fx:id="modeToggle" layoutX="128.0"
-                                                   layoutY="258.0" onAction="#toggleBetweenModes"/>
-                                  <Label layoutX="14.0" layoutY="279.0" text="Competition Mode"/>
-                              </children>
-                              <padding>
-                                  <Insets left="20.0"/>
-                              </padding>
-                          </HBox>
+                              <HBox>
+                                  <children>
+                                      <JFXToggleButton fx:id="modeToggle" layoutX="128.0"/>
+                                      <Label layoutX="14.0"
+                                             text="Competition Mode"/>
+                                  </children>
+                                  <padding>
+                                      <Insets left="20.0"/>
+                                  </padding>
+                              </HBox>
+                              <HBox>
+                                  <children>
+                                      <JFXToggleButton fx:id="visualiserToggle"
+                                                       layoutX="128.0"/>
+                                      <Label fx:id="visualiserLabel" layoutX="14.0"
+                                             text="Keyboard Visualiser Off"/>
+                                  </children>
+                                  <padding>
+                                      <Insets left="20.0"/>
+                                  </padding>
+                              </HBox>
+                          </VBox>
                       </children>
                   </AnchorPane>
               </items>

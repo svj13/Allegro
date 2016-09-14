@@ -43,11 +43,12 @@ public class Environment {
     //userpage
     private UserPageController userPageController;
 
+
     private UserHandler userHandler;
 
     public Environment() {
         executor = new DslExecutor(this);
-        player = new MusicPlayer();
+        player = new MusicPlayer(new Visualiser(this));
         transcriptManager = new TranscriptManager();
         mttDataManager = new MusicalTermsTutorBackEnd();
         shiftPressed = new SimpleBooleanProperty(false);
@@ -61,7 +62,7 @@ public class Environment {
      */
     public void resetProjectEnvironment() {
         executor = new DslExecutor(this);
-        player = new MusicPlayer();
+        player = new MusicPlayer(new Visualiser(this));
         transcriptManager = new TranscriptManager();
         recordLocation = null;
         em = new EditHistory(this);
@@ -72,7 +73,7 @@ public class Environment {
      */
     public void resetEnvironment() {
         executor = new DslExecutor(this);
-        player = new MusicPlayer();
+        player = new MusicPlayer(new Visualiser(this));
         transcriptManager = new TranscriptManager();
         mttDataManager = new MusicalTermsTutorBackEnd();
         recordLocation = null;

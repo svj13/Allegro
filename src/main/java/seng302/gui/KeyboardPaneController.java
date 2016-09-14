@@ -902,4 +902,59 @@ public class KeyboardPaneController {
     public Boolean isPlayMode() {
         return playMode;
     }
+
+    /**
+     * Used for visualisation. Finds the key representing the specified midi number, and turns it
+     * blue.
+     *
+     * @param midiValue The value for which key will be turned blue
+     */
+    public void highlightKey(int midiValue) {
+        String colourName;
+        try {
+            colourName = env.getThemeHandler().getPrimaryColour();
+        } catch (Exception e) {
+            colourName = "blue";
+        }
+        String whiteStyle = "-fx-border-color: black; -fx-border-width: 1px; -fx-background-color: " + colourName;
+        String blackStyle = "-fx-border-color: black; -fx-border-width: 1px; -fx-background-color: " + colourName;
+        ObservableList<Node> keys = keyboardBox.getChildren();
+        for (Node key : keys) {
+            if (key instanceof TouchPane && ((TouchPane) key).getNoteValue().getMidi() == midiValue) {
+                key.setStyle(whiteStyle);
+            }
+        }
+
+        ObservableList<Node> bKeys = blackKeys.getChildren();
+        for (Node key : bKeys) {
+            if (key instanceof TouchPane && ((TouchPane) key).getNoteValue().getMidi() == midiValue) {
+                key.setStyle(blackStyle);
+            }
+        }
+
+    }
+
+    /**
+     * Used for visualisation. Finds the key representing the specified midi number,
+     * and turns the visualiser highlight off.
+     * @param midiValue The value for which key will be turned blue
+     */
+    public void removeHighlight(int midiValue) {
+        String whiteStyle = "-fx-border-color: black; -fx-border-width: 1px; -fx-background-color: white";
+        String blackStyle = "-fx-border-color: black; -fx-border-width: 1px; -fx-background-color: black";
+        ObservableList<Node> keys = keyboardBox.getChildren();
+        for (Node key : keys) {
+            if (key instanceof TouchPane && ((TouchPane) key).getNoteValue().getMidi() == midiValue) {
+                key.setStyle(whiteStyle);
+            }
+        }
+
+        ObservableList<Node> bKeys = blackKeys.getChildren();
+        for (Node key : bKeys) {
+            if (key instanceof TouchPane && ((TouchPane) key).getNoteValue().getMidi() == midiValue) {
+                key.setStyle(blackStyle);
+            }
+        }
+
+    }
 }
