@@ -1,6 +1,7 @@
 package seng302.gui;
 
 import com.jfoenix.controls.JFXBadge;
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListCell;
 import com.jfoenix.controls.JFXListView;
 
@@ -10,13 +11,17 @@ import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -41,6 +46,9 @@ public class UserPageController {
 
     @FXML
     JFXListView listView;
+
+    @FXML
+    private JFXButton btnSettings;
 
 
     @FXML
@@ -95,7 +103,6 @@ public class UserPageController {
 
 
         imageDP2.setImage(env.getUserHandler().getCurrentUser().getUserPicture());
-        imageDP2.setOnMouseClicked(e -> env.getRootController().launchSettings());
         updateLevelBadge();
 
         try {
@@ -259,6 +266,32 @@ public class UserPageController {
         } else {
             showTutorStats(pageName);
         }
+
+
+    }
+
+    /**
+     *  OnClick action for the UserPage settings button.
+     *  Opens a context menu with settings/logout options
+     */
+    @FXML
+    void openSettings(MouseEvent e) {
+
+        MenuItem menuItemSettings = new MenuItem("Settings");
+
+        MenuItem menuItemLogout = new MenuItem("Logout");
+
+        menuItemLogout.setOnAction(k -> env.getRootController().logOutUser());
+
+        menuItemSettings.setOnAction(e2 -> env.getRootController().launchSettings());
+        ContextMenu settingsDropDown = new ContextMenu();
+        settingsDropDown.getItems().addAll(menuItemSettings,menuItemLogout);
+
+        settingsDropDown.setStyle("-fx-background-radius: 0 6 6 6, 0 5 5 5, 0 4 4 4;");
+
+        btnSettings.setContextMenu(settingsDropDown);
+
+        settingsDropDown.show(btnSettings, e.getScreenX(), e.getScreenY());
 
 
     }
