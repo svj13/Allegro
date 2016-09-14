@@ -2,7 +2,6 @@
 
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXSlider?>
-<?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -36,15 +35,19 @@
                                         <Label text="Tempo" />
                                         <HBox prefHeight="100.0">
                                             <children>
-                                                <JFXSlider fx:id="tempoSlider" majorTickUnit="20.0" max="300.0" min="20.0" value="120.0">
+                                                <JFXSlider fx:id="tempoSlider" majorTickUnit="20.0"
+                                                           max="300.0" min="20.0" minorTickCount="1"
+                                                           value="120.0">
                                                     <padding>
                                                         <Insets top="5.0" />
                                                     </padding>
                                                 </JFXSlider>
-                                                <JFXTextField fx:id="tempoText" maxWidth="104.0" minWidth="36.0" prefHeight="33.0" prefWidth="104.0" promptText="Tempo Value" />
+                                                <Label fx:id="tempoText" maxWidth="104.0"
+                                                       minWidth="36.0" prefHeight="33.0"
+                                                       prefWidth="104.0"/>
                                             </children>
                                             <padding>
-                                                <Insets top="10.0" />
+                                                <Insets left="10.0" top="10.0"/>
                                             </padding>
                                         </HBox>
                                     </children>
@@ -63,6 +66,9 @@
                                  <children>
                                     <JFXComboBox fx:id="rhythmSelector" />
                                  </children>
+                                            <VBox.margin>
+                                                <Insets left="10.0"/>
+                                            </VBox.margin>
                                         </HBox>
                                     </children>
                                 </VBox>

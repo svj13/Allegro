@@ -2,7 +2,6 @@ package seng302.gui;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXSlider;
-import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 
 import java.util.ArrayList;
@@ -11,10 +10,10 @@ import java.util.List;
 import javax.sound.midi.Instrument;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import seng302.Environment;
 import seng302.Users.Project;
 import seng302.Users.ProjectHandler;
-import seng302.command.Tempo;
 import seng302.utility.InstrumentUtility;
 
 /**
@@ -27,7 +26,7 @@ public class ProjectSettingsController {
     private JFXSlider tempoSlider;
 
     @FXML
-    private JFXTextField tempoText;
+    private Label tempoText;
 
     @FXML
     private JFXToggleButton modeToggle;
@@ -60,12 +59,20 @@ public class ProjectSettingsController {
             modeToggle.setSelected(true);
         }
 
+        tempoText.setText(Integer.toString(env.getPlayer().getTempo()));
+        tempoSlider.setValue(env.getPlayer().getTempo());
+
         // The listener for the number of questions selected
         tempoSlider.valueProperty().addListener((observable, newValue, oldValue) -> {
             tempoText.setText(Integer.toString(newValue.intValue()));
-            new Tempo(Integer.toString(newValue.intValue()), false).execute(env);
-            env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().checkChanges("tempo");
+
+            if (newValue.intValue() >= 20 && newValue.intValue() <= 300) {
+                env.getPlayer().setTempo(newValue.intValue());
+                projectHandler.getCurrentProject().checkChanges("tempo");
+
+            }
         });
+
 
         setupInstrumentSelector();
 
