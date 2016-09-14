@@ -6,10 +6,8 @@ import com.jfoenix.controls.JFXSlider;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 import java.util.Random;
 
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -51,7 +49,7 @@ public class ScaleModesTutorController extends TutorController {
         rand = new Random();
         ccbModes.getItems().addAll("Major Scales", "Melodic Minor Scales", "Both");
 
-        if(currentProject.isCompetitiveMode){
+        if (currentProject.getIsCompetitiveMode()) {
             ccbModes.setValue("Both");
             ccbModes.setDisable(true);
 
@@ -331,7 +329,12 @@ public class ScaleModesTutorController extends TutorController {
             // Disables only input buttons
             disableButtons(questionRow, 1, 3);
             formatSkippedQuestion(questionRow);
-            manager.add(data, 2);
+            if (isCompMode) {
+                // No skips in competition mode
+                manager.add(data, 0);
+            } else {
+                manager.add(data, 2);
+            }
             String questionString;
 
             if (getTypeOfQuestion(questionAnswer) == 1) {

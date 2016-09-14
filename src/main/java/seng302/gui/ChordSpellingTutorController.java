@@ -81,7 +81,7 @@ public class ChordSpellingTutorController extends TutorController {
         initialiseChordTypeSelector();
 
         numEnharmonics.getItems().addAll("only one", "all");
-        if(currentProject.isCompetitiveMode){
+        if (currentProject.getIsCompetitiveMode()) {
             numEnharmonics.setValue("all");
             numEnharmonics.setDisable(true);
             allowFalseChords.setDisable(true);
@@ -103,7 +103,7 @@ public class ChordSpellingTutorController extends TutorController {
             chordTypes.getItems().add(validChordName);
         }
 
-        if(currentProject.isCompetitiveMode){
+        if (currentProject.getIsCompetitiveMode()) {
             chordTypes.getCheckModel().checkAll();
             chordTypes.setDisable(true);
 
@@ -804,7 +804,12 @@ public class ChordSpellingTutorController extends TutorController {
         // Disables only input buttons
         disableButtons(questionRow, 1, 3);
         formatSkippedQuestion(questionRow);
-        manager.add(new Pair<>(finalData, questionType), 2);
+        if (isCompMode) {
+            // No skips in competition mode
+            manager.add(new Pair<>(finalData, questionType), 0);
+        } else {
+            manager.add(new Pair<>(finalData, questionType), 2);
+        }
 
         record.addQuestionAnswer(questionInfo);
 

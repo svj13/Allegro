@@ -52,7 +52,7 @@ public class IntervalRecognitionTutorController extends TutorController {
         initialiseQuestionSelector();
 //        initaliseRangeSelector();
 
-        if(currentProject.isCompetitiveMode){
+        if (currentProject.getIsCompetitiveMode()) {
             int lowValue = generateRangesliderDefault();
             rangeSlider = new NoteRangeSlider(notes, 12, lowValue, lowValue+24);
             rangeSlider.setDisable(true);
@@ -171,7 +171,13 @@ public class IntervalRecognitionTutorController extends TutorController {
             // Disables only input buttons
             disableButtons(questionRow, 1, 3);
             formatSkippedQuestion(questionRow);
-            manager.add(pair, 2);
+            if (isCompMode) {
+                // No skips in competition mode
+                manager.add(pair, 0);
+            } else {
+                manager.add(pair, 2);
+            }
+
             String[] question = new String[]{
                     String.format("Interval between %s and %s", firstNote.getNote(), secondNote.getNote()),
                     thisInterval.getName(),

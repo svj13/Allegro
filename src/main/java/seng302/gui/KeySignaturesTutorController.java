@@ -89,7 +89,7 @@ public class KeySignaturesTutorController extends TutorController {
         formBox.getItems().addAll("Listing sharps/flats", "Number of sharps/flats");
         answerBox.getItems().addAll("Show Key Signature", "Show Name");
 
-        if(currentProject.isCompetitiveMode){
+        if (currentProject.getIsCompetitiveMode()) {
             scaleBox.setDisable(true);
             scaleBox.setValue("Both");
             formBox.setDisable(true);
@@ -130,7 +130,7 @@ public class KeySignaturesTutorController extends TutorController {
         int questionType;
         boolean answerType;
 
-        if(currentProject.isCompetitiveMode){
+        if (currentProject.getIsCompetitiveMode()) {
             Random rand = new Random();
             scaletype = "both";
             questionType = rand.nextInt(2);
@@ -229,7 +229,13 @@ public class KeySignaturesTutorController extends TutorController {
         skip.setOnAction(event -> {
             // Disables only input buttons
             formatSkippedQuestion(questionRow);
-            manager.add(pair, 2);
+            if (isCompMode) {
+                // No skips in competition mode
+                manager.add(pair, 0);
+            } else {
+                manager.add(pair, 2);
+            }
+
             String correctAnswer = findCorrectAnswerNumSharpFlat(pair, question);
             if (pair.getKey().equals("both")) {
                 disableButtons(questionRow, 1, 4);
@@ -483,7 +489,13 @@ public class KeySignaturesTutorController extends TutorController {
         skip.setOnAction(event -> {
             // Disables only input buttons
             formatSkippedQuestion(questionRow);
-            manager.add(pair, 2);
+            if (isCompMode) {
+                // No skips in competition mode
+                manager.add(pair, 0);
+            } else {
+                manager.add(pair, 2);
+            }
+
             String correctAnswer = "";
 
             Boolean isBoth = false;
@@ -799,7 +811,13 @@ public class KeySignaturesTutorController extends TutorController {
             // Disables only input buttons
             disableButtons(questionRow, 1, 3);
             formatSkippedQuestion(questionRow);
-            manager.add(pair, 2);
+            if (isCompMode) {
+                // No skips in competition mode
+                manager.add(pair, 0);
+            } else {
+                manager.add(pair, 2);
+            }
+
             String correctAnswer;
 
             if (fIsMajor) {
