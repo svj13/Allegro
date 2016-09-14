@@ -81,7 +81,6 @@ public class UISkinnerController {
         env.getThemeHandler().setTheme(baseRgb, lighterOrDarker);
         env.getUserHandler().getCurrentUser().saveProperties();
 
-        env.getRootController().getBaseSettingsController().updateSelectedTab();
 
     }
 
@@ -150,6 +149,22 @@ public class UISkinnerController {
      */
     private String floatToRGBString(int[] rgbArray) {
         return (String.format("rgb(%s, %s, %s)", rgbArray[0], rgbArray[1], rgbArray[2]));
+    }
+
+    /**
+     * Converts a color represented as a hex to an rgb
+     *
+     * @param colorStr e.g. "#FFFFFF"
+     * @return rgb Color
+     */
+    private static String hex2Rgb(String colorStr) {
+        int r = Integer.valueOf(colorStr.substring(2, 4), 16);
+        int g = Integer.valueOf(colorStr.substring(4, 6), 16);
+        int b = Integer.valueOf(colorStr.substring(6, 8), 16);
+
+        String result = "rgb(" + r + ", " + g + ", " + b + ")";
+
+        return result;
     }
 
 }

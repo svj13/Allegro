@@ -237,7 +237,7 @@ public class TutorStatsController {
 
         } catch (IndexOutOfBoundsException e) {
             //There are no records for the selected tutor.
-            System.err.println("There are no records for the" + tutor);
+            System.err.println("There are no records for the " + tutor);
         }
 
 
