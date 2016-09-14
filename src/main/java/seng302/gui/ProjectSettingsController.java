@@ -17,8 +17,7 @@ import seng302.Users.ProjectHandler;
 import seng302.utility.InstrumentUtility;
 
 /**
- * Controller class for the GUI used to change project-based settings.
- * TODO: add undo support?
+ * Controller class for the GUI used to change project-based settings. TODO: add undo support?
  */
 public class ProjectSettingsController {
 
@@ -100,8 +99,26 @@ public class ProjectSettingsController {
     }
 
     private void setupRhythmSelector() {
+        String currentDivisions = env.getPlayer().getRhythmHandler().toString();
+
         String[] rhythmOptions = {"Straight", "Light", "Medium", "Heavy"};
         rhythmSelector.getItems().setAll(rhythmOptions);
+
+        switch (currentDivisions) {
+            case "Rhythm beat divisions: 3/4 1/4":
+                rhythmSelector.setValue("Heavy");
+                break;
+            case "Rhythm beat divisions: 2/3 1/3":
+                rhythmSelector.setValue("Medium");
+                break;
+            case "Rhythm beat divisions: 5/8 3/8":
+                rhythmSelector.setValue("Light");
+                break;
+            case "Rhythm beat divisions: 1/2":
+                rhythmSelector.setValue("Straight");
+                break;
+        }
+
 
         rhythmSelector.valueProperty().addListener((observable, oldValue, newValue) -> {
             String rhythmStyle = newValue.toString();
@@ -112,10 +129,12 @@ public class ProjectSettingsController {
                 divisions = new float[]{2.0f / 3.0f, 1.0f / 3.0f};
             } else if (rhythmStyle.equals("Light")) {
                 divisions = new float[]{5.0f / 8.0f, 3.0f / 8.0f};
-            } else if (rhythmStyle.equals("Straight")) {
+            } else {
+                //selection was "straight"
                 divisions = new float[]{0.5f};
-                env.getPlayer().getRhythmHandler().setRhythmTimings(divisions);
             }
+            env.getPlayer().getRhythmHandler().setRhythmTimings(divisions);
+            projectHandler.getCurrentProject().checkChanges("rhythm");
 
         });
     }
