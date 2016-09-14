@@ -3,6 +3,7 @@ package seng302.gui;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPopup;
 import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXToggleButton;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,6 +57,15 @@ public class UserSettingsController {
     @FXML
     private JFXButton btnDeleteUser;
 
+    @FXML
+    private JFXToggleButton modeToggle;
+
+    @FXML
+    private JFXToggleButton visualiserToggle;
+
+    @FXML
+    private Label visualiserLabel;
+
     private Environment env;
 
     private UserHandler userHandler;
@@ -74,6 +84,54 @@ public class UserSettingsController {
             txtFName.clear();
             txtFName.clear();
         }
+        visualiserToggle.getStyleClass().remove(0);
+
+        if (this.userHandler.getCurrentUser().getProjectHandler().getCurrentProject().getIsCompetitiveMode()) {
+            // do not show the visualiser options
+            toggleShowHideVisualiser(false);
+        } else {
+            try {
+                boolean visualiserOn = userHandler.getCurrentUser().getProjectHandler().getCurrentProject().getVisualiserOn();
+                visualiserToggle.setSelected(visualiserOn);
+                if (visualiserOn) {
+                    visualiserLabel.setText("Keyboard Visualiser ON");
+                } else {
+                    visualiserLabel.setText("Keyboard Visualiser OFF");
+                }
+            } catch (Exception e) {
+                // Default to off
+                visualiserToggle.setSelected(false);
+                visualiserLabel.setText("Keyboard Visualiser OFF");
+            }
+        }
+
+        visualiserToggle.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                userHandler.getCurrentUser().getProjectHandler().getCurrentProject().setVisualiserOn(true);
+                userHandler.getCurrentUser().updateProperties();
+                userHandler.getCurrentUser().saveProperties();
+                visualiserLabel.setText("Keyboard Visualiser ON");
+
+            } else {
+                userHandler.getCurrentUser().getProjectHandler().getCurrentProject().setVisualiserOn(false);
+                userHandler.getCurrentUser().updateProperties();
+                userHandler.getCurrentUser().saveProperties();
+                visualiserLabel.setText("Keyboard Visualiser OFF");
+            }
+        });
+
+        modeToggle.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            Project currentProject = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject();
+            if (newValue) {
+                // Competition Mode
+                currentProject.setIsCompetitiveMode(true);
+                toggleShowHideVisualiser(false);
+            } else {
+                // Practice mode
+                currentProject.setIsCompetitiveMode(false);
+                toggleShowHideVisualiser(true);
+            }
+        });
     }
 
     @FXML
@@ -197,6 +255,19 @@ public class UserSettingsController {
             e.printStackTrace();
         }
 
+    }
+
+    /**
+     * Updates the GUI to show or hide the visualiser toggle and label.
+     *
+     * @param isShow If false, hide the visualiser toggle and its label. Else, show the visualiser
+     *               and its toggle.
+     */
+    private void toggleShowHideVisualiser(boolean isShow) {
+        visualiserToggle.setVisible(isShow);
+        visualiserLabel.setVisible(isShow);
+        visualiserToggle.setManaged(isShow);
+        visualiserLabel.setManaged(isShow);
     }
 }
 

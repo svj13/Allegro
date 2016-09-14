@@ -50,7 +50,6 @@ public class User {
 
     private String userLastName;
 
-
     /**
      * User constructor used for generating new users.
      *
@@ -149,6 +148,7 @@ public class User {
         } catch (NullPointerException e) {
             themeSecondary = "white";
         }
+
 
         projectHandler = new ProjectHandler(env, userName);
 
