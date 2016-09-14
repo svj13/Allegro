@@ -124,6 +124,7 @@ public class StageMapController {
     private void launchMusicalTermsTutor() {
 //        userPageController.setCurrentTutor("Musical Terms Tutor");
         env.getRootController().getTutorFactory().openTutor("Musical Terms Tutor");
+
     }
 
     @FXML
