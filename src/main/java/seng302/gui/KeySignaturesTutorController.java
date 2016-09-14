@@ -133,7 +133,7 @@ public class KeySignaturesTutorController extends TutorController {
         if(currentProject.isCompetitiveMode){
             Random rand = new Random();
             scaletype = "both";
-            questionType = rand.nextInt(1);
+            questionType = rand.nextInt(2);
             answerType = rand.nextBoolean();
         }else {
 
