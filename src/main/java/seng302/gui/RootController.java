@@ -227,13 +227,28 @@ public class RootController implements Initializable {
      */
     @FXML
     private void closeApplication() {
+
+        showCloseWindow("close");
+
+    }
+
+
+    /**
+     * handles checking whether the project is saved, and shows a dialogue if necessary.
+     * @param option close option either 'close' or 'logout'.
+     */
+    protected void showCloseWindow(String option){
         if (env.getUserHandler().getCurrentUser() != null && !env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().isSaved()) {
+
+            String closeText = option == "close" ? "Quit" : "Logout";
+
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("Unsaved changes");
 
             ButtonType btnSaveProject = new ButtonType("Save project");
 
-            ButtonType btnQuit = new ButtonType("Quit");
+
+            ButtonType btnQuit = new ButtonType(closeText);
             ButtonType btnCancel = new ButtonType("Cancel");
 
             alert.getButtonTypes().setAll(btnSaveProject, btnQuit, btnCancel);
@@ -245,9 +260,20 @@ public class RootController implements Initializable {
 
             if (result.get() == btnSaveProject) {
                 env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().saveCurrentProject();
-                System.exit(0);
+                if(option == "close"){
+                    System.exit(0);
+                }
+                else if(option == "logout"){
+                    logOutUser();
+                }
+
             } else if (result.get() == btnQuit) {
-                System.exit(0);
+                if(option == "close"){
+                    System.exit(0);
+                }
+                else if(option == "logout"){
+                    logOutUser();
+                }
             }
 
 
@@ -259,8 +285,10 @@ public class RootController implements Initializable {
             System.exit(0);
         }
 
-
     }
+
+
+
 
     @FXML
     private void showHideKeyboard() {
@@ -381,7 +409,17 @@ public class RootController implements Initializable {
 
     }
 
+    /**
+     * User dropdown logout option.
+     */
     @FXML
+    private void logoutButtonClick(){
+        showCloseWindow("logout");
+    }
+
+    /**
+     * Handles logging out the user showing the login screen.
+     */
     public void logOutUser(){
         try {
             stage.close();
@@ -389,7 +427,6 @@ public class RootController implements Initializable {
         }catch(Exception e){
 
         }
-
 
     }
 
