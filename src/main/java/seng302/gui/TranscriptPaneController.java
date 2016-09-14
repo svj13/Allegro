@@ -102,6 +102,9 @@ public class TranscriptPaneController {
         }
     }
 
+    /**
+     * Displays the transcript in a split pane, to the right of the main window
+     */
     public void showTranscript() {
         playbackToolbar.setMaxWidth(Region.USE_COMPUTED_SIZE);
         txtTranscript.setMaxWidth(Region.USE_COMPUTED_SIZE);

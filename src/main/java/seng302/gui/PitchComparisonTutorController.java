@@ -142,7 +142,7 @@ public class PitchComparisonTutorController extends TutorController {
         super.create(env);
         initialiseQuestionSelector();
 
-        if(currentProject.isCompetitiveMode){
+        if (currentProject.getIsCompetitiveMode()) {
             int lowValue = generateRangesliderDefault();
             rangeSlider = new NoteRangeSlider(notes, 12, lowValue, lowValue+24);
             rangeSlider.setDisable(true);

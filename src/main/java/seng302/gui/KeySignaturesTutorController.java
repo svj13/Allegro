@@ -89,7 +89,7 @@ public class KeySignaturesTutorController extends TutorController {
         formBox.getItems().addAll("Listing sharps/flats", "Number of sharps/flats");
         answerBox.getItems().addAll("Show Key Signature", "Show Name");
 
-        if(currentProject.isCompetitiveMode){
+        if (currentProject.getIsCompetitiveMode()) {
             scaleBox.setDisable(true);
             scaleBox.setValue("Both");
             formBox.setDisable(true);
@@ -130,7 +130,7 @@ public class KeySignaturesTutorController extends TutorController {
         int questionType;
         boolean answerType;
 
-        if(currentProject.isCompetitiveMode){
+        if (currentProject.getIsCompetitiveMode()) {
             Random rand = new Random();
             scaletype = "both";
             questionType = rand.nextInt(2);

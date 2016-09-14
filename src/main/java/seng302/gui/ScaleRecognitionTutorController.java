@@ -105,7 +105,7 @@ public class ScaleRecognitionTutorController extends TutorController {
         ccbScales.getItems().addAll("Major", "Minor", "Melodic Minor", "Blues", "Major Pentatonic", "Minor Pentatonic", "Major Mode", "Melodic Minor Mode", "Harmonic Minor");
         octaves.getItems().addAll(1, 2, 3, 4);
 
-        if(currentProject.isCompetitiveMode){
+        if (currentProject.getIsCompetitiveMode()) {
             if(fullTutor){
                 ccbScales.getCheckModel().checkAll();
 

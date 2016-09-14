@@ -81,7 +81,7 @@ public class ChordSpellingTutorController extends TutorController {
         initialiseChordTypeSelector();
 
         numEnharmonics.getItems().addAll("only one", "all");
-        if(currentProject.isCompetitiveMode){
+        if (currentProject.getIsCompetitiveMode()) {
             numEnharmonics.setValue("all");
             numEnharmonics.setDisable(true);
             allowFalseChords.setDisable(true);
@@ -103,7 +103,7 @@ public class ChordSpellingTutorController extends TutorController {
             chordTypes.getItems().add(validChordName);
         }
 
-        if(currentProject.isCompetitiveMode){
+        if (currentProject.getIsCompetitiveMode()) {
             chordTypes.getCheckModel().checkAll();
             chordTypes.setDisable(true);
 

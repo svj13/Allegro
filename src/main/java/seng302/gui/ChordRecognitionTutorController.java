@@ -85,7 +85,7 @@ public class ChordRecognitionTutorController extends TutorController {
         octaves.getItems().addAll(1, 2, 3, 4);
         chordTypeBox.getItems().addAll("3 Notes", "4 Notes", "Both");
 
-        if(currentProject.isCompetitiveMode){
+        if (currentProject.getIsCompetitiveMode()) {
             playChords.setValue("Both");
             playChords.setDisable(true);
             octaves.setValue(1);
