@@ -175,7 +175,6 @@ public class PitchComparisonTutorController extends TutorController {
 
 
         if (((ToggleButton) row.getChildren().get(1)).isSelected()) { //Higher\
-            row.getChildren().get(1).setStyle("-fx-text-fill: white;-fx-background-color: black");
             if (noteComparison(true, note1, note2)) correctChoice = 1;
             String[] question = new String[]{
                     String.format("Is %s higher or lower than %s", note2.getNote(), note1.getNote()),
@@ -185,7 +184,6 @@ public class PitchComparisonTutorController extends TutorController {
 
             record.addQuestionAnswer(question);
         } else if (((ToggleButton) row.getChildren().get(2)).isSelected()) { //Same
-            row.getChildren().get(2).setStyle("-fx-text-fill: white;-fx-background-color: black");
             if (note1 == note2) correctChoice = 1;
             String[] question = new String[]{
                     String.format("Is %s higher or lower than %s", note2.getNote(), note1.getNote()),
@@ -195,7 +193,6 @@ public class PitchComparisonTutorController extends TutorController {
 
             record.addQuestionAnswer(question);
         } else if (((ToggleButton) row.getChildren().get(3)).isSelected()) { //Lower
-            row.getChildren().get(3).setStyle("-fx-text-fill: white;-fx-background-color: black");
             if (noteComparison(false, note1, note2)) {
                 correctChoice = 1;
             }
@@ -206,7 +203,6 @@ public class PitchComparisonTutorController extends TutorController {
             };
             record.addQuestionAnswer(question);
         } else if (((ToggleButton) row.getChildren().get(4)).isSelected()) { //Skip
-            row.getChildren().get(4).setStyle("-fx-text-fill: white;-fx-background-color: black");
             correctChoice = 2;
 
             String[] question = new String[]{

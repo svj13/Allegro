@@ -640,10 +640,10 @@ public class ChordSpellingTutorController extends TutorController {
         String selectedNote = note.getValue();
         if (isCorrect) {
             //style green
-            note.setStyle("-fx-background-color: green");
+            note.setStyle("-fx-border-color: green");
         } else {
             //style red
-            note.setStyle("-fx-background-color: red");
+            note.setStyle("-fx-border-color: red");
         }
         note.setDisable(true);
     }

@@ -429,7 +429,39 @@
     -fx-text-size: 10;
 }
 
+.combo-box-base, .choice-box {
+	-fx-background-color: transparent;
+	-fx-border-color: {0};
+	-fx-border-width: 0 0 2 0;
+	-fx-background-radius: 0;
+	-fx-border-radius: 0;
+}
 
+.combo-box:focused, .choice-box:focused {
+	-fx-border-color: {0};
+}
+
+.combo-box-base>.label, .choice-box>.label {
+	-fx-padding: 0.3em 0.3em 0.3em 0em;
+}
+
+.combo-box-base>.arrow-button, .choice-box>.open-button {
+	-fx-padding: 1em 0.7em 1em 0.5em;
+	-fx-background-radius: 0.0 2.0 2.0 0.0;
+}
+
+.combo-box-base>.arrow-button>.arrow, .choice-box>.open-button>.arrow {
+	-fx-background-color: {0};
+}
+
+.combo-box-base .arrow-button:hover .arrow, .spinner .increment-arrow-button:hover .increment-arrow,
+	.spinner .decrement-arrow-button:hover .decrement-arrow {
+	-fx-background-color: grey;
+}
+
+.menu-item:focused {
+	-fx-background-color: {1};
+}
 
 
 
