@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXSlider?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXToggleButton?>
@@ -10,97 +11,95 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="seng302.gui.ProjectSettingsController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.ProjectSettingsController">
     <children>
-        <VBox layoutX="42.0" layoutY="81.0" maxHeight="1.7976931348623157E308"
-              maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0"
-              AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-              AnchorPane.topAnchor="0.0">
+        <VBox layoutX="42.0" layoutY="81.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <HBox alignment="CENTER_LEFT" prefHeight="39.0" prefWidth="700.0"
-                      styleClass="primary">
+                <HBox alignment="CENTER_LEFT" prefHeight="39.0" prefWidth="700.0" styleClass="primary">
                     <children>
-                        <Label alignment="TOP_CENTER" contentDisplay="CENTER" styleClass="primary"
-                               text="User Settings" textFill="WHITE">
+                        <Label alignment="TOP_CENTER" contentDisplay="CENTER" styleClass="primary" text="User Settings" textFill="WHITE">
                             <font>
-                                <Font name="Droid Sans Bold" size="21.0"/>
+                                <Font name="Droid Sans Bold" size="21.0" />
                             </font>
                             <HBox.margin>
-                                <Insets left="20.0"/>
+                                <Insets left="20.0" />
                             </HBox.margin>
                         </Label>
                     </children>
                 </HBox>
-                <SplitPane dividerPositions="0.28883495145631066, 0.5" orientation="VERTICAL"
-                           prefHeight="416.0" prefWidth="700.0" styleClass="noDivider">
+                <SplitPane dividerPositions="0.28883495145631066, 0.5, 0.5" orientation="VERTICAL" prefHeight="416.0" prefWidth="700.0" styleClass="noDivider">
                     <items>
-                        <AnchorPane maxHeight="140.0" minHeight="0.0" minWidth="0.0"
-                                    prefHeight="31.0" prefWidth="118.0">
+                        <AnchorPane maxHeight="140.0" minHeight="0.0" minWidth="0.0" prefHeight="31.0" prefWidth="118.0">
                             <children>
-                                <VBox>
+                                <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                     <children>
-                                        <Label text="Tempo"/>
+                                        <Label text="Tempo" />
                                         <HBox prefHeight="100.0">
                                             <children>
-                                                <JFXSlider fx:id="tempoSlider" majorTickUnit="20.0"
-                                                           max="300.0" min="20.0" value="120.0">
+                                                <JFXSlider fx:id="tempoSlider" majorTickUnit="20.0" max="300.0" min="20.0" value="120.0">
                                                     <padding>
-                                                        <Insets top="5.0"/>
+                                                        <Insets top="5.0" />
                                                     </padding>
                                                 </JFXSlider>
-                                                <JFXTextField fx:id="tempoText" maxWidth="104.0"
-                                                              minWidth="36.0" prefHeight="33.0"
-                                                              prefWidth="104.0"
-                                                              promptText="Tempo Value"/>
+                                                <JFXTextField fx:id="tempoText" maxWidth="104.0" minWidth="36.0" prefHeight="33.0" prefWidth="104.0" promptText="Tempo Value" />
                                             </children>
                                             <padding>
-                                                <Insets top="10.0"/>
+                                                <Insets top="10.0" />
                                             </padding>
                                         </HBox>
                                     </children>
                                 </VBox>
                             </children>
                         </AnchorPane>
-                        <AnchorPane maxHeight="100.0" minHeight="0.0" minWidth="0.0"
-                                    prefHeight="72.0" prefWidth="698.0">
+                        <AnchorPane maxHeight="100.0" minHeight="0.0" minWidth="0.0" prefHeight="72.0" prefWidth="698.0">
                             <children>
-                                <VBox>
+                                <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                     <children>
-                                        <Label text="Rhythm"/>
-                                        <HBox alignment="CENTER_LEFT" maxHeight="100.0"
-                                              prefHeight="100.0" prefWidth="200.0">
+                                        <Label text="Rhythm" />
+                                        <HBox alignment="CENTER_LEFT" maxHeight="100.0" prefHeight="100.0" prefWidth="200.0">
                                             <padding>
-                                                <Insets left="20.0"/>
+                                                <Insets left="20.0" />
                                             </padding>
                                         </HBox>
                                     </children>
                                 </VBox>
                             </children>
                         </AnchorPane>
-                        <AnchorPane maxHeight="100.0" minHeight="0.0" minWidth="0.0"
-                                    prefHeight="72.0" prefWidth="698.0">
+                        <AnchorPane maxHeight="100.0" minHeight="0.0" minWidth="0.0" prefHeight="72.0" prefWidth="698.0">
                             <children>
-                                <VBox>
+                                <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                     <children>
-                                        <Label text="Mode"/>
-                                        <HBox alignment="CENTER_LEFT" maxHeight="100.0"
-                                              prefHeight="100.0" prefWidth="200.0">
-                                            <JFXToggleButton fx:id="modeToggle" layoutX="128.0"
-                                                             layoutY="258.0"
-                                                             onAction="#toggleBetweenModes"/>
-                                            <Label layoutX="14.0" layoutY="279.0"
-                                                   text="Competition Mode"/>
+                                        <Label text="Instrument" />
+                                        <HBox alignment="CENTER_LEFT" maxHeight="100.0" prefHeight="100.0" prefWidth="200.0">
                                             <padding>
-                                                <Insets left="20.0"/>
+                                                <Insets left="20.0" />
                                             </padding>
+                                 <children>
+                                    <JFXComboBox fx:id="instrumentSelector" />
+                                 </children>
                                         </HBox>
                                     </children>
                                 </VBox>
                             </children>
                         </AnchorPane>
+                  <AnchorPane maxHeight="100.0" minHeight="0.0" minWidth="0.0" prefHeight="72.0" prefWidth="698.0">
+                     <children>
+                        <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Label text="Mode" />
+                              <HBox alignment="CENTER_LEFT" maxHeight="100.0" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <JFXToggleButton fx:id="modeToggle" layoutX="128.0" layoutY="258.0" onAction="#toggleBetweenModes" />
+                                    <Label layoutX="14.0" layoutY="279.0" text="Competition Mode" />
+                                 </children>
+                                 <padding>
+                                    <Insets left="20.0" />
+                                 </padding>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
                     </items>
                 </SplitPane>
             </children>
