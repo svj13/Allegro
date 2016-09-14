@@ -1,12 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.input.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import com.jfoenix.controls.JFXBadge?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -138,7 +131,7 @@
                     <children>
                         <Label fx:id="txtHeader" styleClass="primaryText" text="header">
                             <font>
-                                <Font name="Droid Sans Bold" size="21.0"/>
+                                <Font name="Droid Sans Bold" size="20.0"/>
                             </font>
                         </Label>
                     </children>
