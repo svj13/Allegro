@@ -52,7 +52,9 @@ public class BaseSettingsController {
     }
 
     /**
-     * Used sort of as a constructor to pass through all necessary data to be used by the baseSettings.
+     * Used sort of as a constructor to pass through all necessary data to be used by the
+     * baseSettings.
+     *
      * @param env Program environment.
      */
     public void create(Environment env) {
@@ -61,13 +63,12 @@ public class BaseSettingsController {
         openUserSettings();
 
 
-
     }
 
     /**
      * Populates the side menu with settings options.
      */
-    private void populateListView(){
+    private void populateListView() {
 
         ArrayList<String> options = new ArrayList<>();
         options.add("User Settings");
@@ -91,11 +92,12 @@ public class BaseSettingsController {
 
     /**
      * Launches the settings page
-     * @param settings settigns identifier (User Settings/Theme Settings)
+     *
+     * @param settings settings identifier (User Settings/Theme Settings)
      */
-    private void launchSettings(String settings){
+    private void launchSettings(String settings) {
 
-        switch(settings){
+        switch (settings) {
             case "User Settings":
                 openUserSettings();
                 break;
@@ -137,6 +139,10 @@ public class BaseSettingsController {
 
     }
 
+    /**
+     * Displays the project settings view where the user will be able to change their instrument,
+     * tempo, rhythm, and mode.
+     */
     private void openProjectSettings() {
         try {
             projectSettingsLoader = new FXMLLoader();
@@ -187,20 +193,6 @@ public class BaseSettingsController {
             e.printStackTrace();
         }
     }
-
-    /**
-     *  Loads the project settings view and opens it inside the settings pane.
-     *
-     */
-//    @FXML
-//    void openProjectSettings() {
-//
-//
-//        btnProjectSettings.setStyle(String.format("-fx-background-color: %s", env.getThemeHandler().getPrimaryColour()));
-//        // btnProjectSettings.setStyle("-fx-background-color: #223768");
-//        btnThemeSettings.setStyle("");
-//        btnUserSettings.setStyle("");
-//    }
 
 
 }

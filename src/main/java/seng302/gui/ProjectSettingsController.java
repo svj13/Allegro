@@ -4,7 +4,7 @@ import seng302.Environment;
 import seng302.Users.ProjectHandler;
 
 /**
- * Created by emily on 14/09/16.
+ * Controller class for the GUI used to change project-based settings.
  */
 public class ProjectSettingsController {
 
@@ -12,6 +12,10 @@ public class ProjectSettingsController {
 
     private ProjectHandler projectHandler;
 
+    /**
+     * Links the project settings controller to the environment, so it has access to the current
+     * project and settings.
+     */
     public void create(Environment env) {
         this.env = env;
         env.getRootController().setHeader("Project Settings");
