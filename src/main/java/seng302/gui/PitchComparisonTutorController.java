@@ -196,7 +196,14 @@ public class PitchComparisonTutorController extends TutorController {
         else {
             formatIncorrectQuestion(row);
         }
-        manager.add(new Pair<>(note1.getNote(), note2.getNote()), correctChoice);
+
+        if (isCompMode && correctChoice == 2) {
+            // No skips in competition mode
+            manager.add(new Pair<>(note1.getNote(), note2.getNote()), 0);
+        } else {
+            manager.add(new Pair<>(note1.getNote(), note2.getNote()), correctChoice);
+        }
+
 
         handleAccordion();
         if (manager.answered == manager.questions) {

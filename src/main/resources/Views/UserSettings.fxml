@@ -10,7 +10,6 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <AnchorPane fx:id="chordSpellingAnchor" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="450.0" prefWidth="700.0" stylesheets="@../css/user_settings.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.UserSettingsController">
@@ -90,6 +89,24 @@
                            </children>
                         </HBox>
                      </children>
+                  </AnchorPane>
+                  <AnchorPane maxHeight="100.0" minHeight="0.0" minWidth="0.0" prefHeight="72.0"
+                              prefWidth="698.0">
+                      <children>
+                          <HBox alignment="CENTER_LEFT" layoutX="110.0" layoutY="-23.0"
+                                maxHeight="100.0" prefHeight="100.0" prefWidth="200.0"
+                                AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                                AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <children>
+                                  <JFXToggleButton fx:id="modeToggle" layoutX="128.0"
+                                                   layoutY="258.0" onAction="#toggleBetweenModes"/>
+                                  <Label layoutX="14.0" layoutY="279.0" text="Competition Mode"/>
+                              </children>
+                              <padding>
+                                  <Insets left="20.0"/>
+                              </padding>
+                          </HBox>
+                      </children>
                   </AnchorPane>
                   <AnchorPane maxHeight="100.0" prefHeight="100.0" prefWidth="698.0">
                       <children>

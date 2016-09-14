@@ -95,6 +95,27 @@ public class TranscriptPaneController {
         transcriptAnchor.setVisible(false);
         transcriptAnchor.setMinWidth(0);
         transcriptAnchor.setMaxWidth(0);
+        try {
+            env.getRootController().resizeSplitPane(1.0);
+        } catch (Exception e) {
+            //env not yet loaded
+        }
+    }
+
+    public void showTranscript() {
+        playbackToolbar.setMaxWidth(Region.USE_COMPUTED_SIZE);
+        txtTranscript.setMaxWidth(Region.USE_COMPUTED_SIZE);
+        txtCommand.setMaxWidth(Region.USE_COMPUTED_SIZE);
+        btnGo.setMaxWidth(Region.USE_COMPUTED_SIZE);
+        transcriptAnchor.setVisible(true);
+        transcriptAnchor.setMaxWidth(Region.USE_COMPUTED_SIZE);
+        isExpanded = true;
+        try {
+            env.getRootController().resizeSplitPane(0.75);
+        } catch (Exception e) {
+            //env not yet loaded
+        }
+
     }
 
     /**
@@ -291,21 +312,17 @@ public class TranscriptPaneController {
         txtCommand.positionCaret(txtCommand.getText().length());
     }
 
-    public void showTranscript() {
+    public void toggleTranscript() {
         if (!isExpanded) {
-            playbackToolbar.setMaxWidth(Region.USE_COMPUTED_SIZE);
-            txtTranscript.setMaxWidth(Region.USE_COMPUTED_SIZE);
-            txtCommand.setMaxWidth(Region.USE_COMPUTED_SIZE);
-            btnGo.setMaxWidth(Region.USE_COMPUTED_SIZE);
-            transcriptAnchor.setVisible(true);
-            transcriptAnchor.setMaxWidth(Region.USE_COMPUTED_SIZE);
-            isExpanded = true;
-            env.getRootController().resizeSplitPane(0.75);
+            showTranscript();
         } else {
             hideTranscript();
-            env.getRootController().resizeSplitPane(1.0);
         }
 
+    }
+
+    public boolean getIsExpanded() {
+        return isExpanded;
     }
 
 }

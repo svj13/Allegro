@@ -2,6 +2,7 @@ package seng302.gui;
 
 import com.jfoenix.controls.JFXSlider;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,6 +20,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.util.Pair;
 import seng302.Environment;
 import seng302.Users.Project;
@@ -46,6 +48,14 @@ public abstract class TutorController {
     public TutorHandler tutorHandler;
 
     public List qPanes;
+    public boolean isCompMode;
+
+
+    Stage stage;
+
+    File fileDir;
+
+    String path;
 
     @FXML
     VBox questionRows;
@@ -80,13 +90,14 @@ public abstract class TutorController {
         manager = new TutorManager();
         currentProject = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject();
         tutorHandler = currentProject.getTutorHandler();
+        isCompMode = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().getIsCompetitiveMode();
     }
 
     /**
      * Implements the settings of a slider used to select number of questions.
      */
     public void initialiseQuestionSelector() {
-        if (env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().isCompetitiveMode) {
+        if (env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().getIsCompetitiveMode()) {
             numQuestions.setValue(10);
             numQuestions.setDisable(true);
             selectedQuestions = 10;
@@ -145,7 +156,7 @@ public abstract class TutorController {
         //Calculates and gives a user their experience.
         //Note: I've ignored "skipped questions" here, as you won't be able to "skip" a
         //question in competition mode.
-        if (env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().isCompetitiveMode) {
+        if (env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().getIsCompetitiveMode()) {
             int expGained = ExperienceCalculator.calculateExperience(manager.correct, manager.questions);
             env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().addExperience(expGained);
         }

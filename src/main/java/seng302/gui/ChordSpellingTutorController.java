@@ -790,7 +790,12 @@ public class ChordSpellingTutorController extends TutorController {
         // Disables only input buttons
         disableButtons(questionRow, 1, 3);
         formatSkippedQuestion(questionRow);
-        manager.add(new Pair<>(finalData, questionType), 2);
+        if (isCompMode) {
+            // No skips in competition mode
+            manager.add(new Pair<>(finalData, questionType), 0);
+        } else {
+            manager.add(new Pair<>(finalData, questionType), 2);
+        }
 
         record.addQuestionAnswer(questionInfo);
 

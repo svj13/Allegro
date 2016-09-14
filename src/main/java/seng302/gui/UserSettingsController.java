@@ -5,6 +5,9 @@ import com.jfoenix.controls.JFXPopup;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXToggleButton;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -22,6 +25,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import seng302.Environment;
+import seng302.Users.Project;
 import seng302.Users.UserHandler;
 import seng302.utility.FileHandler;
 
@@ -59,6 +63,9 @@ public class UserSettingsController {
     private JFXButton btnDeleteUser;
 
     @FXML
+    private JFXToggleButton modeToggle;
+
+    @FXML
     private JFXToggleButton visualiserToggle;
 
     @FXML
@@ -74,6 +81,15 @@ public class UserSettingsController {
         this.imageDP.setImage(env.getUserHandler().getCurrentUser().getUserPicture());
         env.getRootController().setHeader("User Settings");
         userHandler = env.getUserHandler();
+        modeToggle.getStyleClass().remove(0);
+
+        try {
+            modeToggle.setSelected(userHandler.getCurrentUser().getProjectHandler().getCurrentProject().getIsCompetitiveMode());
+        } catch (Exception e) {
+            // Default to competition mode
+            modeToggle.setSelected(true);
+        }
+
         try {
             txtFName.setText(userHandler.getCurrentUser().getUserFirstName());
             txtLName.setText(userHandler.getCurrentUser().getUserLastName());
@@ -242,6 +258,19 @@ public class UserSettingsController {
             userHandler.getCurrentUser().updateProperties();
             userHandler.getCurrentUser().saveProperties();
             visualiserLabel.setText("Keyboard Visualiser OFF");
+        }
+    }
+
+
+    @FXML
+    private void toggleBetweenModes() {
+        Project currentProject = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject();
+        if (modeToggle.isSelected()) {
+            // Competition Mode
+            currentProject.setIsCompetitiveMode(true);
+        } else {
+            // Practice mode
+            currentProject.setIsCompetitiveMode(false);
         }
     }
 }

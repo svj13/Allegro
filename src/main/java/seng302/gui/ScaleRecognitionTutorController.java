@@ -222,7 +222,12 @@ public class ScaleRecognitionTutorController extends TutorController {
             // Disables only input buttons
             disableButtons(questionRow, 1, 3);
             formatSkippedQuestion(questionRow);
-            manager.add(noteAndScaleType, 2);
+            if (isCompMode) {
+                // No skips in competition mode
+                manager.add(noteAndScale, 0);
+            } else {
+                manager.add(noteAndScale, 2);
+            }
             String[] question = new String[]{
                     String.format("%s scale from %s", scaleType, startNote.getNote()),
                     scaleType,
