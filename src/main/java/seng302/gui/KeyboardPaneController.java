@@ -269,7 +269,6 @@ public class KeyboardPaneController {
         });
 
 
-
         settings.getChildren().add(new Label("Keyboard Mode:"));
         modes.getChildren().add(play);
         modes.setMargin(play, new Insets(0, 20, 0, 0));
