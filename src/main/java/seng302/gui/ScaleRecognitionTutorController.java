@@ -50,6 +50,8 @@ public class ScaleRecognitionTutorController extends TutorController {
 
     private Random rand;
 
+    private Boolean fullTutor = true;
+
 
     String playDirection;
     int playOctaves;
@@ -76,7 +78,7 @@ public class ScaleRecognitionTutorController extends TutorController {
             questionRows.getChildren().clear();
             for (int i = 0; i < manager.questions; i++) {
                 HBox questionRow = setUpQuestion();
-                TitledPane qPane = new TitledPane("Question " + (i + 1), questionRow);
+                TitledPane qPane = new TitledPane((i + 1) + ". What type of scale is this?", questionRow);
                 qPane.setPadding(new Insets(2, 2, 2, 2));
                 qPanes.add(qPane);
                 VBox.setMargin(questionRow, new Insets(10, 10, 10, 10));
@@ -100,13 +102,29 @@ public class ScaleRecognitionTutorController extends TutorController {
         initialiseQuestionSelector();
         rand = new Random();
         direction.getItems().addAll("Up", "Down", "UpDown");
-        ccbScales.getItems().addAll("Major", "Minor", "Melodic Minor", "Blues", "Major Pentatonic", "Minor Pentatonic", "Major Mode", "Harmonic Minor");
-
-        ccbScales.getCheckModel().check(0); //Only major/minor selected by default
-        ccbScales.getCheckModel().check(1);
-        direction.getSelectionModel().selectFirst();
+        ccbScales.getItems().addAll("Major", "Minor", "Melodic Minor", "Blues", "Major Pentatonic", "Minor Pentatonic", "Major Mode", "Melodic Minor Mode", "Harmonic Minor");
         octaves.getItems().addAll(1, 2, 3, 4);
-        octaves.getSelectionModel().selectFirst();
+
+        if (currentProject.getIsCompetitiveMode()) {
+            if(fullTutor){
+                ccbScales.getCheckModel().checkAll();
+
+            }else{
+                ccbScales.getCheckModel().check(0);
+                ccbScales.getCheckModel().check(1);
+            }
+            direction.setValue("UpDown");
+            direction.setDisable(true);
+            ccbScales.setDisable(true);
+            octaves.setValue(1);
+            octaves.setDisable(true);
+        }else{
+            ccbScales.getCheckModel().check(0); //Only major/minor selected by default
+            ccbScales.getCheckModel().check(1);
+            direction.getSelectionModel().selectFirst();
+            octaves.getSelectionModel().selectFirst();
+
+        }
 
     }
 
@@ -154,7 +172,6 @@ public class ScaleRecognitionTutorController extends TutorController {
      * @param questionRow   The HBox containing GUI question data
      */
     public void handleQuestionAnswer(String userAnswer, Pair correctAnswer, HBox questionRow) {
-        manager.answered += 1;
         Integer correct;
         disableButtons(questionRow, 1, 3);
         if (userAnswer.equals(correctAnswer.getValue())) {
@@ -223,8 +240,12 @@ public class ScaleRecognitionTutorController extends TutorController {
             // Disables only input buttons
             disableButtons(questionRow, 1, 3);
             formatSkippedQuestion(questionRow);
-            manager.questions -= 1;
-            manager.add(noteAndScaleType, 2);
+            if (isCompMode) {
+                // No skips in competition mode
+                manager.add(noteAndScale, 0);
+            } else {
+                manager.add(noteAndScale, 2);
+            }
             String[] question = new String[]{
                     String.format("%s scale from %s", scaleType, startNote.getNote()),
                     scaleType,

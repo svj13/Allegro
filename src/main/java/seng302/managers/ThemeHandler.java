@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -67,6 +68,48 @@ public class ThemeHandler {
 
 
     /**
+     * Returns a suitable font colour (black or white) depending on the given background colour.
+     * @param colString background colour to determine suitable font colour from.
+     * @return colour string (either 'black' or 'white'
+     */
+    private static String generateComplementFontColor(String colString){
+
+
+        Function<Integer, Integer> validateRGB = i -> i > 255 ? 255 : i;
+
+        String complCol;
+        Pattern p = Pattern.compile("rgb *\\( *([0-9]+), *([0-9]+), *([0-9]+) *\\)");
+        Matcher m = p.matcher(colString);
+
+        java.awt.Color col;
+
+        if (m.matches()) {
+            int r  = validateRGB.apply(Integer.valueOf(m.group(1)));
+            int g  = validateRGB.apply(Integer.valueOf(m.group(2)));
+            int b  = validateRGB.apply(Integer.valueOf(m.group(3)));
+
+            col = new Color(r, g, b);
+        } else {
+            try {
+                col = java.awt.Color.decode(colString);
+            } catch (Exception e) {
+                col = Color.decode("#1E88E5"); //Default blue
+            }
+        }
+
+
+
+        if ((float) ((float) ((float) col.getRed() * 0.299f) + (float) (col.getGreen() * 0.587f) + (float) (col.getBlue() * 0.144f)) > 186) {
+
+            return "black";
+
+        } else return "white";
+
+
+    }
+
+
+    /**
      * Creates the stylesheet for the application to use.
      *
      * @param baseRGB color the user selected
@@ -80,51 +123,9 @@ public class ThemeHandler {
         String primaryFont;
         String secondaryFont;
 
-        Pattern c = Pattern.compile("rgb *\\( *([0-9]+), *([0-9]+), *([0-9]+) *\\)");
-        Matcher m = c.matcher(baseRGB);
+        primaryFont = generateComplementFontColor(baseRGB);
 
-        java.awt.Color primary;
-        if (m.matches()) {
-            primary = new Color(Integer.valueOf(m.group(1)),  // r
-                    Integer.valueOf(m.group(2)),  // g
-                    Integer.valueOf(m.group(3))); // b
-        } else {
-            try {
-                primary = java.awt.Color.decode(baseRGB);
-            } catch (Exception e) {
-                primary = Color.decode("#1E88E5"); //Default blue
-            }
-        }
-
-
-        Matcher m2 = c.matcher(ldRGB);
-
-        java.awt.Color secondary;
-        if (m2.matches()) {
-            secondary = new Color(Integer.valueOf(m.group(1)),  // r
-                    Integer.valueOf(m.group(2)),  // g
-                    Integer.valueOf(m.group(3))); // b
-        } else {
-            try {
-                secondary = java.awt.Color.decode(ldRGB);
-            } catch (Exception e) {
-                secondary = Color.white;
-            }
-        }
-
-        if ((float) ((float) ((float) secondary.getRed() * 0.299f) + (float) (secondary.getGreen() * 0.587f) + (float) (secondary.getBlue() * 0.144f)) > 186) {
-
-            secondaryFont = "black";
-
-        } else secondaryFont = "white";
-
-
-        if ((float) ((float) ((float) primary.getRed() * 0.299f) + (float) (primary.getGreen() * 0.587f) + (float) (primary.getBlue() * 0.144f)) > 186) {
-
-            primaryFont = "black";
-
-        } else primaryFont = "white";
-
+        secondaryFont = generateComplementFontColor(ldRGB);
 
         ArrayList<String> templateCSS = new ArrayList<String>();
 
@@ -138,13 +139,13 @@ public class ThemeHandler {
                     new BufferedReader(fileReader);
 
             while ((line = bufferedReader.readLine()) != null) {
-                if (line.contains("{0}{1}{2}{3}")) { //Primary, Secondary, Primary font colour, secondary font colour.
+                if (line.contains("{3}")) { //Primary, Secondary, Primary font colour, secondary font colour.
 
                     templateCSS.add(MessageFormat.format(line, "", "", "", secondaryFont));
-                } else if (line.contains("{0}{1}{2}")) {
+                } else if (line.contains("{2}")) {
 
                     templateCSS.add(MessageFormat.format(line, "", "", primaryFont));
-                } else if (line.contains("{0}{1}")) {
+                } else if (line.contains("{1}")) {
                     templateCSS.add(MessageFormat.format(line, "", ldRGB));
                 } else if (line.contains("{0}")) {
                     templateCSS.add(MessageFormat.format(line, baseRGB));

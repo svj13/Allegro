@@ -4,6 +4,9 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPopup;
 import com.jfoenix.controls.JFXTextField;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXToggleButton;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -12,6 +15,7 @@ import java.nio.file.Paths;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -20,6 +24,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import seng302.Environment;
+import seng302.Users.Project;
 import seng302.Users.UserHandler;
 import seng302.utility.FileHandler;
 
@@ -37,7 +42,6 @@ public class UserSettingsController {
 
     @FXML
     private AnchorPane chordSpellingAnchor;
-
 
     @FXML
     private JFXButton btnUploadImage;
@@ -57,6 +61,9 @@ public class UserSettingsController {
     @FXML
     private JFXButton btnDeleteUser;
 
+    @FXML
+    private JFXToggleButton modeToggle;
+
 
     private Environment env;
 
@@ -68,6 +75,15 @@ public class UserSettingsController {
         this.imageDP.setImage(env.getUserHandler().getCurrentUser().getUserPicture());
         env.getRootController().setHeader("User Settings");
         userHandler = env.getUserHandler();
+        modeToggle.getStyleClass().remove(0);
+
+        try {
+            modeToggle.setSelected(userHandler.getCurrentUser().getProjectHandler().getCurrentProject().getIsCompetitiveMode());
+        } catch (Exception e) {
+            // Default to competition mode
+            modeToggle.setSelected(true);
+        }
+
         try {
             txtFName.setText(userHandler.getCurrentUser().getUserFirstName());
             txtLName.setText(userHandler.getCurrentUser().getUserLastName());
@@ -115,7 +131,7 @@ public class UserSettingsController {
 
         try {
             FileHandler.copyFolder(file, filePath.toFile());
-            userHandler.getCurrentUser().setUserPicture(new Image(filePath.toUri().toString()));
+            userHandler.getCurrentUser().setUserPicture(filePath);
             imageDP.setImage(userHandler.getCurrentUser().getUserPicture());
             env.getRootController().updateImage();
         } catch (Exception e) {
@@ -201,5 +217,17 @@ public class UserSettingsController {
     }
 
 
+
+    @FXML
+    private void toggleBetweenModes() {
+        Project currentProject = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject();
+        if (modeToggle.isSelected()) {
+            // Competition Mode
+            currentProject.setIsCompetitiveMode(true);
+        } else {
+            // Practice mode
+            currentProject.setIsCompetitiveMode(false);
+        }
+    }
 }
 

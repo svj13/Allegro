@@ -12,6 +12,7 @@ package seng302.Users;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.controlsfx.control.Notifications;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -28,8 +29,12 @@ import java.util.ArrayList;
 
 import javax.sound.midi.Instrument;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.util.Duration;
 import seng302.Environment;
 import seng302.utility.InstrumentUtility;
+import seng302.utility.LevelCalculator;
 import seng302.utility.OutputTuple;
 
 public class Project {
@@ -40,6 +45,11 @@ public class Project {
 
     ProjectHandler projectHandler;
 
+    // Levels variables, will be updated as the user gains experience
+
+    private Integer experience;
+    private Integer level;
+
     Path projectDirectory;
     public String currentProjectPath, projectName;
 
@@ -48,8 +58,15 @@ public class Project {
     Environment env;
     public TutorHandler tutorHandler;
 
-    public Boolean isCompetitiveMode;
+    private Boolean isCompetitiveMode;
 
+    /**
+     * Constructor for creating a new project.
+     *
+     * @param env         The environment in which the project is being created
+     * @param projectName What the project will be called
+     * @param projectH    The ProjectHandler object which will manage this project
+     */
     public Project(Environment env, String projectName, ProjectHandler projectH) {
         this.projectName = projectName;
         this.projectDirectory = Paths.get(projectH.projectsDirectory + "/" + projectName);
@@ -58,6 +75,8 @@ public class Project {
         tutorHandler = new TutorHandler(env);
         projectHandler = projectH;
         isCompetitiveMode = true;
+        this.experience = 0;
+        this.level = 1;
 
         loadProject(projectName);
         loadProperties();
@@ -82,10 +101,15 @@ public class Project {
 
         projectSettings.put("transcript", transcriptString);
 
-
         projectSettings.put("rhythm", gson.toJson(env.getPlayer().getRhythmHandler().getRhythmTimings()));
 
         projectSettings.put("instrument", gson.toJson(env.getPlayer().getInstrument().getName()));
+
+        // User level for current project
+        projectSettings.put("level", this.level);
+        projectSettings.put("experience", this.experience);
+
+        projectSettings.put("competitionMode", gson.toJson(isCompetitiveMode.toString()));
 
     }
 
@@ -147,6 +171,33 @@ public class Project {
         }
         env.getPlayer().setInstrument(instrument);
 
+        //User experience
+        try {
+            experience = Integer.parseInt(projectSettings.get("experience").toString());
+        } catch (NullPointerException e) {
+            //If XP has never been set (ie old account), default to 0
+            experience = 0;
+        }
+
+        //Level
+        try {
+            level = Integer.parseInt(projectSettings.get("level").toString());
+        } catch (NullPointerException e) {
+            //If level has never been set, (ie old account), default to 1
+            level = 1;
+        }
+        try {
+            String mode = gson.fromJson((String) projectSettings.get("competitionMode"), String.class);
+            if (mode.equals("true")) {
+                setToCompetitionMode();
+            } else {
+                setToPracticeMode();
+            }
+        } catch (Exception e) {
+            // Defaults to comp mode
+            setToCompetitionMode();
+        }
+
 
         env.getTranscriptManager().unsavedChanges = false;
 
@@ -176,7 +227,7 @@ public class Project {
      */
     public void saveProject(String projectAddress) {
 
-        //Add all settings to such as tempo speed to the project here.
+        //Add all settings such as tempo speed to the project here.
 
         try {
             Gson gson = new Gson();
@@ -188,7 +239,7 @@ public class Project {
             file.close();
 
             projectSettings.put("tempo", env.getPlayer().getTempo());
-            env.getRootController().setWindowTitle(projectName);
+            env.getRootController().removeUnsavedChangesIndicator();
             currentProjectPath = projectAddress;
         } catch (IOException e) {
 
@@ -205,36 +256,30 @@ public class Project {
      * @param propName property id which is stored in the Json project file.
      */
     public void checkChanges(String propName) {
-
-        //Accepted values: tempo
-        String saveName = (projectName == null) ? "No Project" : this.projectName;
-
-        if (propName.equals("tempo")) {
-
-
-            if (projectSettings.containsKey("tempo") && !(projectSettings.get("tempo").equals(String.valueOf(env.getPlayer().getTempo())))) { //If not equal
-
-                env.getRootController().setWindowTitle(saveName + "*");
-                saved = false;
-            }
-        } else if (propName.equals("rhythm")) {
-
-
-            if (projectSettings.containsKey("rhythm") && !(projectSettings.get("rhythm").equals(env.getPlayer().getRhythmHandler().getRhythmTimings()))) { //If not equal
-
-                env.getRootController().setWindowTitle(saveName + "*");
-                saved = false;
-            }
-        } else if (propName.equals("instrument")) {
-
-
-            if (projectSettings.containsKey("instrument") && !(projectSettings.get("instrument").equals(env.getPlayer().getInstrument().getName()))) { //If not equal
-
-                env.getRootController().setWindowTitle(saveName + "*");
-                saved = false;
-            }
+        Object currentValue = null;
+        switch (propName) {
+            case "tempo":
+                currentValue = String.valueOf(env.getPlayer().getTempo());
+                break;
+            case "rhythm":
+                currentValue = env.getPlayer().getRhythmHandler().getRhythmTimings();
+                break;
+            case "instrument":
+                currentValue = env.getPlayer().getInstrument().getName();
+                break;
+            case "competitionMode":
+                currentValue = this.isCompetitiveMode;
+                break;
         }
 
+        try {
+            if (projectSettings.containsKey(propName) && !(projectSettings.get(propName).equals(currentValue))) {
+                env.getRootController().addUnsavedChangesIndicator();
+                saved = false;
+            }
+        } catch (Exception e) {
+            System.err.println("Invalid property being checked for save");
+        }
 
     }
 
@@ -283,7 +328,7 @@ public class Project {
             this.projectName = pName;
             loadProperties();
             currentProjectPath = path;
-            env.getRootController().setWindowTitle(pName);
+            env.getRootController().setWindowTitle("Allegro - " + pName);
             //ignore
 
         } catch (FileNotFoundException e) {
@@ -316,5 +361,66 @@ public class Project {
         return currentProjectPath;
     }
 
+    public boolean getIsCompetitiveMode() {
+        return isCompetitiveMode;
+    }
+
+    private void setToCompetitionMode() {
+        this.isCompetitiveMode = true;
+        env.getRootController().disallowTranscript();
+        env.getRootController().getTranscriptController().hideTranscript();
+        env.getRootController().setWindowTitle(env.getRootController().getWindowTitle().replace(" [Practice Mode]", ""));
+    }
+
+    private void setToPracticeMode() {
+        this.isCompetitiveMode = false;
+        env.getRootController().allowTranscript();
+        env.getRootController().setWindowTitle(env.getRootController().getWindowTitle() + " [Practice Mode]");
+    }
+
+    public void setIsCompetitiveMode(boolean isCompetitiveMode) {
+        if (isCompetitiveMode) {
+            setToCompetitionMode();
+        } else {
+            setToPracticeMode();
+        }
+        checkChanges("competitionMode");
+    }
+
+
+    /**
+     * When a user gains XP, eg by completing a tutoring session, this function is called. It adds
+     * their newly gained experience to their overall experience, and saves this info to their user
+     * file.
+     *
+     * @param addedExperience The integer amount of gained experience, to be added to the user
+     */
+    public void addExperience(int addedExperience) {
+        experience += addedExperience;
+
+        // Increases user levels one by one until the user cannot level up any further
+        while (LevelCalculator.isLevelUp(level, experience)) {
+            level += 1;
+            env.getRootController().updateLevelBadge();
+            Image image = new Image(getClass().getResourceAsStream("/images/arrow.png"), 110, 75, true, true);
+            Notifications.create()
+                    .title("Level Up")
+                    .text("Well done! \nYou are now level " + String.valueOf(level) + ".")
+                    .hideAfter(new Duration(10000))
+                    .graphic(new ImageView(image))
+                    .show();
+
+        }
+
+        saveProperties();
+    }
+
+    public Integer getExperience() {
+        return this.experience;
+    }
+
+    public Integer getLevel() {
+        return this.level;
+    }
 
 }

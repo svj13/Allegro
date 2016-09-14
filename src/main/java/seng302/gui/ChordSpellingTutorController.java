@@ -92,6 +92,14 @@ public class ChordSpellingTutorController extends TutorController {
         initialiseChordTypeSelector();
 
         numEnharmonics.getItems().addAll("only one", "all");
+        if (currentProject.getIsCompetitiveMode()) {
+            numEnharmonics.setValue("all");
+            numEnharmonics.setDisable(true);
+            allowFalseChords.setDisable(true);
+
+        }else{
+            numEnharmonics.getSelectionModel().selectFirst();
+        }
         numEnharmonics.getSelectionModel().selectFirst();
         inputTypeBox.getItems().addAll("dropdown", "keyboard");
         inputTypeBox.getSelectionModel().selectFirst();
@@ -109,9 +117,16 @@ public class ChordSpellingTutorController extends TutorController {
             chordTypes.getItems().add(validChordName);
         }
 
-        chordTypes.getCheckModel().clearChecks();
-        chordTypes.getCheckModel().check(0);
-        chordTypes.getCheckModel().check(1);
+        if (currentProject.getIsCompetitiveMode()) {
+            chordTypes.getCheckModel().checkAll();
+            chordTypes.setDisable(true);
+
+        }else{
+            chordTypes.getCheckModel().clearChecks();
+            chordTypes.getCheckModel().check(0);
+            chordTypes.getCheckModel().check(1);
+
+        }
 
     }
 
@@ -157,6 +172,7 @@ public class ChordSpellingTutorController extends TutorController {
                 });
                 qPanes.add(qPane);
                 questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
+                setUpQuestion(i);
             }
             qAccordion.getPanes().addAll(qPanes);
             qAccordion.setExpandedPane(qAccordion.getPanes().get(0));
@@ -169,9 +185,8 @@ public class ChordSpellingTutorController extends TutorController {
     /**
      * Prepares a new question
      *
-     * @return a question pane containing the question information
      */
-    public HBox setUpQuestion() {
+    public void setUpQuestion(int questionNo) {
         //Both questions just need a chord
         Pair<String, ArrayList<Note>> randomChord = generateValidChord();
 
@@ -184,10 +199,18 @@ public class ChordSpellingTutorController extends TutorController {
 
         Pair question = new Pair(randomChord, questionSettings);
 
-        return generateQuestionPane(question);
+        HBox questionRow = generateQuestionPane(question);
+        TitledPane qPane;
+        if (questionType == 1) {
+            qPane = new TitledPane((questionNo + 1) + ". What are the notes of the " + randomChord.getKey() + " chord?", questionRow);
+        } else {
+            qPane = new TitledPane((questionNo + 1) + ". Which scale contains the notes:  " + chordAsString(randomChord.getValue()) + "?", questionRow);
+        }
+        qPane.setPadding(new Insets(2, 2, 2, 2));
+        qPanes.add(qPane);
+        questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
     }
 
-    @Override
     /**
      * Generates a GUI containing question data.
      * Needs to be broken up into parts - currently 160 lines long
@@ -196,7 +219,6 @@ public class ChordSpellingTutorController extends TutorController {
         final HBox questionRow = new HBox();
         formatQuestionRow(questionRow);
         Label correctAnswer = new Label();
-        Label question = new Label();
 
         final HBox inputs = new HBox();
 
@@ -253,9 +275,8 @@ public class ChordSpellingTutorController extends TutorController {
             if (((Pair) data.getValue()).getKey().equals("dropdown")) {
 
 
-                //Type A question
-                correctAnswer = correctAnswer(chordAsString(chordNotes));
-                question.setText(chordName);
+            //Type A question
+            correctAnswer = correctAnswer(chordAsString(chordNotes));
 
                 ComboBox<String> note1 = new ComboBox<String>();
                 note1.getItems().addAll(generateOptions(chordNotes.get(0)));
@@ -490,8 +511,6 @@ public class ChordSpellingTutorController extends TutorController {
             });
 
             correctAnswer = correctAnswer(chordName);
-            question.setText(chordAsString(chordNotes));
-
 
             if (enharmonicsRequired.equals("all")) {
                 CheckComboBox<String> possibleNames = new CheckComboBox<>();
@@ -981,10 +1000,10 @@ public class ChordSpellingTutorController extends TutorController {
         String selectedNote = note.getValue();
         if (isCorrect) {
             //style green
-            note.setStyle("-fx-background-color: green");
+            note.setStyle("-fx-border-color: green");
         } else {
             //style red
-            note.setStyle("-fx-background-color: red");
+            note.setStyle("-fx-border-color: red");
         }
         note.setDisable(true);
     }
@@ -1123,7 +1142,9 @@ public class ChordSpellingTutorController extends TutorController {
         };
         record.addQuestionAnswer(question);
         handleAccordion();
-        updateManagerCompletedQuestion();
+        if (manager.answered == manager.questions) {
+            finished();
+        }
     }
 
     /**
@@ -1145,17 +1166,6 @@ public class ChordSpellingTutorController extends TutorController {
 
     }
 
-    /**
-     * Once a question has been completely answered, the question manager is updated.
-     */
-    private void updateManagerCompletedQuestion() {
-        manager.answered += 1;
-
-        if (manager.answered == manager.questions) {
-            finished();
-        }
-    }
-
 
     /**
      * Run when a user elects to skip a question. Saves that question to the manager as skipped, and
@@ -1170,8 +1180,12 @@ public class ChordSpellingTutorController extends TutorController {
         // Disables only input buttons
         disableButtons(questionRow, 1, 3);
         formatSkippedQuestion(questionRow);
-        manager.questions -= 1;
-        manager.add(new Pair<>(finalData.getKey(), finalData.getValue()), 2);
+        if (isCompMode) {
+            // No skips in competition mode
+            manager.add(new Pair<>(finalData, questionType), 0);
+        } else {
+            manager.add(new Pair<>(finalData, questionType), 2);
+        }
 
         record.addQuestionAnswer(questionInfo);
 

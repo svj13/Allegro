@@ -174,8 +174,8 @@ command ::= COMMAND_HELP                                {: RESULT = new Help(); 
           | COMMAND_SHOW_CURRENT_INSTRUMENT             {: RESULT = new InstrumentCommand("current"); :}
           | COMMAND_SHOW_ALL_INSTRUMENTS                {: RESULT = new InstrumentCommand("all"); :}
           | COMMAND_SET_INSTRUMENT instrument:s         {: RESULT = new InstrumentCommand(true, s); :}
-          | COMMAND_GET_MODE note:n NUMBER:i            {: RESULT = new MajorModes(n, i); :}
-          | COMMAND_PARENT_OF scale:s                   {: RESULT = new MajorModes(s); :}
+          | COMMAND_GET_MODE scale:s NUMBER:i           {: RESULT = new Modes(s, i); :}
+          | COMMAND_PARENT_OF scale:s                   {: RESULT = new Modes(s); :}
 
 
 ;

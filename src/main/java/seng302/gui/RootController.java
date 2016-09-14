@@ -1,6 +1,8 @@
 package seng302.gui;
 
 
+import com.jfoenix.controls.JFXBadge;
+
 import org.json.simple.JSONArray;
 
 import java.io.File;
@@ -26,6 +28,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.SplitPane;
 import javafx.scene.effect.DropShadow;
@@ -84,22 +87,46 @@ public class RootController implements Initializable {
     private MenuItem menuQuit;
 
     @FXML
+    private Circle circleDP;
+
+    @FXML
+    private HBox hbUser;
+
+    @FXML
+    private JFXBadge levelBadge;
+
+    @FXML
+    private MenuItem menuOpen;
+
+    @FXML
+    private MenuItem menuSave;
+
+    @FXML
     private MenuItem menuSaveCommands;
 
     @FXML
-    AnchorPane centerPane;
+    private AnchorPane centerPane;
 
     @FXML
     private Menu menuOpenProjects;
 
     @FXML
-    HBox userDPBox;
+    private Menu helpMenu;
+
+    @FXML
+    private HBox userDPBox;
 
     @FXML
     private ImageView imageDP;
 
     @FXML
+    private MenuItem dslReferenceMenuItem;
+
+    @FXML
     private MenuButton userDropDown;
+
+    @FXML
+    private RadioMenuItem menuTranscript;
 
     @FXML
     public void onTranscriptTab() {
@@ -124,6 +151,13 @@ public class RootController implements Initializable {
 
         userDropDown.setEllipsisString("User");
         userDropDown.setText("User");
+        if (transcriptPaneController.getIsExpanded()) {
+            transcriptPaneController.showTranscript();
+            menuTranscript.setSelected(true);
+        } else {
+            transcriptPaneController.hideTranscript();
+            menuTranscript.setSelected(false);
+        }
 
     }
 
@@ -131,6 +165,7 @@ public class RootController implements Initializable {
      * Loads a new user image into a circular shape
      */
     public void updateImage() {
+        updateLevelBadge();
         final Circle clip = new Circle(imageDP.getFitWidth() - 25.0, imageDP.getFitHeight() - 25.0, 50.0);
         imageDP.setImage(env.getUserHandler().getCurrentUser().getUserPicture());
         clip.setRadius(25.0);
@@ -152,8 +187,14 @@ public class RootController implements Initializable {
 
             }
         });
+    }
 
-
+    /**
+     * Updates the level indicator badge to display the level of the user's current project
+     */
+    public void updateLevelBadge() {
+        levelBadge.refreshBadge();
+        levelBadge.setText(Integer.toString(env.getUserHandler().getCurrentUser().getUserLevel()));
     }
 
 
@@ -169,6 +210,8 @@ public class RootController implements Initializable {
             stage.show();
             resizeSplitPane(1.0);
             updateImage();
+            menuTranscript.setSelected(false);
+            toggleTranscript();
             try {
                 showUserPage();
             } catch (IOException e) {
@@ -266,7 +309,7 @@ public class RootController implements Initializable {
     /**
      * Toggles the visibility of the top User HBox and user image.
      *
-     * @param show true to dhow, false to hide.
+     * @param show true to show, false to hide.
      */
     public void showUserBar(Boolean show) {
         userBar.setVisible(show);
@@ -274,7 +317,7 @@ public class RootController implements Initializable {
         userBar.setManaged(show);
     }
 
-    /**k
+    /**
      * Opens the user page.
      */
     public void showUserPage() throws IOException {
@@ -352,11 +395,18 @@ public class RootController implements Initializable {
     }
 
     @FXML
-    public void logOutUser() throws IOException {
-        stage.close();
-        showLoginWindow();
+    public void logOutUser(){
+        try {
+            stage.close();
+            showLoginWindow();
+        }catch(Exception e){
+
+        }
+
 
     }
+
+
 
 
     /**
@@ -710,7 +760,21 @@ public class RootController implements Initializable {
      * sets the title of the application to the text input
      */
     public void setWindowTitle(String text) {
-        this.stage.setTitle("Allegro - " + text);
+        this.stage.setTitle(text);
+    }
+
+    public String getWindowTitle() {
+        return this.stage.getTitle();
+    }
+
+    public void addUnsavedChangesIndicator() {
+        if (!this.stage.getTitle().contains("*")) {
+            this.stage.setTitle(this.stage.getTitle() + "*");
+        }
+    }
+
+    public void removeUnsavedChangesIndicator() {
+        this.stage.setTitle(this.stage.getTitle().replace("*", ""));
     }
 
 
@@ -750,7 +814,12 @@ public class RootController implements Initializable {
     @FXML
     public void toggleTranscript() {
         transcriptSplitPane.setDividerPositions(1.0);
-        transcriptPaneController.showTranscript();
+
+        if (menuTranscript.isSelected()) {
+            transcriptPaneController.showTranscript();
+        } else {
+            transcriptPaneController.hideTranscript();
+        }
     }
 
     public TutorFactory getTutorFactory() {
@@ -773,6 +842,15 @@ public class RootController implements Initializable {
 
     public String getHeader() {
         return txtHeader.getText();
+    }
+
+    public void disallowTranscript() {
+        menuTranscript.setDisable(true);
+        menuTranscript.setSelected(false);
+    }
+
+    public void allowTranscript() {
+        menuTranscript.setDisable(false);
     }
 
 }
