@@ -2,6 +2,9 @@ package seng302;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.scene.Node;
+import javafx.scene.control.TextField;
+import javafx.util.Pair;
 import seng302.Users.UserHandler;
 import seng302.gui.RootController;
 import seng302.gui.UserPageController;
@@ -20,6 +23,7 @@ public class Environment {
     private EditHistory em = new EditHistory(this);
     private BooleanProperty shiftPressed;
     private ThemeHandler themeHandler;
+    private Pair currentFocussed;
 
     public RootController getRootController() {
         return rootController;
@@ -35,6 +39,14 @@ public class Environment {
 
     public void setUserPageController(UserPageController userPageController) {
         this.userPageController = userPageController;
+    }
+
+    public void setCurrentFocussed(TextField node, Boolean transcript, Node next) {
+        this.currentFocussed = new Pair(new Pair(node, next), transcript);
+    }
+
+    public Pair getCurrentFocussed() {
+        return currentFocussed;
     }
 
     // Root Controller
