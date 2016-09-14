@@ -144,6 +144,7 @@ public class UserSummaryController {
 
         StageMapController controller = loader.getController();
         controller.setEnvironment(env);
+        controller.create();
     }
 
 
