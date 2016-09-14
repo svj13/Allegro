@@ -56,6 +56,9 @@ public class UserPageController {
     Label latestAttempt;
 
     @FXML
+    StackPane stageMap;
+
+    @FXML
     ScrollPane currentPage;
 
     @FXML

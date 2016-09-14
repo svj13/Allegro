@@ -151,12 +151,14 @@ public class StageMapController {
     }
 
     @FXML
-    private void launchScaleReconitionAdvancedTutor() {
+    private void launchScaleRecognitionAdvancedTutor() {
+
         System.out.println("ERRORORORORORORORORORA  A");
     }
 
     @FXML
     private void launchChordRecognitionAdvancedTutor() {
+
         System.out.println("ERRORORORORORORORORORA  A");
     }
 

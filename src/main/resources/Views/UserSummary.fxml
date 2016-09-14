@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -24,11 +25,7 @@
     <children>
         <AnchorPane fx:id="userSummary">
             <children>
-            <VBox>
-               <children>
-                     <StackPane fx:id="stageMap" HBox.hgrow="ALWAYS" />
-               </children>
-            </VBox>
+
                 <VBox fx:id="levelVBox" alignment="TOP_CENTER" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
                         <Label text="Level Progress" BorderPane.alignment="CENTER">
@@ -42,6 +39,11 @@
                     <padding>
                         <Insets bottom="20.0" left="10.0" right="10.0" top="40.0" />
                     </padding>
+                </VBox>
+                <VBox>
+                    <children>
+                        <StackPane fx:id="stageMap" HBox.hgrow="ALWAYS" />
+                    </children>
                 </VBox>
             </children>
         </AnchorPane>
