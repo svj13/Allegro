@@ -1,9 +1,7 @@
 package seng302.gui;
 
-import javafx.collections.FXCollections;
-import javafx.scene.control.*;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
+import com.jfoenix.controls.JFXButton;
+
 import org.controlsfx.control.PopOver;
 
 import java.util.ArrayList;
@@ -11,18 +9,19 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
-
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -33,12 +32,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import seng302.Environment;
 import seng302.data.Note;
 import seng302.utility.NoteRangeSlider;
 import seng302.utility.musicNotation.OctaveUtil;
-import javafx.scene.paint.Color;
-
 
 import static seng302.utility.musicNotation.Checker.isValidNormalNote;
 
@@ -252,14 +252,12 @@ public class KeyboardPaneController {
         final ToggleGroup group = new ToggleGroup();
         HBox modes = new HBox();
         ToggleButton play = new ToggleButton("Play");
-        play.getStyleClass().add("primary");
 
         play.setUserData(true);
         play.setToggleGroup(group);
         play.setSelected(true);
 
         ToggleButton text = new ToggleButton("Text Input");
-        text.getStyleClass().add("primary");
         text.setUserData(false);
         text.setToggleGroup(group);
         group.selectedToggleProperty().addListener((observable, newValue, oldValue) -> {
@@ -379,7 +377,7 @@ public class KeyboardPaneController {
 
         //OK button for display scale 1. Contains all of the error handling and toggles to Hide when clicked.
         //OK displays the given scale on the keyboard. Hide removes them but doesnt clear the input fields
-        Button okScale1 = new Button("OK");
+        JFXButton okScale1 = new JFXButton("OK");
         okScale1.getStyleClass().add("primary");
         okScale1.setOnAction(event-> {
             if (okScale1.getText().equals("OK")) {
@@ -415,7 +413,7 @@ public class KeyboardPaneController {
 
         //OK button for display scale 2. Contains all of the error handling and toggles to Hide when clicked.
         //OK displays the given scale on the keyboard. Hide removes them but doesnt clear the input fields
-        Button okScale2 = new Button ("OK");
+        JFXButton okScale2 = new JFXButton("OK");
         okScale2.getStyleClass().add("primary");
         okScale2.setOnAction(event-> {
             if (okScale2.getText().equals("OK")) {
@@ -783,10 +781,12 @@ public class KeyboardPaneController {
      */
     public void toggleHideKeyboard() {
         if (hidden) {
+            positionBlackKeys();
             keyPane.setExpanded(false);
             keyboardBox.requestFocus();
             hidden = false;
         } else {
+            positionBlackKeys();
             keyPane.setExpanded(true);
             hidden = true;
             env.getRootController().getTranscriptController().giveFocus();

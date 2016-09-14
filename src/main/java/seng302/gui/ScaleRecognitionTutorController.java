@@ -50,7 +50,7 @@ public class ScaleRecognitionTutorController extends TutorController {
 
     private Random rand;
 
-    private Boolean fullTutor;
+    private Boolean fullTutor = true;
 
 
     String playDirection;
@@ -78,7 +78,7 @@ public class ScaleRecognitionTutorController extends TutorController {
             questionRows.getChildren().clear();
             for (int i = 0; i < manager.questions; i++) {
                 HBox questionRow = setUpQuestion();
-                TitledPane qPane = new TitledPane("Question " + (i + 1), questionRow);
+                TitledPane qPane = new TitledPane((i + 1) + ". What type of scale is this?", questionRow);
                 qPane.setPadding(new Insets(2, 2, 2, 2));
                 qPanes.add(qPane);
                 VBox.setMargin(questionRow, new Insets(10, 10, 10, 10));
@@ -105,7 +105,7 @@ public class ScaleRecognitionTutorController extends TutorController {
         ccbScales.getItems().addAll("Major", "Minor", "Melodic Minor", "Blues", "Major Pentatonic", "Minor Pentatonic", "Major Mode", "Melodic Minor Mode", "Harmonic Minor");
         octaves.getItems().addAll(1, 2, 3, 4);
 
-        if(currentProject.isCompetitiveMode){
+        if (currentProject.getIsCompetitiveMode()) {
             if(fullTutor){
                 ccbScales.getCheckModel().checkAll();
 
@@ -240,7 +240,12 @@ public class ScaleRecognitionTutorController extends TutorController {
             // Disables only input buttons
             disableButtons(questionRow, 1, 3);
             formatSkippedQuestion(questionRow);
-            manager.add(noteAndScaleType, 2);
+            if (isCompMode) {
+                // No skips in competition mode
+                manager.add(noteAndScale, 0);
+            } else {
+                manager.add(noteAndScale, 2);
+            }
             String[] question = new String[]{
                     String.format("%s scale from %s", scaleType, startNote.getNote()),
                     scaleType,
