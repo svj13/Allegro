@@ -266,6 +266,12 @@ public class UserSettingsController {
 
     }
 
+    /**
+     * Updates the GUI to show or hide the visualiser toggle and label.
+     *
+     * @param isShow If false, hide the visualiser toggle and its label. Else, show the visualiser
+     *               and its toggle.
+     */
     private void toggleShowHideVisualiser(boolean isShow) {
         visualiserToggle.setVisible(isShow);
         visualiserLabel.setVisible(isShow);
