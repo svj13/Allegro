@@ -3,6 +3,8 @@ package seng302;
 import javax.sound.midi.MetaEventListener;
 import javax.sound.midi.MetaMessage;
 
+import seng302.Users.Project;
+
 /**
  * This is a custom implementation of a Meta Event Listener.
  * This class receives meta messages from the music player.
@@ -20,7 +22,8 @@ public class Visualiser implements MetaEventListener {
 
     @Override
     public void meta(MetaMessage meta) {
-        if (env.getUserHandler().getCurrentUser().getVisualiserOn() && !env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().getIsCompetitiveMode()) {
+        Project currentProject = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject();
+        if (currentProject.getVisualiserOn() && !currentProject.getIsCompetitiveMode()) {
             // Only visualise if the setting is turned on
             String message = new String(meta.getData());
             String[] messageParts = message.split(" ");

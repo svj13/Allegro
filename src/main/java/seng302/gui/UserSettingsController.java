@@ -100,7 +100,7 @@ public class UserSettingsController {
             toggleShowHideVisualiser(false);
         } else {
             try {
-                boolean visualiserOn = userHandler.getCurrentUser().getVisualiserOn();
+                boolean visualiserOn = userHandler.getCurrentUser().getProjectHandler().getCurrentProject().getVisualiserOn();
                 visualiserToggle.setSelected(visualiserOn);
                 if (visualiserOn) {
                     visualiserLabel.setText("Keyboard Visualiser ON");
@@ -116,13 +116,13 @@ public class UserSettingsController {
 
         visualiserToggle.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
-                userHandler.getCurrentUser().setVisualiserOn(true);
+                userHandler.getCurrentUser().getProjectHandler().getCurrentProject().setVisualiserOn(true);
                 userHandler.getCurrentUser().updateProperties();
                 userHandler.getCurrentUser().saveProperties();
                 visualiserLabel.setText("Keyboard Visualiser ON");
 
             } else {
-                userHandler.getCurrentUser().setVisualiserOn(false);
+                userHandler.getCurrentUser().getProjectHandler().getCurrentProject().setVisualiserOn(false);
                 userHandler.getCurrentUser().updateProperties();
                 userHandler.getCurrentUser().saveProperties();
                 visualiserLabel.setText("Keyboard Visualiser OFF");

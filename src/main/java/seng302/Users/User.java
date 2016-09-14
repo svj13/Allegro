@@ -50,9 +50,6 @@ public class User {
 
     private String userLastName;
 
-    private boolean visualiserOn;
-
-
     /**
      * User constructor used for generating new users.
      *
@@ -151,13 +148,6 @@ public class User {
         } catch (NullPointerException e) {
             themeSecondary = "white";
         }
-        try {
-            visualiserOn = (boolean) properties.get("visualiserOn");
-        } catch (Exception e) {
-            // Off by default
-            visualiserOn = false;
-        }
-
 
 
         projectHandler = new ProjectHandler(env, userName);
@@ -238,7 +228,6 @@ public class User {
         properties.put("themeSecondary", env.getThemeHandler().getSecondaryColour());
         properties.put("firstName", this.userFirstName);
         properties.put("lastName", this.userLastName);
-        properties.put("visualiserOn", this.visualiserOn);
         String musicalTermsJSON = gson.toJson(env.getMttDataManager().getTerms());
         properties.put("musicalTerms", musicalTermsJSON);
         String lastSignInJSON = gson.toJson(lastSignIn);
@@ -370,14 +359,6 @@ public class User {
 
     public int getUserExperience() {
         return getProjectHandler().getCurrentProject().getExperience();
-    }
-
-    public void setVisualiserOn(boolean isOn) {
-        visualiserOn = isOn;
-    }
-
-    public boolean getVisualiserOn() {
-        return visualiserOn;
     }
 
     public int getUserLevel() {

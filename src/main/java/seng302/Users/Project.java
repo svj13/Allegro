@@ -60,6 +60,8 @@ public class Project {
 
     private Boolean isCompetitiveMode;
 
+    private Boolean visualiserOn;
+
     /**
      * Constructor for creating a new project.
      *
@@ -110,6 +112,8 @@ public class Project {
         projectSettings.put("experience", this.experience);
 
         projectSettings.put("competitionMode", gson.toJson(isCompetitiveMode.toString()));
+
+        projectSettings.put("visualiserOn", gson.toJson(visualiserOn.toString()));
 
     }
 
@@ -198,6 +202,18 @@ public class Project {
             setToCompetitionMode();
         }
 
+        try {
+            String isVisOn = gson.fromJson((String) projectSettings.get("visualiserOn"), String.class);
+            if (isVisOn.equals("true")) {
+                visualiserOn = true;
+            } else {
+                visualiserOn = false;
+            }
+        } catch (Exception e) {
+            // Off by default
+            visualiserOn = false;
+        }
+
 
         env.getTranscriptManager().unsavedChanges = false;
 
@@ -270,10 +286,16 @@ public class Project {
             case "competitionMode":
                 currentValue = this.isCompetitiveMode;
                 break;
+            case "visualiserOn":
+                currentValue = this.visualiserOn;
+                break;
         }
 
         try {
             if (projectSettings.containsKey(propName) && !(projectSettings.get(propName).equals(currentValue))) {
+                env.getRootController().addUnsavedChangesIndicator();
+                saved = false;
+            } else if (!projectSettings.containsKey(propName)) {
                 env.getRootController().addUnsavedChangesIndicator();
                 saved = false;
             }
@@ -421,6 +443,15 @@ public class Project {
 
     public Integer getLevel() {
         return this.level;
+    }
+
+    public void setVisualiserOn(boolean isOn) {
+        visualiserOn = isOn;
+        checkChanges("visualiserOn");
+    }
+
+    public boolean getVisualiserOn() {
+        return visualiserOn;
     }
 
 }
