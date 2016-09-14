@@ -157,21 +157,6 @@ public class ChordSpellingTutorController extends TutorController {
 
             questionRows.getChildren().clear();
             for (int i = 0; i < manager.questions; i++) {
-                HBox questionRow = setUpQuestion();
-                TitledPane qPane = new TitledPane("Question " + (i + 1), questionRow);
-                qPane.setPadding(new Insets(2, 2, 2, 2));
-                qPane.expandedProperty().addListener(new ChangeListener<Boolean>() {
-                    @Override
-                    public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                        if (qPane.isExpanded()) {
-                            if (((HBox) questionRow.getChildren().get(1)).getChildren().get(0) instanceof TextField) {
-                                env.setCurrentFocussed((TextField) ((HBox) questionRow.getChildren().get(1)).getChildren().get(0), false, (TextField) ((HBox) questionRow.getChildren().get(1)).getChildren().get(1));
-                            }
-                        }
-                    }
-                });
-                qPanes.add(qPane);
-                questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
                 setUpQuestion(i);
             }
             qAccordion.getPanes().addAll(qPanes);
@@ -203,9 +188,29 @@ public class ChordSpellingTutorController extends TutorController {
         TitledPane qPane;
         if (questionType == 1) {
             qPane = new TitledPane((questionNo + 1) + ". What are the notes of the " + randomChord.getKey() + " chord?", questionRow);
+        } else if (questionType == 2) {
+            qPane = new TitledPane((questionNo + 1) + ". Which chord contains the notes:  " + chordAsString(randomChord.getValue()) + "?", questionRow);
         } else {
-            qPane = new TitledPane((questionNo + 1) + ". Which scale contains the notes:  " + chordAsString(randomChord.getValue()) + "?", questionRow);
+            qPane = new TitledPane((questionNo + 1) + ". Play the chord using the keyboard (set to tutor input).", questionRow);
         }
+        qPane.expandedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (qPane.isExpanded()) {
+                    if (questionType != 3) {
+                        if (((HBox) questionRow.getChildren().get(0)).getChildren().get(0) instanceof TextField) {
+                            env.setCurrentFocussed((TextField) ((HBox) questionRow.getChildren().get(0)).getChildren().get(0), false, ((HBox) questionRow.getChildren().get(0)).getChildren().get(1));
+                        }
+                    } else {
+                        if (((HBox) questionRow.getChildren().get(1)).getChildren().get(0) instanceof TextField) {
+                            env.setCurrentFocussed((TextField) ((HBox) questionRow.getChildren().get(1)).getChildren().get(0), false, ((HBox) questionRow.getChildren().get(1)).getChildren().get(1));
+                        }
+
+                    }
+                }
+            }
+        });
+
         qPane.setPadding(new Insets(2, 2, 2, 2));
         qPanes.add(qPane);
         questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
@@ -361,7 +366,6 @@ public class ChordSpellingTutorController extends TutorController {
                 }
             } else {
                 //textfield type one question.
-                question.setText(chordName);
                 correctAnswer = correctAnswer(chordAsString(chordNotes));
 
                 Button submitButton = new Button("Submit");
@@ -729,7 +733,7 @@ public class ChordSpellingTutorController extends TutorController {
                 }
 
                 String selection = String.join(" ", selectedNotes);
-                handleCompletedQuestion(questionRow, 1, resetData, selection, answerFom);
+                handleCompletedQuestion(questionRow, 3, resetData, selection, answerFom);
                 inputs.setDisable(true);
             });
 
@@ -748,17 +752,15 @@ public class ChordSpellingTutorController extends TutorController {
 
         if (questionType == 1) {
             //Type 1 questions
-            questionRow.getChildren().add(0, question);
-            questionRow.getChildren().add(1, inputs);
+            questionRow.getChildren().add(0, inputs);
 //                questionRow.getChildren().add(2, submitButton);
-            questionRow.getChildren().add(2, skip);
-            questionRow.getChildren().add(3, correctAnswer);
+            questionRow.getChildren().add(1, skip);
+            questionRow.getChildren().add(2, correctAnswer);
         } else if (questionType == 2) {
             //Type 2 questions
-            questionRow.getChildren().add(0, question);
-            questionRow.getChildren().add(1, inputs);
-            questionRow.getChildren().add(2, skip);
-            questionRow.getChildren().add(3, correctAnswer);
+            questionRow.getChildren().add(0, inputs);
+            questionRow.getChildren().add(1, skip);
+            questionRow.getChildren().add(2, correctAnswer);
         } else if (questionType == 3) {
             questionRow.getChildren().add(0, playButton);
             questionRow.getChildren().add(1, inputs);
@@ -1090,7 +1092,12 @@ public class ChordSpellingTutorController extends TutorController {
      * @param selectedAnswer    - The answer that the user input. For saving
      */
     private void handleCompletedQuestion(HBox completedQuestion, int questionType, Pair data, String selectedAnswer, String answerForm) {
-        HBox inputs = (HBox) completedQuestion.getChildren().get(1);
+        HBox inputs = null;
+        if (questionType != 3) {
+            inputs = (HBox) completedQuestion.getChildren().get(0);
+        } else {
+            inputs = (HBox) completedQuestion.getChildren().get(1);
+        }
         String questionText;
         Integer answeredCorrectly = 0;
 
@@ -1117,9 +1124,8 @@ public class ChordSpellingTutorController extends TutorController {
             manager.add(new Pair<Pair, Pair>((Pair) data.getKey(), (Pair) data.getValue()), 0);
 
             //Shows the correct answer
-            completedQuestion.getChildren().get(3).setVisible(true);
-            if (!((Pair) data.getValue()).getKey().equals("dropdown") &&
-                    ((Pair) data.getValue()).getValue().equals(1)) {
+            completedQuestion.getChildren().get(2).setVisible(true);
+            if (questionType == 3) {
                 completedQuestion.getChildren().get(3).setVisible(true);
             }
         } else {
@@ -1129,10 +1135,10 @@ public class ChordSpellingTutorController extends TutorController {
 
         //Disables skip button
         if (answerForm.equals("dropdown")) {
-            completedQuestion.getChildren().get(2).setDisable(true);
+            completedQuestion.getChildren().get(1).setDisable(true);
         } else {
-            completedQuestion.getChildren().get(2).setDisable(true);
-            completedQuestion.getChildren().get(3).setDisable(true);
+            completedQuestion.getChildren().get(1).setDisable(true);
+//            completedQuestion.getChildren().get(2).setDisable(true);
         }
 
         String[] question = new String[]{
@@ -1174,7 +1180,7 @@ public class ChordSpellingTutorController extends TutorController {
      * @param questionInfo The textual representation of the skipped question
      * @param questionRow  The GUI element of the question, to be styled
      * @param finalData    The information about the question, to be stored.
-     * @param questionType Whether the question was of type 1 or type 2.
+     * @param questionType Whether the question was of type 1, type 2 or type 3.
      */
     private void handleSkippedQuestion(String[] questionInfo, HBox questionRow, Pair finalData, int questionType) {
         // Disables only input buttons
@@ -1182,9 +1188,9 @@ public class ChordSpellingTutorController extends TutorController {
         formatSkippedQuestion(questionRow);
         if (isCompMode) {
             // No skips in competition mode
-            manager.add(new Pair<>(finalData, questionType), 0);
+            manager.add(new Pair<>(finalData.getKey(), questionType), 0);
         } else {
-            manager.add(new Pair<>(finalData, questionType), 2);
+            manager.add(new Pair<>(finalData.getKey(), questionType), 2);
         }
 
         record.addQuestionAnswer(questionInfo);
