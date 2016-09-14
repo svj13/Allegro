@@ -157,6 +157,7 @@ public abstract class TutorController {
         record.setDate();
 
         String tutorName = env.getRootController().getHeader();
+        System.out.println("current project: " + currentProject);
         if (currentProject != null) {
             currentProject.saveCurrentProject();
             String tutorNameNoSpaces = tutorName.replaceAll("\\s", "");

@@ -200,6 +200,7 @@ public class TutorHandler {
      */
     public void saveTutorRecordsToFile(String filename, TutorRecord currentRecord) {
         Gson gson = new Gson();
+
         try {
             ArrayList<TutorRecord> records;
             try {
@@ -212,6 +213,7 @@ public class TutorHandler {
                     records.remove(records.size() - 1);
                 }
             } catch (FileNotFoundException e) {
+                System.err.println("file not found exception??");
                 records = new ArrayList<>();
             } catch (JsonSyntaxException e) {
                 System.err.println("File was not of the correct type. Overwriting.");
@@ -226,6 +228,7 @@ public class TutorHandler {
                 writer.write(json);
                 writer.flush();
                 writer.close();
+
             } catch (IOException ex) {
                 System.err.println("Problem writing to the selected file " + ex.getMessage());
             }
