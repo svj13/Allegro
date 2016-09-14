@@ -2,6 +2,8 @@ package seng302.gui;
 
 import com.jfoenix.controls.JFXSlider;
 
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,6 +21,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.util.Pair;
 import seng302.Environment;
 import seng302.Users.Project;
@@ -46,6 +49,15 @@ public abstract class TutorController {
     public TutorHandler tutorHandler;
 
     public List qPanes;
+
+    public boolean isCompMode;
+
+
+    Stage stage;
+
+    File fileDir;
+
+    String path;
 
     @FXML
     VBox questionRows;
@@ -80,13 +92,14 @@ public abstract class TutorController {
         manager = new TutorManager();
         currentProject = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject();
         tutorHandler = currentProject.getTutorHandler();
+        isCompMode = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().getIsCompetitiveMode();
     }
 
     /**
      * Implements the settings of a slider used to select number of questions.
      */
     public void initialiseQuestionSelector() {
-        if (env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().isCompetitiveMode) {
+        if (env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().getIsCompetitiveMode()) {
             numQuestions.setValue(10);
             numQuestions.setDisable(true);
             selectedQuestions = 10;
@@ -112,29 +125,29 @@ public abstract class TutorController {
         });
     }
 
-    /**
-     * If the user chooses to re-test their self on their failed questions, this function sets up
-     * the tutoring environment for that.
-     */
-    public void retest() {
-        record = new TutorRecord();
-        ArrayList<Pair> tempIncorrectResponses = new ArrayList<>(manager.getTempIncorrectResponses());
-        manager.clearTempIncorrect();
-        Collections.shuffle(tempIncorrectResponses);
-        manager.questions = tempIncorrectResponses.size();
-        List retestPanes = new ArrayList<>();
-
-        for (Pair pair : tempIncorrectResponses) {
-            HBox questionRow = generateQuestionPane(pair);
-            TitledPane qPane = new TitledPane("Question " + (tempIncorrectResponses.indexOf(pair) + 1), questionRow);
-            qPane.setPadding(new Insets(2, 2, 2, 2));
-            retestPanes.add(qPane);
-            VBox.setMargin(questionRow, new Insets(10, 10, 10, 10));
-        }
-        qAccordion.getPanes().remove(0, qAccordion.getPanes().size());
-        qAccordion.getPanes().addAll(retestPanes);
-        questionRows.getChildren().add(qAccordion);
-    }
+//    /**
+//     * If the user chooses to re-test their self on their failed questions, this function sets up
+//     * the tutoring environment for that.
+//     */
+//    public void retest() {
+//        record = new TutorRecord();
+//        ArrayList<Pair> tempIncorrectResponses = new ArrayList<>(manager.getTempIncorrectResponses());
+//        manager.clearTempIncorrect();
+//        Collections.shuffle(tempIncorrectResponses);
+//        manager.questions = tempIncorrectResponses.size();
+//        List retestPanes = new ArrayList<>();
+//
+//        for (Pair pair : tempIncorrectResponses) {
+//            HBox questionRow = generateQuestionPane(pair);
+//            TitledPane qPane = new TitledPane("Question " + (tempIncorrectResponses.indexOf(pair) + 1), questionRow);
+//            qPane.setPadding(new Insets(2, 2, 2, 2));
+//            retestPanes.add(qPane);
+//            VBox.setMargin(questionRow, new Insets(10, 10, 10, 10));
+//        }
+//        qAccordion.getPanes().remove(0, qAccordion.getPanes().size());
+//        qAccordion.getPanes().addAll(retestPanes);
+//        questionRows.getChildren().add(qAccordion);
+//    }
 
     /**
      * Run whenever a tutoring session ends. Saves information about that session
@@ -145,7 +158,7 @@ public abstract class TutorController {
         //Calculates and gives a user their experience.
         //Note: I've ignored "skipped questions" here, as you won't be able to "skip" a
         //question in competition mode.
-        if (env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().isCompetitiveMode) {
+        if (env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().getIsCompetitiveMode()) {
             int expGained = ExperienceCalculator.calculateExperience(manager.correct, manager.questions);
             env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().addExperience(expGained);
         }
@@ -177,10 +190,6 @@ public abstract class TutorController {
         manager.resetStats();
     }
 
-    /**
-     * An empty function which is overridden by each tutor
-     */
-    abstract HBox generateQuestionPane(Pair data);
 
     /**
      * A function for disabling a selection of buttons. For example, disable all inputs but not the
@@ -255,7 +264,7 @@ public abstract class TutorController {
      * @param question The HBox containing info about a question
      */
     public void formatSkippedQuestion(HBox question) {
-        question.getParent().getParent().setStyle("-fx-border-color: grey; -fx-border-width: 2px;");
+        question.getParent().getParent().setStyle("-fx-border-color: grey; -fx-border-width: 0 0 0 10px;");
     }
 
     /**
@@ -264,7 +273,7 @@ public abstract class TutorController {
      * @param question The HBox containing info about a question
      */
     public void formatCorrectQuestion(HBox question) {
-        question.getParent().getParent().setStyle("-fx-border-color: green; -fx-border-width: 2px;");
+        question.getParent().getParent().setStyle("-fx-border-color: green; -fx-border-width: 0 0 0 10px;");
     }
 
     /**
@@ -273,7 +282,7 @@ public abstract class TutorController {
      * @param question The HBox containing info about a question
      */
     public void formatIncorrectQuestion(HBox question) {
-        question.getParent().getParent().setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+        question.getParent().getParent().setStyle("-fx-border-color: red; -fx-border-width: 0 0 0 10px;");
     }
 
     /**
@@ -282,7 +291,7 @@ public abstract class TutorController {
      * @param question The HBox containing info about a question
      */
     public void formatPartiallyCorrectQuestion(HBox question) {
-        question.getParent().getParent().setStyle("-fx-border-color: yellow; -fx-border-width: 2px;");
+        question.getParent().getParent().setStyle("-fx-border-color: yellow; -fx-border-width: 0 0 0 10px;");
     }
 
     /**

@@ -52,7 +52,7 @@ public class IntervalRecognitionTutorController extends TutorController {
         initialiseQuestionSelector();
 //        initaliseRangeSelector();
 
-        if(currentProject.isCompetitiveMode){
+        if (currentProject.getIsCompetitiveMode()) {
             int lowValue = generateRangesliderDefault();
             rangeSlider = new NoteRangeSlider(notes, 12, lowValue, lowValue+24);
             rangeSlider.setDisable(true);
@@ -71,7 +71,6 @@ public class IntervalRecognitionTutorController extends TutorController {
     private int generateRangesliderDefault(){
         Random rand = new Random();
         int num = rand.nextInt(127);
-        System.out.println(num);
         if(num + 24 > 127){
             return 103;
         }else{
@@ -98,7 +97,7 @@ public class IntervalRecognitionTutorController extends TutorController {
             questionRows.getChildren().clear();
             for (int i = 0; i < manager.questions; i++) {
                 HBox questionRow = setUpQuestion();
-                TitledPane qPane = new TitledPane("Question " + (i + 1), questionRow);
+                TitledPane qPane = new TitledPane((i + 1) + ". What is this interval?", questionRow);
                 qPane.setPadding(new Insets(2, 2, 2, 2));
                 qPanes.add(qPane);
                 VBox.setMargin(questionRow, new Insets(10, 10, 10, 10));
@@ -171,7 +170,13 @@ public class IntervalRecognitionTutorController extends TutorController {
             // Disables only input buttons
             disableButtons(questionRow, 1, 3);
             formatSkippedQuestion(questionRow);
-            manager.add(pair, 2);
+            if (isCompMode) {
+                // No skips in competition mode
+                manager.add(pair, 0);
+            } else {
+                manager.add(pair, 2);
+            }
+
             String[] question = new String[]{
                     String.format("Interval between %s and %s", firstNote.getNote(), secondNote.getNote()),
                     thisInterval.getName(),

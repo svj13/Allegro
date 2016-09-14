@@ -50,7 +50,6 @@ public class User {
 
     private String userLastName;
 
-
     /**
      * User constructor used for generating new users.
      *
@@ -149,6 +148,7 @@ public class User {
         } catch (NullPointerException e) {
             themeSecondary = "white";
         }
+
 
         projectHandler = new ProjectHandler(env, userName);
 
@@ -301,12 +301,12 @@ public class User {
             Type termsType = new TypeToken<ArrayList<Term>>() {
             }.getType();
             if (!properties.get("musicalTerms").equals(new Gson().fromJson((String) properties.get("muscalTerms"), termsType))) {
-                env.getRootController().setWindowTitle(getProjectHandler().getCurrentProject().projectName + "*");
+                env.getRootController().setWindowTitle(env.getRootController().getWindowTitle() + "*");
                 getProjectHandler().getCurrentProject().saved = false;
             }
         } else {
             if (env.getRootController() != null) {
-                env.getRootController().setWindowTitle(getProjectHandler().getCurrentProject().projectName + "*");
+                env.getRootController().setWindowTitle(env.getRootController().getWindowTitle() + "*");
                 getProjectHandler().getCurrentProject().saved = false;
             }
 

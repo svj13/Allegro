@@ -28,6 +28,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.SplitPane;
 import javafx.scene.effect.DropShadow;
@@ -125,6 +126,9 @@ public class RootController implements Initializable {
     private MenuButton userDropDown;
 
     @FXML
+    private RadioMenuItem menuTranscript;
+
+    @FXML
     public void onTranscriptTab() {
         Platform.runLater(() -> transcriptPaneController.txtCommand.requestFocus());
     }
@@ -147,6 +151,13 @@ public class RootController implements Initializable {
 
         userDropDown.setEllipsisString("User");
         userDropDown.setText("User");
+        if (transcriptPaneController.getIsExpanded()) {
+            transcriptPaneController.showTranscript();
+            menuTranscript.setSelected(true);
+        } else {
+            transcriptPaneController.hideTranscript();
+            menuTranscript.setSelected(false);
+        }
 
     }
 
@@ -199,6 +210,8 @@ public class RootController implements Initializable {
             stage.show();
             resizeSplitPane(1.0);
             updateImage();
+            menuTranscript.setSelected(false);
+            toggleTranscript();
             try {
                 showUserPage();
             } catch (IOException e) {
@@ -624,6 +637,10 @@ public class RootController implements Initializable {
         transcriptPaneController.setTranscriptPane(text);
     }
 
+    public KeyboardPaneController getKeyboardPaneController() {
+        return this.keyboardPaneController;
+    }
+
 
     public void checkProjectDirectory() {
         Path path = Paths.get("UserData/Projects/");
@@ -784,7 +801,21 @@ public class RootController implements Initializable {
      * sets the title of the application to the text input
      */
     public void setWindowTitle(String text) {
-        this.stage.setTitle("Allegro - " + text);
+        this.stage.setTitle(text);
+    }
+
+    public String getWindowTitle() {
+        return this.stage.getTitle();
+    }
+
+    public void addUnsavedChangesIndicator() {
+        if (!this.stage.getTitle().contains("*")) {
+            this.stage.setTitle(this.stage.getTitle() + "*");
+        }
+    }
+
+    public void removeUnsavedChangesIndicator() {
+        this.stage.setTitle(this.stage.getTitle().replace("*", ""));
     }
 
 
@@ -824,7 +855,12 @@ public class RootController implements Initializable {
     @FXML
     public void toggleTranscript() {
         transcriptSplitPane.setDividerPositions(1.0);
-        transcriptPaneController.showTranscript();
+
+        if (menuTranscript.isSelected()) {
+            transcriptPaneController.showTranscript();
+        } else {
+            transcriptPaneController.hideTranscript();
+        }
     }
 
     public TutorFactory getTutorFactory() {
@@ -848,4 +884,14 @@ public class RootController implements Initializable {
     public String getHeader() {
         return txtHeader.getText();
     }
+
+    public void disallowTranscript() {
+        menuTranscript.setDisable(true);
+        menuTranscript.setSelected(false);
+    }
+
+    public void allowTranscript() {
+        menuTranscript.setDisable(false);
+    }
+
 }

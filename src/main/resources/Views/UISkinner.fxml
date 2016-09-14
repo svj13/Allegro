@@ -13,23 +13,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-
-<AnchorPane prefHeight="450.0" prefWidth="700.0" styleClass="secondary" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.UISkinnerController">
+<AnchorPane prefHeight="450.0" prefWidth="700.0"  xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.UISkinnerController">
    <children>
        <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox alignment="CENTER_LEFT" prefHeight="39.0" prefWidth="700.0" styleClass="primary">
-               <children>
-                   <Label alignment="TOP_CENTER" contentDisplay="CENTER" styleClass="primary" text="Interface Theme" textFill="WHITE">
-                     <font>
-                         <Font name="Droid Sans Bold" size="21.0" />
-                     </font>
-                     <HBox.margin>
-                         <Insets left="20.0" />
-                     </HBox.margin>
-                  </Label>
-               </children>
-            </HBox>
             <HBox fx:id="settings" alignment="CENTER_LEFT" minWidth="400.0" prefHeight="10.0" spacing="5.0">
                <children>
                   <VBox minHeight="-Infinity" prefHeight="100.0" prefWidth="746.0" spacing="10.0">
@@ -49,7 +37,7 @@
                            <children>
                               <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="718.0" styleClass="primary">
                                  <children>
-                                    <Label text="Select a colour:">
+                                     <Label text="Select a colour:" styleClass="primaryText">
                                        <HBox.margin>
                                            <Insets left="20.0" right="10.0" />
                                        </HBox.margin>
