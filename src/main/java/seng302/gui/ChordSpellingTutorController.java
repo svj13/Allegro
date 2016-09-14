@@ -81,7 +81,14 @@ public class ChordSpellingTutorController extends TutorController {
         initialiseChordTypeSelector();
 
         numEnharmonics.getItems().addAll("only one", "all");
-        numEnharmonics.getSelectionModel().selectFirst();
+        if(currentProject.isCompetitiveMode){
+            numEnharmonics.setValue("all");
+            numEnharmonics.setDisable(true);
+            allowFalseChords.setDisable(true);
+
+        }else{
+            numEnharmonics.getSelectionModel().selectFirst();
+        }
         rand = new Random();
     }
 
@@ -96,9 +103,16 @@ public class ChordSpellingTutorController extends TutorController {
             chordTypes.getItems().add(validChordName);
         }
 
-        chordTypes.getCheckModel().clearChecks();
-        chordTypes.getCheckModel().check(0);
-        chordTypes.getCheckModel().check(1);
+        if(currentProject.isCompetitiveMode){
+            chordTypes.getCheckModel().checkAll();
+            chordTypes.setDisable(true);
+
+        }else{
+            chordTypes.getCheckModel().clearChecks();
+            chordTypes.getCheckModel().check(0);
+            chordTypes.getCheckModel().check(1);
+
+        }
 
     }
 
