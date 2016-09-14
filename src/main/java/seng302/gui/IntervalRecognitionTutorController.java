@@ -71,7 +71,6 @@ public class IntervalRecognitionTutorController extends TutorController {
     private int generateRangesliderDefault(){
         Random rand = new Random();
         int num = rand.nextInt(127);
-        System.out.println(num);
         if(num + 24 > 127){
             return 103;
         }else{
@@ -98,7 +97,7 @@ public class IntervalRecognitionTutorController extends TutorController {
             questionRows.getChildren().clear();
             for (int i = 0; i < manager.questions; i++) {
                 HBox questionRow = setUpQuestion();
-                TitledPane qPane = new TitledPane("Question " + (i + 1), questionRow);
+                TitledPane qPane = new TitledPane((i + 1) + ". What is this interval?", questionRow);
                 qPane.setPadding(new Insets(2, 2, 2, 2));
                 qPanes.add(qPane);
                 VBox.setMargin(questionRow, new Insets(10, 10, 10, 10));

@@ -88,15 +88,13 @@ public class PitchComparisonTutorController extends TutorController {
 
                 int lowerPitchBound = ((Double) rangeSlider.getLowValue()).intValue();
                 int upperPitchBound = ((Double) rangeSlider.getHighValue()).intValue();
-                System.out.println(lowerPitchBound);
-                System.out.println(upperPitchBound);
                 int pitchRange = upperPitchBound - lowerPitchBound;
                 String midiOne = String.valueOf(lowerPitchBound + rand.nextInt(pitchRange + 1));
                 String midiTwo = String.valueOf(lowerPitchBound + rand.nextInt(pitchRange + 1));
 
-                Pair<String, String> midis = new Pair<String, String>(midiOne, midiTwo);
+                Pair<String, String> midis = new Pair<>(midiOne, midiTwo);
                 HBox rowPane = generateQuestionPane(midis);
-                TitledPane qPane = new TitledPane("Question " + (i + 1), rowPane);
+                TitledPane qPane = new TitledPane((i + 1) + ". Is the second note higher or lower than the first note?", rowPane);
                 qPane.setPadding(new Insets(2, 2, 2, 2));
                 qPanes.add(qPane);
 
@@ -124,7 +122,6 @@ public class PitchComparisonTutorController extends TutorController {
      */
     private int generateRangesliderDefault(){
         int num = rand.nextInt(127);
-        System.out.println(num);
         if(num + 24 > 127){
             return 103;
         }else{
@@ -175,7 +172,6 @@ public class PitchComparisonTutorController extends TutorController {
 
 
         if (((ToggleButton) row.getChildren().get(1)).isSelected()) { //Higher\
-            row.getChildren().get(1).setStyle("-fx-text-fill: white;-fx-background-color: black");
             if (noteComparison(true, note1, note2)) correctChoice = 1;
             String[] question = new String[]{
                     String.format("Is %s higher or lower than %s", note2.getNote(), note1.getNote()),
@@ -185,7 +181,6 @@ public class PitchComparisonTutorController extends TutorController {
 
             record.addQuestionAnswer(question);
         } else if (((ToggleButton) row.getChildren().get(2)).isSelected()) { //Same
-            row.getChildren().get(2).setStyle("-fx-text-fill: white;-fx-background-color: black");
             if (note1 == note2) correctChoice = 1;
             String[] question = new String[]{
                     String.format("Is %s higher or lower than %s", note2.getNote(), note1.getNote()),
@@ -195,7 +190,6 @@ public class PitchComparisonTutorController extends TutorController {
 
             record.addQuestionAnswer(question);
         } else if (((ToggleButton) row.getChildren().get(3)).isSelected()) { //Lower
-            row.getChildren().get(3).setStyle("-fx-text-fill: white;-fx-background-color: black");
             if (noteComparison(false, note1, note2)) {
                 correctChoice = 1;
             }
@@ -206,7 +200,6 @@ public class PitchComparisonTutorController extends TutorController {
             };
             record.addQuestionAnswer(question);
         } else if (((ToggleButton) row.getChildren().get(4)).isSelected()) { //Skip
-            row.getChildren().get(4).setStyle("-fx-text-fill: white;-fx-background-color: black");
             correctChoice = 2;
 
             String[] question = new String[]{
