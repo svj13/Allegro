@@ -7,6 +7,7 @@ import java.util.Random;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -17,8 +18,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.util.Pair;
 import seng302.Environment;
 import seng302.data.Term;
@@ -93,14 +92,14 @@ public class MusicalTermsTutorController extends TutorController {
             } else {
                 for (int i = 0; i < manager.questions; i++) {
                     if (termsBeingViewed.size() < 1) {
-                        termsBeingViewed = new ArrayList<Term>(dataManager.getTerms());
+                        termsBeingViewed = new ArrayList<>(dataManager.getTerms());
                     }
                     int randomNumber = rand.nextInt(termsBeingViewed.size());
                     Term term = termsBeingViewed.get(randomNumber);
                     termsBeingViewed.remove(randomNumber);
-                    Pair<String, Term> dummyPair = new Pair<String, Term>("", term);
+                    Pair<String, Term> dummyPair = new Pair<>("", term);
                     HBox questionRow = generateQuestionPane(dummyPair);
-                    TitledPane qPane = new TitledPane("Question " + (i + 1), questionRow);
+                    TitledPane qPane = new TitledPane((i + 1) + ". What are the origin, category and definition of " + term.getMusicalTermName() + "?", questionRow);
                     qPane.setPadding(new Insets(2, 2, 2, 2));
                     qPanes.add(qPane);
 
@@ -216,8 +215,6 @@ public class MusicalTermsTutorController extends TutorController {
 
         formatQuestionRow(rowPane);
 
-        Label termLabel = new Label(currentTerm.getMusicalTermName());
-        termLabel.setFont(Font.font("System Bold", FontWeight.BOLD, 13));
         Button skip = new Button("Skip");
         Image imageSkip = new Image(getClass().getResourceAsStream("/images/right-arrow.png"), 20, 20, true, true);
         skip.setGraphic(new ImageView(imageSkip));
@@ -233,11 +230,11 @@ public class MusicalTermsTutorController extends TutorController {
         originOptions.setOnAction(event -> {
             // This handler colors the GUI depending on the user's input
             if (originOptions.getValue().equals(currentTerm.getMusicalTermOrigin())) {
-                originOptions.setStyle("-fx-background-color: green");
+                originOptions.setStyle("-fx-border-color: green");
 
             } else {
-                originOptions.setStyle("-fx-background-color: red");
-                ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(1)).getChildren().add(new Label(currentTerm.getMusicalTermOrigin()));
+                originOptions.setStyle("-fx-border-color: red");
+                ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(0)).getChildren().add(new Label(currentTerm.getMusicalTermOrigin()));
             }
             Integer correct = 0;
             if (originOptions.getValue().equals(currentTerm.getMusicalTermOrigin())) {
@@ -254,7 +251,7 @@ public class MusicalTermsTutorController extends TutorController {
 
             styleAnswer(rowPane, currentTerm, originOptions, categoryOptions, definitionOptions);
 
-            ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(1)).getChildren().get(1).setDisable(true);
+            ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(0)).getChildren().get(1).setDisable(true);
             if (isQuestionComplete(originOptions, categoryOptions, definitionOptions)) {
                 handleAccordion();
             }
@@ -266,10 +263,10 @@ public class MusicalTermsTutorController extends TutorController {
         categoryOptions.setOnAction(event -> {
             // This handler colors the GUI depending on the user's input
             if (categoryOptions.getValue().equals(currentTerm.getMusicalTermCategory())) {
-                categoryOptions.setStyle("-fx-background-color: green");
+                categoryOptions.setStyle("-fx-border-color: green");
             } else {
-                categoryOptions.setStyle("-fx-background-color: red");
-                ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(2)).getChildren().add(new Label(currentTerm.getMusicalTermCategory()));
+                categoryOptions.setStyle("-fx-border-color: red");
+                ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(1)).getChildren().add(new Label(currentTerm.getMusicalTermCategory()));
             }
             Integer correct = 0;
             if (categoryOptions.getValue().equals(currentTerm.getMusicalTermCategory())) {
@@ -286,7 +283,7 @@ public class MusicalTermsTutorController extends TutorController {
 
             styleAnswer(rowPane, currentTerm, categoryOptions, definitionOptions, originOptions);
 
-            ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(2)).getChildren().get(1).setDisable(true);
+            ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(1)).getChildren().get(1).setDisable(true);
 
             if (isQuestionComplete(originOptions, categoryOptions, definitionOptions)) {
                 handleAccordion();
@@ -299,10 +296,10 @@ public class MusicalTermsTutorController extends TutorController {
         definitionOptions.setOnAction(event -> {
             // This handler colors the GUI depending on the user's input
             if (definitionOptions.getValue().equals(currentTerm.getMusicalTermDefinition())) {
-                definitionOptions.setStyle("-fx-background-color: green");
+                definitionOptions.setStyle("-fx-border-color: green");
             } else {
-                definitionOptions.setStyle("-fx-background-color: red");
-                ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(3)).getChildren().add(new Label(currentTerm.getMusicalTermDefinition()));
+                definitionOptions.setStyle("-fx-border-color: red");
+                ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(2)).getChildren().add(new Label(currentTerm.getMusicalTermDefinition()));
             }
             Integer correct = 0;
             if (definitionOptions.getValue().equals(currentTerm.getMusicalTermDefinition())) {
@@ -319,7 +316,7 @@ public class MusicalTermsTutorController extends TutorController {
 
             styleAnswer(rowPane, currentTerm, definitionOptions, categoryOptions, originOptions);
 
-            ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(3)).getChildren().get(1).setDisable(true);
+            ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(2)).getChildren().get(1).setDisable(true);
 
             if (isQuestionComplete(originOptions, categoryOptions, definitionOptions)) {
                 handleAccordion();
@@ -346,10 +343,10 @@ public class MusicalTermsTutorController extends TutorController {
                 manager.add(new Pair(currentTerm.getMusicalTermName(), currentTerm), 2);
             }
 
+            ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(0)).getChildren().get(1).setDisable(true);
             ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(1)).getChildren().get(1).setDisable(true);
             ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(2)).getChildren().get(1).setDisable(true);
-            ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(3)).getChildren().get(1).setDisable(true);
-            ((VBox) (rowPane.getChildren().get(0))).getChildren().get(4).setDisable(true); //disable skip
+            ((VBox) (rowPane.getChildren().get(0))).getChildren().get(3).setDisable(true); //disable skip
             handleAccordion();
             if (manager.answered == manager.questions) {
                 finished();
@@ -358,19 +355,22 @@ public class MusicalTermsTutorController extends TutorController {
 
         VBox qLayout = new VBox();
         qLayout.setSpacing(5);
-        qLayout.getChildren().add(termLabel);
 
         HBox origin = new HBox();
+        origin.setAlignment(Pos.CENTER_LEFT);
         origin.setSpacing(24);
         origin.getChildren().add(new Label("Origin:"));
         origin.getChildren().add(originOptions);
 
         HBox category = new HBox();
+        category.setAlignment(Pos.CENTER_LEFT);
+
         category.setSpacing(9);
         category.getChildren().add(new Label("Category:"));
         category.getChildren().add(categoryOptions);
 
         HBox def = new HBox();
+        def.setAlignment(Pos.CENTER_LEFT);
         def.setSpacing(5);
         def.getChildren().add(new Label("Definition:"));
         def.getChildren().add(definitionOptions);
@@ -392,11 +392,11 @@ public class MusicalTermsTutorController extends TutorController {
      */
     private void styleAnswer(HBox rowPane, Term currentTerm, ComboBox currentSelection, ComboBox secondBox, ComboBox thirdBox) {
         if (secondBox.getValue() != null && thirdBox.getValue() != null) {
-            if (secondBox.getStyle() == "-fx-background-color: red" && thirdBox.getStyle() == "-fx-background-color: red" && currentSelection.getStyle() == "-fx-background-color: red") {
+            if (secondBox.getStyle() == "-fx-border-color: red" && thirdBox.getStyle() == "-fx-border-color: red" && currentSelection.getStyle() == "-fx-border-color: red") {
                 // All parts incorrect
                 formatIncorrectQuestion(rowPane);
                 manager.add(new Pair(currentTerm.getMusicalTermName(), currentTerm), 0);
-            } else if (secondBox.getStyle() == "-fx-background-color: green" && thirdBox.getStyle() == "-fx-background-color: green" && currentSelection.getStyle() == "-fx-background-color: green") {
+            } else if (secondBox.getStyle() == "-fx-border-color: green" && thirdBox.getStyle() == "-fx-border-color: green" && currentSelection.getStyle() == "-fx-border-color: green") {
                 // All parts correct
                 formatCorrectQuestion(rowPane);
                 manager.add(new Pair(currentTerm.getMusicalTermName(), currentTerm), 1);
@@ -406,7 +406,7 @@ public class MusicalTermsTutorController extends TutorController {
                 manager.add(new Pair(currentTerm.getMusicalTermName(), currentTerm), 0);
 
             }
-            ((VBox) (rowPane.getChildren().get(0))).getChildren().get(4).setDisable(true);
+            ((VBox) (rowPane.getChildren().get(0))).getChildren().get(3).setDisable(true);
         }
     }
 
