@@ -14,6 +14,8 @@
     -fx-faint-focus-color: derive({0}, 70%);
     -fx-accent: derive({0}, 40%);
     -fx-border-style: none;
+    -fx-border-style: none;
+    -fx-border-width: 0;
 
 }
 
@@ -36,6 +38,8 @@
 
 .menu-bar {
     -fx-accent: derive({0}, 80%);
+    -fx-border-style: none;
+  -fx-border-width: 0;
 }
 
 .text-area {
@@ -90,6 +94,7 @@
    -fx-background-color: {0};
   -fx-border: 0;
 
+
 }
 .settingsAnchor .jfx-list-view {
    -fx-background-color: {0};
@@ -105,6 +110,7 @@
 
     -fx-text-fill: {0}{1}{2};
     -fx-font-size: 16;
+
 
 
 
@@ -142,6 +148,8 @@
 #userPage {
     -fx-background-color: {0};
     -fx-text-fill: {0}{1}{2} ;
+    -fx-border-width: 0;
+    -fx-border-style: none;
 }
 
 #userpage .userPagePrimary{
@@ -257,21 +265,34 @@
     -fx-border-radius: 35;
     -fx-border-color: {0}{1};
     -fx-background-radius: 35;
+    -fx-text-fill: {0}{1}{2};
     -fx-pref-width: 35;
     -fx-pref-height: 35;
     -fx-alignment: center;
 }
+.settings-badge-large .badge-pane .label{
+    -fx-text-fill: {0}{1}{2};
+
+}
+
 
 .settings-badge .badge-pane {
 
     -fx-background-image: url("images/lock.png");
     -fx-image: url("images/settings_gear.png");
-
     -fx-text-fill: {0}{1}{2};
     -fx-background-radius: 35;
     -fx-pref-width: 35;
     -fx-pref-height: 35;
     -fx-alignment: center;
+}
+.settings-badge .badge-pane .label{
+    -fx-text-fill: {0}{1}{2};
+
+}
+
+.jfx-color-picker .label {
+    -fx-text-fill: {0}{1}{2};
 }
 
 
