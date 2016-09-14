@@ -86,11 +86,25 @@ public class KeySignaturesTutorController extends TutorController {
         super.create(env);
         initialiseQuestionSelector();
         scaleBox.getItems().addAll("Major", "Minor", "Both");
-        scaleBox.getSelectionModel().selectFirst();
         formBox.getItems().addAll("Listing sharps/flats", "Number of sharps/flats");
-        formBox.getSelectionModel().selectFirst();
         answerBox.getItems().addAll("Show Key Signature", "Show Name");
-        answerBox.getSelectionModel().selectFirst();
+
+        if(currentProject.isCompetitiveMode){
+            scaleBox.setDisable(true);
+            scaleBox.setValue("Both");
+            formBox.setDisable(true);
+            formBox.setValue("Both");
+            answerBox.setDisable(true);
+            answerBox.setValue("Both");
+
+        }else{
+
+            scaleBox.getSelectionModel().selectFirst();
+            formBox.getSelectionModel().selectFirst();
+            answerBox.getSelectionModel().selectFirst();
+
+        }
+
     }
 
 
@@ -116,28 +130,36 @@ public class KeySignaturesTutorController extends TutorController {
         int questionType;
         boolean answerType;
 
-
-        //figure out the scale is wanted to be tested
-        if (scaleBox.getValue().equals("Major")) {
-            scaletype = "major";
-        } else if (scaleBox.getValue().equals("Minor")) {
-            scaletype = "minor";
-        } else {
+        if(currentProject.isCompetitiveMode){
+            Random rand = new Random();
             scaletype = "both";
-        }
+            questionType = rand.nextInt(1);
+            answerType = rand.nextBoolean();
+        }else {
 
-        //figure out the type of question wanted
-        if (answerBox.getValue().equals("Show Key Signature")) {
-            questionType = 0;
-        } else {
-            questionType = 1;
-        }
 
-        if (formBox.getValue().equals("Listing sharps/flats")) {
-            answerType = true;
+            //figure out the scale is wanted to be tested
+            if (scaleBox.getValue().equals("Major")) {
+                scaletype = "major";
+            } else if (scaleBox.getValue().equals("Minor")) {
+                scaletype = "minor";
+            } else {
+                scaletype = "both";
+            }
 
-        } else {
-            answerType = false;
+            //figure out the type of question wanted
+            if (answerBox.getValue().equals("Show Key Signature")) {
+                questionType = 0;
+            } else {
+                questionType = 1;
+            }
+
+            if (formBox.getValue().equals("Listing sharps/flats")) {
+                answerType = true;
+
+            } else {
+                answerType = false;
+            }
         }
 
 
