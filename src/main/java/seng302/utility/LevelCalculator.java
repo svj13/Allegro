@@ -13,8 +13,7 @@ public class LevelCalculator {
      * @return True if the user can increase to the next level, false otherwise.
      */
     public static boolean isLevelUp(int currentLevel, int currentExperience) {
-
-        if (currentExperience >= getTotalExpForLevel(currentLevel + 1)) {
+        if (currentExperience >= getRequiredExp(currentLevel + 1)) {
             return true;
         } else {
             return false;
@@ -22,17 +21,34 @@ public class LevelCalculator {
     }
 
     /**
-     * Recursive function to calculate the total amount of experience required to reach any given
-     * level.
+     * Calculates the total amount of experience a user requires to reach a given level.
+     *
+     * @param level The level to calculate the required experience for
+     * @return The required experience, represented as an integer
+     */
+    public static int getRequiredExp(int level) {
+        int amountRequired = 0;
+
+        while (level > 1) {
+            amountRequired += getExpDiff(level);
+            level--;
+        }
+        return amountRequired;
+    }
+
+    /**
+     * Recursive function to calculate the difference in experience required for any given level and
+     * the level below it.
      *
      * @param level The level whose required experience is to be found
      * @return The required experience, represented as an integer
      */
-    public static int getTotalExpForLevel(int level) {
+    private static int getExpDiff(int level) {
+        // amount required to get to the given level from the prev level
         if (level == 1) {
             return 1;
         } else {
-            return (int) (Math.pow(level + 5, 2) + getTotalExpForLevel(level - 1));
+            return (int) (Math.pow(level + 10, 2) + getExpDiff(level - 1));
         }
     }
 
