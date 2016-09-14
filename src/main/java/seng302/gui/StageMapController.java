@@ -5,13 +5,20 @@ import javafx.scene.layout.AnchorPane;
 import jdk.nashorn.internal.parser.JSONParser;
 import seng302.Environment;
 import javafx.scene.control.Button;
+import seng302.Users.Project;
+import seng302.Users.TutorHandler;
+import seng302.utility.TutorRecord;
 
+import java.util.ArrayList;
 
 
 /**
  * Created by svj13 on 2/09/16.
  */
 public class StageMapController {
+
+    public Project currentProject;
+
 
     @FXML
     private Button scaleRecognitionTutorButton;
@@ -49,6 +56,9 @@ public class StageMapController {
     @FXML
     private Button intervalRecognitionButton;
 
+    private TutorHandler tutorHandler;
+
+
     UserPageController userPageController; //creates an insance of user page controller so we can access its methods
 
     Environment env; //declare the environment
@@ -63,6 +73,9 @@ public class StageMapController {
      */
     public void setEnvironment(Environment env) {
         this.env = env;
+        currentProject = env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject();
+        tutorHandler = currentProject.getTutorHandler();
+
         userPageController = env.getUserPageController();
     }
 
@@ -70,30 +83,29 @@ public class StageMapController {
     public StageMapController() {
 
 
+
+
     }
 
     /**
      * Fetches tutor score file of tutor of interest and parses items of interest. Will terminate if it cannot
-     * source more than 5 entries
+     * source more than 3 entries
      */
-    private void fetchTutorFile() {
-        //JSONParser parser = new JSONParser();
-        boolean enoughEntries = false; //must be at least 5 entries for their to be a valid entry
+    private void fetchTutorFile(String tutorId) {
+        boolean enoughEntries = false; //must be at least 3 entries for their to be a valid entry
+        System.out.println(tutorHandler);
+        ArrayList<TutorRecord> td = tutorHandler.getTutorData(tutorId);
+        System.out.println(td);
+
 
 
         if (enoughEntries) {
             System.out.println("You need to attempt this tutor 5x consecutively with an " +
                     "average score of 90% to proceed to the next tutor. Soz");
-        } else {
+//        } else {
 
         }
 
-
-        //project of interest
-        //tutor of interest
-
-        //-> follow brrm brrm path the the tutor record
-        //->parse into tree
 
 
     }
@@ -108,8 +120,6 @@ public class StageMapController {
         //find last x scores
         //calculate last x scores
         //return average
-
-
     }
 
 
@@ -122,26 +132,23 @@ public class StageMapController {
      */
     @FXML
     private void launchMusicalTermsTutor() {
-//        userPageController.setCurrentTutor("Musical Terms Tutor");
         env.getRootController().getTutorFactory().openTutor("Musical Terms Tutor");
+        fetchTutorFile("musicalTermTutor");
 
     }
 
     @FXML
     private void launchPitchTutor() {
-        //userPageController.setCurrentTutor("Pitch Comparison Tutor");
         env.getRootController().getTutorFactory().openTutor("Pitch Comparison Tutor");
     }
 
     @FXML
     private void launchScaleRecognitionTutor() {
-        //userPageController.setCurrentTutor("Scale Recognition Tutor");
         env.getRootController().getTutorFactory().openTutor("Scale Recognition Tutor");
     }
 
     @FXML
     private void launchChordRecognitionTutor() {
-        //userPageController.setCurrentTutor("Chord Recognition Tutor");
         env.getRootController().getTutorFactory().openTutor("Chord Recognition Tutor");
     }
 
@@ -152,14 +159,15 @@ public class StageMapController {
 
     @FXML
     private void launchScaleRecognitionAdvancedTutor() {
-
         System.out.println("Advanced scale tutor");
+        env.getRootController().getTutorFactory().openTutor("Scale Recognition Tutor");
     }
 
     @FXML
     private void launchChordRecognitionAdvancedTutor() {
 
-        System.out.println("Chord Recognition Advanced");
+        System.out.println("Chord Recognition Advanced Tutor");
+        env.getRootController().getTutorFactory().openTutor("Chord Recognition Tutor");
     }
 
     @FXML
@@ -178,9 +186,17 @@ public class StageMapController {
     }
     @FXML
     private void launchMajorModesTutor() {
-
         env.getRootController().getTutorFactory().openTutor("Major Modes Tutor");
     }
+
+    //Getters for data of each tutor
+
+//    private ArrayList<TutorRecord> getMusicalTermsData() {
+//        ArrayList<TutorRecord> musicalTermsTutorData = new ArrayList<>();
+//        musicalTermsTutorData.add(0, tutorHandler.getTutorData("musicalTermsTutor"));
+//        System.out.println(musicalTermsTutorData);
+//        return musicalTermsTutorData;
+//    }
 
 
 

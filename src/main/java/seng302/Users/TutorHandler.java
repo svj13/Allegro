@@ -38,6 +38,8 @@ public class TutorHandler {
         add("chordSpellingTutor");
         add("keySignatureTutor");
         add("diatonicChordTutor");
+        add("scaleModesTutor");
+
     }};
 
     /**
@@ -72,7 +74,7 @@ public class TutorHandler {
     /**
      * This method will give the total number of correct and incorrect answers for a given tutor.
      *
-     * @param tabId The tabid of the tutor
+     * @param tabId The tab ID of the tutor
      * @return a pair containing two integers. The number of answers correct and the number of
      * incorrect answers.
      */
