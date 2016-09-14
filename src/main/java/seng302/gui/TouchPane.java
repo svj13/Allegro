@@ -62,14 +62,19 @@ public class TouchPane extends StackPane {
                     environment.getPlayer().noteOn(noteToPlay);
                     setHighlightOn();
                 } else {
-                    if (!(Boolean)env.getCurrentFocussed().getValue()) {
-                        ((TextField)((Pair)env.getCurrentFocussed().getKey()).getKey()).setText(OctaveUtil.removeOctaveSpecifier(this.getNoteValue().getNote()));
-                        ((TextField)((Pair)env.getCurrentFocussed().getKey()).getValue()).requestFocus();
-                    } else {
+                    if (kpc.playMode().equals("transcript")) {
                         String prev = env.getRootController().getTranscriptController().txtCommand.getText();
                         String newText = prev + " " + this.getNoteValue().getNote();
                         env.getRootController().getTranscriptController().txtCommand.setText(newText);
+                    } else if (!(Boolean) env.getCurrentFocussed().getValue() && !((TextField) ((Pair) env.getCurrentFocussed().getKey()).getKey()).isDisabled()) {
+                        ((TextField) ((Pair) env.getCurrentFocussed().getKey()).getKey()).setText(OctaveUtil.removeOctaveSpecifier(this.getNoteValue().getNote()));
+                        if (((Pair) env.getCurrentFocussed().getKey()).getValue() instanceof TextField) {
+                            ((TextField) ((Pair) env.getCurrentFocussed().getKey()).getValue()).requestFocus();
+                        } else {
+                            ((Button) ((Pair) env.getCurrentFocussed().getKey()).getValue()).fire();
+                        }
                     }
+
                 }
             }
             event.consume();
@@ -82,7 +87,7 @@ public class TouchPane extends StackPane {
                 if (kpc.playMode().equals("play")) {
                     environment.getPlayer().noteOff(noteToPlay);
                     setHighlightOff();
-                } else {
+                } else if (kpc.playMode().equals("transcript")) {
                     env.getRootController().getTranscriptController().giveFocus();
                 }
             }
@@ -102,7 +107,7 @@ public class TouchPane extends StackPane {
                         getChildren().clear();
                     }
                 }
-            } else {
+            } else if (kpc.playMode().equals("transcript")) {
                 env.getRootController().getTranscriptController().giveFocus();
             }
         });

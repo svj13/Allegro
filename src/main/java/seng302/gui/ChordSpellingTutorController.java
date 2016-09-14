@@ -93,7 +93,7 @@ public class ChordSpellingTutorController extends TutorController {
 
         numEnharmonics.getItems().addAll("only one", "all");
         numEnharmonics.getSelectionModel().selectFirst();
-        inputTypeBox.getItems().addAll("dropdown", "keyboard/text");
+        inputTypeBox.getItems().addAll("dropdown", "keyboard");
         inputTypeBox.getSelectionModel().selectFirst();
         rand = new Random();
     }
