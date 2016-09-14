@@ -100,26 +100,23 @@ public class ProjectSettingsController {
     }
 
     private void setupRhythmSelector() {
-        String[] rhythmOptions = {"Straight", "Light", "Medium", "Heavy", "Custom"};
+        String[] rhythmOptions = {"Straight", "Light", "Medium", "Heavy"};
         rhythmSelector.getItems().setAll(rhythmOptions);
 
         rhythmSelector.valueProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.equals("Custom")) {
-                // Handle this separately
-            } else {
-                String rhythmStyle = newValue.toString();
-                float[] divisions;
-                if (rhythmStyle.equals("Heavy")) {
-                    divisions = new float[]{3.0f / 4.0f, 1.0f / 4.0f};
-                } else if (rhythmStyle.equals("Medium")) {
-                    divisions = new float[]{2.0f / 3.0f, 1.0f / 3.0f};
-                } else if (rhythmStyle.equals("Light")) {
-                    divisions = new float[]{5.0f / 8.0f, 3.0f / 8.0f};
-                } else if (rhythmStyle.equals("Straight")) {
-                    divisions = new float[]{0.5f};
-                    env.getPlayer().getRhythmHandler().setRhythmTimings(divisions);
-                }
+            String rhythmStyle = newValue.toString();
+            float[] divisions;
+            if (rhythmStyle.equals("Heavy")) {
+                divisions = new float[]{3.0f / 4.0f, 1.0f / 4.0f};
+            } else if (rhythmStyle.equals("Medium")) {
+                divisions = new float[]{2.0f / 3.0f, 1.0f / 3.0f};
+            } else if (rhythmStyle.equals("Light")) {
+                divisions = new float[]{5.0f / 8.0f, 3.0f / 8.0f};
+            } else if (rhythmStyle.equals("Straight")) {
+                divisions = new float[]{0.5f};
+                env.getPlayer().getRhythmHandler().setRhythmTimings(divisions);
             }
+
         });
     }
 
