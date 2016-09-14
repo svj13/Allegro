@@ -51,18 +51,34 @@ public class IntervalRecognitionTutorController extends TutorController {
         super.create(env);
         initialiseQuestionSelector();
 //        initaliseRangeSelector();
-        rangeSlider = new NoteRangeSlider(notes, 24, 48, 72);
+
+        if (currentProject.getIsCompetitiveMode()) {
+            int lowValue = generateRangesliderDefault();
+            rangeSlider = new NoteRangeSlider(notes, 12, lowValue, lowValue+24);
+            rangeSlider.setDisable(true);
+        }else{
+            rangeSlider = new NoteRangeSlider(notes, 24, 48, 72);
+
+        }
         paneInit.getChildren().add(1, rangeSlider);
     }
 
+
     /**
-     * Creates the Range selector that can be used to select the range of notes that will be played
-     * It has a Minimum range of two octaves.
+     * Generates default rangeslider value for competitive mode
+     * @return
      */
-//    private void initaliseRangeSelector() {
-//        rangeSlider = new NoteRangeSlider(notes, 24, 48, 72);
-//        range.getChildren().add(1, rangeSlider);
-//    }
+    private int generateRangesliderDefault(){
+        Random rand = new Random();
+        int num = rand.nextInt(127);
+        System.out.println(num);
+        if(num + 24 > 127){
+            return 103;
+        }else{
+            return num;
+        }
+
+    }
 
     /**
      * Run when the user clicks the "Go" button. Generates and displays a new set of questions.

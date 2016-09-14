@@ -86,6 +86,9 @@ public class TranscriptPaneController {
         Platform.runLater(() -> txtCommand.requestFocus());
     }
 
+    /**
+     * Hides the transcript by shrinking its side of the transcript pane to nothing
+     */
     public void hideTranscript() {
         isExpanded = false;
         playbackToolbar.setMaxWidth(0);
@@ -102,6 +105,9 @@ public class TranscriptPaneController {
         }
     }
 
+    /**
+     * Displays the transcript in a split pane, to the right of the main window
+     */
     public void showTranscript() {
         playbackToolbar.setMaxWidth(Region.USE_COMPUTED_SIZE);
         txtTranscript.setMaxWidth(Region.USE_COMPUTED_SIZE);
@@ -310,15 +316,6 @@ public class TranscriptPaneController {
     public void giveFocus() {
         txtCommand.requestFocus();
         txtCommand.positionCaret(txtCommand.getText().length());
-    }
-
-    public void toggleTranscript() {
-        if (!isExpanded) {
-            showTranscript();
-        } else {
-            hideTranscript();
-        }
-
     }
 
     public boolean getIsExpanded() {

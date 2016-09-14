@@ -6,10 +6,8 @@ import com.jfoenix.controls.JFXSlider;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 import java.util.Random;
 
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -50,6 +48,14 @@ public class ScaleModesTutorController extends TutorController {
         initialiseQuestionSelector();
         rand = new Random();
         ccbModes.getItems().addAll("Major Scales", "Melodic Minor Scales", "Both");
+
+        if (currentProject.getIsCompetitiveMode()) {
+            ccbModes.setValue("Both");
+            ccbModes.setDisable(true);
+
+        }else{
+            ccbModes.getSelectionModel().selectFirst();
+        }
     }
 
 
