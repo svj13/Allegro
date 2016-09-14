@@ -108,7 +108,13 @@ public class DiatonicChordsTutorController extends TutorController {
             // Disables only input buttons
             disableButtons(questionRow, 1, 3);
             formatSkippedQuestion(questionRow);
-            manager.add(data, 2);
+            if (isCompMode) {
+                // No skips in competition mode
+                manager.add(data, 0);
+            } else {
+                manager.add(data, 2);
+            }
+
             String questionString;
             if (getTypeOfQuestion(questionAnswer) == 1) {
                 questionString = String.format(typeOneText, data.getKey(), data.getValue());

@@ -82,11 +82,25 @@ public class KeySignaturesTutorController extends TutorController {
         super.create(env);
         initialiseQuestionSelector();
         scaleBox.getItems().addAll("Major", "Minor", "Both");
-        scaleBox.getSelectionModel().selectFirst();
         formBox.getItems().addAll("Listing sharps/flats", "Number of sharps/flats");
-        formBox.getSelectionModel().selectFirst();
         answerBox.getItems().addAll("Show Key Signature", "Show Name");
-        answerBox.getSelectionModel().selectFirst();
+
+        if (currentProject.getIsCompetitiveMode()) {
+            scaleBox.setDisable(true);
+            scaleBox.setValue("Both");
+            formBox.setDisable(true);
+            formBox.setValue("Both");
+            answerBox.setDisable(true);
+            answerBox.setValue("Both");
+
+        }else{
+
+            scaleBox.getSelectionModel().selectFirst();
+            formBox.getSelectionModel().selectFirst();
+            answerBox.getSelectionModel().selectFirst();
+
+        }
+
     }
 
 
@@ -110,28 +124,36 @@ public class KeySignaturesTutorController extends TutorController {
         int questionType;
         boolean answerType;
 
-
-        //figure out the scale is wanted to be tested
-        if (scaleBox.getValue().equals("Major")) {
-            scaletype = "major";
-        } else if (scaleBox.getValue().equals("Minor")) {
-            scaletype = "minor";
-        } else {
+        if (currentProject.getIsCompetitiveMode()) {
+            Random rand = new Random();
             scaletype = "both";
-        }
+            questionType = rand.nextInt(2);
+            answerType = rand.nextBoolean();
+        }else {
 
-        //figure out the type of question wanted
-        if (answerBox.getValue().equals("Show Key Signature")) {
-            questionType = 0;
-        } else {
-            questionType = 1;
-        }
 
-        if (formBox.getValue().equals("Listing sharps/flats")) {
-            answerType = true;
+            //figure out the scale is wanted to be tested
+            if (scaleBox.getValue().equals("Major")) {
+                scaletype = "major";
+            } else if (scaleBox.getValue().equals("Minor")) {
+                scaletype = "minor";
+            } else {
+                scaletype = "both";
+            }
 
-        } else {
-            answerType = false;
+            //figure out the type of question wanted
+            if (answerBox.getValue().equals("Show Key Signature")) {
+                questionType = 0;
+            } else {
+                questionType = 1;
+            }
+
+            if (formBox.getValue().equals("Listing sharps/flats")) {
+                answerType = true;
+
+            } else {
+                answerType = false;
+            }
         }
         HBox questionRow = generateQuestionPane(new Pair<String, Pair>(scaletype, new Pair<>(questionType, answerType)), questionNo);
 
@@ -203,7 +225,13 @@ public class KeySignaturesTutorController extends TutorController {
         skip.setOnAction(event -> {
             // Disables only input buttons
             formatSkippedQuestion(questionRow);
-            manager.add(pair, 2);
+            if (isCompMode) {
+                // No skips in competition mode
+                manager.add(pair, 0);
+            } else {
+                manager.add(pair, 2);
+            }
+
             String correctAnswer = findCorrectAnswerNumSharpFlat(pair, question);
             if (pair.getKey().equals("both")) {
                 disableButtons(questionRow, 0, 3);
@@ -458,7 +486,13 @@ public class KeySignaturesTutorController extends TutorController {
         skip.setOnAction(event -> {
             // Disables only input buttons
             formatSkippedQuestion(questionRow);
-            manager.add(pair, 2);
+            if (isCompMode) {
+                // No skips in competition mode
+                manager.add(pair, 0);
+            } else {
+                manager.add(pair, 2);
+            }
+
             String correctAnswer = "";
 
             Boolean isBoth = false;
@@ -776,7 +810,13 @@ public class KeySignaturesTutorController extends TutorController {
             // Disables only input buttons
             disableButtons(questionRow, 0, 2);
             formatSkippedQuestion(questionRow);
-            manager.add(pair, 2);
+            if (isCompMode) {
+                // No skips in competition mode
+                manager.add(pair, 0);
+            } else {
+                manager.add(pair, 2);
+            }
+
             String correctAnswer;
 
             if (fIsMajor) {

@@ -82,23 +82,13 @@ public class MusicalTermsTutorController extends TutorController {
             // Run the tutor
             questionRows.getChildren().clear();
             if (termsBeingViewed.size() < 1) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setHeaderText("No Musical Terms Added");
-                alert.setContentText("There are no terms to be tested on. \nTo add them use the 'add musical term' command");
-                alert.setOnCloseRequest(Event -> {
-                    try {
-                        String tutorName = env.getRootController().getHeader();
-                        env.getRootController().showUserPage();
-                        env.getUserPageController().showPage(tutorName);
-                    } catch (Exception e) {
-                        paneQuestions.setVisible(false);
-                        paneInit.setVisible(true);
-                    }
-                });
-                alert.showAndWait();
-                paneInit.setVisible(true);
+                showAlert(true);
 
-            } else {//if there are terms to display
+            } else if (isCompMode && termsBeingViewed.size() < 10) {
+                //User has some terms, but not enough to compete
+                showAlert(false);
+
+            } else {
                 for (int i = 0; i < manager.questions; i++) {
                     if (termsBeingViewed.size() < 1) {
                         termsBeingViewed = new ArrayList<>(dataManager.getTerms());
@@ -118,6 +108,7 @@ public class MusicalTermsTutorController extends TutorController {
                 qAccordion.setExpandedPane(qAccordion.getPanes().get(0));
                 questionRows.getChildren().add(qAccordion);
             }
+
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Invalid Number of Musical Terms");
@@ -260,7 +251,9 @@ public class MusicalTermsTutorController extends TutorController {
             styleAnswer(rowPane, currentTerm, originOptions, categoryOptions, definitionOptions);
 
             ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(0)).getChildren().get(1).setDisable(true);
-            handleAccordion();
+            if (isQuestionComplete(originOptions, categoryOptions, definitionOptions)) {
+                handleAccordion();
+            }
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -291,7 +284,9 @@ public class MusicalTermsTutorController extends TutorController {
 
             ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(1)).getChildren().get(1).setDisable(true);
 
-            handleAccordion();
+            if (isQuestionComplete(originOptions, categoryOptions, definitionOptions)) {
+                handleAccordion();
+            }
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -322,7 +317,9 @@ public class MusicalTermsTutorController extends TutorController {
 
             ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(2)).getChildren().get(1).setDisable(true);
 
-            handleAccordion();
+            if (isQuestionComplete(originOptions, categoryOptions, definitionOptions)) {
+                handleAccordion();
+            }
             if (manager.answered == manager.questions) {
                 finished();
             }
@@ -338,7 +335,13 @@ public class MusicalTermsTutorController extends TutorController {
             record.addQuestionAnswer(question);
 
             formatSkippedQuestion(rowPane);
-            manager.add(new Pair(currentTerm.getMusicalTermName(), currentTerm), 2);
+            if (isCompMode) {
+                // No skips in competition mode
+                manager.add(new Pair(currentTerm.getMusicalTermName(), currentTerm), 0);
+            } else {
+                manager.add(new Pair(currentTerm.getMusicalTermName(), currentTerm), 2);
+            }
+
             ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(0)).getChildren().get(1).setDisable(true);
             ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(1)).getChildren().get(1).setDisable(true);
             ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(2)).getChildren().get(1).setDisable(true);
@@ -399,6 +402,54 @@ public class MusicalTermsTutorController extends TutorController {
 
             }
             ((VBox) (rowPane.getChildren().get(0))).getChildren().get(3).setDisable(true);
+        }
+    }
+
+    /**
+     * If the user either has no musical terms loaded, or does not have enough terms loaded to
+     * compete, an informational alert is shown
+     *
+     * @param isNoTermAlert true or false. If true, the user has no terms loaded. If false, they do
+     *                      not have enough terms to compete.
+     */
+    public void showAlert(boolean isNoTermAlert) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        if (isNoTermAlert) {
+            alert.setHeaderText("No Musical Terms Added");
+            alert.setContentText("There are no terms to be tested on. \nTo add them use the 'add musical term' command");
+        } else {
+            // It's a can't compete alert
+            alert.setHeaderText("Not Enough Musical Terms Added");
+            alert.setContentText("You need a minimum of 10 terms to compete. \nTo add them use the 'add musical term' command");
+        }
+
+        alert.setOnCloseRequest(Event -> {
+            try {
+                String tutorName = env.getRootController().getHeader();
+                env.getRootController().showUserPage();
+                env.getUserPageController().showPage(tutorName);
+            } catch (Exception e) {
+                paneQuestions.setVisible(false);
+                paneInit.setVisible(true);
+            }
+        });
+        alert.showAndWait();
+        paneInit.setVisible(true);
+    }
+
+    /**
+     * This function checks whether or not all parts of the question have been filled out
+     *
+     * @param firstSelection  One of the three comboboxes to be filled out
+     * @param secondSelection One of the three comboboxes to be filled out
+     * @param thirdSelection  One of the three comboboxes to be filled out
+     * @return true if all three combo boxes have had selections made, false otherwise
+     */
+    private boolean isQuestionComplete(ComboBox firstSelection, ComboBox secondSelection, ComboBox thirdSelection) {
+        if (firstSelection.getValue() != null && secondSelection.getValue() != null && thirdSelection.getValue() != null) {
+            return true;
+        } else {
+            return false;
         }
     }
 

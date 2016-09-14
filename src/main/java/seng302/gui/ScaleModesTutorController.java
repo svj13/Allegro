@@ -48,6 +48,14 @@ public class ScaleModesTutorController extends TutorController {
         initialiseQuestionSelector();
         rand = new Random();
         ccbModes.getItems().addAll("Major Scales", "Melodic Minor Scales", "Both");
+
+        if (currentProject.getIsCompetitiveMode()) {
+            ccbModes.setValue("Both");
+            ccbModes.setDisable(true);
+
+        }else{
+            ccbModes.getSelectionModel().selectFirst();
+        }
     }
 
 
@@ -326,7 +334,12 @@ public class ScaleModesTutorController extends TutorController {
             // Disables only input buttons
             disableButtons(questionRow, 1, 3);
             formatSkippedQuestion(questionRow);
-            manager.add(data, 2);
+            if (isCompMode) {
+                // No skips in competition mode
+                manager.add(data, 0);
+            } else {
+                manager.add(data, 2);
+            }
             String questionString;
 
             if (getTypeOfQuestion(questionAnswer) == 1) {

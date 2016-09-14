@@ -91,11 +91,18 @@ public class UserSummaryController {
     public void updateProgressBar() {
         int userXp = env.getUserHandler().getCurrentUser().getUserExperience();
         int userLevel = env.getUserHandler().getCurrentUser().getUserLevel();
-        int minXp = LevelCalculator.getTotalExpForLevel(userLevel);
-        int maxXp = LevelCalculator.getTotalExpForLevel(userLevel + 1);
-        highXp.setText(Integer.toString(maxXp - userXp) + "XP to level " + Integer.toString(userLevel + 1));
+        int minXp = LevelCalculator.getRequiredExp(userLevel);
+        int maxXp = LevelCalculator.getRequiredExp(userLevel + 1);
+
         float percentage = 100 * (userXp - minXp) / (maxXp - minXp);
-        pbLevel.setProgress(percentage / 100);
+
+        if ((percentage / 100) <= 0) {
+            pbLevel.setProgress(0);
+        } else {
+            pbLevel.setProgress(percentage / 100);
+        }
+
+        highXp.setText(Integer.toString(maxXp - userXp) + "XP to level " + Integer.toString(userLevel + 1));
     }
 
 
