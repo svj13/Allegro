@@ -50,7 +50,7 @@ public class ScaleRecognitionTutorController extends TutorController {
 
     private Random rand;
 
-    private Boolean fullTutor;
+    private Boolean fullTutor = true;
 
 
     String playDirection;
