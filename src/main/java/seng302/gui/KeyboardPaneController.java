@@ -1,9 +1,5 @@
 package seng302.gui;
 
-import javafx.collections.FXCollections;
-import javafx.scene.control.*;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import org.controlsfx.control.PopOver;
 
 import java.util.ArrayList;
@@ -11,18 +7,19 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
-
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -33,12 +30,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import seng302.Environment;
 import seng302.data.Note;
 import seng302.utility.NoteRangeSlider;
 import seng302.utility.musicNotation.OctaveUtil;
-import javafx.scene.paint.Color;
-
 
 import static seng302.utility.musicNotation.Checker.isValidNormalNote;
 
@@ -783,10 +781,12 @@ public class KeyboardPaneController {
      */
     public void toggleHideKeyboard() {
         if (hidden) {
+            positionBlackKeys();
             keyPane.setExpanded(false);
             keyboardBox.requestFocus();
             hidden = false;
         } else {
+            positionBlackKeys();
             keyPane.setExpanded(true);
             hidden = true;
             env.getRootController().getTranscriptController().giveFocus();

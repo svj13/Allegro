@@ -14,45 +14,58 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<AnchorPane fx:id="keySignaturesTutorAnchor" prefHeight="530.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng302.gui.KeySignaturesTutorController">
+<AnchorPane fx:id="keySignaturesTutorAnchor" xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="seng302.gui.KeySignaturesTutorController">
     <children>
-        <HBox fx:id="settings" alignment="CENTER" layoutY="36.0" minWidth="400.0" prefHeight="362.0" spacing="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="56.0">
+        <HBox fx:id="settings" alignment="CENTER" layoutY="36.0" minWidth="400.0" prefHeight="362.0"
+              spacing="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="5.0"
+              AnchorPane.topAnchor="60.0">
             <children>
-                <VBox fx:id="paneInit" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="362.0" spacing="10.0">
+                <VBox fx:id="paneInit" alignment="CENTER" maxHeight="1.7976931348623157E308"
+                      maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="362.0"
+                      spacing="10.0">
                     <children>
-                        <HBox alignment="CENTER" prefHeight="62.0" prefWidth="600.0">
+                        <HBox alignment="CENTER" prefHeight="62.0" prefWidth="800.0" spacing="5">
                             <children>
-                                <Label alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="36.0" prefWidth="120.0" text="Number of Questions: " />
-                                <Label fx:id="questions" contentDisplay="CENTER" prefHeight="30.0" prefWidth="17.0">
+                                <Label alignment="CENTER" contentDisplay="CENTER"
+                                       minHeight="-Infinity" minWidth="-Infinity" prefHeight="36.0"
+                                       text="Number of Questions: "/>
+                                <Label fx:id="questions" contentDisplay="CENTER" prefHeight="30.0">
                                     <font>
-                                        <Font name="System Bold" size="13.0" />
+                                        <Font name="System Bold" size="13.0"/>
                                     </font>
                                 </Label>
-                                <JFXSlider fx:id="numQuestions" blockIncrement="1.0" majorTickUnit="49.0" max="50.0" min="1.0" minorTickCount="5" showTickLabels="true" showTickMarks="true" value="5.0" prefWidth="250">
+                                <JFXSlider fx:id="numQuestions" blockIncrement="1.0"
+                                           majorTickUnit="49.0" max="50.0" min="1.0"
+                                           minorTickCount="5" showTickLabels="true"
+                                           showTickMarks="true" value="5.0" prefWidth="250">
                                     <padding>
-                                        <Insets top="15.0" />
+                                        <Insets top="15.0"/>
                                     </padding>
                                 </JFXSlider>
                             </children>
                             <padding>
-                                <Insets left="5.0" />
+                                <Insets left="5.0"/>
                             </padding>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="60.0" prefWidth="200.0" spacing="10.0">
                             <children>
-                                <Label text="Scale type:" />
-                                <ComboBox fx:id="scaleBox" prefWidth="100.0" promptText="Major" />
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Question type:" />
-                                <ComboBox fx:id="answerBox" onAction="#updateQuestionBox" prefWidth="100.0" promptText="Show Key Signature" />
+                                <Label text="Scale type:"/>
+                                <ComboBox fx:id="scaleBox" prefWidth="100.0" promptText="Major"/>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Question type:"/>
+                                <ComboBox fx:id="answerBox" onAction="#updateQuestionBox"
+                                          prefWidth="100.0" promptText="Show Key Signature"/>
                                 <Label fx:id="formLabel" text="Question form:">
                                     <HBox.margin>
-                                        <Insets left="5.0" />
+                                        <Insets left="5.0"/>
                                     </HBox.margin>
                                 </Label>
-                                <ComboBox fx:id="formBox" prefWidth="100.0" promptText="Number of sharps/flats" />
+                                <ComboBox fx:id="formBox" prefWidth="100.0"
+                                          promptText="Number of sharps/flats"/>
                             </children>
                             <VBox.margin>
-                                <Insets left="5.0" />
+                                <Insets left="5.0"/>
                             </VBox.margin>
                         </HBox>
                         <BorderPane>
@@ -62,7 +75,7 @@
                                            prefWidth="90.0" styleClass="primaryControl" text="Go"
                                            BorderPane.alignment="CENTER">
                                     <BorderPane.margin>
-                                        <Insets bottom="5.0" left="20.0" />
+                                        <Insets bottom="5.0" left="20.0"/>
                                     </BorderPane.margin>
                                 </JFXButton>
                             </bottom>
@@ -79,18 +92,20 @@
             <content>
                 <StackPane alignment="CENTER">
                     <children>
-                        <VBox fx:id="questionRows" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="486.0" prefWidth="719.0">
+                        <VBox fx:id="questionRows" alignment="TOP_CENTER" maxHeight="-Infinity"
+                              maxWidth="-Infinity" prefHeight="486.0" prefWidth="719.0">
                             <children>
                                 <Accordion fx:id="qAccordion" prefHeight="150.0" prefWidth="650.0">
                                     <panes></panes>
                                     <padding>
-                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                                     </padding>
                                 </Accordion>
                             </children>
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                            </padding></VBox>
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                            </padding>
+                        </VBox>
                     </children>
                 </StackPane>
             </content>
