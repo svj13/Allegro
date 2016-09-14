@@ -50,6 +50,8 @@ public class ScaleRecognitionTutorController extends TutorController {
 
     private Random rand;
 
+    private Boolean fullTutor;
+
 
     String playDirection;
     int playOctaves;
@@ -101,12 +103,28 @@ public class ScaleRecognitionTutorController extends TutorController {
         rand = new Random();
         direction.getItems().addAll("Up", "Down", "UpDown");
         ccbScales.getItems().addAll("Major", "Minor", "Melodic Minor", "Blues", "Major Pentatonic", "Minor Pentatonic", "Major Mode", "Melodic Minor Mode", "Harmonic Minor");
-
-        ccbScales.getCheckModel().check(0); //Only major/minor selected by default
-        ccbScales.getCheckModel().check(1);
-        direction.getSelectionModel().selectFirst();
         octaves.getItems().addAll(1, 2, 3, 4);
-        octaves.getSelectionModel().selectFirst();
+
+        if(currentProject.isCompetitiveMode){
+            if(fullTutor){
+                ccbScales.getCheckModel().checkAll();
+
+            }else{
+                ccbScales.getCheckModel().check(0);
+                ccbScales.getCheckModel().check(1);
+            }
+            direction.setValue("UpDown");
+            direction.setDisable(true);
+            ccbScales.setDisable(true);
+            octaves.setValue(1);
+            octaves.setDisable(true);
+        }else{
+            ccbScales.getCheckModel().check(0); //Only major/minor selected by default
+            ccbScales.getCheckModel().check(1);
+            direction.getSelectionModel().selectFirst();
+            octaves.getSelectionModel().selectFirst();
+
+        }
 
     }
 

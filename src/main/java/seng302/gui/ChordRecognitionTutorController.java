@@ -82,11 +82,23 @@ public class ChordRecognitionTutorController extends TutorController {
         initialiseQuestionSelector();
         rand = new Random();
         playChords.getItems().addAll("Unison", "Arpeggio", "Both");
-        playChords.getSelectionModel().selectFirst();
         octaves.getItems().addAll(1, 2, 3, 4);
-        octaves.getSelectionModel().selectFirst();
         chordTypeBox.getItems().addAll("3 Notes", "4 Notes", "Both");
-        chordTypeBox.getSelectionModel().selectFirst();
+
+        if(currentProject.isCompetitiveMode){
+            playChords.setValue("Both");
+            playChords.setDisable(true);
+            octaves.setValue(1);
+            octaves.setDisable(true);
+            chordTypeBox.setValue("Both");
+            chordTypeBox.setDisable(true);
+
+        }else{
+
+            playChords.getSelectionModel().selectFirst();
+            octaves.getSelectionModel().selectFirst();
+            chordTypeBox.getSelectionModel().selectFirst();
+        }
     }
 
     /**
