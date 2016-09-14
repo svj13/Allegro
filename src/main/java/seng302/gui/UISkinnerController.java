@@ -73,7 +73,7 @@ public class UISkinnerController {
         double luma = 0.2126 * (base.getRed() * 255) + 0.7152 * (base.getGreen() * 255) + 0.0722 * (base.getBlue() * 255);
         if (luma < 126) {
             lighterOrDarker = floatToRGBString(lighterRGB);
-        }else {
+        } else {
             lighterOrDarker = floatToRGBString(darkerRGB);
         }
 
@@ -153,15 +153,16 @@ public class UISkinnerController {
 
     /**
      * Converts a color represented as a hex to an rgb
+     *
      * @param colorStr e.g. "#FFFFFF"
      * @return rgb Color
      */
     private static String hex2Rgb(String colorStr) {
-        int r = Integer.valueOf( colorStr.substring( 2, 4 ), 16 );
-        int g = Integer.valueOf( colorStr.substring( 4, 6 ), 16 );
-        int b = Integer.valueOf( colorStr.substring( 6, 8 ), 16 );
+        int r = Integer.valueOf(colorStr.substring(2, 4), 16);
+        int g = Integer.valueOf(colorStr.substring(4, 6), 16);
+        int b = Integer.valueOf(colorStr.substring(6, 8), 16);
 
-        String result = "rgb("+r+", "+g+", "+b+")";
+        String result = "rgb(" + r + ", " + g + ", " + b + ")";
 
         return result;
     }

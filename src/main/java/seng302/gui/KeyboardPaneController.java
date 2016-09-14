@@ -910,9 +910,7 @@ public class KeyboardPaneController {
     public void highlightKey(int midiValue) {
         String colourName;
         try {
-            //Color highlightColour = env.getRootController().getUiSkinnerController().secondaryColour.getValue();
             colourName = env.getThemeHandler().getPrimaryColour();
-            //colourName = "#" + highlightColour.toString().substring(2, 8);
         } catch (Exception e) {
             colourName = "blue";
         }

@@ -96,11 +96,9 @@ public class UserSettingsController {
         visualiserToggle.getStyleClass().remove(0);
 
         if (this.userHandler.getCurrentUser().getProjectHandler().getCurrentProject().getIsCompetitiveMode()) {
-            System.out.println("competitive mode");
             // do not show the visualiser options
             toggleShowHideVisualiser(false);
         } else {
-            System.out.println("not competitive mode");
             try {
                 boolean visualiserOn = userHandler.getCurrentUser().getVisualiserOn();
                 visualiserToggle.setSelected(visualiserOn);
