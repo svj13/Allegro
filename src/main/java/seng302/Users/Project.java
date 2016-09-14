@@ -256,36 +256,30 @@ public class Project {
      * @param propName property id which is stored in the Json project file.
      */
     public void checkChanges(String propName) {
-
-        //Accepted values: tempo
-        if (propName.equals("tempo")) {
-
-
-            if (projectSettings.containsKey("tempo") && !(projectSettings.get("tempo").equals(String.valueOf(env.getPlayer().getTempo())))) { //If not equal
-                env.getRootController().addUnsavedChangesIndicator();
-                saved = false;
-            }
-        } else if (propName.equals("rhythm")) {
-
-
-            if (projectSettings.containsKey("rhythm") && !(projectSettings.get("rhythm").equals(env.getPlayer().getRhythmHandler().getRhythmTimings()))) { //If not equal
-                env.getRootController().addUnsavedChangesIndicator();
-                saved = false;
-            }
-        } else if (propName.equals("instrument")) {
-
-
-            if (projectSettings.containsKey("instrument") && !(projectSettings.get("instrument").equals(env.getPlayer().getInstrument().getName()))) { //If not equal
-                env.getRootController().addUnsavedChangesIndicator();
-                saved = false;
-            }
-        } else if (propName.equals("competitionMode")) {
-            if (projectSettings.containsKey("competitionMode") && !(projectSettings.get("competitionMode").equals(this.isCompetitiveMode))) {
-                env.getRootController().addUnsavedChangesIndicator();
-                saved = false;
-            }
+        Object currentValue = null;
+        switch (propName) {
+            case "tempo":
+                currentValue = String.valueOf(env.getPlayer().getTempo());
+                break;
+            case "rhythm":
+                currentValue = env.getPlayer().getRhythmHandler().getRhythmTimings();
+                break;
+            case "instrument":
+                currentValue = env.getPlayer().getInstrument().getName();
+                break;
+            case "competitionMode":
+                currentValue = this.isCompetitiveMode;
+                break;
         }
 
+        try {
+            if (projectSettings.containsKey(propName) && !(projectSettings.get(propName).equals(currentValue))) {
+                env.getRootController().addUnsavedChangesIndicator();
+                saved = false;
+            }
+        } catch (Exception e) {
+            System.err.println("Invalid property being checked for save");
+        }
 
     }
 
