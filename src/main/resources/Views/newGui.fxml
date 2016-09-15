@@ -194,7 +194,7 @@
                             ellipsisString="user" mnemonicParsing="false" text="user"
                             textOverrun="CENTER_ELLIPSIS" >
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#logOutUser" text="Logout"/>
+                        <MenuItem mnemonicParsing="false" onAction="#logoutButtonClick" text="Logout"/>
                         <MenuItem fx:id="userSettingsButton" mnemonicParsing="false"
                                   onAction="#launchSettings" text="Settings"/>
                     </items>
