@@ -50,6 +50,8 @@
     -fx-faint-focus-color: derive({0}, 70%);
     -fx-accent: derive({0}, 40%);
     -fx-border-style: none;
+    -fx-border-style: none;
+    -fx-border-width: 0;
     -fx-background-insets: 0;
     -fx-padding: 0;
 
@@ -80,6 +82,9 @@
 
 .menu-bar {
     -fx-accent: {0};
+    -fx-accent: derive({0}, 80%);
+    -fx-border-style: none;
+     -fx-border-width: 0;
 }
 
 .text-area {
@@ -184,6 +189,9 @@
 
 #userPage {
     -fx-background-color: {0};
+    -fx-text-fill: {0}{1}{2} ;
+    -fx-border-width: 0;
+    -fx-border-style: none;
     -fx-text-fill: {2} ;
 }
 
@@ -203,7 +211,6 @@
 
 .sideMenu{
     -fx-background-color: {0};
-
     -fx-border-color : {0};
 
 }
@@ -218,7 +225,8 @@
 }
 .sideMenu .jfx-list-cell .label {
     -fx-text-fill: {3};
-    -fx-font-size: 12;
+
+
 }
 
 .sideMenu .jfx-list-cell:odd {
@@ -231,8 +239,9 @@
 
 }
 .sideMenu .jfx-list-cell:selected .label {
-   -fx-font-size: 12;
+
     -fx-text-fill: {2};
+
 }
 
 
@@ -243,9 +252,14 @@
 
 .sideMenu .jfx-list-cell:hover {
     -fx-background-color: derive({0}, 10%);
+
+}
+.sideMenu .jfx-list-cell:hover .label {
+    -fx-text-fill: {2};
     -fx-text-fill: {2};
 
 }
+
 
 #userSplitPane *.split-pane-divider {
     -fx-padding: 0 1 0 1;
@@ -299,7 +313,6 @@
 .icons-badge-large .badge-pane {
     -fx-background-color: {0};
     -fx-text-fill: {2};
-    -fx-text-fill: {2};
     -fx-border-radius: 35;
     -fx-border-color: {1};
     -fx-background-radius: 35;
@@ -307,6 +320,11 @@
     -fx-pref-height: 35;
     -fx-alignment: center;
 }
+.settings-badge-large .badge-pane .label{
+    -fx-text-fill: {0}{1}{2};
+
+}
+
 
 .icons-badge-large .badge-pane .label, .icons-badge .badge-pane .label {
     -fx-text-fill: {2};
@@ -318,10 +336,19 @@
     -fx-image: url("images/settings_gear.png");
 
     -fx-text-fill: {2};
+
     -fx-background-radius: 35;
     -fx-pref-width: 35;
     -fx-pref-height: 35;
     -fx-alignment: center;
+}
+.settings-badge .badge-pane .label{
+    -fx-text-fill: {0}{1}{2};
+
+}
+
+.jfx-color-picker .label {
+    -fx-text-fill: {0}{1}{2};
 }
 
 .titled-pane:focused {
@@ -387,26 +414,41 @@
  * Slider                                                                      *
  *                                                                             *
  ******************************************************************************/
-.slider {
+
+
+.timeSlider {
 	-fx-padding: 10 0 10 0;
 }
 
-.slider:vertical {
+.timeSlider:vertical {
 	-fx-padding: 0 10 0 10;
 }
 
-.slider>.track {
+.timeSlider>.track {
 	-fx-background-color: white;
 	-fx-background-insets: 1.5;
 }
 
-.slider>.thumb {
+.timeSlider>.thumb {
 	-fx-background-color: {1};
 }
 
-.slider .axis {
+.timeSlider .axis {
 	-fx-tick-label-fill: {2};
 }
+
+.jfx-slider .thumb {
+	-fx-background-color: {0};
+}
+
+.jfx-slider .track {
+	-fx-background-color: #E0E0E0;
+	-fx-pref-height: 5px;
+	-fx-pref-width: 5px;
+}
+
+
+
 
 .tool-bar, .menu-bar { /* top */
 	-fx-background-color: white;
@@ -478,4 +520,16 @@
 
 
 
+/*******************************************************************************
+ *                                                                             *
+ * Toggle Buttons                                                              *
+ *                                                                             *
+ ******************************************************************************/
 
+.jfx-toggle-button {
+    -fx-toggle-color: {0};
+}
+
+.jfx-toggle-button .jfx-rippler{
+    -fx-rippler-fill: {0};
+}
