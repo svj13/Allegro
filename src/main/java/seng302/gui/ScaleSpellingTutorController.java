@@ -228,6 +228,7 @@ public class ScaleSpellingTutorController extends TutorController {
             };
 
             record.addQuestionAnswer(question);
+            handleAccordion();
 
             manager.add(new Pair(scaleInfo, 1), score);
             if (manager.answered == manager.questions) {
@@ -443,7 +444,7 @@ public class ScaleSpellingTutorController extends TutorController {
         return questionRow;
     }
 
-    @Override
+    //@Override
     HBox generateQuestionPane(Pair data) {
         int questionType = (int) data.getKey();
         if (questionType == 1) {
