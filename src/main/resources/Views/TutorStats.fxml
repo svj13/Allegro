@@ -155,10 +155,7 @@
                 <Insets top="20.0"/>
             </padding>
         </LineChart>
-        <Label fx:id="badgesLabel" prefHeight="15.0" prefWidth="56.0" text="Badges"
-               textAlignment="CENTER"/>
-        <AnchorPane fx:id="badgesAnchor" maxHeight="85.0" maxWidth="351.0" minHeight="-Infinity"
-                    minWidth="-Infinity" prefHeight="85.0" prefWidth="351.0"/>
+
     </children>
     <padding>
         <Insets top="20.0"/>
