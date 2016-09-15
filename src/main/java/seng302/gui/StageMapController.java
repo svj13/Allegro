@@ -232,30 +232,23 @@ public class StageMapController {
     public void fetchTutorFile(String tutorId) {
 //        boolean enoughEntries = false; //must be at least 3 entries for their to be a valid entry
         boolean unlock = true;
-        System.out.println(tutorId);
         ArrayList<TutorRecord> records = tutorHandler.getTutorData(converted.get(tutorId));
-        System.out.println(records);
 
         if (records.size() < 3) {
             //if there are less than 3 existing files
-            System.out.println("You need to attempt this tutor at least 3 times soz");
         } else {
-            System.out.println("yay 3 or more records");
             for (int i = records.size() - 3; i < records.size(); i++) {
                 TutorRecord record = records.get(i);
                 if (!(record.getStats().get("questionsCorrect").toString()).equals("10")) {
                     unlock = false;
-                    System.out.println("not 100%");
-                    System.out.println(record.getStats().get("questionsCorrect").toString());
                 }
             }
             if (unlock) {
                 //set the tutor status to be unlocked
-                System.out.println(tutorOrder.get((tutorOrder.indexOf(converted.get(tutorId)) + 1)));
 
                 unlockStatus.put(tutorOrder.get((tutorOrder.indexOf(converted.get(tutorId)) + 1)), true);
                 visualiseLockedTutors();
-                System.out.println("unlocked tutor");
+
 
             }
 
