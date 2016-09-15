@@ -39,7 +39,7 @@ public class TutorHandler {
         add("keySignatureTutor");
         add("diatonicChordTutor");
         add("scaleModesTutor");
-
+        add("scaleSpellingTutor");
     }};
 
     /**
@@ -139,6 +139,8 @@ public class TutorHandler {
             filename = projectAddress + "/DiatonicChordTutor.json";
         } else if (id.equals("scaleModesTutor")) {
             filename = projectAddress + "/ScaleModesTutor.json";
+        } else if (id.equals("scaleSpellingTutor")) {
+            filename = projectAddress + "/ScaleSpellingTutor.json";
         }
         Gson gson = new Gson();
         ArrayList<TutorRecord> records = new ArrayList<>();
@@ -200,7 +202,6 @@ public class TutorHandler {
      */
     public void saveTutorRecordsToFile(String filename, TutorRecord currentRecord) {
         Gson gson = new Gson();
-
         try {
             ArrayList<TutorRecord> records;
             try {
@@ -228,7 +229,6 @@ public class TutorHandler {
                 writer.write(json);
                 writer.flush();
                 writer.close();
-
             } catch (IOException ex) {
                 System.err.println("Problem writing to the selected file " + ex.getMessage());
             }
