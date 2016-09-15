@@ -14,6 +14,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.function.Function;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -253,7 +254,7 @@ public class RootController implements Initializable {
     protected void showCloseWindow(String option){
         if (env.getUserHandler().getCurrentUser() != null && !env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().isSaved()) {
 
-            String closeText = option == "close" ? "Quit" : "Logout";
+            String closeText = option.equals("close") ? "Quit" : "Logout";
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText("Unsaved changes");
@@ -273,18 +274,18 @@ public class RootController implements Initializable {
 
             if (result.get() == btnSaveProject) {
                 env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().saveCurrentProject();
-                if(option == "close"){
+                if(option.equals("close")){
                     System.exit(0);
                 }
-                else if(option == "logout"){
+                else if(option.equals("logout")){
                     logOutUser();
                 }
 
             } else if (result.get() == btnQuit) {
-                if(option == "close"){
+                if(option.equals("close")){
                     System.exit(0);
                 }
-                else if(option == "logout"){
+                else if(option.equals("logout")){
                     logOutUser();
                 }
             }
@@ -292,10 +293,14 @@ public class RootController implements Initializable {
 
         } else if (env.getTranscriptManager().unsavedChanges) {
             env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().saveCurrentProject();
-            System.exit(0);
+
+            if(option.equals("close"))System.exit(0);
+            else if(option.equals("logout"))logOutUser();
+
         } else {
 
-            System.exit(0);
+            if(option.equals("close"))System.exit(0);
+            else if(option.equals("logout"))logOutUser();
         }
 
     }
