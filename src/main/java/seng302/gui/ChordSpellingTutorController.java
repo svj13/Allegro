@@ -1,7 +1,5 @@
 package seng302.gui;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import org.controlsfx.control.CheckComboBox;
 
 import java.util.ArrayList;
@@ -9,6 +7,8 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -145,6 +145,7 @@ public class ChordSpellingTutorController extends TutorController {
      */
     private void goAction(ActionEvent event) {
         if (chordTypes.getCheckModel().getCheckedIndices().size() != 0) {
+            chordError.setVisible(false);
             record = new TutorRecord();
             paneInit.setVisible(false);
             paneQuestions.setVisible(true);
