@@ -14,7 +14,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.function.Function;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -249,9 +248,10 @@ public class RootController implements Initializable {
 
     /**
      * handles checking whether the project is saved, and shows a dialogue if necessary.
+     *
      * @param option close option either 'close' or 'logout'.
      */
-    protected void showCloseWindow(String option){
+    protected void showCloseWindow(String option) {
         if (env.getUserHandler().getCurrentUser() != null && !env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().isSaved()) {
 
             String closeText = option.equals("close") ? "Quit" : "Logout";
@@ -274,18 +274,16 @@ public class RootController implements Initializable {
 
             if (result.get() == btnSaveProject) {
                 env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().saveCurrentProject();
-                if(option.equals("close")){
+                if (option.equals("close")) {
                     System.exit(0);
-                }
-                else if(option.equals("logout")){
+                } else if (option.equals("logout")) {
                     logOutUser();
                 }
 
             } else if (result.get() == btnQuit) {
-                if(option.equals("close")){
+                if (option.equals("close")) {
                     System.exit(0);
-                }
-                else if(option.equals("logout")){
+                } else if (option.equals("logout")) {
                     logOutUser();
                 }
             }
@@ -294,18 +292,16 @@ public class RootController implements Initializable {
         } else if (env.getTranscriptManager().unsavedChanges) {
             env.getUserHandler().getCurrentUser().getProjectHandler().getCurrentProject().saveCurrentProject();
 
-            if(option.equals("close"))System.exit(0);
-            else if(option.equals("logout"))logOutUser();
+            if (option.equals("close")) System.exit(0);
+            else if (option.equals("logout")) logOutUser();
 
         } else {
 
-            if(option.equals("close"))System.exit(0);
-            else if(option.equals("logout"))logOutUser();
+            if (option.equals("close")) System.exit(0);
+            else if (option.equals("logout")) logOutUser();
         }
 
     }
-
-
 
 
     @FXML
@@ -431,24 +427,22 @@ public class RootController implements Initializable {
      * User dropdown logout option.
      */
     @FXML
-    private void logoutButtonClick(){
+    private void logoutButtonClick() {
         showCloseWindow("logout");
     }
 
     /**
      * Handles logging out the user showing the login screen.
      */
-    public void logOutUser(){
+    public void logOutUser() {
         try {
             stage.close();
             showLoginWindow();
-        }catch(Exception e){
+        } catch (Exception e) {
 
         }
 
     }
-
-
 
 
     /**
