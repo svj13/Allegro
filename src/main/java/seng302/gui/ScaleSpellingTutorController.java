@@ -464,7 +464,7 @@ public class ScaleSpellingTutorController extends TutorController {
     @FXML
     void goAction(ActionEvent event) {
         if (scaleTypes.getCheckModel().getCheckedIndices().size() != 0) {
-            //scaleError.setVisible(false);
+            scaleError.setVisible(false);
             record = new TutorRecord();
             paneInit.setVisible(false);
             paneQuestions.setVisible(true);
@@ -486,7 +486,7 @@ public class ScaleSpellingTutorController extends TutorController {
             qAccordion.setExpandedPane(qAccordion.getPanes().get(0));
             questionRows.getChildren().add(qAccordion);
         } else {
-            //scaleError.setVisible(true);
+            scaleError.setVisible(true);
         }
 
     }
