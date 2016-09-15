@@ -425,7 +425,6 @@ public class ChordSpellingTutorController extends TutorController {
                     {
                         if (newPropertyValue)
                         {
-                            System.out.println("setFalse");
                             env.setCurrentFocussed(note1, false, note2);
                         }
                     }
@@ -681,7 +680,6 @@ public class ChordSpellingTutorController extends TutorController {
                 @Override
                 public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
                     if (newPropertyValue) {
-                        System.out.println("setFalse");
                         env.setCurrentFocussed(note1, false, note2);
                     }
                 }
