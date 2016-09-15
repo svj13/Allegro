@@ -495,7 +495,6 @@ public class ScaleSpellingTutorController extends TutorController {
                 @Override
                 public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
                     if (newPropertyValue) {
-                        System.out.println("setFalse");
                         if ((index + 1) < correctNoteNames.size()) {
                             env.setCurrentFocussed(noteField, false, inputs.getChildren().get(index + 1));
                         } else {
