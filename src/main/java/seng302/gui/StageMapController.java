@@ -1,6 +1,8 @@
 package seng302.gui;
 
 import javafx.fxml.FXML;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import jdk.nashorn.internal.parser.JSONParser;
 import seng302.Environment;
@@ -8,6 +10,7 @@ import javafx.scene.control.Button;
 import seng302.Users.Project;
 import seng302.Users.TutorHandler;
 import seng302.utility.TutorRecord;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -103,8 +106,8 @@ public class StageMapController {
 
         generateLockingStatus();
         generateTutorOrder();
-        visualiseLockedTutors();
         generateTutorAndButtonNames();
+        visualiseLockedTutors();
 
     }
 
@@ -165,9 +168,16 @@ public class StageMapController {
     }
 
     private void visualiseLockedTutors() {
+        Image padlock = new Image(getClass().getResourceAsStream
+                ("/images/lock.png"), 10, 10, true, true);
+
+
         for (String tutor: unlockStatus.keySet()) {
             if (unlockStatus.get(tutor) == false) {
                  tutorAndButton.get(tutor).setDisable(true);
+                tutorAndButton.get(tutor).setGraphic(new ImageView(padlock));
+
+
             }
         }
     }
