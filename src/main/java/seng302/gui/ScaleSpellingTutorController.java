@@ -477,14 +477,30 @@ public class ScaleSpellingTutorController extends TutorController {
         skip.setOnAction(event -> handleSkippedQuestion(scaleInfo, 3, questionRow));
         Button submit = new Button();
         submit.setOnAction(event -> {
+            int correct = 0;
+            int incorrect = 0;
             for (int i = 0; i < inputs.getChildren().size(); i++) {
                 TextField answer = (TextField) inputs.getChildren().get(i);
                 if (!noteEnharmonicComparison(Note.lookup(OctaveUtil.addDefaultOctave(answer.getText())), Note.lookup(OctaveUtil.addDefaultOctave(correctNoteNames.get(i))))) {
                     answer.setStyle("-fx-background-color: green");
+                    correct++;
                 } else {
                     answer.setStyle("-fx-background-color: red");
+                    incorrect++;
                 }
+                answer.setDisable(true);
             }
+
+            if (incorrect == 0) {
+                formatCorrectQuestion(questionRow);
+            } else if (correct != 0) {
+                formatPartiallyCorrectQuestion(questionRow);
+            } else {
+                formatIncorrectQuestion(questionRow);
+            }
+
+            handleAccordion();
+
         });
 
         // Generate keyboard input fields
@@ -495,12 +511,12 @@ public class ScaleSpellingTutorController extends TutorController {
                 @Override
                 public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
                     if (newPropertyValue) {
-                        System.out.println("setFalse");
                         if ((index + 1) < correctNoteNames.size()) {
                             env.setCurrentFocussed(noteField, false, inputs.getChildren().get(index + 1));
                         } else {
                             env.setCurrentFocussed(noteField, false, submit);
                         }
+
                     }
                 }
             });
@@ -562,6 +578,7 @@ public class ScaleSpellingTutorController extends TutorController {
         }
 
     }
+
 
     /**
      * Method used to compare the correct note and the note to be added to answer options.
