@@ -55,6 +55,9 @@ public class StageMapController {
     private Button chordSpellingTutorButton;
 
     @FXML
+    private Button scalespellingTutorButton;
+
+    @FXML
     private Button chordRecognitionAdvancedTutorButton;
 
     @FXML
@@ -125,6 +128,7 @@ public class StageMapController {
         tutorOrder.add("scaleTutorAdvanced");
         tutorOrder.add("chordTutorAdvanced");
         tutorOrder.add("chordSpellingTutor");
+        tutorOrder.add("scaleSpellingTutor");
         tutorOrder.add("keySignatureTutor");
         tutorOrder.add("diatonicChordTutor");
         tutorOrder.add("scaleModesTutor");
@@ -143,6 +147,7 @@ public class StageMapController {
         tutorAndButton.put("scaleTutorAdvanced", scaleRecognitionAdvancedTutorButton);
         tutorAndButton.put("chordTutorAdvanced", chordRecognitionAdvancedTutorButton);
         tutorAndButton.put("chordSpellingTutor", chordSpellingTutorButton);
+        tutorAndButton.put("scaleSpellingTutor", scalespellingTutorButton);
         tutorAndButton.put("keySignatureTutor",keySignaturesTutorButton);
         tutorAndButton.put("diatonicChordTutor", diatonicChordsTutorButton);
         tutorAndButton.put("scaleModesTutor", majorModesTutorButton);
@@ -162,6 +167,7 @@ public class StageMapController {
         unlockStatus.put("scaleTutorAdvanced", false);
         unlockStatus.put("chordTutorAdvanced", false);
         unlockStatus.put("chordSpellingTutor", false);
+        unlockStatus.put("scaleSpellingTutor", false);
         unlockStatus.put("keySignatureTutor", false);
         unlockStatus.put("diatonicChordTutor", false);
         unlockStatus.put("scaleModesTutor", false);
@@ -175,7 +181,6 @@ public class StageMapController {
         for (String tutor: unlockStatus.keySet()) {
             if (unlockStatus.get(tutor) == false) {
                 tutorAndButton.get(tutor).setDisable(true);
-                tutorAndButton.get(tutor).setStyle("-fx-opacity: 1;");
                 tutorAndButton.get(tutor).setGraphic(new ImageView(padlock));
 
 
@@ -224,20 +229,6 @@ public class StageMapController {
 
 
     }
-
-
-    /**
-     * Takes the tutor score file, finds the scores of the last 5 entries and calculates the average over the last
-     * 5 scores
-     */
-    private void calculateAverageScore() {
-
-        //find last x scores
-        //calculate last x scores
-        //return average
-    }
-
-
 
 
 
@@ -293,6 +284,11 @@ public class StageMapController {
     }
 
     @FXML
+    private void launchScaleSpellingTutor() {
+        env.getRootController().getTutorFactory().openTutor("Scale Spelling Tutor");
+    }
+
+    @FXML
     private void launchKeySignaturesTutor() {
         env.getRootController().getTutorFactory().openTutor("Key Signatures Tutor");
     }
@@ -305,15 +301,6 @@ public class StageMapController {
     private void launchMajorModesTutor() {
         env.getRootController().getTutorFactory().openTutor("Major Modes Tutor");
     }
-
-    //Getters for data of each tutor
-
-//    private ArrayList<TutorRecord> getMusicalTermsData() {
-//        ArrayList<TutorRecord> musicalTermsTutorData = new ArrayList<>();
-//        musicalTermsTutorData.add(0, tutorHandler.getTutorData("musicalTermsTutor"));
-//        System.out.println(musicalTermsTutorData);
-//        return musicalTermsTutorData;
-//    }
 
 
 
