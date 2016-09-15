@@ -252,11 +252,17 @@ public class ScaleSpellingTutorController extends TutorController {
                 score = 0;
             }
 
-            String questionText;
+            String questionText = "";
             if (questionType == 1) {
-                questionText = String.format(typeOneText, ((Label) questionRow.lookup("#question")).getText());
-            } else {
-                questionText = String.format(typeTwoText, ((Label) questionRow.lookup("#question")).getText());
+                questionText = String.format(typeOneText, (String) scaleInfo.get("startNoteName"));
+
+            } else if (questionType == 2) {
+                String startNoteName = (String) scaleInfo.get("startNoteName");
+                Note startNote = (Note) scaleInfo.get("startNote");
+                String scaleType = (String) scaleInfo.get("scaleType");
+                ArrayList<Note> correctNotes = startNote.getScale(scaleType, true);
+                ArrayList<String> noteNames = Scale.scaleNameList(startNoteName, correctNotes, true, scaleType.toLowerCase());
+                questionText = String.format(typeTwoText, noteNames);
             }
 
             String usersAnswer = "";
