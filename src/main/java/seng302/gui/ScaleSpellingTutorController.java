@@ -53,6 +53,9 @@ public class ScaleSpellingTutorController extends TutorController {
     @FXML
     private Button btnGo;
 
+    @FXML
+    private ComboBox<String> inputMode;
+
     CheckComboBox<String> scaleTypes = new CheckComboBox<String>();
 
     private String[] validScaleNames = {"Major", "Minor", "Melodic Minor", "Blues",
@@ -66,11 +69,19 @@ public class ScaleSpellingTutorController extends TutorController {
 
     private final String typeTwoText = "Which scale contains the notes %s";
 
+    /**
+     * Creates the basic functionality for the tutor, initialising the random variable, and the
+     * selection tools for the main screen - Scale type, amount of questions and input mode
+     *
+     * @param env Environment for the application
+     */
     public void create(Environment env) {
         super.create(env);
         rand = new Random();
         initialiseQuestionSelector();
         initialiseScaleTypeSelector();
+        inputMode.getItems().addAll("Dropdown", "Keyboard");
+        inputMode.getSelectionModel().selectFirst();
     }
 
     /**
@@ -114,6 +125,11 @@ public class ScaleSpellingTutorController extends TutorController {
         return scaleInfo;
     }
 
+    /**
+     * Creates a new question and adds it to the already generated questions.
+     * Numbers the question according to the input given.
+     * @param questionNumber Number of this question.
+     */
     public void createNewQuestion(Integer questionNumber) {
         // Every question needs a random scale
         Map scaleInfo = generateRandomScale();
@@ -164,6 +180,11 @@ public class ScaleSpellingTutorController extends TutorController {
 
     }
 
+    /**
+     * Checks to see if a type one question is complete
+     * @param question The question that needs to be checked
+     * @return Whether or not the question is complete
+     */
     private boolean isTypeOneTwoComplete(HBox question) {
         // Check if all inputs have been entered
         boolean isComplete = true;
@@ -175,6 +196,14 @@ public class ScaleSpellingTutorController extends TutorController {
         return isComplete;
     }
 
+    /**
+     * Returns the correctness of the question
+     * 0 - Incorrect
+     * 1 - Correct
+     * 2 - Partially Correct
+     * @param question The question to be graded
+     * @return Grade for the question
+     */
     private int gradeTypeOneTwoQuestion(HBox question) {
         int correct = 0;
         int incorrect = 0;
@@ -207,6 +236,11 @@ public class ScaleSpellingTutorController extends TutorController {
 
     }
 
+    /**
+     * Styles the question dependant on the correctness of the question
+     * @param question Question to be styled
+     * @param score Correctness of the question
+     */
     private void styleTypeOneTwoQuestion(HBox question, int score) {
         if (score == 0) {
             formatIncorrectQuestion(question);
@@ -219,6 +253,11 @@ public class ScaleSpellingTutorController extends TutorController {
 
     }
 
+    /**
+     * Styles the input of a question according to correctness
+     * @param input Input to be styled
+     * @param answer Expected answer for the input
+     */
     private void styleTypeOneTwoInput(ComboBox input, String answer) {
         input.setDisable(true);
         if (input.getValue().equals(answer)) {
@@ -229,6 +268,14 @@ public class ScaleSpellingTutorController extends TutorController {
 
     }
 
+    /**
+     * Handles the input of a question. Styles and checks for correctness and completeness.
+     * @param input Most recent input of the question
+     * @param scaleInfo Question parameter. Which scale is being tested.
+     * @param questionRow Question to be styled
+     * @param answer Expected answer for input
+     * @param questionType Type of question
+     */
     private void handleTypeOneTwoInput(ComboBox input, Map scaleInfo, HBox questionRow, String answer, int questionType) {
         styleTypeOneTwoInput(input, answer);
         if (isTypeOneTwoComplete(questionRow)) {
@@ -247,11 +294,17 @@ public class ScaleSpellingTutorController extends TutorController {
                 score = 0;
             }
 
-            String questionText;
+            String questionText = "";
             if (questionType == 1) {
-                questionText = String.format(typeOneText, ((Label) questionRow.lookup("#question")).getText());
-            } else {
-                questionText = String.format(typeTwoText, ((Label) questionRow.lookup("#question")).getText());
+                questionText = String.format(typeOneText, (String) scaleInfo.get("startNoteName"));
+
+            } else if (questionType == 2) {
+                String startNoteName = (String) scaleInfo.get("startNoteName");
+                Note startNote = (Note) scaleInfo.get("startNote");
+                String scaleType = (String) scaleInfo.get("scaleType");
+                ArrayList<Note> correctNotes = startNote.getScale(scaleType, true);
+                ArrayList<String> noteNames = Scale.scaleNameList(startNoteName, correctNotes, true, scaleType.toLowerCase());
+                questionText = String.format(typeTwoText, noteNames);
             }
 
             String usersAnswer = "";
@@ -277,10 +330,16 @@ public class ScaleSpellingTutorController extends TutorController {
         }
     }
 
+    /**
+     * Deals with saving data and formatting skipped questions
+     * @param scaleInfo Question parameter, expected results and scale being tested
+     * @param questionType Question type being tested
+     * @param questionRow Question to skip
+     */
     private void handleSkippedQuestion(Map scaleInfo, int questionType, HBox questionRow) {
         manager.add(new Pair(scaleInfo, questionType), 2);
         formatSkippedQuestion(questionRow);
-        disableButtons(questionRow, 1, questionRow.getChildren().size() - 1);
+        disableButtons(questionRow, 0, questionRow.getChildren().size() - 1);
 
         String questionText = "";
         if (questionType == 1) {
@@ -296,7 +355,6 @@ public class ScaleSpellingTutorController extends TutorController {
         } else if (questionType == 3) {
             questionText = "Play the scale using the keyboard (set to tutor input).";
         }
-
         String[] questionInfo = new String[]{
                 questionText,
                 "",
@@ -338,31 +396,59 @@ public class ScaleSpellingTutorController extends TutorController {
         // Creates a selection of ComboBoxes to pick notes from
         final HBox inputs = new HBox();
         inputs.setId("inputs");
-        for (String note : correctNoteNames) {
-            ComboBox<String> noteOptions = new ComboBox<>();
+        Button submit = new Button();
+        submit.setOnAction(event -> {
+            markKeyboardInput(questionRow, scaleInfo, inputs, correctNoteNames, 1);
+        });
 
-            // Create a list of potential answers, include the real answer
-            List<String> textualOptions = new ArrayList<>();
-            textualOptions.add(note);
 
-            // Create 7 fictional options
-            for (int i = 0; i < 7; i++) {
-                // Randomly generate notes until we find one currently unused
-                String randomNote = randomiseNoteName(Note.getRandomNote());
-                while (textualOptions.contains(randomNote)) {
-                    randomNote = randomiseNoteName(Note.getRandomNote());
+        for (int i = 0; i < correctNoteNames.size(); i++) {
+            String note = correctNoteNames.get(i);
+            if (inputMode.getValue().equals("Dropdown")) {
+                ComboBox<String> noteOptions = new ComboBox<>();
+
+                // Create a list of potential answers, include the real answer
+                List<String> textualOptions = new ArrayList<>();
+                textualOptions.add(note);
+
+                // Create 7 fictional options
+                for (int j = 0; j < 7; j++) {
+                    // Randomly generate notes until we find one currently unused
+                    String randomNote = randomiseNoteName(Note.getRandomNote());
+                    while (textualOptions.contains(randomNote)) {
+                        randomNote = randomiseNoteName(Note.getRandomNote());
+                    }
+                    textualOptions.add(randomNote);
                 }
-                textualOptions.add(randomNote);
+
+                // Randomise the order of options and add all to combobox
+                Collections.shuffle(textualOptions);
+                noteOptions.getItems().addAll(textualOptions);
+
+                // Add handler to each ComboBox input
+                noteOptions.setOnAction(event -> handleTypeOneTwoInput(noteOptions, scaleInfo, questionRow, note, 1));
+
+                inputs.getChildren().add(noteOptions);
+            } else {
+                // Input mode = keyboard
+                int index = i;
+                TextField noteField = new TextField();
+                noteField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                        if (newPropertyValue) {
+                            if ((index + 1) < correctNoteNames.size()) {
+                                env.setCurrentFocussed(noteField, false, inputs.getChildren().get(index + 1));
+                            } else {
+                                env.setCurrentFocussed(noteField, false, submit);
+                            }
+                        }
+                    }
+                });
+                noteField.setEditable(false);
+
+                inputs.getChildren().add(noteField);
             }
-
-            // Randomise the order of options and add all to combobox
-            Collections.shuffle(textualOptions);
-            noteOptions.getItems().addAll(textualOptions);
-
-            // Add handler to each ComboBox input
-            noteOptions.setOnAction(event -> handleTypeOneTwoInput(noteOptions, scaleInfo, questionRow, note, 1));
-
-            inputs.getChildren().add(noteOptions);
         }
 
         Button skip = new Button("Skip");
@@ -379,6 +465,11 @@ public class ScaleSpellingTutorController extends TutorController {
         return questionRow;
     }
 
+    /**
+     * Generates a question of type 2. Given a series of notes, determine the scale.
+     * @param scaleInfo Parameter, scale to be tested.
+     * @return Returns a question row to be added to the questions
+     */
     private HBox generateQuestionTypeTwo(Map scaleInfo) {
         final HBox questionRow = new HBox();
         formatQuestionRow(questionRow);
@@ -446,6 +537,11 @@ public class ScaleSpellingTutorController extends TutorController {
         return questionRow;
     }
 
+    /**
+     * Generates a type 3 question playback mode
+     * @param scaleInfo Scale to be tested
+     * @return Returns a generated question of type 3
+     */
     private HBox generateQuestionTypeThree(Map scaleInfo) {
         final HBox questionRow = new HBox();
         formatQuestionRow(questionRow);
@@ -477,14 +573,8 @@ public class ScaleSpellingTutorController extends TutorController {
         skip.setOnAction(event -> handleSkippedQuestion(scaleInfo, 3, questionRow));
         Button submit = new Button();
         submit.setOnAction(event -> {
-            for (int i = 0; i < inputs.getChildren().size(); i++) {
-                TextField answer = (TextField) inputs.getChildren().get(i);
-                if (!noteEnharmonicComparison(Note.lookup(OctaveUtil.addDefaultOctave(answer.getText())), Note.lookup(OctaveUtil.addDefaultOctave(correctNoteNames.get(i))))) {
-                    answer.setStyle("-fx-background-color: green");
-                } else {
-                    answer.setStyle("-fx-background-color: red");
-                }
-            }
+            markKeyboardInput(questionRow, scaleInfo, inputs, correctNoteNames, 3);
+
         });
 
         // Generate keyboard input fields
@@ -500,6 +590,7 @@ public class ScaleSpellingTutorController extends TutorController {
                         } else {
                             env.setCurrentFocussed(noteField, false, submit);
                         }
+
                     }
                 }
             });
@@ -520,6 +611,11 @@ public class ScaleSpellingTutorController extends TutorController {
         return questionRow;
     }
 
+    /**
+     * Determines what type of question is to be generated and generates the appropriate question.
+     * @param data Pair containing question type and scaleMap - scale to be used.
+     * @return The generated question
+     */
     HBox generateQuestionPane(Pair data) {
         int questionType = (int) data.getKey();
         if (questionType == 1) {
@@ -536,6 +632,10 @@ public class ScaleSpellingTutorController extends TutorController {
 
     }
 
+    /**
+     * Go action on the start screen, generates questions and gets tutor running.
+     * @param event Click event for go button
+     */
     @FXML
     void goAction(ActionEvent event) {
         if (scaleTypes.getCheckModel().getCheckedIndices().size() != 0) {
@@ -561,6 +661,64 @@ public class ScaleSpellingTutorController extends TutorController {
         }
 
     }
+
+
+    /**
+     * Used for marking answers that have been answered using keyboard input
+     */
+    private void markKeyboardInput(HBox questionRow, Map scaleInfo, HBox inputs, ArrayList<String> correctNoteNames, int questionNum) {
+        int correct = 0;
+        int incorrect = 0;
+        String selectedAnswer = "";
+        for (int i = 0; i < inputs.getChildren().size(); i++) {
+            TextField answer = (TextField) inputs.getChildren().get(i);
+            selectedAnswer += answer.getText() + " ";
+            if (!noteEnharmonicComparison(Note.lookup(OctaveUtil.addDefaultOctave(answer.getText())), Note.lookup(OctaveUtil.addDefaultOctave(correctNoteNames.get(i))))) {
+                answer.setStyle("-fx-background-color: green");
+                correct++;
+            } else {
+                answer.setStyle("-fx-background-color: red");
+                incorrect++;
+            }
+            answer.setDisable(true);
+        }
+
+        String correctness;
+        if (incorrect == 0) {
+            correctness = "1";
+            formatCorrectQuestion(questionRow);
+            manager.add(new Pair(scaleInfo, 3), 1);
+        } else if (correct != 0) {
+            correctness = "0";
+            formatPartiallyCorrectQuestion(questionRow);
+            manager.add(new Pair(scaleInfo, 3), 0);
+        } else {
+            correctness = "0";
+            formatIncorrectQuestion(questionRow);
+            manager.add(new Pair(scaleInfo, 3), 0);
+        }
+
+        String questionText = "";
+        if (questionNum == 3) {
+            questionText = "Play the scale using the keyboard (set to tutor input).";
+        } else {
+            questionText = String.format(typeOneText, (String) scaleInfo.get("startNoteName"));
+        }
+        String[] questionInfo = new String[]{
+                questionText,
+                selectedAnswer,
+                correctness
+
+        };
+        record.addQuestionAnswer(questionInfo);
+
+        handleAccordion();
+
+        if (manager.answered == manager.questions) {
+            finished();
+        }
+    }
+
 
     /**
      * Method used to compare the correct note and the note to be added to answer options.
