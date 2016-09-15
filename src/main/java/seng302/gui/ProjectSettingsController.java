@@ -17,7 +17,7 @@ import seng302.Users.ProjectHandler;
 import seng302.utility.InstrumentUtility;
 
 /**
- * Controller class for the GUI used to change project-based settings. TODO: add undo support?
+ * Controller class for the GUI used to change project-based settings.
  */
 public class ProjectSettingsController {
 
@@ -79,6 +79,10 @@ public class ProjectSettingsController {
         }
     }
 
+    /**
+     * Creates the combo box that allows the user to change their instrument. Adds all available
+     * instruments as possible selections, and creates a listener.
+     */
     private void setupInstrumentSelector() {
         Instrument[] instruments = env.getPlayer().getAvailableInstruments();
 
@@ -98,6 +102,10 @@ public class ProjectSettingsController {
         });
     }
 
+    /**
+     * Initialises the rhythm selector combo box. This allows the user to select from one of the
+     * four preset rhythm types.
+     */
     private void setupRhythmSelector() {
         String currentDivisions = env.getPlayer().getRhythmHandler().toString();
 
@@ -139,6 +147,9 @@ public class ProjectSettingsController {
         });
     }
 
+    /**
+     * Creates the slider object for changing the tempo. A listener on this updates the tempo.
+     */
     private void setupTempoSlider() {
         tempoText.setText(Integer.toString(env.getPlayer().getTempo()));
         tempoSlider.setValue(env.getPlayer().getTempo());
@@ -155,6 +166,10 @@ public class ProjectSettingsController {
         });
     }
 
+    /**
+     * Sets up the mode and visualiser toggles. As these are closely linked, they are set up
+     * together.
+     */
     private void setupToggles() {
         modeToggle.getStyleClass().remove(0);
         visualiserToggle.getStyleClass().remove(0);
