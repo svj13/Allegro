@@ -55,7 +55,7 @@ public class StageMapController {
     private Button chordSpellingTutorButton;
 
     @FXML
-    private Button scalespellingTutorButton;
+    private Button scaleSpellingTutorButton;
 
     @FXML
     private Button chordRecognitionAdvancedTutorButton;
@@ -147,7 +147,7 @@ public class StageMapController {
         tutorAndButton.put("scaleTutorAdvanced", scaleRecognitionAdvancedTutorButton);
         tutorAndButton.put("chordTutorAdvanced", chordRecognitionAdvancedTutorButton);
         tutorAndButton.put("chordSpellingTutor", chordSpellingTutorButton);
-        tutorAndButton.put("scaleSpellingTutor", scalespellingTutorButton);
+        tutorAndButton.put("scaleSpellingTutor", scaleSpellingTutorButton);
         tutorAndButton.put("keySignatureTutor",keySignaturesTutorButton);
         tutorAndButton.put("diatonicChordTutor", diatonicChordsTutorButton);
         tutorAndButton.put("scaleModesTutor", majorModesTutorButton);
