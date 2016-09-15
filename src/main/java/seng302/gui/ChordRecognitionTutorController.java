@@ -207,14 +207,13 @@ public class ChordRecognitionTutorController extends TutorController {
 
         skip.setOnAction(event -> {
             // Disables only input buttons
-            disableButtons(questionRow, 1, 3);
-            formatSkippedQuestion(questionRow);
             if (isCompMode) {
-                // No skips in competition mode
-                manager.add(noteAndChord, 0);
+                disableButtons(questionRow, 1, 2);
             } else {
-                manager.add(noteAndChordType, 2);
+                disableButtons(questionRow, 1, 3);
             }
+            formatSkippedQuestion(questionRow);
+            manager.add(noteAndChordType, 2);
             String[] question = new String[]{
                     String.format("%s scale from %s", chordType, startNote.getNote()),
                     chordType,
@@ -227,10 +226,15 @@ public class ChordRecognitionTutorController extends TutorController {
             }
         });
 
+
         questionRow.getChildren().add(0, play);
         questionRow.getChildren().add(1, options);
-        questionRow.getChildren().add(2, skip);
-        questionRow.getChildren().add(3, correctAnswer);
+        if (!isCompMode) {
+            questionRow.getChildren().add(2, skip);
+            questionRow.getChildren().add(3, correctAnswer);
+        } else {
+            questionRow.getChildren().add(2, correctAnswer);
+        }
 
         questionRow.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
         return questionRow;
@@ -277,7 +281,11 @@ public class ChordRecognitionTutorController extends TutorController {
      */
     public void handleQuestionAnswer(String userAnswer, Pair correctAnswer, HBox questionRow) {
         Integer correct;
-        disableButtons(questionRow, 1, 3);
+        if (isCompMode) {
+            disableButtons(questionRow, 1, 2);
+        } else {
+            disableButtons(questionRow, 1, 3);
+        }
         if (userAnswer.equals(correctAnswer.getValue())) {
             correct = 1;
             manager.add(correctAnswer, 1);
