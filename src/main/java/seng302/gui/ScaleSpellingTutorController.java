@@ -539,13 +539,20 @@ public class ScaleSpellingTutorController extends TutorController {
 
             if (incorrect == 0) {
                 formatCorrectQuestion(questionRow);
+                manager.add(new Pair(scaleInfo, 3), 1);
             } else if (correct != 0) {
                 formatPartiallyCorrectQuestion(questionRow);
+                manager.add(new Pair(scaleInfo, 3), 0);
             } else {
                 formatIncorrectQuestion(questionRow);
+                manager.add(new Pair(scaleInfo, 3), 0);
             }
 
             handleAccordion();
+
+            if (manager.answered == manager.questions) {
+                finished();
+            }
 
         });
 
