@@ -455,6 +455,10 @@ public class ScaleSpellingTutorController extends TutorController {
         skip.setId("skip");
         styleSkipButton(skip);
         skip.setOnAction(event -> handleSkippedQuestion(scaleInfo, 1, questionRow));
+        if (isCompMode) {
+            skip.setVisible(false);
+            skip.setManaged(false);
+        }
 
 
         questionRow.getChildren().add(0, inputs);
@@ -527,6 +531,10 @@ public class ScaleSpellingTutorController extends TutorController {
         skip.setId("skip");
         styleSkipButton(skip);
         skip.setOnAction(event -> handleSkippedQuestion(scaleInfo, 2, questionRow));
+        if (isCompMode) {
+            skip.setVisible(false);
+            skip.setManaged(false);
+        }
 
 
         questionRow.getChildren().add(0, inputs);
@@ -571,6 +579,11 @@ public class ScaleSpellingTutorController extends TutorController {
         Button skip = new Button("Skip");
         styleSkipButton(skip);
         skip.setOnAction(event -> handleSkippedQuestion(scaleInfo, 3, questionRow));
+        if (isCompMode) {
+            skip.setVisible(false);
+            skip.setManaged(false);
+        }
+
         Button submit = new Button();
         submit.setOnAction(event -> {
             markKeyboardInput(questionRow, scaleInfo, inputs, correctNoteNames, 3);
