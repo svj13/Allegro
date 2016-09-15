@@ -399,14 +399,7 @@ public class ScaleSpellingTutorController extends TutorController {
         inputs.setId("inputs");
         Button submit = new Button();
         submit.setOnAction(event -> {
-            for (int i = 0; i < inputs.getChildren().size(); i++) {
-                TextField answer = (TextField) inputs.getChildren().get(i);
-                if (!noteEnharmonicComparison(Note.lookup(OctaveUtil.addDefaultOctave(answer.getText())), Note.lookup(OctaveUtil.addDefaultOctave(correctNoteNames.get(i))))) {
-                    answer.setStyle("-fx-background-color: green");
-                } else {
-                    answer.setStyle("-fx-background-color: red");
-                }
-            }
+            markKeyboardInput(questionRow, scaleInfo, inputs, correctNoteNames, 1);
         });
 
 
@@ -581,7 +574,7 @@ public class ScaleSpellingTutorController extends TutorController {
         skip.setOnAction(event -> handleSkippedQuestion(scaleInfo, 3, questionRow));
         Button submit = new Button();
         submit.setOnAction(event -> {
-            markKeyboardInput(questionRow, scaleInfo, inputs, correctNoteNames);
+            markKeyboardInput(questionRow, scaleInfo, inputs, correctNoteNames, 3);
 
         });
 
@@ -674,7 +667,7 @@ public class ScaleSpellingTutorController extends TutorController {
     /**
      * Used for marking answers that have been answered using keyboard input
      */
-    private void markKeyboardInput(HBox questionRow, Map scaleInfo, HBox inputs, ArrayList<String> correctNoteNames) {
+    private void markKeyboardInput(HBox questionRow, Map scaleInfo, HBox inputs, ArrayList<String> correctNoteNames, int questionNum) {
         int correct = 0;
         int incorrect = 0;
         String selectedAnswer = "";
@@ -706,7 +699,12 @@ public class ScaleSpellingTutorController extends TutorController {
             manager.add(new Pair(scaleInfo, 3), 0);
         }
 
-        String questionText = "Play the scale using the keyboard (set to tutor input).";
+        String questionText = "";
+        if (questionNum == 3) {
+            questionText = "Play the scale using the keyboard (set to tutor input).";
+        } else {
+            questionText = String.format(typeOneText, (String) scaleInfo.get("startNoteName"));
+        }
         String[] questionInfo = new String[]{
                 questionText,
                 selectedAnswer,
