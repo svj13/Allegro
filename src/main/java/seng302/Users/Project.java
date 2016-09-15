@@ -79,7 +79,7 @@ public class Project {
         isCompetitiveMode = true;
         this.experience = 0;
         this.level = 1;
-
+        this.visualiserOn = false;
         loadProject(projectName);
         loadProperties();
 
@@ -112,6 +112,7 @@ public class Project {
         projectSettings.put("experience", this.experience);
 
         projectSettings.put("competitionMode", gson.toJson(isCompetitiveMode.toString()));
+        System.out.println(visualiserOn);
 
         projectSettings.put("visualiserOn", gson.toJson(visualiserOn.toString()));
 

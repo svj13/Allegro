@@ -275,7 +275,6 @@ public class KeyboardPaneController {
         });
 
 
-
         settings.getChildren().add(new Label("Keyboard Mode:"));
         modes.getChildren().add(play);
         modes.getChildren().add(tutorInp);

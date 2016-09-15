@@ -5,6 +5,8 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.VBox;
@@ -12,6 +14,18 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
+import javafx.scene.control.ScrollPane;
+
+import javafx.scene.layout.*;
+
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
+
 import javafx.util.Pair;
 import seng302.Environment;
 import seng302.utility.LevelCalculator;
@@ -50,6 +64,17 @@ public class UserSummaryController {
 
     private Environment env;
 
+    FXMLLoader loader = new FXMLLoader();
+
+    AnchorPane noteMap;
+
+
+    @FXML
+    StackPane stageMap;
+
+
+
+
     /**
      * Initializes the user summary controller and draws its graphs
      *
@@ -81,6 +106,7 @@ public class UserSummaryController {
         overallIncorrectLabel.setText(correctIncorrectOverall.getValue() + " \nincorrect");
         classAverage.setVisible(false);
 
+           // TutorStatsController statsController = statsLoader.getController();
 
     }
 
@@ -104,6 +130,54 @@ public class UserSummaryController {
 
         highXp.setText(Integer.toString(maxXp - userXp) + "XP to level " + Integer.toString(userLevel + 1));
     }
+
+    /**
+     * Loads the stage map into the summary page
+     */
+    public void loadStageMap() {
+        if (env.getStageMapController() == null) {
+            loader.setLocation(getClass().getResource("/Views/StageMapPane.fxml"));
+
+            try {
+                noteMap = loader.load();
+                stageMap.getChildren().add(noteMap);
+            } catch (Exception e) {
+                System.err.println("Failed to load stage map");
+                System.out.println(e.getStackTrace());
+                e.printStackTrace();
+            }
+
+
+            StageMapController controller = loader.getController();
+            env.setStageMapController(controller);
+            env.setStagePane(noteMap);
+            env.getStageMapController().setEnvironment(env);
+            env.getStageMapController().create();
+        }else{
+
+            try {
+                stageMap.getChildren().add(env.getStagePane());
+                env.getStageMapController().visualiseLockedTutors();
+
+            } catch (Exception e) {
+                System.err.println("Failed to load stage map21");
+                System.out.println(e.getStackTrace());
+                e.printStackTrace();
+            }
+        }
+
+
+
+
+
+
+
+    }
+
+
+
+
+
 
 
 }

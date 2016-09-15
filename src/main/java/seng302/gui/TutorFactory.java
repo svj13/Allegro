@@ -38,6 +38,7 @@ public class TutorFactory {
 
 
         env.getRootController().showUserBar(true);
+        env.getRootController().setHeader(tutorName);
         switch (tutorName) {
             case "Pitch Comparison Tutor":
                 openPitchTutor();

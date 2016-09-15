@@ -170,6 +170,7 @@ public abstract class TutorController {
         record.setDate();
 
         String tutorName = env.getRootController().getHeader();
+        System.out.println("current project: " + currentProject);
         if (currentProject != null) {
             currentProject.saveCurrentProject();
             String tutorNameNoSpaces = tutorName.replaceAll("\\s", "");
@@ -185,6 +186,9 @@ public abstract class TutorController {
             paneQuestions.setVisible(false);
             paneInit.setVisible(true);
         }
+
+        env.getStageMapController().fetchTutorFile(tutorName);
+        env.getUserPageController();
 
         // Clear the current session
         manager.resetStats();

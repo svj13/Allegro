@@ -16,11 +16,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 import seng302.Environment;
@@ -33,6 +36,9 @@ public class UserPageController {
 
     @FXML
     AnchorPane contentPane;
+
+    @FXML
+    VBox summaryPage;
 
     @FXML
     SplitPane userView;
@@ -57,6 +63,9 @@ public class UserPageController {
     Label latestAttempt;
 
     @FXML
+    StackPane stageMap;
+
+    @FXML
     ScrollPane currentPage;
 
     @FXML
@@ -65,6 +74,15 @@ public class UserPageController {
     StringConverter convert;
 
     private TutorStatsController statsController;
+
+    @FXML
+    VBox tutors;
+
+    @FXML
+    private ScrollPane scrollPane;
+
+    @FXML
+    AnchorPane summary;
 
     private Environment env;
 
@@ -299,6 +317,7 @@ public class UserPageController {
 
             UserSummaryController summaryController = summaryLoader.getController();
             summaryController.create(env);
+            summaryController.loadStageMap();
 
 
         } catch (IOException e) {
