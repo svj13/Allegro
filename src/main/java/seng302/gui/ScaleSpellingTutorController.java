@@ -581,51 +581,7 @@ public class ScaleSpellingTutorController extends TutorController {
         skip.setOnAction(event -> handleSkippedQuestion(scaleInfo, 3, questionRow));
         Button submit = new Button();
         submit.setOnAction(event -> {
-            int correct = 0;
-            int incorrect = 0;
-            String selectedAnswer = "";
-            for (int i = 0; i < inputs.getChildren().size(); i++) {
-                TextField answer = (TextField) inputs.getChildren().get(i);
-                selectedAnswer += answer.getText() + " ";
-                if (!noteEnharmonicComparison(Note.lookup(OctaveUtil.addDefaultOctave(answer.getText())), Note.lookup(OctaveUtil.addDefaultOctave(correctNoteNames.get(i))))) {
-                    answer.setStyle("-fx-background-color: green");
-                    correct++;
-                } else {
-                    answer.setStyle("-fx-background-color: red");
-                    incorrect++;
-                }
-                answer.setDisable(true);
-            }
-
-            String correctness;
-            if (incorrect == 0) {
-                correctness = "1";
-                formatCorrectQuestion(questionRow);
-                manager.add(new Pair(scaleInfo, 3), 1);
-            } else if (correct != 0) {
-                correctness = "0";
-                formatPartiallyCorrectQuestion(questionRow);
-                manager.add(new Pair(scaleInfo, 3), 0);
-            } else {
-                correctness = "0";
-                formatIncorrectQuestion(questionRow);
-                manager.add(new Pair(scaleInfo, 3), 0);
-            }
-
-            String questionText = "Play the scale using the keyboard (set to tutor input).";
-            String[] questionInfo = new String[]{
-                    questionText,
-                    selectedAnswer,
-                    correctness
-
-            };
-            record.addQuestionAnswer(questionInfo);
-
-            handleAccordion();
-
-            if (manager.answered == manager.questions) {
-                finished();
-            }
+            markKeyboardInput(questionRow, scaleInfo, inputs, correctNoteNames);
 
         });
 
@@ -712,6 +668,58 @@ public class ScaleSpellingTutorController extends TutorController {
             scaleError.setVisible(true);
         }
 
+    }
+
+
+    /**
+     * Used for marking answers that have been answered using keyboard input
+     */
+    private void markKeyboardInput(HBox questionRow, Map scaleInfo, HBox inputs, ArrayList<String> correctNoteNames) {
+        int correct = 0;
+        int incorrect = 0;
+        String selectedAnswer = "";
+        for (int i = 0; i < inputs.getChildren().size(); i++) {
+            TextField answer = (TextField) inputs.getChildren().get(i);
+            selectedAnswer += answer.getText() + " ";
+            if (!noteEnharmonicComparison(Note.lookup(OctaveUtil.addDefaultOctave(answer.getText())), Note.lookup(OctaveUtil.addDefaultOctave(correctNoteNames.get(i))))) {
+                answer.setStyle("-fx-background-color: green");
+                correct++;
+            } else {
+                answer.setStyle("-fx-background-color: red");
+                incorrect++;
+            }
+            answer.setDisable(true);
+        }
+
+        String correctness;
+        if (incorrect == 0) {
+            correctness = "1";
+            formatCorrectQuestion(questionRow);
+            manager.add(new Pair(scaleInfo, 3), 1);
+        } else if (correct != 0) {
+            correctness = "0";
+            formatPartiallyCorrectQuestion(questionRow);
+            manager.add(new Pair(scaleInfo, 3), 0);
+        } else {
+            correctness = "0";
+            formatIncorrectQuestion(questionRow);
+            manager.add(new Pair(scaleInfo, 3), 0);
+        }
+
+        String questionText = "Play the scale using the keyboard (set to tutor input).";
+        String[] questionInfo = new String[]{
+                questionText,
+                selectedAnswer,
+                correctness
+
+        };
+        record.addQuestionAnswer(questionInfo);
+
+        handleAccordion();
+
+        if (manager.answered == manager.questions) {
+            finished();
+        }
     }
 
 
