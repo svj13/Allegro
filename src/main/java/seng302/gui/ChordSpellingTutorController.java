@@ -681,7 +681,7 @@ public class ChordSpellingTutorController extends TutorController {
                 @Override
                 public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
                     if (newPropertyValue) {
-                       env.setCurrentFocussed(note1, false, note2);
+                        env.setCurrentFocussed(note1, false, note2);
                     }
                 }
             });
@@ -747,6 +747,11 @@ public class ChordSpellingTutorController extends TutorController {
             if (fourNotes) {
                 inputs.getChildren().add(note4);
             }
+        }
+
+        if (isCompMode) {
+            skip.setVisible(false);
+            skip.setManaged(false);
         }
 
         if (questionType == 1) {
@@ -1185,12 +1190,9 @@ public class ChordSpellingTutorController extends TutorController {
         // Disables only input buttons
         disableButtons(questionRow, 1, 3);
         formatSkippedQuestion(questionRow);
-        if (isCompMode) {
-            // No skips in competition mode
-            manager.add(new Pair<>(finalData.getKey(), questionType), 0);
-        } else {
-            manager.add(new Pair<>(finalData.getKey(), questionType), 2);
-        }
+
+        manager.add(new Pair<>(finalData.getKey(), questionType), 2);
+
 
         record.addQuestionAnswer(questionInfo);
 

@@ -207,14 +207,11 @@ public class ChordRecognitionTutorController extends TutorController {
 
         skip.setOnAction(event -> {
             // Disables only input buttons
+
             disableButtons(questionRow, 1, 3);
+
             formatSkippedQuestion(questionRow);
-            if (isCompMode) {
-                // No skips in competition mode
-                manager.add(noteAndChord, 0);
-            } else {
-                manager.add(noteAndChordType, 2);
-            }
+            manager.add(noteAndChordType, 2);
             String[] question = new String[]{
                     String.format("%s scale from %s", chordType, startNote.getNote()),
                     chordType,
@@ -227,8 +224,13 @@ public class ChordRecognitionTutorController extends TutorController {
             }
         });
 
+
         questionRow.getChildren().add(0, play);
         questionRow.getChildren().add(1, options);
+        if (isCompMode) {
+            skip.setVisible(false);
+            skip.setManaged(false);
+        }
         questionRow.getChildren().add(2, skip);
         questionRow.getChildren().add(3, correctAnswer);
 
