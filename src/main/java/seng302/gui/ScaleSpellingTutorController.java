@@ -307,7 +307,7 @@ public class ScaleSpellingTutorController extends TutorController {
         } else if (questionType == 3) {
             questionText = "Play the scale using the keyboard (set to tutor input).";
         }
-
+        questionText = "Play the scale using the keyboard (set to tutor input).";
         String[] questionInfo = new String[]{
                 questionText,
                 "",
@@ -525,8 +525,10 @@ public class ScaleSpellingTutorController extends TutorController {
         submit.setOnAction(event -> {
             int correct = 0;
             int incorrect = 0;
+            String selectedAnswer = "";
             for (int i = 0; i < inputs.getChildren().size(); i++) {
                 TextField answer = (TextField) inputs.getChildren().get(i);
+                selectedAnswer += answer.getText() + " ";
                 if (!noteEnharmonicComparison(Note.lookup(OctaveUtil.addDefaultOctave(answer.getText())), Note.lookup(OctaveUtil.addDefaultOctave(correctNoteNames.get(i))))) {
                     answer.setStyle("-fx-background-color: green");
                     correct++;
@@ -537,16 +539,29 @@ public class ScaleSpellingTutorController extends TutorController {
                 answer.setDisable(true);
             }
 
+            String correctness;
             if (incorrect == 0) {
+                correctness = "1";
                 formatCorrectQuestion(questionRow);
                 manager.add(new Pair(scaleInfo, 3), 1);
             } else if (correct != 0) {
+                correctness = "0";
                 formatPartiallyCorrectQuestion(questionRow);
                 manager.add(new Pair(scaleInfo, 3), 0);
             } else {
+                correctness = "0";
                 formatIncorrectQuestion(questionRow);
                 manager.add(new Pair(scaleInfo, 3), 0);
             }
+
+            String questionText = "Play the scale using the keyboard (set to tutor input).";
+            String[] questionInfo = new String[]{
+                    questionText,
+                    selectedAnswer,
+                    correctness
+
+            };
+            record.addQuestionAnswer(questionInfo);
 
             handleAccordion();
 
