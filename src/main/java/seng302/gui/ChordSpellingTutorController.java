@@ -681,7 +681,7 @@ public class ChordSpellingTutorController extends TutorController {
                 @Override
                 public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
                     if (newPropertyValue) {
-                       env.setCurrentFocussed(note1, false, note2);
+                        env.setCurrentFocussed(note1, false, note2);
                     }
                 }
             });

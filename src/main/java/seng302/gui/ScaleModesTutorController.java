@@ -323,7 +323,6 @@ public class ScaleModesTutorController extends TutorController {
 
 
         options.setOnAction(event ->
-                //System.out.println("check clicked answer")
                 handleQuestionAnswer(options.getValue().toLowerCase(), questionAnswer, questionRow, scaleType)
         );
 
