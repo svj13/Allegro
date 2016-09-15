@@ -53,6 +53,9 @@ public class ScaleSpellingTutorController extends TutorController {
     @FXML
     private Button btnGo;
 
+    @FXML
+    private ComboBox<String> inputMode;
+
     CheckComboBox<String> scaleTypes = new CheckComboBox<String>();
 
     private String[] validScaleNames = {"Major", "Minor", "Melodic Minor", "Blues",
@@ -71,6 +74,8 @@ public class ScaleSpellingTutorController extends TutorController {
         rand = new Random();
         initialiseQuestionSelector();
         initialiseScaleTypeSelector();
+        inputMode.getItems().addAll("Dropdown", "Keyboard");
+        inputMode.getSelectionModel().selectFirst();
     }
 
     /**
@@ -338,31 +343,66 @@ public class ScaleSpellingTutorController extends TutorController {
         // Creates a selection of ComboBoxes to pick notes from
         final HBox inputs = new HBox();
         inputs.setId("inputs");
-        for (String note : correctNoteNames) {
-            ComboBox<String> noteOptions = new ComboBox<>();
-
-            // Create a list of potential answers, include the real answer
-            List<String> textualOptions = new ArrayList<>();
-            textualOptions.add(note);
-
-            // Create 7 fictional options
-            for (int i = 0; i < 7; i++) {
-                // Randomly generate notes until we find one currently unused
-                String randomNote = randomiseNoteName(Note.getRandomNote());
-                while (textualOptions.contains(randomNote)) {
-                    randomNote = randomiseNoteName(Note.getRandomNote());
+        Button submit = new Button();
+        submit.setOnAction(event -> {
+            for (int i = 0; i < inputs.getChildren().size(); i++) {
+                TextField answer = (TextField) inputs.getChildren().get(i);
+                if (!noteEnharmonicComparison(Note.lookup(OctaveUtil.addDefaultOctave(answer.getText())), Note.lookup(OctaveUtil.addDefaultOctave(correctNoteNames.get(i))))) {
+                    answer.setStyle("-fx-background-color: green");
+                } else {
+                    answer.setStyle("-fx-background-color: red");
                 }
-                textualOptions.add(randomNote);
             }
+        });
 
-            // Randomise the order of options and add all to combobox
-            Collections.shuffle(textualOptions);
-            noteOptions.getItems().addAll(textualOptions);
 
-            // Add handler to each ComboBox input
-            noteOptions.setOnAction(event -> handleTypeOneTwoInput(noteOptions, scaleInfo, questionRow, note, 1));
+        for (int i = 0; i < correctNoteNames.size(); i++) {
+            String note = correctNoteNames.get(i);
+            if (inputMode.getValue().equals("Dropdown")) {
+                ComboBox<String> noteOptions = new ComboBox<>();
 
-            inputs.getChildren().add(noteOptions);
+                // Create a list of potential answers, include the real answer
+                List<String> textualOptions = new ArrayList<>();
+                textualOptions.add(note);
+
+                // Create 7 fictional options
+                for (int j = 0; j < 7; j++) {
+                    // Randomly generate notes until we find one currently unused
+                    String randomNote = randomiseNoteName(Note.getRandomNote());
+                    while (textualOptions.contains(randomNote)) {
+                        randomNote = randomiseNoteName(Note.getRandomNote());
+                    }
+                    textualOptions.add(randomNote);
+                }
+
+                // Randomise the order of options and add all to combobox
+                Collections.shuffle(textualOptions);
+                noteOptions.getItems().addAll(textualOptions);
+
+                // Add handler to each ComboBox input
+                noteOptions.setOnAction(event -> handleTypeOneTwoInput(noteOptions, scaleInfo, questionRow, note, 1));
+
+                inputs.getChildren().add(noteOptions);
+            } else {
+                // Input mode = keyboard
+                int index = i;
+                TextField noteField = new TextField();
+                noteField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                        if (newPropertyValue) {
+                            if ((index + 1) < correctNoteNames.size()) {
+                                env.setCurrentFocussed(noteField, false, inputs.getChildren().get(index + 1));
+                            } else {
+                                env.setCurrentFocussed(noteField, false, submit);
+                            }
+                        }
+                    }
+                });
+                noteField.setEditable(false);
+
+                inputs.getChildren().add(noteField);
+            }
         }
 
         Button skip = new Button("Skip");
