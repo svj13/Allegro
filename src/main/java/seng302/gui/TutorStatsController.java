@@ -319,8 +319,8 @@ public class TutorStatsController {
             setPrefSize(10, 10);
             final Label label = createDataLabel(date, value);
             this.setAlignment(Pos.CENTER);
-
             setOnMouseEntered(e -> {
+                this.toFront();
                 getChildren().setAll(label);
                 setCursor(Cursor.NONE);
             });

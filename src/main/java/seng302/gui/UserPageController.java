@@ -281,7 +281,7 @@ public class UserPageController {
 
         MenuItem menuItemLogout = new MenuItem("Logout");
 
-        menuItemLogout.setOnAction(k -> env.getRootController().logOutUser());
+        menuItemLogout.setOnAction(k -> env.getRootController().showCloseWindow("logout"));
 
         menuItemSettings.setOnAction(e2 -> env.getRootController().launchSettings());
         ContextMenu settingsDropDown = new ContextMenu();

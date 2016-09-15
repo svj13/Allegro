@@ -110,10 +110,6 @@ public class KeyboardPaneController {
      */
     private Integer topNote;
 
-    /**
-     * Is the keyboard currently hidden?
-     */
-    private boolean hidden = true;
 
     /**
      * Radio button to always show note labels.
@@ -170,6 +166,12 @@ public class KeyboardPaneController {
         createSettingsPop();
         createDisplayScalesPop();
 
+        keyPane.expandedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                positionBlackKeys();
+            }
+        });
 
     }
 
@@ -783,15 +785,13 @@ public class KeyboardPaneController {
      * Hide or show the keyboard.
      */
     public void toggleHideKeyboard() {
-        if (hidden) {
+        if (keyPane.isExpanded()) {
             positionBlackKeys();
             keyPane.setExpanded(false);
             keyboardBox.requestFocus();
-            hidden = false;
         } else {
             positionBlackKeys();
             keyPane.setExpanded(true);
-            hidden = true;
             env.getRootController().getTranscriptController().giveFocus();
         }
     }
