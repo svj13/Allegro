@@ -207,11 +207,9 @@ public class ChordRecognitionTutorController extends TutorController {
 
         skip.setOnAction(event -> {
             // Disables only input buttons
-            if (isCompMode) {
-                disableButtons(questionRow, 1, 2);
-            } else {
-                disableButtons(questionRow, 1, 3);
-            }
+
+            disableButtons(questionRow, 1, 3);
+
             formatSkippedQuestion(questionRow);
             manager.add(noteAndChordType, 2);
             String[] question = new String[]{
@@ -229,12 +227,12 @@ public class ChordRecognitionTutorController extends TutorController {
 
         questionRow.getChildren().add(0, play);
         questionRow.getChildren().add(1, options);
-        if (!isCompMode) {
-            questionRow.getChildren().add(2, skip);
-            questionRow.getChildren().add(3, correctAnswer);
-        } else {
-            questionRow.getChildren().add(2, correctAnswer);
+        if (isCompMode) {
+            skip.setVisible(false);
+            skip.setManaged(false);
         }
+        questionRow.getChildren().add(2, skip);
+        questionRow.getChildren().add(3, correctAnswer);
 
         questionRow.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
         return questionRow;
@@ -281,11 +279,7 @@ public class ChordRecognitionTutorController extends TutorController {
      */
     public void handleQuestionAnswer(String userAnswer, Pair correctAnswer, HBox questionRow) {
         Integer correct;
-        if (isCompMode) {
-            disableButtons(questionRow, 1, 2);
-        } else {
-            disableButtons(questionRow, 1, 3);
-        }
+        disableButtons(questionRow, 1, 3);
         if (userAnswer.equals(correctAnswer.getValue())) {
             correct = 1;
             manager.add(correctAnswer, 1);
