@@ -140,7 +140,7 @@ public class ScaleSpellingTutorController extends TutorController {
             ArrayList<String> noteNames = Scale.scaleNameList(startNoteName, correctNotes, true, scaleType.toLowerCase());
             qPane = new TitledPane(questionNumber + ". Which scale contains the notes:  " + String.join(" ", noteNames) + "?", questionRow);
         } else {
-            qPane = new TitledPane(questionNumber + ". Play the chord using the keyboard (set to tutor input).", questionRow);
+            qPane = new TitledPane(questionNumber + ". Play the scale using the keyboard (set to tutor input).", questionRow);
         }
         qPane.expandedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
