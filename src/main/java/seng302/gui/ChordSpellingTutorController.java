@@ -1190,6 +1190,7 @@ public class ChordSpellingTutorController extends TutorController {
         if (isCompMode) {
             // No skips in competition mode
             manager.add(new Pair<>(finalData.getKey(), questionType), 0);
+            System.out.println(finalData.getKey() + " " + questionType);
         } else {
             manager.add(new Pair<>(finalData.getKey(), questionType), 2);
         }

@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,6 +20,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -59,9 +62,9 @@ public class ScaleSpellingTutorController extends TutorController {
 
     Random rand;
 
-    private final String typeOneText = "Spell the scale with the name %s";
+    private final String typeOneText = "What are the notes of the %s scale?";
 
-    private final String typeTwoText = "Name the scale with the notes %s";
+    private final String typeTwoText = "Which scale contains the notes %s";
 
     public void create(Environment env) {
         super.create(env);
@@ -106,11 +109,12 @@ public class ScaleSpellingTutorController extends TutorController {
 
         scaleInfo.put("startNote", Note.getRandomNote());
         scaleInfo.put("scaleType", selectedScaleTypes.get(rand.nextInt(selectedScaleTypes.size())));
+        scaleInfo.put("startNoteName", randomiseNoteName((Note) scaleInfo.get("startNote")));
 
         return scaleInfo;
     }
 
-    public HBox createNewQuestion() {
+    public void createNewQuestion(Integer questionNumber) {
         // Every question needs a random scale
         Map scaleInfo = generateRandomScale();
 
@@ -121,7 +125,43 @@ public class ScaleSpellingTutorController extends TutorController {
         Pair question = new Pair(questionType, scaleInfo);
 
         // Delegates actual generation of question
-        return generateQuestionPane(question);
+        HBox questionRow = generateQuestionPane(question);
+        questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
+
+//        TitledPane qPane = new TitledPane("Question " + questionNumber, questionRow);
+        TitledPane qPane;
+        if (questionType == 1) {
+            qPane = new TitledPane(questionNumber + ". What are the notes of the " + (String) scaleInfo.get("startNoteName") + " " + (String) scaleInfo.get("scaleType") + " scale?", questionRow);
+        } else if (questionType == 2) {
+            String startNoteName = (String) scaleInfo.get("startNoteName");
+            Note startNote = (Note) scaleInfo.get("startNote");
+            String scaleType = (String) scaleInfo.get("scaleType");
+            ArrayList<Note> correctNotes = startNote.getScale(scaleType, true);
+            ArrayList<String> noteNames = Scale.scaleNameList(startNoteName, correctNotes, true, scaleType.toLowerCase());
+            qPane = new TitledPane(questionNumber + ". Which scale contains the notes:  " + String.join(" ", noteNames) + "?", questionRow);
+        } else {
+            qPane = new TitledPane(questionNumber + ". Play the chord using the keyboard (set to tutor input).", questionRow);
+        }
+        qPane.expandedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (qPane.isExpanded()) {
+                    if (questionType != 3) {
+                        if (((HBox) questionRow.getChildren().get(0)).getChildren().get(0) instanceof TextField) {
+                            env.setCurrentFocussed((TextField) ((HBox) questionRow.getChildren().get(0)).getChildren().get(0), false, ((HBox) questionRow.getChildren().get(0)).getChildren().get(1));
+                        }
+                    } else {
+                        if (((HBox) questionRow.getChildren().get(1)).getChildren().get(0) instanceof TextField) {
+                            env.setCurrentFocussed((TextField) ((HBox) questionRow.getChildren().get(1)).getChildren().get(0), false, ((HBox) questionRow.getChildren().get(1)).getChildren().get(1));
+                        }
+
+                    }
+                }
+            }
+        });
+        qPane.setPadding(new Insets(2, 2, 2, 2));
+        qPanes.add(qPane);
+
     }
 
     private boolean isTypeOneTwoComplete(HBox question) {
@@ -244,11 +284,19 @@ public class ScaleSpellingTutorController extends TutorController {
 
         String questionText = "";
         if (questionType == 1) {
-            questionText = String.format(typeOneText, ((Label) questionRow.lookup("#question")).getText());
+            questionText = String.format(typeOneText, (String) scaleInfo.get("startNoteName"));
 
         } else if (questionType == 2) {
-            questionText = String.format(typeTwoText, ((Label) questionRow.lookup("#question")).getText());
+            String startNoteName = (String) scaleInfo.get("startNoteName");
+            Note startNote = (Note) scaleInfo.get("startNote");
+            String scaleType = (String) scaleInfo.get("scaleType");
+            ArrayList<Note> correctNotes = startNote.getScale(scaleType, true);
+            ArrayList<String> noteNames = Scale.scaleNameList(startNoteName, correctNotes, true, scaleType.toLowerCase());
+            questionText = String.format(typeTwoText, noteNames);
+        } else if (questionType == 3) {
+            questionText = "Play the scale using the keyboard (set to tutor input).";
         }
+
         String[] questionInfo = new String[]{
                 questionText,
                 "",
@@ -276,13 +324,10 @@ public class ScaleSpellingTutorController extends TutorController {
         formatQuestionRow(questionRow);
 
         // Set up textual representation of question
-        Label question = new Label();
         Note startNote = (Note) scaleInfo.get("startNote");
-        String startNoteName = randomiseNoteName(startNote);
+        String startNoteName = (String) scaleInfo.get("startNoteName");
 
         String scaleType = (String) scaleInfo.get("scaleType");
-        question.setText(startNoteName + " " + scaleType);
-        question.setId("question");
 
         // Set up answer and textual representation of answer
         ArrayList<Note> correctNotes = startNote.getScale(scaleType, true);
@@ -326,10 +371,9 @@ public class ScaleSpellingTutorController extends TutorController {
         skip.setOnAction(event -> handleSkippedQuestion(scaleInfo, 1, questionRow));
 
 
-        questionRow.getChildren().add(0, question);
-        questionRow.getChildren().add(1, inputs);
-        questionRow.getChildren().add(2, skip);
-        questionRow.getChildren().add(3, correctAnswer);
+        questionRow.getChildren().add(0, inputs);
+        questionRow.getChildren().add(1, skip);
+        questionRow.getChildren().add(2, correctAnswer);
 
         questionRow.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
         return questionRow;
@@ -346,11 +390,8 @@ public class ScaleSpellingTutorController extends TutorController {
         String correctStartNote = randomiseNoteName(startNote);
 
         // Set up textual representation of question
-        Label question = new Label();
         ArrayList<Note> correctNotes = startNote.getScale(scaleType, true);
         ArrayList<String> correctNoteNames = Scale.scaleNameList(correctStartNote, correctNotes, true, scaleType.toLowerCase());
-        question.setText(String.join(" ", correctNoteNames));
-        question.setId("question");
 
         // Set up answer and textual representation of answer
         String answer = correctStartNote + " " + scaleType;
@@ -397,10 +438,9 @@ public class ScaleSpellingTutorController extends TutorController {
         skip.setOnAction(event -> handleSkippedQuestion(scaleInfo, 2, questionRow));
 
 
-        questionRow.getChildren().add(0, question);
-        questionRow.getChildren().add(1, inputs);
-        questionRow.getChildren().add(2, skip);
-        questionRow.getChildren().add(3, correctAnswer);
+        questionRow.getChildren().add(0, inputs);
+        questionRow.getChildren().add(1, skip);
+        questionRow.getChildren().add(2, correctAnswer);
 
         questionRow.prefWidthProperty().bind(paneQuestions.prefWidthProperty());
         return questionRow;
@@ -413,6 +453,8 @@ public class ScaleSpellingTutorController extends TutorController {
         // Get scale info
         Note startNote = (Note) scaleInfo.get("startNote");
         String scaleType = (String) scaleInfo.get("scaleType");
+
+        final HBox inputs = new HBox();
 
         Button play = new Button();
         stylePlayButton(play);
@@ -433,18 +475,52 @@ public class ScaleSpellingTutorController extends TutorController {
         Button skip = new Button("Skip");
         styleSkipButton(skip);
         skip.setOnAction(event -> handleSkippedQuestion(scaleInfo, 3, questionRow));
+        Button submit = new Button();
+        submit.setOnAction(event -> {
+            for (int i = 0; i < inputs.getChildren().size(); i++) {
+                TextField answer = (TextField) inputs.getChildren().get(i);
+                if (!noteEnharmonicComparison(Note.lookup(OctaveUtil.addDefaultOctave(answer.getText())), Note.lookup(OctaveUtil.addDefaultOctave(correctNoteNames.get(i))))) {
+                    answer.setStyle("-fx-background-color: green");
+                } else {
+                    answer.setStyle("-fx-background-color: red");
+                }
+            }
+        });
+
+        // Generate keyboard input fields
+        for (int i = 0; i < correctNoteNames.size(); i++) {
+            final int index = i;
+            TextField noteField = new TextField();
+            noteField.focusedProperty().addListener(new ChangeListener<Boolean>() {
+                @Override
+                public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                    if (newPropertyValue) {
+                        System.out.println("setFalse");
+                        if ((index + 1) < correctNoteNames.size()) {
+                            env.setCurrentFocussed(noteField, false, inputs.getChildren().get(index + 1));
+                        } else {
+                            env.setCurrentFocussed(noteField, false, submit);
+                        }
+                    }
+                }
+            });
+            noteField.setEditable(false);
+            inputs.getChildren().add(i, noteField);
+        }
+
+
 
         Label correctAnswer = correctAnswer(String.join(" ", correctNoteNames));
         correctAnswer.setId("answer");
 
         questionRow.getChildren().add(0, play);
-        questionRow.getChildren().add(1, skip);
-        questionRow.getChildren().add(2, correctAnswer);
+        questionRow.getChildren().add(1, inputs);
+        questionRow.getChildren().add(2, skip);
+        questionRow.getChildren().add(3, correctAnswer);
 
         return questionRow;
     }
 
-    //@Override
     HBox generateQuestionPane(Pair data) {
         int questionType = (int) data.getKey();
         if (questionType == 1) {
@@ -476,11 +552,7 @@ public class ScaleSpellingTutorController extends TutorController {
 
             questionRows.getChildren().clear();
             for (int i = 0; i < manager.questions; i++) {
-                HBox questionRow = createNewQuestion();
-                TitledPane qPane = new TitledPane("Question " + (i + 1), questionRow);
-                qPane.setPadding(new Insets(2, 2, 2, 2));
-                qPanes.add(qPane);
-                questionRows.setMargin(questionRow, new Insets(10, 10, 10, 10));
+                createNewQuestion(i + 1);
             }
             qAccordion.getPanes().addAll(qPanes);
             qAccordion.setExpandedPane(qAccordion.getPanes().get(0));
@@ -491,5 +563,23 @@ public class ScaleSpellingTutorController extends TutorController {
 
     }
 
+    /**
+     * Method used to compare the correct note and the note to be added to answer options.
+     *
+     * @param correctNote the right note answer
+     * @param thisNote    the note to be added
+     * @return comparison boolean that represents the comparison result
+     */
+    private boolean noteEnharmonicComparison(Note correctNote, Note thisNote) {
+        char correctNoteLetter = correctNote.getNote().charAt(0);
+        boolean comparison = true;
+
+        if (thisNote.getEnharmonicWithLetter(correctNoteLetter) != null) {
+            if (thisNote.getEnharmonicWithLetter(correctNoteLetter).equals(correctNote.getNote())) {
+                comparison = false;
+            }
+        }
+        return comparison;
+    }
 
 }
