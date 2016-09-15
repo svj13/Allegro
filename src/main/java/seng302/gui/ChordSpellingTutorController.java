@@ -145,6 +145,7 @@ public class ChordSpellingTutorController extends TutorController {
      */
     private void goAction(ActionEvent event) {
         if (chordTypes.getCheckModel().getCheckedIndices().size() != 0) {
+            chordError.setVisible(false);
             record = new TutorRecord();
             paneInit.setVisible(false);
             paneQuestions.setVisible(true);
