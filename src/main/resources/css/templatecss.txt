@@ -414,26 +414,41 @@
  * Slider                                                                      *
  *                                                                             *
  ******************************************************************************/
-.slider {
+
+
+.timeSlider {
 	-fx-padding: 10 0 10 0;
 }
 
-.slider:vertical {
+.timeSlider:vertical {
 	-fx-padding: 0 10 0 10;
 }
 
-.slider>.track {
+.timeSlider>.track {
 	-fx-background-color: white;
 	-fx-background-insets: 1.5;
 }
 
-.slider>.thumb {
+.timeSlider>.thumb {
 	-fx-background-color: {1};
 }
 
-.slider .axis {
+.timeSlider .axis {
 	-fx-tick-label-fill: {2};
 }
+
+.jfx-slider .thumb {
+	-fx-background-color: {0};
+}
+
+.jfx-slider .track {
+	-fx-background-color: #E0E0E0;
+	-fx-pref-height: 5px;
+	-fx-pref-width: 5px;
+}
+
+
+
 
 .tool-bar, .menu-bar { /* top */
 	-fx-background-color: white;
