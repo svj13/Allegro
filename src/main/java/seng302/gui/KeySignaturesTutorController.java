@@ -93,7 +93,7 @@ public class KeySignaturesTutorController extends TutorController {
             answerBox.setDisable(true);
             answerBox.setValue("Both");
 
-        }else{
+        } else {
 
             scaleBox.getSelectionModel().selectFirst();
             formBox.getSelectionModel().selectFirst();
@@ -129,7 +129,7 @@ public class KeySignaturesTutorController extends TutorController {
             scaletype = "both";
             questionType = rand.nextInt(2);
             answerType = rand.nextBoolean();
-        }else {
+        } else {
 
 
             //figure out the scale is wanted to be tested
@@ -225,12 +225,8 @@ public class KeySignaturesTutorController extends TutorController {
         skip.setOnAction(event -> {
             // Disables only input buttons
             formatSkippedQuestion(questionRow);
-            if (isCompMode) {
-                // No skips in competition mode
-                manager.add(pair, 0);
-            } else {
-                manager.add(pair, 2);
-            }
+            manager.add(pair, 2);
+
 
             String correctAnswer = findCorrectAnswerNumSharpFlat(pair, question);
             if (pair.getKey().equals("both")) {
@@ -362,6 +358,11 @@ public class KeySignaturesTutorController extends TutorController {
 
         });
 
+        if (isCompMode) {
+            skip.setVisible(false);
+            skip.setManaged(false);
+        }
+
         if (pair.getKey().equals("both")) {
             questionRow.getChildren().add(0, majorOptions);
             questionRow.getChildren().add(1, minorOptions);
@@ -486,12 +487,9 @@ public class KeySignaturesTutorController extends TutorController {
         skip.setOnAction(event -> {
             // Disables only input buttons
             formatSkippedQuestion(questionRow);
-            if (isCompMode) {
-                // No skips in competition mode
-                manager.add(pair, 0);
-            } else {
-                manager.add(pair, 2);
-            }
+
+            manager.add(pair, 2);
+
 
             String correctAnswer = "";
 
@@ -641,6 +639,11 @@ public class KeySignaturesTutorController extends TutorController {
 
 
         });
+
+        if (isCompMode) {
+            skip.setVisible(false);
+            skip.setManaged(false);
+        }
 
 
         if (pair.getKey().equals("both")) {
@@ -810,12 +813,9 @@ public class KeySignaturesTutorController extends TutorController {
             // Disables only input buttons
             disableButtons(questionRow, 0, 2);
             formatSkippedQuestion(questionRow);
-            if (isCompMode) {
-                // No skips in competition mode
-                manager.add(pair, 0);
-            } else {
-                manager.add(pair, 2);
-            }
+
+            manager.add(pair, 2);
+
 
             String correctAnswer;
 
@@ -915,6 +915,11 @@ public class KeySignaturesTutorController extends TutorController {
                 finished();
             }
         });
+
+        if (isCompMode) {
+            skip.setVisible(false);
+            skip.setManaged(false);
+        }
 
         questionRow.getChildren().add(0, options);
         questionRow.getChildren().add(1, skip);

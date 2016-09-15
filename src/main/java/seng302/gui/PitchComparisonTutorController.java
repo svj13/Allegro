@@ -217,12 +217,8 @@ public class PitchComparisonTutorController extends TutorController {
             formatIncorrectQuestion(row);
         }
 
-        if (isCompMode && correctChoice == 2) {
-            // No skips in competition mode
-            manager.add(new Pair<>(note1.getNote(), note2.getNote()), 0);
-        } else {
+
             manager.add(new Pair<>(note1.getNote(), note2.getNote()), correctChoice);
-        }
 
 
         handleAccordion();
@@ -304,6 +300,11 @@ public class PitchComparisonTutorController extends TutorController {
             notes.add(note2);
             env.getPlayer().playNotes(notes, 48);
         });
+
+        if (isCompMode) {
+            skip.setVisible(false);
+            skip.setManaged(false);
+        }
 
         rowPane.getChildren().add(playBtn);
         rowPane.getChildren().add(higher);

@@ -53,7 +53,7 @@ public class ScaleModesTutorController extends TutorController {
             ccbModes.setValue("Both");
             ccbModes.setDisable(true);
 
-        }else{
+        } else {
             ccbModes.getSelectionModel().selectFirst();
         }
     }
@@ -150,7 +150,7 @@ public class ScaleModesTutorController extends TutorController {
         String scaleType = (String) ((Pair) question.getValue()).getValue();
 
         //splitting up the answer. e.g D and dorian
-        String answer = (String) ((Pair)question.getValue()).getKey();
+        String answer = (String) ((Pair) question.getValue()).getKey();
         answers.add(answer); //adding correct answer to answers array
         Integer degree = (Integer) ((Pair) question.getKey()).getValue();
 
@@ -213,10 +213,10 @@ public class ScaleModesTutorController extends TutorController {
 
         ComboBox options = new ComboBox<>();
         ArrayList answers = new ArrayList(); //stores the options that appear in the tutor. One correct answer contain
-        answers.add((String) (((Pair)question.getValue()).getKey()));
+        answers.add((String) (((Pair) question.getValue()).getKey()));
 
         // Scale type for making sure the scale type is correct
-        String questionScaleType = (String) (((Pair)question.getValue()).getValue());
+        String questionScaleType = (String) (((Pair) question.getValue()).getValue());
 
         //adds 8 answers to answers array
         while (answers.size() < 8) {
@@ -270,7 +270,7 @@ public class ScaleModesTutorController extends TutorController {
         if (getTypeOfQuestion(questionAndAnswer) == 1) {
             question = new String[]{
                     String.format(typeOneText,
-                            ((String)questionPair.getKey()).concat(" ".concat(scaleType)),
+                            ((String) questionPair.getKey()).concat(" ".concat(scaleType)),
                             questionPair.getValue()),
                     userAnswer,
                     String.valueOf(correct)
@@ -306,8 +306,8 @@ public class ScaleModesTutorController extends TutorController {
     HBox generateQuestionPane(Pair questionAnswer) {
 
         Pair data = (Pair) questionAnswer.getKey();
-        String answer = (String) ((Pair)questionAnswer.getValue()).getKey();
-        String scaleType = (String) ((Pair)questionAnswer.getValue()).getValue();
+        String answer = (String) ((Pair) questionAnswer.getValue()).getKey();
+        String scaleType = (String) ((Pair) questionAnswer.getValue()).getValue();
         final HBox questionRow = new HBox();
         final ComboBox<String> options;
 
@@ -334,12 +334,9 @@ public class ScaleModesTutorController extends TutorController {
             // Disables only input buttons
             disableButtons(questionRow, 1, 3);
             formatSkippedQuestion(questionRow);
-            if (isCompMode) {
-                // No skips in competition mode
-                manager.add(data, 0);
-            } else {
-                manager.add(data, 2);
-            }
+
+            manager.add(data, 2);
+
             String questionString;
 
             if (getTypeOfQuestion(questionAnswer) == 1) {
@@ -361,6 +358,10 @@ public class ScaleModesTutorController extends TutorController {
 
         });
 
+        if (isCompMode) {
+            skip.setVisible(false);
+            skip.setManaged(false);
+        }
 
         questionRow.getChildren().add(0, options);
         questionRow.getChildren().add(1, skip);

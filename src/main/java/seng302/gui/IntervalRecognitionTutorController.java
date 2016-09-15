@@ -54,9 +54,9 @@ public class IntervalRecognitionTutorController extends TutorController {
 
         if (currentProject.getIsCompetitiveMode()) {
             int lowValue = generateRangesliderDefault();
-            rangeSlider = new NoteRangeSlider(notes, 12, lowValue, lowValue+24);
+            rangeSlider = new NoteRangeSlider(notes, 12, lowValue, lowValue + 24);
             rangeSlider.setDisable(true);
-        }else{
+        } else {
             rangeSlider = new NoteRangeSlider(notes, 24, 48, 72);
 
         }
@@ -66,14 +66,13 @@ public class IntervalRecognitionTutorController extends TutorController {
 
     /**
      * Generates default rangeslider value for competitive mode
-     * @return
      */
-    private int generateRangesliderDefault(){
+    private int generateRangesliderDefault() {
         Random rand = new Random();
         int num = rand.nextInt(127);
-        if(num + 24 > 127){
+        if (num + 24 > 127) {
             return 103;
-        }else{
+        } else {
             return num;
         }
 
@@ -170,12 +169,8 @@ public class IntervalRecognitionTutorController extends TutorController {
             // Disables only input buttons
             disableButtons(questionRow, 1, 3);
             formatSkippedQuestion(questionRow);
-            if (isCompMode) {
-                // No skips in competition mode
-                manager.add(pair, 0);
-            } else {
-                manager.add(pair, 2);
-            }
+            manager.add(pair, 2);
+
 
             String[] question = new String[]{
                     String.format("Interval between %s and %s", firstNote.getNote(), secondNote.getNote()),
@@ -218,6 +213,11 @@ public class IntervalRecognitionTutorController extends TutorController {
                 finished();
             }
         });
+
+        if (isCompMode) {
+            skip.setVisible(false);
+            skip.setManaged(false);
+        }
 
         questionRow.getChildren().add(0, play);
         questionRow.getChildren().add(1, options);

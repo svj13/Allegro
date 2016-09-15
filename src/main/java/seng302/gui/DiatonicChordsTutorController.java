@@ -108,12 +108,8 @@ public class DiatonicChordsTutorController extends TutorController {
             // Disables only input buttons
             disableButtons(questionRow, 1, 3);
             formatSkippedQuestion(questionRow);
-            if (isCompMode) {
-                // No skips in competition mode
-                manager.add(data, 0);
-            } else {
-                manager.add(data, 2);
-            }
+
+            manager.add(data, 2);
 
             String questionString;
             if (getTypeOfQuestion(questionAnswer) == 1) {
@@ -133,6 +129,11 @@ public class DiatonicChordsTutorController extends TutorController {
                 finished();
             }
         });
+
+        if (isCompMode) {
+            skip.setVisible(false);
+            skip.setManaged(false);
+        }
 
         questionRow.getChildren().add(0, options);
         questionRow.getChildren().add(1, skip);

@@ -1,7 +1,5 @@
 package seng302.gui;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import org.controlsfx.control.CheckComboBox;
 
 import java.util.ArrayList;
@@ -9,6 +7,8 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -750,6 +750,11 @@ public class ChordSpellingTutorController extends TutorController {
             }
         }
 
+        if (isCompMode) {
+            skip.setVisible(false);
+            skip.setManaged(false);
+        }
+
         if (questionType == 1) {
             //Type 1 questions
             questionRow.getChildren().add(0, inputs);
@@ -1186,12 +1191,9 @@ public class ChordSpellingTutorController extends TutorController {
         // Disables only input buttons
         disableButtons(questionRow, 1, 3);
         formatSkippedQuestion(questionRow);
-        if (isCompMode) {
-            // No skips in competition mode
-            manager.add(new Pair<>(finalData.getKey(), questionType), 0);
-        } else {
-            manager.add(new Pair<>(finalData.getKey(), questionType), 2);
-        }
+
+        manager.add(new Pair<>(finalData.getKey(), questionType), 2);
+
 
         record.addQuestionAnswer(questionInfo);
 
