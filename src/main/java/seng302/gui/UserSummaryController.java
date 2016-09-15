@@ -64,6 +64,10 @@ public class UserSummaryController {
 
     private Environment env;
 
+    FXMLLoader loader = new FXMLLoader();
+
+    AnchorPane noteMap;
+
 
     @FXML
     StackPane stageMap;
@@ -131,20 +135,43 @@ public class UserSummaryController {
      * Loads the stage map into the summary page
      */
     public void loadStageMap() {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/Views/StageMapPane.fxml"));
+        if (env.getStageMapController() == null) {
+            loader.setLocation(getClass().getResource("/Views/StageMapPane.fxml"));
 
-        try {
-            stageMap.getChildren().add(loader.load());
-        } catch (Exception e) {
-            System.err.println("Failed to load stage map");
-            System.out.println(e.getStackTrace());
-            e.printStackTrace();
+            try {
+                noteMap = loader.load();
+                stageMap.getChildren().add(noteMap);
+            } catch (Exception e) {
+                System.err.println("Failed to load stage map");
+                System.out.println(e.getStackTrace());
+                e.printStackTrace();
+            }
+
+
+            StageMapController controller = loader.getController();
+            env.setStageMapController(controller);
+            env.setStagePane(noteMap);
+            env.getStageMapController().setEnvironment(env);
+            env.getStageMapController().create();
+        }else{
+
+            try {
+                stageMap.getChildren().add(env.getStagePane());
+                env.getStageMapController().visualiseLockedTutors();
+
+            } catch (Exception e) {
+                System.err.println("Failed to load stage map21");
+                System.out.println(e.getStackTrace());
+                e.printStackTrace();
+            }
         }
 
-        StageMapController controller = loader.getController();
-        controller.setEnvironment(env);
-        controller.create();
+
+
+
+
+
+
     }
 
 

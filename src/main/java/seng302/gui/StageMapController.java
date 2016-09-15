@@ -66,11 +66,12 @@ public class StageMapController {
     private TutorHandler tutorHandler;
 
 
-    private HashMap<String, Boolean> unlockStatus;
+    public HashMap<String, Boolean> unlockStatus;
 
     private HashMap<String, Button> tutorAndButton; //associates tutor name with its corresponding button
 
     private ArrayList<String> tutorOrder; //the order in which the tutors unlock
+    public HashMap<String, String> converted;
 
 
 
@@ -99,6 +100,13 @@ public class StageMapController {
 
     }
 
+    public void updateUnlock(){
+        env.getStageMapController().getUnlockStatus();
+    }
+
+    public HashMap getUnlockStatus(){
+        return this.unlockStatus;
+    }
     /**
      *
      */
@@ -106,12 +114,37 @@ public class StageMapController {
         tutorAndButton = new HashMap<>();
         tutorOrder = new ArrayList<>();
         unlockStatus = new HashMap<>();
+        converted = new HashMap<>();
 
         generateLockingStatus();
         generateTutorOrder();
         generateTutorAndButtonNames();
+        generateConverted();
         visualiseLockedTutors();
 
+
+
+    }
+
+    /**
+     * Creates the converted strings
+     *
+     **/
+    private void generateConverted(){
+
+
+        converted.put("Musical Terms Tutor", "musicalTermsTutor");
+        converted.put("Pitch Comparison Tutor", "pitchTutor" );
+        converted.put("Scale Recognition Tutor","scaleTutor");
+        converted.put("Chord Recognition Tutor", "chordTutor");
+        converted.put("Interval Recognition Tutor", "intervalTutor");
+        converted.put("Scale Recognition TutorA", "scaleTutorAdvanced");
+        converted.put("Chord Recognition Tutor", "chordTutorAdvanced");
+        converted.put("Chord Spelling Tutor", "chordSpellingTutor");
+        converted.put("Scale Spelling Tutor", "scaleSpellingTutor");
+        converted.put("Key Signature Tutor", "keySignatureTutor");
+        converted.put("Diatonic Chord Tutor", "diatonicChordTutor");
+        converted.put("Scale Modes Tutor", "scaleModesTutor");
     }
 
     /**
@@ -133,6 +166,10 @@ public class StageMapController {
         tutorOrder.add("diatonicChordTutor");
         tutorOrder.add("scaleModesTutor");
     }
+
+
+
+
 
     /**
      * generates a hashmap that has the name of the tutor and its associative button
@@ -173,12 +210,13 @@ public class StageMapController {
         unlockStatus.put("scaleModesTutor", false);
     }
 
-    private void visualiseLockedTutors() {
+    public void visualiseLockedTutors() {
         Image padlock = new Image(getClass().getResourceAsStream
                 ("/images/lock.png"), 10, 10, true, true);
 
 
         for (String tutor: unlockStatus.keySet()) {
+            tutorAndButton.get(tutor).setDisable(false);
             if (unlockStatus.get(tutor) == false) {
                 tutorAndButton.get(tutor).setDisable(true);
                 tutorAndButton.get(tutor).setGraphic(new ImageView(padlock));
@@ -191,11 +229,11 @@ public class StageMapController {
     /**
      * Fetches 3 most recent tutor score files for tutor of interest and checks scores
      */
-    private void fetchTutorFile(String tutorId) {
+    public void fetchTutorFile(String tutorId) {
 //        boolean enoughEntries = false; //must be at least 3 entries for their to be a valid entry
         boolean unlock = true;
-        System.out.println(tutorHandler);
-        ArrayList<TutorRecord> records = tutorHandler.getTutorData(tutorId);
+        System.out.println(tutorId);
+        ArrayList<TutorRecord> records = tutorHandler.getTutorData(converted.get(tutorId));
         System.out.println(records);
 
         if (records.size() < 3) {
@@ -203,23 +241,20 @@ public class StageMapController {
             System.out.println("You need to attempt this tutor at least 3 times soz");
         } else {
             System.out.println("yay 3 or more records");
-
             for (int i = records.size() - 3; i < records.size(); i++) {
-                System.out.println("entered for loop");
                 TutorRecord record = records.get(i);
-                System.out.println((record.getStats().get("questionsCorrect").toString()).equals("10"));
                 if (!(record.getStats().get("questionsCorrect").toString()).equals("10")) {
                     unlock = false;
                     System.out.println("not 100%");
                     System.out.println(record.getStats().get("questionsCorrect").toString());
-
                 }
-                System.out.println(record);
-
             }
             if (unlock) {
                 //set the tutor status to be unlocked
-                unlockStatus.put(tutorOrder.get((tutorOrder.indexOf(tutorId) + 1)), true);
+                System.out.println(tutorOrder.get((tutorOrder.indexOf(converted.get(tutorId)) + 1)));
+
+                unlockStatus.put(tutorOrder.get((tutorOrder.indexOf(converted.get(tutorId)) + 1)), true);
+                visualiseLockedTutors();
                 System.out.println("unlocked tutor");
 
             }
@@ -239,20 +274,16 @@ public class StageMapController {
     @FXML
     private void launchMusicalTermsTutor() {
         env.getRootController().getTutorFactory().openTutor("Musical Terms Tutor");
-        fetchTutorFile("musicalTermTutor");
-
     }
 
     @FXML
     private void launchPitchTutor() {
         env.getRootController().getTutorFactory().openTutor("Pitch Comparison Tutor");
-        fetchTutorFile("pitchTutor");
     }
 
     @FXML
     private void launchScaleRecognitionTutor() {
         env.getRootController().getTutorFactory().openTutor("Scale Recognition Tutor");
-        fetchTutorFile("scaleTutor");
     }
 
     @FXML

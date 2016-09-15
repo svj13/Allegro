@@ -4,9 +4,11 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.util.Pair;
 import seng302.Users.UserHandler;
 import seng302.gui.RootController;
+import seng302.gui.StageMapController;
 import seng302.gui.UserPageController;
 import seng302.managers.ThemeHandler;
 import seng302.managers.TranscriptManager;
@@ -24,6 +26,18 @@ public class Environment {
     private BooleanProperty shiftPressed;
     private ThemeHandler themeHandler;
     private Pair currentFocussed;
+
+
+
+    private AnchorPane stagePane;
+
+    public AnchorPane getStagePane() {
+        return stagePane;
+    }
+
+    public void setStagePane(AnchorPane stagePane) {
+        this.stagePane = stagePane;
+    }
 
     public RootController getRootController() {
         return rootController;
@@ -54,6 +68,16 @@ public class Environment {
 
     //userpage
     private UserPageController userPageController;
+
+    public StageMapController stageMapController;
+
+    public StageMapController getStageMapController() {
+        return this.stageMapController;
+    }
+
+    public void setStageMapController(StageMapController stageMapController) {
+        this.stageMapController = stageMapController;
+    }
 
 
     private UserHandler userHandler;
@@ -162,4 +186,6 @@ public class Environment {
     public void setShiftPressed(boolean shiftPressed) {
         this.shiftPressed.setValue(shiftPressed);
     }
+
+
 }

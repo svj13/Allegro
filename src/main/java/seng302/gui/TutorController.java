@@ -187,6 +187,9 @@ public abstract class TutorController {
             paneInit.setVisible(true);
         }
 
+        env.getStageMapController().fetchTutorFile(tutorName);
+        env.getUserPageController();
+
         // Clear the current session
         manager.resetStats();
     }
