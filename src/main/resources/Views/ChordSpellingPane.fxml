@@ -41,21 +41,34 @@
                                 <Insets left="5.0" />
                             </padding>
                         </HBox>
-                        <HBox alignment="CENTER" prefHeight="60.0" prefWidth="200.0" spacing="10.0">
+                        <HBox alignment="CENTER" prefHeight="60.0" prefWidth="700.0" spacing="10.0">
                             <children>
-                                <Label text="Chord Types">
+                                <Label text="Chord Types:">
                                     <HBox.margin>
                                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                     </HBox.margin>
                                 </Label>
                                 <CheckComboBox fx:id="chordTypes" prefWidth="100.0"/>
-                                <Label text="Enharmonics">
+                                <Label text="Enharmonics:">
                                     <padding>
                                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                     </padding>
                                 </Label>
                                 <ComboBox fx:id="numEnharmonics" prefWidth="100.0" promptText="1" />
-                                <CheckBox fx:id="allowFalseChords" mnemonicParsing="false" text="Allow False Chords" />
+                                <Label text="Input Type:">
+                                    <padding>
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    </padding>
+                                </Label>
+                                <ComboBox fx:id="inputTypeBox" prefWidth="100.0" />
+                            </children>
+                            <VBox.margin>
+                                <Insets left="5.0" />
+                            </VBox.margin>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="60.0" prefWidth="700.0" spacing="10.0">
+                            <children>
+                                <CheckBox fx:id="allowFalseChords" mnemonicParsing="false" text="Allow False Chords"/>
                             </children>
                             <VBox.margin>
                                 <Insets left="5.0" />
