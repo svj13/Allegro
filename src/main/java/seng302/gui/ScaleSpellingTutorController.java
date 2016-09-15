@@ -339,7 +339,7 @@ public class ScaleSpellingTutorController extends TutorController {
     private void handleSkippedQuestion(Map scaleInfo, int questionType, HBox questionRow) {
         manager.add(new Pair(scaleInfo, questionType), 2);
         formatSkippedQuestion(questionRow);
-        disableButtons(questionRow, 1, questionRow.getChildren().size() - 1);
+        disableButtons(questionRow, 0, questionRow.getChildren().size() - 1);
 
         String questionText = "";
         if (questionType == 1) {
@@ -355,7 +355,6 @@ public class ScaleSpellingTutorController extends TutorController {
         } else if (questionType == 3) {
             questionText = "Play the scale using the keyboard (set to tutor input).";
         }
-        questionText = "Play the scale using the keyboard (set to tutor input).";
         String[] questionInfo = new String[]{
                 questionText,
                 "",
