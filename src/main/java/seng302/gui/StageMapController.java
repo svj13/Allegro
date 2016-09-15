@@ -174,7 +174,8 @@ public class StageMapController {
 
         for (String tutor: unlockStatus.keySet()) {
             if (unlockStatus.get(tutor) == false) {
-                 tutorAndButton.get(tutor).setDisable(true);
+                tutorAndButton.get(tutor).setDisable(true);
+                tutorAndButton.get(tutor).setStyle("-fx-opacity: 1;");
                 tutorAndButton.get(tutor).setGraphic(new ImageView(padlock));
 
 
