@@ -336,12 +336,8 @@ public class MusicalTermsTutorController extends TutorController {
             record.addQuestionAnswer(question);
 
             formatSkippedQuestion(rowPane);
-            if (isCompMode) {
-                // No skips in competition mode
-                manager.add(new Pair(currentTerm.getMusicalTermName(), currentTerm), 0);
-            } else {
                 manager.add(new Pair(currentTerm.getMusicalTermName(), currentTerm), 2);
-            }
+
 
             ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(0)).getChildren().get(1).setDisable(true);
             ((HBox) ((VBox) (rowPane.getChildren().get(0))).getChildren().get(1)).getChildren().get(1).setDisable(true);
@@ -374,6 +370,11 @@ public class MusicalTermsTutorController extends TutorController {
         def.setSpacing(5);
         def.getChildren().add(new Label("Definition:"));
         def.getChildren().add(definitionOptions);
+
+        if (isCompMode) {
+            skip.setVisible(false);
+            skip.setManaged(false);
+        }
 
         qLayout.getChildren().add(origin);
         qLayout.getChildren().add(category);

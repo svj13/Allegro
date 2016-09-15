@@ -106,10 +106,10 @@ public class ScaleRecognitionTutorController extends TutorController {
         octaves.getItems().addAll(1, 2, 3, 4);
 
         if (currentProject.getIsCompetitiveMode()) {
-            if(fullTutor){
+            if (fullTutor) {
                 ccbScales.getCheckModel().checkAll();
 
-            }else{
+            } else {
                 ccbScales.getCheckModel().check(0);
                 ccbScales.getCheckModel().check(1);
             }
@@ -118,7 +118,7 @@ public class ScaleRecognitionTutorController extends TutorController {
             ccbScales.setDisable(true);
             octaves.setValue(1);
             octaves.setDisable(true);
-        }else{
+        } else {
             ccbScales.getCheckModel().check(0); //Only major/minor selected by default
             ccbScales.getCheckModel().check(1);
             direction.getSelectionModel().selectFirst();
@@ -240,12 +240,9 @@ public class ScaleRecognitionTutorController extends TutorController {
             // Disables only input buttons
             disableButtons(questionRow, 1, 3);
             formatSkippedQuestion(questionRow);
-            if (isCompMode) {
-                // No skips in competition mode
-                manager.add(noteAndScale, 0);
-            } else {
-                manager.add(noteAndScale, 2);
-            }
+
+            manager.add(noteAndScale, 2);
+
             String[] question = new String[]{
                     String.format("%s scale from %s", scaleType, startNote.getNote()),
                     scaleType,
@@ -257,6 +254,11 @@ public class ScaleRecognitionTutorController extends TutorController {
                 finished();
             }
         });
+
+        if (isCompMode) {
+            skip.setVisible(false);
+            skip.setManaged(false);
+        }
 
         questionRow.getChildren().add(0, play);
         questionRow.getChildren().add(1, options);
