@@ -107,8 +107,10 @@ public class StageMapController {
     public HashMap getUnlockStatus(){
         return this.unlockStatus;
     }
+
     /**
-     *
+     *Initiates the required information of the stage map (which tutor is associated with which button,
+     * the order of the tutors, and whether the tutor is unlocked or locked)
      */
     public void create() {
         tutorAndButton = new HashMap<>();
@@ -121,9 +123,6 @@ public class StageMapController {
         generateTutorAndButtonNames();
         generateConverted();
         visualiseLockedTutors();
-
-
-
     }
 
     /**
@@ -131,8 +130,6 @@ public class StageMapController {
      *
      **/
     private void generateConverted(){
-
-
         converted.put("Musical Terms Tutor", "musicalTermsTutor");
         converted.put("Pitch Comparison Tutor", "pitchTutor" );
         converted.put("Scale Recognition Tutor","scaleTutor");
@@ -166,10 +163,6 @@ public class StageMapController {
         tutorOrder.add("diatonicChordTutor");
         tutorOrder.add("scaleModesTutor");
     }
-
-
-
-
 
     /**
      * generates a hashmap that has the name of the tutor and its associative button
@@ -210,18 +203,21 @@ public class StageMapController {
         unlockStatus.put("scaleModesTutor", false);
     }
 
+    /**
+     * Iterates through the nodes on the stage map, and asserts whether they are locked (disabled) or unlocked
+     */
     public void visualiseLockedTutors() {
-        Image padlock = new Image(getClass().getResourceAsStream
-                ("/images/lock.png"), 10, 10, true, true);
+//        Image padlock = new Image(getClass().getResourceAsStream
+//                ("/images/lock.png"), 10, 10, true, true);
 
 
         for (String tutor: unlockStatus.keySet()) {
             tutorAndButton.get(tutor).setDisable(false);
             if (unlockStatus.get(tutor) == false) {
                 tutorAndButton.get(tutor).setDisable(true);
-                tutorAndButton.get(tutor).setGraphic(new ImageView(padlock));
-
-
+                //tutorAndButton.get(tutor).setGraphic(new ImageView(padlock));
+//            } else {
+//                unlockStatus.get(tutor).put(true);
             }
         }
     }
@@ -245,19 +241,13 @@ public class StageMapController {
             }
             if (unlock) {
                 //set the tutor status to be unlocked
-
                 unlockStatus.put(tutorOrder.get((tutorOrder.indexOf(converted.get(tutorId)) + 1)), true);
                 visualiseLockedTutors();
 
 
             }
-
         }
-
-
-
     }
-
 
 
     /*
